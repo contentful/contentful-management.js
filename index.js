@@ -69,6 +69,10 @@ var Client = redefine.Class({
     options.headers['Content-Type'] = 'application/vnd.contentful.management.v1+json';
     options.query.access_token = this.options.accessToken;
 
+    if (this.options.organization && !options.headers['X-Contentful-Organization']) {
+      options.headers['X-Contentful-Organization'] = this.options.organization;
+    }
+
     var uri = [
       this.options.secure ? 'https' : 'http',
       '://',
