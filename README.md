@@ -31,7 +31,11 @@ var client = contentful.createClient({
   accessToken: 'b4c0n73n7fu1',
 
   // Enable or disable SSL. Enabled by default.
-  secure: true
+  secure: true,
+
+  // Specify the organization ID. Only required if your account is part of
+  // multiple organizations.
+  organization: '77mbI2eQhgmGbP3tFlpmyK',
 });
 
 var log = console.log.bind(console); // wat
