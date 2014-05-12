@@ -107,8 +107,8 @@ var Client = redefine.Class({
     return this.request('/spaces/' + id).then(_.partial(Space.parse, this));
   },
 
-  getSpaces: function() {
-    return this.request('/spaces').then(_.partial(SearchResult.parse, this));
+  getSpaces: function(queryParams) {
+    return this.request('/spaces', {query: queryParams}).then(_.partial(SearchResult.parse, this));
   },
 
   updateSpace: function(space) {
