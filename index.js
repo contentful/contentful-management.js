@@ -618,7 +618,10 @@ function parseJSONBody(response) {
 inherits(QueryStream, Readable);
 function QueryStream (get, params) {
   this._get = get;
-  this._params = _.clone(params);
+  this._params = _.clone(params || {});
+  if (!this._params.order) {
+    this._params.order = 'sys.createdAt';
+  }
   this._currentRequest = null;
   if (!this._params.limit) {
     this._params.limit = 20;
