@@ -5,6 +5,8 @@ var questor = require('questor');
 var redefine = require('redefine');
 var querystring = require('querystring');
 var rateLimit = require('./rate-limit');
+var inherits = require('inherits');
+var Readable = require('readable-stream').Readable;
 
 // Identifiable
 // Object{sys: {id: Id}} -> Id
@@ -258,6 +260,10 @@ var Space = redefine.Class({
       .then(_.partial(SearchResult.parse, this.client));
   },
 
+  entryStream: function (object) {
+    return new QueryStream(this.getEntries.bind(this), object);
+  },
+
   updateEntry: function(entry) {
     var spaceId = getId(this);
     var id = getId(entry);
@@ -338,6 +344,10 @@ var Space = redefine.Class({
     var query = Query.parse(object);
     return this.client.request('/spaces/' + this.sys.id + '/assets', {query: query})
      .then(_.partial(SearchResult.parse, this.client));
+  },
+
+  assetStream: function (object) {
+    return new QueryStream(this.getAssets.bind(this), object);
   },
 
   updateAsset: function(asset) {
@@ -604,3 +614,41 @@ function parseJSONBody(response) {
   if (!response.body) return;
   return JSON.parse(response.body);
 }
+
+inherits(QueryStream, Readable);
+function QueryStream (get, params) {
+  this._get = get;
+  this._params = _.clone(params || {});
+  if (!this._params.order) {
+    this._params.order = 'sys.createdAt';
+  }
+  this._currentRequest = null;
+  if (!this._params.limit) {
+    this._params.limit = 20;
+  }
+  if (!this._params.skip) {
+    this._params.skip = 0;
+  }
+  Readable.call(this, {objectMode: true, highWaterMark: this._params.limit});
+}
+
+QueryStream.prototype._read = function () {
+  var self = this;
+  if (self._currentRequest) {
+    return;
+  }
+  self._currentRequest = self._get(self._params).then(
+    function (items) {
+      delete self._currentRequest;
+      self._params.skip += self._params.limit;
+
+      for (var i = 0, len = items.length; i < len; i++) {
+        self.push(items[i]);
+      }
+      if (len < self._params.limit) {
+        self.push(null);
+      }
+    },
+    self.emit.bind(self, 'error')
+  );
+};

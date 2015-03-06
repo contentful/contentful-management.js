@@ -14,6 +14,7 @@
     "bluebird": "^2.1.2",
     "redefine": "^0.2.0",
     "questor": "1.0.0",
+    "readable-stream": "^1.0.27-1",
     "inherits": "^2.0.1",
     "underscore-contrib": "0.2.2"
   },
