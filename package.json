@@ -11,6 +11,7 @@
   "author": "Stephan Seidt <stephan@contentful.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^2.10.1",
     "es6-promise": "^2.3.0",
     "inherits": "^2.0.1",
     "questor": "1.0.0",
