@@ -256,16 +256,6 @@ of the entry retrieved from the server.
 
 Read more about [updating resources](https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/updating-resources) on the CMA documentation.
 
-#### Space#getEntries(query) -> EntryCollectionPromise
-
-Search & filter all of the entries in a space. The `query` parameter should be
-an object of querystring key-value pairs. The [query examples](#query-examples)
-section containts more examples of the kinds of queries you can perform.
-
-```js
-space.getEntries({content_type: 'blog-post'})
-```
-
 Returns a promise for a [collection][] of [Entry][] objects.
 
 #### Space#getEntry(id) -> EntryPromise
