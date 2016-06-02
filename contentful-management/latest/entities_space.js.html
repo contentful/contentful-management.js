@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contentful JS SDK: Source: entities/space.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="content">
+      <div id="main">
+
+          <h1 class="page-title">Source: entities/space.js</h1>
+
+          
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wrapSpace = wrapSpace;
+exports.wrapSpaceCollection = wrapSpaceCollection;
+
+var _cloneDeep = require('lodash/cloneDeep');
+
+var _cloneDeep2 = _interopRequireDefault(_cloneDeep);
+
+var _freezeSys = require('contentful-sdk-core/freeze-sys');
+
+var _freezeSys2 = _interopRequireDefault(_freezeSys);
+
+var _toPlainObject = require('contentful-sdk-core/mixins/to-plain-object');
+
+var _toPlainObject2 = _interopRequireDefault(_toPlainObject);
+
+var _enhanceWithMethods = require('../enhance-with-methods');
+
+var _enhanceWithMethods2 = _interopRequireDefault(_enhanceWithMethods);
+
+var _wrapHttpClient = require('../wrap-http-client');
+
+var _wrapHttpClient2 = _interopRequireDefault(_wrapHttpClient);
+
+var _createSpaceApi = require('../create-space-api');
+
+var _createSpaceApi2 = _interopRequireDefault(_createSpaceApi);
+
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @memberof Space
+ * @typedef Space
+ * @prop {Object} sys - System metadata
+ * @prop {string} sys.id - Space id
+ * @prop {string} sys.type - Entity type
+ * @prop {string} name - Space name
+ * @prop {Array&lt;string>} locales - Array with locale codes
+ * @prop {function(): Object} toPlainObject() - Returns this Space as a plain JS object
+ */
+
+/**
+ * @memberof Space
+ * @typedef SpaceCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Space.Space>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Space collection as a plain JS object
+ */
+
+/**
+ * This method creates the API for the given space with all the methods for
+ * reading and creating other entities. It also passes down a clone of the
+ * http client with a space id, so the base path for requests now has the
+ * space id already set.
+ * @private
+ * @param  {Object} http - HTTP client instance
+ * @param  {Object} data - API response for a Space
+ * @return {Space}
+ */
+function wrapSpace(http, data) {
+  var space = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  var _http$httpClientParam = http.httpClientParams;
+  var rateLimit = _http$httpClientParam.rateLimit;
+  var rateLimitPeriod = _http$httpClientParam.rateLimitPeriod;
+  var maxRetries = _http$httpClientParam.maxRetries;
+  var retryOnTooManyRequests = _http$httpClientParam.retryOnTooManyRequests;
+
+  var httpClientParams = {
+    concurrency: rateLimit,
+    delay: rateLimitPeriod,
+    maxRetries: maxRetries,
+    retryOnTooManyRequests: retryOnTooManyRequests
+  };
+  var spaceScopedHttpClient = (0, _wrapHttpClient2.default)(http.cloneWithNewParams({
+    space: space.sys.id
+  }), httpClientParams);
+  var spaceApi = (0, _createSpaceApi2.default)({
+    http: spaceScopedHttpClient
+  });
+  var enhancedSpace = (0, _enhanceWithMethods2.default)(space, spaceApi);
+  return (0, _freezeSys2.default)(enhancedSpace);
+}
+
+/**
+ * This method wraps each space in a collection with the space API. See wrapSpace
+ * above for more details.
+ * @private
+ * @param  {Object} http - HTTP client instance
+ * @param  {Object} data - API response for a Space collection
+ * @return {SpaceCollection}
+ */
+function wrapSpaceCollection(http, data) {
+  var spaces = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  spaces.items = spaces.items.map(function (entity) {
+    return wrapSpace(http, entity);
+  });
+  return (0, _freezeSys2.default)(spaces);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+      </div>
+
+      <nav>
+          <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a></li><li><a href="Asset.html">Asset</a></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li><li><a href="contentfulManagement.html">contentfulManagement</a></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a></li><li><a href="ContentType.html">ContentType</a></li><li><a href="Entry.html">Entry</a></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Meta.html">Meta</a></li><li><a href="Role.html">Role</a></li><li><a href="Space.html">Space</a></li><li><a href="SpaceMembership.html">SpaceMembership</a></li><li><a href="Webhook.html">Webhook</a></li></ul>
+      </nav>
+    </div>
+
+    <footer>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+         on Thu Jun 02 2016 14:47:51 GMT+0200 (CEST)
+        for contentful.js 1.0.2
+    </footer>
+  </main>
+
+  <script> prettyPrint(); </script>
+  <script src="scripts/linenumber.js"> </script>
+</body>
+</html>

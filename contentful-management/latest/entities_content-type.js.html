@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contentful JS SDK: Source: entities/content-type.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="content">
+      <div id="main">
+
+          <h1 class="page-title">Source: entities/content-type.js</h1>
+
+          
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wrapContentType = wrapContentType;
+exports.wrapContentTypeCollection = wrapContentTypeCollection;
+
+var _cloneDeep = require('lodash/cloneDeep');
+
+var _cloneDeep2 = _interopRequireDefault(_cloneDeep);
+
+var _freezeSys = require('contentful-sdk-core/freeze-sys');
+
+var _freezeSys2 = _interopRequireDefault(_freezeSys);
+
+var _enhanceWithMethods = require('../enhance-with-methods');
+
+var _enhanceWithMethods2 = _interopRequireDefault(_enhanceWithMethods);
+
+var _toPlainObject = require('contentful-sdk-core/mixins/to-plain-object');
+
+var _toPlainObject2 = _interopRequireDefault(_toPlainObject);
+
+var _instanceActions = require('../instance-actions');
+
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @memberof ContentType
+ * @typedef ContentType
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} description
+ * @prop {string} displayField - Field used as the main display field for Entries
+ * @prop {string} Array&lt;Field> - All the fields contained in this Content Type
+ * @prop {function(): Object} toPlainObject() - Returns this Content Type as a plain JS object
+ */
+
+function createContentTypeApi(http) {
+  return {
+
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof ContentType
+     * @func update
+     * @return {Promise&lt;ContentType>} Object returned from the server with updated changes.
+     * @example
+     * contentType.name = 'New name'
+     * contentType.update()
+     * .then(contentType => console.log(contentType.name))
+     */
+    update: (0, _instanceActions.createUpdateEntity)({
+      http: http,
+      entityPath: 'content_types',
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof ContentType
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * contentType.delete()
+     * .catch(err => console.log(err))
+     */
+    delete: (0, _instanceActions.createDeleteEntity)({
+      http: http,
+      entityPath: 'content_types'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof ContentType
+     * @func publish
+     * @return {Promise&lt;ContentType>} Object returned from the server with updated metadata.
+     * @example
+     * contentType.publish()
+     * .then(contentType => console.log(contentType.sys.publishedVersion))
+     */
+    publish: (0, _instanceActions.createPublishEntity)({
+      http: http,
+      entityPath: 'content_types',
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof ContentType
+     * @func unpublish
+     * @return {Promise&lt;ContentType>} Object returned from the server with updated metadata.
+     * @example
+     * contentType.unpublish()
+     * .then(contentType => console.log(contentType.sys))
+     */
+    unpublish: (0, _instanceActions.createUnpublishEntity)({
+      http: http,
+      entityPath: 'content_types',
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Checks if the contentType is published. A published contentType might have unpublished changes (@see {ContentType.isUpdated})
+     * @memberof ContentType
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: (0, _instanceActions.createPublishedChecker)(),
+
+    /**
+     * Checks if the contentType is updated. This means the contentType was previously published but has unpublished changes.
+     * @memberof ContentType
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: (0, _instanceActions.createUpdatedChecker)(),
+
+    /**
+     * Checks if the contentType is in draft mode. This means it is not published.
+     * @memberof ContentType
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: (0, _instanceActions.createDraftChecker)()
+  };
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw content type data
+ * @return {ContentType} Wrapped content type data
+ */
+/**
+ * Content Type instances
+ * @namespace ContentType
+ */
+function wrapContentType(http, data) {
+  var contentType = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  (0, _enhanceWithMethods2.default)(contentType, createContentTypeApi(http));
+  return (0, _freezeSys2.default)(contentType);
+}
+
+/**
+ * @memberof ContentType
+ * @typedef ContentTypeCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;ContentType.ContentType>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Content Type collection as a plain JS object
+ */
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw content type collection data
+ * @return {ContentTypeCollection} Wrapped content type collection data
+ */
+function wrapContentTypeCollection(http, data) {
+  var contentTypes = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  contentTypes.items = contentTypes.items.map(function (entity) {
+    return wrapContentType(http, entity);
+  });
+  return (0, _freezeSys2.default)(contentTypes);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+      </div>
+
+      <nav>
+          <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a></li><li><a href="Asset.html">Asset</a></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li><li><a href="contentfulManagement.html">contentfulManagement</a></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a></li><li><a href="ContentType.html">ContentType</a></li><li><a href="Entry.html">Entry</a></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Meta.html">Meta</a></li><li><a href="Role.html">Role</a></li><li><a href="Space.html">Space</a></li><li><a href="SpaceMembership.html">SpaceMembership</a></li><li><a href="Webhook.html">Webhook</a></li></ul>
+      </nav>
+    </div>
+
+    <footer>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+         on Thu Jun 02 2016 14:47:51 GMT+0200 (CEST)
+        for contentful.js 1.0.2
+    </footer>
+  </main>
+
+  <script> prettyPrint(); </script>
+  <script src="scripts/linenumber.js"> </script>
+</body>
+</html>

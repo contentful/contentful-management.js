@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contentful JS SDK: contentful-management.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="content">
+      <div id="main">
+
+          <h1 class="page-title">contentful-management.js</h1>
+
+          
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section>
+        <article><p><a href="https://www.npmjs.com/package/contentful-management"><img src="https://img.shields.io/npm/v/contentful-management.svg" alt="npm"></a>
+<a href="https://travis-ci.org/contentful/contentful-management.js"><img src="https://travis-ci.org/contentful/contentful-management.js.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/contentful/contentful-management.js?branch=master"><img src="https://coveralls.io/repos/github/contentful/contentful-management.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://david-dm.org/contentful/contentful-management.js"><img src="https://david-dm.org/contentful/contentful-management.js.svg" alt="Dependency Status"></a>
+<a href="https://david-dm.org/contentful/contentful-management.js#info=devDependencies"><img src="https://david-dm.org/contentful/contentful-management.js/dev-status.svg" alt="devDependency Status"></a></p>
+<p><a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
+<a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a></p>
+<p>Javascript SDK for <a href="https://www.contentful.com">Contentful's</a> Content Management API.</p>
+<h1>About</h1><p><a href="https://www.contentful.com">Contentful</a> is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit &amp; manage content in the cloud and publish it anywhere via a powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.</p>
+<h2>Features</h2><ul>
+<li>Content management and retrieval through Contentful's <a href="https://www.contentful.com/developers/docs/references/content-management-api/">Content Management API</a>.</li>
+<li>Built in rate limiting with recovery procedures</li>
+<li>Asset processing helpers</li>
+</ul>
+<h2>Supported environments</h2><p>Browsers and Node.js:</p>
+<ul>
+<li>Chrome</li>
+<li>Firefox</li>
+<li>IE11 / Edge</li>
+<li>Safari</li>
+<li>node.js (0.10, iojs-3.x, 4.x, 5.x)</li>
+</ul>
+<p>Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.</p>
+<h1>Getting started</h1><p>In order to get started with the Contentful Management JS SDK you'll need not only to install it, but also to get credentials which will allow you to have access to your content in Contentful.</p>
+<h2>Installation</h2><p>In node, using <a href="http://npmjs.org">npm</a>:</p>
+<pre class="prettyprint source lang-sh"><code>npm install contentful-management</code></pre><p>Or, if you'd like to use a standalone built file you can use the following script tag or just download it from <a href="https://npmcdn.com">npmcdn</a>, under the <code>browser-dist</code> directory:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://npmcdn.com/contentful-management@latest/browser-dist/contentful-management.min.js&quot;>&lt;/script></code></pre><p><strong>It is not recommended to use the above URL for production.</strong></p>
+<p>Using <code>contentful@latest</code> will always get you the latest version, but you can also specify a specific version number:</p>
+<pre class="prettyprint source lang-html"><code>&lt;script src=&quot;https://npmcdn.com/contentful-management@1.0.0/browser-dist/contentful-management.min.js&quot;>&lt;/script></code></pre><p>Check the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page to know which versions are available.</p>
+<h2>Authentication</h2><p>To get content from Contentful, an app should authenticate with an with an OAuth bearer token.</p>
+<p>If you want to use this SDK for a simple tool or a local app that you won't redistribute or make available to other users, you can get an API key for the Management API at our <a href="https://www.contentful.com/developers/docs/references/authentication/">Authentication page</a>.</p>
+<p>If you'd like to create an app which would make use of this SDK but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about <a href="https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application">Creating an OAuth Application</a></p>
+<h2>Your first request</h2><p>The following code snippet is the most basic one you can use to get some content from Contentful with this SDK:</p>
+<pre class="prettyprint source lang-js"><code>var contentful = require('contentful-management')
+var client = contentful.createClient({
+  // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+  accessToken: 'YOUR_ACCESS_TOKEN'
+})
+// This API call will request a space with the specified ID
+client.getSpace('spaceId')
+.then((space) => {
+  // Now that we have a space, we can get entries from that space
+  space.getEntries()
+  .then((entries) => {
+    console.log(entries.items)
+  })
+})</code></pre><p>You can try and change the above example at <a href="https://tonicdev.com/npm/contentful-management">Tonic</a>.</p>
+<h2>Documentation/References</h2><p>To help you get the most out of this SDK, we've prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.</p>
+<h3>Reference documentation</h3><p>The <a href="https://contentful.github.io/contentful-management.js">Contentful's JS SDK reference</a> documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.</p>
+<p>Most methods also have examples which show you how to use them.</p>
+<p>You can start by looking at the top level <a href="./contentfulManagement.html"><code>contentfulManagement</code></a> namespace.</p>
+<pre class="prettyprint source"><code>From version 1.0.0 onwards, you can access documentation for a specific version by visiting `https://contentful.github.io/contentful-management.js/contentful/&lt;VERSION>`</code></pre><h3>Contentful JavaScript resources</h3><p>Check the <a href="https://www.contentful.com/developers/docs/javascript/">Contentful for JavaScript</a> page for Tutorials, Demo Apps, and more information on other ways of using JavaScript with Contentful</p>
+<h3>REST API reference</h3><p>This library is a wrapper around our Contentful Management REST API. Some more specific details such as search parameters and pagination are better explained on the <a href="https://www.contentful.com/developers/docs/references/content-management-api/">REST API reference</a>, and you can also get a better understanding of how the requests look under the hood.</p>
+<h3>Legacy contentful-management.js</h3><p>For versions prior to 1.0.0, you can access documentation at <a href="https://github.com/contentful/contentful.js/tree/legacy">https://github.com/contentful/contentful-management.js/tree/legacy</a></p>
+<h2>Versioning</h2><p>This project strictly follows <a href="http://semver.org/">Semantic Versioning</a> by use of <a href="https://github.com/semantic-release/semantic-release">semantic-release</a>.</p>
+<p>This means that new versions are released automatically as fixes, features or breaking changes are released.</p>
+<p>You can check the changelog on the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page.</p>
+<h2>Migration from contentful-management.js 1.x and older</h2><p>contentful.js 1.x was a major rewrite, with some API changes. While the base functionality remains the same, some method names have changed, as well as some internal behaviors.</p>
+<p>See the <a href="MIGRATION.md">migration guide</a> for more information.</p>
+<h2>Support</h2><p>If you have a problem with this library, please file an <a href="https://github.com/contentful/contentful-management.js/issues/new">issue</a> here on Github.</p>
+<p>If you have other problems with Contentful not related to this library, you can contact <a href="https://support.contentful.com">Customer Support</a>.</p>
+<h2>Contributing</h2><p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<h2>License</h2><p>MIT</p></article>
+    </section>
+
+
+
+
+
+
+      </div>
+
+      <nav>
+          <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a></li><li><a href="Asset.html">Asset</a></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li><li><a href="contentfulManagement.html">contentfulManagement</a></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a></li><li><a href="ContentType.html">ContentType</a></li><li><a href="Entry.html">Entry</a></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Meta.html">Meta</a></li><li><a href="Role.html">Role</a></li><li><a href="Space.html">Space</a></li><li><a href="SpaceMembership.html">SpaceMembership</a></li><li><a href="Webhook.html">Webhook</a></li></ul>
+      </nav>
+    </div>
+
+    <footer>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+         on Thu Jun 02 2016 14:47:51 GMT+0200 (CEST)
+        for contentful.js 1.0.2
+    </footer>
+  </main>
+
+  <script> prettyPrint(); </script>
+  <script src="scripts/linenumber.js"> </script>
+</body>
+</html>

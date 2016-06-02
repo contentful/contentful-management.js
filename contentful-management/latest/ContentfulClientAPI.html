@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contentful JS SDK: Namespace: ContentfulClientAPI</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="content">
+      <div id="main">
+
+          <h1 class="page-title">Namespace: ContentfulClientAPI</h1>
+
+          
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>ContentfulClientAPI</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Contentful Management API Client. Contains methods which allow access to
+any operations that can be performed with a management token.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+          <div class="entity">
+            
+                
+<h4 class="name" id=".ClientAPI">
+  ClientAPI
+  <a href="#.ClientAPI">#</a>
+</h4>
+
+
+
+
+
+
+  <dl class="types">
+    <dt><strong>Type:</strong></dt>
+    <dd> 
+<span class="param-type">Object</span>
+
+ </dd>
+  </dl>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>getSpace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>getSpaces</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>createSpace</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+          </div>
+        
+          <div class="entity">
+            
+                
+<h4 class="name" id=".ErrorResponse">
+  ErrorResponse
+  <a href="#.ErrorResponse">#</a>
+</h4>
+
+
+
+
+<div class="description">
+    Errors received from server requests
+</div>
+
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Error name. Usually refers to the sys.id returned on the
+error server response. If that's not available or is unknown, it defaults to
+the HTTP error code and status text.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Stringified JSON object with request information,
+HTTP response details and error details payload (if available). The `requestId`
+property is internal to Contentful and it can be used when contacting support
+about unusual errors.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="error-handler.js.html">error-handler.js</a>, <a href="error-handler.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+          </div>
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            <div class="entity">
+            
+
+    
+
+    <h4 class="name" id=".createSpace">
+      <span class="type-signature">(static) </span>createSpace<span class="signature">(data, organizationId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span>
+      <a href="#.createSpace">#</a>
+    </h4>
+
+    
+
+
+
+<div class="description">
+    Creates a space
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Object representation of the Space to be created</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>organizationId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Organization ID, if the associated token can manage more than one organization.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the newly created Space
+</div>
+
+
+
+<dl class="types">
+    <dt>
+      <strong>Type:</strong>
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
+
+
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>{<a href="Space.html#.Space">Space.Space</a>}</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>client.createSpace({name: 'Space Name'})
+.then(space => console.log(space))</code></pre>
+
+
+
+            </div>
+        
+            <div class="entity">
+            
+
+    
+
+    <h4 class="name" id=".getSpace">
+      <span class="type-signature">(static) </span>getSpace<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span>
+      <a href="#.getSpace">#</a>
+    </h4>
+
+    
+
+
+
+<div class="description">
+    Gets a space
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space ID</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for a Space
+</div>
+
+
+
+<dl class="types">
+    <dt>
+      <strong>Type:</strong>
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
+
+
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>client.getSpace('spaceid')
+.then(space => console.log(space))</code></pre>
+
+
+
+            </div>
+        
+            <div class="entity">
+            
+
+    
+
+    <h4 class="name" id=".getSpaces">
+      <span class="type-signature">(static) </span>getSpaces<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.SpaceCollection">Space.SpaceCollection</a>>}</span>
+      <a href="#.getSpaces">#</a>
+    </h4>
+
+    
+
+
+
+<div class="description">
+    Gets all spaces
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for a collection of Spaces
+</div>
+
+
+
+<dl class="types">
+    <dt>
+      <strong>Type:</strong>
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Space.html#.SpaceCollection">Space.SpaceCollection</a>></span>
+
+
+    </dd>
+</dl>
+
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>client.getSpaces()
+.then(spaces => console.log(spaces.items))</code></pre>
+
+
+
+            </div>
+        
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+      </div>
+
+      <nav>
+          <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a></li><li><a href="Asset.html">Asset</a></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li><li><a href="contentfulManagement.html">contentfulManagement</a></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a></li><li><a href="ContentType.html">ContentType</a></li><li><a href="Entry.html">Entry</a></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Meta.html">Meta</a></li><li><a href="Role.html">Role</a></li><li><a href="Space.html">Space</a></li><li><a href="SpaceMembership.html">SpaceMembership</a></li><li><a href="Webhook.html">Webhook</a></li></ul>
+      </nav>
+    </div>
+
+    <footer>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+         on Thu Jun 02 2016 14:47:51 GMT+0200 (CEST)
+        for contentful.js 1.0.2
+    </footer>
+  </main>
+
+  <script> prettyPrint(); </script>
+  <script src="scripts/linenumber.js"> </script>
+</body>
+</html>

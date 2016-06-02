@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Contentful JS SDK: Source: entities/locale.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+  <main>
+    <div class="content">
+      <div id="main">
+
+          <h1 class="page-title">Source: entities/locale.js</h1>
+
+          
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.wrapLocale = wrapLocale;
+exports.wrapLocaleCollection = wrapLocaleCollection;
+
+var _cloneDeep = require('lodash/cloneDeep');
+
+var _cloneDeep2 = _interopRequireDefault(_cloneDeep);
+
+var _freezeSys = require('contentful-sdk-core/freeze-sys');
+
+var _freezeSys2 = _interopRequireDefault(_freezeSys);
+
+var _enhanceWithMethods = require('../enhance-with-methods');
+
+var _enhanceWithMethods2 = _interopRequireDefault(_enhanceWithMethods);
+
+var _toPlainObject = require('contentful-sdk-core/mixins/to-plain-object');
+
+var _toPlainObject2 = _interopRequireDefault(_toPlainObject);
+
+var _instanceActions = require('../instance-actions');
+
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @memberof Locale
+ * @typedef Locale
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} code - Locale code (example: en-us)
+ * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
+ * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
+ * @prop {boolean} default - If this is the default locale
+ * @prop {boolean} optional - If the locale needs to be filled in on entries or not
+ * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ */
+
+function createLocaleApi(http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Locale
+     * @func update
+     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @example
+     * locale.name = 'English'
+     * locale.update()
+     * .then(locale => console.log(locale.name))
+     */
+    update: function update() {
+      // delete some properties which are returned by the server but shouldn't
+      // be sent back.
+      var locale = this;
+      delete locale.default;
+      delete locale.fallback_code;
+      return (0, _instanceActions.createUpdateEntity)({
+        http: http,
+        entityPath: 'locales',
+        wrapperMethod: wrapLocale
+      }).call(locale);
+    },
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Locale
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * locale.delete()
+     * .catch(err => console.log(err))
+     */
+    delete: (0, _instanceActions.createDeleteEntity)({
+      http: http,
+      entityPath: 'locales'
+    })
+  };
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw locale data
+ * @return {Locale} Wrapped locale data
+ */
+function wrapLocale(http, data) {
+  var locale = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  delete locale.internal_code;
+  (0, _enhanceWithMethods2.default)(locale, createLocaleApi(http));
+  return (0, _freezeSys2.default)(locale);
+}
+
+/**
+ * @memberof Locale
+ * @typedef LocaleCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Locale.Locale>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Locale collection as a plain JS object
+ */
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw locale collection data
+ * @return {LocaleCollection} Wrapped locale collection data
+ */
+function wrapLocaleCollection(http, data) {
+  var locales = (0, _toPlainObject2.default)((0, _cloneDeep2.default)(data));
+  locales.items = locales.items.map(function (entity) {
+    return wrapLocale(http, entity);
+  });
+  return (0, _freezeSys2.default)(locales);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+      </div>
+
+      <nav>
+          <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a></li><li><a href="Asset.html">Asset</a></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li><li><a href="contentfulManagement.html">contentfulManagement</a></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a></li><li><a href="ContentType.html">ContentType</a></li><li><a href="Entry.html">Entry</a></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Meta.html">Meta</a></li><li><a href="Role.html">Role</a></li><li><a href="Space.html">Space</a></li><li><a href="SpaceMembership.html">SpaceMembership</a></li><li><a href="Webhook.html">Webhook</a></li></ul>
+      </nav>
+    </div>
+
+    <footer>
+        Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+         on Thu Jun 02 2016 14:47:51 GMT+0200 (CEST)
+        for contentful.js 1.0.2
+    </footer>
+  </main>
+
+  <script> prettyPrint(); </script>
+  <script src="scripts/linenumber.js"> </script>
+</body>
+</html>
