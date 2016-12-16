@@ -1,4 +1,7 @@
 {
   "source": "./lib",
-  "destination": "./esdoc"
+  "destination": "./esdoc",
+  "package": "package.json",
+  "coverage": true,
+  "title": "contentful-management.js"
 }
