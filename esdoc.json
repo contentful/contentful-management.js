@@ -1,7 +1,10 @@
 {
   "source": "./lib",
   "destination": "./esdoc",
-  "package": "package.json",
-  "coverage": true,
-  "title": "contentful-management.js"
+  "index": "./README.md",
+  "package": "./package.json",
+  "title": "contentful-management.js",
+  "manual": {
+    "design": "./SETUP.md"
+  }
 }
