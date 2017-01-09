@@ -1,0 +1,2514 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "cloneDeep",
+            "range": [
+              7,
+              16
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 7
+              },
+              "end": {
+                "line": 1,
+                "column": 16
+              }
+            }
+          },
+          "range": [
+            7,
+            16
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 16
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "lodash/cloneDeep",
+        "raw": "'lodash/cloneDeep'",
+        "range": [
+          22,
+          40
+        ],
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 22
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          }
+        }
+      },
+      "range": [
+        0,
+        41
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "freezeSys",
+            "range": [
+              48,
+              57
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 7
+              },
+              "end": {
+                "line": 2,
+                "column": 16
+              }
+            }
+          },
+          "range": [
+            48,
+            57
+          ],
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 7
+            },
+            "end": {
+              "line": 2,
+              "column": 16
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "contentful-sdk-core/freeze-sys",
+        "raw": "'contentful-sdk-core/freeze-sys'",
+        "range": [
+          63,
+          95
+        ],
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 22
+          },
+          "end": {
+            "line": 2,
+            "column": 54
+          }
+        }
+      },
+      "range": [
+        41,
+        96
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "enhanceWithMethods",
+            "range": [
+              103,
+              121
+            ],
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 25
+              }
+            }
+          },
+          "range": [
+            103,
+            121
+          ],
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 7
+            },
+            "end": {
+              "line": 3,
+              "column": 25
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../enhance-with-methods",
+        "raw": "'../enhance-with-methods'",
+        "range": [
+          127,
+          152
+        ],
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 31
+          },
+          "end": {
+            "line": 3,
+            "column": 56
+          }
+        }
+      },
+      "range": [
+        96,
+        153
+      ],
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "mixinToPlainObject",
+            "range": [
+              160,
+              178
+            ],
+            "loc": {
+              "start": {
+                "line": 4,
+                "column": 7
+              },
+              "end": {
+                "line": 4,
+                "column": 25
+              }
+            }
+          },
+          "range": [
+            160,
+            178
+          ],
+          "loc": {
+            "start": {
+              "line": 4,
+              "column": 7
+            },
+            "end": {
+              "line": 4,
+              "column": 25
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "contentful-sdk-core/mixins/to-plain-object",
+        "raw": "'contentful-sdk-core/mixins/to-plain-object'",
+        "range": [
+          184,
+          228
+        ],
+        "loc": {
+          "start": {
+            "line": 4,
+            "column": 31
+          },
+          "end": {
+            "line": 4,
+            "column": 75
+          }
+        }
+      },
+      "range": [
+        153,
+        229
+      ],
+      "loc": {
+        "start": {
+          "line": 4,
+          "column": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "createUpdateEntity",
+            "range": [
+              240,
+              258
+            ],
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 2
+              },
+              "end": {
+                "line": 6,
+                "column": 20
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "createUpdateEntity",
+            "range": [
+              240,
+              258
+            ],
+            "loc": {
+              "start": {
+                "line": 6,
+                "column": 2
+              },
+              "end": {
+                "line": 6,
+                "column": 20
+              }
+            }
+          },
+          "range": [
+            240,
+            258
+          ],
+          "loc": {
+            "start": {
+              "line": 6,
+              "column": 2
+            },
+            "end": {
+              "line": 6,
+              "column": 20
+            }
+          }
+        },
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "createDeleteEntity",
+            "range": [
+              262,
+              280
+            ],
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 2
+              },
+              "end": {
+                "line": 7,
+                "column": 20
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "createDeleteEntity",
+            "range": [
+              262,
+              280
+            ],
+            "loc": {
+              "start": {
+                "line": 7,
+                "column": 2
+              },
+              "end": {
+                "line": 7,
+                "column": 20
+              }
+            }
+          },
+          "range": [
+            262,
+            280
+          ],
+          "loc": {
+            "start": {
+              "line": 7,
+              "column": 2
+            },
+            "end": {
+              "line": 7,
+              "column": 20
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../instance-actions",
+        "raw": "'../instance-actions'",
+        "range": [
+          288,
+          309
+        ],
+        "loc": {
+          "start": {
+            "line": 8,
+            "column": 7
+          },
+          "end": {
+            "line": 8,
+            "column": 28
+          }
+        },
+        "trailingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @typedef {SpaceMembership} SpaceMembership\n * @property {Object} sys - System metadata\n * @property {string} name\n * @property {boolean} admin - User is an admin\n * @property {Array} roles - Array of Role Links\n * @property {function(): Object} toPlainObject - Returns this Space Membership as a plain JS object\n ",
+            "range": [
+              311,
+              633
+            ],
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 3
+              }
+            }
+          },
+          {
+            "type": "Block",
+            "value": "*\n * @typedef {SpaceMembershipCollection} SpaceMembershipCollection\n * @property {number} total - Total amount of records in the server\n * @property {number} skip - A starting point of the collection\n * @property {number} limit - Amount of records in collection\n * @property {Array<SpaceMembership.SpaceMembership>} items\n * @property {function(): Object} toPlainObject() - Returns this Space Membership collection as a plain JS object\n ",
+            "range": [
+              635,
+              1076
+            ],
+            "loc": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 26,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      "range": [
+        229,
+        1078
+      ],
+      "loc": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 28,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "createSpaceMembershipApi",
+        "range": [
+          1087,
+          1111
+        ],
+        "loc": {
+          "start": {
+            "line": 28,
+            "column": 9
+          },
+          "end": {
+            "line": 28,
+            "column": 33
+          }
+        }
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "http",
+          "range": [
+            1113,
+            1117
+          ],
+          "loc": {
+            "start": {
+              "line": 28,
+              "column": 35
+            },
+            "end": {
+              "line": 28,
+              "column": 39
+            }
+          }
+        }
+      ],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "ObjectExpression",
+              "properties": [
+                {
+                  "type": "Property",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "update",
+                    "range": [
+                      1544,
+                      1550
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 41,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 41,
+                        "column": 10
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "createUpdateEntity",
+                      "range": [
+                        1552,
+                        1570
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 41,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 41,
+                          "column": 30
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "ObjectExpression",
+                        "properties": [
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                1579,
+                                1583
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 42,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 42,
+                                  "column": 10
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                1585,
+                                1589
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 42,
+                                  "column": 12
+                                },
+                                "end": {
+                                  "line": 42,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              1579,
+                              1589
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 42,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 42,
+                                "column": 16
+                              }
+                            }
+                          },
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "entityPath",
+                              "range": [
+                                1597,
+                                1607
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 43,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 43,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Literal",
+                              "value": "space_memberships",
+                              "raw": "'space_memberships'",
+                              "range": [
+                                1609,
+                                1628
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 43,
+                                  "column": 18
+                                },
+                                "end": {
+                                  "line": 43,
+                                  "column": 37
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              1597,
+                              1628
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 43,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 43,
+                                "column": 37
+                              }
+                            }
+                          },
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "wrapperMethod",
+                              "range": [
+                                1636,
+                                1649
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 44,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 44,
+                                  "column": 19
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "name": "wrapSpaceMembership",
+                              "range": [
+                                1651,
+                                1670
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 44,
+                                  "column": 21
+                                },
+                                "end": {
+                                  "line": 44,
+                                  "column": 40
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              1636,
+                              1670
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 44,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 44,
+                                "column": 40
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          1571,
+                          1676
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 41,
+                            "column": 31
+                          },
+                          "end": {
+                            "line": 45,
+                            "column": 5
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      1552,
+                      1677
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 41,
+                        "column": 12
+                      },
+                      "end": {
+                        "line": 45,
+                        "column": 6
+                      }
+                    }
+                  },
+                  "kind": "init",
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "range": [
+                    1544,
+                    1677
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 41,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 6
+                    }
+                  },
+                  "leadingComments": [
+                    {
+                      "type": "Block",
+                      "value": "*\n     * Sends an update to the server with any changes made to the object's properties\n     * @memberof SpaceMembership\n     * @func update\n     * @return {Promise<SpaceMembership>} Object returned from the server with updated changes.\n     * @example\n     * spaceMembership.name = 'New name'\n     * spaceMembership.update()\n     * .then(spaceMembership => console.log(spaceMembership.name))\n     ",
+                      "range": [
+                        1137,
+                        1539
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 31,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 40,
+                          "column": 7
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "Property",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "delete",
+                    "range": [
+                      2000,
+                      2006
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 56,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 56,
+                        "column": 10
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "createDeleteEntity",
+                      "range": [
+                        2008,
+                        2026
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 56,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 56,
+                          "column": 30
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "ObjectExpression",
+                        "properties": [
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                2035,
+                                2039
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 57,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 57,
+                                  "column": 10
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                2041,
+                                2045
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 57,
+                                  "column": 12
+                                },
+                                "end": {
+                                  "line": 57,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              2035,
+                              2045
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 57,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 57,
+                                "column": 16
+                              }
+                            }
+                          },
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "entityPath",
+                              "range": [
+                                2053,
+                                2063
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 58,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 58,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Literal",
+                              "value": "space_memberships",
+                              "raw": "'space_memberships'",
+                              "range": [
+                                2065,
+                                2084
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 58,
+                                  "column": 18
+                                },
+                                "end": {
+                                  "line": 58,
+                                  "column": 37
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              2053,
+                              2084
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 58,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 58,
+                                "column": 37
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          2027,
+                          2090
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 56,
+                            "column": 31
+                          },
+                          "end": {
+                            "line": 59,
+                            "column": 5
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      2008,
+                      2091
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 56,
+                        "column": 12
+                      },
+                      "end": {
+                        "line": 59,
+                        "column": 6
+                      }
+                    }
+                  },
+                  "kind": "init",
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "range": [
+                    2000,
+                    2091
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 56,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 59,
+                      "column": 6
+                    }
+                  },
+                  "leadingComments": [
+                    {
+                      "type": "Block",
+                      "value": "*\n     * Deletes this object on the server.\n     * @memberof SpaceMembership\n     * @func delete\n     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.\n     * @example\n     * spaceMembership.delete()\n     * .catch(err => console.log(err))\n     ",
+                      "range": [
+                        1684,
+                        1995
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 47,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 55,
+                          "column": 7
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "range": [
+                1130,
+                2095
+              ],
+              "loc": {
+                "start": {
+                  "line": 29,
+                  "column": 9
+                },
+                "end": {
+                  "line": 60,
+                  "column": 3
+                }
+              }
+            },
+            "range": [
+              1123,
+              2096
+            ],
+            "loc": {
+              "start": {
+                "line": 29,
+                "column": 2
+              },
+              "end": {
+                "line": 61,
+                "column": 0
+              }
+            }
+          }
+        ],
+        "range": [
+          1119,
+          2097
+        ],
+        "loc": {
+          "start": {
+            "line": 28,
+            "column": 41
+          },
+          "end": {
+            "line": 61,
+            "column": 1
+          }
+        }
+      },
+      "generator": false,
+      "expression": false,
+      "range": [
+        1078,
+        2097
+      ],
+      "loc": {
+        "start": {
+          "line": 28,
+          "column": 0
+        },
+        "end": {
+          "line": 61,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @typedef {SpaceMembership} SpaceMembership\n * @property {Object} sys - System metadata\n * @property {string} name\n * @property {boolean} admin - User is an admin\n * @property {Array} roles - Array of Role Links\n * @property {function(): Object} toPlainObject - Returns this Space Membership as a plain JS object\n ",
+          "range": [
+            311,
+            633
+          ],
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 0
+            },
+            "end": {
+              "line": 17,
+              "column": 3
+            }
+          }
+        },
+        {
+          "type": "Block",
+          "value": "*\n * @typedef {SpaceMembershipCollection} SpaceMembershipCollection\n * @property {number} total - Total amount of records in the server\n * @property {number} skip - A starting point of the collection\n * @property {number} limit - Amount of records in collection\n * @property {Array<SpaceMembership.SpaceMembership>} items\n * @property {function(): Object} toPlainObject() - Returns this Space Membership collection as a plain JS object\n ",
+          "range": [
+            635,
+            1076
+          ],
+          "loc": {
+            "start": {
+              "line": 19,
+              "column": 0
+            },
+            "end": {
+              "line": 26,
+              "column": 3
+            }
+          }
+        }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership data\n * @return {SpaceMembership} Wrapped space membership data\n ",
+          "range": [
+            2099,
+            2276
+          ],
+          "loc": {
+            "start": {
+              "line": 63,
+              "column": 0
+            },
+            "end": {
+              "line": 68,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "wrapSpaceMembership",
+          "range": [
+            2293,
+            2312
+          ],
+          "loc": {
+            "start": {
+              "line": 69,
+              "column": 16
+            },
+            "end": {
+              "line": 69,
+              "column": 35
+            }
+          }
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "http",
+            "range": [
+              2314,
+              2318
+            ],
+            "loc": {
+              "start": {
+                "line": 69,
+                "column": 37
+              },
+              "end": {
+                "line": 69,
+                "column": 41
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "name": "data",
+            "range": [
+              2320,
+              2324
+            ],
+            "loc": {
+              "start": {
+                "line": 69,
+                "column": 43
+              },
+              "end": {
+                "line": 69,
+                "column": 47
+              }
+            }
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "spaceMembership",
+                    "range": [
+                      2336,
+                      2351
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 70,
+                        "column": 8
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 23
+                      }
+                    }
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "mixinToPlainObject",
+                      "range": [
+                        2354,
+                        2372
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 70,
+                          "column": 26
+                        },
+                        "end": {
+                          "line": 70,
+                          "column": 44
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "cloneDeep",
+                          "range": [
+                            2373,
+                            2382
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 70,
+                              "column": 45
+                            },
+                            "end": {
+                              "line": 70,
+                              "column": 54
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "data",
+                            "range": [
+                              2383,
+                              2387
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 70,
+                                "column": 55
+                              },
+                              "end": {
+                                "line": 70,
+                                "column": 59
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          2373,
+                          2388
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 70,
+                            "column": 45
+                          },
+                          "end": {
+                            "line": 70,
+                            "column": 60
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      2354,
+                      2389
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 70,
+                        "column": 26
+                      },
+                      "end": {
+                        "line": 70,
+                        "column": 61
+                      }
+                    }
+                  },
+                  "range": [
+                    2336,
+                    2389
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 70,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 70,
+                      "column": 61
+                    }
+                  }
+                }
+              ],
+              "kind": "const",
+              "range": [
+                2330,
+                2392
+              ],
+              "loc": {
+                "start": {
+                  "line": 70,
+                  "column": 2
+                },
+                "end": {
+                  "line": 71,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "enhanceWithMethods",
+                  "range": [
+                    2392,
+                    2410
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 71,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 71,
+                      "column": 20
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "spaceMembership",
+                    "range": [
+                      2411,
+                      2426
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 71,
+                        "column": 21
+                      },
+                      "end": {
+                        "line": 71,
+                        "column": 36
+                      }
+                    }
+                  },
+                  {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "createSpaceMembershipApi",
+                      "range": [
+                        2428,
+                        2452
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 71,
+                          "column": 38
+                        },
+                        "end": {
+                          "line": 71,
+                          "column": 62
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "Identifier",
+                        "name": "http",
+                        "range": [
+                          2453,
+                          2457
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 71,
+                            "column": 63
+                          },
+                          "end": {
+                            "line": 71,
+                            "column": 67
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      2428,
+                      2458
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 71,
+                        "column": 38
+                      },
+                      "end": {
+                        "line": 71,
+                        "column": 68
+                      }
+                    }
+                  }
+                ],
+                "range": [
+                  2392,
+                  2459
+                ],
+                "loc": {
+                  "start": {
+                    "line": 71,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 71,
+                    "column": 69
+                  }
+                }
+              },
+              "range": [
+                2392,
+                2462
+              ],
+              "loc": {
+                "start": {
+                  "line": 71,
+                  "column": 2
+                },
+                "end": {
+                  "line": 72,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "freezeSys",
+                  "range": [
+                    2469,
+                    2478
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 72,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 72,
+                      "column": 18
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "spaceMembership",
+                    "range": [
+                      2479,
+                      2494
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 72,
+                        "column": 19
+                      },
+                      "end": {
+                        "line": 72,
+                        "column": 34
+                      }
+                    }
+                  }
+                ],
+                "range": [
+                  2469,
+                  2495
+                ],
+                "loc": {
+                  "start": {
+                    "line": 72,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 72,
+                    "column": 35
+                  }
+                }
+              },
+              "range": [
+                2462,
+                2496
+              ],
+              "loc": {
+                "start": {
+                  "line": 72,
+                  "column": 2
+                },
+                "end": {
+                  "line": 73,
+                  "column": 0
+                }
+              }
+            }
+          ],
+          "range": [
+            2326,
+            2497
+          ],
+          "loc": {
+            "start": {
+              "line": 69,
+              "column": 49
+            },
+            "end": {
+              "line": 73,
+              "column": 1
+            }
+          }
+        },
+        "generator": false,
+        "expression": false,
+        "range": [
+          2284,
+          2497
+        ],
+        "loc": {
+          "start": {
+            "line": 69,
+            "column": 7
+          },
+          "end": {
+            "line": 73,
+            "column": 1
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership data\n * @return {SpaceMembership} Wrapped space membership data\n ",
+            "range": [
+              2099,
+              2276
+            ],
+            "loc": {
+              "start": {
+                "line": 63,
+                "column": 0
+              },
+              "end": {
+                "line": 68,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership collection data\n * @return {SpaceMembershipCollection} Wrapped space membership collection data\n ",
+            "range": [
+              2499,
+              2708
+            ],
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 0
+              },
+              "end": {
+                "line": 80,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      "specifiers": [],
+      "source": null,
+      "range": [
+        2277,
+        2497
+      ],
+      "loc": {
+        "start": {
+          "line": 69,
+          "column": 0
+        },
+        "end": {
+          "line": 73,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership data\n * @return {SpaceMembership} Wrapped space membership data\n ",
+          "range": [
+            2099,
+            2276
+          ],
+          "loc": {
+            "start": {
+              "line": 63,
+              "column": 0
+            },
+            "end": {
+              "line": 68,
+              "column": 3
+            }
+          }
+        }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership collection data\n * @return {SpaceMembershipCollection} Wrapped space membership collection data\n ",
+          "range": [
+            2499,
+            2708
+          ],
+          "loc": {
+            "start": {
+              "line": 75,
+              "column": 0
+            },
+            "end": {
+              "line": 80,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "wrapSpaceMembershipCollection",
+          "range": [
+            2725,
+            2754
+          ],
+          "loc": {
+            "start": {
+              "line": 81,
+              "column": 16
+            },
+            "end": {
+              "line": 81,
+              "column": 45
+            }
+          }
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "http",
+            "range": [
+              2756,
+              2760
+            ],
+            "loc": {
+              "start": {
+                "line": 81,
+                "column": 47
+              },
+              "end": {
+                "line": 81,
+                "column": 51
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "name": "data",
+            "range": [
+              2762,
+              2766
+            ],
+            "loc": {
+              "start": {
+                "line": 81,
+                "column": 53
+              },
+              "end": {
+                "line": 81,
+                "column": 57
+              }
+            }
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "spaceMemberships",
+                    "range": [
+                      2778,
+                      2794
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 82,
+                        "column": 8
+                      },
+                      "end": {
+                        "line": 82,
+                        "column": 24
+                      }
+                    }
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "mixinToPlainObject",
+                      "range": [
+                        2797,
+                        2815
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 82,
+                          "column": 27
+                        },
+                        "end": {
+                          "line": 82,
+                          "column": 45
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "cloneDeep",
+                          "range": [
+                            2816,
+                            2825
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 82,
+                              "column": 46
+                            },
+                            "end": {
+                              "line": 82,
+                              "column": 55
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "data",
+                            "range": [
+                              2826,
+                              2830
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 82,
+                                "column": 56
+                              },
+                              "end": {
+                                "line": 82,
+                                "column": 60
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          2816,
+                          2831
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 82,
+                            "column": 46
+                          },
+                          "end": {
+                            "line": 82,
+                            "column": 61
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      2797,
+                      2832
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 82,
+                        "column": 27
+                      },
+                      "end": {
+                        "line": 82,
+                        "column": 62
+                      }
+                    }
+                  },
+                  "range": [
+                    2778,
+                    2832
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 82,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 82,
+                      "column": 62
+                    }
+                  }
+                }
+              ],
+              "kind": "const",
+              "range": [
+                2772,
+                2835
+              ],
+              "loc": {
+                "start": {
+                  "line": 82,
+                  "column": 2
+                },
+                "end": {
+                  "line": 83,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "AssignmentExpression",
+                "operator": "=",
+                "left": {
+                  "type": "MemberExpression",
+                  "computed": false,
+                  "object": {
+                    "type": "Identifier",
+                    "name": "spaceMemberships",
+                    "range": [
+                      2835,
+                      2851
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 83,
+                        "column": 2
+                      },
+                      "end": {
+                        "line": 83,
+                        "column": 18
+                      }
+                    }
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "name": "items",
+                    "range": [
+                      2852,
+                      2857
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 83,
+                        "column": 19
+                      },
+                      "end": {
+                        "line": 83,
+                        "column": 24
+                      }
+                    }
+                  },
+                  "range": [
+                    2835,
+                    2857
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 83,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 83,
+                      "column": 24
+                    }
+                  }
+                },
+                "right": {
+                  "type": "CallExpression",
+                  "callee": {
+                    "type": "MemberExpression",
+                    "computed": false,
+                    "object": {
+                      "type": "MemberExpression",
+                      "computed": false,
+                      "object": {
+                        "type": "Identifier",
+                        "name": "spaceMemberships",
+                        "range": [
+                          2860,
+                          2876
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 83,
+                            "column": 27
+                          },
+                          "end": {
+                            "line": 83,
+                            "column": 43
+                          }
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "name": "items",
+                        "range": [
+                          2877,
+                          2882
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 83,
+                            "column": 44
+                          },
+                          "end": {
+                            "line": 83,
+                            "column": 49
+                          }
+                        }
+                      },
+                      "range": [
+                        2860,
+                        2882
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 83,
+                          "column": 27
+                        },
+                        "end": {
+                          "line": 83,
+                          "column": 49
+                        }
+                      }
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "name": "map",
+                      "range": [
+                        2883,
+                        2886
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 83,
+                          "column": 50
+                        },
+                        "end": {
+                          "line": 83,
+                          "column": 53
+                        }
+                      }
+                    },
+                    "range": [
+                      2860,
+                      2886
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 83,
+                        "column": 27
+                      },
+                      "end": {
+                        "line": 83,
+                        "column": 53
+                      }
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "type": "ArrowFunctionExpression",
+                      "id": null,
+                      "params": [
+                        {
+                          "type": "Identifier",
+                          "name": "entity",
+                          "range": [
+                            2888,
+                            2894
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 83,
+                              "column": 55
+                            },
+                            "end": {
+                              "line": 83,
+                              "column": 61
+                            }
+                          }
+                        }
+                      ],
+                      "body": {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "wrapSpaceMembership",
+                          "range": [
+                            2899,
+                            2918
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 83,
+                              "column": 66
+                            },
+                            "end": {
+                              "line": 83,
+                              "column": 85
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "http",
+                            "range": [
+                              2919,
+                              2923
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 83,
+                                "column": 86
+                              },
+                              "end": {
+                                "line": 83,
+                                "column": 90
+                              }
+                            }
+                          },
+                          {
+                            "type": "Identifier",
+                            "name": "entity",
+                            "range": [
+                              2925,
+                              2931
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 83,
+                                "column": 92
+                              },
+                              "end": {
+                                "line": 83,
+                                "column": 98
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          2899,
+                          2932
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 83,
+                            "column": 66
+                          },
+                          "end": {
+                            "line": 83,
+                            "column": 99
+                          }
+                        }
+                      },
+                      "generator": false,
+                      "expression": true,
+                      "range": [
+                        2887,
+                        2932
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 83,
+                          "column": 54
+                        },
+                        "end": {
+                          "line": 83,
+                          "column": 99
+                        }
+                      }
+                    }
+                  ],
+                  "range": [
+                    2860,
+                    2933
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 83,
+                      "column": 27
+                    },
+                    "end": {
+                      "line": 83,
+                      "column": 100
+                    }
+                  }
+                },
+                "range": [
+                  2835,
+                  2933
+                ],
+                "loc": {
+                  "start": {
+                    "line": 83,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 83,
+                    "column": 100
+                  }
+                }
+              },
+              "range": [
+                2835,
+                2936
+              ],
+              "loc": {
+                "start": {
+                  "line": 83,
+                  "column": 2
+                },
+                "end": {
+                  "line": 84,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "freezeSys",
+                  "range": [
+                    2943,
+                    2952
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 84,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 84,
+                      "column": 18
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "spaceMemberships",
+                    "range": [
+                      2953,
+                      2969
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 84,
+                        "column": 19
+                      },
+                      "end": {
+                        "line": 84,
+                        "column": 35
+                      }
+                    }
+                  }
+                ],
+                "range": [
+                  2943,
+                  2970
+                ],
+                "loc": {
+                  "start": {
+                    "line": 84,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 84,
+                    "column": 36
+                  }
+                }
+              },
+              "range": [
+                2936,
+                2971
+              ],
+              "loc": {
+                "start": {
+                  "line": 84,
+                  "column": 2
+                },
+                "end": {
+                  "line": 85,
+                  "column": 0
+                }
+              }
+            }
+          ],
+          "range": [
+            2768,
+            2972
+          ],
+          "loc": {
+            "start": {
+              "line": 81,
+              "column": 59
+            },
+            "end": {
+              "line": 85,
+              "column": 1
+            }
+          }
+        },
+        "generator": false,
+        "expression": false,
+        "range": [
+          2716,
+          2972
+        ],
+        "loc": {
+          "start": {
+            "line": 81,
+            "column": 7
+          },
+          "end": {
+            "line": 85,
+            "column": 1
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership collection data\n * @return {SpaceMembershipCollection} Wrapped space membership collection data\n ",
+            "range": [
+              2499,
+              2708
+            ],
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 0
+              },
+              "end": {
+                "line": 80,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null,
+      "range": [
+        2709,
+        2972
+      ],
+      "loc": {
+        "start": {
+          "line": 81,
+          "column": 0
+        },
+        "end": {
+          "line": 85,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership collection data\n * @return {SpaceMembershipCollection} Wrapped space membership collection data\n ",
+          "range": [
+            2499,
+            2708
+          ],
+          "loc": {
+            "start": {
+              "line": 75,
+              "column": 0
+            },
+            "end": {
+              "line": 80,
+              "column": 3
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    2972
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 85,
+      "column": 1
+    }
+  },
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\n * @typedef {SpaceMembership} SpaceMembership\n * @property {Object} sys - System metadata\n * @property {string} name\n * @property {boolean} admin - User is an admin\n * @property {Array} roles - Array of Role Links\n * @property {function(): Object} toPlainObject - Returns this Space Membership as a plain JS object\n ",
+      "range": [
+        311,
+        633
+      ],
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 17,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n * @typedef {SpaceMembershipCollection} SpaceMembershipCollection\n * @property {number} total - Total amount of records in the server\n * @property {number} skip - A starting point of the collection\n * @property {number} limit - Amount of records in collection\n * @property {Array<SpaceMembership.SpaceMembership>} items\n * @property {function(): Object} toPlainObject() - Returns this Space Membership collection as a plain JS object\n ",
+      "range": [
+        635,
+        1076
+      ],
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 26,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n     * Sends an update to the server with any changes made to the object's properties\n     * @memberof SpaceMembership\n     * @func update\n     * @return {Promise<SpaceMembership>} Object returned from the server with updated changes.\n     * @example\n     * spaceMembership.name = 'New name'\n     * spaceMembership.update()\n     * .then(spaceMembership => console.log(spaceMembership.name))\n     ",
+      "range": [
+        1137,
+        1539
+      ],
+      "loc": {
+        "start": {
+          "line": 31,
+          "column": 4
+        },
+        "end": {
+          "line": 40,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n     * Deletes this object on the server.\n     * @memberof SpaceMembership\n     * @func delete\n     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.\n     * @example\n     * spaceMembership.delete()\n     * .catch(err => console.log(err))\n     ",
+      "range": [
+        1684,
+        1995
+      ],
+      "loc": {
+        "start": {
+          "line": 47,
+          "column": 4
+        },
+        "end": {
+          "line": 55,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership data\n * @return {SpaceMembership} Wrapped space membership data\n ",
+      "range": [
+        2099,
+        2276
+      ],
+      "loc": {
+        "start": {
+          "line": 63,
+          "column": 0
+        },
+        "end": {
+          "line": 68,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw space membership collection data\n * @return {SpaceMembershipCollection} Wrapped space membership collection data\n ",
+      "range": [
+        2499,
+        2708
+      ],
+      "loc": {
+        "start": {
+          "line": 75,
+          "column": 0
+        },
+        "end": {
+          "line": 80,
+          "column": 3
+        }
+      }
+    }
+  ]
+}
