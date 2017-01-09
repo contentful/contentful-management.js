@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">lib/create-space-api.js | contentful-management.js API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/contentful/contentful-management.js.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentfulManagement">ContentfulManagement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ClientAPI">ClientAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Space">Space</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceCollection">SpaceCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ErrorResponse">ErrorResponse</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">entities</div><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKey">ApiKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKeyCollection">ApiKeyCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Asset">Asset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AssetCollection">AssetCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentType">ContentType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentTypeCollection">ContentTypeCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EditorInterface">EditorInterface</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EntryCollection">EntryCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Locale">Locale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LocaleCollection">LocaleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Role">Role</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-RoleCollection">RoleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembership">SpaceMembership</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembershipCollection">SpaceMembershipCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Webhook">Webhook</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebhookCollection">WebhookCollection</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/create-space-api.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import createRequestConfig from &apos;contentful-sdk-core/create-request-config&apos;
+import errorHandler from &apos;./error-handler&apos;
+import entities from &apos;./entities&apos;
+import omit from &apos;lodash/omit&apos;
+
+/**
+ * @typedef {Space} Space
+ * @property {Object} sys - System metadata
+ * @property {string} sys.id - Space id
+ * @property {string} sys.type - Entity type
+ * @property {string} name - Space name
+ * @property {function(): Promise} delete - Deletes the space 
+ * @property {function(): Promise&lt;Space&gt;} update - Updates the space
+ * @property {function(id: string): Promise&lt;ContentType&gt;} getContentType - Get a contentType by id
+ * @property {function(): Promise&lt;ContentTypeCollection&gt;} getContentTypes - Gets a collection of contentTypes
+ * @property {function(data:{name: string, fields: Array}): Promise&lt;ContentType&gt;} createContentType - creates a ContentType
+ * @property {function(id: string, data: {name: string, fields: Array}): Promise&lt;ContentType&gt;} createContentTypeWithId - creates a ContentType with a specified id
+ * @property {function(id: string): Promise&lt;Entry&gt;} getEntry - Gets an Entry with a custom id
+ * @property {function(query:Object): Promise&lt;EntryCollection&gt;} getEntries - Gets a collection of entries
+ * @property {function(contentTypeId: string, data: {fields: Object}): Promise&lt;Entry&gt;} createEntry - Creates an Entry
+ * @property {function(contentTypeId: string, id: string, data: {fields: Object}): Promise&lt;Entry&gt;} createEntryWithId - Creates an Entry with a specified id
+ * @property {function(id: string, query: Object): Promise&lt;Asset&gt;} getAsset - Gets an asset by id
+ * @property {function(query: Object): Promise&lt;AssetCollection&gt;} getAssets - Gets a collection of assets
+ * @property {function(data: {fields: Object}): Promise&lt;Asset&gt;} createAsset - Creates an asset
+ * @property {function(id: string, data: {fields: Object}):Promise&lt;Asset&gt;} createAssetWithId - Creates an asset with the custom id
+ * @property {function(): Promise&lt;Locale&gt;} getLocale - Gets a locale
+ * @property {function(): Promise&lt;LocaleCollection&gt;} getLocales - Gets a collection of locales
+ * @property {function(data:{name: string, code: string}): Promise&lt;Locale&gt;} createLocale - Creates a Locale
+ * @property {function(id:string): Promise&lt;webhook&gt;} getWebhook - Gets a webhook
+ * @property {function(): Promise&lt;WebhookCollection&gt;} getWebhooks - Gets a collection of webhooks
+ * @property {function(data: Object): Promise&lt;Webhook&gt;} createWebhook - Creates a webhook
+ * @property {function(id: string, data: Object)} createWebhookWithId - Creates a webhook with a custom id
+ * @property {function(id: string): Promise&lt;Role&gt;} getRole - Gets a Role
+ * @property {function(): Promise&lt;RoleCollection&gt;} getRoles - Gets a collection of roles
+ * @property {function(data: Object): Promise&lt;Role&gt;} createRole - Creates a role
+ * @property {function(id: string, data: Object): Promise&lt;Role&gt;} createRoleWithId - Creates a Role with a custom id
+ * @property {function(id: string): Promise&lt;SpaceMembership&gt;} getSpaceMembership - Gets a space membership
+ * @property {function(): Promise&lt;SpaceMembershipCollection&gt;} getSpaceMemberships - Gets a space memnerships collection
+ * @property {function(data: Object): Promise&lt;SpaceMembership&gt;} createSpaceMembership - Creates a space membership
+ * @property {function(id: string, data: Object): Promise&lt;SpaceMembership&gt;} createSpaceMembershipWithId - Creates a space membership with a custom id
+ * @property {function(id: string): Promise&lt;ApiKey&gt;} getApiKey - Gets an api key
+ * @property {function(): Promise&lt;ApiKeyCollection&gt;} getApiKeys - Gets a collection of api keys
+ * @property {function(data: Object): Promise&lt;ApiKey&gt;} createApiKey - Creates an api key
+ * @property {function(id: string, data: Object): Promise&lt;ApiKey&gt;} createSpaceApi.createApiKeyWithId - Creates an api key with a custom id
+ * @property {function(): Object} toPlainObject - Returns this Space as a plain JS object
+ * @example
+ * // require contentful-management
+ * var contentfulManagement = require(&apos;contentful-management&apos;)
+ * var client = contentfulManagement.createClient({
+ * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+ * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+ * }) 
+ * 
+ * //================================================================================================
+ * // To get a space object you have two options: 
+ * //
+ * // 1. by creating a new space 
+ * //
+ * // var space = await client.createSpace({name: &quot;My new space&quot;})
+ * //
+ * // OR
+ * //
+ * // 2. Get an existing one by id
+ * //
+ * // var space = await client.getSpace(&apos;SPACE_ID&apos;)
+ * //================================================================================================
+ * 
+ * // We&apos;ll pick option 2.
+ * //
+ * // A space object will be like so 
+ * // {
+ * //   &quot;sys&quot;: {
+ * //     &quot;type&quot;: &quot;Space&quot;,
+ * //     &quot;id&quot;: &quot;cfexampleapi&quot;,
+ * //     &quot;version&quot;: 3,
+ * //     &quot;createdAt&quot;: &quot;2015-05-18T11:29:46.809Z&quot;,
+ * //     &quot;createdBy&quot;: {
+ * //       &quot;sys&quot;: {
+ * //         &quot;type&quot;: &quot;Link&quot;,
+ * //         &quot;linkType&quot;: &quot;User&quot;,
+ * //         &quot;id&quot;: &quot;4FLrUHftHW3v2BLi9fzfjU&quot;
+ * //       }
+ * //     },
+ * //     &quot;updatedAt&quot;: &quot;2015-05-18T11:29:46.809Z&quot;,
+ * //     &quot;updatedBy&quot;: {
+ * //       &quot;sys&quot;: {
+ * //         &quot;type&quot;: &quot;Link&quot;,
+ * //         &quot;linkType&quot;: &quot;User&quot;,
+ * //         &quot;id&quot;: &quot;4FLrUHftHW3v2BLi9fzfjU&quot;
+ * //       }
+ * //     }
+ * //   },
+ * //   &quot;name&quot;: &quot;Contentful Example API&quot;
+ * // }
+ * var space = await client.getSpace(&apos;cfexampleapi&apos;)
+ * 
+ * // Example Deleting a space 
+ * space.delete()
+ * .catch(err =&gt; console.log(err))
+ * 
+ * // Example updating a space
+ * space.name = &apos;Updated Space Name&apos;
+ * space.update()
+ * .then(space =&gt; console.log(space.name) // `Updated Space Name`)
+ * 
+ * // Example getting a contentType
+ * space.getContentType(&apos;contentTypeId&apos;)
+ * .then(contentType =&gt; console.log(contentType)) // @see {ContentType}
+ * 
+ * // Example getting an editorInterface for a contentType
+ * // an editorInterface is a set of configuration that defines how a field look like
+ * // example singleLine, etc...
+ * space.getEditorInterfaceForContentType(&apos;contentTypeId&apos;)
+ * .then(editorInterface =&gt; console.log(editorInterface))
+ * 
+ * // Example creating a contentType
+ * space.createContentType({name: &apos;Post&apos;, fields: []})
+ * .then(ct =&gt; console.log(ct))
+ * 
+ * // Example Creating a contentType with a custom id 
+ * space.createContentTypeWithId(&apos;post&apos;, {name: &apos;Post&apos;, fields: []})
+ * .then(ct =&gt; console.log(ct))
+ * 
+ * // Example getting all entries form a space where contentType is `contentTypeId`
+ * // you can add more query params along with the content_type key, like &apos;limit&apos;:&apos;1000&apos;, &apos;order&apos;:&apos;sys.createdAt&apos; and more
+ * // for more infos about the query check https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters
+ * space.getEntries({content_type: &apos;contentTypeId&apos;})
+ * .then(entries =&gt; console.log(entries.items))
+ * 
+ * // Example Creating an entry with a localized title field
+ * // you can fill in all the fields defined in the contentType with the id &apos;contentTypeId&apos; 
+ * // so if you have another field of type text for example called description, you can add &apos;description&apos; in the fields object 
+ * // that will be sent to the server
+ * space.createEntry(&apos;contentTypeId&apos;, {
+ *   fields: {
+ *     title: {
+ *       &apos;en-US&apos;: &apos;english content&apos;,
+ *       &apos;de-DE&apos;: &apos;german content&apos;
+ *     }
+ *   }
+ * })
+ * .then(e =&gt; console.log(e))
+ * 
+ * // Example getting an entry by id 
+ * space.getEntry(&apos;entryId&apos;)
+ *  .then(entity =&gt; console.log(entry))
+ * 
+ * // Example getting assets 
+ * space.getAssets()
+ *  .then(response =&gt; console.log(response.items))
+ * 
+ * // Example getting an asset
+ * space.getAsset(&apos;assetId&apos;)
+ * .then(asset =&gt; console.log(asset)) // @see {Asset}
+ * 
+ * // Example creating an asset
+ * // After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+ * // After processing the upload property name will be replace by &apos;url&apos;
+ * // if you want to create an asset with a custom id please use the space.createAssetWithId(&apos;id&apos;, data)
+ * space.createAsset(
+ *   fields: {
+ *     file: {
+ *       &apos;en-US&apos;: {
+ *          contentType: &apos;image/jpeg&apos;,
+ *          fileName: &apos;filename_english.jpg&apos;,
+ *          upload: &apos;http://example.com/filename_original_en.jpg&apos;
+ *       },
+ *       &apos;de-DE&apos;: {
+ *          contentType: &apos;image/jpeg&apos;,
+ *          fileName: &apos;filename_german.jpg&apos;,
+ *          upload: &apos;http://example.com/filename_original_de.jpg&apos;
+ *       }
+ *     }
+ *   }
+ * )
+ * .then(asset =&gt; asset.processForAllLocales())
+ */
+
+/**
+ * @typedef {SpaceCollection} SpaceCollection
+ * @property {number} total - Total amount of records in the server
+ * @property {number} skip - A starting point of the collection
+ * @property {number} limit - Amount of records in collection
+ * @property {Array&lt;Space&gt;} items - An array of spaces
+ * @property {function(): Object} toPlainObject - Returns this Space collection as a plain JS object
+ * @example
+ * // require contentful-management
+ * var contentfulManagement = require(&apos;contentful-management&apos;)
+ * var client = contentfulManagement.createClient({
+ * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+ * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+ * }) 
+ * 
+ * client.getSpaces()
+ *   .then((spaceCollection) =&gt; {
+ *     console.log(spaceCollection.items) // list of spaces @see {Space}
+ *   })
+ */
+
+/**
+ * Creates API object with methods to access the Space API
+ * @private
+ * @param {http: Object} params - API initialization params
+ * @prop {Object} http - HTTP client instance
+ * @prop {Object} entities - Object with wrapper methods for each kind of entity
+ * @return {ContentfulSpaceAPI}
+ */
+export default function createSpaceApi ({
+  http
+}) {
+  const {wrapSpace} = entities.space
+  const {wrapContentType, wrapContentTypeCollection} = entities.contentType
+  const {wrapEntry, wrapEntryCollection} = entities.entry
+  const {wrapAsset, wrapAssetCollection} = entities.asset
+  const {wrapLocale, wrapLocaleCollection} = entities.locale
+  const {wrapWebhook, wrapWebhookCollection} = entities.webhook
+  const {wrapRole, wrapRoleCollection} = entities.role
+  const {wrapSpaceMembership, wrapSpaceMembershipCollection} = entities.spaceMembership
+  const {wrapApiKey, wrapApiKeyCollection} = entities.apiKey
+  const {wrapEditorInterface} = entities.editorInterface
+
+  /**
+   * Space instances.
+   * @namespace Space
+   */
+
+  /**
+   * Deletes the space
+   * @memberof Space
+   * @func delete
+   * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * space.delete()
+   * .catch(err =&gt; console.log(err))
+   */
+  function deleteSpace () {
+    return http.delete(&apos;&apos;)
+    .then((response) =&gt; {}, errorHandler)
+  }
+
+  /**
+   * Updates the space
+   * @memberof Space
+   * @func update
+   * @return {Promise&lt;Space.Space&gt;} Promise for the updated space.
+   */
+  function updateSpace () {
+    const raw = this.toPlainObject()
+    const data = omit(raw, [&apos;sys&apos;])
+    return http.put(&apos;&apos;, data, {
+      headers: {
+        &apos;X-Contentful-Version&apos;: raw.sys.version
+      }
+    })
+    .then((response) =&gt; wrapSpace(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Content Type
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;ContentType.ContentType&gt;} Promise for a Content Type
+   * @example
+   */
+  function getContentType (id) {
+    return http.get(&apos;content_types/&apos; + id)
+    .then((response) =&gt; wrapContentType(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets an EditorInterface for a ContentType
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} contentTypeId
+   * @return {Promise&lt;EditorInterface.EditorInterface&gt;} Promise for an EditorInterface
+   * @example
+   * space.getEditorInterfaceForContentType(&apos;contentTypeId&apos;)
+   * .then(editorInterface =&gt; console.log(editorInterface))
+   */
+  function getEditorInterfaceForContentType (contentTypeId) {
+    return http.get(&apos;content_types/&apos; + contentTypeId + &apos;/editor_interface&apos;)
+    .then((response) =&gt; wrapEditorInterface(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Content Types
+   * @memberof ContentfulSpaceAPI
+   * @param  {Object=} query - Object with search parameters. Check the &lt;a href=&quot;https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters&quot;&gt;JS SDK tutorial&lt;/a&gt; and the &lt;a href=&quot;https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters&quot;&gt;REST API reference&lt;/a&gt; for more details.
+   * @return {Promise&lt;ContentType.ContentTypeCollection&gt;} Promise for a collection of Content Types
+   * @example
+   * space.getContentTypes()
+   * .then(contentTypes =&gt; console.log(contentTypes.items))
+   */
+  function getContentTypes (query = {}) {
+    return http.get(&apos;content_types&apos;, createRequestConfig({query: query}))
+    .then((response) =&gt; wrapContentTypeCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Content Type
+   * @memberof ContentfulSpaceAPI
+   * @see {ContentType}
+   * @param {object} data - Object representation of the Content Type to be created
+   * @return {Promise&lt;ContentType.ContentType&gt;} Promise for the newly created Content Type
+   * @example
+   * space.createContentType({name: &apos;Post&apos;, fields: []})
+   * .then(ct =&gt; console.log(ct))
+   */
+  function createContentType (data) {
+    return http.post(&apos;content_types&apos;, data)
+    .then((response) =&gt; wrapContentType(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Content Type with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {ContentType.ContentType}
+   * @param {string} id - Content Type ID
+   * @param {object} data - Object representation of the Content Type to be created
+   * @return {Promise&lt;ContentType.ContentType&gt;} Promise for the newly created Content Type
+   * @example
+   * space.createContentType(&apos;post&apos;, {name: &apos;Post&apos;, fields: []})
+   * .then(ct =&gt; console.log(ct))
+   */
+  function createContentTypeWithId (id, data) {
+    return http.put(&apos;content_types/&apos; + id, data)
+    .then((response) =&gt; wrapContentType(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets an Entry
+   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+   * from your entry in the backend
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @param  {Object=} query - Object with search parameters. In this method it&apos;s only useful for `locale`.
+   * @return {Promise&lt;Entry.Entry&gt;} Promise for an Entry
+   * @example
+   * space.getEntry(&apos;entryId&apos;)
+   * .then(entry =&gt; console.log(entry))
+   */
+  function getEntry (id, query = {}) {
+    normalizeSelect(query)
+    return http.get(&apos;entries/&apos; + id, createRequestConfig({query: query}))
+    .then((response) =&gt; wrapEntry(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Entries
+   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+   * from your entry in the backend
+   * @memberof ContentfulSpaceAPI
+   * @param  {Object=} query - Object with search parameters. Check the &lt;a href=&quot;https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters&quot;&gt;JS SDK tutorial&lt;/a&gt; and the &lt;a href=&quot;https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters&quot;&gt;REST API reference&lt;/a&gt; for more details.
+   * @return {Promise&lt;Entry.EntryCollection&gt;} Promise for a collection of Entries
+   * @example
+   * space.getEntries({content_type: &apos;contentTypeId&apos;})
+   * .then(entries =&gt; console.log(entries.items))
+   */
+  function getEntries (query = {}) {
+    normalizeSelect(query)
+    return http.get(&apos;entries&apos;, createRequestConfig({query: query}))
+    .then((response) =&gt; wrapEntryCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Entry
+   * @memberof ContentfulSpaceAPI
+   * @see {Entry.Entry}
+   * @param {string} contentTypeId - The Content Type which this Entry is based on
+   * @param {object} data - Object representation of the Entry to be created
+   * @return {Promise&lt;Entry.Entry&gt;} Promise for the newly created Entry
+   * @example
+   * space.createEntry(&apos;contentTypeId&apos;, {
+   *   fields: {
+   *     title: {
+   *       &apos;en-US&apos;: &apos;english content&apos;,
+   *       &apos;de-DE&apos;: &apos;german content&apos;
+   *     }
+   *   }
+   * })
+   * .then(e =&gt; console.log(e))
+   */
+  function createEntry (contentTypeId, data) {
+    return http.post(&apos;entries&apos;, data, {
+      headers: {
+        &apos;X-Contentful-Content-Type&apos;: contentTypeId
+      }
+    })
+    .then((response) =&gt; wrapEntry(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Entry with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {Entry.Entry}
+   * @param {string} contentTypeId - The Content Type which this Entry is based on
+   * @param {string} id - Entry ID
+   * @param {object} data - Object representation of the Entry to be created
+   * @return {Promise&lt;Entry.Entry&gt;} Promise for the newly created Entry
+   * @example
+   * space.createEntryWithId(&apos;contentTypeId&apos;, &apos;entryId&apos;, {
+   *   fields: {
+   *     title: {
+   *       &apos;en-US&apos;: &apos;english content&apos;,
+   *       &apos;de-DE&apos;: &apos;german content&apos;
+   *     }
+   *   }
+   * })
+   * .then(e =&gt; console.log(e))
+   */
+  function createEntryWithId (contentTypeId, id, data) {
+    return http.put(&apos;entries/&apos; + id, data, {
+      headers: {
+        &apos;X-Contentful-Content-Type&apos;: contentTypeId
+      }
+    })
+    .then((response) =&gt; wrapEntry(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets an Asset
+   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+   * from your entry in the backend
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @param  {Object=} query - Object with search parameters. In this method it&apos;s only useful for `locale`.
+   * @return {Promise&lt;Asset.Asset&gt;} Promise for an Asset
+   * @example
+   * space.getAsset(&apos;assetId&apos;)
+   * .then(asset =&gt; console.log(asset))
+   */
+  function getAsset (id, query = {}) {
+    normalizeSelect(query)
+    return http.get(&apos;assets/&apos; + id, createRequestConfig({query: query}))
+    .then((response) =&gt; wrapAsset(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Assets
+   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+   * from your entry in the backend
+   * @memberof ContentfulSpaceAPI
+   * @param  {Object=} query - Object with search parameters. Check the &lt;a href=&quot;https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters&quot;&gt;JS SDK tutorial&lt;/a&gt; and the &lt;a href=&quot;https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters&quot;&gt;REST API reference&lt;/a&gt; for more details.
+   * @return {Promise&lt;Asset.AssetCollection&gt;} Promise for a collection of Assets
+   * @example
+   * space.getAssets()
+   * .then(assets =&gt; console.log(assets.items))
+   */
+  function getAssets (query = {}) {
+    normalizeSelect(query)
+    return http.get(&apos;assets&apos;, createRequestConfig({query: query}))
+    .then((response) =&gt; wrapAssetCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+   * @memberof ContentfulSpaceAPI
+   * @see {Asset.Asset}
+   * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+   * @return {Promise&lt;Asset.Asset&gt;} Promise for the newly created Asset
+   * @example
+   * space.createAsset(
+   *   fields: {
+   *     file: {
+   *       &apos;en-US&apos;: {
+   *          contentType: &apos;image/jpeg&apos;,
+   *          fileName: &apos;filename_english.jpg&apos;,
+   *          upload: &apos;http://example.com/filename_original_en.jpg&apos;
+   *       },
+   *       &apos;de-DE&apos;: {
+   *          contentType: &apos;image/jpeg&apos;,
+   *          fileName: &apos;filename_german.jpg&apos;,
+   *          upload: &apos;http://example.com/filename_original_de.jpg&apos;
+   *       }
+   *     }
+   *   }
+   * )
+   * .then(e =&gt; console.log(e))
+   */
+  function createAsset (data) {
+    return http.post(&apos;assets&apos;, data)
+    .then((response) =&gt; wrapAsset(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Asset with a custom id. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+   * @memberof ContentfulSpaceAPI
+   * @see {Asset.Asset}
+   * @param {string} id - Asset ID
+   * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+   * @return {Promise&lt;Asset.Asset&gt;} Promise for the newly created Asset
+   * @example
+   * space.createAssetWithId(&apos;image&apos;, {
+   *   fields: {
+   *     file: {
+   *       &apos;en-US&apos;: {
+   *          contentType: &apos;image/jpeg&apos;,
+   *          fileName: &apos;filename_english.jpg&apos;,
+   *          upload: &apos;http://example.com/filename_original_en.jpg&apos;
+   *       },
+   *       &apos;de-DE&apos;: {
+   *          contentType: &apos;image/jpeg&apos;,
+   *          fileName: &apos;filename_german.jpg&apos;,
+   *          upload: &apos;http://example.com/filename_original_de.jpg&apos;
+   *       }
+   *     }
+   *   }
+   * })
+   * .then(e =&gt; console.log(e))
+   */
+  function createAssetWithId (id, data) {
+    return http.put(&apos;assets/&apos; + id, data)
+    .then((response) =&gt; wrapAsset(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Locale
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;Locale.Locale&gt;} Promise for an Locale
+   * @example
+   * space.getLocale(&apos;localeId&apos;)
+   * .then(locale =&gt; console.log(locale))
+   */
+  function getLocale (id) {
+    return http.get(&apos;locales/&apos; + id)
+    .then((response) =&gt; wrapLocale(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Locales
+   * @memberof ContentfulSpaceAPI
+   * @return {Promise&lt;Locale.LocaleCollection&gt;} Promise for a collection of Locales
+   * @example
+   * space.getLocales()
+   * .then(locales =&gt; console.log(locales.items))
+   */
+  function getLocales () {
+    return http.get(&apos;locales&apos;)
+    .then((response) =&gt; wrapLocaleCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Locale
+   * @memberof ContentfulSpaceAPI
+   * @see {Locale.Locale}
+   * @param {object} data - Object representation of the Locale to be created
+   * @return {Promise&lt;Locale.Locale&gt;} Promise for the newly created Locale
+   * @example
+   * space.createLocale({name: &apos;German (Germany)&apos;, code: &apos;de-DE&apos;})
+   * .then(e =&gt; console.log(e))
+   */
+  function createLocale (data) {
+    return http.post(&apos;locales&apos;, data)
+    .then((response) =&gt; wrapLocale(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Webhook
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;Webhook.Webhook&gt;} Promise for a Webhook
+   * @example
+   * space.getWebhook(&apos;id&apos;)
+   * .then(webhook =&gt; console.log(webhook))
+   */
+  function getWebhook (id) {
+    return http.get(&apos;webhook_definitions/&apos; + id)
+    .then((response) =&gt; wrapWebhook(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Webhooks
+   * @memberof ContentfulSpaceAPI
+   * @return {Promise&lt;Webhook.WebhookCollection&gt;} Promise for a collection of Webhooks
+   * @example
+   * space.getWebhooks()
+   * .then(webhooks =&gt; console.log(webhooks.items))
+   */
+  function getWebhooks () {
+    return http.get(&apos;webhook_definitions&apos;)
+    .then((response) =&gt; wrapWebhookCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Webhook
+   * @memberof ContentfulSpaceAPI
+   * @see {Webhook.Webhook}
+   * @param {object} data - Object representation of the Webhook to be created
+   * @return {Promise&lt;Webhook.Webhook&gt;} Promise for the newly created Webhook
+   * @example
+   * space.createWebhook({})
+   * .then(webhook =&gt; console.log(webhook))
+   */
+  function createWebhook (data) {
+    return http.post(&apos;webhook_definitions&apos;, data)
+    .then((response) =&gt; wrapWebhook(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Webhook with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {Webhook.Webhook}
+   * @param {string} id - Webhook ID
+   * @param {object} data - Object representation of the Webhook to be created
+   * @return {Promise&lt;Webhook.Webhook&gt;} Promise for the newly created Webhook
+   * @example
+   * space.createWebhook(&apos;id&apos;, {})
+   * .then(webhook =&gt; console.log(webhook))
+   */
+  function createWebhookWithId (id, data) {
+    return http.put(&apos;webhook_definitions/&apos; + id, data)
+    .then((response) =&gt; wrapWebhook(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Space Membership
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;SpaceMembership.SpaceMembership&gt;} Promise for a Space Membership
+   * @example
+   * space.getSpaceMembership(&apos;id&apos;)
+   * .then(spaceMembership =&gt; console.log(spaceMembership))
+   */
+  function getSpaceMembership (id) {
+    return http.get(&apos;space_memberships/&apos; + id)
+    .then((response) =&gt; wrapSpaceMembership(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Space Memberships
+   * @memberof ContentfulSpaceAPI
+   * @return {Promise&lt;SpaceMembership.SpaceMembershipCollection&gt;} Promise for a collection of Space Memberships
+   * @example
+   * space.getSpaceMemberships()
+   * .then(spaceMemberships =&gt; console.log(spaceMemberships.items))
+   */
+  function getSpaceMemberships () {
+    return http.get(&apos;space_memberships&apos;)
+    .then((response) =&gt; wrapSpaceMembershipCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Space Membership
+   * @memberof ContentfulSpaceAPI
+   * @see {SpaceMembership.SpaceMembership}
+   * @param {object} data - Object representation of the Space Membership to be created
+   * @return {Promise&lt;SpaceMembership.SpaceMembership&gt;} Promise for the newly created Space Membership
+   * @example
+   * space.createSpaceMembership({})
+   * .then(spaceMembership =&gt; console.log(spaceMembership))
+   */
+  function createSpaceMembership (data) {
+    return http.post(&apos;space_memberships&apos;, data)
+    .then((response) =&gt; wrapSpaceMembership(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Space Membership with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {SpaceMembership.SpaceMembership}
+   * @param {string} id - Space Membership ID
+   * @param {object} data - Object representation of the Space Membership to be created
+   * @return {Promise&lt;SpaceMembership.SpaceMembership&gt;} Promise for the newly created Space Membership
+   * @example
+   * space.createSpaceMembership(&apos;id&apos;, {})
+   * .then(spaceMembership =&gt; console.log(spaceMembership))
+   */
+  function createSpaceMembershipWithId (id, data) {
+    return http.put(&apos;space_memberships/&apos; + id, data)
+    .then((response) =&gt; wrapSpaceMembership(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Role
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;Role.Role&gt;} Promise for a Role
+   * @example
+   * space.getRole(&apos;id&apos;)
+   * .then(role =&gt; console.log(role))
+   */
+  function getRole (id) {
+    return http.get(&apos;roles/&apos; + id)
+    .then((response) =&gt; wrapRole(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Roles
+   * @memberof ContentfulSpaceAPI
+   * @return {Promise&lt;Role.RoleCollection&gt;} Promise for a collection of Roles
+   * @example
+   * space.getRoles()
+   * .then(roles =&gt; console.log(roles.items))
+   */
+  function getRoles () {
+    return http.get(&apos;roles&apos;)
+    .then((response) =&gt; wrapRoleCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Role
+   * @memberof ContentfulSpaceAPI
+   * @see {Role.Role}
+   * @param {object} data - Object representation of the Role to be created
+   * @return {Promise&lt;Role.Role&gt;} Promise for the newly created Role
+   * @example
+   * space.createRole({})
+   * .then(role =&gt; console.log(role))
+   */
+  function createRole (data) {
+    return http.post(&apos;roles&apos;, data)
+    .then((response) =&gt; wrapRole(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Role with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {Role.Role}
+   * @param {string} id - Role ID
+   * @param {object} data - Object representation of the Role to be created
+   * @return {Promise&lt;Role.Role&gt;} Promise for the newly created Role
+   * @example
+   * space.createRole(&apos;id&apos;, {})
+   * .then(role =&gt; console.log(role))
+   */
+  function createRoleWithId (id, data) {
+    return http.put(&apos;roles/&apos; + id, data)
+    .then((response) =&gt; wrapRole(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a Api Key
+   * @memberof ContentfulSpaceAPI
+   * @param  {string} id
+   * @return {Promise&lt;ApiKey.ApiKey&gt;} Promise for a Api Key
+   * @example
+   * space.getApiKey(&apos;id&apos;)
+   * .then(apiKey =&gt; console.log(apiKey))
+   */
+  function getApiKey (id) {
+    return http.get(&apos;api_keys/&apos; + id)
+    .then((response) =&gt; wrapApiKey(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Api Keys
+   * @memberof ContentfulSpaceAPI
+   * @return {Promise&lt;ApiKey.ApiKeyCollection&gt;} Promise for a collection of Api Keys
+   * @example
+   * space.getApiKeys()
+   * .then(apiKeys =&gt; console.log(apiKeys.items))
+   */
+  function getApiKeys () {
+    return http.get(&apos;api_keys&apos;)
+    .then((response) =&gt; wrapApiKeyCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Api Key
+   * @memberof ContentfulSpaceAPI
+   * @see {ApiKey.ApiKey}
+   * @param {object} data - Object representation of the Api Key to be created
+   * @return {Promise&lt;ApiKey.ApiKey&gt;} Promise for the newly created Api Key
+   * @example
+   * space.createApiKey({})
+   * .then(apiKey =&gt; console.log(apiKey))
+   */
+  function createApiKey (data) {
+    return http.post(&apos;api_keys&apos;, data)
+    .then((response) =&gt; wrapApiKey(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a Api Key with a custom id
+   * @memberof ContentfulSpaceAPI
+   * @see {ApiKey.ApiKey}
+   * @param {string} id - Api Key ID
+   * @param {object} data - Object representation of the Api Key to be created
+   * @return {Promise&lt;ApiKey.ApiKey&gt;} Promise for the newly created Api Key
+   * @example
+   * space.createApiKey(&apos;id&apos;, {})
+   * .then(apiKey =&gt; console.log(apiKey))
+   */
+  function createApiKeyWithId (id, data) {
+    return http.put(&apos;api_keys/&apos; + id, data)
+    .then((response) =&gt; wrapApiKey(http, response.data), errorHandler)
+  }
+
+  /*
+   * sdk relies heavily on sys metadata
+   * so we cannot omit the sys property on sdk level
+   * */
+  function normalizeSelect (query) {
+    if (query.select &amp;&amp; !/sys/i.test(query.select)) {
+      query.select += &apos;,sys&apos;
+    }
+  }
+
+  return {
+    delete: deleteSpace,
+    update: updateSpace,
+    getContentType: getContentType,
+    getContentTypes: getContentTypes,
+    createContentType: createContentType,
+    createContentTypeWithId: createContentTypeWithId,
+    getEditorInterfaceForContentType: getEditorInterfaceForContentType,
+    getEntry: getEntry,
+    getEntries: getEntries,
+    createEntry: createEntry,
+    createEntryWithId: createEntryWithId,
+    getAsset: getAsset,
+    getAssets: getAssets,
+    createAsset: createAsset,
+    createAssetWithId: createAssetWithId,
+    getLocale: getLocale,
+    getLocales: getLocales,
+    createLocale: createLocale,
+    getWebhook: getWebhook,
+    getWebhooks: getWebhooks,
+    createWebhook: createWebhook,
+    createWebhookWithId: createWebhookWithId,
+    getRole: getRole,
+    getRoles: getRoles,
+    createRole: createRole,
+    createRoleWithId: createRoleWithId,
+    getSpaceMembership: getSpaceMembership,
+    getSpaceMemberships: getSpaceMemberships,
+    createSpaceMembership: createSpaceMembership,
+    createSpaceMembershipWithId: createSpaceMembershipWithId,
+    getApiKey: getApiKey,
+    getApiKeys: getApiKeys,
+    createApiKey: createApiKey,
+    createApiKeyWithId: createApiKeyWithId
+  }
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
