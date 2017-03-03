@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/entities/upload.js | contentful-management.js API Document</title>
+  <title data-ice="title">lib/entities/space-membership.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,51 +60,64 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/upload.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/space-membership.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import cloneDeep from &apos;lodash/cloneDeep&apos;
 import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
 import enhanceWithMethods from &apos;../enhance-with-methods&apos;
 import {
+  createUpdateEntity,
   createDeleteEntity
 } from &apos;../instance-actions&apos;
 
 /**
- * @typedef {Upload} Upload
- * @property {Object} sys - Standard system metadata with additional asset specific properties
- * @property {string} sys.id - The id of the upload
- * @property {function(): Promise} delete - Deletes an upload
- * @property {function(): Object} toPlainObject - Returns this Asset as a plain JS object
- * @example
- *
- * // require contentful-management
- * var contentfulManagement = require(&apos;contentful-management&apos;)
- * var client = contentfulManagement.createClient({
- * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
- * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
- * })
- *
- * var space = await client.getSpace(&apos;SPACE_ID&apos;)
- * const uploadStream = createReadStream(&apos;path/to/filename_english.jpg&apos;)
- * space.createUpload(uploadStream)
- * .then((upload) =&gt; {
- *   // Delete upload again
- *   return upload.delete()
- * })
- * .catch(err =&gt; console.log(err))
+ * @typedef {SpaceMembership} SpaceMembership
+ * @property {Object} sys - System metadata
+ * @property {string} name
+ * @property {boolean} admin - User is an admin
+ * @property {Array} roles - Array of Role Links
+ * @property {function(): Object} toPlainObject - Returns this Space Membership as a plain JS object
  */
 
-function createUploadApi (http) {
+/**
+ * @typedef {SpaceMembershipCollection} SpaceMembershipCollection
+ * @property {number} total - Total amount of records in the server
+ * @property {number} skip - A starting point of the collection
+ * @property {number} limit - Amount of records in collection
+ * @property {Array&lt;SpaceMembership.SpaceMembership&gt;} items
+ * @property {function(): Object} toPlainObject() - Returns this Space Membership collection as a plain JS object
+ */
+
+function createSpaceMembershipApi (http) {
   return {
+
+    /**
+     * Sends an update to the server with any changes made to the object&apos;s properties
+     * @memberof SpaceMembership
+     * @func update
+     * @return {Promise&lt;SpaceMembership&gt;} Object returned from the server with updated changes.
+     * @example
+     * spaceMembership.name = &apos;New name&apos;
+     * spaceMembership.update()
+     * .then(spaceMembership =&gt; console.log(spaceMembership.name))
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: &apos;space_memberships&apos;,
+      wrapperMethod: wrapSpaceMembership
+    }),
+
     /**
      * Deletes this object on the server.
-     * @memberof Upload
+     * @memberof SpaceMembership
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
+     * spaceMembership.delete()
+     * .catch(err =&gt; console.log(err))
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: &apos;uploads&apos;
+      entityPath: &apos;space_memberships&apos;
     })
   }
 }
@@ -112,13 +125,25 @@ function createUploadApi (http) {
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw upload data
- * @return {Asset} Wrapped upload data
+ * @param {Object} data - Raw space membership data
+ * @return {SpaceMembership} Wrapped space membership data
  */
-export function wrapUpload (http, data) {
-  const upload = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(upload, createUploadApi(http))
-  return freezeSys(upload)
+export function wrapSpaceMembership (http, data) {
+  const spaceMembership = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(spaceMembership, createSpaceMembershipApi(http))
+  return freezeSys(spaceMembership)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw space membership collection data
+ * @return {SpaceMembershipCollection} Wrapped space membership collection data
+ */
+export function wrapSpaceMembershipCollection (http, data) {
+  const spaceMemberships = toPlainObject(cloneDeep(data))
+  spaceMemberships.items = spaceMemberships.items.map((entity) =&gt; wrapSpaceMembership(http, entity))
+  return freezeSys(spaceMemberships)
 }
 </code></pre>
 
