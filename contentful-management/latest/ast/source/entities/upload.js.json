@@ -1,0 +1,1359 @@
+{
+  "type": "Program",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "cloneDeep",
+            "range": [
+              7,
+              16
+            ],
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 7
+              },
+              "end": {
+                "line": 1,
+                "column": 16
+              }
+            }
+          },
+          "range": [
+            7,
+            16
+          ],
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 16
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "lodash/cloneDeep",
+        "raw": "'lodash/cloneDeep'",
+        "range": [
+          22,
+          40
+        ],
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 22
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          }
+        }
+      },
+      "range": [
+        0,
+        41
+      ],
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "freezeSys",
+            "range": [
+              50,
+              59
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 9
+              },
+              "end": {
+                "line": 2,
+                "column": 18
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "freezeSys",
+            "range": [
+              50,
+              59
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 9
+              },
+              "end": {
+                "line": 2,
+                "column": 18
+              }
+            }
+          },
+          "range": [
+            50,
+            59
+          ],
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 9
+            },
+            "end": {
+              "line": 2,
+              "column": 18
+            }
+          }
+        },
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "toPlainObject",
+            "range": [
+              61,
+              74
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 20
+              },
+              "end": {
+                "line": 2,
+                "column": 33
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "toPlainObject",
+            "range": [
+              61,
+              74
+            ],
+            "loc": {
+              "start": {
+                "line": 2,
+                "column": 20
+              },
+              "end": {
+                "line": 2,
+                "column": 33
+              }
+            }
+          },
+          "range": [
+            61,
+            74
+          ],
+          "loc": {
+            "start": {
+              "line": 2,
+              "column": 20
+            },
+            "end": {
+              "line": 2,
+              "column": 33
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "contentful-sdk-core",
+        "raw": "'contentful-sdk-core'",
+        "range": [
+          82,
+          103
+        ],
+        "loc": {
+          "start": {
+            "line": 2,
+            "column": 41
+          },
+          "end": {
+            "line": 2,
+            "column": 62
+          }
+        }
+      },
+      "range": [
+        41,
+        104
+      ],
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "enhanceWithMethods",
+            "range": [
+              111,
+              129
+            ],
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 25
+              }
+            }
+          },
+          "range": [
+            111,
+            129
+          ],
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 7
+            },
+            "end": {
+              "line": 3,
+              "column": 25
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../enhance-with-methods",
+        "raw": "'../enhance-with-methods'",
+        "range": [
+          135,
+          160
+        ],
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 31
+          },
+          "end": {
+            "line": 3,
+            "column": 56
+          }
+        }
+      },
+      "range": [
+        104,
+        161
+      ],
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "local": {
+            "type": "Identifier",
+            "name": "createDeleteEntity",
+            "range": [
+              172,
+              190
+            ],
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 2
+              },
+              "end": {
+                "line": 5,
+                "column": 20
+              }
+            }
+          },
+          "imported": {
+            "type": "Identifier",
+            "name": "createDeleteEntity",
+            "range": [
+              172,
+              190
+            ],
+            "loc": {
+              "start": {
+                "line": 5,
+                "column": 2
+              },
+              "end": {
+                "line": 5,
+                "column": 20
+              }
+            }
+          },
+          "range": [
+            172,
+            190
+          ],
+          "loc": {
+            "start": {
+              "line": 5,
+              "column": 2
+            },
+            "end": {
+              "line": 5,
+              "column": 20
+            }
+          }
+        }
+      ],
+      "source": {
+        "type": "Literal",
+        "value": "../instance-actions",
+        "raw": "'../instance-actions'",
+        "range": [
+          198,
+          219
+        ],
+        "loc": {
+          "start": {
+            "line": 6,
+            "column": 7
+          },
+          "end": {
+            "line": 6,
+            "column": 28
+          }
+        },
+        "trailingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @typedef {Upload} Upload\n * @property {Object} sys - Standard system metadata with additional asset specific properties\n * @property {string} sys.id - The id of the upload\n * @property {function(): Promise<Asset>} delete - Deletes an upload\n * @property {function(): Object} toPlainObject - Returns this Asset as a plain JS object\n * @example\n *\n * // require contentful-management\n * var contentfulManagement = require('contentful-management')\n * var client = contentfulManagement.createClient({\n * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app\n * accessToken: 'YOUR_ACCESS_TOKEN'\n * })\n *\n * var space = await client.getSpace('SPACE_ID')\n * const uploadStream = createReadStream('path/to/filename_english.jpg')\n * space.createUpload(uploadStream)\n * .then((upload) => {\n *   // Delte upload again\n *   return upload.delete()\n * })\n * .catch(err => console.log(err))\n ",
+            "range": [
+              221,
+              1162
+            ],
+            "loc": {
+              "start": {
+                "line": 8,
+                "column": 0
+              },
+              "end": {
+                "line": 31,
+                "column": 3
+              }
+            }
+          }
+        ]
+      },
+      "range": [
+        161,
+        1164
+      ],
+      "loc": {
+        "start": {
+          "line": 4,
+          "column": 0
+        },
+        "end": {
+          "line": 33,
+          "column": 0
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "id": {
+        "type": "Identifier",
+        "name": "createUploadApi",
+        "range": [
+          1173,
+          1188
+        ],
+        "loc": {
+          "start": {
+            "line": 33,
+            "column": 9
+          },
+          "end": {
+            "line": 33,
+            "column": 24
+          }
+        }
+      },
+      "params": [
+        {
+          "type": "Identifier",
+          "name": "http",
+          "range": [
+            1190,
+            1194
+          ],
+          "loc": {
+            "start": {
+              "line": 33,
+              "column": 26
+            },
+            "end": {
+              "line": 33,
+              "column": 30
+            }
+          }
+        }
+      ],
+      "body": {
+        "type": "BlockStatement",
+        "body": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "ObjectExpression",
+              "properties": [
+                {
+                  "type": "Property",
+                  "key": {
+                    "type": "Identifier",
+                    "name": "delete",
+                    "range": [
+                      1449,
+                      1455
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 42,
+                        "column": 4
+                      },
+                      "end": {
+                        "line": 42,
+                        "column": 10
+                      }
+                    }
+                  },
+                  "value": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "createDeleteEntity",
+                      "range": [
+                        1457,
+                        1475
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 42,
+                          "column": 12
+                        },
+                        "end": {
+                          "line": 42,
+                          "column": 30
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "ObjectExpression",
+                        "properties": [
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                1484,
+                                1488
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 43,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 43,
+                                  "column": 10
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Identifier",
+                              "name": "http",
+                              "range": [
+                                1490,
+                                1494
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 43,
+                                  "column": 12
+                                },
+                                "end": {
+                                  "line": 43,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              1484,
+                              1494
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 43,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 43,
+                                "column": 16
+                              }
+                            }
+                          },
+                          {
+                            "type": "Property",
+                            "key": {
+                              "type": "Identifier",
+                              "name": "entityPath",
+                              "range": [
+                                1502,
+                                1512
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 44,
+                                  "column": 6
+                                },
+                                "end": {
+                                  "line": 44,
+                                  "column": 16
+                                }
+                              }
+                            },
+                            "value": {
+                              "type": "Literal",
+                              "value": "uploads",
+                              "raw": "'uploads'",
+                              "range": [
+                                1514,
+                                1523
+                              ],
+                              "loc": {
+                                "start": {
+                                  "line": 44,
+                                  "column": 18
+                                },
+                                "end": {
+                                  "line": 44,
+                                  "column": 27
+                                }
+                              }
+                            },
+                            "kind": "init",
+                            "method": false,
+                            "shorthand": false,
+                            "computed": false,
+                            "range": [
+                              1502,
+                              1523
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 44,
+                                "column": 6
+                              },
+                              "end": {
+                                "line": 44,
+                                "column": 27
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          1476,
+                          1529
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 42,
+                            "column": 31
+                          },
+                          "end": {
+                            "line": 45,
+                            "column": 5
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      1457,
+                      1530
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 42,
+                        "column": 12
+                      },
+                      "end": {
+                        "line": 45,
+                        "column": 6
+                      }
+                    }
+                  },
+                  "kind": "init",
+                  "method": false,
+                  "shorthand": false,
+                  "computed": false,
+                  "range": [
+                    1449,
+                    1530
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 42,
+                      "column": 4
+                    },
+                    "end": {
+                      "line": 45,
+                      "column": 6
+                    }
+                  },
+                  "leadingComments": [
+                    {
+                      "type": "Block",
+                      "value": "*\n     * Deletes this object on the server.\n     * @memberof Upload\n     * @func delete\n     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.\n     * @example\n     ",
+                      "range": [
+                        1213,
+                        1444
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 35,
+                          "column": 4
+                        },
+                        "end": {
+                          "line": 41,
+                          "column": 7
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "range": [
+                1207,
+                1534
+              ],
+              "loc": {
+                "start": {
+                  "line": 34,
+                  "column": 9
+                },
+                "end": {
+                  "line": 46,
+                  "column": 3
+                }
+              }
+            },
+            "range": [
+              1200,
+              1535
+            ],
+            "loc": {
+              "start": {
+                "line": 34,
+                "column": 2
+              },
+              "end": {
+                "line": 47,
+                "column": 0
+              }
+            }
+          }
+        ],
+        "range": [
+          1196,
+          1536
+        ],
+        "loc": {
+          "start": {
+            "line": 33,
+            "column": 32
+          },
+          "end": {
+            "line": 47,
+            "column": 1
+          }
+        }
+      },
+      "generator": false,
+      "expression": false,
+      "range": [
+        1164,
+        1536
+      ],
+      "loc": {
+        "start": {
+          "line": 33,
+          "column": 0
+        },
+        "end": {
+          "line": 47,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @typedef {Upload} Upload\n * @property {Object} sys - Standard system metadata with additional asset specific properties\n * @property {string} sys.id - The id of the upload\n * @property {function(): Promise<Asset>} delete - Deletes an upload\n * @property {function(): Object} toPlainObject - Returns this Asset as a plain JS object\n * @example\n *\n * // require contentful-management\n * var contentfulManagement = require('contentful-management')\n * var client = contentfulManagement.createClient({\n * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app\n * accessToken: 'YOUR_ACCESS_TOKEN'\n * })\n *\n * var space = await client.getSpace('SPACE_ID')\n * const uploadStream = createReadStream('path/to/filename_english.jpg')\n * space.createUpload(uploadStream)\n * .then((upload) => {\n *   // Delte upload again\n *   return upload.delete()\n * })\n * .catch(err => console.log(err))\n ",
+          "range": [
+            221,
+            1162
+          ],
+          "loc": {
+            "start": {
+              "line": 8,
+              "column": 0
+            },
+            "end": {
+              "line": 31,
+              "column": 3
+            }
+          }
+        }
+      ],
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw upload data\n * @return {Asset} Wrapped upload data\n ",
+          "range": [
+            1538,
+            1685
+          ],
+          "loc": {
+            "start": {
+              "line": 49,
+              "column": 0
+            },
+            "end": {
+              "line": 54,
+              "column": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "id": {
+          "type": "Identifier",
+          "name": "wrapUpload",
+          "range": [
+            1702,
+            1712
+          ],
+          "loc": {
+            "start": {
+              "line": 55,
+              "column": 16
+            },
+            "end": {
+              "line": 55,
+              "column": 26
+            }
+          }
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "name": "http",
+            "range": [
+              1714,
+              1718
+            ],
+            "loc": {
+              "start": {
+                "line": 55,
+                "column": 28
+              },
+              "end": {
+                "line": 55,
+                "column": 32
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "name": "data",
+            "range": [
+              1720,
+              1724
+            ],
+            "loc": {
+              "start": {
+                "line": 55,
+                "column": 34
+              },
+              "end": {
+                "line": 55,
+                "column": 38
+              }
+            }
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "body": [
+            {
+              "type": "VariableDeclaration",
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "id": {
+                    "type": "Identifier",
+                    "name": "upload",
+                    "range": [
+                      1736,
+                      1742
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 56,
+                        "column": 8
+                      },
+                      "end": {
+                        "line": 56,
+                        "column": 14
+                      }
+                    }
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "toPlainObject",
+                      "range": [
+                        1745,
+                        1758
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 56,
+                          "column": 17
+                        },
+                        "end": {
+                          "line": 56,
+                          "column": 30
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "CallExpression",
+                        "callee": {
+                          "type": "Identifier",
+                          "name": "cloneDeep",
+                          "range": [
+                            1759,
+                            1768
+                          ],
+                          "loc": {
+                            "start": {
+                              "line": 56,
+                              "column": 31
+                            },
+                            "end": {
+                              "line": 56,
+                              "column": 40
+                            }
+                          }
+                        },
+                        "arguments": [
+                          {
+                            "type": "Identifier",
+                            "name": "data",
+                            "range": [
+                              1769,
+                              1773
+                            ],
+                            "loc": {
+                              "start": {
+                                "line": 56,
+                                "column": 41
+                              },
+                              "end": {
+                                "line": 56,
+                                "column": 45
+                              }
+                            }
+                          }
+                        ],
+                        "range": [
+                          1759,
+                          1774
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 56,
+                            "column": 31
+                          },
+                          "end": {
+                            "line": 56,
+                            "column": 46
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      1745,
+                      1775
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 56,
+                        "column": 17
+                      },
+                      "end": {
+                        "line": 56,
+                        "column": 47
+                      }
+                    }
+                  },
+                  "range": [
+                    1736,
+                    1775
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 56,
+                      "column": 8
+                    },
+                    "end": {
+                      "line": 56,
+                      "column": 47
+                    }
+                  }
+                }
+              ],
+              "kind": "const",
+              "range": [
+                1730,
+                1778
+              ],
+              "loc": {
+                "start": {
+                  "line": 56,
+                  "column": 2
+                },
+                "end": {
+                  "line": 57,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "expression": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "enhanceWithMethods",
+                  "range": [
+                    1778,
+                    1796
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 57,
+                      "column": 2
+                    },
+                    "end": {
+                      "line": 57,
+                      "column": 20
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "upload",
+                    "range": [
+                      1797,
+                      1803
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 57,
+                        "column": 21
+                      },
+                      "end": {
+                        "line": 57,
+                        "column": 27
+                      }
+                    }
+                  },
+                  {
+                    "type": "CallExpression",
+                    "callee": {
+                      "type": "Identifier",
+                      "name": "createUploadApi",
+                      "range": [
+                        1805,
+                        1820
+                      ],
+                      "loc": {
+                        "start": {
+                          "line": 57,
+                          "column": 29
+                        },
+                        "end": {
+                          "line": 57,
+                          "column": 44
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "type": "Identifier",
+                        "name": "http",
+                        "range": [
+                          1821,
+                          1825
+                        ],
+                        "loc": {
+                          "start": {
+                            "line": 57,
+                            "column": 45
+                          },
+                          "end": {
+                            "line": 57,
+                            "column": 49
+                          }
+                        }
+                      }
+                    ],
+                    "range": [
+                      1805,
+                      1826
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 57,
+                        "column": 29
+                      },
+                      "end": {
+                        "line": 57,
+                        "column": 50
+                      }
+                    }
+                  }
+                ],
+                "range": [
+                  1778,
+                  1827
+                ],
+                "loc": {
+                  "start": {
+                    "line": 57,
+                    "column": 2
+                  },
+                  "end": {
+                    "line": 57,
+                    "column": 51
+                  }
+                }
+              },
+              "range": [
+                1778,
+                1830
+              ],
+              "loc": {
+                "start": {
+                  "line": 57,
+                  "column": 2
+                },
+                "end": {
+                  "line": 58,
+                  "column": 2
+                }
+              }
+            },
+            {
+              "type": "ReturnStatement",
+              "argument": {
+                "type": "CallExpression",
+                "callee": {
+                  "type": "Identifier",
+                  "name": "freezeSys",
+                  "range": [
+                    1837,
+                    1846
+                  ],
+                  "loc": {
+                    "start": {
+                      "line": 58,
+                      "column": 9
+                    },
+                    "end": {
+                      "line": 58,
+                      "column": 18
+                    }
+                  }
+                },
+                "arguments": [
+                  {
+                    "type": "Identifier",
+                    "name": "upload",
+                    "range": [
+                      1847,
+                      1853
+                    ],
+                    "loc": {
+                      "start": {
+                        "line": 58,
+                        "column": 19
+                      },
+                      "end": {
+                        "line": 58,
+                        "column": 25
+                      }
+                    }
+                  }
+                ],
+                "range": [
+                  1837,
+                  1854
+                ],
+                "loc": {
+                  "start": {
+                    "line": 58,
+                    "column": 9
+                  },
+                  "end": {
+                    "line": 58,
+                    "column": 26
+                  }
+                }
+              },
+              "range": [
+                1830,
+                1855
+              ],
+              "loc": {
+                "start": {
+                  "line": 58,
+                  "column": 2
+                },
+                "end": {
+                  "line": 59,
+                  "column": 0
+                }
+              }
+            }
+          ],
+          "range": [
+            1726,
+            1856
+          ],
+          "loc": {
+            "start": {
+              "line": 55,
+              "column": 40
+            },
+            "end": {
+              "line": 59,
+              "column": 1
+            }
+          }
+        },
+        "generator": false,
+        "expression": false,
+        "range": [
+          1693,
+          1856
+        ],
+        "loc": {
+          "start": {
+            "line": 55,
+            "column": 7
+          },
+          "end": {
+            "line": 59,
+            "column": 1
+          }
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw upload data\n * @return {Asset} Wrapped upload data\n ",
+            "range": [
+              1538,
+              1685
+            ],
+            "loc": {
+              "start": {
+                "line": 49,
+                "column": 0
+              },
+              "end": {
+                "line": 54,
+                "column": 3
+              }
+            }
+          }
+        ],
+        "trailingComments": []
+      },
+      "specifiers": [],
+      "source": null,
+      "range": [
+        1686,
+        1856
+      ],
+      "loc": {
+        "start": {
+          "line": 55,
+          "column": 0
+        },
+        "end": {
+          "line": 59,
+          "column": 1
+        }
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw upload data\n * @return {Asset} Wrapped upload data\n ",
+          "range": [
+            1538,
+            1685
+          ],
+          "loc": {
+            "start": {
+              "line": 49,
+              "column": 0
+            },
+            "end": {
+              "line": 54,
+              "column": 3
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "sourceType": "module",
+  "range": [
+    0,
+    1856
+  ],
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 59,
+      "column": 1
+    }
+  },
+  "comments": [
+    {
+      "type": "Block",
+      "value": "*\n * @typedef {Upload} Upload\n * @property {Object} sys - Standard system metadata with additional asset specific properties\n * @property {string} sys.id - The id of the upload\n * @property {function(): Promise<Asset>} delete - Deletes an upload\n * @property {function(): Object} toPlainObject - Returns this Asset as a plain JS object\n * @example\n *\n * // require contentful-management\n * var contentfulManagement = require('contentful-management')\n * var client = contentfulManagement.createClient({\n * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app\n * accessToken: 'YOUR_ACCESS_TOKEN'\n * })\n *\n * var space = await client.getSpace('SPACE_ID')\n * const uploadStream = createReadStream('path/to/filename_english.jpg')\n * space.createUpload(uploadStream)\n * .then((upload) => {\n *   // Delte upload again\n *   return upload.delete()\n * })\n * .catch(err => console.log(err))\n ",
+      "range": [
+        221,
+        1162
+      ],
+      "loc": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 31,
+          "column": 3
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n     * Deletes this object on the server.\n     * @memberof Upload\n     * @func delete\n     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.\n     * @example\n     ",
+      "range": [
+        1213,
+        1444
+      ],
+      "loc": {
+        "start": {
+          "line": 35,
+          "column": 4
+        },
+        "end": {
+          "line": 41,
+          "column": 7
+        }
+      }
+    },
+    {
+      "type": "Block",
+      "value": "*\n * @private\n * @param {Object} http - HTTP client instance\n * @param {Object} data - Raw upload data\n * @return {Asset} Wrapped upload data\n ",
+      "range": [
+        1538,
+        1685
+      ],
+      "loc": {
+        "start": {
+          "line": 49,
+          "column": 0
+        },
+        "end": {
+          "line": 54,
+          "column": 3
+        }
+      }
+    }
+  ]
+}
