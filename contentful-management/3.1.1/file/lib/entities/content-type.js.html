@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/entities/content-type.js | contentful-management.js API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/contentful/contentful-management.js.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentfulManagement">ContentfulManagement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ClientAPI">ClientAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Space">Space</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceCollection">SpaceCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ErrorResponse">ErrorResponse</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">entities</div><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKey">ApiKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKeyCollection">ApiKeyCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Asset">Asset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AssetCollection">AssetCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentType">ContentType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentTypeCollection">ContentTypeCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EditorInterface">EditorInterface</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EntryCollection">EntryCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Locale">Locale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LocaleCollection">LocaleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Role">Role</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-RoleCollection">RoleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembership">SpaceMembership</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembershipCollection">SpaceMembershipCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Upload">Upload</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Webhook">Webhook</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebhookCollection">WebhookCollection</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/content-type.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import cloneDeep from &apos;lodash/cloneDeep&apos;
+import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
+import enhanceWithMethods from &apos;../enhance-with-methods&apos;
+import {
+  createUpdateEntity,
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker
+} from &apos;../instance-actions&apos;
+import {wrapEditorInterface} from &apos;./editor-interface&apos;
+import errorHandler from &apos;../error-handler&apos;
+
+/**
+ * @typedef {ContentType} ContentType
+ * @property {Object} sys - System metadata
+ * @property {string} name - name of the contentType
+ * @property {string} description - description of the contentType
+ * @property {string} displayField - Field used as the main display field for Entries
+ * @property {Array&lt;Field&gt;} fields - All the fields contained in this Content Type
+ * @property {function(): Object} toPlainObject() - Returns this Content Type as a plain JS object
+ * @example
+ * // require contentful-management
+ * var contentfulManagement = require(&apos;contentful-management&apos;)
+ * var client = contentfulManagement.createClient({
+ * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+ * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+ * })
+ *
+ * //=======================================================================================================
+ * // You can get an Entry object by
+ * //
+ * // 1. Creating one
+ * //
+ * // var contentType = await space.createContentType({name: &apos;Post&apos;, fields: []})
+ * //
+ * // OR
+ * //
+ * // 2. Get an existing one
+ * //
+ * // var contentType = await space.getContentType(&apos;contentTypeId&apos;)
+ * //=======================================================================================================
+ *
+ * // Example updating a ContentType
+ * contentType.name = &apos;New name&apos;
+ * contentType.update()
+ * .then(contentType =&gt; console.log(contentType.name))
+ *
+ * //Example deleting a content type
+ * contentType.delete()
+ * .catch(err =&gt; console.log(err))
+ */
+
+/**
+ * @typedef {ContentTypeCollection} ContentTypeCollection
+ * @property {number} total - Total amount of records in the server
+ * @property {number} skip - A starting point of the collection
+ * @property {number} limit - Amount of records in collection
+ * @property {ContentType[]} items - An array of contentTypes
+ * @property {function(): Object} toPlainObject - Returns this Content Type collection as a plain JS object
+ * @example
+ *
+ * // require contentful-management
+ * var contentfulManagement = require(&apos;contentful-management&apos;)
+ * var client = contentfulManagement.createClient({
+ * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+ * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+ * })
+ *
+ * var space = await client.getSpace(&apos;SPACE_ID&apos;)
+ * //Example getting contentTypes
+ * space.getContentTypes()
+ *  .then(contentTypes =&gt; console.log(contentTypes.items))
+ */
+
+function createContentTypeApi (http) {
+  return {
+
+    /**
+     * Sends an update to the server with any changes made to the object&apos;s properties
+     * @memberof ContentType
+     * @func update
+     * @return {Promise&lt;ContentType&gt;} Object returned from the server with updated changes.
+     * @example
+     * contentType.name = &apos;New name&apos;
+     * contentType.update()
+     * .then(contentType =&gt; console.log(contentType.name))
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: &apos;content_types&apos;,
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof ContentType
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * contentType.delete()
+     * .catch(err =&gt; console.log(err))
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: &apos;content_types&apos;
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof ContentType
+     * @func publish
+     * @return {Promise&lt;ContentType&gt;} Object returned from the server with updated metadata.
+     * @example
+     * contentType.publish()
+     * .then(contentType =&gt; console.log(contentType.sys.publishedVersion))
+     */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: &apos;content_types&apos;,
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof ContentType
+     * @func unpublish
+     * @return {Promise&lt;ContentType&gt;} Object returned from the server with updated metadata.
+     * @example
+     * contentType.unpublish()
+     * .then(contentType =&gt; console.log(contentType.sys))
+     */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: &apos;content_types&apos;,
+      wrapperMethod: wrapContentType
+    }),
+
+    /**
+     * Gets the editor interface for the object &lt;br /&gt;
+     * &lt;strong&gt;Important note&lt;/strong&gt;: The editor interface only represent a published contentType.&lt;br /&gt;
+     * To get the most recent representation of the contentType make sure to publish it first
+     * @memberof ContentType
+     * @func getEditorInterface
+     * @return {Promise&lt;EditorInterface.EditorInterface&gt;} Object returned from the server with the current editor interface.
+     * @example
+     * contentType.getEditorInterface()
+     * .then(editorInterface =&gt; console.log(editorInterface.controls))
+     */
+    getEditorInterface: function () {
+      return http.get(&apos;content_types/&apos; + this.sys.id + &apos;/editor_interface&apos;)
+      .then((response) =&gt; wrapEditorInterface(http, response.data), errorHandler)
+    },
+    /**
+     * Checks if the contentType is published. A published contentType might have unpublished changes (@see {ContentType.isUpdated})
+     * @memberof ContentType
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the contentType is updated. This means the contentType was previously published but has unpublished changes.
+     * @memberof ContentType
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the contentType is in draft mode. This means it is not published.
+     * @memberof ContentType
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker()
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw content type data
+ * @return {ContentType} Wrapped content type data
+ */
+export function wrapContentType (http, data) {
+  const contentType = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(contentType, createContentTypeApi(http))
+  return freezeSys(contentType)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw content type collection data
+ * @return {ContentTypeCollection} Wrapped content type collection data
+ */
+export function wrapContentTypeCollection (http, data) {
+  const contentTypes = toPlainObject(cloneDeep(data))
+  contentTypes.items = contentTypes.items.map((entity) =&gt; wrapContentType(http, entity))
+  return freezeSys(contentTypes)
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
