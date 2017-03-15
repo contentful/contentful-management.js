@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/contentful-management.js | contentful-management.js API Document</title>
+  <title data-ice="title">lib/create-contentful-api.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,60 +60,78 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/contentful-management.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
- */
-
-import cloneDeep from &apos;lodash/cloneDeep&apos;
-import assign from &apos;lodash/assign&apos;
-import { createHttpClient, rateLimit } from &apos;contentful-sdk-core&apos;
-import version from &apos;../version&apos;
-import createContentfulApi from &apos;./create-contentful-api&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/create-contentful-api.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import errorHandler from &apos;./error-handler&apos;
+import entities from &apos;./entities&apos;
 
 /**
- * @typedef {ContentfulManagement} ContentfulManagement
- * @property {function(params: {accessToken: string, insecure?: boolean, host?: string, hostUpload?: string, agent?: Object, headers?: Object, concurrency?: number, delay?: number, maxRetries?: number, retryOnTooManyRequests?: boolean}): ClientAPI} createClient - Create a client instance, this is the entry point to the library
- *
- * @example
- * // require contentful-management
- * var contentfulManagement = require(&apos;contentful-management&apos;)
- * var client = contentfulManagement.createClient({
- * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
- * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
- * })
-*/
-export default function createClient (axios, params) {
-  const defaultParameters = {
-    rateLimit: 6,
-    rateLimitPeriod: 1000,
-    maxRetries: 5,
-    retryOnTooManyRequests: true,
-    defaultHostname: &apos;api.contentful.com&apos;,
-    defaultHostnameUpload: &apos;upload.contentful.com&apos;
+ * @typedef {ClientAPI} ClientAPI
+ * @property {function(id: string): Promise&lt;Space&gt;} getSpace - Gets a space with the spcified id
+ * @property {function(): Promise&lt;SpaceCollection&gt;} getSpaces - Gets a collection of spaces
+ * @property {function(data: {name: string}): Promise&lt;Space&gt;} createSpace - Creates a space
+ */
+
+/**
+ * Creates API object with methods to access functionality from Contentful&apos;s
+ * Management API
+ * @private
+ * @param {Object} params - API initialization params
+ * @prop {Object} http - HTTP client instance
+ * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
+ * @return {ClientAPI}
+ */
+export default function createSpaceApi ({ http }) {
+  const {wrapSpace, wrapSpaceCollection} = entities.space
+
+  /**
+   * Gets all spaces
+   * @memberof ClientAPI   * @return {Promise&lt;Space.SpaceCollection&gt;} Promise for a collection of Spaces
+   * @example
+   * client.getSpaces()
+   * .then(spaces =&gt; console.log(spaces.items))
+   */
+  function getSpaces () {
+    return http.get(&apos;&apos;)
+    .then((response) =&gt; wrapSpaceCollection(http, response.data), errorHandler)
   }
-  const requiredHeaders = {
-    &apos;Content-Type&apos;: &apos;application/vnd.contentful.management.v1+json&apos;,
-    &apos;X-Contentful-User-Agent&apos;: &apos;contentful-management.js/&apos; + version
+
+  /**
+   * Gets a space
+   * @memberof ClientAPI
+   * @param {string} id - Space ID
+   * @return {Promise&lt;Space.Space&gt;} Promise for a Space
+   * @example
+   * client.getSpace(&apos;spaceid&apos;)
+   * .then(space =&gt; console.log(space))
+   */
+  function getSpace (id) {
+    return http.get(id)
+    .then((response) =&gt; wrapSpace(http, response.data), errorHandler)
   }
-  params = assign(defaultParameters, cloneDeep(params))
 
-  if (!params.accessToken) {
-    throw new TypeError(&apos;Expected parameter accessToken&apos;)
+  /**
+   * Creates a space
+   * @memberof ClientAPI
+   * @see {Space.Space}
+   * @param {object} data - Object representation of the Space to be created
+   * @param {string=} organizationId - Organization ID, if the associated token can manage more than one organization.
+   * @return {Promise&lt;Space.Space&gt;} Promise for the newly created Space
+   * @example
+   * client.createSpace({name: &apos;Space Name&apos;})
+   * .then(space =&gt; console.log(space))
+   */
+  function createSpace (data, organizationId) {
+    return http.post(&apos;&apos;, data, {
+      headers: organizationId ? {&apos;X-Contentful-Organization&apos;: organizationId} : {}
+    })
+    .then((response) =&gt; wrapSpace(http, response.data), errorHandler)
   }
 
-  params.headers = assign(params.headers || {}, requiredHeaders)
-
-  const http = createHttpClient(axios, params)
-  rateLimit(http, params.maxRetries)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+  return {
+    getSpaces: getSpaces,
+    getSpace: getSpace,
+    createSpace: createSpace
+  }
 }
 </code></pre>
 

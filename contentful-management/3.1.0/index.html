@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">contentful-management.js API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/contentful/contentful-management.js.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentfulManagement">ContentfulManagement</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ClientAPI">ClientAPI</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Space">Space</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceCollection">SpaceCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ErrorResponse">ErrorResponse</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">entities</div><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKey">ApiKey</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ApiKeyCollection">ApiKeyCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Asset">Asset</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-AssetCollection">AssetCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentType">ContentType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-ContentTypeCollection">ContentTypeCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Control">Control</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EditorInterface">EditorInterface</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Entry">Entry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-EntryCollection">EntryCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Locale">Locale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-LocaleCollection">LocaleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Role">Role</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-RoleCollection">RoleCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembership">SpaceMembership</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-SpaceMembershipCollection">SpaceMembershipCollection</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Upload">Upload</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Webhook">Webhook</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-WebhookCollection">WebhookCollection</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><p><a href="https://www.npmjs.com/package/contentful-management"><img src="https://img.shields.io/npm/v/contentful-management.svg" alt="npm"></a>
+<a href="https://travis-ci.org/contentful/contentful-management.js"><img src="https://travis-ci.org/contentful/contentful-management.js.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/contentful/contentful-management.js?branch=master"><img src="https://coveralls.io/repos/github/contentful/contentful-management.js/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://david-dm.org/contentful/contentful-management.js"><img src="https://david-dm.org/contentful/contentful-management.js.svg" alt="Dependency Status"></a>
+<a href="https://david-dm.org/contentful/contentful-management.js#info=devDependencies"><img src="https://david-dm.org/contentful/contentful-management.js/dev-status.svg" alt="devDependency Status"></a></p>
+<p><a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
+<a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a>
+<a href="http://npm-stat.com/charts.html?package=contentful-management"><img src="https://img.shields.io/npm/dm/contentful-management.svg" alt="npm downloads"></a></p>
+<p>Javascript SDK for <a href="https://www.contentful.com">Contentful&apos;s</a> Content Management API.</p>
+<h1 id="about">About</h1>
+<p><a href="https://www.contentful.com">Contentful</a> is a content management platform for web applications, mobile apps and connected devices. It allows you to create, edit &amp; manage content in the cloud and publish it anywhere via a powerful API. Contentful offers tools for managing editorial teams and enabling cooperation between organizations.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Content management and retrieval through Contentful&apos;s <a href="https://www.contentful.com/developers/docs/references/content-management-api/">Content Management API</a>.</li>
+<li>Built in rate limiting with recovery procedures</li>
+<li>Asset processing helpers</li>
+</ul>
+<h2 id="supported-environments">Supported environments</h2>
+<p>Browsers and Node.js:</p>
+<ul>
+<li>Chrome</li>
+<li>Firefox</li>
+<li>IE11 / Edge</li>
+<li>Safari</li>
+<li>node.js (4.x, 6.x)</li>
+</ul>
+<p>Other browsers should also work, but at the moment we&apos;re only running automated tests on the browsers and Node.js versions specified above.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>To get started with the Contentful Management JS SDK you&apos;ll need to install it, and then get credentials which will allow you to access your content in Contentful.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="node-">Node:</h3>
+<p>Using <a href="http://npmjs.org">npm</a>:</p>
+<pre><code class="lang-sh"><code class="source-code prettyprint">npm install contentful-management</code>
+</code></pre>
+<p>Using <a href="https://yarnpkg.com/lang/en/">yarn</a>:</p>
+<pre><code class="lang-sh"><code class="source-code prettyprint">yarn add contentful-management</code>
+</code></pre>
+<h3 id="browser-">Browser:</h3>
+<p>If you&apos;d like to use a standalone built file you can use the following script tag or download it from <a href="https://unpkg.com">unpkg</a>, under the <code>dist</code> directory:</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script src=&quot;https://unpkg.com/contentful-management@latest/dist/contentful-management.min.js&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<p><strong>It&apos;s not recommended to use the above URL for production.</strong></p>
+<p>Using <code>contentful@latest</code> will always get you the latest version, but you can also specify a specific version number:</p>
+<pre><code class="lang-html"><code class="source-code prettyprint">&lt;script src=&quot;https://unpkg.com/contentful-management@1.0.0/dist/contentful-management.min.js&quot;&gt;&lt;/script&gt;</code>
+</code></pre>
+<p>The Contentful Management SDK will be accessible via the <code>contentfulManagement</code> global variable.</p>
+<p>Check the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page to know which versions are available.</p>
+<h2 id="authentication">Authentication</h2>
+<p>To get content from Contentful, an app should authenticate with an OAuth bearer token.</p>
+<p>If you want to use this SDK for a simple tool or a local app that you won&apos;t redistribute or make available to other users, you can get an API key for the Management API at our <a href="https://www.contentful.com/developers/docs/references/authentication/">Authentication page</a>.</p>
+<p>If you&apos;d like to create an app which would make use of this SDK but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about <a href="https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application">Creating an OAuth Application</a></p>
+<h2 id="your-first-request">Your first request</h2>
+<p>The following code snippet is the most basic one you can use to get content from Contentful with this SDK:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">var contentful = require(&apos;contentful-management&apos;)
+var client = contentful.createClient({
+  // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+  accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+})
+
+// This API call will request a space with the specified ID
+client.getSpace(&apos;spaceId&apos;)
+.then((space) =&gt; {
+  // Now that we have a space, we can get entries from that space
+  space.getEntries()
+  .then((entries) =&gt; {
+    console.log(entries.items)
+  })
+
+  // let&apos;s get a content type
+  space.getContentType(&apos;product&apos;)
+  .then((contentType) =&gt; {
+    // and now let&apos;s update its name
+    contentType.name = &apos;New Product&apos;
+    contentType.update()
+    .then((updatedContentType) =&gt; {
+      console.log(&apos;Update was successful&apos;)
+    })
+  })
+})</code>
+</code></pre>
+<p>You can try and change the above example at <a href="https://tonicdev.com/npm/contentful-management">Tonic</a>.</p>
+<h2 id="documentation-references">Documentation/References</h2>
+<p>To help you get the most out of this SDK, we&apos;ve prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.</p>
+<h3 id="reference-documentation">Reference documentation</h3>
+<p>The <a href="https://contentful.github.io/contentful-management.js">Contentful&apos;s JS SDK reference</a> documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.</p>
+<p>Most methods also have examples which show you how to use them.</p>
+<p>You can start by looking at the top level <code>contentfulManagement</code> namespace.</p>
+<p>The <code>ContentfulClientAPI</code> namespace defines the methods at the Client level which allow you to create and get spaces.</p>
+<p>The <code>ContentfulSpaceAPI</code> namespace defines the methods at the Space level which allow you to create and get entries, assets, content types and other possible entities.</p>
+<p>The <code>Entry</code>, <code>Asset</code> and <code>ContentType</code> namespaces show you the instance methods you can use on each of these entities, once you retrieve them from the server.</p>
+<pre><code><code class="source-code prettyprint">From version 1.0.0 onwards, you can access documentation for a specific version by visiting `https://contentful.github.io/contentful-management.js/contentful-management/&lt;VERSION&gt;`</code>
+</code></pre><h3 id="contentful-javascript-resources">Contentful JavaScript resources</h3>
+<p>Read the <a href="https://www.contentful.com/developers/docs/javascript/">Contentful for JavaScript</a> page for Tutorials, Demo Apps, and more information on other ways of using JavaScript with Contentful</p>
+<h3 id="rest-api-reference">REST API reference</h3>
+<p>This library is a wrapper around our Contentful Management REST API. Some more specific details such as search parameters and pagination are better explained on the <a href="https://www.contentful.com/developers/docs/references/content-management-api/">REST API reference</a>, and you can also get a better understanding of how the requests look under the hood.</p>
+<h3 id="legacy-contentful-management-js">Legacy contentful-management.js</h3>
+<p>For versions prior to 1.0.0, you can access documentation at <a href="https://github.com/contentful/contentful.js/tree/legacy">https://github.com/contentful/contentful-management.js/tree/legacy</a></p>
+<h2 id="versioning">Versioning</h2>
+<p>This project strictly follows <a href="http://semver.org/">Semantic Versioning</a> by use of <a href="https://github.com/semantic-release/semantic-release">semantic-release</a>.</p>
+<p>This means that new versions are released automatically as fixes, features or breaking changes are released.</p>
+<p>You can check the changelog on the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page.</p>
+<h2 id="migration-from-contentful-management-js-1-x-and-older">Migration from contentful-management.js 1.x and older</h2>
+<p>contentful.js 1.x was a major rewrite, with some API changes. While the base functionality remains the same, some method names have changed, as well as some internal behaviors.</p>
+<p>See the <a href="MIGRATION.md">migration guide</a> for more information.</p>
+<h2 id="support">Support</h2>
+<p>If you have a problem with this library, please file an <a href="https://github.com/contentful/contentful-management.js/issues/new">issue</a> here on Github.</p>
+<p>If you have other problems with Contentful not related to this library, you can contact <a href="https://support.contentful.com">Customer Support</a>.</p>
+<h2 id="contributing">Contributing</h2>
+<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+<h2 id="license">License</h2>
+<p>MIT</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.5.2)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
