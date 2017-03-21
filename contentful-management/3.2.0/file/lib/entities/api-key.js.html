@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/contentful-management.js | contentful-management.js API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/entities/api-key.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,59 +60,121 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/contentful-management.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
- */
-
-import cloneDeep from &apos;lodash/cloneDeep&apos;
-import assign from &apos;lodash/assign&apos;
-import {createHttpClient} from &apos;contentful-sdk-core&apos;
-import version from &apos;../version&apos;
-import createContentfulApi from &apos;./create-contentful-api&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/api-key.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import cloneDeep from &apos;lodash/cloneDeep&apos;
+import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
+import enhanceWithMethods from &apos;../enhance-with-methods&apos;
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from &apos;../instance-actions&apos;
 
 /**
- * @typedef {ContentfulManagement} ContentfulManagement
- * @property {function(params: {accessToken: string, insecure?: boolean, host?: string, hostUpload?: string, agent?: Object, headers?: Object, concurrency?: number, delay?: number, maxRetries?: number, retryOnTooManyRequests?: boolean}): ClientAPI} createClient - Create a client instance, this is the entry point to the library
- *
+ * @typedef {ApiKey} ApiKey
+ * @property {Object} sys - System metadata
+ * @property {string} name
+ * @property {string} description
+ * @property {function(): Promise&lt;ApiKey&gt;} update() - Sends an update to the server with any changes made to the object&apos;s properties
+ * @property {function(): Promise} delete() - Deletes this object on the server
+ * @property {function(): Object} toPlainObject - Returns this Api Key as a plain JS object
  * @example
+ *
  * // require contentful-management
  * var contentfulManagement = require(&apos;contentful-management&apos;)
  * var client = contentfulManagement.createClient({
  * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
  * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
  * })
-*/
-export default function createClient (axios, params) {
-  const defaultParameters = {
-    rateLimit: 6,
-    rateLimitPeriod: 1000,
-    maxRetries: 5,
-    retryOnTooManyRequests: true,
-    defaultHostname: &apos;api.contentful.com&apos;,
-    defaultHostnameUpload: &apos;upload.contentful.com&apos;
+ *
+ * var space = await client.getSpace(&apos;SPACE_ID&apos;)
+ *
+ * //=======================================================================================================
+ * // You can get an ApiKey object by
+ * //
+ * // 1. Creating one
+ * //
+ * // var apiKey = await space.createApiKey({})
+ * //
+ * // OR
+ * //
+ * // 2. Get an existing one
+ * //
+ * // var apiKey = await space.getApiKey(&apos;API_KEY_ID&apos;)
+ * //=======================================================================================================
+ *
+ * // we&apos;ll use option 2
+ * var apiKey = await space.getApiKey(&apos;API_KEY_ID&apos;)
+ *
+ * // Example updating an APIKey
+ * apiKey.name = &apos;New name&apos;
+ * apiKey.update()
+ * .then(apiKey =&gt; console.log(apiKey.name))
+ *
+ * // Example deleting an ApiKey
+ * apiKey.delete()
+ * .catch(err =&gt; console.log(err))
+ *
+ */
+
+/**
+ * @typedef {ApiKeyCollection} ApiKeyCollection
+ * @property {number} total - Total amount of records in the server
+ * @property {number} skip - A starting point of the collection
+ * @property {number} limit - Amount of records in collection
+ * @property {ApiKey[]} items - Array of ApiKey
+ * @property {function(): Object} toPlainObject - Returns this Api Key collection as a plain JS object
+ * @example
+ *
+ * // require contentful-management
+ * var contentfulManagement = require(&apos;contentful-management&apos;)
+ * var client = contentfulManagement.createClient({
+ * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
+ * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
+ * })
+ *
+ * var space = await client.getSpace(&apos;SPACE_ID&apos;)
+ *
+ * //get all the api keys
+ * space.getApiKeys()
+ * .then(apiKeys =&gt; console.log(apiKeys.items))
+ */
+function createApiKeyApi (http) {
+  return {
+    update: createUpdateEntity({
+      http: http,
+      entityPath: &apos;api_keys&apos;,
+      wrapperMethod: wrapApiKey
+    }),
+
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: &apos;api_keys&apos;
+    })
   }
-  const requiredHeaders = {
-    &apos;Content-Type&apos;: &apos;application/vnd.contentful.management.v1+json&apos;,
-    &apos;X-Contentful-User-Agent&apos;: &apos;contentful-management.js/&apos; + version
-  }
-  params = assign(defaultParameters, cloneDeep(params))
+}
 
-  if (!params.accessToken) {
-    throw new TypeError(&apos;Expected parameter accessToken&apos;)
-  }
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key data
+ * @return {ApiKey} Wrapped api key data
+ */
+export function wrapApiKey (http, data) {
+  const apiKey = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(apiKey, createApiKeyApi(http))
+  return freezeSys(apiKey)
+}
 
-  params.headers = assign(params.headers || {}, requiredHeaders)
-
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key collection data
+ * @return {ApiKeyCollection} Wrapped api key collection data
+ */
+export function wrapApiKeyCollection (http, data) {
+  const apiKeys = toPlainObject(cloneDeep(data))
+  apiKeys.items = apiKeys.items.map((entity) =&gt; wrapApiKey(http, entity))
+  return freezeSys(apiKeys)
 }
 </code></pre>
 
