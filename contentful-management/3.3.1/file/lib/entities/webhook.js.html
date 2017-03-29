@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/contentful-management.js | contentful-management.js API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/entities/webhook.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,55 +60,142 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/contentful-management.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/webhook.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
+ * Webhook instances
+ * @namespace Webhook
  */
-import axios from &apos;axios&apos;
 import cloneDeep from &apos;lodash/cloneDeep&apos;
-import assign from &apos;lodash/assign&apos;
-import {createHttpClient} from &apos;contentful-sdk-core&apos;
-import version from &apos;../version&apos;
-import createContentfulApi from &apos;./create-contentful-api&apos;
+import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
+import enhanceWithMethods from &apos;../enhance-with-methods&apos;
+import errorHandler from &apos;../error-handler&apos;
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from &apos;../instance-actions&apos;
 
 /**
- * @typedef {ContentfulManagement} ContentfulManagement
- * @property {function(params: {accessToken: string, insecure?: boolean, host?: string, hostUpload?: string, agent?: Object, headers?: Object}): ClientAPI} createClient - Create a client instance, this is the entry point to the library
- *
- * @example
- * // require contentful-management
- * var contentfulManagement = require(&apos;contentful-management&apos;)
- * var client = contentfulManagement.createClient({
- * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
- * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
- * })
-*/
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: &apos;api.contentful.com&apos;,
-    defaultHostnameUpload: &apos;upload.contentful.com&apos;
+ * @memberof Webhook
+ * @typedef Webhook
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} url - Url which the webhook will call
+ * @prop {string} httpBasicUsername - Username for basic HTTP authentication
+ * @prop {string} httpBasicPassword - Password for basic HTTP authentication
+ * @prop {object} headers - Key value pairs of additional headers to be sent with every webhook call.
+ * @prop {array} topics - Topics which this webhook should be subscribed to. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhooks/create-a-webhook for more details
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook as a plain JS object
+ */
+
+function createWebhookApi (http) {
+  return {
+
+    /**
+     * Sends an update to the server with any changes made to the object&apos;s properties
+     * @memberof Webhook
+     * @func update
+     * @return {Promise&lt;Webhook&gt;} Object returned from the server with updated changes.
+     * @example
+     * webhook.name = &apos;New name&apos;
+     * webhook.update()
+     * .then(webhook =&gt; console.log(webhook.name))
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: &apos;webhook_definitions&apos;,
+      wrapperMethod: wrapWebhook
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Webhook
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * webhook.delete()
+     * .catch(err =&gt; console.log(err))
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: &apos;webhook_definitions&apos;
+    }),
+
+    /**
+     * List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object&gt;} Promise for list of calls
+     * @example
+     * webhook.getCalls()
+     * .then(calls =&gt; console.log(calls.items))
+     */
+    getCalls: function () {
+      return http.get(&apos;webhooks/&apos; + this.sys.id + &apos;/calls&apos;)
+      .then((response) =&gt; response.data, errorHandler)
+    },
+
+    /**
+     * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object&gt;} Promise for call details
+     * @example
+     * webhook.getCall(&apos;kjsdk1jeasd&apos;)
+     * .then(call =&gt; console.log(call))
+     */
+    getCall: function (id) {
+      return http.get(&apos;webhooks/&apos; + this.sys.id + &apos;/calls/&apos; + id)
+      .then((response) =&gt; response.data, errorHandler)
+    },
+
+    /**
+     * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getHealth
+     * @return {Promise&lt;object&gt;} Promise for health info
+     * @example
+     * webhook.getHealth()
+     * .then(health =&gt; console.log(health))
+     */
+    getHealth: function () {
+      return http.get(&apos;webhooks/&apos; + this.sys.id + &apos;/health&apos;)
+      .then((response) =&gt; response.data, errorHandler)
+    }
   }
-  const requiredHeaders = {
-    &apos;Content-Type&apos;: &apos;application/vnd.contentful.management.v1+json&apos;,
-    &apos;X-Contentful-User-Agent&apos;: &apos;contentful-management.js/&apos; + version
-  }
-  params = assign(defaultParameters, cloneDeep(params))
+}
 
-  if (!params.accessToken) {
-    throw new TypeError(&apos;Expected parameter accessToken&apos;)
-  }
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw webhook data
+ * @return {Webhook} Wrapped webhook data
+ */
+export function wrapWebhook (http, data) {
+  const webhook = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(webhook, createWebhookApi(http))
+  return freezeSys(webhook)
+}
 
-  params.headers = assign(params.headers || {}, requiredHeaders)
+/**
+ * @memberof Webhook
+ * @typedef WebhookCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Webhook.Webhook&gt;} items
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook collection as a plain JS object
+ */
 
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw webhook collection data
+ * @return {WebhookCollection} Wrapped webhook collection data
+ */
+export function wrapWebhookCollection (http, data) {
+  const webhooks = toPlainObject(cloneDeep(data))
+  webhooks.items = webhooks.items.map((entity) =&gt; wrapWebhook(http, entity))
+  return freezeSys(webhooks)
 }
 </code></pre>
 

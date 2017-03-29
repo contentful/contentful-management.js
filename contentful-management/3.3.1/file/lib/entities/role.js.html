@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/contentful-management.js | contentful-management.js API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/entities/role.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,55 +60,97 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/contentful-management.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/role.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
+ * Role instances
+ * @namespace Role
  */
-import axios from &apos;axios&apos;
 import cloneDeep from &apos;lodash/cloneDeep&apos;
-import assign from &apos;lodash/assign&apos;
-import {createHttpClient} from &apos;contentful-sdk-core&apos;
-import version from &apos;../version&apos;
-import createContentfulApi from &apos;./create-contentful-api&apos;
+import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
+import enhanceWithMethods from &apos;../enhance-with-methods&apos;
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from &apos;../instance-actions&apos;
 
 /**
- * @typedef {ContentfulManagement} ContentfulManagement
- * @property {function(params: {accessToken: string, insecure?: boolean, host?: string, hostUpload?: string, agent?: Object, headers?: Object}): ClientAPI} createClient - Create a client instance, this is the entry point to the library
- *
- * @example
- * // require contentful-management
- * var contentfulManagement = require(&apos;contentful-management&apos;)
- * var client = contentfulManagement.createClient({
- * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
- * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
- * })
-*/
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: &apos;api.contentful.com&apos;,
-    defaultHostnameUpload: &apos;upload.contentful.com&apos;
+ * @see https://www.contentful.com/developers/docs/references/content-management-api/#/reference/roles/create-a-role
+ * @typedef {Role} Role
+ * @property {Object} sys - System metadata
+ * @property {string} name
+ * @property {Object} permissions - Permissions for application sections
+ * @property {Object} policies
+ * @property {function(): Prmise&lt;Role&gt;} update - Sends an update to the server with any changes made to the object&apos;s properties
+ * @property {function(): Prmise} delete - Deletes this object on the server.
+ * @property {function(): Object} toPlainObject - Returns this Role as a plain JS object
+ */
+
+/**
+ * @typedef {RoleCollection} RoleCollection
+ * @property {number} total - Total amount of records in the server
+ * @property {number} skip - A starting point of the collection
+ * @property {number} limit - Amount of records in collection
+ * @property {Role[]} items - an array of roles
+ * @property {function(): Object} toPlainObject - Returns this Role collection as a plain JS object
+ */
+
+function createRoleApi (http) {
+  return {
+
+    /**
+     * Sends an update to the server with any changes made to the object&apos;s properties
+     * @memberof Role
+     * @func update
+     * @return {Promise&lt;Role&gt;} Object returned from the server with updated changes.
+     * @example
+     * role.name = &apos;New name&apos;
+     * role.update()
+     * .then(role =&gt; console.log(role.name))
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: &apos;roles&apos;,
+      wrapperMethod: wrapRole
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Role
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * role.delete()
+     * .catch(err =&gt; console.log(err))
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: &apos;roles&apos;
+    })
   }
-  const requiredHeaders = {
-    &apos;Content-Type&apos;: &apos;application/vnd.contentful.management.v1+json&apos;,
-    &apos;X-Contentful-User-Agent&apos;: &apos;contentful-management.js/&apos; + version
-  }
-  params = assign(defaultParameters, cloneDeep(params))
+}
 
-  if (!params.accessToken) {
-    throw new TypeError(&apos;Expected parameter accessToken&apos;)
-  }
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw role data
+ * @return {Role} Wrapped role data
+ */
+export function wrapRole (http, data) {
+  const role = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(role, createRoleApi(http))
+  return freezeSys(role)
+}
 
-  params.headers = assign(params.headers || {}, requiredHeaders)
-
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw role collection data
+ * @return {RoleCollection} Wrapped role collection data
+ */
+export function wrapRoleCollection (http, data) {
+  const roles = toPlainObject(cloneDeep(data))
+  roles.items = roles.items.map((entity) =&gt; wrapRole(http, entity))
+  return freezeSys(roles)
 }
 </code></pre>
 
