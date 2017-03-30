@@ -38,7 +38,6 @@ To get started with the Contentful Management JS SDK you'll need to install it, 
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Your first request](#your-first-request)
-- [Advanced features](#advanced-features)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
 
@@ -121,6 +120,7 @@ client.getSpace('spaceId')
 You can try and change the above example at [Tonic](https://tonicdev.com/npm/contentful-management).
 
 ## Troubleshooting
+
 - **I can't Install the package via npm**
 	- Check your internet connection
 	- It is called `contentful-management` and not `contenful-management` ¯\_(ツ)_/¯
@@ -132,7 +132,7 @@ You can try and change the above example at [Tonic](https://tonicdev.com/npm/con
 - 😱 **something is wrong what should I do** 
 	- If it is a bug related to the code create a Github issue and make sure to remove any credential for your code before sharing it.
 	- If you need to share your credentials, for example you have an issue with your space, please create a support ticket.
-	- Please **do no**t share your management token in a Github issue	
+	- Please **do not** share your management token in a Github issue	
 	
 ## Documentation/References
 
