@@ -10,7 +10,6 @@ test('Throws if no accessToken is defined', (t) => {
 })
 
 test('Passes along HTTP client parameters', (t) => {
-  createClientRewireApi.__Rewire__('version', 'version')
   createClientRewireApi.__Rewire__('axios', {create: sinon.stub()})
 
   const createHttpClientStub = sinon.stub()
@@ -19,8 +18,24 @@ test('Passes along HTTP client parameters', (t) => {
 
   const client = createClient({accessToken: 'accesstoken'})
   t.ok(createHttpClientStub.args[0][1].headers['Content-Type'], 'sets the content type')
-  t.equals(createHttpClientStub.args[0][1].headers['X-Contentful-User-Agent'], 'contentful-management.js/version', 'sets the user agent header')
   t.ok(client, 'returns a client')
+  createClientRewireApi.__ResetDependency__('createHttpClient')
+  createClientRewireApi.__ResetDependency__('wrapHttpClient')
+  createClientRewireApi.__ResetDependency__('createContentfulApi')
+  t.end()
+})
+
+test('Generate the correct User Agent Header', (t) => {
+  const headerRegEx = /(app|sdk|platform|integration|os) (\S+\/\d.\d.\d)(-\w+)?/igm
+  createClientRewireApi.__Rewire__('axios', {create: sinon.stub()})
+
+  const createHttpClientStub = sinon.stub()
+  createClientRewireApi.__Rewire__('createHttpClient', createHttpClientStub)
+  createClientRewireApi.__Rewire__('createContentfulApi', sinon.stub().returns({}))
+
+  createClient({accessToken: 'accesstoken', application: 'myApplication/1.1.1', integration: 'myIntegration/1.0.0'})
+
+  t.equal(createHttpClientStub.args[0][1].headers['X-Contentful-User-Agent'].match(headerRegEx).length, 5)
   createClientRewireApi.__ResetDependency__('createHttpClient')
   createClientRewireApi.__ResetDependency__('wrapHttpClient')
   createClientRewireApi.__ResetDependency__('createContentfulApi')
