@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/contentful-management.js | contentful-management.js API Document</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">lib/entities/editor-interface.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,60 +60,115 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/contentful-management.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
- */
-import axios from &apos;axios&apos;
-import cloneDeep from &apos;lodash/cloneDeep&apos;
-import assign from &apos;lodash/assign&apos;
-import {createHttpClient, getUserAgentHeader} from &apos;contentful-sdk-core&apos;
-import createContentfulApi from &apos;./create-contentful-api&apos;
-import version from &apos;../version&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/entities/editor-interface.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import cloneDeep from &apos;lodash/cloneDeep&apos;
+import omit from &apos;lodash/omit&apos;
+import { freezeSys, toPlainObject } from &apos;contentful-sdk-core&apos;
+import enhanceWithMethods from &apos;../enhance-with-methods&apos;
+import errorHandler from &apos;../error-handler&apos;
 /**
- * @typedef {ContentfulManagement} ContentfulManagement
- * @property {function(params: {accessToken: string, insecure?: boolean, host?: string, hostUpload?: string, httpAgent?: Object, httpsAgent?: Object, headers?: Object, proxy?:Object, application?: string, integration?: string}): ClientAPI} createClient - Create a client instance, this is the entry point to the library
- *
+ * @typedef {Control} Control
+ * @property {string} widgetId - defines how the field will look like e.g. singleLine
+ * @property {string} fieldId - id of the field that this control is affecting
+ * @property {Object} settings - settings for the widget
+ */
+/**
+ * @typedef {EditorInterface} EditorInterface
+ * @property {Object} sys - System metadata
+ * @property {Control[]} controls - List of settings per field
+ * @property {function(): Promise&lt;EditorInterface&gt;} update - Sends an update to the server with any changes made to the object&apos;s properties
+ * @property {function(): Control} getControlForField - Gets a control for a specific field
+ * @property {function(): Object} toPlainObject() - Returns this Content Type as a plain JS object
  * @example
+ *
  * // require contentful-management
  * var contentfulManagement = require(&apos;contentful-management&apos;)
  * var client = contentfulManagement.createClient({
  * // This is the access token for this space. Normally you get both ID and the token in the Contentful web app
  * accessToken: &apos;YOUR_ACCESS_TOKEN&apos;
  * })
+ *
+ * // request our space from Contentful
+ * var space = await client.getSpace(&apos;SPACE_ID&apos;)
+ *
+ * //=======================================================================================================
+ * // web can get an editor interface in two ways
+ * // 1. request our ContentType from Contentful
+ * //
+ * // var contentType = await space.getContentType(&apos;CONTENT_TYPE_ID&apos;)
+ * //
+ * //1.1 Get the editorInterface through the ContentType
+ * //
+ * // var editorInterface = await contentType.getEditorInterface()
+ * //
+ * // OR
+ * //
+ * // 2. get an editor interface from the Space object right away
+ * //
+ * // var editorInterface = await space.getEditorInterfaceForContentType(&apos;CONTENT_TYPE_ID&apos;)
+ * //=======================================================================================================
+ *
+ * // we&apos;ll use option 2
+ *
+ * var editorInterface = await space.getEditorInterfaceForContentType(&apos;CONTENT_TYPE_ID&apos;)
+ *
+ * // Example Updating  and editor interface
+ * editorInterface.controls[0] = { &quot;fieldId&quot;: &quot;title&quot;, &quot;widgetId&quot;: &quot;singleLine&quot;}
+ * editorInterface.update()
+ * .then(editorInterface =&gt; console.log(editorInterface.controls))
+ */
+
+function createEditorInterfaceApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object&apos;s properties
+     * @memberof EditorInterface
+     * @func update
+     * @return {Promise&lt;EditorInterface&gt;} Object returned from the server with updated changes.
+     * @example
+     * editorInterface.controls[0] = { &quot;fieldId&quot;: &quot;title&quot;, &quot;widgetId&quot;: &quot;singleLine&quot;}
+     * editorInterface.update()
+     * .then(editorInterface =&gt; console.log(editorInterface.controls))
+     */
+    update: function () {
+      const raw = this.toPlainObject()
+      const data = omit(raw, [&apos;sys&apos;])
+      return http.put(`content_types/${this.sys.contentType.sys.id}/editor_interface`,
+        data,
+        {
+          headers: {&apos;X-Contentful-Version&apos;: this.sys.version}
+        }
+      )
+      .then((response) =&gt; wrapEditorInterface(http, response.data), errorHandler)
+    },
+    /**
+     * gets a control for a specific field
+     * @memberof EditorInterface
+     * @func getControlForField
+     * @return {?Object} control object for specific field.
+     * @example
+     * const control = editorInterface.getControlForField(&apos;fieldId&apos;)
+     * console.log(control)
+     */
+    getControlForField: function (fieldId) {
+      const result = this.controls.filter((control) =&gt; {
+        return control.fieldId === fieldId
+      })
+      return (result &amp;&amp; result.length &gt; 0) ? result[0] : null
+    }
+  }
+}
+
+/**
+* @private
+* @param {Object} http - HTTP client instance
+* @param {Object} data - Raw editor-interface data
+* @return {EditorInterface} Wrapped editor-interface data
 */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: &apos;api.contentful.com&apos;,
-    defaultHostnameUpload: &apos;upload.contentful.com&apos;
-  }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${version}`,
-    params.application,
-    params.integration
-  )
-
-  const requiredHeaders = {
-    &apos;Content-Type&apos;: &apos;application/vnd.contentful.management.v1+json&apos;,
-    &apos;X-Contentful-User-Agent&apos;: userAgentHeader
-  }
-
-  params = assign(defaultParameters, cloneDeep(params))
-
-  if (!params.accessToken) {
-    throw new TypeError(&apos;Expected parameter accessToken&apos;)
-  }
-
-  params.headers = assign(params.headers || {}, requiredHeaders)
-
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+export function wrapEditorInterface (http, data) {
+  const editorInterface = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(editorInterface, createEditorInterfaceApi(http))
+  return freezeSys(editorInterface)
 }
 </code></pre>
 
