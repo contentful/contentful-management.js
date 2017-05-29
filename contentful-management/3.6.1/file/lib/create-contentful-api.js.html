@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">lib/error-handler.js | contentful-management.js API Document</title>
+  <title data-ice="title">lib/create-contentful-api.js | contentful-management.js API Document</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -60,81 +60,97 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/error-handler.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import isObject from &apos;lodash/isObject&apos;
+<div class="content" data-ice="content"><h1 data-ice="title">lib/create-contentful-api.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import errorHandler from &apos;./error-handler&apos;
+import entities from &apos;./entities&apos;
 
 /**
- * @typedef {ErrorResponse} ErrorResponse
- * @property {string} name - Error name. Usually refers to the sys.id returned on the
- * error server response. If that&apos;s not available or is unknown, it defaults to
- * the HTTP error code and status text.
- * @property {string} message - Stringified JSON object with request information,
- * HTTP response details and error details payload (if available). The `requestId`
- * property is internal to Contentful and it can be used when contacting support
- * about unusual errors.
+ * @typedef {ClientAPI} ClientAPI
+ * @property {function(id: string): Promise&lt;Space&gt;} getSpace - Gets a space with the spcified id
+ * @property {function(): Promise&lt;SpaceCollection&gt;} getSpaces - Gets a collection of spaces
+ * @property {function(data: {name: string}): Promise&lt;Space&gt;} createSpace - Creates a space
+ * @property {function(): Promise&lt;OrganizationCollection&gt;} getOrganizations - Gets a collection of Organizations
  */
 
 /**
- * Handles errors received from the server. Parses the error into a more useful
- * format, places it in an exception and throws it.
- * See https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/errors
- * for more details on the data received on the errorResponse.data property
- * and the expected error codes.
+ * Creates API object with methods to access functionality from Contentful&apos;s
+ * Management API
  * @private
- * @param {Object} errorResponse - Error received from an axios request
- * @throws {ErrorResponse}
+ * @param {Object} params - API initialization params
+ * @prop {Object} http - HTTP client instance
+ * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
+ * @return {ClientAPI}
  */
-export default function errorHandler (errorResponse) {
-  const {config, response} = errorResponse
-  let errorName
+export default function createClientApi ({ http }) {
+  const {wrapSpace, wrapSpaceCollection} = entities.space
+  const {wrapOrganizationCollection} = entities.organization
 
-  if (!isObject(response) || !isObject(config)) {
-    throw errorResponse
+  /**
+   * Gets all spaces
+   * @memberof ClientAPI   * @return {Promise&lt;Space.SpaceCollection&gt;} Promise for a collection of Spaces
+   * @example
+   * client.getSpaces()
+   * .then(spaces =&gt; console.log(spaces.items))
+   */
+  function getSpaces () {
+    return http.get(&apos;&apos;)
+    .then((response) =&gt; wrapSpaceCollection(http, response.data), errorHandler)
   }
 
-  const { data } = response
-
-  const errorData = {
-    status: response.status,
-    statusText: response.statusText,
-    message: &apos;&apos;,
-    details: {}
+  /**
+   * Gets a space
+   * @memberof ClientAPI
+   * @param {string} id - Space ID
+   * @return {Promise&lt;Space.Space&gt;} Promise for a Space
+   * @example
+   * client.getSpace(&apos;spaceid&apos;)
+   * .then(space =&gt; console.log(space))
+   */
+  function getSpace (id) {
+    return http.get(id)
+    .then((response) =&gt; wrapSpace(http, response.data), errorHandler)
   }
 
-  // Obscure the Management token
-  if (config.headers &amp;&amp; config.headers[&apos;Authorization&apos;]) {
-    const token = `...${config.headers[&apos;Authorization&apos;].substr(-5)}`
-    config.headers[&apos;Authorization&apos;] = `Bearer ${token}`
-  }
-  if (isObject(config)) {
-    errorData.request = {
-      url: config.url,
-      headers: config.headers,
-      method: config.method,
-      payloadData: config.data
-    }
-  }
-  if (isObject(data)) {
-    if (&apos;requestId&apos; in data) {
-      errorData.requestId = data.requestId || &apos;UNKNOWN&apos;
-    }
-    if (&apos;message&apos; in data) {
-      errorData.message = data.message || &apos;&apos;
-    }
-    if (&apos;details&apos; in data) {
-      errorData.details = data.details || {}
-    }
-    if (&apos;sys&apos; in data) {
-      if (&apos;id&apos; in data.sys) {
-        errorName = data.sys.id
-      }
-    }
+  /**
+   * Creates a space
+   * @memberof ClientAPI
+   * @see {Space.Space}
+   * @param {object} data - Object representation of the Space to be created
+   * @param {string=} organizationId - Organization ID, if the associated token can manage more than one organization.
+   * @return {Promise&lt;Space.Space&gt;} Promise for the newly created Space
+   * @example
+   * client.createSpace({name: &apos;Space Name&apos;})
+   * .then(space =&gt; console.log(space))
+   */
+  function createSpace (data, organizationId) {
+    return http.post(&apos;&apos;, data, {
+      headers: organizationId ? {&apos;X-Contentful-Organization&apos;: organizationId} : {}
+    })
+    .then((response) =&gt; wrapSpace(http, response.data), errorHandler)
   }
 
-  const error = new Error()
-  error.name = errorName &amp;&amp; errorName !== &apos;Unknown&apos; ? errorName : `${response.status} ${response.statusText}`
-  error.message = JSON.stringify(errorData, null, &apos;  &apos;)
-  throw error
+  /**
+   * Gets a collection of Organizations
+   * @memberof ClientAPI
+   * @return {Promise&lt;OrganizationCollection&gt;} Promise for a collection of Organizations
+   * @example
+   * space.getOrganizations()
+   * .then(result =&gt; console.log(result.items))
+   */
+  function getOrganizations () {
+    const baseURL = http.defaults.baseURL.replace(&apos;/spaces/&apos;, &apos;/organizations/&apos;)
+    return http.get(&apos;&apos;, {
+      baseURL
+    })
+    .then((response) =&gt; wrapOrganizationCollection(http, response.data), errorHandler)
+  }
+
+  return {
+    getSpaces: getSpaces,
+    getSpace: getSpace,
+    createSpace: createSpace,
+    getOrganizations: getOrganizations
+  }
 }
 </code></pre>
 
