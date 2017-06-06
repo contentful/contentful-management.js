@@ -582,16 +582,18 @@ client.getSpace('&lt;space_id>')
 // Create asset
 client.getSpace('&lt;space_id>')
 .then((space) => space.createAsset({
-  title: {
-    'en-US': 'Playsam Streamliner'
-  },
-  file: {
-    'en-US': {
-      contentType: 'image/jpeg',
-      fileName: 'example.jpeg',
-      upload: 'https://example.com/example.jpg'
+    fields: {  
+        title: {
+            'en-US': 'Playsam Streamliner'
+        },
+        file: {
+            'en-US': {
+            contentType: 'image/jpeg',
+            fileName: 'example.jpeg',
+            upload: 'https://example.com/example.jpg'
+            }
+        }
     }
-  }
 }))
 .then((asset) => asset.process())
 .then((asset) => console.log(asset))

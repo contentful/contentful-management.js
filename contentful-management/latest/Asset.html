@@ -1805,7 +1805,7 @@ const client = contentful.createClient({
 client.getSpace('&lt;space_id>')
 .then((space) => space.getAsset('&lt;asset_id>'))
 .then((asset) => {
-  asset.fields.title['en-Us'] = 'New asset title'
+  asset.fields.title['en-US'] = 'New asset title'
   return asset.update()
 })
 .then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
