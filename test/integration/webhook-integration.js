@@ -1,16 +1,16 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
 
-export default function webhookTests (t, space) {
-  t.test('Gets webhooks', (t) => {
-    t.plan(2)
+export default function webhookTests (space) {
+  test('Gets webhooks', () => {
     return space.getWebhooks()
     .then((webhooks) => {
-      t.ok(webhooks.sys, 'sys')
-      t.ok(webhooks.items, 'fields')
+      expect(webhooks.sys).toBeTruthy()
+      expect(webhooks.items).toBeTruthy()
     })
   })
 
-  t.test('Create webhook with id', (t) => {
+  test('Create webhook with id', () => {
     const id = generateRandomId('webhook')
     return space.createWebhookWithId(id, {
       name: 'testwebhook',
@@ -18,32 +18,32 @@ export default function webhookTests (t, space) {
       topics: ['Entry.publish']
     })
     .then((webhook) => {
-      t.equals(webhook.sys.id, id, 'id')
+      expect(webhook.sys.id).toBe(id)
       return webhook.getCalls()
       .then((calls) => {
-        t.ok(calls.items, 'gets list of calls')
+        expect(calls.items).toBeTruthy()
         return webhook.getHealth()
         .then((health) => {
-          t.ok(health.calls, 'gets webhook health')
+          expect(health.calls).toBeTruthy()
           return webhook.delete()
         })
       })
     })
   })
 
-  t.test('Create webhook', (t) => {
+  test('Create webhook', () => {
     return space.createWebhook({
       name: 'testname',
       url: 'http://localhost:8080',
       topics: ['Entry.publish']
     })
     .then((webhook) => {
-      t.equals(webhook.name, 'testname', 'name')
-      t.ok(webhook.url, 'url')
+      expect(webhook.name).toBe('testname')
+      expect(webhook.url).toBeTruthy()
       webhook.name = 'updatedname'
       webhook.update()
       .then((updatedWebhook) => {
-        t.equals(updatedWebhook.name, 'updatedname', 'name')
+        expect(updatedWebhook.name).toBe('updatedname')
         return updatedWebhook.delete()
       })
     })

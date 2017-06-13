@@ -1,58 +1,53 @@
+/* global test, expect */
 import filter from 'lodash/filter'
 import map from 'lodash/map'
 import generateRandomId from './generate-random-id'
 
 export function entryReadOnlyTests (t, space) {
-  t.test('Gets entry', (t) => {
-    t.plan(2)
+  test('Gets entry', (t) => {
     return space.getEntry('5ETMRzkl9KM4omyMwKAOki')
     .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.fields, 'fields')
+      expect(response.sys).toBeTruthy()
+      expect(response.fields).toBeTruthy()
     })
   })
 
-  t.test('Gets entries', (t) => {
-    t.plan(1)
+  test('Gets entries', (t) => {
     return space.getEntries()
     .then((response) => {
-      t.ok(response.items, 'items')
+      expect(response.items).toBeTruthy()
     })
   })
 
-  t.test('Gets entries with a limit parameter', (t) => {
-    t.plan(2)
+  test('Gets entries with a limit parameter', () => {
     return space.getEntries({
       limit: 2
     })
     .then((response) => {
-      t.ok(response.items, 'items')
-      t.equal(response.items.length, 2)
+      expect(response.items).toBeTruthy()
+      expect(response.items.length).toBe(2)
     })
   })
 
-  t.test('Gets entries with a skip parameter', (t) => {
-    t.plan(2)
+  test('Gets entries with a skip parameter', () => {
     return space.getEntries({
       skip: 2
     })
-    .then((response) => {
-      t.ok(response.items, 'items')
-      t.equal(response.skip, 2)
-    })
+      .then((response) => {
+        expect(response.items).toBeTruthy()
+        expect(response.skip).toBe(2)
+      })
   })
 
-  t.test('Gets entries with content type query param', (t) => {
-    t.plan(2)
+  test('Gets entries with content type query param', (t) => {
     return space.getEntries({content_type: 'cat'})
     .then((response) => {
-      t.equal(response.total, 3)
-      t.looseEqual(map(response.items, 'sys.contentType.sys.id'), ['cat', 'cat', 'cat'])
+      expect(response.total).toBe(3)
+      expect(map(response.items, 'sys.contentType.sys.id')).toEqual(['cat', 'cat', 'cat'])
     })
   })
 
-  t.test('Gets entries with equality query', (t) => {
-    t.plan(2)
+  test('Gets entries with equality query', () => {
     return space.getEntries({'sys.id': 'nyancat'})
     .then((response) => {
       t.equal(response.total, 1)
@@ -60,177 +55,161 @@ export function entryReadOnlyTests (t, space) {
     })
   })
 
-  t.test('Gets entries with inequality query', (t) => {
-    t.plan(2)
+  test('Gets entries with inequality query', () => {
     return space.getEntries({'sys.id[ne]': 'nyancat'})
     .then((response) => {
-      t.ok(response.total > 0)
-      t.equal(filter(response.items, ['sys.id', 'nyancat']).length, 0)
+      expect(response.total > 0).toBeTruthy()
+      expect(filter(response.items, ['sys.id', 'nyancat']).length).toBe(0)
     })
   })
 
-  t.test('Gets entries with array equality query', (t) => {
-    t.plan(2)
+  test('Gets entries with array equality query', () => {
     return space.getEntries({
       content_type: 'cat',
       'fields.likes': 'lasagna'
     })
     .then((response) => {
-      t.equal(response.total, 1)
-      t.equal(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length, 1)
+      expect(response.total).toBe(1)
+      expect(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length).toBe(1)
     })
   })
 
-  t.test('Gets entries with array inequality query', (t) => {
-    t.plan(2)
+  test('Gets entries with array inequality query', () => {
     return space.getEntries({
       content_type: 'cat',
       'fields.likes[ne]': 'lasagna'
     })
     .then((response) => {
-      t.ok(response.total > 0)
-      t.equal(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length, 0)
+      expect(response.total > 0).toBeTruthy()
+      expect(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length).toBe(0)
     })
   })
 
-  t.test('Gets entries with inclusion query', (t) => {
-    t.plan(3)
+  test('Gets entries with inclusion query', () => {
     return space.getEntries({'sys.id[in]': 'finn,jake'})
     .then((response) => {
-      t.equal(response.total, 2)
-      t.equal(filter(response.items, ['sys.id', 'finn']).length, 1)
-      t.equal(filter(response.items, ['sys.id', 'jake']).length, 1)
+      expect(response.total).toBe(2)
+      expect(filter(response.items, ['sys.id', 'finn']).length).toBe(1)
+      expect(filter(response.items, ['sys.id', 'jake']).length).toBe(1)
     })
   })
 
-  t.test('Gets entries with exclusion query', (t) => {
-    t.plan(3)
+  test('Gets entries with exclusion query', () => {
     return space.getEntries({
       content_type: 'cat',
       'fields.likes[nin]': 'rainbows,lasagna'
     })
     .then((response) => {
-      t.ok(response.total > 0)
-      t.equal(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length, 0)
-      t.equal(filter(response.items[0].fields.likes['en-US'], (i) => i === 'rainbows').length, 0)
+      expect(response.total > 0).toBeTruthy()
+      expect(filter(response.items[0].fields.likes['en-US'], (i) => i === 'lasagna').length).toBe(0)
+      expect(filter(response.items[0].fields.likes['en-US'], (i) => i === 'rainbows').length).toBe(0)
     })
   })
 
-  t.test('Gets entries with exists query', (t) => {
-    t.plan(1)
+  test('Gets entries with exists query', () => {
     return space.getEntries({
       content_type: 'cat',
       'fields.likes[exists]': 'true'
     })
     .then((response) => {
-      t.equal(map(response.items, 'fields.likes').length, response.total)
+      expect(map(response.items, 'fields.likes').length).toBe(response.total)
     })
   })
 
-  t.test('Gets entries with inverse exists query', (t) => {
-    t.plan(1)
+  test('Gets entries with inverse exists query', (xt) => {
     return space.getEntries({
       content_type: 'cat',
       'fields.likes[exists]': 'false'
     })
     .then((response) => {
-      t.equal(map(response.items, 'fields.likes').length, 0)
+      expect(map(response.items, 'fields.likes').length).toBe(0)
     })
   })
 
-  t.test('Gets entries with field link query', (t) => {
-    t.plan(1)
+  test('Gets entries with field link query', () => {
     return space.getEntries({
       content_type: 'cat',
       'fields.bestFriend.sys.id': 'happycat'
     })
     .then((response) => {
-      t.equal(response.items[0].sys.id, 'nyancat', 'returned entry has link to specified linked entry')
+      expect(response.items[0].sys.id).toBe('nyancat')
     })
   })
 
-  t.test('Gets entries with gte range query', (t) => {
-    t.plan(1)
+  test('Gets entries with gte range query', () => {
     return space.getEntries({
       'sys.updatedAt[gte]': '2013-01-01T00:00:00Z'
     })
     .then((response) => {
-      t.ok(response.total > 0)
+      expect(response.total > 0).toBeTruthy()
     })
   })
 
-  t.test('Gets entries with lte range query', (t) => {
-    t.plan(1)
+  test('Gets entries with lte range query', () => {
     return space.getEntries({
       'sys.updatedAt[lte]': '2013-01-01T00:00:00Z'
     })
     .then((response) => {
-      t.equal(response.total, 0)
+      expect(response.total).toBe(0)
     })
   })
 
-  t.test('Gets entries with full text search query', (t) => {
-    t.plan(1)
+  test('Gets entries with full text search query', () => {
     return space.getEntries({
       query: 'bacon'
     })
     .then((response) => {
-      t.ok(response.items[0].fields.description['en-US'].match(/bacon/))
+      expect(response.items[0].fields.description['en-US'].match(/bacon/)).toBeTruthy()
     })
   })
 
-  t.test('Gets entries with full text search query on field', (t) => {
-    t.plan(1)
+  test('Gets entries with full text search query on field', () => {
     return space.getEntries({
       content_type: 'dog',
       'fields.description[match]': 'bacon pancakes'
     })
     .then((response) => {
-      t.ok(response.items[0].fields.description['en-US'].match(/bacon/))
+      expect(response.items[0].fields.description['en-US'].match(/bacon/)).toBeTruthy()
     })
   })
 
-  t.test('Gets entries with location proximity search', (t) => {
-    t.plan(2)
+  test('Gets entries with location proximity search', () => {
     return space.getEntries({
       content_type: '1t9IbcfdCk6m04uISSsaIK',
       'fields.center[near]': '38,-122'
     })
     .then((response) => {
-      t.ok(response.items[0].fields.center['en-US'].lat, 'has latitude')
-      t.ok(response.items[0].fields.center['en-US'].lon, 'has longitude')
+      expect(response.items[0].fields.center['en-US'].lat).toBeTruthy()
+      expect(response.items[0].fields.center['en-US'].lon).toBeTruthy()
     })
   })
 
-  t.test('Gets entries with location in bounding object', (t) => {
-    t.plan(2)
+  test('Gets entries with location in bounding object', () => {
     return space.getEntries({
       content_type: '1t9IbcfdCk6m04uISSsaIK',
       'fields.center[within]': '40,-124,36,-120'
     })
     .then((response) => {
-      t.ok(response.items[0].fields.center['en-US'].lat, 'has latitude')
-      t.ok(response.items[0].fields.center['en-US'].lon, 'has longitude')
+      expect(response.items[0].fields.center['en-US'].lat).toBeTruthy()
+      expect(response.items[0].fields.center['en-US'].lon).toBeTruthy()
     })
   })
 
-  t.test('Gets entries by creation order', (t) => {
-    t.plan(1)
+  test('Gets entries by creation order', () => {
     return space.getEntries({
       order: 'sys.createdAt'
     })
     .then((response) => {
-      t.ok(response.items[0].sys.createdAt < response.items[1].sys.createdAt)
+      expect(response.items[0].sys.createdAt < response.items[1].sys.createdAt).toBeTruthy()
     })
   })
 
-  t.test('Gets entries by inverse creation order', (t) => {
-    t.plan(1)
+  test('Gets entries by inverse creation order', () => {
     return space.getEntries({
       order: '-sys.createdAt'
     })
     .then((response) => {
-      t.ok(response.items[0].sys.createdAt > response.items[1].sys.createdAt)
+      expect(response.items[0].sys.createdAt > response.items[1].sys.createdAt).toBeTruthy()
     })
   })
 
@@ -243,22 +222,21 @@ export function entryReadOnlyTests (t, space) {
    * It's a slightly fragile test as it can break if any of the entries are
    * updated and republished.
    */
-  t.test('Gets entries by creation order and id order', (t) => {
-    t.plan(5)
+  test('Gets entries by creation order and id order', () => {
     return space.getEntries({
       order: 'sys.version,sys.id'
     })
     .then((response) => {
-      t.ok(response.items[3].sys.version < response.items[4].sys.version, 'version of entry with index 4 is higher than the one of index 3')
-      t.equal(response.items[4].sys.version, response.items[5].sys.version, 'entries of indexes 4 and 5 have the same version')
-      t.equal(response.items[4].sys.version, 11, 'version for entry with index 4')
-      t.equal(response.items[5].sys.version, 11, 'version for entry with index 5')
-      t.ok(response.items[4].sys.id < response.items[5].sys.id, 'the entries with the same version are ordered by id')
+      expect(response.items[3].sys.version < response.items[4].sys.version).toBeTruthy()
+      expect(response.items[4].sys.version).toBe(response.items[5].sys.version)
+      expect(response.items[4].sys.version).toBe(11)
+      expect(response.items[5].sys.version).toBe(11)
+      expect(response.items[4].sys.id < response.items[5].sys.id).toBeTruthy()
     })
   })
 }
 
-export function entryWriteTests (t, space) {
+export function entryWriteTests (space) {
   function prepareContentTypeForEntryTest () {
     return space.createContentTypeWithId(generateRandomId('testcontenttype'), {name: 'testCT',
       fields: [
@@ -275,33 +253,31 @@ export function entryWriteTests (t, space) {
     }, 2000))
   }
 
-  t.test('Create, update, publish, unpublish, archive, unarchive and delete entry', (t) => {
-    t.plan(9)
-
+  test('Create, update, publish, unpublish, archive, unarchive and delete entry', () => {
     return prepareContentTypeForEntryTest()
     .then((contentType) => {
       return space.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
       .then((entry) => {
-        t.ok(entry.isDraft(), 'entry is in draft')
-        t.equals(entry.fields.title['en-US'], 'this is the title', 'original title')
+        expect(entry.isDraft()).toBeTruthy()
+        expect(entry.fields.title['en-US']).toBe('this is the title')
         return entry.publish()
         .then((publishedEntry) => {
-          t.ok(publishedEntry.isPublished(), 'entry is published')
+          expect(publishedEntry.isPublished()).toBeTruthy()
           publishedEntry.fields.title['en-US'] = 'title has changed'
           return publishedEntry.update()
           .then((updatedEntry) => {
-            t.ok(updatedEntry.isUpdated(), 'entry is updated')
-            t.equals(updatedEntry.fields.title['en-US'], 'title has changed', 'updated title')
+            expect(updatedEntry.isUpdated()).toBeTruthy()
+            expect(updatedEntry.fields.title['en-US']).toBe('title has changed')
             return updatedEntry.unpublish()
             .then((unpublishedEntry) => {
-              t.ok(unpublishedEntry.isDraft(), 'entry is back in draft')
+              expect(unpublishedEntry.isDraft()).toBeTruthy()
               return unpublishedEntry.archive()
               .then((archivedEntry) => {
-                t.ok(archivedEntry.isArchived(), 'entry is archived')
+                expect(archivedEntry.isArchived()).toBeTruthy()
                 return archivedEntry.unarchive()
                 .then((unarchivedEntry) => {
-                  t.notOk(unarchivedEntry.isArchived(), 'entry is not archived anymore')
-                  t.ok(unarchivedEntry.isDraft(), 'entry is back in draft')
+                  expect(unarchivedEntry.isArchived()).toBeFalsy()
+                  expect(unarchivedEntry.isDraft()).toBeTruthy()
                   return unarchivedEntry.delete()
                   .then(teardownContentTypeForEntryTest(contentType))
                 })
@@ -313,14 +289,12 @@ export function entryWriteTests (t, space) {
     })
   })
 
-  t.test('Create with id and delete entry', (t) => {
-    t.plan(1)
-
+  test('Create with id and delete entry', () => {
     return prepareContentTypeForEntryTest()
     .then((contentType) => {
       return space.createEntryWithId(contentType.sys.id, 'entryid', {fields: {title: {'en-US': 'this is the title'}}})
       .then((entry) => {
-        t.equals(entry.fields.title['en-US'], 'this is the title', 'original title')
+        expect(entry.fields.title['en-US']).toBe('this is the title')
         return entry.delete()
         .then(teardownContentTypeForEntryTest(contentType))
       })

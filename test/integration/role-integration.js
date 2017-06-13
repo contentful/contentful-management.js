@@ -1,3 +1,4 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
 
 const roleDefinition = {
@@ -9,33 +10,32 @@ const roleDefinition = {
   permissions: { ContentModel: [ 'read' ], Settings: [], ContentDelivery: [] }
 }
 
-export default function roleTests (t, space) {
-  t.test('Gets roles', (t) => {
-    t.plan(2)
+export default function roleTests (space) {
+  test('Gets roles', () => {
     return space.getRoles()
     .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys).toBeTruthy()
+      expect(response.items).toBeTruthy()
     })
   })
 
-  t.test('Create role with id', (t) => {
+  test('Create role with id', () => {
     const id = generateRandomId('role')
     return space.createRoleWithId(id, roleDefinition)
     .then((role) => {
-      t.equals(role.sys.id, id, 'id')
+      expect(role.sys.id).toBe(id)
       return role.delete()
     })
   })
 
-  t.test('Create role', (t) => {
+  test('Create role', () => {
     return space.createRole(roleDefinition)
     .then((role) => {
-      t.equals(role.name, 'Content Editor', 'name')
+      expect(role.name).toBe('Content Editor')
       role.name = 'updatedname'
       role.update()
       .then((updatedRole) => {
-        t.equals(updatedRole.name, 'updatedname', 'name')
+        expect(updatedRole.name).toBe('updatedname')
         return updatedRole.delete()
       })
     })

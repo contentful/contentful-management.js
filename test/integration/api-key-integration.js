@@ -1,7 +1,7 @@
 /* global expect, test */
 import generateRandomId from './generate-random-id'
 
-export default function apiKeyTests (space) {
+export function apiKeyTests (space) {
   test('Gets apiKeys', () => {
     return space.getApiKeys()
     .then((response) => {

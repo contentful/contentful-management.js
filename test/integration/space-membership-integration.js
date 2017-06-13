@@ -1,16 +1,16 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
 
-export default function spaceMembershipTests (t, space) {
-  t.test('Gets spaceMemberships', (t) => {
-    t.plan(2)
+export default function spaceMembershipTests (space) {
+  test('Gets spaceMemberships', () => {
     return space.getSpaceMemberships()
     .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys).toBeTruthy()
+      expect(response.items).toBeTruthy()
     })
   })
 
-  t.test('Create spaceMembership with id', (t) => {
+  test('Create spaceMembership with id', () => {
     const id = generateRandomId('spaceMembership')
     const email = generateRandomId('js-cma-sdk-tests') + '@contentful.com'
     return space.getRoles()
@@ -23,13 +23,13 @@ export default function spaceMembershipTests (t, space) {
         ]
       })
       .then((spaceMembership) => {
-        t.equals(spaceMembership.sys.id, id, 'id')
+        expect(spaceMembership.sys.id).toBe(id)
         return spaceMembership.delete()
       })
     })
   })
 
-  t.test('Create spaceMembership', (t) => {
+  test('Create spaceMembership', () => {
     const email = generateRandomId('js-cma-sdk-tests') + '@contentful.com'
     return space.getRoles()
     .then((roles) => {
@@ -41,13 +41,13 @@ export default function spaceMembershipTests (t, space) {
         ]
       })
       .then((spaceMembership) => {
-        t.ok(spaceMembership.user, 'user')
-        t.notOk(spaceMembership.admin, 'admin')
+        expect(spaceMembership.user).toBeTruthy()
+        expect(spaceMembership.admin).toBeFalsy()
         delete spaceMembership.user
         spaceMembership.admin = true
         spaceMembership.update()
         .then((updatedSpaceMembership) => {
-          t.ok(spaceMembership.admin, 'admin')
+          expect(spaceMembership.admin).toBeTruthy()
           return updatedSpaceMembership.delete()
         })
       })

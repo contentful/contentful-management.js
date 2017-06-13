@@ -1,30 +1,29 @@
-export function localeTests (t, space) {
-  t.test('Gets locales', (t) => {
-    t.plan(2)
+/* global test, expect */
+export function localeTests (space) {
+  test('Gets locales', () => {
     return space.getLocales()
     .then((response) => {
-      t.ok(response.items[0].name, 'English')
-      t.ok(response.items[0].code, 'en-US')
+      expect(response.items[0].name).toBeTruthy()
+      expect(response.items[0].code).toBeTruthy()
     })
   })
 
-  t.test('Creates, gets, updates and deletes a locale', (t) => {
-    t.plan(3)
+  test('Creates, gets, updates and deletes a locale', () => {
     return space.createLocale({
       name: 'German (Austria)',
       code: 'de-AT'
     })
     .then((response) => {
-      t.equals(response.code, 'de-AT', 'locale code after creation')
+      expect(response.code).toBe('de-AT')
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(space.getLocale(response.sys.id)
           .then((locale) => {
-            t.equals(locale.code, 'de-AT', 'locale code after getting')
+            expect(locale.code).toBe('de-AT')
             locale.name = 'Deutsch (Österreich)'
             return locale.update()
             .then((updatedLocale) => {
-              t.equals(updatedLocale.name, 'Deutsch (Österreich)', 'locale name after update')
+              expect(updatedLocale.name).toBe('Deutsch (Österreich)')
               return updatedLocale.delete()
             })
           }))
