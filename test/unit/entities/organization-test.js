@@ -1,4 +1,4 @@
-/* global jest, test */
+/* global test */
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapOrganizationCollection } from '../../../lib/entities/organization'
@@ -14,7 +14,7 @@ function setup (promise) {
 }
 
 test('Organization collection is wrapped', () => {
-  entityCollectionWrappedTest(jest, setup, {
+  entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapOrganizationCollection
   })
 })

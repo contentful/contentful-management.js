@@ -6,7 +6,7 @@ import { Promise } from 'es6-promise'
 export function makeGetEntityTest (setup, teardown, {entityType, mockToReturn, methodToTest, wrapperSuffix = ''}) {
   const {api, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}${wrapperSuffix}`]
-  .returns(mockToReturn)
+  .mockReturnValue(mockToReturn)
 
   return api[methodToTest]('eid')
   .then((r) => {
@@ -43,12 +43,12 @@ export function makeEntityMethodFailingTest (setup, teardown, {methodToTest}) {
 export function makeCreateEntityTest (setup, teardown, {entityType, mockToReturn, methodToTest}) {
   const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`]
-  .returns(mockToReturn)
+  .mockReturnValue(mockToReturn)
 
   return api[methodToTest](mockToReturn)
   .then((r) => {
     expect(r).toEqual(mockToReturn)
-    expect(httpMock.post.calls[0][1]).toEqual(mockToReturn)
+    expect(httpMock.post.mock.calls[0][1]).toEqual(mockToReturn)
     teardown()
   })
 }
@@ -57,13 +57,13 @@ export function makeCreateEntityWithIdTest (setup, teardown, {entityType, entity
   const id = 'entityId'
   const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`]
-  .returns(mockToReturn)
+  .mockReturnValue(mockToReturn)
 
   return api[methodToTest](id, mockToReturn)
   .then((r) => {
     expect(r).toEqual(mockToReturn)
-    expect(httpMock.put.calls[0][0]).toBe(`${entityPath}${id}`)
-    expect(httpMock.put.calls[0][1]).toEqual(mockToReturn)
+    expect(httpMock.put.mock.calls[0][0]).toBe(`${entityPath}${id}`)
+    expect(httpMock.put.mock.calls[0][1]).toEqual(mockToReturn)
     teardown()
   })
 }

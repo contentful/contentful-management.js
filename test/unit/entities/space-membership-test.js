@@ -1,4 +1,4 @@
-/* global jest, test */
+/* global test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapSpaceMembership, wrapSpaceMembershipCollection} from '../../../lib/entities/space-membership'
@@ -19,38 +19,38 @@ function setup (promise) {
 }
 
 test('SpaceMembership is wrapped', () => {
-  entityWrappedTest(jest, setup, {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
 test('SpaceMembership collection is wrapped', () => {
-  return entityCollectionWrappedTest(jest, setup, {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapSpaceMembershipCollection
   })
 })
 
 test('SpaceMembership update', () => {
-  return entityUpdateTest(jest, setup, {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
 test('SpaceMembership update fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapSpaceMembership,
     actionMethod: 'update'
   })
 })
 
 test('SpaceMembership delete', () => {
-  return entityDeleteTest(jest, setup, {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
 test('SpaceMembership delete fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapSpaceMembership,
     actionMethod: 'delete'
   })

@@ -1,4 +1,4 @@
-/* global jest, test, expect */
+/* global test, expect */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapWebhook, wrapWebhookCollection} from '../../../lib/entities/webhook'
@@ -19,38 +19,38 @@ function setup (promise) {
 }
 
 test('Webhook is wrapped', () => {
-  entityWrappedTest(jest, setup, {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
 test('Webhook collection is wrapped', () => {
-  return entityCollectionWrappedTest(jest, setup, {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapWebhookCollection
   })
 })
 
 test('Webhook update', () => {
-  return entityUpdateTest(jest, setup, {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
 test('Webhook update fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapWebhook,
     actionMethod: 'update'
   })
 })
 
 test('Webhook delete', () => {
-  return entityDeleteTest(jest, setup, {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
 test('Webhook delete fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapWebhook,
     actionMethod: 'delete'
   })
@@ -62,7 +62,7 @@ test('Webhook list of calls', () => {
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getCalls()
   .then((response) => {
-    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/calls')
+    expect(httpMock.get.mock.calls[0][0]).toBe('webhooks/id/calls')
   })
 })
 
@@ -72,7 +72,7 @@ test('Webhook specific call', () => {
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getCall('callid')
   .then((response) => {
-    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/calls/callid')
+    expect(httpMock.get.mock.calls[0][0]).toBe('webhooks/id/calls/callid')
   })
 })
 
@@ -82,6 +82,6 @@ test('Webhook health', () => {
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getHealth()
   .then((response) => {
-    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/health')
+    expect(httpMock.get.mock.calls[0][0]).toBe('webhooks/id/health')
   })
 })

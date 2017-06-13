@@ -23,8 +23,8 @@ export function entityUpdateTest (setup, {wrapperMethod}) {
   return entity.update()
   .then((response) => {
     expect(response.toPlainObject).toBeTruthy()
-    expect(httpMock.put.calls[0][1].name).toBe('updatedname')
-    expect(httpMock.put.calls[0][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.put.mock.calls[0][1].name).toBe('updatedname')
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).toBe(2)
   })
 }
 
@@ -53,7 +53,7 @@ export function entityPublishTest (setup, {wrapperMethod}) {
   return entity.publish()
   .then((response) => {
     expect(response.toPlainObject).toBeTruthy()
-    expect(httpMock.put.calls[0][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).toBe(2)
   })
 }
 

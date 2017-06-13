@@ -1,4 +1,4 @@
-/* global jest, test */
+/* global test */
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUpload } from '../../../lib/entities/upload'
@@ -16,19 +16,19 @@ function setup (promise) {
 }
 
 test('Upload is wrapped', () => {
-  entityWrappedTest(jest, setup, {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapUpload
   })
 })
 
 test('Upload delete', () => {
-  return entityDeleteTest(jest, setup, {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapUpload
   })
 })
 
 test('Upload delete fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapUpload,
     actionMethod: 'delete'
   })

@@ -1,4 +1,4 @@
-/* global test, jest */
+/* global test */
 
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
@@ -20,38 +20,38 @@ function setup (promise) {
 }
 
 test('ApiKey is wrapped', () => {
-  entityWrappedTest(jest, setup, {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
 test('ApiKey collection is wrapped', () => {
-  return entityCollectionWrappedTest(jest, setup, {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapApiKeyCollection
   })
 })
 
 test('ApiKey update', () => {
-  return entityUpdateTest(jest, setup, {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
 test('ApiKey update fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapApiKey,
     actionMethod: 'update'
   })
 })
 
 test('ApiKey delete', () => {
-  return entityDeleteTest(jest, setup, {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
 test('ApiKey delete fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapApiKey,
     actionMethod: 'delete'
   })

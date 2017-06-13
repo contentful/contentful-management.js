@@ -71,7 +71,7 @@ test('API call space update', () => {
     name: 'updatedname'
   }
   let {api, httpMock, entitiesMock} = setup(Promise.resolve({data: responseData}))
-  entitiesMock.space.wrapSpace.returns(responseData)
+  entitiesMock.space.wrapSpace.mockReturnValue(responseData)
 
   // mocks data that would exist in a space object already retrieved from the server
   api.sys = { id: 'id', type: 'Space', version: 2 }
@@ -81,8 +81,8 @@ test('API call space update', () => {
   return api.update()
   .then((r) => {
     expect(r).toEqual(responseData)
-    expect(httpMock.put.calls[0][1].name).toBe('updatedname')
-    expect(httpMock.put.calls[0][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.put.mock.calls[0][1].name).toBe('updatedname')
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).toBe(2)
     teardown()
   })
 })
@@ -204,13 +204,13 @@ test('API call getEntries fails', () => {
 test('API call createEntry', () => {
   const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock.entry.wrapEntry
-  .returns(entryMock)
+  .mockReturnValue(entryMock)
 
   return api.createEntry('contentTypeId', entryMock)
   .then((r) => {
     expect(r).toEqual(entryMock)
-    expect(httpMock.post.calls[0][1]).toEqual(entryMock)
-    expect(httpMock.post.calls[0][2].headers['X-Contentful-Content-Type']).toBe('contentTypeId')
+    expect(httpMock.post.mock.calls[0][1]).toEqual(entryMock)
+    expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Content-Type']).toBe('contentTypeId')
     teardown()
   })
 })
@@ -224,14 +224,14 @@ test('API call createEntry fails', () => {
 test('API call createEntryWithId', () => {
   const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock.entry.wrapEntry
-  .returns(entryMock)
+  .mockReturnValue(entryMock)
 
   return api.createEntryWithId('contentTypeId', 'entryId', entryMock)
   .then((r) => {
     expect(r).toEqual(entryMock)
-    expect(httpMock.put.calls[0][0]).toBe('entries/entryId')
-    expect(httpMock.put.calls[0][1]).toEqual(entryMock)
-    expect(httpMock.put.calls[0][2].headers['X-Contentful-Content-Type']).toBe('contentTypeId')
+    expect(httpMock.put.mock.calls[0][0]).toBe('entries/entryId')
+    expect(httpMock.put.mock.calls[0][1]).toEqual(entryMock)
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).toBe('contentTypeId')
     teardown()
   })
 })
@@ -302,15 +302,15 @@ test('API call createAssetWithId fails', () => {
 test('API call createAssetFromFiles', () => {
   const { api, httpMock, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
 
-  entitiesMock.upload.wrapUpload.returns(Promise.resolve(uploadMock))
-  httpUploadMock.post.returns(Promise.resolve({
+  entitiesMock.upload.wrapUpload.mockReturnValue(Promise.resolve(uploadMock))
+  httpUploadMock.post.mockReturnValue(Promise.resolve({
     data: {
       sys: {
         id: 'some_random_id'
       }
     }
   }))
-  httpMock.post.returns(Promise.resolve({
+  httpMock.post.mockReturnValue(Promise.resolve({
     data: assetWithFilesMock
   }))
 
@@ -331,9 +331,9 @@ test('API call createAssetFromFiles', () => {
     }
   })
   .then(() => {
-    expect(httpUploadMock.post.calls[0][1]).toBe('<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>')
-    expect(httpUploadMock.post.calls[1][1]).toBe('<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>')
-    expect(entitiesMock.asset.wrapAsset.calls[0][1]).toEqual(assetWithFilesMock)
+    expect(httpUploadMock.post.mock.calls[0][1]).toBe('<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>')
+    expect(httpUploadMock.post.mock.calls[1][1]).toBe('<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>')
+    expect(entitiesMock.asset.wrapAsset.mock.calls[0][1]).toEqual(assetWithFilesMock)
   })
 })
 
@@ -358,7 +358,7 @@ test('API call createUpload', () => {
       id: 'some_random_id'
     }
   }
-  httpUploadMock.post.returns(Promise.resolve({
+  httpUploadMock.post.mockReturnValue(Promise.resolve({
     data: mockedUpload
   }))
 
@@ -368,9 +368,9 @@ test('API call createUpload', () => {
     file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
   })
   .then(() => {
-    expect(httpUploadMock.post.calls[0][2].headers['Content-Type']).toBe('application/octet-stream')
-    expect(httpUploadMock.post.calls[0][1]).toBe('<svg><path fill="red" d="M50 50h150v50H50z"/></svg>')
-    expect(entitiesMock.upload.wrapUpload.calls[0][1]).toEqual(mockedUpload)
+    expect(httpUploadMock.post.mock.calls[0][2].headers['Content-Type']).toBe('application/octet-stream')
+    expect(httpUploadMock.post.mock.calls[0][1]).toBe('<svg><path fill="red" d="M50 50h150v50H50z"/></svg>')
+    expect(entitiesMock.upload.wrapUpload.mock.calls[0][1]).toEqual(mockedUpload)
   })
 })
 
@@ -381,7 +381,7 @@ test('API call createUpload defaults the content type to octet-stream', () => {
       id: 'some_random_id'
     }
   }
-  httpUploadMock.post.returns(Promise.resolve({
+  httpUploadMock.post.mockReturnValue(Promise.resolve({
     data: mockedUpload
   }))
 
@@ -390,21 +390,22 @@ test('API call createUpload defaults the content type to octet-stream', () => {
     file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
   })
   .then(() => {
-    expect(httpUploadMock.post.calls[0][2].headers['Content-Type']).toBe('application/octet-stream')
-    expect(httpUploadMock.post.calls[0][1]).toBe('<svg><path fill="red" d="M50 50h150v50H50z"/></svg>')
-    expect(entitiesMock.upload.wrapUpload.calls[0][1]).toEqual(mockedUpload)
+    expect(httpUploadMock.post.mock.calls[0][2].headers['Content-Type']).toBe('application/octet-stream')
+    expect(httpUploadMock.post.mock.calls[0][1]).toBe('<svg><path fill="red" d="M50 50h150v50H50z"/></svg>')
+    expect(entitiesMock.upload.wrapUpload.mock.calls[0][1]).toEqual(mockedUpload)
   })
 })
 
 test('API call createAssetFromFiles with invalid data', () => {
   const { api } = setup(Promise.resolve({}))
-  return expect(api.createAssetFromFiles({
-    fields: {
-      file: {
-        locale: {}
+  expect(
+    api.createAssetFromFiles({
+      fields: {
+        file: {
+          locale: {}
+        }
       }
-    }
-  })).toThrowError(new Error('Unable to locate a file to upload.'))
+    })).rejects.toMatch('Unable to locate a file to upload.')
 })
 
 test('API call getLocale', () => {

@@ -1,4 +1,4 @@
-/* global jest, test */
+/* global test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapEntry, wrapEntryCollection} from '../../../lib/entities/entry'
@@ -25,110 +25,110 @@ function setup (promise) {
 }
 
 test('Entry is wrapped', () => {
-  entityWrappedTest(jest, setup, {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapEntry
   })
 })
 
 test('Entry collection is wrapped', () => {
-  return entityCollectionWrappedTest(jest, setup, {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapEntryCollection
   })
 })
 
 test('Entry update', () => {
-  return entityUpdateTest(jest, setup, {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapEntry
   })
 })
 
 test('Entry update fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'update'
   })
 })
 
 test('Entry delete', () => {
-  return entityDeleteTest(jest, setup, {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapEntry
   })
 })
 
 test('Entry delete fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'delete'
   })
 })
 
 test('Entry publish', () => {
-  return entityPublishTest(jest, setup, {
+  return entityPublishTest(setup, {
     wrapperMethod: wrapEntry
   })
 })
 
 test('Entry publish fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'publish'
   })
 })
 
 test('Entry unpublish', () => {
-  return entityActionTest(jest, setup, {
+  return entityActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unpublish'
   })
 })
 
 test('Entry unpublish fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unpublish'
   })
 })
 
 test('Entry archive', () => {
-  return entityActionTest(jest, setup, {
+  return entityActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'archive'
   })
 })
 
 test('Entry archive fails', () => {
-  return failingVersionActionTest(jest, setup, {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'archive'
   })
 })
 
 test('Entry unarchive', () => {
-  return entityActionTest(jest, setup, {
+  return entityActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unarchive'
   })
 })
 
 test('Entry unarchive fails', () => {
-  return failingActionTest(jest, setup, {
+  return failingActionTest(setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unarchive'
   })
 })
 
 test('Entry isPublished', () => {
-  isPublishedTest(jest, setup, {wrapperMethod: wrapEntry})
+  isPublishedTest(setup, {wrapperMethod: wrapEntry})
 })
 
 test('Entry isUpdated', () => {
-  isUpdatedTest(jest, setup, {wrapperMethod: wrapEntry})
+  isUpdatedTest(setup, {wrapperMethod: wrapEntry})
 })
 
 test('Entry isDraft', () => {
-  isDraftTest(jest, setup, {wrapperMethod: wrapEntry})
+  isDraftTest(setup, {wrapperMethod: wrapEntry})
 })
 
 test('Entry isArchived', () => {
-  isArchivedTest(jest, setup, {wrapperMethod: wrapEntry})
+  isArchivedTest(setup, {wrapperMethod: wrapEntry})
 })

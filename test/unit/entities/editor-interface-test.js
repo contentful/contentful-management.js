@@ -1,4 +1,4 @@
-/* global jest, test, expect */
+/* global test, expect */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapEditorInterface} from '../../../lib/entities/editor-interface'
@@ -15,13 +15,13 @@ function setup (promise) {
 }
 
 test('Editor Interface is wrapped', () => {
-  return entityWrappedTest(jest, setup, {
+  return entityWrappedTest(setup, {
     wrapperMethod: wrapEditorInterface
   })
 })
 
 test('EditorInterface update', () => {
-  return entityUpdateTest(jest, setup, {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapEditorInterface
   })
 })
