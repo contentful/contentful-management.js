@@ -1,40 +1,40 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
 
-export default function apiKeyTests (t, space) {
-  t.test('Gets apiKeys', (t) => {
-    t.plan(2)
+export default function apiKeyTests (space) {
+  test('Gets apiKeys', () => {
     return space.getApiKeys()
     .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys).toBeTruthy()
+      expect(response.items).toBeTruthy()
     })
   })
 
-  t.test('Create apiKey with id', (t) => {
+  test('Create apiKey with id', () => {
     const id = generateRandomId('apiKey')
     return space.createApiKeyWithId(id, {
       name: generateRandomId('testapiKey'),
       description: 'test api key'
     })
     .then((apiKey) => {
-      t.equals(apiKey.sys.id, id, 'id')
+      expect(apiKey.sys.id).toBe(id)
       return apiKey.delete()
     })
   })
 
-  t.test('Create apiKey', (t) => {
+  test('Create apiKey', () => {
     const name = generateRandomId('name')
     return space.createApiKey({
       name: name,
       description: 'test api key'
     })
     .then((apiKey) => {
-      t.equals(apiKey.name, name, 'name')
+      expect(apiKey.names).toBe(name)
       const updatedname = generateRandomId('updatedname')
       apiKey.name = updatedname
       apiKey.update()
       .then((updatedApiKey) => {
-        t.equals(updatedApiKey.name, updatedname, 'name')
+        expect(updatedApiKey.name).toBe(updatedname)
         return updatedApiKey.delete()
       })
     })

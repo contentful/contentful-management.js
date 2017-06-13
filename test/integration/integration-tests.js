@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+/* global test, expect */
 import {localeTests} from './locale-integration'
 import {contentTypeReadOnlyTests, contentTypeWriteTests} from './content-type-integration'
 import {entryReadOnlyTests, entryWriteTests} from './entry-integration'
@@ -8,7 +8,7 @@ import spaceMembershipTests from './space-membership-integration'
 import roleTests from './role-integration'
 import apiKeyTests from './api-key-integration'
 import generateRandomId from './generate-random-id'
-import { createClient } from '../../'
+import { createClient } from '../../dist/contentful-management'
 
 const params = {
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
@@ -23,70 +23,65 @@ if (process.env.API_INTEGRATION_TESTS) {
 
 const client = createClient(params)
 
-test('Gets spaces', (t) => {
-  t.plan(2)
+test('Gets spaces', () => {
   return client.getSpaces()
   .then((response) => {
-    t.ok(response.items, 'items')
-    t.ok(response.total > 0, 'items have spaces')
+    expect(response.items).toBeTruthy()
+    expect(response.total > 0).toBeTruthy()
   })
 })
 
-test('Gets organizations', (t) => {
-  t.plan(1)
+test('Gets organizations', () => {
   return client.getOrganizations()
   .then((response) => {
-    t.ok(response.items.length >= 1, 'user must belong to at least one organization')
+    expect(response.items.length >= 1).toBeTruthy()
   })
 })
 
-test('Gets space', (t) => {
-  t.plan(2)
+test('Gets space', () => {
   return client.getSpace('cfexampleapi')
   .then((response) => {
-    t.ok(response.sys, 'sys')
-    t.ok(response.name, 'name')
+    expect(response.sys).toBeTruthy()
+    expect(response.name).toBeTruthy()
   })
 })
 
 // @todo unskip test when api behaviour is fixed
 // - https://github.com/contentful/contentful-management.js/issues/82
-test.skip('Fails to get space', (t) => {
-  t.plan(2)
+test.skip('Fails to get space', () => {
   return client.getSpace(generateRandomId('weirdrandomid'))
   .then(() => {}, (error) => {
-    t.equals(error.name, 'NotFound', 'error name')
+    expect(error.name).toBe('NotFound')
     const errorData = JSON.parse(error.message)
-    t.equals(errorData.status, 404, 'http status code from parsed error data')
+    expect(errorData.status).toeBe(404)
   })
 })
 
-test('Creates, updates and deletes a space', (t) => {
-  t.plan(2)
+test('Creates, updates and deletes a space', () => {
   return client.createSpace({
     name: 'spacename'
   }, organization)
   .then((space) => {
-    t.equals(space.name, 'spacename')
+    expect(space.names).toBe('spacename')
     space.name = 'updatedspacename'
     return space.update()
     .then((updatedSpace) => {
-      t.equals(updatedSpace.name, 'updatedspacename')
+      expect(updatedSpace.name).toBe('updatedspacename')
       return updatedSpace.delete()
     })
   })
 })
 
-test('Gets space for read only tests', (t) => {
+test('Gets space for read only tests', () => {
   return client.getSpace('cfexampleapi')
   .then((space) => {
-    contentTypeReadOnlyTests(t, space)
-    entryReadOnlyTests(t, space)
-    assetReadOnlyTests(t, space)
+    contentTypeReadOnlyTests(space)
+    entryReadOnlyTests(space)
+    assetReadOnlyTests(space)
   })
 })
 
-test('Create space for tests which create, change and delete data', (t) => {
+test('Create space for tests which create, change and delete data', () => {
   return client.createSpace({
     name: 'CMA JS SDK tests'
   }, organization)
@@ -106,14 +101,14 @@ test('Create space for tests which create, change and delete data', (t) => {
     })
   })
   .then((space) => {
-    localeTests(t, space)
-    contentTypeWriteTests(t, space)
-    entryWriteTests(t, space)
-    assetWriteTests(t, space)
-    webhookTests(t, space)
-    spaceMembershipTests(t, space)
-    roleTests(t, space)
-    apiKeyTests(t, space)
-    test.onFinish(() => space.delete())
+    localeTests(space)
+    contentTypeWriteTests(space)
+    entryWriteTests(space)
+    assetWriteTests(space)
+    webhookTests(space)
+    spaceMembershipTests(space)
+    roleTests(space)
+    apiKeyTests(space)
+    // test.onFinish(() => space.delete())
   })
 })
