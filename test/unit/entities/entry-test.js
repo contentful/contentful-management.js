@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global jest, test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapEntry, wrapEntryCollection} from '../../../lib/entities/entry'
@@ -24,111 +24,111 @@ function setup (promise) {
   }
 }
 
-test('Entry is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Entry is wrapped', () => {
+  entityWrappedTest(jest, setup, {
     wrapperMethod: wrapEntry
   })
 })
 
-test('Entry collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Entry collection is wrapped', () => {
+  return entityCollectionWrappedTest(jest, setup, {
     wrapperMethod: wrapEntryCollection
   })
 })
 
-test('Entry update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Entry update', () => {
+  return entityUpdateTest(jest, setup, {
     wrapperMethod: wrapEntry
   })
 })
 
-test('Entry update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Entry update fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'update'
   })
 })
 
-test('Entry delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Entry delete', () => {
+  return entityDeleteTest(jest, setup, {
     wrapperMethod: wrapEntry
   })
 })
 
-test('Entry delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Entry delete fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'delete'
   })
 })
 
-test('Entry publish', (t) => {
-  return entityPublishTest(t, setup, {
+test('Entry publish', () => {
+  return entityPublishTest(jest, setup, {
     wrapperMethod: wrapEntry
   })
 })
 
-test('Entry publish fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Entry publish fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'publish'
   })
 })
 
-test('Entry unpublish', (t) => {
-  return entityActionTest(t, setup, {
+test('Entry unpublish', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unpublish'
   })
 })
 
-test('Entry unpublish fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Entry unpublish fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unpublish'
   })
 })
 
-test('Entry archive', (t) => {
-  return entityActionTest(t, setup, {
+test('Entry archive', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'archive'
   })
 })
 
-test('Entry archive fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Entry archive fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'archive'
   })
 })
 
-test('Entry unarchive', (t) => {
-  return entityActionTest(t, setup, {
+test('Entry unarchive', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unarchive'
   })
 })
 
-test('Entry unarchive fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Entry unarchive fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'unarchive'
   })
 })
 
-test('Entry isPublished', (t) => {
-  isPublishedTest(t, setup, {wrapperMethod: wrapEntry})
+test('Entry isPublished', () => {
+  isPublishedTest(jest, setup, {wrapperMethod: wrapEntry})
 })
 
-test('Entry isUpdated', (t) => {
-  isUpdatedTest(t, setup, {wrapperMethod: wrapEntry})
+test('Entry isUpdated', () => {
+  isUpdatedTest(jest, setup, {wrapperMethod: wrapEntry})
 })
 
-test('Entry isDraft', (t) => {
-  isDraftTest(t, setup, {wrapperMethod: wrapEntry})
+test('Entry isDraft', () => {
+  isDraftTest(jest, setup, {wrapperMethod: wrapEntry})
 })
 
-test('Entry isArchived', (t) => {
-  isArchivedTest(t, setup, {wrapperMethod: wrapEntry})
+test('Entry isArchived', () => {
+  isArchivedTest(jest, setup, {wrapperMethod: wrapEntry})
 })

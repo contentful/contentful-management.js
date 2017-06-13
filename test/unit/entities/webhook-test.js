@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global jest, test, expect */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapWebhook, wrapWebhookCollection} from '../../../lib/entities/webhook'
@@ -18,70 +18,70 @@ function setup (promise) {
   }
 }
 
-test('Webhook is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Webhook is wrapped', () => {
+  entityWrappedTest(jest, setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
-test('Webhook collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Webhook collection is wrapped', () => {
+  return entityCollectionWrappedTest(jest, setup, {
     wrapperMethod: wrapWebhookCollection
   })
 })
 
-test('Webhook update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Webhook update', () => {
+  return entityUpdateTest(jest, setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
-test('Webhook update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Webhook update fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapWebhook,
     actionMethod: 'update'
   })
 })
 
-test('Webhook delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Webhook delete', () => {
+  return entityDeleteTest(jest, setup, {
     wrapperMethod: wrapWebhook
   })
 })
 
-test('Webhook delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Webhook delete fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapWebhook,
     actionMethod: 'delete'
   })
 })
 
-test('Webhook list of calls', (t) => {
-  t.plan(1)
+test('Webhook list of calls', () => {
+  expect.assertions(1)
   const {httpMock, entityMock} = setup()
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getCalls()
   .then((response) => {
-    t.equals(httpMock.get.args[0][0], 'webhooks/id/calls', 'id is sent')
+    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/calls')
   })
 })
 
-test('Webhook specific call', (t) => {
-  t.plan(1)
+test('Webhook specific call', () => {
+  expect.assertions(1)
   const {httpMock, entityMock} = setup()
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getCall('callid')
   .then((response) => {
-    t.equals(httpMock.get.args[0][0], 'webhooks/id/calls/callid', 'id is sent')
+    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/calls/callid')
   })
 })
 
-test('Webhook health', (t) => {
-  t.plan(1)
+test('Webhook health', () => {
+  expect.assertions(1)
   const {httpMock, entityMock} = setup()
   const entity = wrapWebhook(httpMock, entityMock)
   return entity.getHealth()
   .then((response) => {
-    t.equals(httpMock.get.args[0][0], 'webhooks/id/health', 'id is sent')
+    expect(httpMock.get.calls[0][0]).toBe('webhooks/id/health')
   })
 })

@@ -1,4 +1,5 @@
-import test from 'tape'
+/* global test, expect, jest */
+
 import { Promise } from 'es6-promise'
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
@@ -25,117 +26,117 @@ function setup (promise) {
   }
 }
 
-test('Asset is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Asset is wrapped', () => {
+  entityWrappedTest(jest, setup, {
     wrapperMethod: wrapAsset
   })
 })
 
-test('Asset collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Asset collection is wrapped', () => {
+  return entityCollectionWrappedTest(jest, setup, {
     wrapperMethod: wrapAssetCollection
   })
 })
 
-test('Asset update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Asset update', () => {
+  return entityUpdateTest(jest, setup, {
     wrapperMethod: wrapAsset
   })
 })
 
-test('Asset update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Asset update fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'update'
   })
 })
 
-test('Asset delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Asset delete', () => {
+  return entityDeleteTest(jest, setup, {
     wrapperMethod: wrapAsset
   })
 })
 
-test('Asset delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Asset delete fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'delete'
   })
 })
 
-test('Asset publish', (t) => {
-  return entityPublishTest(t, setup, {
+test('Asset publish', () => {
+  return entityPublishTest(jest, setup, {
     wrapperMethod: wrapAsset
   })
 })
 
-test('Asset publish fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Asset publish fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'publish'
   })
 })
 
-test('Asset unpublish', (t) => {
-  return entityActionTest(t, setup, {
+test('Asset unpublish', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'unpublish'
   })
 })
 
-test('Asset unpublish fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Asset unpublish fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'unpublish'
   })
 })
 
-test('Asset archive', (t) => {
-  return entityActionTest(t, setup, {
+test('Asset archive', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'archive'
   })
 })
 
-test('Asset archive fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Asset archive fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'archive'
   })
 })
 
-test('Asset unarchive', (t) => {
-  return entityActionTest(t, setup, {
+test('Asset unarchive', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'unarchive'
   })
 })
 
-test('Asset unarchive fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Asset unarchive fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapAsset,
     actionMethod: 'unarchive'
   })
 })
 
-test('Asset isPublished', (t) => {
-  isPublishedTest(t, setup, {wrapperMethod: wrapAsset})
+test('Asset isPublished', () => {
+  isPublishedTest(jest, setup, {wrapperMethod: wrapAsset})
 })
 
-test('Asset isUpdated', (t) => {
-  isUpdatedTest(t, setup, {wrapperMethod: wrapAsset})
+test('Asset isUpdated', () => {
+  isUpdatedTest(jest, setup, {wrapperMethod: wrapAsset})
 })
 
-test('Asset isDraft', (t) => {
-  isDraftTest(t, setup, {wrapperMethod: wrapAsset})
+test('Asset isDraft', () => {
+  isDraftTest(jest, setup, {wrapperMethod: wrapAsset})
 })
 
-test('Asset isArchived', (t) => {
-  isArchivedTest(t, setup, {wrapperMethod: wrapAsset})
+test('Asset isArchived', () => {
+  isArchivedTest(jest, setup, {wrapperMethod: wrapAsset})
 })
 
-test('Asset processing for one locale succeeds', (t) => {
-  t.plan(3)
+test('Asset processing for one locale succeeds', () => {
+  expect.assertions(3)
   const responseMock = cloneMock('asset')
   responseMock.fields = {
     file: {'en-US': {fileName: 'filename.jpg', url: 'http://server/filename.jpg'}}
@@ -145,14 +146,14 @@ test('Asset processing for one locale succeeds', (t) => {
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForLocale('en-US')
   .then((response) => {
-    t.equals(httpMock.put.args[0][0], 'assets/id/files/en-US/process', 'correct locale is sent')
-    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
-    t.equals(httpMock.get.args[0][0], 'assets/id', 'asset was checked after processing')
+    expect(httpMock.put.calls[0][0]).toBe('assets/id/files/en-US/process')
+    expect(httpMock.put.calls[0][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.get.calls[0][0]).toBe('assets/id')
   })
 })
 
-test('Asset processing for one locale fails due to timeout', (t) => {
-  t.plan(2)
+test('Asset processing for one locale fails due to timeout', () => {
+  expect.assertions(2)
   const responseMock = cloneMock('asset')
   responseMock.fields = {
     file: {'en-US': {fileName: 'filename.jpg'}} // url property never sent in response
@@ -162,13 +163,13 @@ test('Asset processing for one locale fails due to timeout', (t) => {
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForLocale('en-US')
   .catch((error) => {
-    t.ok(httpMock.get.callCount > 1, 'asset is checked multiple times')
-    t.equals(error.name, 'AssetProcessingTimeout', 'timeout is thrown')
+    expect(httpMock.get.callCount > 1).toBeTruthy()
+    expect(error.name).toBe('AssetProcessingTimeout')
   })
 })
 
-test('Asset processing for multiple locales succeeds', (t) => {
-  t.plan(6)
+test('Asset processing for multiple locales succeeds', () => {
+  expect.assertions(6)
   const responseMock = cloneMock('asset')
   responseMock.fields = {
     file: {
@@ -187,17 +188,17 @@ test('Asset processing for multiple locales succeeds', (t) => {
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForAllLocales()
   .then((response) => {
-    t.equals(httpMock.put.args[0][0], 'assets/id/files/en-US/process', 'en-US locale is sent')
-    t.equals(httpMock.put.args[1][0], 'assets/id/files/de-DE/process', 'de-DE locale is sent')
-    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent for first locale')
-    t.equals(httpMock.put.args[1][2].headers['X-Contentful-Version'], 2, 'version header is sent for second locale')
-    t.equals(httpMock.get.args[0][0], 'assets/id', 'asset was checked after processing for first locale')
-    t.equals(httpMock.get.args[1][0], 'assets/id', 'asset was checked after processing for second locale')
+    expect(httpMock.put.calls[0][0]).toBe('assets/id/files/en-US/process')
+    expect(httpMock.put.calls[1][0]).toBe('assets/id/files/de-DE/process')
+    expect(httpMock.put.calls[0][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.put.calls[1][2].headers['X-Contentful-Version']).toBe(2)
+    expect(httpMock.get.calls[0][0]).toBe('assets/id')
+    expect(httpMock.get.calls[1][0]).toBe('assets/id')
   })
 })
 
-test('Asset processing for multiple locales fails due to timeout', (t) => {
-  t.plan(2)
+test('Asset processing for multiple locales fails due to timeout', () => {
+  expect.assertions(2)
   const responseMock = cloneMock('asset')
   responseMock.fields = {
     file: {
@@ -216,7 +217,7 @@ test('Asset processing for multiple locales fails due to timeout', (t) => {
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForAllLocales()
   .catch((error) => {
-    t.ok(httpMock.get.callCount > 1, 'asset is checked multiple times')
-    t.equals(error.name, 'AssetProcessingTimeout', 'timeout is thrown')
+    expect(httpMock.get.callCount > 1).toBeTruthy()
+    expect(error.name).toBe('AssetProcessingTimeout')
   })
 })

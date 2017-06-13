@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global jest, test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapContentType, wrapContentTypeCollection} from '../../../lib/entities/content-type'
@@ -23,93 +23,93 @@ function setup (promise) {
   }
 }
 
-test('ContentType is wrapped', (t) => {
-  return entityWrappedTest(t, setup, {
+test('ContentType is wrapped', () => {
+  return entityWrappedTest(jest, setup, {
     wrapperMethod: wrapContentType
   })
 })
 
-test('ContentType collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('ContentType collection is wrapped', () => {
+  return entityCollectionWrappedTest(jest, setup, {
     wrapperMethod: wrapContentTypeCollection
   })
 })
 
-test('ContentType update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('ContentType update', () => {
+  return entityUpdateTest(jest, setup, {
     wrapperMethod: wrapContentType
   })
 })
 
-test('ContentType update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('ContentType update fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'update'
   })
 })
 
-test('ContentType delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('ContentType delete', () => {
+  return entityDeleteTest(jest, setup, {
     wrapperMethod: wrapContentType
   })
 })
 
-test('ContentType delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('ContentType delete fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'delete'
   })
 })
 
-test('ContentType publish', (t) => {
-  return entityPublishTest(t, setup, {
+test('ContentType publish', () => {
+  return entityPublishTest(jest, setup, {
     wrapperMethod: wrapContentType
   })
 })
 
-test('ContentType publish fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('ContentType publish fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'publish'
   })
 })
 
-test('ContentType unpublish', (t) => {
-  return entityActionTest(t, setup, {
+test('ContentType unpublish', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'unpublish'
   })
 })
 
-test('ContentType unpublish fails', (t) => {
-  return failingActionTest(t, setup, {
+test('ContentType unpublish fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'unpublish'
   })
 })
 
-test('ContentType getEditorInterface', (t) => {
-  return entityActionTest(t, setup, {
+test('ContentType getEditorInterface', () => {
+  return entityActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'getEditorInterface'
   })
 })
 
-test('ContentType getEditorInterface fails', (t) => {
-  return failingActionTest(t, setup, {
+test('ContentType getEditorInterface fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'getEditorInterface'
   })
 })
 
-test('ContentType isPublished', (t) => {
-  isPublishedTest(t, setup, {wrapperMethod: wrapContentType})
+test('ContentType isPublished', () => {
+  isPublishedTest(jest, setup, {wrapperMethod: wrapContentType})
 })
 
-test('ContentType isUpdated', (t) => {
-  isUpdatedTest(t, setup, {wrapperMethod: wrapContentType})
+test('ContentType isUpdated', () => {
+  isUpdatedTest(jest, setup, {wrapperMethod: wrapContentType})
 })
 
-test('ContentType isDraft', (t) => {
-  isDraftTest(t, setup, {wrapperMethod: wrapContentType})
+test('ContentType isDraft', () => {
+  isDraftTest(jest, setup, {wrapperMethod: wrapContentType})
 })

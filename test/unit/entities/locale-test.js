@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global jest, test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapLocale, wrapLocaleCollection} from '../../../lib/entities/locale'
@@ -18,39 +18,39 @@ function setup (promise) {
   }
 }
 
-test('Locale is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Locale is wrapped', () => {
+  entityWrappedTest(jest, setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Locale collection is wrapped', () => {
+  return entityCollectionWrappedTest(jest, setup, {
     wrapperMethod: wrapLocaleCollection
   })
 })
 
-test('Locale update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Locale update', () => {
+  return entityUpdateTest(jest, setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Locale update fails', () => {
+  return failingVersionActionTest(jest, setup, {
     wrapperMethod: wrapLocale,
     actionMethod: 'update'
   })
 })
 
-test('Locale delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Locale delete', () => {
+  return entityDeleteTest(jest, setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Locale delete fails', () => {
+  return failingActionTest(jest, setup, {
     wrapperMethod: wrapLocale,
     actionMethod: 'delete'
   })
