@@ -29,10 +29,12 @@
     "pretest": "npm run lint",
     "test": "npm run test:cover && npm run test:integration && npm run test:browser-local",
     "test:ci": "SKIP_INTEGRATION_TESTS=true ./node_modules/contentful-sdk-core/bin/test-ci.sh",
-    "test:cover": "BABEL_ENV=test babel-node ./node_modules/istanbul/lib/cli.js cover test/runner",
-    "test:only": "BABEL_ENV=test jest test/unit",
-    "test:debug": "BABEL_ENV=test babel-node debug ./test/runner",
-    "test:integration": "BABEL_ENV=test babel-node ./test/integration/integration-tests.js",
+    "test:cover": "BABEL_ENV=test jest ./test/unit --coverage",
+    "test:unit": "BABEL_ENV=test jest test/unit",
+    "test:unit:watch": "BABEL_ENV=test jest test/unit --watch",
+    "test:debug": "BABEL_ENV=test node debug --harmony ./node_modules/jest-cli/bin/jest.js ./test/unit --runInBand",
+    "test:integration": "BABEL_ENV=test jest ./test/integration",
+    "test:integration:watch": "BABEL_ENV=test jest ./test/integration",
     "test:browser-local": "BABEL_ENV=test karma start karma.conf.local.js",
     "test:browser-remote": "BABEL_ENV=test karma start karma.conf.saucelabs.js",
     "test:simulate-ci": "trevor",
@@ -46,7 +48,7 @@
     "devdep:install": "npm run devdep:build && rm -rf node_modules/contentful-sdk-core && npm install ../contentful-sdk-core && npm run devdep:clean",
     "devdep:uninstall": "npm run devdep:clean && rimraf node_modules/contentful-sdk-core",
     "precommit": "npm run lint",
-    "prepush": "npm run test:only"
+    "prepush": "npm run test:unit"
   },
   "files": [
     "version.js",
@@ -104,7 +106,7 @@
     "webpack": "^2.2.1"
   },
   "jest" : {
-    "testRegex": "(/__tests__/.*|\\-(test|spec))\\.jsx?$",
+    "testRegex": "(/__tests__/.*|\\-(test|spec|tests))\\.jsx?$",
     "verbose": true
   },
   "config": {
