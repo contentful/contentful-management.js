@@ -2,6 +2,7 @@
 import filter from 'lodash/filter'
 import map from 'lodash/map'
 import generateRandomId from './generate-random-id'
+import { getSpace } from './utils'
 
 export function entryReadOnlyTests (t, space) {
   test('Gets entry', (t) => {
@@ -254,50 +255,56 @@ export function entryWriteTests (space) {
   }
 
   test('Create, update, publish, unpublish, archive, unarchive and delete entry', () => {
-    return prepareContentTypeForEntryTest()
-    .then((contentType) => {
-      return space.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
-      .then((entry) => {
-        expect(entry.isDraft()).toBeTruthy()
-        expect(entry.fields.title['en-US']).toBe('this is the title')
-        return entry.publish()
-        .then((publishedEntry) => {
-          expect(publishedEntry.isPublished()).toBeTruthy()
-          publishedEntry.fields.title['en-US'] = 'title has changed'
-          return publishedEntry.update()
-          .then((updatedEntry) => {
-            expect(updatedEntry.isUpdated()).toBeTruthy()
-            expect(updatedEntry.fields.title['en-US']).toBe('title has changed')
-            return updatedEntry.unpublish()
-            .then((unpublishedEntry) => {
-              expect(unpublishedEntry.isDraft()).toBeTruthy()
-              return unpublishedEntry.archive()
-              .then((archivedEntry) => {
-                expect(archivedEntry.isArchived()).toBeTruthy()
-                return archivedEntry.unarchive()
-                .then((unarchivedEntry) => {
-                  expect(unarchivedEntry.isArchived()).toBeFalsy()
-                  expect(unarchivedEntry.isDraft()).toBeTruthy()
-                  return unarchivedEntry.delete()
-                  .then(teardownContentTypeForEntryTest(contentType))
-                })
+    getSpace()
+      .then((space) => {
+        return prepareContentTypeForEntryTest()
+          .then((contentType) => {
+            return space.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
+              .then((entry) => {
+                expect(entry.isDraft()).toBeTruthy()
+                expect(entry.fields.title['en-US']).toBe('this is the title')
+                return entry.publish()
+                  .then((publishedEntry) => {
+                    expect(publishedEntry.isPublished()).toBeTruthy()
+                    publishedEntry.fields.title['en-US'] = 'title has changed'
+                    return publishedEntry.update()
+                      .then((updatedEntry) => {
+                        expect(updatedEntry.isUpdated()).toBeTruthy()
+                        expect(updatedEntry.fields.title['en-US']).toBe('title has changed')
+                        return updatedEntry.unpublish()
+                          .then((unpublishedEntry) => {
+                            expect(unpublishedEntry.isDraft()).toBeTruthy()
+                            return unpublishedEntry.archive()
+                              .then((archivedEntry) => {
+                                expect(archivedEntry.isArchived()).toBeTruthy()
+                                return archivedEntry.unarchive()
+                                  .then((unarchivedEntry) => {
+                                    expect(unarchivedEntry.isArchived()).toBeFalsy()
+                                    expect(unarchivedEntry.isDraft()).toBeTruthy()
+                                    return unarchivedEntry.delete()
+                                      .then(teardownContentTypeForEntryTest(contentType))
+                                  })
+                              })
+                          })
+                      })
+                  })
               })
-            })
           })
-        })
       })
-    })
   })
 
   test('Create with id and delete entry', () => {
-    return prepareContentTypeForEntryTest()
-    .then((contentType) => {
-      return space.createEntryWithId(contentType.sys.id, 'entryid', {fields: {title: {'en-US': 'this is the title'}}})
-      .then((entry) => {
-        expect(entry.fields.title['en-US']).toBe('this is the title')
-        return entry.delete()
-        .then(teardownContentTypeForEntryTest(contentType))
+    getSpace()
+      .then((space) => {
+        return prepareContentTypeForEntryTest()
+          .then((contentType) => {
+            return space.createEntryWithId(contentType.sys.id, 'entryid', {fields: {title: {'en-US': 'this is the title'}}})
+              .then((entry) => {
+                expect(entry.fields.title['en-US']).toBe('this is the title')
+                return entry.delete()
+                  .then(teardownContentTypeForEntryTest(contentType))
+              })
+          })
       })
-    })
   })
 }
