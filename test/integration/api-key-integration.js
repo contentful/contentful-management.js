@@ -2,7 +2,7 @@
 import generateRandomId from './generate-random-id'
 import {getSpace} from './utils'
 
-export function apiKeyTests (space) {
+export function apiKeyTests () {
   test('Gets apiKeys', () => {
     return getSpace()
       .then((space) => {
@@ -38,7 +38,7 @@ export function apiKeyTests (space) {
           description: 'test api key'
         })
           .then((apiKey) => {
-            expect(apiKey.names).toBe(name)
+            expect(apiKey.name).toBe(name)
             const updatedname = generateRandomId('updatedname')
             apiKey.name = updatedname
             apiKey.update()

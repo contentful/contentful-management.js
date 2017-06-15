@@ -19,7 +19,7 @@ export function assetReadOnlyTests (space) {
       expect(response.fields).toBeTruthy()
     })
   })
-  test('Gets assets', (t) => {
+  test('Gets assets', () => {
     return space.getAssets()
     .then((response) => {
       expect(response.item).toBeTruthy()
@@ -27,7 +27,7 @@ export function assetReadOnlyTests (space) {
   })
 }
 
-export function assetWriteTests (space) {
+export function assetWriteTests () {
   test('Create, process, update, publish, unpublish, archive, unarchive and delete asset', (t) => {
     return getSpace()
       .then((space) => {
@@ -104,7 +104,7 @@ export function assetWriteTests (space) {
 
   test('Upload and process asset with multiple locales', () => {
     return getSpace()
-      .then((sapce) => {
+      .then((space) => {
         return space.createAssetFromFiles({
           fields: {
             title: {'en-US': 'SVG upload test'},

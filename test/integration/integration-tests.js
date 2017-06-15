@@ -1,4 +1,4 @@
-/* global test, expect, describe */
+/* global test, expect, describe, afterAll */
 import {localeTests} from './locale-integration'
 import {contentTypeReadOnlyTests, contentTypeWriteTests} from './content-type-integration'
 import {entryReadOnlyTests, entryWriteTests} from './entry-integration'
@@ -9,6 +9,7 @@ import roleTests from './role-integration'
 import { apiKeyTests } from './api-key-integration'
 import generateRandomId from './generate-random-id'
 import { createClient } from '../../lib/contentful-management'
+import { getSpace } from './utils'
 
 let tempSpace = null
 
@@ -84,6 +85,10 @@ test('Gets space for read only tests', () => {
 })
 
 describe('Create space for tests which create, change and delete data', () => {
+  afterAll(() => {
+    getSpace().then((space) => space.delete())
+  })
+
   localeTests(tempSpace)
   contentTypeWriteTests(tempSpace)
   entryWriteTests(tempSpace)

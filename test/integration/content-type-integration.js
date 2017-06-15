@@ -20,7 +20,7 @@ export function contentTypeReadOnlyTests (space) {
   })
 }
 
-export function contentTypeWriteTests (space) {
+export function contentTypeWriteTests () {
   test('Create, update, publish, getEditorInterface, unpublish and delete content type', (t) => {
     return getSpace()
       .then((space) => {
@@ -60,7 +60,7 @@ export function contentTypeWriteTests (space) {
               })
           })
       })
-  }, 10000)
+  }, 60000)
 
   test('Create with id and delete content type', () => {
     const id = generateRandomId('testCT')

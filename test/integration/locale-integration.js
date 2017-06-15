@@ -1,7 +1,7 @@
 /* global test, expect */
 import { getSpace } from './utils'
 
-export function localeTests (space) {
+export function localeTests () {
   test('Gets locales', () => {
     return getSpace()
       .then((space) => {

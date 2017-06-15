@@ -4,7 +4,7 @@ import map from 'lodash/map'
 import generateRandomId from './generate-random-id'
 import { getSpace } from './utils'
 
-export function entryReadOnlyTests (t, space) {
+export function entryReadOnlyTests (space) {
   test('Gets entry', (t) => {
     return space.getEntry('5ETMRzkl9KM4omyMwKAOki')
     .then((response) => {
@@ -40,7 +40,7 @@ export function entryReadOnlyTests (t, space) {
       })
   })
 
-  test('Gets entries with content type query param', (t) => {
+  test('Gets entries with content type query param', () => {
     return space.getEntries({content_type: 'cat'})
     .then((response) => {
       expect(response.total).toBe(3)
@@ -51,8 +51,8 @@ export function entryReadOnlyTests (t, space) {
   test('Gets entries with equality query', () => {
     return space.getEntries({'sys.id': 'nyancat'})
     .then((response) => {
-      t.equal(response.total, 1)
-      t.equal(response.items[0].sys.id, 'nyancat')
+      expect(response.total).toBe(1)
+      expect(response.items[0].sys.id).toBe('nyancat')
     })
   })
 
@@ -237,8 +237,8 @@ export function entryReadOnlyTests (t, space) {
   })
 }
 
-export function entryWriteTests (space) {
-  function prepareContentTypeForEntryTest () {
+export function entryWriteTests () {
+  function prepareContentTypeForEntryTest (space) {
     return space.createContentTypeWithId(generateRandomId('testcontenttype'), {name: 'testCT',
       fields: [
         {id: 'title', name: 'Title', type: 'Text'}
@@ -257,7 +257,7 @@ export function entryWriteTests (space) {
   test('Create, update, publish, unpublish, archive, unarchive and delete entry', () => {
     getSpace()
       .then((space) => {
-        return prepareContentTypeForEntryTest()
+        return prepareContentTypeForEntryTest(space)
           .then((contentType) => {
             return space.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
               .then((entry) => {
