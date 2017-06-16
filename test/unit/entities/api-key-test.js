@@ -1,4 +1,5 @@
-import test from 'tape'
+/* global test */
+
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapApiKey, wrapApiKeyCollection} from '../../../lib/entities/api-key'
@@ -18,39 +19,39 @@ function setup (promise) {
   }
 }
 
-test('ApiKey is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('ApiKey is wrapped', () => {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
-test('ApiKey collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('ApiKey collection is wrapped', () => {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapApiKeyCollection
   })
 })
 
-test('ApiKey update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('ApiKey update', () => {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
-test('ApiKey update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('ApiKey update fails', () => {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapApiKey,
     actionMethod: 'update'
   })
 })
 
-test('ApiKey delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('ApiKey delete', () => {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapApiKey
   })
 })
 
-test('ApiKey delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('ApiKey delete fails', () => {
+  return failingActionTest(setup, {
     wrapperMethod: wrapApiKey,
     actionMethod: 'delete'
   })

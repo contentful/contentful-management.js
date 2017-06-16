@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global test */
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUpload } from '../../../lib/entities/upload'
@@ -15,20 +15,20 @@ function setup (promise) {
   }
 }
 
-test('Upload is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Upload is wrapped', () => {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapUpload
   })
 })
 
-test('Upload delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Upload delete', () => {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapUpload
   })
 })
 
-test('Upload delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Upload delete fails', () => {
+  return failingActionTest(setup, {
     wrapperMethod: wrapUpload,
     actionMethod: 'delete'
   })

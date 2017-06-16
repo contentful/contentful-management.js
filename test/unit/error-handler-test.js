@@ -1,10 +1,11 @@
-import test from 'tape'
+/* global expect, test */
+
 import errorHandler from '../../lib/error-handler'
 import {cloneMock} from './mocks/entities'
 
 // Best case scenario where an error is a known and expected situation and the
 // server returns an error with a JSON payload with all the information possible
-test('Throws well formed error with details from server', (t) => {
+test('Throws well formed error with details from server', () => {
   const error = cloneMock('error')
   error.response.data = {
     sys: {
@@ -20,18 +21,17 @@ test('Throws well formed error with details from server', (t) => {
     errorHandler(error)
   } catch (err) {
     const parsedMessage = JSON.parse(err.message)
-    t.equals(err.name, 'SpecificError', 'error name')
-    t.equals(parsedMessage.request.url, 'requesturl', 'request url')
-    t.equals(parsedMessage.message, 'datamessage', 'error payload message')
-    t.equals(parsedMessage.requestId, 'requestid', 'request id')
-    t.equals(parsedMessage.details, 'errordetails', 'error payload details')
+    expect(err.name).toBe('SpecificError')
+    expect(parsedMessage.request.url).toBe('requesturl')
+    expect(parsedMessage.message).toBe('datamessage')
+    expect(parsedMessage.requestId).toBe('requestid')
+    expect(parsedMessage.details).toBe('errordetails')
   }
-  t.end()
 })
 
 // Second best case scenario, where we'll still get a JSON payload from the server
 // but only with an Unknown error type and no additional details
-test('Throws unknown error received from server', (t) => {
+test('Throws unknown error received from server', () => {
   const error = cloneMock('error')
   error.response.data = {
     sys: {
@@ -47,15 +47,14 @@ test('Throws unknown error received from server', (t) => {
     errorHandler(error)
   } catch (err) {
     const parsedMessage = JSON.parse(err.message)
-    t.equals(err.name, '500 Internal', 'error name defaults to status code and text')
-    t.equals(parsedMessage.request.url, 'requesturl', 'request url')
-    t.equals(parsedMessage.requestId, 'requestid', 'request id')
+    expect(err.name).toBe('500 Internal')
+    expect(parsedMessage.request.url).toBe('requesturl')
+    expect(parsedMessage.requestId).toBe('requestid')
   }
-  t.end()
 })
 
 // Wurst case scenario, where we have no JSON payload and only HTTP status information
-test('Throws error without additional detail', (t) => {
+test('Throws error without additional detail', () => {
   const error = cloneMock('error')
   error.response.status = 500
   error.response.statusText = 'Everything is on fire'
@@ -64,8 +63,7 @@ test('Throws error without additional detail', (t) => {
     errorHandler(error)
   } catch (err) {
     const parsedMessage = JSON.parse(err.message)
-    t.equals(err.name, '500 Everything is on fire', 'error name defaults to status code and text')
-    t.equals(parsedMessage.request.url, 'requesturl', 'request url')
+    expect(err.name).toBe('500 Everything is on fire')
+    expect(parsedMessage.request.url).toBe('requesturl')
   }
-  t.end()
 })

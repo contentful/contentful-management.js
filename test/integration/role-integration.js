@@ -1,4 +1,6 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
+import { getSpace } from './utils'
 
 const roleDefinition = {
   name: 'Content Editor',
@@ -9,35 +11,43 @@ const roleDefinition = {
   permissions: { ContentModel: [ 'read' ], Settings: [], ContentDelivery: [] }
 }
 
-export default function roleTests (t, space) {
-  t.test('Gets roles', (t) => {
-    t.plan(2)
-    return space.getRoles()
-    .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
-    })
-  })
-
-  t.test('Create role with id', (t) => {
-    const id = generateRandomId('role')
-    return space.createRoleWithId(id, roleDefinition)
-    .then((role) => {
-      t.equals(role.sys.id, id, 'id')
-      return role.delete()
-    })
-  })
-
-  t.test('Create role', (t) => {
-    return space.createRole(roleDefinition)
-    .then((role) => {
-      t.equals(role.name, 'Content Editor', 'name')
-      role.name = 'updatedname'
-      role.update()
-      .then((updatedRole) => {
-        t.equals(updatedRole.name, 'updatedname', 'name')
-        return updatedRole.delete()
+export default function roleTests (space) {
+  test('Gets roles', () => {
+    return getSpace()
+      .then((space) => {
+        return space.getRoles()
+          .then((response) => {
+            expect(response.sys).toBeTruthy()
+            expect(response.items).toBeTruthy()
+          })
       })
-    })
+  })
+
+  test('Create role with id', () => {
+    const id = generateRandomId('role')
+    return getSpace()
+      .then((space) => {
+        return space.createRoleWithId(id, roleDefinition)
+          .then((role) => {
+            expect(role.sys.id).toBe(id)
+            return role.delete()
+          })
+      })
+  })
+
+  test('Create role', () => {
+    return getSpace()
+      .then((space) => {
+        return space.createRole(roleDefinition)
+          .then((role) => {
+            expect(role.name).toBe('Content Editor')
+            role.name = 'updatedname'
+            role.update()
+              .then((updatedRole) => {
+                expect(updatedRole.name).toBe('updatedname')
+                return updatedRole.delete()
+              })
+          })
+      })
   })
 }

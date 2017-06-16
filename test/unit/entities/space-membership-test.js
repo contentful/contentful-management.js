@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapSpaceMembership, wrapSpaceMembershipCollection} from '../../../lib/entities/space-membership'
@@ -18,39 +18,39 @@ function setup (promise) {
   }
 }
 
-test('SpaceMembership is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('SpaceMembership is wrapped', () => {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
-test('SpaceMembership collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('SpaceMembership collection is wrapped', () => {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapSpaceMembershipCollection
   })
 })
 
-test('SpaceMembership update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('SpaceMembership update', () => {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
-test('SpaceMembership update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('SpaceMembership update fails', () => {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapSpaceMembership,
     actionMethod: 'update'
   })
 })
 
-test('SpaceMembership delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('SpaceMembership delete', () => {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapSpaceMembership
   })
 })
 
-test('SpaceMembership delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('SpaceMembership delete fails', () => {
+  return failingActionTest(setup, {
     wrapperMethod: wrapSpaceMembership,
     actionMethod: 'delete'
   })

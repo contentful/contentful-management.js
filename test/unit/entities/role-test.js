@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapRole, wrapRoleCollection} from '../../../lib/entities/role'
@@ -18,39 +18,39 @@ function setup (promise) {
   }
 }
 
-test('Role is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Role is wrapped', () => {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapRole
   })
 })
 
-test('Role collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Role collection is wrapped', () => {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapRoleCollection
   })
 })
 
-test('Role update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Role update', () => {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapRole
   })
 })
 
-test('Role update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Role update fails', () => {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapRole,
     actionMethod: 'update'
   })
 })
 
-test('Role delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Role delete', () => {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapRole
   })
 })
 
-test('Role delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Role delete fails', () => {
+  return failingActionTest(setup, {
     wrapperMethod: wrapRole,
     actionMethod: 'delete'
   })

@@ -1,4 +1,4 @@
-import sinon from 'sinon'
+/* global jest */
 import assign from 'lodash/assign'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -201,49 +201,49 @@ function mockCollection (entityMock) {
 function setupEntitiesMock (rewiredModuleApi) {
   const entitiesMock = {
     space: {
-      wrapSpace: sinon.stub(),
-      wrapSpaceCollection: sinon.stub()
+      wrapSpace: jest.fn(),
+      wrapSpaceCollection: jest.fn()
     },
     contentType: {
-      wrapContentType: sinon.stub(),
-      wrapContentTypeCollection: sinon.stub()
+      wrapContentType: jest.fn(),
+      wrapContentTypeCollection: jest.fn()
     },
     entry: {
-      wrapEntry: sinon.stub(),
-      wrapEntryCollection: sinon.stub()
+      wrapEntry: jest.fn(),
+      wrapEntryCollection: jest.fn()
     },
     asset: {
-      wrapAsset: sinon.stub(),
-      wrapAssetCollection: sinon.stub()
+      wrapAsset: jest.fn(),
+      wrapAssetCollection: jest.fn()
     },
     locale: {
-      wrapLocale: sinon.stub(),
-      wrapLocaleCollection: sinon.stub()
+      wrapLocale: jest.fn(),
+      wrapLocaleCollection: jest.fn()
     },
     webhook: {
-      wrapWebhook: sinon.stub(),
-      wrapWebhookCollection: sinon.stub()
+      wrapWebhook: jest.fn(),
+      wrapWebhookCollection: jest.fn()
     },
     spaceMembership: {
-      wrapSpaceMembership: sinon.stub(),
-      wrapSpaceMembershipCollection: sinon.stub()
+      wrapSpaceMembership: jest.fn(),
+      wrapSpaceMembershipCollection: jest.fn()
     },
     role: {
-      wrapRole: sinon.stub(),
-      wrapRoleCollection: sinon.stub()
+      wrapRole: jest.fn(),
+      wrapRoleCollection: jest.fn()
     },
     apiKey: {
-      wrapApiKey: sinon.stub(),
-      wrapApiKeyCollection: sinon.stub()
+      wrapApiKey: jest.fn(),
+      wrapApiKeyCollection: jest.fn()
     },
     editorInterface: {
-      wrapEditorInterface: sinon.stub()
+      wrapEditorInterface: jest.fn()
     },
     upload: {
-      wrapUpload: sinon.stub()
+      wrapUpload: jest.fn()
     },
     organization: {
-      wrapOrganizationCollection: sinon.stub()
+      wrapOrganizationCollection: jest.fn()
     }
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)

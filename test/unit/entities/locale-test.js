@@ -1,4 +1,4 @@
-import test from 'tape'
+/* global test */
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapLocale, wrapLocaleCollection} from '../../../lib/entities/locale'
@@ -18,39 +18,39 @@ function setup (promise) {
   }
 }
 
-test('Locale is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
+test('Locale is wrapped', () => {
+  entityWrappedTest(setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
+test('Locale collection is wrapped', () => {
+  return entityCollectionWrappedTest(setup, {
     wrapperMethod: wrapLocaleCollection
   })
 })
 
-test('Locale update', (t) => {
-  return entityUpdateTest(t, setup, {
+test('Locale update', () => {
+  return entityUpdateTest(setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+test('Locale update fails', () => {
+  return failingVersionActionTest(setup, {
     wrapperMethod: wrapLocale,
     actionMethod: 'update'
   })
 })
 
-test('Locale delete', (t) => {
-  return entityDeleteTest(t, setup, {
+test('Locale delete', () => {
+  return entityDeleteTest(setup, {
     wrapperMethod: wrapLocale
   })
 })
 
-test('Locale delete fails', (t) => {
-  return failingActionTest(t, setup, {
+test('Locale delete fails', () => {
+  return failingActionTest(setup, {
     wrapperMethod: wrapLocale,
     actionMethod: 'delete'
   })

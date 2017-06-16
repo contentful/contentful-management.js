@@ -1,42 +1,52 @@
+/* global expect, test */
 import generateRandomId from './generate-random-id'
+import {getSpace} from './utils'
 
-export default function apiKeyTests (t, space) {
-  t.test('Gets apiKeys', (t) => {
-    t.plan(2)
-    return space.getApiKeys()
-    .then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
-    })
-  })
-
-  t.test('Create apiKey with id', (t) => {
-    const id = generateRandomId('apiKey')
-    return space.createApiKeyWithId(id, {
-      name: generateRandomId('testapiKey'),
-      description: 'test api key'
-    })
-    .then((apiKey) => {
-      t.equals(apiKey.sys.id, id, 'id')
-      return apiKey.delete()
-    })
-  })
-
-  t.test('Create apiKey', (t) => {
-    const name = generateRandomId('name')
-    return space.createApiKey({
-      name: name,
-      description: 'test api key'
-    })
-    .then((apiKey) => {
-      t.equals(apiKey.name, name, 'name')
-      const updatedname = generateRandomId('updatedname')
-      apiKey.name = updatedname
-      apiKey.update()
-      .then((updatedApiKey) => {
-        t.equals(updatedApiKey.name, updatedname, 'name')
-        return updatedApiKey.delete()
+export function apiKeyTests () {
+  test('Gets apiKeys', () => {
+    return getSpace()
+      .then((space) => {
+        return space.getApiKeys()
+          .then((response) => {
+            expect(response.sys).toBeTruthy()
+            expect(response.items).toBeTruthy()
+          })
       })
-    })
+  })
+
+  test('Create apiKey with id', () => {
+    const id = generateRandomId('apiKey')
+    return getSpace()
+      .then((space) => {
+        return space.createApiKeyWithId(id, {
+          name: generateRandomId('testapiKey'),
+          description: 'test api key'
+        })
+          .then((apiKey) => {
+            expect(apiKey.sys.id).toBe(id)
+            return apiKey.delete()
+          })
+      })
+  })
+
+  test('Create apiKey', () => {
+    const name = generateRandomId('name')
+    return getSpace()
+      .then((space) => {
+        return space.createApiKey({
+          name: name,
+          description: 'test api key'
+        })
+          .then((apiKey) => {
+            expect(apiKey.name).toBe(name)
+            const updatedname = generateRandomId('updatedname')
+            apiKey.name = updatedname
+            apiKey.update()
+              .then((updatedApiKey) => {
+                expect(updatedApiKey.name).toBe(updatedname)
+                return updatedApiKey.delete()
+              })
+          })
+      })
   })
 }

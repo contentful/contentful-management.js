@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+/* global test, expect */
 import { Promise } from 'es6-promise'
 
 import {spaceMock, setupEntitiesMock, organizationMock} from './mocks/entities'
@@ -21,68 +21,67 @@ function teardown () {
   createContentfulApiRewireApi.__ResetDependency__('entities')
 }
 
-test('API call getSpaces', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
+test('API call getSpaces', () => {
+  makeGetCollectionTest(setup, teardown, {
     entityType: 'space',
     mockToReturn: spaceMock,
     methodToTest: 'getSpaces'
   })
 })
 
-test('API call getSpaces fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
+test('API call getSpaces fails', () => {
+  makeEntityMethodFailingTest(setup, teardown, {
     methodToTest: 'getSpaces'
   })
 })
 
-test('API call getSpace', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
+test('API call getSpace', () => {
+  makeGetEntityTest(setup, teardown, {
     entityType: 'space',
     mockToReturn: spaceMock,
     methodToTest: 'getSpace'
   })
 })
 
-test('API call getSpace fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
+test('API call getSpace fails', () => {
+  makeEntityMethodFailingTest(setup, teardown, {
     methodToTest: 'getSpace'
   })
 })
 
-test('API call getOrganizations', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
+test('API call getOrganizations', () => {
+  makeGetCollectionTest(setup, teardown, {
     entityType: 'organization',
     mockToReturn: organizationMock,
     methodToTest: 'getOrganizations'
   })
 })
 
-test('API call getOrganizations fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
+test('API call getOrganizations fails', () => {
+  makeEntityMethodFailingTest(setup, teardown, {
     methodToTest: 'getOrganizations'
   })
 })
 
-test('API call createSpace', (t) => {
-  t.plan(3)
+test('API call createSpace', () => {
   const data = {
     sys: { id: 'id', type: 'Space' },
     name: 'name'
   }
   const {api, httpMock, entitiesMock} = setup(Promise.resolve({ data: data }))
-  entitiesMock.space.wrapSpace.returns(data)
+  entitiesMock.space.wrapSpace.mockReturnValue(data)
 
   return api.createSpace({name: 'name'}, 'orgid')
   .then((r) => {
-    t.looseEqual(r, data, 'space is wrapped')
-    t.looseEqual(httpMock.post.args[0][1], {name: 'name'}, 'data is sent')
-    t.equals(httpMock.post.args[0][2].headers['X-Contentful-Organization'], 'orgid', 'orgid is specified in headers')
+    expect(r).toEqual(data)
+    expect(httpMock.post.mock.calls[0][1]).toEqual({name: 'name'})
+    expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Organization']).toBe('orgid')
     teardown()
   })
 })
 
-test('API call createSpace fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
+test('API call createSpace fails', () => {
+  makeEntityMethodFailingTest(setup, teardown, {
     methodToTest: 'createSpace'
   })
 })
