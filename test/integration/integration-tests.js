@@ -4,8 +4,6 @@ import {contentTypeReadOnlyTests, contentTypeWriteTests} from './content-type-in
 import {entryReadOnlyTests, entryWriteTests} from './entry-integration'
 import {assetReadOnlyTests, assetWriteTests} from './asset-integration'
 import webhookTests from './webhook-integration'
-import spaceMembershipTests from './space-membership-integration'
-import roleTests from './role-integration'
 import apiKeyTests from './api-key-integration'
 import generateRandomId from './generate-random-id'
 import { createClient } from '../../'
@@ -109,8 +107,8 @@ test('Create space for tests which create, change and delete data', (t) => {
     entryWriteTests(t, space)
     assetWriteTests(t, space)
     webhookTests(t, space)
-    spaceMembershipTests(t, space)
-    roleTests(t, space)
+    // spaceMembershipTests(t, space)
+    // roleTests(t, space)
     apiKeyTests(t, space)
     test.onFinish(() => space.delete())
   })
