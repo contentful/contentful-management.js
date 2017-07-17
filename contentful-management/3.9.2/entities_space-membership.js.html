@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-contentful-api.js - Documentation</title>
+    <title>entities/space-membership.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-contentful-api.js</h1>
+    <h1 class="page-title">entities/space-membership.js</h1>
     
 
     
@@ -37,179 +37,104 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API Client. Contains methods which allow access to
- * any operations that can be performed with a management token.
- * @namespace ContentfulClientAPI
+ * Space Membership instances
+ * @namespace SpaceMembership
  */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * Types for meta information found across the different entities in Contentful
- * @namespace Meta
+ * @memberof SpaceMembership
+ * @typedef SpaceMembership
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {boolean} admin - User is an admin
+ * @prop {array} roles - Array of Role Links
+ * @prop {function(): Object} toPlainObject() - Returns this Space Membership as a plain JS object
  */
 
-/**
- * System metadata. See &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes&lt;/a> for more details.
- * @memberof Meta
- * @typedef Sys
- * @prop {string} type
- * @prop {string} id
- * @prop {Meta.Link} space
- * @prop {string} createdAt
- * @prop {string} updatedAt
- * @prop {number} revision
- */
-
-/**
- * Link to another entity. See &lt;a href="https://www.contentful.com/developers/docs/concepts/links/">Links&lt;/a> for more details.
- * @memberof Meta
- * @typedef Link
- * @prop {string} type - type of this entity. Always link.
- * @prop {string} id
- * @prop {string} linkType - type of this link. If defined, either Entry or Asset
- */
-
-/**
- * @memberof ContentfulClientAPI
- * @typedef {Object} ClientAPI
- * @prop {function} getSpace
- * @prop {function} getSpaces
- * @prop {function} createSpace
- */
-
-import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
-import entities from './entities'
-
-/**
- * Creates API object with methods to access functionality from Contentful's
- * Management API
- * @private
- * @param {Object} params - API initialization params
- * @prop {Object} http - HTTP client instance
- * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
- * @return {ClientAPI}
- */
-export default function createClientApi ({ http }) {
-  const {wrapSpace, wrapSpaceCollection} = entities.space
-  const {wrapOrganizationCollection} = entities.organization
-
-  /**
-   * Gets all spaces
-   * @memberof ContentfulClientAPI
-   * @return {Promise&lt;Space.SpaceCollection>} Promise for a collection of Spaces
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpaces()
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getSpaces (query = {}) {
-    return http.get('', createRequestConfig({query: query}))
-    .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a space
-   * @memberof ContentfulClientAPI
-   * @param {string} id - Space ID
-   * @return {Promise&lt;Space.Space>} Promise for a Space
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => console.log(space))
-   * .catch(console.error)
-   */
-  function getSpace (id) {
-    return http.get(id)
-    .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a space
-   * @memberof ContentfulClientAPI
-   * @see {Space.Space}
-   * @param {object} data - Object representation of the Space to be created
-   * @param {string=} organizationId - Organization ID, if the associated token can manage more than one organization.
-   * @return {Promise&lt;Space.Space>} Promise for the newly created Space
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.createSpace({
-   *   name: 'Name of new space'
-   * })
-   * .then((space) => console.log(space))
-   * .catch(console.error)
-   */
-  function createSpace (data, organizationId) {
-    return http.post('', data, {
-      headers: organizationId ? {'X-Contentful-Organization': organizationId} : {}
-    })
-    .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Organizations
-   * @memberof ClientAPI
-   * @return {Promise&lt;OrganizationCollection>} Promise for a collection of Organizations
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * space.getOrganizations()
-   * .then(result => console.log(result.items))
-   * .catch(console.error)
-   */
-  function getOrganizations () {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/organizations/')
-    return http.get('', {
-      baseURL
-    })
-    .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Make a custom request to the Contentful management API's /spaces endpoint
-   * @memberof ContentfulClientAPI
-   * @param {Object} opts - axios request options (https://github.com/mzabriskie/axios)
-   * @return {Promise&lt;Object>} Promise for the response data
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.rawRequest({
-   *   method: 'GET',
-   *   url: '/custom/path'
-   * })
-   * .then((responseData) => console.log(responseData))
-   * .catch(console.error)
-   */
-  function rawRequest (opts) {
-    return http(opts).then((response) => response.data, errorHandler)
-  }
-
+function createSpaceMembershipApi (http) {
   return {
-    getSpaces: getSpaces,
-    getSpace: getSpace,
-    createSpace: createSpace,
-    getOrganizations: getOrganizations,
-    rawRequest: rawRequest
+
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof SpaceMembership
+     * @func update
+     * @return {Promise&lt;SpaceMembership>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getSpaceMembership('&lt;spaceMembership_id>'))
+     * .then((spaceMembership) => {
+     *  spaceMembership.name = 'new space membership name'
+     * })
+     * .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'space_memberships',
+      wrapperMethod: wrapSpaceMembership
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof SpaceMembership
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getSpaceMembership('&lt;spaceMembership_id>'))
+     * .then((spaceMembership) => spaceMembership.delete())
+     * .then(() => console.log(`spaceMembership deleted.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'space_memberships'
+    })
   }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw space membership data
+ * @return {SpaceMembership} Wrapped space membership data
+ */
+export function wrapSpaceMembership (http, data) {
+  const spaceMembership = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(spaceMembership, createSpaceMembershipApi(http))
+  return freezeSys(spaceMembership)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw space membership collection data
+ * @return {SpaceMembershipCollection} Wrapped space membership collection data
+ */
+export function wrapSpaceMembershipCollection (http, data) {
+  const spaceMemberships = toPlainObject(cloneDeep(data))
+  spaceMemberships.items = spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity))
+  return freezeSys(spaceMemberships)
 }
 </code></pre>
         </article>

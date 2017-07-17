@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ContentfulClientAPI - Documentation</title>
+    <title>Webhook - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ContentfulClientAPI</h1>
+    <h1 class="page-title">Webhook</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        ContentfulClientAPI
+        Webhook
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line1">line 1</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,8 +94,7 @@
 
 
         
-            <div class="description">Contentful Management API Client. Contains methods which allow access to
-any operations that can be performed with a management token.</div>
+            <div class="description">Webhook instances</div>
         
 
         
@@ -118,7 +117,7 @@ any operations that can be performed with a management token.</div>
 
         
                 
-<h4 class="name" id=".ClientAPI">ClientAPI</h4>
+<h4 class="name" id=".Webhook">Webhook</h4>
 
 
 
@@ -129,7 +128,7 @@ any operations that can be performed with a management token.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line33">line 33</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -192,13 +191,36 @@ any operations that can be performed with a management token.</div>
 
         <tr>
             
-                <td class="name"><code>getSpace</code></td>
+                <td class="name"><code>sys</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
             
@@ -215,13 +237,13 @@ any operations that can be performed with a management token.</div>
 
         <tr>
             
-                <td class="name"><code>getSpaces</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
@@ -231,14 +253,106 @@ any operations that can be performed with a management token.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Url which the webhook will call</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>createSpace</code></td>
+                <td class="name"><code>httpBasicUsername</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Username for basic HTTP authentication</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>httpBasicPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Password for basic HTTP authentication</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>headers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Key value pairs of additional headers to be sent with every webhook call.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>topics</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Topics which this webhook should be subscribed to. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhooks/create-a-webhook for more details</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
             
 
             <td class="type">
@@ -254,7 +368,7 @@ any operations that can be performed with a management token.</div>
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Returns this Webhook as a plain JS object</td>
         </tr>
 
     
@@ -268,15 +382,208 @@ any operations that can be performed with a management token.</div>
 
 
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
+
+
+
+
+
             
-<span class="param-type">Object</span>
+                
+<h4 class="name" id=".WebhookCollection">WebhookCollection</h4>
 
 
-        </li>
-    </ul>
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line163">line 163</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>items</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="Webhook.html#.Webhook">Webhook.Webhook</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns this Webhook collection as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
 
 
 
@@ -294,7 +601,7 @@ any operations that can be performed with a management token.</div>
 
     
 
-    <h4 class="name" id=".createSpace"><span class="type-signature">(static) </span>createSpace<span class="signature">(data, organizationId<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span></h4>
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -306,227 +613,7 @@ any operations that can be performed with a management token.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line119">line 119</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>{<a href="Space.html#.Space">Space.Space</a>}</li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Creates a space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.createSpace({
-  name: 'Name of new space'
-})
-.then((space) => console.log(space))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object representation of the Space to be created</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>organizationId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Organization ID, if the associated token can manage more than one organization.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the newly created Space
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getSpace"><span class="type-signature">(static) </span>getSpace<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line94">line 94</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -566,7 +653,7 @@ client.createSpace({
 
 
 <div class="description">
-    Gets a space
+    Deletes this object on the server.
 </div>
 
 
@@ -586,59 +673,12 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => console.log(space))
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.delete())
+.then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Space ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -657,7 +697,7 @@ client.getSpace('&lt;space_id>')
 
         
 <div class="param-desc">
-    Promise for a Space
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
 </div>
 
 
@@ -668,7 +708,7 @@ client.getSpace('&lt;space_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -682,7 +722,7 @@ client.getSpace('&lt;space_id>')
 
     
 
-    <h4 class="name" id=".getSpaces"><span class="type-signature">(static) </span>getSpaces<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.SpaceCollection">Space.SpaceCollection</a>>}</span></h4>
+    <h4 class="name" id=".getCalls"><span class="type-signature">(static) </span>getCalls<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
 
     
 
@@ -694,7 +734,7 @@ client.getSpace('&lt;space_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line73">line 73</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -734,7 +774,7 @@ client.getSpace('&lt;space_id>')
 
 
 <div class="description">
-    Gets all spaces
+    List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
 </div>
 
 
@@ -753,8 +793,10 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getSpaces()
-.then((response) => console.log(response.items))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getCalls())
+.then((response) => console.log(response.items)) // webhook calls
 .catch(console.error)</code></pre>
 
 
@@ -776,7 +818,7 @@ client.getSpaces()
 
         
 <div class="param-desc">
-    Promise for a collection of Spaces
+    Promise for list of calls
 </div>
 
 
@@ -787,7 +829,7 @@ client.getSpaces()
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Space.html#.SpaceCollection">Space.SpaceCollection</a>></span>
+<span class="param-type">Promise.&lt;object></span>
 
 
     </dd>
@@ -801,7 +843,7 @@ client.getSpaces()
 
     
 
-    <h4 class="name" id=".rawRequest"><span class="type-signature">(static) </span>rawRequest<span class="signature">(opts)</span><span class="type-signature"> &rarr; {Promise.&lt;Object>}</span></h4>
+    <h4 class="name" id=".getCalls"><span class="type-signature">(static) </span>getCalls<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
 
     
 
@@ -813,7 +855,7 @@ client.getSpaces()
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line164">line 164</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -853,7 +895,7 @@ client.getSpaces()
 
 
 <div class="description">
-    Make a custom request to the Contentful management API's /spaces endpoint
+    Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
 </div>
 
 
@@ -872,63 +914,13 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.rawRequest({
-  method: 'GET',
-  url: '/custom/path'
-})
-.then((responseData) => console.log(responseData))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getCall(&lt;call-id>))
+.then((webhookCall) => console.log(webhookCall))
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opts</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">axios request options (https://github.com/mzabriskie/axios)</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -947,7 +939,7 @@ client.rawRequest({
 
         
 <div class="param-desc">
-    Promise for the response data
+    Promise for call details
 </div>
 
 
@@ -958,7 +950,252 @@ client.rawRequest({
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;Object></span>
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getHealth"><span class="type-signature">(static) </span>getHealth<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getHealth())
+.then((webhookHealth) => console.log(webhookHealth))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for health info
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Webhook.html">Webhook</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => {
+ webhook.name = 'new webhook name'
+ return webhook.update()
+})
+.then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Webhook.html">Webhook</a>></span>
 
 
     </dd>
