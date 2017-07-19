@@ -2,6 +2,8 @@ import test from 'tape'
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {wrapContentType, wrapContentTypeCollection} from '../../../lib/entities/content-type'
+import {wrapEditorInterface} from '../../../lib/entities/editor-interface'
+import {wrapSnapshot, wrapSnapshotCollection} from '../../../lib/entities/snapshot'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -88,16 +90,37 @@ test('ContentType unpublish fails', (t) => {
   })
 })
 
-test('ContentType getEditorInterface', (t) => {
+test('ContentType getSnapshots fails', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapSnapshotCollection,
+    actionMethod: 'getSnapshots'
+  })
+})
+
+test('ContentType getSnapshot fails', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapSnapshot,
+    actionMethod: 'getSnapshot'
+  })
+})
+
+test('ContentType getSnapshot', (t) => {
   return entityActionTest(t, setup, {
-    wrapperMethod: wrapContentType,
-    actionMethod: 'getEditorInterface'
+    wrapperMethod: wrapEditorInterface,
+    actionMethod: 'getSnapshot'
+  })
+})
+
+test('ContentType getSnapshots', (t) => {
+  return entityActionTest(t, setup, {
+    wrapperMethod: wrapEditorInterface,
+    actionMethod: 'getSnapshots'
   })
 })
 
 test('ContentType getEditorInterface fails', (t) => {
   return failingActionTest(t, setup, {
-    wrapperMethod: wrapContentType,
+    wrapperMethod: wrapEditorInterface,
     actionMethod: 'getEditorInterface'
   })
 })
