@@ -654,6 +654,18 @@ test('API call getApiKeys fails', (t) => {
   })
 })
 
+test('API call getEntrySnapshots fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getEntrySnapshots'
+  })
+})
+
+test('API call getContentTypeSnapshots fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getContentTypeSnapshots'
+  })
+})
+
 test('API call createApiKey', (t) => {
   makeCreateEntityTest(t, setup, teardown, {
     entityType: 'apiKey',
