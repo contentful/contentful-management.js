@@ -41,7 +41,14 @@ const contentTypeMock = {
     }
   ]
 }
-
+const snapShotMock = {
+  sys: assign(cloneDeep(sysMock), {
+    type: 'Snapshot'
+  }),
+  fields: {
+    field1: 'str'
+  }
+}
 const entryMock = {
   sys: assign(cloneDeep(sysMock), {
     type: 'Entry',
@@ -174,6 +181,7 @@ const mocks = {
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
+  snapshot: snapShotMock,
   asset: assetMock,
   locale: localeMock,
   webhook: webhookMock,
@@ -242,6 +250,10 @@ function setupEntitiesMock (rewiredModuleApi) {
     upload: {
       wrapUpload: sinon.stub()
     },
+    snapshot: {
+      wrapSnapshot: sinon.stub(),
+      wrapSnapshotCollection: sinon.stub()
+    },
     organization: {
       wrapOrganizationCollection: sinon.stub()
     }
@@ -270,5 +282,6 @@ export {
   mockCollection,
   setupEntitiesMock,
   uploadMock,
-  organizationMock
+  organizationMock,
+  snapShotMock
 }
