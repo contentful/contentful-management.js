@@ -132,3 +132,31 @@ test('Entry isDraft', (t) => {
 test('Entry isArchived', (t) => {
   isArchivedTest(t, setup, {wrapperMethod: wrapEntry})
 })
+
+test('Entry getSnapshots fails', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapEntry,
+    actionMethod: 'getSnapshots'
+  })
+})
+
+test('Entry getSnapshot fails', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapEntry,
+    actionMethod: 'getSnapshot'
+  })
+})
+
+test('Entry getSnapshots', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapEntry,
+    actionMethod: 'getSnapshots'
+  })
+})
+
+test('Entry getSnapshot', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapEntry,
+    actionMethod: 'getSnapshot'
+  })
+})

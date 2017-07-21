@@ -181,6 +181,7 @@ const mocks = {
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
+  snapshot: snapShotMock,
   asset: assetMock,
   locale: localeMock,
   webhook: webhookMock,

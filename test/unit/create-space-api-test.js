@@ -16,6 +16,7 @@ import {
   roleMock,
   apiKeyMock,
   setupEntitiesMock,
+  snapShotMock,
   cloneMock
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
@@ -654,9 +655,25 @@ test('API call getApiKeys fails', (t) => {
   })
 })
 
+test('API call getEntrySnapshots snapshots', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'snapshot',
+    mockToReturn: snapShotMock,
+    methodToTest: 'getEntrySnapshots'
+  })
+})
+
 test('API call getEntrySnapshots fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getEntrySnapshots'
+  })
+})
+
+test('API call getContentTypeSnapshots snapshots', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'snapshot',
+    mockToReturn: snapShotMock,
+    methodToTest: 'getContentTypeSnapshots'
   })
 })
 
