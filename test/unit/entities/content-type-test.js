@@ -102,6 +102,13 @@ test('ContentType getSnapshot fails', (t) => {
   })
 })
 
+test('ContentType getEditorInterface', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapContentType,
+    actionMethod: 'getEditorInterface'
+  })
+})
+
 test('ContentType getSnapshots', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapContentType,

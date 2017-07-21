@@ -154,7 +154,7 @@ test('Entry getSnapshots', (t) => {
   })
 })
 
-test('Entry getSnapshot', (t) => {
+test('Entry getSnapshots', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapEntry,
     actionMethod: 'getSnapshot'
