@@ -9,6 +9,7 @@ import {
   entityDeleteTest,
   entityPublishTest,
   entityActionTest,
+  entityCollectionActionTest,
   failingActionTest,
   failingVersionActionTest,
   isPublishedTest,
@@ -103,23 +104,9 @@ test('ContentType getSnapshot fails', (t) => {
 })
 
 test('ContentType getEditorInterface', (t) => {
-  return failingActionTest(t, setup, {
+  return entityActionTest(t, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'getEditorInterface'
-  })
-})
-
-test('ContentType getSnapshots', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapContentType,
-    actionMethod: 'getSnapshots'
-  })
-})
-
-test('ContentType getSnapshot', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapContentType,
-    actionMethod: 'getSnapshot'
   })
 })
 
@@ -127,6 +114,20 @@ test('ContentType getEditorInterface fails', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapContentType,
     actionMethod: 'getEditorInterface'
+  })
+})
+
+test('ContentType getSnapshots', (t) => {
+  return entityCollectionActionTest(t, setup, {
+    wrapperMethod: wrapContentType,
+    actionMethod: 'getSnapshots'
+  })
+})
+
+test('ContentType getSnapshot', (t) => {
+  return entityActionTest(t, setup, {
+    wrapperMethod: wrapContentType,
+    actionMethod: 'getSnapshot'
   })
 })
 

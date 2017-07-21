@@ -9,6 +9,7 @@ import {
   entityDeleteTest,
   entityPublishTest,
   entityActionTest,
+  entityCollectionActionTest,
   failingActionTest,
   failingVersionActionTest,
   isPublishedTest,
@@ -147,16 +148,16 @@ test('Entry getSnapshot fails', (t) => {
   })
 })
 
-test('Entry getSnapshots', (t) => {
-  return failingActionTest(t, setup, {
+test('Entry getSnapshot', (t) => {
+  return entityActionTest(t, setup, {
     wrapperMethod: wrapEntry,
-    actionMethod: 'getSnapshots'
+    actionMethod: 'getSnapshot'
   })
 })
 
 test('Entry getSnapshots', (t) => {
-  return failingActionTest(t, setup, {
+  return entityCollectionActionTest(t, setup, {
     wrapperMethod: wrapEntry,
-    actionMethod: 'getSnapshot'
+    actionMethod: 'getSnapshots'
   })
 })
