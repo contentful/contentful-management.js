@@ -79,9 +79,7 @@ const defaultBabelLoader = {
     path.resolve(__dirname, 'node_modules', 'follow-redirects') // follow-redirects uses Object.assign
   ],
   loader: 'babel-loader',
-  options: {
-    cacheDirectory: true
-  }
+  options: {}
 }
 
 // Browsers
