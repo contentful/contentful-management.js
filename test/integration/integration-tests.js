@@ -4,8 +4,6 @@ import {contentTypeReadOnlyTests, contentTypeWriteTests} from './content-type-in
 import {entryReadOnlyTests, entryWriteTests} from './entry-integration'
 import {assetReadOnlyTests, assetWriteTests} from './asset-integration'
 import webhookTests from './webhook-integration'
-import spaceMembershipTests from './space-membership-integration'
-import roleTests from './role-integration'
 import apiKeyTests from './api-key-integration'
 import uiExtensionTests from './ui-extension-integration'
 import generateRandomId from './generate-random-id'
@@ -50,9 +48,7 @@ test('Gets space', (t) => {
   })
 })
 
-// @todo unskip test when api behaviour is fixed
-// - https://github.com/contentful/contentful-management.js/issues/82
-test.skip('Fails to get space', (t) => {
+test('Fails to get space', (t) => {
   t.plan(2)
   return client.getSpace(generateRandomId('weirdrandomid'))
   .then(() => {}, (error) => {
@@ -112,8 +108,8 @@ test('Create space for tests which create, change and delete data', (t) => {
     entryWriteTests(t, space)
     assetWriteTests(t, space)
     webhookTests(t, space)
-    spaceMembershipTests(t, space)
-    roleTests(t, space)
+    // spaceMembershipTests(t, space)
+    // roleTests(t, space)
     apiKeyTests(t, space)
     uiExtensionTests(t, space)
     test.onFinish(() => space.delete())
