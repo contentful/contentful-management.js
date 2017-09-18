@@ -24,6 +24,19 @@ const spaceMock = {
   locales: [ 'en-US' ]
 }
 
+const userMock = {
+  sys: assign(cloneDeep(sysMock), {
+    type: 'User'
+  }),
+  firstName: 'Dwight',
+  lastName: 'Schrute',
+  avatarUrl: 'https://images.contentful.com/abcd1234',
+  email: 'dwight@dundermifflin.com',
+  activated: true,
+  signInCount: 1,
+  confirmed: true
+}
+
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType'
@@ -197,7 +210,8 @@ const mocks = {
   error: errorMock,
   upload: uploadMock,
   organization: organizationMock,
-  uiExtension: uiExtensionMock
+  uiExtension: uiExtensionMock,
+  user: userMock
 }
 
 function cloneMock (name) {
@@ -295,5 +309,6 @@ export {
   uploadMock,
   organizationMock,
   uiExtensionMock,
-  snapShotMock
+  snapShotMock,
+  userMock
 }
