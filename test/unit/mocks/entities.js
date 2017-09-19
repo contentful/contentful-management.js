@@ -281,6 +281,9 @@ function setupEntitiesMock (rewiredModuleApi) {
     uiExtension: {
       wrapUiExtension: sinon.stub(),
       wrapUiExtensionCollection: sinon.stub()
+    },
+    user: {
+      wrapUser: sinon.stub()
     }
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
