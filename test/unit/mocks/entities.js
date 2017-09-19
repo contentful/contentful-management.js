@@ -25,7 +25,7 @@ const spaceMock = {
 }
 
 const userMock = {
-  sys: assign(cloneDeep(sysMock), {
+  sys: Object.assign(cloneDeep(sysMock), {
     type: 'User'
   }),
   firstName: 'Dwight',

@@ -44,10 +44,10 @@ test('Gets organizations', (t) => {
 test('Gets User', (t) => {
   t.plan(2)
   return client.getCurrentUser()
-  .then((user) => {
-    t.ok(user, 'user')
-    t.ok(user.sys, 'user.sys')
-  })
+    .then((user) => {
+      t.ok(user, 'user')
+      t.ok(user.sys, 'user.sys')
+    })
 })
 
 test('Gets space', (t) => {
