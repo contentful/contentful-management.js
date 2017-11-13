@@ -222,7 +222,8 @@ const mocks = {
   upload: uploadMock,
   organization: organizationMock,
   uiExtension: uiExtensionMock,
-  user: userMock
+  user: userMock,
+  personalAccessToken: personalAccessTokenMock
 }
 
 function cloneMock (name) {
