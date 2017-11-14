@@ -63,7 +63,6 @@ test('Create and revoke a personal access token', (t) => {
       t.equals(token.name, 'My Token')
       return token.revoke()
         .then((revoked) => {
-          debugger
           t.ok(revoked.sys, 'sys')
         })
     })
