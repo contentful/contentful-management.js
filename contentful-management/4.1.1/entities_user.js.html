@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>entities/user.js - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">entities/user.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import cloneDeep from 'lodash/cloneDeep'
+/**
+ * @memberof User
+ * @typedef User
+ * @prop {Object} sys - System metadata
+ * @prop {string} sys.id - User id
+ * @prop {string} sys.type - Entity type
+ * @prop {string} firstName - User first name
+ * @prop {string} lastName - User last name
+ * @prop {string} avatarUrl - User avatar url
+ * @prop {string} email - User email
+ * @prop {boolean} activated - User activated
+ * @prop {number} signInCount - User sign in count
+ * @prop {boolean} confirmed - User confirmed
+ * @prop {function(): Object} toPlainObject() - Returns this User as a plain JS object
+ */
+
+/*
+ *
+ * @private
+ * */
+export function wrapUser (http, data) {
+  const user = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(user, {})
+  return freezeSys(user)
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
