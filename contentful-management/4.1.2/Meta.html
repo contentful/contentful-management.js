@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentful-management.js - Documentation</title>
+    <title>Meta - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,89 +26,496 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentful-management.js</h1>
+    <h1 class="page-title">Meta</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
- */
-import axios from '@contentful/axios'
-import cloneDeep from 'lodash/cloneDeep'
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
-import createContentfulApi from './create-contentful-api'
+        <h2>
+        Meta
+        </h2>
+        
+    
+</header>
 
-/**
- * Create a client instance
- * @func
- * @name createClient
- * @memberof contentfulManagement
- * @param {object} params - Client initialization parameters
- * @prop {string=} params.accessToken - Contentful CDA Access Token
- * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
- * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
- * @prop {string=?} params.host - API host (default: cda.contentful.com)
- * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
- * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
- * @prop {object=?} params.headers - Optional additional headers
- * @prop {string=?} params.application - Application name and version e.g myApp/version
- * @prop {string=?} params.integration - Integration name and version e.g react/version
- * @returns {ContentfulClientAPI.ClientAPI}
- * @example
- * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
- * })
- */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com'
-  }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
-    params.application,
-    params.integration
-  )
+<article>
+    <div class="container-overview">
+    
+        
 
-  const requiredHeaders = {
-    'Content-Type': 'application/vnd.contentful.management.v1+json',
-    'X-Contentful-User-Agent': userAgentHeader
-  }
+<dl class="details">
 
-  params = {
-    ...defaultParameters,
-    ...cloneDeep(params)
-  }
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
 
-  if (!params.accessToken) {
-    throw new TypeError('Expected parameter accessToken')
-  }
+    
 
-  params.headers = {
-    ...params.headers,
-    ...requiredHeaders
-  }
+    
 
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
+    
 
-  return api
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">Types for meta information found across the different entities in Contentful</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".Link">Link</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">type of this entity. Always link.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>linkType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">type of this link. If defined, either Entry or Asset</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    Link to another entity. See <a href="https://www.contentful.com/developers/docs/concepts/links/">Links</a> for more details.
+</div>
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Sys">Sys</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>createdAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>updatedAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>revision</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    System metadata. See <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes</a> for more details.
+</div>
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+
+
+    
+</article>
+
+</section>
 
 
 

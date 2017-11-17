@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentful-management.js - Documentation</title>
+    <title>EditorInterface - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,89 +26,625 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentful-management.js</h1>
+    <h1 class="page-title">EditorInterface</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
- */
-import axios from '@contentful/axios'
-import cloneDeep from 'lodash/cloneDeep'
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
-import createContentfulApi from './create-contentful-api'
+        <h2>
+        EditorInterface
+        </h2>
+        
+    
+</header>
 
-/**
- * Create a client instance
- * @func
- * @name createClient
- * @memberof contentfulManagement
- * @param {object} params - Client initialization parameters
- * @prop {string=} params.accessToken - Contentful CDA Access Token
- * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
- * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
- * @prop {string=?} params.host - API host (default: cda.contentful.com)
- * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
- * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
- * @prop {object=?} params.headers - Optional additional headers
- * @prop {string=?} params.application - Application name and version e.g myApp/version
- * @prop {string=?} params.integration - Integration name and version e.g react/version
- * @returns {ContentfulClientAPI.ClientAPI}
- * @example
- * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
- * })
- */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com'
-  }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
-    params.application,
-    params.integration
-  )
+<article>
+    <div class="container-overview">
+    
+        
 
-  const requiredHeaders = {
-    'Content-Type': 'application/vnd.contentful.management.v1+json',
-    'X-Contentful-User-Agent': userAgentHeader
-  }
+<dl class="details">
 
-  params = {
-    ...defaultParameters,
-    ...cloneDeep(params)
-  }
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-  if (!params.accessToken) {
-    throw new TypeError('Expected parameter accessToken')
-  }
+    
 
-  params.headers = {
-    ...params.headers,
-    ...requiredHeaders
-  }
+    
 
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
+    
 
-  return api
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">Editor Interface instances</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".Control">Control</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fieldId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">srting</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of the customized field</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>widgetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">customization associated to the field</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".EditorInterface">EditorInterface</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>controls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="EditorInterface.html#.Control">EditorInterface.Control</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">array of fields and it's associated widgetId</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getControlForField"><span class="type-signature">(static) </span>getControlForField<span class="signature">()</span><span class="type-signature"> &rarr; (nullable) {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    gets a control for a specific field
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ control = editorInterface.getControlForField('&lt;field-id>')
+ console.log(control)
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    control object for specific field.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+ return editorInterface.update()
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
 
 
 
