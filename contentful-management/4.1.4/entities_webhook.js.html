@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-contentful-api.js - Documentation</title>
+    <title>entities/webhook.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-contentful-api.js</h1>
+    <h1 class="page-title">entities/webhook.js</h1>
     
 
     
@@ -37,291 +37,187 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API Client. Contains methods which allow access to
- * any operations that can be performed with a management token.
- * @namespace ContentfulClientAPI
+ * Webhook instances
+ * @namespace Webhook
  */
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * Types for meta information found across the different entities in Contentful
- * @namespace Meta
+ * @memberof Webhook
+ * @typedef Webhook
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} url - Url which the webhook will call
+ * @prop {string} httpBasicUsername - Username for basic HTTP authentication
+ * @prop {string} httpBasicPassword - Password for basic HTTP authentication
+ * @prop {object} headers - Key value pairs of additional headers to be sent with every webhook call.
+ * @prop {array} topics - Topics which this webhook should be subscribed to. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhooks/create-a-webhook for more details
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook as a plain JS object
  */
 
-/**
- * System metadata. See &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes&lt;/a> for more details.
- * @memberof Meta
- * @typedef Sys
- * @prop {string} type
- * @prop {string} id
- * @prop {Meta.Link} space
- * @prop {string} createdAt
- * @prop {string} updatedAt
- * @prop {number} revision
- */
-
-/**
- * Link to another entity. See &lt;a href="https://www.contentful.com/developers/docs/concepts/links/">Links&lt;/a> for more details.
- * @memberof Meta
- * @typedef Link
- * @prop {string} type - type of this entity. Always link.
- * @prop {string} id
- * @prop {string} linkType - type of this link. If defined, either Entry or Asset
- */
-
-/**
- * @memberof ContentfulClientAPI
- * @typedef {Object} ClientAPI
- * @prop {function} getSpace
- * @prop {function} getSpaces
- * @prop {function} createSpace
- * @prop {function} createPersonalAccessToken
- * @prop {function} getCurrentUser
- * @prop {function} getPersonalAccessTokens
- * @prop {function} getPersonalAccessToken
- * @prop {function} getOrganizations
- * @prop {function} rawRequest
- */
-
-import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
-import entities from './entities'
-/**
- * Creates API object with methods to access functionality from Contentful's
- * Management API
- * @private
- * @param {Object} params - API initialization params
- * @prop {Object} http - HTTP client instance
- * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
- * @return {ClientAPI}
- */
-export default function createClientApi ({ http }) {
-  const {wrapSpace, wrapSpaceCollection} = entities.space
-  const {wrapUser} = entities.user
-  const {wrapPersonalAccessToken, wrapPersonalAccessTokenCollection} = entities.personalAccessToken
-  const {wrapOrganizationCollection} = entities.organization
-
-  /**
-   * Gets all spaces
-   * @memberof ContentfulClientAPI
-   * @return {Promise&lt;Space.SpaceCollection>} Promise for a collection of Spaces
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpaces()
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getSpaces (query = {}) {
-    return http.get('', createRequestConfig({query: query}))
-      .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a space
-   * @memberof ContentfulClientAPI
-   * @param {string} id - Space ID
-   * @return {Promise&lt;Space.Space>} Promise for a Space
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => console.log(space))
-   * .catch(console.error)
-   */
-  function getSpace (id) {
-    return http.get(id)
-      .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a space
-   * @memberof ContentfulClientAPI
-   * @see {Space.Space}
-   * @param {object} data - Object representation of the Space to be created
-   * @param {string=} organizationId - Organization ID, if the associated token can manage more than one organization.
-   * @return {Promise&lt;Space.Space>} Promise for the newly created Space
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.createSpace({
-   *   name: 'Name of new space'
-   * })
-   * .then((space) => console.log(space))
-   * .catch(console.error)
-   */
-  function createSpace (data, organizationId) {
-    return http.post('', data, {
-      headers: organizationId ? {'X-Contentful-Organization': organizationId} : {}
-    })
-      .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Organizations
-   * @memberof ClientAPI
-   * @return {Promise&lt;OrganizationCollection>} Promise for a collection of Organizations
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganizations()
-   * .then(result => console.log(result.items))
-   * .catch(console.error)
-   */
-  function getOrganizations () {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/organizations/')
-    return http.get('', {
-      baseURL
-    })
-      .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets the authenticated user
-   * @return {Promise&lt;User>} Promise for a User
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getCurrentUser()
-   * .then(user => console.log(user.firstName))
-   * .catch(console.error)
-   */
-  function getCurrentUser () {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/')
-    return http.get('', {
-      baseURL
-    })
-      .then((response) => wrapUser(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a personal access token
-   * @param {Object} data - personal access token config
-   * @return {Promise&lt;User>} Promise for a Token
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.createPersonalAccessToken(
-   *  {
-   *    "name": "My Token",
-   *    "scope": [
-   *      "content_management_manage"
-   *    ]
-   *  }
-   * )
-   * .then(personalAccessToken => console.log(personalAccessToken.token))
-   * .catch(console.error)
-   */
-  function createPersonalAccessToken (data) {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
-    return http.post('', data, {
-      baseURL
-    })
-      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a personal access token
-   * @param {Object} data - personal access token config
-   * @return {Promise&lt;User>} Promise for a Token
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getPersonalAccessToken(tokenId)
-   * .then(token => console.log(token.token))
-   * .catch(console.error)
-   */
-  function getPersonalAccessToken (tokenId) {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
-    return http.post(tokenId, {
-      baseURL
-    })
-      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets all personal access tokens
-   * @return {Promise&lt;User>} Promise for a Token
-   * @example
-   * const contentful = require('contentful-management')
-   * 
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   * 
-   * client.getPersonalAccessTokens()
-   * .then(response => console.log(reponse.items))
-   * .catch(console.error)
-   */
-  function getPersonalAccessTokens () {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
-    return http.get('', {
-      baseURL
-    })
-      .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Make a custom request to the Contentful management API's /spaces endpoint
-   * @memberof ContentfulClientAPI
-   * @param {Object} opts - axios request options (https://github.com/mzabriskie/axios)
-   * @return {Promise&lt;Object>} Promise for the response data
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.rawRequest({
-   *   method: 'GET',
-   *   url: '/custom/path'
-   * })
-   * .then((responseData) => console.log(responseData))
-   * .catch(console.error)
-   */
-  function rawRequest (opts) {
-    return http(opts).then((response) => response.data, errorHandler)
-  }
-
+function createWebhookApi (http) {
   return {
-    getSpaces: getSpaces,
-    getSpace: getSpace,
-    createSpace: createSpace,
-    getOrganizations: getOrganizations,
-    getCurrentUser: getCurrentUser,
-    createPersonalAccessToken: createPersonalAccessToken,
-    getPersonalAccessToken: getPersonalAccessToken,
-    getPersonalAccessTokens: getPersonalAccessTokens,
-    rawRequest: rawRequest
+
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Webhook
+     * @func update
+     * @return {Promise&lt;Webhook>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => {
+     *  webhook.name = 'new webhook name'
+     *  return webhook.update()
+     * })
+     * .then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'webhook_definitions',
+      wrapperMethod: wrapWebhook
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Webhook
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.delete())
+     * .then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'webhook_definitions'
+    }),
+
+    /**
+     * List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object>} Promise for list of calls
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getCalls())
+     * .then((response) => console.log(response.items)) // webhook calls
+     * .catch(console.error)
+     */
+    getCalls: function () {
+      return http.get('webhooks/' + this.sys.id + '/calls')
+        .then((response) => response.data, errorHandler)
+    },
+
+    /**
+     * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object>} Promise for call details
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getCall(&lt;call-id>))
+     * .then((webhookCall) => console.log(webhookCall))
+     * .catch(console.error)
+     */
+    getCall: function (id) {
+      return http.get('webhooks/' + this.sys.id + '/calls/' + id)
+        .then((response) => response.data, errorHandler)
+    },
+
+    /**
+     * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getHealth
+     * @return {Promise&lt;object>} Promise for health info
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getHealth())
+     * .then((webhookHealth) => console.log(webhookHealth))
+     * .catch(console.error)
+     */
+    getHealth: function () {
+      return http.get('webhooks/' + this.sys.id + '/health')
+        .then((response) => response.data, errorHandler)
+    }
   }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw webhook data
+ * @return {Webhook} Wrapped webhook data
+ */
+export function wrapWebhook (http, data) {
+  const webhook = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(webhook, createWebhookApi(http))
+  return freezeSys(webhook)
+}
+
+/**
+ * @memberof Webhook
+ * @typedef WebhookCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Webhook.Webhook>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook collection as a plain JS object
+ */
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw webhook collection data
+ * @return {WebhookCollection} Wrapped webhook collection data
+ */
+export function wrapWebhookCollection (http, data) {
+  const webhooks = toPlainObject(cloneDeep(data))
+  webhooks.items = webhooks.items.map((entity) => wrapWebhook(http, entity))
+  return freezeSys(webhooks)
 }
 </code></pre>
         </article>
