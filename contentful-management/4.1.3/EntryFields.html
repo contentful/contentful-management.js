@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentfulManagement - Documentation</title>
+    <title>EntryFields - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentfulManagement</h1>
+    <h1 class="page-title">EntryFields</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        contentfulManagement
+        EntryFields
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contentful-management.js.html">contentful-management.js</a>, <a href="contentful-management.js.html#line1">line 1</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -86,13 +86,6 @@
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -101,8 +94,7 @@
 
 
         
-            <div class="description">Contentful Management API SDK. Allows you to create instances of a client
-with access to the Contentful Content Management API.</div>
+            <div class="description">Types of fields found in an Entry</div>
         
 
         
@@ -121,18 +113,12 @@ with access to the Contentful Content Management API.</div>
 
     
     
-    
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Type Definitions</h3>
 
         
-            
+                
+<h4 class="name" id=".Boolean">Boolean</h4>
 
-    
-
-    <h4 class="name" id=".createClient"><span class="type-signature">(static) </span>createClient<span class="signature">(params)</span><span class="type-signature"> &rarr; {<a href="ContentfulClientAPI.html#.ClientAPI">ContentfulClientAPI.ClientAPI</a>}</span></h4>
-
-    
 
 
 
@@ -142,7 +128,314 @@ with access to the Contentful Content Management API.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contentful-management.js.html">contentful-management.js</a>, <a href="contentful-management.js.html#line12">line 12</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Date">Date</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Field">Field</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    A Field in an Entry can have one of the following types that can be defined in Contentful. See <a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types</a> for more details.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="EntryFields.html#.Symbol">EntryFields.Symbol</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Text">EntryFields.Text</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Integer">EntryFields.Integer</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Number">EntryFields.Number</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Date">EntryFields.Date</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Boolean">EntryFields.Boolean</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Location">EntryFields.Location</a></span>
+|
+
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+|
+
+<span class="param-type">Array.&lt;(<a href="EntryFields.html#.Symbol">EntryFields.Symbol</a>|<a href="Meta.html#.Link">Meta.Link</a>)></span>
+|
+
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Integer">Integer</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Location">Location</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -193,8 +486,6 @@ with access to the Contentful Content Management API.</div>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -207,7 +498,7 @@ with access to the Contentful Content Management API.</div>
 
         <tr>
             
-                <td class="name"><code>params.accessToken</code></td>
+                <td class="name"><code>lat</code></td>
             
 
             <td class="type">
@@ -220,91 +511,17 @@ with access to the Contentful Content Management API.</div>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">Contentful CDA Access Token</td>
+            <td class="description last">latitude</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>params.insecure</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Requests will be made over http instead of the default https (default: false)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.retryOnError</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">If we should retry on errors and 429 rate limit exceptions (default: true)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.host</code></td>
+                <td class="name"><code>lon</code></td>
             
 
             <td class="type">
@@ -317,356 +534,10 @@ with access to the Contentful Content Management API.</div>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
-                    &lt;nullable><br>
-                
-                </td>
             
 
-            
-
-            <td class="description last">API host (default: cda.contentful.com)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.hostUpload</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">direct file upload host (default : upload.contentful.com)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.httpAgent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Node.js HTTP agent for proxying (see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.httpsAgent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Node.js HTTP agent for proxying (see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.proxy</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Axios proxy (see <a href="https://github.com/mzabriskie/axios#request-config"> axios docs </a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.headers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional additional headers</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.logHandler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">A log handler function to process given log messages & errors. Receives the log level (error, warning & info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.application</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Application name and version e.g myApp/version</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.integration</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Integration name and version e.g react/version</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<div class="description">
-    Create a client instance
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const client = contentfulManagement.createClient({
- accessToken: 'myAccessToken'
-})</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>params</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Client initialization parameters</td>
+            <td class="description last">longitude</td>
         </tr>
 
     
@@ -685,28 +556,216 @@ with access to the Contentful Content Management API.</div>
 
 
 
-
-<h5>Returns:</h5>
-
-        
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="ContentfulClientAPI.html#.ClientAPI">ContentfulClientAPI.ClientAPI</a></span>
+            
+                
+<h4 class="name" id=".Number">Number</h4>
 
 
-    </dd>
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
 
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Symbol">Symbol</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line28">line 28</a>
+    </li></ul></dd>
     
 
+    
 
-        
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Text">Text</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+    
     
 
 

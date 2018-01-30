@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentfulManagement - Documentation</title>
+    <title>EditorInterface - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentfulManagement</h1>
+    <h1 class="page-title">EditorInterface</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        contentfulManagement
+        EditorInterface
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contentful-management.js.html">contentful-management.js</a>, <a href="contentful-management.js.html#line1">line 1</a>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -86,13 +86,6 @@
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a></li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -101,8 +94,7 @@
 
 
         
-            <div class="description">Contentful Management API SDK. Allows you to create instances of a client
-with access to the Contentful Content Management API.</div>
+            <div class="description">Editor Interface instances</div>
         
 
         
@@ -121,18 +113,12 @@ with access to the Contentful Content Management API.</div>
 
     
     
-    
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Type Definitions</h3>
 
         
-            
+                
+<h4 class="name" id=".Control">Control</h4>
 
-    
-
-    <h4 class="name" id=".createClient"><span class="type-signature">(static) </span>createClient<span class="signature">(params)</span><span class="type-signature"> &rarr; {<a href="ContentfulClientAPI.html#.ClientAPI">ContentfulClientAPI.ClientAPI</a>}</span></h4>
-
-    
 
 
 
@@ -142,7 +128,7 @@ with access to the Contentful Content Management API.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="contentful-management.js.html">contentful-management.js</a>, <a href="contentful-management.js.html#line12">line 12</a>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -193,8 +179,6 @@ with access to the Contentful Content Management API.</div>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -207,7 +191,30 @@ with access to the Contentful Content Management API.</div>
 
         <tr>
             
-                <td class="name"><code>params.accessToken</code></td>
+                <td class="name"><code>fieldId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">srting</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of the customized field</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>widgetId</code></td>
             
 
             <td class="type">
@@ -220,379 +227,10 @@ with access to the Contentful Content Management API.</div>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
-                </td>
             
 
-            
-
-            <td class="description last">Contentful CDA Access Token</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.insecure</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Requests will be made over http instead of the default https (default: false)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.retryOnError</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">If we should retry on errors and 429 rate limit exceptions (default: true)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.host</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">API host (default: cda.contentful.com)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.hostUpload</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">direct file upload host (default : upload.contentful.com)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.httpAgent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Node.js HTTP agent for proxying (see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.httpsAgent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Node.js HTTP agent for proxying (see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.proxy</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional Axios proxy (see <a href="https://github.com/mzabriskie/axios#request-config"> axios docs </a>)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.headers</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Optional additional headers</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.logHandler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">A log handler function to process given log messages & errors. Receives the log level (error, warning & info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.application</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Application name and version e.g myApp/version</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>params.integration</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                    &lt;nullable><br>
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Integration name and version e.g react/version</td>
+            <td class="description last">customization associated to the field</td>
         </tr>
 
     
@@ -604,9 +242,6 @@ with access to the Contentful Content Management API.</div>
 
 
 
-<div class="description">
-    Create a client instance
-</div>
 
 
 
@@ -614,21 +249,61 @@ with access to the Contentful Content Management API.</div>
 
 
 
+            
+                
+<h4 class="name" id=".EditorInterface">EditorInterface</h4>
 
 
-    <h5>Example</h5>
+
+
+
+<dl class="details">
+
     
-    <pre class="prettyprint"><code>const client = contentfulManagement.createClient({
- accessToken: 'myAccessToken'
-})</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line18">line 18</a>
+    </li></ul></dd>
     
 
-<table class="params">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
     <thead>
     <tr>
         
@@ -650,13 +325,13 @@ with access to the Contentful Content Management API.</div>
 
         <tr>
             
-                <td class="name"><code>params</code></td>
+                <td class="name"><code>sys</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
 
 
             
@@ -666,7 +341,30 @@ with access to the Contentful Content Management API.</div>
 
             
 
-            <td class="description last">Client initialization parameters</td>
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>controls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="EditorInterface.html#.Control">EditorInterface.Control</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">array of fields and it's associated widgetId</td>
         </tr>
 
     
@@ -685,10 +383,119 @@ with access to the Contentful Content Management API.</div>
 
 
 
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getControlForField"><span class="type-signature">(static) </span>getControlForField<span class="signature">()</span><span class="type-signature"> &rarr; (nullable) {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    gets a control for a specific field
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ control = editorInterface.getControlForField('&lt;field-id>')
+ console.log(control)
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <h5>Returns:</h5>
 
         
+<div class="param-desc">
+    control object for specific field.
+</div>
+
 
 
 <dl class="param-type">
@@ -697,7 +504,131 @@ with access to the Contentful Content Management API.</div>
     </dt>
     <dd>
         
-<span class="param-type"><a href="ContentfulClientAPI.html#.ClientAPI">ContentfulClientAPI.ClientAPI</a></span>
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+ return editorInterface.update()
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>></span>
 
 
     </dd>

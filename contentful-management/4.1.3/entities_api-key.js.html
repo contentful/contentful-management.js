@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>PersonalAccessToken - Documentation</title>
+    <title>entities/api-key.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,226 +26,128 @@
 
 <div id="main">
     
-    <h1 class="page-title">PersonalAccessToken</h1>
+    <h1 class="page-title">entities/api-key.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        PersonalAccessToken
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_personal-access-token.js.html">entities/personal-access-token.js</a>, <a href="entities_personal-access-token.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-        
-            <div class="description">Personal access token</div>
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-    
-    
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".revoke"><span class="type-signature">(static) </span>revoke<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="PersonalAccessToken.html">PersonalAccessToken</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_personal-access-token.js.html">entities/personal-access-token.js</a>, <a href="entities_personal-access-token.js.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Revokes a personal access token
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
- accessToken: &lt;content_management_api_key>
-})
-
-client.getPersonalAccessToken('&lt;token-id>')
- .then((personalAccessToken) => {
-   return personalAccessToken.revoke()
- })
- .catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object the revoked personal access token
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="PersonalAccessToken.html">PersonalAccessToken</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Api Key instances
+ * @namespace ApiKey
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
+
+/**
+ * @memberof ApiKey
+ * @typedef ApiKey
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} description
+ * @prop {function(): Object} toPlainObject() - Returns this Api Key as a plain JS object
+ */
+
+function createApiKeyApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof ApiKey
+     * @func update
+     * @return {Promise&lt;ApiKey>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => {
+     *  apiKey.name = 'New name'
+     *  return apiKey.update()
+     * })
+     * .then(apiKey => console.log(apiKey.name))
+     * .catch(console.error)
+     */
+    update: function () {
+      if ('accessToken' in this) {
+        delete this.accessToken
+      }
+      if ('preview_api_key' in this) {
+        delete this.preview_api_key
+      }
+      if ('policies' in this) {
+        delete this.policies
+      }
+      const update = createUpdateEntity({
+        http: http,
+        entityPath: 'api_keys',
+        wrapperMethod: wrapApiKey
+      })
+      return update.call(this)
+    },
+
+    /**
+     * Deletes this object on the server.
+     * @memberof ApiKey
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => apiKey.delete())
+     * .then(() => console.log('apikey deleted'))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'api_keys'
+    })
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key data
+ * @return {ApiKey} Wrapped api key data
+ */
+export function wrapApiKey (http, data) {
+  const apiKey = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(apiKey, createApiKeyApi(http))
+  return freezeSys(apiKey)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key collection data
+ * @return {ApiKeyCollection} Wrapped api key collection data
+ */
+export function wrapApiKeyCollection (http, data) {
+  const apiKeys = toPlainObject(cloneDeep(data))
+  apiKeys.items = apiKeys.items.map((entity) => wrapApiKey(http, entity))
+  return freezeSys(apiKeys)
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
