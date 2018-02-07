@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>contentful-management.js - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">contentful-management.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Contentful Management API SDK. Allows you to create instances of a client
+ * with access to the Contentful Content Management API.
+ * @namespace contentfulManagement
+ * @see ContentfulClientAPI
+ */
+import axios from '@contentful/axios'
+import cloneDeep from 'lodash/cloneDeep'
+import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
+import createContentfulApi from './create-contentful-api'
+
+/**
+ * Create a client instance
+ * @func
+ * @name createClient
+ * @memberof contentfulManagement
+ * @param {object} params - Client initialization parameters
+ * @prop {string=} params.accessToken - Contentful CDA Access Token
+ * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
+ * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
+ * @prop {string=?} params.host - API host (default: cda.contentful.com)
+ * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
+ * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
+ * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
+ * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
+ * @prop {object=?} params.headers - Optional additional headers
+ * @prop {function=} params.logHandler - A log handler function to process given log messages &amp; errors. Receives the log level (error, warning &amp; info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)
+ * @prop {string=?} params.application - Application name and version e.g myApp/version
+ * @prop {string=?} params.integration - Integration name and version e.g react/version
+ * @returns {ContentfulClientAPI.ClientAPI}
+ * @example
+ * const client = contentfulManagement.createClient({
+ *  accessToken: 'myAccessToken'
+ * })
+ */
+export function createClient (params) {
+  const defaultParameters = {
+    defaultHostname: 'api.contentful.com',
+    defaultHostnameUpload: 'upload.contentful.com'
+  }
+  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
+    params.application,
+    params.integration
+  )
+
+  const requiredHeaders = {
+    'Content-Type': 'application/vnd.contentful.management.v1+json',
+    'X-Contentful-User-Agent': userAgentHeader
+  }
+
+  params = {
+    ...defaultParameters,
+    ...cloneDeep(params)
+  }
+
+  if (!params.accessToken) {
+    throw new TypeError('Expected parameter accessToken')
+  }
+
+  params.headers = {
+    ...params.headers,
+    ...requiredHeaders
+  }
+
+  const http = createHttpClient(axios, params)
+  const api = createContentfulApi({
+    http: http
+  })
+
+  return api
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
