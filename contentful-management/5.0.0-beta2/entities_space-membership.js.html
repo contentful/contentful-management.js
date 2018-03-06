@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/environment.js - Documentation</title>
+    <title>entities/space-membership.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/environment.js</h1>
+    <h1 class="page-title">entities/space-membership.js</h1>
     
 
     
@@ -36,74 +36,105 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
-import {freezeSys, toPlainObject} from 'contentful-sdk-core'
+            <pre class="prettyprint source linenums"><code>/**
+ * Space Membership instances
+ * @namespace SpaceMembership
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi from '../create-environment-api'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * @memberof Environment
- * @typedef Environment
- * @prop {Object} sys - System metadata
- * @prop {string} sys.id - Environment id
- * @prop {string} sys.type - Entity type
- * @prop {string} name - Environment name
- * @prop {function(): Object} toPlainObject() - Returns this Environment as a plain JS object
+ * @memberof SpaceMembership
+ * @typedef SpaceMembership
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {boolean} admin - User is an admin
+ * @prop {array} roles - Array of Role Links
+ * @prop {function(): Object} toPlainObject() - Returns this Space Membership as a plain JS object
  */
 
-/**
- * @memberof Environment
- * @typedef SpaceCollection
- * @prop {number} total
- * @prop {number} skip
- * @prop {number} limit
- * @prop {Array&lt;Environment.Environment>} items
- * @prop {function(): Object} toPlainObject() - Returns this Environment collection as a plain JS object
- */
+function createSpaceMembershipApi (http) {
+  return {
 
-/**
- * This method creates the API for the given environment with all the methods for
- * reading and creating other entities. It also passes down a clone of the
- * http client with a environment id, so the base path for requests now has the
- * environment id already set.
- * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment
- * @return {Environment}
- */
-export function wrapEnvironment (http, data) {
-  const environment = toPlainObject(cloneDeep(data))
-  const {
-    hostUpload,
-    defaultHostnameUpload
-  } = http.httpClientParams
-  const environmentScopedHttpClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id
-  })
-  const environmentScopedUploadClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
-    host: hostUpload || defaultHostnameUpload
-  })
-  const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
-    httpUpload: environmentScopedUploadClient
-  })
-  const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
-  return freezeSys(enhancedEnvironment)
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof SpaceMembership
+     * @func update
+     * @return {Promise&lt;SpaceMembership>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getSpaceMembership('&lt;spaceMembership_id>'))
+     * .then((spaceMembership) => {
+     *  spaceMembership.name = 'new space membership name'
+     * })
+     * .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'space_memberships',
+      wrapperMethod: wrapSpaceMembership
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof SpaceMembership
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getSpaceMembership('&lt;spaceMembership_id>'))
+     * .then((spaceMembership) => spaceMembership.delete())
+     * .then(() => console.log(`spaceMembership deleted.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'space_memberships'
+    })
+  }
 }
 
 /**
- * This method wraps each environment in a collection with the environment API. See wrapEnvironment
- * above for more details.
  * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment collection
- * @return {SpaceCollection}
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw space membership data
+ * @return {SpaceMembership} Wrapped space membership data
  */
-export function wrapEnvironmentCollection (http, data) {
-  const environments = toPlainObject(cloneDeep(data))
-  environments.items = environments.items.map((entity) => wrapEnvironment(http, entity))
-  return freezeSys(environments)
+export function wrapSpaceMembership (http, data) {
+  const spaceMembership = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(spaceMembership, createSpaceMembershipApi(http))
+  return freezeSys(spaceMembership)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw space membership collection data
+ * @return {SpaceMembershipCollection} Wrapped space membership collection data
+ */
+export function wrapSpaceMembershipCollection (http, data) {
+  const spaceMemberships = toPlainObject(cloneDeep(data))
+  spaceMemberships.items = spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity))
+  return freezeSys(spaceMemberships)
 }
 </code></pre>
         </article>

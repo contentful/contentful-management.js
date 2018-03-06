@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/environment.js - Documentation</title>
+    <title>entities/api-key.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/environment.js</h1>
+    <h1 class="page-title">entities/api-key.js</h1>
     
 
     
@@ -36,74 +36,114 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
-import {freezeSys, toPlainObject} from 'contentful-sdk-core'
+            <pre class="prettyprint source linenums"><code>/**
+ * Api Key instances
+ * @namespace ApiKey
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi from '../create-environment-api'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * @memberof Environment
- * @typedef Environment
- * @prop {Object} sys - System metadata
- * @prop {string} sys.id - Environment id
- * @prop {string} sys.type - Entity type
- * @prop {string} name - Environment name
- * @prop {function(): Object} toPlainObject() - Returns this Environment as a plain JS object
+ * @memberof ApiKey
+ * @typedef ApiKey
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} description
+ * @prop {function(): Object} toPlainObject() - Returns this Api Key as a plain JS object
  */
 
-/**
- * @memberof Environment
- * @typedef SpaceCollection
- * @prop {number} total
- * @prop {number} skip
- * @prop {number} limit
- * @prop {Array&lt;Environment.Environment>} items
- * @prop {function(): Object} toPlainObject() - Returns this Environment collection as a plain JS object
- */
+function createApiKeyApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof ApiKey
+     * @func update
+     * @return {Promise&lt;ApiKey>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => {
+     *  apiKey.name = 'New name'
+     *  return apiKey.update()
+     * })
+     * .then(apiKey => console.log(apiKey.name))
+     * .catch(console.error)
+     */
+    update: function () {
+      if ('accessToken' in this) {
+        delete this.accessToken
+      }
+      if ('preview_api_key' in this) {
+        delete this.preview_api_key
+      }
+      if ('policies' in this) {
+        delete this.policies
+      }
+      const update = createUpdateEntity({
+        http: http,
+        entityPath: 'api_keys',
+        wrapperMethod: wrapApiKey
+      })
+      return update.call(this)
+    },
 
-/**
- * This method creates the API for the given environment with all the methods for
- * reading and creating other entities. It also passes down a clone of the
- * http client with a environment id, so the base path for requests now has the
- * environment id already set.
- * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment
- * @return {Environment}
- */
-export function wrapEnvironment (http, data) {
-  const environment = toPlainObject(cloneDeep(data))
-  const {
-    hostUpload,
-    defaultHostnameUpload
-  } = http.httpClientParams
-  const environmentScopedHttpClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id
-  })
-  const environmentScopedUploadClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
-    host: hostUpload || defaultHostnameUpload
-  })
-  const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
-    httpUpload: environmentScopedUploadClient
-  })
-  const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
-  return freezeSys(enhancedEnvironment)
+    /**
+     * Deletes this object on the server.
+     * @memberof ApiKey
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => apiKey.delete())
+     * .then(() => console.log('apikey deleted'))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'api_keys'
+    })
+  }
 }
 
 /**
- * This method wraps each environment in a collection with the environment API. See wrapEnvironment
- * above for more details.
  * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment collection
- * @return {SpaceCollection}
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key data
+ * @return {ApiKey} Wrapped api key data
  */
-export function wrapEnvironmentCollection (http, data) {
-  const environments = toPlainObject(cloneDeep(data))
-  environments.items = environments.items.map((entity) => wrapEnvironment(http, entity))
-  return freezeSys(environments)
+export function wrapApiKey (http, data) {
+  const apiKey = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(apiKey, createApiKeyApi(http))
+  return freezeSys(apiKey)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key collection data
+ * @return {ApiKeyCollection} Wrapped api key collection data
+ */
+export function wrapApiKeyCollection (http, data) {
+  const apiKeys = toPlainObject(cloneDeep(data))
+  apiKeys.items = apiKeys.items.map((entity) => wrapApiKey(http, entity))
+  return freezeSys(apiKeys)
 }
 </code></pre>
         </article>

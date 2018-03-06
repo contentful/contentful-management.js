@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/environment.js - Documentation</title>
+    <title>EntryFields - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,88 +26,753 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/environment.js</h1>
+    <h1 class="page-title">EntryFields</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
-import {freezeSys, toPlainObject} from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi from '../create-environment-api'
+        <h2>
+        EntryFields
+        </h2>
+        
+    
+</header>
 
-/**
- * @memberof Environment
- * @typedef Environment
- * @prop {Object} sys - System metadata
- * @prop {string} sys.id - Environment id
- * @prop {string} sys.type - Entity type
- * @prop {string} name - Environment name
- * @prop {function(): Object} toPlainObject() - Returns this Environment as a plain JS object
- */
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * @memberof Environment
- * @typedef SpaceCollection
- * @prop {number} total
- * @prop {number} skip
- * @prop {number} limit
- * @prop {Array&lt;Environment.Environment>} items
- * @prop {function(): Object} toPlainObject() - Returns this Environment collection as a plain JS object
- */
+<dl class="details">
 
-/**
- * This method creates the API for the given environment with all the methods for
- * reading and creating other entities. It also passes down a clone of the
- * http client with a environment id, so the base path for requests now has the
- * environment id already set.
- * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment
- * @return {Environment}
- */
-export function wrapEnvironment (http, data) {
-  const environment = toPlainObject(cloneDeep(data))
-  const {
-    hostUpload,
-    defaultHostnameUpload
-  } = http.httpClientParams
-  const environmentScopedHttpClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id
-  })
-  const environmentScopedUploadClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
-    host: hostUpload || defaultHostnameUpload
-  })
-  const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
-    httpUpload: environmentScopedUploadClient
-  })
-  const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
-  return freezeSys(enhancedEnvironment)
-}
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
 
-/**
- * This method wraps each environment in a collection with the environment API. See wrapEnvironment
- * above for more details.
- * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment collection
- * @return {SpaceCollection}
- */
-export function wrapEnvironmentCollection (http, data) {
-  const environments = toPlainObject(cloneDeep(data))
-  environments.items = environments.items.map((entity) => wrapEnvironment(http, entity))
-  return freezeSys(environments)
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">Types of fields found in an Entry</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".Boolean">Boolean</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line58">line 58</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">boolean</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Date">Date</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Field">Field</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line71">line 71</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    A Field in an Entry can have one of the following types that can be defined in Contentful. See <a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types</a> for more details.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="EntryFields.html#.Symbol">EntryFields.Symbol</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Text">EntryFields.Text</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Integer">EntryFields.Integer</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Number">EntryFields.Number</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Date">EntryFields.Date</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Boolean">EntryFields.Boolean</a></span>
+|
+
+<span class="param-type"><a href="EntryFields.html#.Location">EntryFields.Location</a></span>
+|
+
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+|
+
+<span class="param-type">Array.&lt;(<a href="EntryFields.html#.Symbol">EntryFields.Symbol</a>|<a href="Meta.html#.Link">Meta.Link</a>)></span>
+|
+
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Integer">Integer</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Location">Location</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">latitude</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lon</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">longitude</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Number">Number</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Symbol">Symbol</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".Text">Text</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line34">line 34</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+    
+    
+    
+
+
+    
+</article>
+
+</section>
 
 
 

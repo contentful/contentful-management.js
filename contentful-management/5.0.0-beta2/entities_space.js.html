@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/environment.js - Documentation</title>
+    <title>entities/space.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/environment.js</h1>
+    <h1 class="page-title">entities/space.js</h1>
     
 
     
@@ -39,71 +39,71 @@
             <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
 import {freezeSys, toPlainObject} from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi from '../create-environment-api'
+import createSpaceApi from '../create-space-api'
 
 /**
- * @memberof Environment
- * @typedef Environment
+ * @memberof Space
+ * @typedef Space
  * @prop {Object} sys - System metadata
- * @prop {string} sys.id - Environment id
+ * @prop {string} sys.id - Space id
  * @prop {string} sys.type - Entity type
- * @prop {string} name - Environment name
- * @prop {function(): Object} toPlainObject() - Returns this Environment as a plain JS object
+ * @prop {string} name - Space name
+ * @prop {function(): Object} toPlainObject() - Returns this Space as a plain JS object
  */
 
 /**
- * @memberof Environment
+ * @memberof Space
  * @typedef SpaceCollection
  * @prop {number} total
  * @prop {number} skip
  * @prop {number} limit
- * @prop {Array&lt;Environment.Environment>} items
- * @prop {function(): Object} toPlainObject() - Returns this Environment collection as a plain JS object
+ * @prop {Array&lt;Space.Space>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Space collection as a plain JS object
  */
 
 /**
- * This method creates the API for the given environment with all the methods for
+ * This method creates the API for the given space with all the methods for
  * reading and creating other entities. It also passes down a clone of the
- * http client with a environment id, so the base path for requests now has the
- * environment id already set.
+ * http client with a space id, so the base path for requests now has the
+ * space id already set.
  * @private
  * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment
- * @return {Environment}
+ * @param  {Object} data - API response for a Space
+ * @return {Space}
  */
-export function wrapEnvironment (http, data) {
-  const environment = toPlainObject(cloneDeep(data))
+export function wrapSpace (http, data) {
+  const space = toPlainObject(cloneDeep(data))
   const {
     hostUpload,
     defaultHostnameUpload
   } = http.httpClientParams
-  const environmentScopedHttpClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id
+  const spaceScopedHttpClient = http.cloneWithNewParams({
+    space: space.sys.id
   })
-  const environmentScopedUploadClient = http.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
+  const spaceScopedUploadClient = http.cloneWithNewParams({
+    space: space.sys.id,
     host: hostUpload || defaultHostnameUpload
   })
-  const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
-    httpUpload: environmentScopedUploadClient
+  const spaceApi = createSpaceApi({
+    http: spaceScopedHttpClient,
+    httpUpload: spaceScopedUploadClient
   })
-  const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
-  return freezeSys(enhancedEnvironment)
+  const enhancedSpace = enhanceWithMethods(space, spaceApi)
+  return freezeSys(enhancedSpace)
 }
 
 /**
- * This method wraps each environment in a collection with the environment API. See wrapEnvironment
+ * This method wraps each space in a collection with the space API. See wrapSpace
  * above for more details.
  * @private
  * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Environment collection
+ * @param  {Object} data - API response for a Space collection
  * @return {SpaceCollection}
  */
-export function wrapEnvironmentCollection (http, data) {
-  const environments = toPlainObject(cloneDeep(data))
-  environments.items = environments.items.map((entity) => wrapEnvironment(http, entity))
-  return freezeSys(environments)
+export function wrapSpaceCollection (http, data) {
+  const spaces = toPlainObject(cloneDeep(data))
+  spaces.items = spaces.items.map((entity) => wrapSpace(http, entity))
+  return freezeSys(spaces)
 }
 </code></pre>
         </article>
