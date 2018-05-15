@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-space-api.js - Documentation</title>
+    <title>create-environment-api.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-space-api.js</h1>
+    <h1 class="page-title">create-environment-api.js</h1>
     
 
     
@@ -37,25 +37,20 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Space API. Contains methods to access any operations at a space
+ * Contentful Environment API. Contains methods to access any operations at a space
  * level, such as creating and reading entities contained in a space.
- * @namespace ContentfulSpaceAPI
+ * @namespace ContentfulEnvironmentAPI
  */
-
 import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
 
 /**
- * @memberof ContentfulSpaceAPI
- * @typedef {Object} ContentfulSpaceAPI
+ * @memberof ContentfulEnvironmentAPI
+ * @typedef {Object} ContentfulEnvironmentAPI
  * @prop {function} delete
  * @prop {function} update
- * @prop {function} getEnvironment
- * @prop {function} getEnvironments
- * @prop {function} createEnvironment
- * @prop {function} createEnvironmentWithId
  * @prop {function} getContentType
  * @prop {function} getContentTypes
  * @prop {function} createContentType
@@ -71,22 +66,6 @@ import entities from './entities'
  * @prop {function} getLocale
  * @prop {function} getLocales
  * @prop {function} createLocale
- * @prop {function} getWebhook
- * @prop {function} getWebhooks
- * @prop {function} createWebhook
- * @prop {function} createWebhookWithId
- * @prop {function} getRole
- * @prop {function} getRoles
- * @prop {function} createRole
- * @prop {function} createRoleWithId
- * @prop {function} getSpaceMembership
- * @prop {function} getSpaceMemberships
- * @prop {function} createSpaceMembership
- * @prop {function} createSpaceMembershipWithId
- * @prop {function} getApiKey
- * @prop {function} getApiKeys
- * @prop {function} createApiKey
- * @prop {function} createApiKeyWithId
  * @prop {function} getUiExtension
  * @prop {function} getUiExtensions
  * @prop {function} createUiExtension
@@ -96,40 +75,34 @@ import entities from './entities'
  */
 
 /**
- * Creates API object with methods to access the Space API
+ * Creates API object with methods to access the Environment API
  * @private
  * @param {Object} params - API initialization params
  * @prop {Object} http - HTTP client instance
  * @prop {Object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulSpaceAPI}
+ * @return {ContentfulEnvironmentAPI}
  */
-export default function createSpaceApi ({
+export default function createEnvironmentApi ({
   http,
   httpUpload
 }) {
-  const {wrapSpace} = entities.space
-  const {wrapEnvironment, wrapEnvironmentCollection} = entities.environment
+  const {wrapEnvironment} = entities.environment
   const {wrapContentType, wrapContentTypeCollection} = entities.contentType
   const {wrapEntry, wrapEntryCollection} = entities.entry
   const {wrapAsset, wrapAssetCollection} = entities.asset
   const {wrapLocale, wrapLocaleCollection} = entities.locale
-  const {wrapWebhook, wrapWebhookCollection} = entities.webhook
-  const {wrapRole, wrapRoleCollection} = entities.role
-  const {wrapSpaceMembership, wrapSpaceMembershipCollection} = entities.spaceMembership
-  const {wrapApiKey, wrapApiKeyCollection} = entities.apiKey
   const {wrapSnapshotCollection} = entities.snapshot
   const {wrapEditorInterface} = entities.editorInterface
   const {wrapUpload} = entities.upload
   const {wrapUiExtension, wrapUiExtensionCollection} = entities.uiExtension
-
   /**
-   * Space instances.
-   * @namespace Space
+   * Environment instances.
+   * @namespace Environment
    */
 
   /**
-   * Deletes the space
-   * @memberof Space
+   * Deletes the environment
+   * @memberof Environment
    * @func delete
    * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
@@ -140,20 +113,21 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.delete())
-   * .then(() => console.log('Space deleted.'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.delete())
+   * .then(() => console.log('Environment deleted.'))
    * .catch(console.error)
   */
-  function deleteSpace () {
+  function deleteEnvironment () {
     return http.delete('')
       .then((response) => {}, errorHandler)
   }
 
   /**
-   * Updates the space
-   * @memberof Space
+   * Updates the environment
+   * @memberof Environment
    * @func update
-   * @return {Promise&lt;Space.Space>} Promise for the updated space.
+   * @return {Promise&lt;Environment.Environment>} Promise for the updated environment.
    * @example
    * const contentful = require('contentful-management')
    *
@@ -162,14 +136,15 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => {
-   *   space.name = 'New name'
-   *   return space.update()
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => {
+   *   environment.name = 'New name'
+   *   return environment.update()
    * })
-   * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
+   * .then((environment) => console.log(`Environment ${environment.sys.id} renamed.`)
    * .catch(console.error)
   */
-  function updateSpace () {
+  function updateEnvironment () {
     const raw = this.toPlainObject()
     const data = cloneDeep(raw)
     delete data.sys
@@ -178,103 +153,12 @@ export default function createSpaceApi ({
         'X-Contentful-Version': raw.sys.version
       }
     })
-      .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an environment
-   * @memberof ContentfulSpaceAPI
-   * @param  {string} id
-   * @return {Promise&lt;Environment.Environment>} Promise for an Environment
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEnvironment('&lt;environement_id>'))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   */
-  function getEnvironment (id) {
-    return http.get('environments/' + id)
-      .then((response) => wrapEnvironment(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Environments
-   * @memberof ContentfulSpaceAPI
-   * @return {Promise&lt;Environment.EnvironmentCollection>} Promise for a collection of Environment
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEnvironments())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-  */
-  function getEnvironments () {
-    return http.get('environments')
-      .then((response) => wrapEnvironmentCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates an Environement
-   * @memberof ContentfulSpaceAPI
-   * @see {Environment}
-   * @param {object} [data] - Object representation of the Environment to be created
-   * @return {Promise&lt;Environment.Environment>} Promise for the newly created Environment
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createEnvironment({ name: 'Staging' }))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   */
-  function createEnvironment (data = {}) {
-    return http.post('environments', data)
-      .then((response) => wrapEnvironment(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates an Environement with a custom id
-   * @memberof ContentfulSpaceAPI
-   * @see {Environment}
-   * @param id string - custom id
-   * @param {object} [data] - Object representation of the Environment to be created
-   * @return {Promise&lt;Environment.Environment>} Promise for the newly created Environment
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createEnvironment('&lt;custom-id>', { name: 'Staging' }))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   */
-  function createEnvironmentWithId (id, data = {}) {
-    return http.put('environments/' + id, data)
       .then((response) => wrapEnvironment(http, response.data), errorHandler)
   }
 
   /**
    * Gets a Content Type
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @return {Promise&lt;ContentType.ContentType>} Promise for a Content Type
    * @example
@@ -285,20 +169,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getContentType('&lt;content_type_id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getContentType('&lt;content_type_id>'))
    * .then((contentType) => console.log(contentType))
    * .catch(console.error)
    */
   function getContentType (id) {
-    console.warn('Deprecated: Space.getContentType() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('content_types/' + id)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
 
   /**
    * Gets an EditorInterface for a ContentType
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} contentTypeId
    * @return {Promise&lt;EditorInterface.EditorInterface>} Promise for an EditorInterface
    * @example
@@ -309,20 +192,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEditorInterfaceForContentType('&lt;content_type_id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getEditorInterfaceForContentType('&lt;content_type_id>'))
    * .then((EditorInterface) => console.log(EditorInterface))
    * .catch(console.error)
    */
   function getEditorInterfaceForContentType (contentTypeId) {
-    console.warn('Deprecated: Space.getEditorInterfaceForContentType() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('content_types/' + contentTypeId + '/editor_interface')
       .then((response) => wrapEditorInterface(http, response.data), errorHandler)
   }
 
   /**
    * Gets a collection of Content Types
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {Object - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
    * @return {Promise&lt;ContentType.ContentTypeCollection>} Promise for a collection of Content Types
    * @example
@@ -333,20 +215,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getContentTypes())
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getContentTypes())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
   */
   function getContentTypes (query = {}) {
-    console.warn('Deprecated: Space.getContentTypes() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('content_types', createRequestConfig({query: query}))
       .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
   }
 
   /**
    * Creates a Content Type
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {ContentType}
    * @param {object} data - Object representation of the Content Type to be created
    * @return {Promise&lt;ContentType.ContentType>} Promise for the newly created Content Type
@@ -358,7 +239,8 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createContentType({
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createContentType({
    *   name: 'Blog Post',
    *   fields: [
    *     {
@@ -374,15 +256,13 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createContentType (data) {
-    console.warn('Deprecated: Space.createContentType() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.post('content_types', data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
 
   /**
    * Creates a Content Type with a custom id
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {ContentType.ContentType}
    * @param {string} id - Content Type ID
    * @param {object} data - Object representation of the Content Type to be created
@@ -395,7 +275,8 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createContentTypeWithId('&lt;custom-id>', {
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createContentTypeWithId('&lt;custom-id>', {
    *   name: 'Blog Post',
    *   fields: [
    *     {
@@ -411,7 +292,6 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createContentTypeWithId (id, data) {
-    console.warn('Deprecated: Space.createContentTypeWithId() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.put('content_types/' + id, data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
@@ -420,8 +300,7 @@ export default function createSpaceApi ({
    * Gets an Entry
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @param  {Object=} query - Object with search parameters. In this method it's only useful for `locale`.
    * @return {Promise&lt;Entry.Entry>} Promise for an Entry
@@ -433,12 +312,12 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEntry('&lt;entry-id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getEntry('&lt;entry-id>'))
    * .then((entry) => console.log(entry))
    * .catch(console.error)
    */
   function getEntry (id, query = {}) {
-    console.warn('Deprecated: Space.getEntry() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     normalizeSelect(query)
     return http.get('entries/' + id, createRequestConfig({query: query}))
       .then((response) => wrapEntry(http, response.data), errorHandler)
@@ -448,8 +327,7 @@ export default function createSpaceApi ({
    * Gets a collection of Entries
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {Object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
    * @return {Promise&lt;Entry.EntryCollection>} Promise for a collection of Entries
    * @example
@@ -460,12 +338,12 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    */
   function getEntries (query = {}) {
-    console.warn('Deprecated: Space.getEntries() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     normalizeSelect(query)
     return http.get('entries', createRequestConfig({query: query}))
       .then((response) => wrapEntryCollection(http, response.data), errorHandler)
@@ -473,8 +351,7 @@ export default function createSpaceApi ({
 
   /**
    * Creates a Entry
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Entry.Entry}
    * @param {string} contentTypeId - The Content Type which this Entry is based on
    * @param {object} data - Object representation of the Entry to be created
@@ -487,7 +364,8 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createEntry('&lt;content_type_id>', {
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createEntry('&lt;content_type_id>', {
    *   fields: {
    *     title: {
    *       'en-US': 'Entry title'
@@ -498,7 +376,6 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createEntry (contentTypeId, data) {
-    console.warn('Deprecated: Space.createEntry() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.post('entries', data, {
       headers: {
         'X-Contentful-Content-Type': contentTypeId
@@ -509,8 +386,7 @@ export default function createSpaceApi ({
 
   /**
    * Creates a Entry with a custom id
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Entry.Entry}
    * @param {string} contentTypeId - The Content Type which this Entry is based on
    * @param {string} id - Entry ID
@@ -525,7 +401,8 @@ export default function createSpaceApi ({
    *
    * // Create entry
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createEntryWithId('&lt;content_type_id>', '&lt;entry_id>', {
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createEntryWithId('&lt;content_type_id>', '&lt;entry_id>', {
    *   fields: {
    *     title: {
    *       'en-US': 'Entry title'
@@ -536,7 +413,6 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createEntryWithId (contentTypeId, id, data) {
-    console.warn('Deprecated: Space.createEntryWithId() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.put('entries/' + id, data, {
       headers: {
         'X-Contentful-Content-Type': contentTypeId
@@ -549,8 +425,7 @@ export default function createSpaceApi ({
    * Gets an Asset
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @param  {Object=} query - Object with search parameters. In this method it's only useful for `locale`.
    * @return {Promise&lt;Asset.Asset>} Promise for an Asset
@@ -562,12 +437,12 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getAsset('&lt;asset_id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getAsset('&lt;asset_id>'))
    * .then((asset) => console.log(asset))
    * .catch(console.error)
   */
   function getAsset (id, query = {}) {
-    console.warn('Deprecated: Space.getAsset() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     normalizeSelect(query)
     return http.get('assets/' + id, createRequestConfig({query: query}))
       .then((response) => wrapAsset(http, response.data), errorHandler)
@@ -577,8 +452,7 @@ export default function createSpaceApi ({
    * Gets a collection of Assets
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {Object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
    * @return {Promise&lt;Asset.AssetCollection>} Promise for a collection of Assets
    * @example
@@ -589,12 +463,12 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getAssets())
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getAssets())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
   */
   function getAssets (query = {}) {
-    console.warn('Deprecated: Space.getAssets() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     normalizeSelect(query)
     return http.get('assets', createRequestConfig({query: query}))
       .then((response) => wrapAssetCollection(http, response.data), errorHandler)
@@ -602,8 +476,7 @@ export default function createSpaceApi ({
 
   /**
    * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Asset.Asset}
    * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
    * @return {Promise&lt;Asset.Asset>} Promise for the newly created Asset
@@ -614,7 +487,8 @@ export default function createSpaceApi ({
    *
    * // Create asset
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createAsset({
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createAsset({
    *   fields: {
    *     title: {
    *       'en-US': 'Playsam Streamliner'
@@ -639,8 +513,7 @@ export default function createSpaceApi ({
 
   /**
    * Creates a Asset with a custom id. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Asset.Asset}
    * @param {string} id - Asset ID
    * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
@@ -652,7 +525,8 @@ export default function createSpaceApi ({
    *
    * // Create asset
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createAssetWithId('&lt;asset_id>', {
    *   title: {
    *     'en-US': 'Playsam Streamliner'
    *   },
@@ -669,15 +543,13 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createAssetWithId (id, data) {
-    console.warn('Deprecated: Space.createAssetWithId() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.put('assets/' + id, data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
   }
 
   /**
    * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Asset.Asset}
    * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
    * @param {object} data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
@@ -686,8 +558,10 @@ export default function createSpaceApi ({
    * const client = contentful.createClient({
    *   accessToken: '&lt;content_management_api_key>'
    * })
+   *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createAssetFromFiles({
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createAssetFromFiles({
    *   fields: {
    *     file: {
    *       'en-US': {
@@ -707,7 +581,6 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createAssetFromFiles (data) {
-    console.warn('Deprecated: Space.createAssetFromFiles() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     const { file } = data.fields
     return Promise.all(
       Object.keys(file).map((locale) => {
@@ -744,8 +617,7 @@ export default function createSpaceApi ({
 
   /**
    * Creates a Upload.
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param {object} data - Object with file information.
    * @param {object} data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
    * @return {Promise&lt;Upload>} Upload object containing information about the uploaded file.
@@ -754,13 +626,14 @@ export default function createSpaceApi ({
    *   accessToken: '&lt;content_management_api_key>'
    * })
    * const uploadStream = createReadStream('path/to/filename_english.jpg')
+   *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createUpload({file: uploadStream, 'image/png'})
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createUpload({file: uploadStream, 'image/png'})
    * .then((upload) => console.log(upload))
    * .catch(console.error)
    */
   function createUpload (data) {
-    console.warn('Deprecated: Space.createUpload() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     const { file } = data
     if (!file) {
       return Promise.reject(new Error('Unable to locate a file to upload.'))
@@ -778,8 +651,7 @@ export default function createSpaceApi ({
 
   /**
    * Gets an Upload
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @return {Promise&lt;Upload>} Promise for an Upload
    * @example
@@ -787,13 +659,14 @@ export default function createSpaceApi ({
    *   accessToken: '&lt;content_management_api_key>'
    * })
    * const uploadStream = createReadStream('path/to/filename_english.jpg')
+   *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getUpload('&lt;upload-id>')
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getUpload('&lt;upload-id>')
    * .then((upload) => console.log(upload))
    * .catch(console.error)
    */
   function getUpload (id) {
-    console.warn('Deprecated: Space.getUpload() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return httpUpload.get('uploads/' + id)
       .then((response) => wrapUpload(http, response.data))
       .catch(errorHandler)
@@ -801,8 +674,7 @@ export default function createSpaceApi ({
 
   /**
    * Gets a Locale
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @return {Promise&lt;Locale.Locale>} Promise for an Locale
    * @example
@@ -813,20 +685,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getLocale('&lt;locale_id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getLocale('&lt;locale_id>'))
    * .then((locale) => console.log(locale))
    * .catch(console.error)
   */
   function getLocale (id) {
-    console.warn('Deprecated: Space.getLocale() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('locales/' + id)
       .then((response) => wrapLocale(http, response.data), errorHandler)
   }
 
   /**
    * Gets a collection of Locales
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @return {Promise&lt;Locale.LocaleCollection>} Promise for a collection of Locales
    * @example
    * const contentful = require('contentful-management')
@@ -836,20 +707,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getLocales())
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getLocales())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
   */
   function getLocales () {
-    console.warn('Deprecated: Space.getLocales() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('locales')
       .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
   }
 
   /**
    * Creates a Locale
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {Locale.Locale}
    * @param {object} data - Object representation of the Locale to be created
    * @return {Promise&lt;Locale.Locale>} Promise for the newly created Locale
@@ -862,7 +732,8 @@ export default function createSpaceApi ({
    *
    * // Create locale
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createLocale({
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createLocale({
    *   name: 'German (Austria)',
    *   code: 'de-AT',
    *   fallbackCode: 'de-DE',
@@ -872,486 +743,13 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createLocale (data) {
-    console.warn('Deprecated: Space.createLocale() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.post('locales', data)
       .then((response) => wrapLocale(http, response.data), errorHandler)
   }
 
   /**
-   * Gets a Webhook
-   * @memberof ContentfulSpaceAPI
-   * @param  {string} id
-   * @return {Promise&lt;Webhook.Webhook>} Promise for a Webhook
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getWebhook('&lt;webhook_id>'))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-  */
-  function getWebhook (id) {
-    return http.get('webhook_definitions/' + id)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Webhooks
-   * @memberof ContentfulSpaceAPI
-   * @return {Promise&lt;Webhook.WebhookCollection>} Promise for a collection of Webhooks
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getWebhooks())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getWebhooks () {
-    return http.get('webhook_definitions')
-      .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Webhook
-   * @memberof ContentfulSpaceAPI
-   * @see {Webhook.Webhook}
-   * @param {object} data - Object representation of the Webhook to be created
-   * @return {Promise&lt;Webhook.Webhook>} Promise for the newly created Webhook
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createWebhook({
-   *   'name': 'My webhook',
-   *   'url': 'https://www.example.com/test',
-   *   'topics': [
-   *     'Entry.create',
-   *     'ContentType.create',
-   *     '*.publish',
-   *     'Asset.*'
-   *   ]
-   * }))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-   */
-  function createWebhook (data) {
-    return http.post('webhook_definitions', data)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Webhook with a custom id
-   * @memberof ContentfulSpaceAPI
-   * @see {Webhook.Webhook}
-   * @param {string} id - Webhook ID
-   * @param {object} data - Object representation of the Webhook to be created
-   * @return {Promise&lt;Webhook.Webhook>} Promise for the newly created Webhook
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createWebhookWithId('&lt;webhook_id>', {
-   *   'name': 'My webhook',
-   *   'url': 'https://www.example.com/test',
-   *   'topics': [
-   *     'Entry.create',
-   *     'ContentType.create',
-   *     '*.publish',
-   *     'Asset.*'
-   *   ]
-   * }))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-   */
-  function createWebhookWithId (id, data) {
-    return http.put('webhook_definitions/' + id, data)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Space Membership
-   * @memberof ContentfulSpaceAPI
-   * @param  {string} id
-   * @return {Promise&lt;SpaceMembership.SpaceMembership>} Promise for a Space Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getSpaceMembership('id'))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   */
-  function getSpaceMembership (id) {
-    return http.get('space_memberships/' + id)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Space Memberships
-   * @memberof ContentfulSpaceAPI
-   * @param  {Object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;SpaceMembership.SpaceMembershipCollection>} Promise for a collection of Space Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getSpaceMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getSpaceMemberships (query = {}) {
-    return http.get('space_memberships', createRequestConfig({query: query}))
-      .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Space Membership
-   * @memberof ContentfulSpaceAPI
-   * @see {SpaceMembership.SpaceMembership}
-   * @param {object} data - Object representation of the Space Membership to be created
-   * @return {Promise&lt;SpaceMembership.SpaceMembership>} Promise for the newly created Space Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createSpaceMembership({
-   *   admin: false,
-   *   roles: [
-   *     {
-   *       type: 'Link',
-   *       linkType: 'Role',
-   *       id: '&lt;role_id>'
-   *     }
-   *   ],
-   *   email: 'foo@example.com'
-   * }))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   */
-  function createSpaceMembership (data) {
-    return http.post('space_memberships', data)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Space Membership with a custom id
-   * @memberof ContentfulSpaceAPI
-   * @see {SpaceMembership.SpaceMembership}
-   * @param {string} id - Space Membership ID
-   * @param {object} data - Object representation of the Space Membership to be created
-   * @return {Promise&lt;SpaceMembership.SpaceMembership>} Promise for the newly created Space Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createSpaceMembershipWithId('&lt;custom-id>', {
-   *   admin: false,
-   *   roles: [
-   *     {
-   *       type: 'Link',
-   *       linkType: 'Role',
-   *       id: '&lt;role_id>'
-   *     }
-   *   ],
-   *   email: 'foo@example.com'
-   * }))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   */
-  function createSpaceMembershipWithId (id, data) {
-    return http.put('space_memberships/' + id, data)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Role
-   * @memberof ContentfulSpaceAPI
-   * @param  {string} id
-   * @return {Promise&lt;Role.Role>} Promise for a Role
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createRole({
-   *   fields: {
-   *     title: {
-   *       'en-US': 'Role title'
-   *     }
-   *   }
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-  */
-  function getRole (id) {
-    return http.get('roles/' + id)
-      .then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Roles
-   * @memberof ContentfulSpaceAPI
-   * @return {Promise&lt;Role.RoleCollection>} Promise for a collection of Roles
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getRoles())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getRoles () {
-    return http.get('roles')
-      .then((response) => wrapRoleCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Role
-   * @memberof ContentfulSpaceAPI
-   * @see {Role.Role}
-   * @param {object} data - Object representation of the Role to be created
-   * @return {Promise&lt;Role.Role>} Promise for the newly created Role
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createRole({
-   *   name: 'My Role',
-   *   description: 'foobar role',
-   *   permissions: {
-   *     ContentDelivery: 'all',
-   *     ContentModel: ['read'],
-   *     Settings: []
-   *   },
-   *   policies: [
-   *     {
-   *       effect: 'allow',
-   *       actions: 'all',
-   *       constraint: {
-   *         and: [
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Entry'
-   *             ]
-   *           },
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Asset'
-   *             ]
-   *           }
-   *         ]
-   *       }
-   *     }
-   *   ]
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-   */
-  function createRole (data) {
-    return http.post('roles', data)
-      .then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Role with a custom id
-   * @memberof ContentfulSpaceAPI
-   * @see {Role.Role}
-   * @param {string} id - Role ID
-   * @param {object} data - Object representation of the Role to be created
-   * @return {Promise&lt;Role.Role>} Promise for the newly created Role
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createRoleWithId(&lt;custom-id>, {
-   *   name: 'My Role',
-   *   description: 'foobar role',
-   *   permissions: {
-   *     ContentDelivery: 'all',
-   *     ContentModel: ['read'],
-   *     Settings: []
-   *   },
-   *   policies: [
-   *     {
-   *       effect: 'allow',
-   *       actions: 'all',
-   *       constraint: {
-   *         and: [
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Entry'
-   *             ]
-   *           },
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Asset'
-   *             ]
-   *           }
-   *         ]
-   *       }
-   *     }
-   *   ]
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-   */
-  function createRoleWithId (id, data) {
-    return http.put('roles/' + id, data)
-      .then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Api Key
-   * @memberof ContentfulSpaceAPI
-   * @param  {string} id
-   * @return {Promise&lt;ApiKey.ApiKey>} Promise for a Api Key
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getApiKey('&lt;apikey-id>'))
-   * .then((apikey) => console.log(apikey))
-   * .catch(console.error)
-   */
-  function getApiKey (id) {
-    return http.get('api_keys/' + id)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Api Keys
-   * @memberof ContentfulSpaceAPI
-   * @return {Promise&lt;ApiKey.ApiKeyCollection>} Promise for a collection of Api Keys
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getApiKeys())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getApiKeys () {
-    return http.get('api_keys')
-      .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Api Key
-   * @memberof ContentfulSpaceAPI
-   * @see {ApiKey.ApiKey}
-   * @param {object} data - Object representation of the Api Key to be created
-   * @return {Promise&lt;ApiKey.ApiKey>} Promise for the newly created Api Key
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createApiKey({
-   *   name: 'API Key name',
-   *   environments:[
-   *    {
-   *     sys: {
-   *      type: 'Link'
-   *      linkType: 'Environment',
-   *      id:'&lt;environment_id>'
-   *     }
-   *    }
-   *   ]
-   *   }
-   * }))
-   * .then((apiKey) => console.log(apiKey))
-   * .catch(console.error)
-  */
-  function createApiKey (data) {
-    return http.post('api_keys', data)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Api Key with a custom id
-   * @memberof ContentfulSpaceAPI
-   * @see {ApiKey.ApiKey}
-   * @param {string} id - Api Key ID
-   * @param {object} data - Object representation of the Api Key to be created
-   * @return {Promise&lt;ApiKey.ApiKey>} Promise for the newly created Api Key
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createApiKeyWithId('&lt;custom-id>', {
-   *   name: 'API Key name'
-   *   environments:[
-   *    {
-   *     sys: {
-   *      type: 'Link'
-   *      linkType: 'Environment',
-   *      id:'&lt;environment_id>'
-   *     }
-   *    }
-   *   ]
-   *   }
-   * }))
-   * .then((apiKey) => console.log(apiKey))
-   * .catch(console.error)
-   */
-  function createApiKeyWithId (id, data) {
-    return http.put('api_keys/' + id, data)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
    * Gets an UI Extension
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @param  {string} id
    * @return {Promise&lt;UiExtension.UiExtension>} Promise for an UI Extension
    * @example
@@ -1362,20 +760,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getUiExtension('&lt;ui-extension-id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getUiExtension('&lt;ui-extension-id>'))
    * .then((uiExtension) => console.log(uiExtension))
    * .catch(console.error)
    */
   function getUiExtension (id) {
-    console.warn('Deprecated: Space.getUiExtension() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('extensions/' + id)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
   }
 
   /**
    * Gets a collection of UI Extension
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @return {Promise&lt;UiExtension.UiExtensionCollection>} Promise for a collection of UI Extensions
    * @example
    * const contentful = require('contentful-management')
@@ -1385,20 +782,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getUiExtensions()
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getUiExtensions()
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    */
   function getUiExtensions () {
-    console.warn('Deprecated: Space.getUiExtensions() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get('extensions')
       .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
   }
 
   /**
    * Creates a UI Extension
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {UiExtension.UiExtension}
    * @param {object} data - Object representation of the UI Extension to be created
    * @return {Promise&lt;UiExtension.UiExtension>} Promise for the newly created UI Extension
@@ -1410,7 +806,8 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createUiExtension({
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createUiExtension({
    *   extension: {
    *     name: 'My awesome extension',
    *     src: 'https://example.com/my',
@@ -1429,15 +826,13 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createUiExtension (data) {
-    console.warn('Deprecated: Space.createUiExtension() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.post('extensions', data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
   }
 
   /**
    * Creates a UI Extension with a custom ID
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @see {UiExtension.UiExtension}
    * @param  {string} id
    * @param {object} data - Object representation of the UI Extension to be created
@@ -1450,7 +845,8 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.createUiExtensionWithId('&lt;extension_id>', {
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.createUiExtensionWithId('&lt;extension_id>', {
    *   extension: {
    *     name: 'My awesome extension',
    *     src: 'https://example.com/my',
@@ -1469,15 +865,13 @@ export default function createSpaceApi ({
    * .catch(console.error)
    */
   function createUiExtensionWithId (id, data) {
-    console.warn('Deprecated: Space.createUiExtensionWithId() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.put('extensions/' + id, data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
   }
 
   /**
    * Gets all snapshots of an entry
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @func getSnapshots
    * @return Promise&lt;Object>
    * @example
@@ -1488,20 +882,19 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getEntrySnapshots('&lt;entry_id>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getEntrySnapshots('&lt;entry_id>'))
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
    */
   function getEntrySnapshots (entryId) {
-    console.warn('Deprecated: Space.getEntrySnapshots() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get(`entries/${entryId}/snapshots`)
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
   }
 
   /**
    * Gets all snapshots of a contentType
-   * @deprecated since version 5.0
-   * @memberof ContentfulSpaceAPI
+   * @memberof ContentfulEnvironmentAPI
    * @func getSnapshots
    * @return Promise&lt;Object>
    * @example
@@ -1512,12 +905,12 @@ export default function createSpaceApi ({
    * })
    *
    * client.getSpace('&lt;space_id>')
-   * .then((space) => space.getContentTypeSnapshots('&lt;contentTypeId>'))
+   * .then((space) => space.getEnvironment('&lt;environment-id>'))
+   * .then((environment) => environment.getContentTypeSnapshots('&lt;contentTypeId>'))
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
    */
   function getContentTypeSnapshots (contentTypeId) {
-    console.warn('Deprecated: Space.getContentTypeSnapshots() will be removed in version 6.0. Please migrate your code to use the new environments API.')
     return http.get(`content_types/${contentTypeId}/snapshots`)
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
   }
@@ -1535,12 +928,8 @@ export default function createSpaceApi ({
   }
 
   return {
-    delete: deleteSpace,
-    update: updateSpace,
-    getEnvironment: getEnvironment,
-    getEnvironments: getEnvironments,
-    createEnvironment: createEnvironment,
-    createEnvironmentWithId: createEnvironmentWithId,
+    delete: deleteEnvironment,
+    update: updateEnvironment,
     getContentType: getContentType,
     getContentTypes: getContentTypes,
     createContentType: createContentType,
@@ -1560,22 +949,6 @@ export default function createSpaceApi ({
     getLocale: getLocale,
     getLocales: getLocales,
     createLocale: createLocale,
-    getWebhook: getWebhook,
-    getWebhooks: getWebhooks,
-    createWebhook: createWebhook,
-    createWebhookWithId: createWebhookWithId,
-    getRole: getRole,
-    getRoles: getRoles,
-    createRole: createRole,
-    createRoleWithId: createRoleWithId,
-    getSpaceMembership: getSpaceMembership,
-    getSpaceMemberships: getSpaceMemberships,
-    createSpaceMembership: createSpaceMembership,
-    createSpaceMembershipWithId: createSpaceMembershipWithId,
-    getApiKey: getApiKey,
-    getApiKeys: getApiKeys,
-    createApiKey: createApiKey,
-    createApiKeyWithId: createApiKeyWithId,
     getUiExtension: getUiExtension,
     getUiExtensions: getUiExtensions,
     createUiExtension: createUiExtension,
