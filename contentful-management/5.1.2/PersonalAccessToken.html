@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>PreviewApiKey - Documentation</title>
+    <title>PersonalAccessToken - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">PreviewApiKey</h1>
+    <h1 class="page-title">PersonalAccessToken</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        PreviewApiKey
+        PersonalAccessToken
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_preview-api-key.js.html">entities/preview-api-key.js</a>, <a href="entities_preview-api-key.js.html#line1">line 1</a>
+        <a href="entities_personal-access-token.js.html">entities/personal-access-token.js</a>, <a href="entities_personal-access-token.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Preview Api Key instances</div>
+            <div class="description">Personal access token</div>
         
 
         
@@ -113,12 +113,18 @@
 
     
     
-        <h3 class="subsection-title">Type Definitions</h3>
+    
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
-                
-<h4 class="name" id=".PreviewApiKey">PreviewApiKey</h4>
+            
 
+    
+
+    <h4 class="name" id=".revoke"><span class="type-signature">(static) </span>revoke<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="PersonalAccessToken.html">PersonalAccessToken</a>>}</span></h4>
+
+    
 
 
 
@@ -128,7 +134,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_preview-api-key.js.html">entities/preview-api-key.js</a>, <a href="entities_preview-api-key.js.html#line10">line 10</a>
+        <a href="entities_personal-access-token.js.html">entities/personal-access-token.js</a>, <a href="entities_personal-access-token.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -165,139 +171,74 @@
 
 
 
-    <h5 class="subsection-title">Properties:</h5>
 
+
+<div class="description">
+    Revokes a personal access token
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
     
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
 
-<table class="props">
-    <thead>
-    <tr>
+const client = contentful.createClient({
+ accessToken: &lt;content_management_api_key>
+})
+
+client.getPersonalAccessToken('&lt;token-id>')
+ .then((personalAccessToken) => {
+   return personalAccessToken.revoke()
+ })
+ .catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
         
-        <th>Name</th>
+<div class="param-desc">
+    Object the revoked personal access token
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
         
+<span class="param-type">Promise.&lt;<a href="PersonalAccessToken.html">PersonalAccessToken</a>></span>
 
-        <th>Type</th>
+
+    </dd>
+</dl>
+
+    
+
 
         
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">System metadata</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Preview Api Key as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    
-    
     
 
 

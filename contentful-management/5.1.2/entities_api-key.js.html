@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>PreviewApiKey - Documentation</title>
+    <title>entities/api-key.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,285 +26,128 @@
 
 <div id="main">
     
-    <h1 class="page-title">PreviewApiKey</h1>
+    <h1 class="page-title">entities/api-key.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        PreviewApiKey
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_preview-api-key.js.html">entities/preview-api-key.js</a>, <a href="entities_preview-api-key.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-        
-            <div class="description">Preview Api Key instances</div>
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id=".PreviewApiKey">PreviewApiKey</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_preview-api-key.js.html">entities/preview-api-key.js</a>, <a href="entities_preview-api-key.js.html#line10">line 10</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">System metadata</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Preview Api Key as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    
-    
-    
-
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Api Key instances
+ * @namespace ApiKey
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
+
+/**
+ * @memberof ApiKey
+ * @typedef ApiKey
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} description
+ * @prop {function(): Object} toPlainObject() - Returns this Api Key as a plain JS object
+ */
+
+function createApiKeyApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof ApiKey
+     * @func update
+     * @return {Promise&lt;ApiKey>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => {
+     *  apiKey.name = 'New name'
+     *  return apiKey.update()
+     * })
+     * .then(apiKey => console.log(apiKey.name))
+     * .catch(console.error)
+     */
+    update: function () {
+      if ('accessToken' in this) {
+        delete this.accessToken
+      }
+      if ('preview_api_key' in this) {
+        delete this.preview_api_key
+      }
+      if ('policies' in this) {
+        delete this.policies
+      }
+      const update = createUpdateEntity({
+        http: http,
+        entityPath: 'api_keys',
+        wrapperMethod: wrapApiKey
+      })
+      return update.call(this)
+    },
+
+    /**
+     * Deletes this object on the server.
+     * @memberof ApiKey
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => apiKey.delete())
+     * .then(() => console.log('apikey deleted'))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'api_keys'
+    })
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key data
+ * @return {ApiKey} Wrapped api key data
+ */
+export function wrapApiKey (http, data) {
+  const apiKey = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(apiKey, createApiKeyApi(http))
+  return freezeSys(apiKey)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw api key collection data
+ * @return {ApiKeyCollection} Wrapped api key collection data
+ */
+export function wrapApiKeyCollection (http, data) {
+  const apiKeys = toPlainObject(cloneDeep(data))
+  apiKeys.items = apiKeys.items.map((entity) => wrapApiKey(http, entity))
+  return freezeSys(apiKeys)
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
