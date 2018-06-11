@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Space - Documentation</title>
+    <title>Webhook - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Space</h1>
+    <h1 class="page-title">Webhook</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Space
+        Webhook
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line100">line 100</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Space instances.</div>
+            <div class="description">Webhook instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Space">Space</h4>
+<h4 class="name" id=".Webhook">Webhook</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line6">line 6</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -197,7 +197,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
 
 
             
@@ -207,78 +207,7 @@
 
             
 
-            <td class="description last">System metadata
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Space id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last">System metadata</td>
         </tr>
 
     
@@ -301,7 +230,122 @@
 
             
 
-            <td class="description last">Space name</td>
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Url which the webhook will call</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>httpBasicUsername</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Username for basic HTTP authentication</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>httpBasicPassword</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Password for basic HTTP authentication</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>headers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Key value pairs of additional headers to be sent with every webhook call.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>topics</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Topics which this webhook should be subscribed to. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhooks/create-a-webhook for more details</td>
         </tr>
 
     
@@ -324,7 +368,7 @@
 
             
 
-            <td class="description last">Returns this Space as a plain JS object</td>
+            <td class="description last">Returns this Webhook as a plain JS object</td>
         </tr>
 
     
@@ -345,7 +389,7 @@
 
             
                 
-<h4 class="name" id=".SpaceCollection">SpaceCollection</h4>
+<h4 class="name" id=".WebhookCollection">WebhookCollection</h4>
 
 
 
@@ -356,7 +400,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line16">line 16</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -494,7 +538,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
+<span class="param-type">Array.&lt;<a href="Webhook.html#.Webhook">Webhook.Webhook</a>></span>
 
 
             
@@ -527,7 +571,7 @@
 
             
 
-            <td class="description last">Returns this Space collection as a plain JS object</td>
+            <td class="description last">Returns this Webhook collection as a plain JS object</td>
         </tr>
 
     
@@ -569,7 +613,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line105">line 105</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -609,7 +653,7 @@
 
 
 <div class="description">
-    Deletes the space
+    Deletes this object on the server.
 </div>
 
 
@@ -629,8 +673,9 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => space.delete())
-.then(() => console.log('Space deleted.'))
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.delete())
+.then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
 .catch(console.error)</code></pre>
 
 
@@ -677,7 +722,7 @@ client.getSpace('&lt;space_id>')
 
     
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span></h4>
+    <h4 class="name" id=".getCalls"><span class="type-signature">(static) </span>getCalls<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
 
     
 
@@ -689,7 +734,7 @@ client.getSpace('&lt;space_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line127">line 127</a>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -729,7 +774,7 @@ client.getSpace('&lt;space_id>')
 
 
 <div class="description">
-    Updates the space
+    List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
 </div>
 
 
@@ -749,11 +794,9 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => {
-  space.name = 'New name'
-  return space.update()
-})
-.then((space) => console.log(`Space ${space.sys.id} renamed.`)
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getCalls())
+.then((response) => console.log(response.items)) // webhook calls
 .catch(console.error)</code></pre>
 
 
@@ -775,7 +818,7 @@ client.getSpace('&lt;space_id>')
 
         
 <div class="param-desc">
-    Promise for the updated space.
+    Promise for list of calls
 </div>
 
 
@@ -786,7 +829,373 @@ client.getSpace('&lt;space_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getCalls"><span class="type-signature">(static) </span>getCalls<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line103">line 103</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getCall(&lt;call-id>))
+.then((webhookCall) => console.log(webhookCall))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for call details
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getHealth"><span class="type-signature">(static) </span>getHealth<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => webhook.getHealth())
+.then((webhookHealth) => console.log(webhookHealth))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for health info
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;object></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Webhook.html">Webhook</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_webhook.js.html">entities/webhook.js</a>, <a href="entities_webhook.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getWebhook('&lt;webhook_id>'))
+.then((webhook) => {
+ webhook.name = 'new webhook name'
+ return webhook.update()
+})
+.then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Webhook.html">Webhook</a>></span>
 
 
     </dd>

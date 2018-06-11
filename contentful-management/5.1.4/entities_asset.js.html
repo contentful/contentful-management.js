@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Space - Documentation</title>
+    <title>entities/asset.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,783 +26,406 @@
 
 <div id="main">
     
-    <h1 class="page-title">Space</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        Space
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line100">line 100</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-        
-            <div class="description">Space instances.</div>
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id=".Space">Space</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">System metadata
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Space id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Space name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Space as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".SpaceCollection">SpaceCollection</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>total</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>items</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Space collection as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    
-    
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line105">line 105</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Deletes the space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => space.delete())
-.then(() => console.log('Space deleted.'))
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line127">line 127</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Updates the space
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => {
-  space.name = 'New name'
-  return space.update()
-})
-.then((space) => console.log(`Space ${space.sys.id} renamed.`)
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the updated space.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-    
-
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">entities/asset.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Asset instances
+ * @namespace Asset
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
+} from '../instance-actions'
+
+const ASSET_PROCESSING_CHECK_WAIT = 2000
+const ASSET_PROCESSING_CHECK_RETRIES = 10
+
+/**
+ * @memberof Asset
+ * @typedef Asset
+ * @prop {Meta.Sys} sys - Standard system metadata with additional asset specific properties
+ * @prop {string=} sys.locale - If present, indicates the locale which this asset uses
+ * @prop {Object} fields - Object with content for each field
+ * @prop {string} fields.title - Title for this asset
+ * @prop {string} fields.description - Description for this asset
+ * @prop {Object} fields.file - File object for this asset
+ * @prop {Object} fields.file.fileName - Name for the file
+ * @prop {string} fields.file.contentType - Mime type for the file
+ * @prop {string=} fields.file.upload - Url where the file is available to be downloaded from, into the Contentful asset system. After the asset is processed this field is gone.
+ * @prop {string=} fields.file.url - Url where the file is available at the Contentful media asset system. This field won't be available until the asset is processed.
+ * @prop {Object} fields.file.details - Details for the file, depending on file type (example: image size in bytes, etc)
+ * @prop {function(): Object} toPlainObject() - Returns this Asset as a plain JS object
+ */
+
+function createAssetApi (http) {
+  function checkIfAssetHasUrl ({
+    resolve,
+    reject,
+    id,
+    locale,
+    processingCheckWait = ASSET_PROCESSING_CHECK_WAIT,
+    processingCheckRetries = ASSET_PROCESSING_CHECK_RETRIES,
+    checkCount = 0
+  }) {
+    http.get('assets/' + id)
+      .then((response) => wrapAsset(http, response.data), errorHandler)
+      .then((asset) => {
+        if (asset.fields.file[locale].url) {
+          resolve(asset)
+        } else if (checkCount === processingCheckRetries) {
+          const error = new Error()
+          error.name = 'AssetProcessingTimeout'
+          error.message = 'Asset is taking longer then expected to process.'
+          reject(error)
+        } else {
+          checkCount++
+          setTimeout(
+            () => checkIfAssetHasUrl({
+              resolve: resolve,
+              reject: reject,
+              id: id,
+              locale: locale,
+              checkCount: checkCount,
+              processingCheckWait,
+              processingCheckRetries
+            }),
+            processingCheckWait
+          )
+        }
+      })
+  }
+
+  function processForLocale (locale, {processingCheckWait, processingCheckRetries} = {}) {
+    const assetId = this.sys.id
+    return http.put('assets/' + this.sys.id + '/files/' + locale + '/process', null, {
+      headers: {
+        'X-Contentful-Version': this.sys.version
+      }
+    })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => checkIfAssetHasUrl({
+            resolve: resolve,
+            reject: reject,
+            id: assetId,
+            locale: locale,
+            processingCheckWait: processingCheckWait,
+            processingCheckRetries: processingCheckRetries
+          })
+        )
+      }, errorHandler)
+  }
+
+  function processForAllLocales (options = {}) {
+    const self = this
+    const locales = Object.keys(this.fields.file || {})
+    return Promise.all(locales.map((locale) => processForLocale.call(self, locale, options)))
+      .then((assets) => assets[0])
+  }
+
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Asset
+     * @func update
+     * @return {Promise&lt;Asset>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => {
+     *   asset.fields.title['en-US'] = 'New asset title'
+     *   return asset.update()
+     * })
+     * .then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
+     * .catch(console.error)
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Asset
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.delete())
+     * .then((asset) => console.log(`Asset deleted.`)
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'assets'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Asset
+     * @func publish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.publish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} published.`)
+     * .catch(console.error)
+   */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Asset
+     * @func unpublish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unpublish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
+     * .catch(console.error)
+   */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Asset
+     * @func archive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.archive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
+     * .catch(console.error)
+    */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Asset
+     * @func unarchive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unarchive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
+     * .catch(console.error)
+    */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Triggers asset processing after an upload, for the file uploaded to a specific locale.
+     * @memberof Asset
+     * @func processForLocale
+     * @param {string} locale - Locale which processing should be triggered for
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForLocale('en-US'))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForLocale: processForLocale,
+
+    /**
+     * Triggers asset processing after an upload, for the files uploaded to all locales of an asset.
+     * @memberof Asset
+     * @func processForAllLocales
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *     'de-DE': 'Playsam Streamliner'
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     },
+     *     'de-DE': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example-de.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForAllLocales())
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForAllLocales: processForAllLocales,
+
+    /**
+     * Checks if the asset is published. A published asset might have unpublished changes (@see {Asset.isUpdated})
+     * @memberof Asset
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the asset is updated. This means the asset was previously published but has unpublished changes.
+     * @memberof Asset
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the asset is in draft mode. This means it is not published.
+     * @memberof Asset
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if asset is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Asset
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset data
+ * @return {Asset} Wrapped asset data
+ */
+export function wrapAsset (http, data) {
+  const asset = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(asset)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset collection data
+ * @return {AssetCollection} Wrapped asset collection data
+ */
+export function wrapAssetCollection (http, data) {
+  const assets = toPlainObject(cloneDeep(data))
+  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
+  return freezeSys(assets)
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
