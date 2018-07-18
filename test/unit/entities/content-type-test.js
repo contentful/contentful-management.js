@@ -14,7 +14,8 @@ import {
   failingVersionActionTest,
   isPublishedTest,
   isUpdatedTest,
-  isDraftTest
+  isDraftTest,
+  omitAndDeleteFieldTest
 } from '../test-creators/instance-entity-methods'
 
 function setup (promise) {
@@ -141,4 +142,8 @@ test('ContentType isUpdated', (t) => {
 
 test('ContentType isDraft', (t) => {
   isDraftTest(t, setup, {wrapperMethod: wrapContentType})
+})
+
+test('ContentType omitAndDeleteField', (t) => {
+  omitAndDeleteFieldTest(t, setup, {wrapperMethod: wrapContentType})
 })
