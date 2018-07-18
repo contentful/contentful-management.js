@@ -1,14 +1,14 @@
 import { cloneMock, mockCollection } from '../mocks/entities'
 import sinon from 'sinon'
 
-export function entityWrappedTest(t, setup, { wrapperMethod }) {
+export function entityWrappedTest (t, setup, { wrapperMethod }) {
   const { httpMock, entityMock } = setup()
   const entity = wrapperMethod(httpMock, entityMock)
   t.looseEqual(entity.toPlainObject(), entityMock)
   t.end()
 }
 
-export function entityCollectionWrappedTest(t, setup, { wrapperMethod }) {
+export function entityCollectionWrappedTest (t, setup, { wrapperMethod }) {
   const { httpMock, entityMock } = setup()
   const collection = mockCollection(entityMock)
   const entity = wrapperMethod(httpMock, collection)
@@ -16,7 +16,7 @@ export function entityCollectionWrappedTest(t, setup, { wrapperMethod }) {
   t.end()
 }
 
-export function entityUpdateTest(t, setup, { wrapperMethod }) {
+export function entityUpdateTest (t, setup, { wrapperMethod }) {
   t.plan(3)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
@@ -30,7 +30,7 @@ export function entityUpdateTest(t, setup, { wrapperMethod }) {
     })
 }
 
-export function entityCollectionActionTest(t, setup, { wrapperMethod, actionMethod }) {
+export function entityCollectionActionTest (t, setup, { wrapperMethod, actionMethod }) {
   t.plan(1)
   const { httpMock, entityMock } = setup(Promise.resolve({ data: { items: [] } }))
   const entity = wrapperMethod(httpMock, entityMock)
@@ -40,7 +40,7 @@ export function entityCollectionActionTest(t, setup, { wrapperMethod, actionMeth
     })
 }
 
-export function entityActionTest(t, setup, { wrapperMethod, actionMethod }) {
+export function entityActionTest (t, setup, { wrapperMethod, actionMethod }) {
   t.plan(1)
   const { httpMock, entityMock } = setup()
   const entity = wrapperMethod(httpMock, entityMock)
@@ -50,7 +50,7 @@ export function entityActionTest(t, setup, { wrapperMethod, actionMethod }) {
     })
 }
 
-export function entityDeleteTest(t, setup, { wrapperMethod }) {
+export function entityDeleteTest (t, setup, { wrapperMethod }) {
   t.plan(1)
   const { httpMock, entityMock } = setup()
   const entity = wrapperMethod(httpMock, entityMock)
@@ -60,7 +60,7 @@ export function entityDeleteTest(t, setup, { wrapperMethod }) {
     })
 }
 
-export function entityPublishTest(t, setup, { wrapperMethod }) {
+export function entityPublishTest (t, setup, { wrapperMethod }) {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
@@ -72,7 +72,7 @@ export function entityPublishTest(t, setup, { wrapperMethod }) {
     })
 }
 
-export function failingActionTest(t, setup, { wrapperMethod, actionMethod }) {
+export function failingActionTest (t, setup, { wrapperMethod, actionMethod }) {
   t.plan(1)
   const error = cloneMock('error')
   const { httpMock, entityMock } = setup(Promise.reject(error))
@@ -83,7 +83,7 @@ export function failingActionTest(t, setup, { wrapperMethod, actionMethod }) {
       t.equals(r.name, '404 Not Found')
     })
 }
-export function failingVersionActionTest(t, setup, { wrapperMethod, actionMethod }) {
+export function failingVersionActionTest (t, setup, { wrapperMethod, actionMethod }) {
   t.plan(1)
   const error = cloneMock('error')
   const { httpMock, entityMock } = setup(Promise.reject(error))
@@ -96,7 +96,7 @@ export function failingVersionActionTest(t, setup, { wrapperMethod, actionMethod
     })
 }
 
-export function isPublishedTest(t, setup, { wrapperMethod }) {
+export function isPublishedTest (t, setup, { wrapperMethod }) {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   const unpublishedEntity = wrapperMethod(httpMock, entityMock)
@@ -106,7 +106,7 @@ export function isPublishedTest(t, setup, { wrapperMethod }) {
   t.ok(publishedEntity.isPublished(), 'entity is now published')
 }
 
-export function isUpdatedTest(t, setup, { wrapperMethod }) {
+export function isUpdatedTest (t, setup, { wrapperMethod }) {
   t.plan(3)
   const { httpMock, entityMock } = setup()
   const unpublishedEntity = wrapperMethod(httpMock, entityMock)
@@ -120,7 +120,7 @@ export function isUpdatedTest(t, setup, { wrapperMethod }) {
   t.ok(changedEntity.isUpdated(), 'entity is now updated')
 }
 
-export function isDraftTest(t, setup, { wrapperMethod }) {
+export function isDraftTest (t, setup, { wrapperMethod }) {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   const unpublishedEntity = wrapperMethod(httpMock, entityMock)
@@ -131,7 +131,7 @@ export function isDraftTest(t, setup, { wrapperMethod }) {
   t.notOk(unchangedEntity.isDraft(), 'entity is now published')
 }
 
-export function isArchivedTest(t, setup, { wrapperMethod }) {
+export function isArchivedTest (t, setup, { wrapperMethod }) {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   const unarchivedEntity = wrapperMethod(httpMock, entityMock)
@@ -141,7 +141,7 @@ export function isArchivedTest(t, setup, { wrapperMethod }) {
   t.ok(archivedEntity.isArchived(), 'entity is now archived')
 }
 
-export function omitAndDeleteFieldTest(t, setup, { wrapperMethod }) {
+export function omitAndDeleteFieldTest (t, setup, { wrapperMethod }) {
   t.plan(3)
   const { httpMock, entityMock } = setup()
   entityMock.fields = [
@@ -153,7 +153,7 @@ export function omitAndDeleteFieldTest(t, setup, { wrapperMethod }) {
       deleted: false
     }
   ]
-  /*Since this method calls update() 2x, first call needs to return a properly wrapped entity. */
+  /* Since this method calls update() 2x, first call needs to return a properly wrapped entity. */
   const plainEntity = wrapperMethod(httpMock, entityMock)
   httpMock.put = sinon.stub().returns(Promise.resolve({data: plainEntity}))
   const entity = wrapperMethod(httpMock, entityMock)
