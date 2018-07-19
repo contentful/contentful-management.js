@@ -164,3 +164,12 @@ export function omitAndDeleteFieldTest (t, setup, { wrapperMethod }) {
       t.equals(httpMock.put.args[1][1].fields.find(field => field.id === 'title').deleted, true, 'deleted was set to true in the first update')
     })
 }
+
+export function failingOmitAndDeleteFieldTest (t, setup, { wrapperMethod }) {
+  t.plan(1)
+  const { httpMock, entityMock } = setup()
+  const entity = wrapperMethod(httpMock, entityMock)
+  return entity.omitAndDeleteField('doesntExist').catch(r => {
+    t.ok(r, 'throws an error when field doesn\'t exist')
+  })
+}

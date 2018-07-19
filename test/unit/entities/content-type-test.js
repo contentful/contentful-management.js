@@ -15,7 +15,8 @@ import {
   isPublishedTest,
   isUpdatedTest,
   isDraftTest,
-  omitAndDeleteFieldTest
+  omitAndDeleteFieldTest,
+  failingOmitAndDeleteFieldTest
 } from '../test-creators/instance-entity-methods'
 
 function setup (promise) {
@@ -146,4 +147,8 @@ test('ContentType isDraft', (t) => {
 
 test('ContentType omitAndDeleteField', (t) => {
   omitAndDeleteFieldTest(t, setup, {wrapperMethod: wrapContentType})
+})
+
+test('ContentType omitAndDeleteField fails', (t) => {
+  failingOmitAndDeleteFieldTest(t, setup, {wrapperMethod: wrapContentType})
 })
