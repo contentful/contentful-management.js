@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentful-management.js - Documentation</title>
+    <title>entities/asset.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentful-management.js</h1>
+    <h1 class="page-title">entities/asset.js</h1>
     
 
     
@@ -37,76 +37,391 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
+ * Asset instances
+ * @namespace Asset
  */
-import axios from '@contentful/axios'
+
 import cloneDeep from 'lodash/cloneDeep'
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
-import createContentfulApi from './create-contentful-api'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
+} from '../instance-actions'
+
+const ASSET_PROCESSING_CHECK_WAIT = 2000
+const ASSET_PROCESSING_CHECK_RETRIES = 10
 
 /**
- * Create a client instance
- * @func
- * @name createClient
- * @memberof contentfulManagement
- * @param {object} params - Client initialization parameters
- * @prop {string=} params.accessToken - Contentful CDA Access Token
- * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
- * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
- * @prop {string=?} params.host - API host (default: api.contentful.com)
- * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
- * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
- * @prop {object=?} params.headers - Optional additional headers
- * @prop {function=} params.logHandler - A log handler function to process given log messages &amp; errors. Receives the log level (error, warning &amp; info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)
- * @prop {string=?} params.application - Application name and version e.g myApp/version
- * @prop {string=?} params.integration - Integration name and version e.g react/version
- * @returns {ContentfulClientAPI.ClientAPI}
- * @example
- * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
- * })
+ * @memberof Asset
+ * @typedef Asset
+ * @prop {Meta.Sys} sys - Standard system metadata with additional asset specific properties
+ * @prop {string=} sys.locale - If present, indicates the locale which this asset uses
+ * @prop {Object} fields - Object with content for each field
+ * @prop {string} fields.title - Title for this asset
+ * @prop {string} fields.description - Description for this asset
+ * @prop {Object} fields.file - File object for this asset
+ * @prop {Object} fields.file.fileName - Name for the file
+ * @prop {string} fields.file.contentType - Mime type for the file
+ * @prop {string=} fields.file.upload - Url where the file is available to be downloaded from, into the Contentful asset system. After the asset is processed this field is gone.
+ * @prop {string=} fields.file.url - Url where the file is available at the Contentful media asset system. This field won't be available until the asset is processed.
+ * @prop {Object} fields.file.details - Details for the file, depending on file type (example: image size in bytes, etc)
+ * @prop {function(): Object} toPlainObject() - Returns this Asset as a plain JS object
  */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com'
+
+function createAssetApi (http) {
+  function checkIfAssetHasUrl ({
+    resolve,
+    reject,
+    id,
+    locale,
+    processingCheckWait = ASSET_PROCESSING_CHECK_WAIT,
+    processingCheckRetries = ASSET_PROCESSING_CHECK_RETRIES,
+    checkCount = 0
+  }) {
+    http.get('assets/' + id)
+      .then((response) => wrapAsset(http, response.data), errorHandler)
+      .then((asset) => {
+        if (asset.fields.file[locale].url) {
+          resolve(asset)
+        } else if (checkCount === processingCheckRetries) {
+          const error = new Error()
+          error.name = 'AssetProcessingTimeout'
+          error.message = 'Asset is taking longer then expected to process.'
+          reject(error)
+        } else {
+          checkCount++
+          setTimeout(
+            () => checkIfAssetHasUrl({
+              resolve: resolve,
+              reject: reject,
+              id: id,
+              locale: locale,
+              checkCount: checkCount,
+              processingCheckWait,
+              processingCheckRetries
+            }),
+            processingCheckWait
+          )
+        }
+      })
   }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
-    params.application,
-    params.integration,
-    params.feature
-  )
 
-  const requiredHeaders = {
-    'Content-Type': 'application/vnd.contentful.management.v1+json',
-    'X-Contentful-User-Agent': userAgentHeader
+  function processForLocale (locale, {processingCheckWait, processingCheckRetries} = {}) {
+    const assetId = this.sys.id
+    return http.put('assets/' + this.sys.id + '/files/' + locale + '/process', null, {
+      headers: {
+        'X-Contentful-Version': this.sys.version
+      }
+    })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => checkIfAssetHasUrl({
+            resolve: resolve,
+            reject: reject,
+            id: assetId,
+            locale: locale,
+            processingCheckWait: processingCheckWait,
+            processingCheckRetries: processingCheckRetries
+          })
+        )
+      }, errorHandler)
   }
 
-  params = {
-    ...defaultParameters,
-    ...cloneDeep(params)
+  function processForAllLocales (options = {}) {
+    const self = this
+    const locales = Object.keys(this.fields.file || {})
+    return Promise.all(locales.map((locale) => processForLocale.call(self, locale, options)))
+      .then((assets) => assets[0])
   }
 
-  if (!params.accessToken) {
-    throw new TypeError('Expected parameter accessToken')
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Asset
+     * @func update
+     * @return {Promise&lt;Asset>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => {
+     *   asset.fields.title['en-US'] = 'New asset title'
+     *   return asset.update()
+     * })
+     * .then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
+     * .catch(console.error)
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Asset
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.delete())
+     * .then((asset) => console.log(`Asset deleted.`)
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'assets'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Asset
+     * @func publish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.publish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} published.`)
+     * .catch(console.error)
+   */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Asset
+     * @func unpublish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unpublish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
+     * .catch(console.error)
+   */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Asset
+     * @func archive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.archive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
+     * .catch(console.error)
+    */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Asset
+     * @func unarchive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unarchive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
+     * .catch(console.error)
+    */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Triggers asset processing after an upload, for the file uploaded to a specific locale.
+     * @memberof Asset
+     * @func processForLocale
+     * @param {string} locale - Locale which processing should be triggered for
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForLocale('en-US'))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForLocale: processForLocale,
+
+    /**
+     * Triggers asset processing after an upload, for the files uploaded to all locales of an asset.
+     * @memberof Asset
+     * @func processForAllLocales
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *     'de-DE': 'Playsam Streamliner'
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     },
+     *     'de-DE': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example-de.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForAllLocales())
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForAllLocales: processForAllLocales,
+
+    /**
+     * Checks if the asset is published. A published asset might have unpublished changes (@see {Asset.isUpdated})
+     * @memberof Asset
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the asset is updated. This means the asset was previously published but has unpublished changes.
+     * @memberof Asset
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the asset is in draft mode. This means it is not published.
+     * @memberof Asset
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if asset is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Asset
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
   }
+}
 
-  params.headers = {
-    ...params.headers,
-    ...requiredHeaders
-  }
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset data
+ * @return {Asset} Wrapped asset data
+ */
+export function wrapAsset (http, data) {
+  const asset = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(asset)
+}
 
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset collection data
+ * @return {AssetCollection} Wrapped asset collection data
+ */
+export function wrapAssetCollection (http, data) {
+  const assets = toPlainObject(cloneDeep(data))
+  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
+  return freezeSys(assets)
 }
 </code></pre>
         </article>
