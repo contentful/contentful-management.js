@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Locale - Documentation</title>
+    <title>Meta - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Locale</h1>
+    <h1 class="page-title">Meta</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Locale
+        Meta
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line1">line 1</a>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Locale instances</div>
+            <div class="description">Types for meta information found across the different entities in Contentful</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Locale">Locale</h4>
+<h4 class="name" id=".Link">Link</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line13">line 13</a>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -191,13 +191,13 @@
 
         <tr>
             
-                <td class="name"><code>sys</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -207,14 +207,14 @@
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">type of this entity. Always link.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
@@ -237,7 +237,7 @@
 
         <tr>
             
-                <td class="name"><code>code</code></td>
+                <td class="name"><code>linkType</code></td>
             
 
             <td class="type">
@@ -253,145 +253,7 @@
 
             
 
-            <td class="description last">Locale code (example: en-us)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fallbackCode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the locale code to fallback to when there is not content for the current locale</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>contentDeliveryApi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the content under this locale should be available on the CDA (for public reading)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>contentManagementApi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the content under this locale should be available on the CMA (for editing)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>default</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If this is the default locale</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>optional</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the locale needs to be filled in on entries or not</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Locale as a plain JS object</td>
+            <td class="description last">type of this link. If defined, either Entry or Asset</td>
         </tr>
 
     
@@ -403,6 +265,10 @@
 
 
 
+<div class="description">
+    Link to another entity. See <a href="https://www.contentful.com/developers/docs/concepts/links/">Links</a> for more details.
+</div>
+
 
 
 
@@ -411,19 +277,9 @@
 
 
             
-    
-    
-    
-        <h3 class="subsection-title">Methods</h3>
+                
+<h4 class="name" id=".Sys">Sys</h4>
 
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
 
 
 
@@ -433,7 +289,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line60">line 60</a>
+        <a href="create-contentful-api.js.html">create-contentful-api.js</a>, <a href="create-contentful-api.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -470,131 +326,177 @@
 
 
 
-
-
-<div class="description">
-    Deletes this object on the server.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => locale.delete())
-.then(() => console.log(`locale deleted.`))
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
+    <h5 class="subsection-title">Properties:</h5>
 
     
 
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
 
         
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
             
 
-    
-
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Locale.html">Locale</a>>}</span></h4>
-
-    
-
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
 
 
+            
+            </td>
 
-<dl class="details">
+            
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line29">line 29</a>
-    </li></ul></dd>
-    
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
 
-    
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
 
-    
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
 
-    
+        <tr>
+            
+                <td class="name"><code>createdAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
 
-    
+        <tr>
+            
+                <td class="name"><code>updatedAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
 
-    
+        <tr>
+            
+                <td class="name"><code>revision</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
 
     
+    </tbody>
+</table>
 
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
 
 
 <div class="description">
-    Sends an update to the server with any changes made to the object's properties
+    System metadata. See <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes</a> for more details.
 </div>
 
 
@@ -604,64 +506,9 @@ client.getSpace('&lt;space_id>')
 
 
 
-
-    <h5>Example</h5>
+            
     
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => {
-  locale.name = 'New locale name'
-  return locale.update()
-})
-.then((locale) => console.log(`locale ${locale.sys.id} updated.`))
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object returned from the server with updated changes.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="Locale.html">Locale</a>></span>
-
-
-    </dd>
-</dl>
-
     
-
-
-        
     
 
 

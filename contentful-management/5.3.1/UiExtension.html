@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Locale - Documentation</title>
+    <title>UiExtension - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Locale</h1>
+    <h1 class="page-title">UiExtension</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Locale
+        UiExtension
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line1">line 1</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Locale instances</div>
+            <div class="description">UI Extension instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Locale">Locale</h4>
+<h4 class="name" id=".UiExtension">UiExtension</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line13">line 13</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -214,6 +214,47 @@
 
         <tr>
             
+                <td class="name"><code>extension</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">UI Extension config
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
                 <td class="name"><code>name</code></td>
             
 
@@ -230,20 +271,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Extension name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>code</code></td>
+                <td class="name"><code>fieldTypes</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
             
@@ -253,20 +294,20 @@
 
             
 
-            <td class="description last">Locale code (example: en-us)</td>
+            <td class="description last">Field types where an extension can be used</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>fallbackCode</code></td>
+                <td class="name"><code>src</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">array</span>
 
 
             
@@ -276,20 +317,20 @@
 
             
 
-            <td class="description last">the locale code to fallback to when there is not content for the current locale</td>
+            <td class="description last">URL where the root HTML document of the extension can be found</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>contentDeliveryApi</code></td>
+                <td class="name"><code>srcdoc</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">array</span>
 
 
             
@@ -299,37 +340,14 @@
 
             
 
-            <td class="description last">If the content under this locale should be available on the CDA (for public reading)</td>
+            <td class="description last">String representation of the extension (e.g. inline HTML code)</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>contentManagementApi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the content under this locale should be available on the CMA (for editing)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>default</code></td>
+                <td class="name"><code>sidebar</code></td>
             
 
             <td class="type">
@@ -345,30 +363,14 @@
 
             
 
-            <td class="description last">If this is the default locale</td>
+            <td class="description last">Controls the location of the extension. If true it will be rendered on the sidebar instead of replacing the field's editing control</td>
         </tr>
 
     
+    </tbody>
+</table>
 
-        <tr>
-            
-                <td class="name"><code>optional</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
             </td>
-
-            
-
-            
-
-            <td class="description last">If the locale needs to be filled in on entries or not</td>
         </tr>
 
     
@@ -391,7 +393,7 @@
 
             
 
-            <td class="description last">Returns this Locale as a plain JS object</td>
+            <td class="description last">Returns this UI Extension as a plain JS object</td>
         </tr>
 
     
@@ -433,7 +435,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line60">line 60</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -493,9 +495,9 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => locale.delete())
-.then(() => console.log(`locale deleted.`))
+.then((space) => space.getUiExtension('&lt;ui_extension_id>'))
+.then((uiExtension) => uiExtension.delete())
+.then(() => console.log(`UI Extension deleted.`))
 .catch(console.error)</code></pre>
 
 
@@ -542,7 +544,7 @@ client.getSpace('&lt;space_id>')
 
     
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Locale.html">Locale</a>>}</span></h4>
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="UiExtension.html">UiExtension</a>>}</span></h4>
 
     
 
@@ -554,7 +556,7 @@ client.getSpace('&lt;space_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line29">line 29</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -614,12 +616,12 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => {
-  locale.name = 'New locale name'
-  return locale.update()
+.then((space) => space.getUiExtension('&lt;ui_extension_id>'))
+.then((uiExtension) => {
+  uiExtension.extension.name = 'New UI Extension name'
+  return uiExtension.update()
 })
-.then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+.then((uiExtension) => console.log(`UI Extension ${uiExtension.sys.id} updated.`))
 .catch(console.error)</code></pre>
 
 
@@ -652,7 +654,7 @@ client.getSpace('&lt;space_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Locale.html">Locale</a>></span>
+<span class="param-type">Promise.&lt;<a href="UiExtension.html">UiExtension</a>></span>
 
 
     </dd>
