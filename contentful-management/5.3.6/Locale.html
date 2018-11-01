@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Locale - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createPersonalAccessToken">createPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessToken">getPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessTokens">getPersonalAccessTokens</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="ContentfulEnvironmentAPI.html">ContentfulEnvironmentAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUpload">getUpload</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironment">createEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironmentWithId">createEnvironmentWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironment">getEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironments">getEnvironments</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKey">getPreviewApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKeys">getPreviewApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="ContentType.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.omitAndDeleteField">omitAndDeleteField</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Environment.html">Environment</a><ul class='methods'><li data-type='method'><a href="Environment.html#.delete">delete</a></li><li data-type='method'><a href="Environment.html#.update">update</a></li></ul></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="PreviewApiKey.html">PreviewApiKey</a></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Locale</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        Locale
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">Locale instances</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".Locale">Locale</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line13">line 13</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>code</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Locale code (example: en-us)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fallbackCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the locale code to fallback to when there is not content for the current locale</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contentDeliveryApi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">If the content under this locale should be available on the CDA (for public reading)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>contentManagementApi</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">If the content under this locale should be available on the CMA (for editing)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>default</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">If this is the default locale</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>optional</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">If the locale needs to be filled in on entries or not</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns this Locale as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line59">line 59</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deletes this object on the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getLocale('&lt;locale_id>'))
+.then((locale) => locale.delete())
+.then(() => console.log(`locale deleted.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Locale.html">Locale</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getLocale('&lt;locale_id>'))
+.then((locale) => {
+  locale.name = 'New locale name'
+  return locale.update()
+})
+.then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Locale.html">Locale</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
