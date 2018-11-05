@@ -49,7 +49,6 @@ test.only('Gets usage periods for an org', async (t) => {
   await client.getOrganizations()
     .then((response) => {
       orgId = response.items[0].sys.id
-      console.log(orgId)
     })
 
   return client.getUsagePeriods(orgId)
