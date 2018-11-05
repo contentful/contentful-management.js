@@ -43,6 +43,21 @@ test('Gets organizations', (t) => {
     })
 })
 
+test.only('Gets usage periods for an org', async (t) => {
+  t.plan(1)
+  let orgId
+  await client.getOrganizations()
+    .then((response) => {
+      orgId = response.items[0].sys.id
+      console.log(orgId)
+    })
+
+  return client.getUsagePeriods(orgId)
+    .then(response => {
+      t.ok(response.items.length >= 1, 'organization must have at least one usage period')
+    })
+})
+
 test('Gets personal access tokens', (t) => {
   t.plan(2)
   return client.getPersonalAccessTokens()
