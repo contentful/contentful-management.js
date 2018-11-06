@@ -28,6 +28,10 @@ if (process.env.API_INTEGRATION_TESTS) {
 
 const client = createClient(params)
 
+const v2Client = createClient({
+  accessToken: v2AccessToken
+})
+
 test('Gets spaces', (t) => {
   t.plan(2)
   return client.getSpaces()
@@ -45,17 +49,60 @@ test('Gets organizations', (t) => {
     })
 })
 
-test('Gets usage periods for an org', async (t) => {
+test('Gets usage periods for an org', (t) => {
   t.plan(3)
-  const v2Client = createClient({
-    accessToken: v2AccessToken
-  })
   return v2Client.getUsagePeriods(v2Organization)
     .then(response => {
       t.ok(response.items.length >= 1, 'organization must have at least one usage period')
       t.ok(response.items[0].startDate)
       t.notOk(response.items[0].endDate) // assumes first usage period is current, with enddate = null
     })
+})
+
+// the following tests assume a usage period with id = 1 exists
+const usagePeriodId = 1
+
+const happyResponseAssertions = (t, usageResponse) => {
+  const resource = usageResponse.items[0]
+  t.ok(usageResponse.items.length >= 1)
+  t.ok(resource.sys.type === 'ApiUsage')
+  t.ok(resource.usage)
+  t.ok(resource.unitOfMeasure)
+  t.ok(resource.interval)
+}
+
+test('Gets usage for organization', (t) => {
+  t.plan(5)
+  return v2Client.getUsages(v2Organization, 'organization', {
+    'filters[metric]': 'all_apis',
+    'filters[usagePeriod]': usagePeriodId
+  })
+    .then(response => happyResponseAssertions(t, response))
+})
+
+test('Gets usage for spaces', (t) => {
+  t.plan(5)
+  return v2Client.getUsages(v2Organization, 'space', {
+    'filters[metric]': 'all_apis',
+    'filters[usagePeriod]': usagePeriodId
+  })
+    .then(response => happyResponseAssertions(t, response))
+})
+
+test.only('Fails getting usage without filters[metric]', (t) => {
+  t.plan(1)
+  t.shouldFail(v2Client.getUsages(v2Organization, 'organization', {
+    'filters[metric]': 'null',
+    'filters[usagePeriod]': usagePeriodId
+  }))
+})
+
+test('Fails getting usage without filters[usagePeriod]', (t) => {
+  t.plan(1)
+  t.shouldFail(v2Client.getUsages(v2Organization, 'organization', {
+    'filters[metric]': 'all_apis',
+    'filters[usagePeriod]': null
+  }))
 })
 
 test('Gets personal access tokens', (t) => {
