@@ -207,6 +207,12 @@ const usagePeriodMock = {
   })
 }
 
+const usageMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'Usage'
+  })
+}
+
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension'
@@ -244,7 +250,9 @@ const mocks = {
   organization: organizationMock,
   uiExtension: uiExtensionMock,
   user: userMock,
-  personalAccessToken: personalAccessTokenMock
+  personalAccessToken: personalAccessTokenMock,
+  usagePeriod: usagePeriodMock,
+  usage: usageMock
 }
 
 function cloneMock (name) {
@@ -332,6 +340,9 @@ function setupEntitiesMock (rewiredModuleApi) {
     },
     usagePeriod: {
       wrapUsagePeriodCollection: sinon.stub()
+    },
+    usage: {
+      wrapUsageCollection: sinon.stub()
     }
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
@@ -365,5 +376,6 @@ export {
   userMock,
   personalAccessTokenMock,
   environmentMock,
-  usagePeriodMock
+  usagePeriodMock,
+  usageMock
 }
