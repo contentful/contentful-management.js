@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/entry.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/entry.js</h1>
     
 
     
@@ -37,38 +37,100 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Entry instances
+ * @namespace Entry
  */
+
 import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import {
   createUpdateEntity,
-  createDeleteEntity
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
 } from '../instance-actions'
-
+import errorHandler from '../error-handler'
+import {wrapSnapshot, wrapSnapshotCollection} from './snapshot'
 /**
- * @memberof Locale
- * @typedef Locale
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * Types of fields found in an Entry
+ * @namespace EntryFields
  */
 
-function createLocaleApi (http) {
+/**
+ * @memberof EntryFields
+ * @typedef Symbol
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Text
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Integer
+ * @type number
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Number
+ * @type number
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Date
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Boolean
+ * @type boolean
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Location
+ * @prop {string} lat - latitude
+ * @prop {string} lon - longitude
+ */
+
+/**
+ * A Field in an Entry can have one of the following types that can be defined in Contentful. See &lt;a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types&lt;/a> for more details.
+ * @memberof EntryFields
+ * @typedef Field
+ * @type EntryFields.Symbol | EntryFields.Text | EntryFields.Integer | EntryFields.Number | EntryFields.Date | EntryFields.Boolean | EntryFields.Location | Meta.Link | Array&lt;EntryFields.Symbol|Meta.Link> | Object
+ */
+
+/**
+ * @memberof Entry
+ * @typedef Entry
+ * @prop {Meta.Sys} sys - Standard system metadata with additional entry specific properties
+ * @prop {Meta.Link} sys.contentType - Content Type used by this Entry
+ * @prop {string=} sys.locale - If present, indicates the locale which this entry uses
+ * @prop {Object&lt;EntryFields.Field>} fields - Object with content for each field
+ * @prop {function(): Object} toPlainObject() - Returns this Entry as a plain JS object
+ */
+
+function createEntryApi (http) {
   return {
+
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof Entry
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;Entry>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -77,27 +139,23 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => {
+     *   entry.fields.title['en-US'] = 'New entry title'
+     *   return entry.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
      * .catch(console.error)
-     */
-    update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
-    },
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
 
     /**
      * Deletes this object on the server.
-     * @memberof Locale
+     * @memberof Entry
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -108,41 +166,215 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.delete())
+     * .then(() => console.log(`Entry deleted.`))
      * .catch(console.error)
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: 'locales'
-    })
+      entityPath: 'entries'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Entry
+     * @func publish
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.publish())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
+     * .catch(console.error)
+     */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Entry
+     * @func unpublish
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.unpublish())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
+     * .catch(console.error)
+     */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Entry
+     * @func archive
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.archive())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
+     * .catch(console.error)
+     */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Entry
+     * @func unarchive
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.unarchive())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
+     * .catch(console.error)
+     */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Gets all snapshots of an entry
+     * @memberof Entry
+     * @func getSnapshots
+     * @return Promise&lt;Snapshot>
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.getSnapshots())
+     * .then((snapshots) => console.log(snapshots.items))
+     * .catch(console.error)
+     */
+    getSnapshots: function (query = {}) {
+      return http.get(`entries/${this.sys.id}/snapshots`, createRequestConfig({query: query}))
+        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+    },
+
+    /**
+     * Gets a snapshot of an entry
+     * @memberof Entry
+     * @func getSnapshot
+     * @param {string} snapshotId - Id of the snapshot
+     * @return Promise&lt;Snapshot>
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.getSnapshot('&lt;snapshot_id>'))
+     * .then((snapshot) => console.log(snapshot))
+     * .catch(console.error)
+     */
+    getSnapshot: function (snapshotId) {
+      return http.get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
+        .then((response) => wrapSnapshot(http, response.data), errorHandler)
+    },
+    /**
+     * Checks if the entry is published. A published entry might have unpublished changes (@see {Entry.isUpdated})
+     * @memberof Entry
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
+     * @memberof Entry
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the entry is in draft mode. This means it is not published.
+     * @memberof Entry
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Entry
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
+ * @param {Object} data - Raw entry data
+ * @return {Entry} Wrapped entry data
  */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+export function wrapEntry (http, data) {
+  const entry = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(entry, createEntryApi(http))
+  return freezeSys(entry)
 }
 
 /**
+ * Data is also mixed in with link getters if links exist and includes were requested
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
+ * @param {Object} data - Raw entry collection data
+ * @return {EntryCollection} Wrapped entry collection data
  */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+export function wrapEntryCollection (http, data, resolveLinks) {
+  const entries = toPlainObject(cloneDeep(data))
+  entries.items = entries.items.map((entity) => wrapEntry(http, entity))
+  return freezeSys(entries)
 }
 </code></pre>
         </article>

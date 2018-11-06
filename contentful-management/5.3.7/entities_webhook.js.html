@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/webhook.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/webhook.js</h1>
     
 
     
@@ -37,38 +37,39 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Webhook instances
+ * @namespace Webhook
  */
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
 import {
   createUpdateEntity,
   createDeleteEntity
 } from '../instance-actions'
 
 /**
- * @memberof Locale
- * @typedef Locale
+ * @memberof Webhook
+ * @typedef Webhook
  * @prop {Meta.Sys} sys - System metadata
  * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * @prop {string} url - Url which the webhook will call
+ * @prop {string} httpBasicUsername - Username for basic HTTP authentication
+ * @prop {string} httpBasicPassword - Password for basic HTTP authentication
+ * @prop {object} headers - Key value pairs of additional headers to be sent with every webhook call.
+ * @prop {array} topics - Topics which this webhook should be subscribed to. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhooks/create-a-webhook for more details
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook as a plain JS object
  */
 
-function createLocaleApi (http) {
+function createWebhookApi (http) {
   return {
+
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof Webhook
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;Webhook>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -77,27 +78,23 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => {
+     *  webhook.name = 'new webhook name'
+     *  return webhook.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
      * .catch(console.error)
      */
-    update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
-    },
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'webhook_definitions',
+      wrapperMethod: wrapWebhook
+    }),
 
     /**
      * Deletes this object on the server.
-     * @memberof Locale
+     * @memberof Webhook
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -108,41 +105,119 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.delete())
+     * .then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
      * .catch(console.error)
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: 'locales'
-    })
+      entityPath: 'webhook_definitions'
+    }),
+
+    /**
+     * List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object>} Promise for list of calls
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getCalls())
+     * .then((response) => console.log(response.items)) // webhook calls
+     * .catch(console.error)
+     */
+    getCalls: function () {
+      return http.get('webhooks/' + this.sys.id + '/calls')
+        .then((response) => response.data, errorHandler)
+    },
+
+    /**
+     * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
+     * @memberof Webhook
+     * @func getCalls
+     * @return {Promise&lt;object>} Promise for call details
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getCall(&lt;call-id>))
+     * .then((webhookCall) => console.log(webhookCall))
+     * .catch(console.error)
+     */
+    getCall: function (id) {
+      return http.get('webhooks/' + this.sys.id + '/calls/' + id)
+        .then((response) => response.data, errorHandler)
+    },
+
+    /**
+     * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
+     * @memberof Webhook
+     * @func getHealth
+     * @return {Promise&lt;object>} Promise for health info
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getWebhook('&lt;webhook_id>'))
+     * .then((webhook) => webhook.getHealth())
+     * .then((webhookHealth) => console.log(webhookHealth))
+     * .catch(console.error)
+     */
+    getHealth: function () {
+      return http.get('webhooks/' + this.sys.id + '/health')
+        .then((response) => response.data, errorHandler)
+    }
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
+ * @param {Object} data - Raw webhook data
+ * @return {Webhook} Wrapped webhook data
  */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+export function wrapWebhook (http, data) {
+  const webhook = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(webhook, createWebhookApi(http))
+  return freezeSys(webhook)
 }
+
+/**
+ * @memberof Webhook
+ * @typedef WebhookCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Webhook.Webhook>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Webhook collection as a plain JS object
+ */
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
+ * @param {Object} data - Raw webhook collection data
+ * @return {WebhookCollection} Wrapped webhook collection data
  */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+export function wrapWebhookCollection (http, data) {
+  const webhooks = toPlainObject(cloneDeep(data))
+  webhooks.items = webhooks.items.map((entity) => wrapWebhook(http, entity))
+  return freezeSys(webhooks)
 }
 </code></pre>
         </article>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/api-key.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/api-key.js</h1>
     
 
     
@@ -37,9 +37,10 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Api Key instances
+ * @namespace ApiKey
  */
+
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -49,55 +50,57 @@ import {
 } from '../instance-actions'
 
 /**
- * @memberof Locale
- * @typedef Locale
+ * @memberof ApiKey
+ * @typedef ApiKey
  * @prop {Meta.Sys} sys - System metadata
  * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * @prop {string} description
+ * @prop {function(): Object} toPlainObject() - Returns this Api Key as a plain JS object
  */
 
-function createLocaleApi (http) {
+function createApiKeyApi (http) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof ApiKey
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;ApiKey>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
      *   accessToken: '&lt;content_management_api_key>'
      * })
-     *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => {
+     *  apiKey.name = 'New name'
+     *  return apiKey.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .then(apiKey => console.log(apiKey.name))
      * .catch(console.error)
      */
     update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
+      if ('accessToken' in this) {
+        delete this.accessToken
+      }
+      if ('preview_api_key' in this) {
+        delete this.preview_api_key
+      }
+      if ('policies' in this) {
+        delete this.policies
+      }
+      const update = createUpdateEntity({
         http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
+        entityPath: 'api_keys',
+        wrapperMethod: wrapApiKey
+      })
+      return update.call(this)
     },
 
     /**
      * Deletes this object on the server.
-     * @memberof Locale
+     * @memberof ApiKey
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -106,16 +109,15 @@ function createLocaleApi (http) {
      * const client = contentful.createClient({
      *   accessToken: '&lt;content_management_api_key>'
      * })
-     *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getApiKey(&lt;api-key-id>))
+     * .then((apiKey) => apiKey.delete())
+     * .then(() => console.log('apikey deleted'))
      * .catch(console.error)
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: 'locales'
+      entityPath: 'api_keys'
     })
   }
 }
@@ -123,26 +125,25 @@ function createLocaleApi (http) {
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
+ * @param {Object} data - Raw api key data
+ * @return {ApiKey} Wrapped api key data
  */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+export function wrapApiKey (http, data) {
+  const apiKey = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(apiKey, createApiKeyApi(http))
+  return freezeSys(apiKey)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
+ * @param {Object} data - Raw api key collection data
+ * @return {ApiKeyCollection} Wrapped api key collection data
  */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+export function wrapApiKeyCollection (http, data) {
+  const apiKeys = toPlainObject(cloneDeep(data))
+  apiKeys.items = apiKeys.items.map((entity) => wrapApiKey(http, entity))
+  return freezeSys(apiKeys)
 }
 </code></pre>
         </article>

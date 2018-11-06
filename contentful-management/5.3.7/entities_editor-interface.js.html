@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/editor-interface.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/editor-interface.js</h1>
     
 
     
@@ -37,38 +37,36 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Editor Interface instances
+ * @namespace EditorInterface
  */
+
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import {
-  createUpdateEntity,
-  createDeleteEntity
-} from '../instance-actions'
+import errorHandler from '../error-handler'
 
 /**
- * @memberof Locale
- * @typedef Locale
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * @memberof EditorInterface
+ * @typedef Control
+ * @prop {srting} fieldId - the id of the customized field
+ * @prop {string} widgetId - customization associated to the field
  */
 
-function createLocaleApi (http) {
+/**
+ * @memberof EditorInterface
+ * @typedef EditorInterface
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {EditorInterface.Control[]} controls - array of fields and it's associated widgetId
+ */
+
+function createEditorInterfaceApi (http) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof EditorInterface
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;EditorInterface>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -77,29 +75,31 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getContentType('&lt;contentType_id>'))
+     * .then((contentType) => contentType.getEditorInterface())
+     * .then((editorInterface) => {
+     *  editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+     *  return editorInterface.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
      * .catch(console.error)
      */
     update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
+      const raw = this.toPlainObject()
+      const data = cloneDeep(raw)
+      delete data.sys
+      return http.put(`content_types/${this.sys.contentType.sys.id}/editor_interface`,
+        data,
+        {
+          headers: {'X-Contentful-Version': this.sys.version}
+        }
+      )
+        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
     },
-
     /**
-     * Deletes this object on the server.
-     * @memberof Locale
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * gets a control for a specific field
+     * @memberof EditorInterface
+     * @func getControlForField
+     * @return {?Object} control object for specific field.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -108,41 +108,33 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getContentType('&lt;contentType_id>'))
+     * .then((contentType) => contentType.getEditorInterface())
+     * .then((editorInterface) => {
+     *  control = editorInterface.getControlForField('&lt;field-id>')
+     *  console.log(control)
+     * })
      * .catch(console.error)
      */
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'locales'
-    })
+    getControlForField: function (fieldId) {
+      const result = this.controls.filter((control) => {
+        return control.fieldId === fieldId
+      })
+      return (result &amp;&amp; result.length > 0) ? result[0] : null
+    }
   }
 }
 
 /**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
- */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
-}
-
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
- */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+* @private
+* @param {Object} http - HTTP client instance
+* @param {Object} data - Raw editor-interface data
+* @return {EditorInterface} Wrapped editor-interface data
+*/
+export function wrapEditorInterface (http, data) {
+  const editorInterface = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(editorInterface, createEditorInterfaceApi(http))
+  return freezeSys(editorInterface)
 }
 </code></pre>
         </article>

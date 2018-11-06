@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/asset.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/asset.js</h1>
     
 
     
@@ -37,38 +37,119 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Asset instances
+ * @namespace Asset
  */
+
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
 import {
   createUpdateEntity,
-  createDeleteEntity
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
 } from '../instance-actions'
 
+const ASSET_PROCESSING_CHECK_WAIT = 2000
+const ASSET_PROCESSING_CHECK_RETRIES = 10
+
 /**
- * @memberof Locale
- * @typedef Locale
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * @memberof Asset
+ * @typedef Asset
+ * @prop {Meta.Sys} sys - Standard system metadata with additional asset specific properties
+ * @prop {string=} sys.locale - If present, indicates the locale which this asset uses
+ * @prop {Object} fields - Object with content for each field
+ * @prop {string} fields.title - Title for this asset
+ * @prop {string} fields.description - Description for this asset
+ * @prop {Object} fields.file - File object for this asset
+ * @prop {Object} fields.file.fileName - Name for the file
+ * @prop {string} fields.file.contentType - Mime type for the file
+ * @prop {string=} fields.file.upload - Url where the file is available to be downloaded from, into the Contentful asset system. After the asset is processed this field is gone.
+ * @prop {string=} fields.file.url - Url where the file is available at the Contentful media asset system. This field won't be available until the asset is processed.
+ * @prop {Object} fields.file.details - Details for the file, depending on file type (example: image size in bytes, etc)
+ * @prop {function(): Object} toPlainObject() - Returns this Asset as a plain JS object
  */
 
-function createLocaleApi (http) {
+function createAssetApi (http) {
+  function checkIfAssetHasUrl ({
+    resolve,
+    reject,
+    id,
+    locale,
+    processingCheckWait = ASSET_PROCESSING_CHECK_WAIT,
+    processingCheckRetries = ASSET_PROCESSING_CHECK_RETRIES,
+    checkCount = 0
+  }) {
+    http.get('assets/' + id)
+      .then((response) => wrapAsset(http, response.data), errorHandler)
+      .then((asset) => {
+        if (asset.fields.file[locale].url) {
+          resolve(asset)
+        } else if (checkCount === processingCheckRetries) {
+          const error = new Error()
+          error.name = 'AssetProcessingTimeout'
+          error.message = 'Asset is taking longer then expected to process.'
+          reject(error)
+        } else {
+          checkCount++
+          setTimeout(
+            () => checkIfAssetHasUrl({
+              resolve: resolve,
+              reject: reject,
+              id: id,
+              locale: locale,
+              checkCount: checkCount,
+              processingCheckWait,
+              processingCheckRetries
+            }),
+            processingCheckWait
+          )
+        }
+      })
+  }
+
+  function processForLocale (locale, {processingCheckWait, processingCheckRetries} = {}) {
+    const assetId = this.sys.id
+    return http.put('assets/' + this.sys.id + '/files/' + locale + '/process', null, {
+      headers: {
+        'X-Contentful-Version': this.sys.version
+      }
+    })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => checkIfAssetHasUrl({
+            resolve: resolve,
+            reject: reject,
+            id: assetId,
+            locale: locale,
+            processingCheckWait: processingCheckWait,
+            processingCheckRetries: processingCheckRetries
+          })
+        )
+      }, errorHandler)
+  }
+
+  function processForAllLocales (options = {}) {
+    const self = this
+    const locales = Object.keys(this.fields.file || {})
+    return Promise.all(locales.map((locale) => processForLocale.call(self, locale, options)))
+      .then((assets) => assets[0])
+  }
+
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof Asset
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;Asset>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -77,27 +158,23 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => {
+     *   asset.fields.title['en-US'] = 'New asset title'
+     *   return asset.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
      * .catch(console.error)
-     */
-    update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
-    },
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
 
     /**
      * Deletes this object on the server.
-     * @memberof Locale
+     * @memberof Asset
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -108,41 +185,243 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.delete())
+     * .then((asset) => console.log(`Asset deleted.`)
      * .catch(console.error)
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: 'locales'
-    })
+      entityPath: 'assets'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Asset
+     * @func publish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.publish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} published.`)
+     * .catch(console.error)
+   */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Asset
+     * @func unpublish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unpublish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
+     * .catch(console.error)
+   */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Asset
+     * @func archive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.archive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
+     * .catch(console.error)
+    */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Asset
+     * @func unarchive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unarchive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
+     * .catch(console.error)
+    */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Triggers asset processing after an upload, for the file uploaded to a specific locale.
+     * @memberof Asset
+     * @func processForLocale
+     * @param {string} locale - Locale which processing should be triggered for
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForLocale('en-US'))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForLocale: processForLocale,
+
+    /**
+     * Triggers asset processing after an upload, for the files uploaded to all locales of an asset.
+     * @memberof Asset
+     * @func processForAllLocales
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *     'de-DE': 'Playsam Streamliner'
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     },
+     *     'de-DE': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example-de.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForAllLocales())
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForAllLocales: processForAllLocales,
+
+    /**
+     * Checks if the asset is published. A published asset might have unpublished changes (@see {Asset.isUpdated})
+     * @memberof Asset
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the asset is updated. This means the asset was previously published but has unpublished changes.
+     * @memberof Asset
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the asset is in draft mode. This means it is not published.
+     * @memberof Asset
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if asset is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Asset
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
+ * @param {Object} data - Raw asset data
+ * @return {Asset} Wrapped asset data
  */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+export function wrapAsset (http, data) {
+  const asset = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(asset)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
+ * @param {Object} data - Raw asset collection data
+ * @return {AssetCollection} Wrapped asset collection data
  */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+export function wrapAssetCollection (http, data) {
+  const assets = toPlainObject(cloneDeep(data))
+  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
+  return freezeSys(assets)
 }
 </code></pre>
         </article>

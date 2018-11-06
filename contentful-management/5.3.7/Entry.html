@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Locale - Documentation</title>
+    <title>Entry - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Locale</h1>
+    <h1 class="page-title">Entry</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Locale
+        Entry
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line1">line 1</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Locale instances</div>
+            <div class="description">Entry instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Locale">Locale</h4>
+<h4 class="name" id=".Entry">Entry</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line13">line 13</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -207,14 +207,63 @@
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">Standard system metadata with additional entry specific properties
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>contentType</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Content Type used by this Entry</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>locale</code></td>
             
 
             <td class="type">
@@ -227,23 +276,38 @@
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">If present, indicates the locale which this entry uses</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>code</code></td>
+                <td class="name"><code>fields</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Object.&lt;<a href="EntryFields.html#.Field">EntryFields.Field</a>></span>
 
 
             
@@ -253,122 +317,7 @@
 
             
 
-            <td class="description last">Locale code (example: en-us)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fallbackCode</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the locale code to fallback to when there is not content for the current locale</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>contentDeliveryApi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the content under this locale should be available on the CDA (for public reading)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>contentManagementApi</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the content under this locale should be available on the CMA (for editing)</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>default</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If this is the default locale</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>optional</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">If the locale needs to be filled in on entries or not</td>
+            <td class="description last">Object with content for each field</td>
         </tr>
 
     
@@ -391,7 +340,7 @@
 
             
 
-            <td class="description last">Returns this Locale as a plain JS object</td>
+            <td class="description last">Returns this Entry as a plain JS object</td>
         </tr>
 
     
@@ -421,6 +370,127 @@
 
     
 
+    <h4 class="name" id=".archive"><span class="type-signature">(static) </span>archive<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Entry.html">Entry</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line189">line 189</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Archives the object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.archive())
+.then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Entry.html">Entry</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
     <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
@@ -433,7 +503,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line60">line 60</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line118">line 118</a>
     </li></ul></dd>
     
 
@@ -493,9 +563,9 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => locale.delete())
-.then(() => console.log(`locale deleted.`))
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.delete())
+.then(() => console.log(`Entry deleted.`))
 .catch(console.error)</code></pre>
 
 
@@ -542,7 +612,7 @@ client.getSpace('&lt;space_id>')
 
     
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Locale.html">Locale</a>>}</span></h4>
+    <h4 class="name" id=".getSnapshot"><span class="type-signature">(static) </span>getSnapshot<span class="signature">(snapshotId)</span><span class="type-signature"></span></h4>
 
     
 
@@ -554,7 +624,1045 @@ client.getSpace('&lt;space_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_locale.js.html">entities/locale.js</a>, <a href="entities_locale.js.html#line29">line 29</a>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line260">line 260</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Gets a snapshot of an entry
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.getSnapshot('&lt;snapshot_id>'))
+.then((snapshot) => console.log(snapshot))
+.catch(console.error)</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>snapshotId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Id of the snapshot</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise<Snapshot>
+</div>
+
+
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getSnapshots"><span class="type-signature">(static) </span>getSnapshots<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line237">line 237</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Gets all snapshots of an entry
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.getSnapshots())
+.then((snapshots) => console.log(snapshots.items))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise<Snapshot>
+</div>
+
+
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isArchived"><span class="type-signature">(static) </span>isArchived<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line307">line 307</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isDraft"><span class="type-signature">(static) </span>isDraft<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line299">line 299</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if the entry is in draft mode. This means it is not published.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isPublished"><span class="type-signature">(static) </span>isPublished<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line283">line 283</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if the entry is published. A published entry might have unpublished changes (@see {Entry.isUpdated})
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isUpdated"><span class="type-signature">(static) </span>isUpdated<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line291">line 291</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".publish"><span class="type-signature">(static) </span>publish<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Entry.html">Entry</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line141">line 141</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Publishes the object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.publish())
+.then((entry) => console.log(`Entry ${entry.sys.id} published.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Entry.html">Entry</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".unarchive"><span class="type-signature">(static) </span>unarchive<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Entry.html">Entry</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line213">line 213</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Unarchives the object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.unarchive())
+.then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Entry.html">Entry</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".unpublish"><span class="type-signature">(static) </span>unpublish<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Entry.html">Entry</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line165">line 165</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Unpublishes the object
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => entry.unpublish())
+.then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Entry.html">Entry</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Entry.html">Entry</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_entry.js.html">entities/entry.js</a>, <a href="entities_entry.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -614,12 +1722,12 @@ const client = contentful.createClient({
 })
 
 client.getSpace('&lt;space_id>')
-.then((space) => space.getLocale('&lt;locale_id>'))
-.then((locale) => {
-  locale.name = 'New locale name'
-  return locale.update()
+.then((space) => space.getEntry('&lt;entry_id>'))
+.then((entry) => {
+  entry.fields.title['en-US'] = 'New entry title'
+  return entry.update()
 })
-.then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+.then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
 .catch(console.error)</code></pre>
 
 
@@ -652,7 +1760,7 @@ client.getSpace('&lt;space_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="Locale.html">Locale</a>></span>
+<span class="param-type">Promise.&lt;<a href="Entry.html">Entry</a>></span>
 
 
     </dd>

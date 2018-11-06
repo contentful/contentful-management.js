@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/locale.js - Documentation</title>
+    <title>entities/role.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/locale.js</h1>
+    <h1 class="page-title">entities/role.js</h1>
     
 
     
@@ -37,8 +37,8 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Locale instances
- * @namespace Locale
+ * Role instances
+ * @namespace Role
  */
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
@@ -49,26 +49,24 @@ import {
 } from '../instance-actions'
 
 /**
- * @memberof Locale
- * @typedef Locale
+ * See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/roles/create-a-role
+ * @memberof Role
+ * @typedef Role
  * @prop {Meta.Sys} sys - System metadata
  * @prop {string} name
- * @prop {string} code - Locale code (example: en-us)
- * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
- * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
- * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
- * @prop {boolean} default - If this is the default locale
- * @prop {boolean} optional - If the locale needs to be filled in on entries or not
- * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
+ * @prop {object} permissions - Permissions for application sections
+ * @prop {object} policies
+ * @prop {function(): Object} toPlainObject() - Returns this Role as a plain JS object
  */
 
-function createLocaleApi (http) {
+function createRoleApi (http) {
   return {
+
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof Locale
+     * @memberof Role
      * @func update
-     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @return {Promise&lt;Role>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -77,27 +75,23 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => {
-     *   locale.name = 'New locale name'
-     *   return locale.update()
+     * .then((space) => space.getRole('&lt;roles_id>'))
+     * .then((roles) => {
+     *   roles.name = 'New role name'
+     *   return roles.update()
      * })
-     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .then((roles) => console.log(`roles ${roles.sys.id} updated.`))
      * .catch(console.error)
      */
-    update: function () {
-      const locale = this
-      delete locale.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale
-      }).call(locale)
-    },
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'roles',
+      wrapperMethod: wrapRole
+    }),
 
     /**
      * Deletes this object on the server.
-     * @memberof Locale
+     * @memberof Role
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -108,14 +102,14 @@ function createLocaleApi (http) {
      * })
      *
      * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getLocale('&lt;locale_id>'))
-     * .then((locale) => locale.delete())
-     * .then(() => console.log(`locale deleted.`))
+     * .then((space) => space.getRole('&lt;role_id>'))
+     * .then((role) => role.delete())
+     * .then((role) => console.log(`role deleted.`))
      * .catch(console.error)
      */
     delete: createDeleteEntity({
       http: http,
-      entityPath: 'locales'
+      entityPath: 'roles'
     })
   }
 }
@@ -123,26 +117,25 @@ function createLocaleApi (http) {
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale data
- * @return {Locale} Wrapped locale data
+ * @param {Object} data - Raw role data
+ * @return {Role} Wrapped role data
  */
-export function wrapLocale (http, data) {
-  delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+export function wrapRole (http, data) {
+  const role = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(role, createRoleApi(http))
+  return freezeSys(role)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw locale collection data
- * @return {LocaleCollection} Wrapped locale collection data
+ * @param {Object} data - Raw role collection data
+ * @return {RoleCollection} Wrapped role collection data
  */
-export function wrapLocaleCollection (http, data) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+export function wrapRoleCollection (http, data) {
+  const roles = toPlainObject(cloneDeep(data))
+  roles.items = roles.items.map((entity) => wrapRole(http, entity))
+  return freezeSys(roles)
 }
 </code></pre>
         </article>
