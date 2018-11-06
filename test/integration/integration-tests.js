@@ -18,6 +18,8 @@ const params = {
 }
 
 const organization = process.env.CONTENTFUL_ORGANIZATION
+const v2Organization = process.env.CONTENTFUL_V2_ORGANIZATION
+const v2AccessToken = process.env.CONTENTFUL_V2_ACCESS_TOKEN
 
 if (process.env.API_INTEGRATION_TESTS) {
   params.host = '127.0.0.1:5000'
@@ -43,17 +45,16 @@ test('Gets organizations', (t) => {
     })
 })
 
-test.only('Gets usage periods for an org', async (t) => {
-  t.plan(1)
-  let orgId
-  await client.getOrganizations()
-    .then((response) => {
-      orgId = response.items[0].sys.id
-    })
-
-  return client.getUsagePeriods(orgId)
+test('Gets usage periods for an org', async (t) => {
+  t.plan(3)
+  const v2Client = createClient({
+    accessToken: v2AccessToken
+  })
+  return v2Client.getUsagePeriods(v2Organization)
     .then(response => {
       t.ok(response.items.length >= 1, 'organization must have at least one usage period')
+      t.ok(response.items[0].startDate)
+      t.notOk(response.items[0].endDate) // assumes first usage period is current, with enddate = null
     })
 })
 
