@@ -89,7 +89,7 @@ test('Gets usage for spaces', (t) => {
     .then(response => happyResponseAssertions(t, response))
 })
 
-test.only('Fails getting usage without filters[metric]', (t) => {
+test('Fails getting usage without filters[metric]', (t) => {
   t.plan(1)
   t.shouldFail(v2Client.getUsages(v2Organization, 'organization', {
     'filters[metric]': 'null',
