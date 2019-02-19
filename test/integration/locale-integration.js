@@ -8,6 +8,22 @@ export function localeTests (t, space) {
       })
   })
 
+  t.test('Gets locales', (t) => {
+    t.plan(1)
+    return space.createLocale({
+      name: 'English (AU)',
+      code: 'en-AU'
+    })
+      .then(() => space.createLocale({
+        name: 'English (UK)',
+        code: 'en-UK'
+      }))
+      .then(() => space.getLocales({limit: 2}))
+      .then(response => {
+        t.equals(response.items.length, 2, 'returns limited number of locales')
+      })
+  })
+
   t.test('Creates, gets, updates and deletes a locale', (t) => {
     t.plan(4)
     return space.createLocale({

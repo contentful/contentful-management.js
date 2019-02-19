@@ -234,7 +234,7 @@ function waitForEnvironmentToBeReady (space, environment) {
     })
 }
 
-test('Create space with an environment for tests which create, change and delete data', (t) => {
+test.only('Create space with an environment for tests which create, change and delete data', (t) => {
   return client.createSpace({
     name: 'CMA JS SDK tests'
   }, organization)
@@ -268,11 +268,11 @@ test('Create space with an environment for tests which create, change and delete
     })
     .then(({environment, space}) => {
       localeTests(t, environment)
-      contentTypeWriteTests(t, environment)
-      entryWriteTests(t, environment)
-      assetWriteTests(t, environment)
-      uiExtensionTests(t, environment)
-      // test.onFinish(() => environment.delete())
-      test.onFinish(() => space.delete())
+      // contentTypeWriteTests(t, environment)
+      // entryWriteTests(t, environment)
+      // assetWriteTests(t, environment)
+      // uiExtensionTests(t, environment)
+      // // test.onFinish(() => environment.delete())
+      // test.onFinish(() => space.delete())
     })
 })
