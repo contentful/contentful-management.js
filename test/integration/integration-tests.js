@@ -161,7 +161,7 @@ test('Fails to get space', (t) => {
     })
 })
 
-test.only('Creates, updates and deletes a space', (t) => {
+test('Creates, updates and deletes a space', (t) => {
   t.plan(2)
   return client.createSpace({
     name: 'spacename'
