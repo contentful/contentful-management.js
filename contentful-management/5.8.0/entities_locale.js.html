@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentful-management.js - Documentation</title>
+    <title>entities/locale.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentful-management.js</h1>
+    <h1 class="page-title">entities/locale.js</h1>
     
 
     
@@ -37,77 +37,112 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
+ * Locale instances
+ * @namespace Locale
  */
-import axios from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
-import createContentfulApi from './create-contentful-api'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * Create a client instance
- * @func
- * @name createClient
- * @memberof contentfulManagement
- * @param {object} params - Client initialization parameters
- * @prop {string=} params.accessToken - Contentful CDA Access Token
- * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
- * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
- * @prop {string=?} params.host - API host (default: api.contentful.com)
- * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
- * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
- * @prop {object=?} params.headers - Optional additional headers
- * @prop {function=} params.logHandler - A log handler function to process given log messages &amp; errors. Receives the log level (error, warning &amp; info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)
- * @prop {string=?} params.application - Application name and version e.g myApp/version
- * @prop {string=?} params.integration - Integration name and version e.g react/version
- * @prop {number=} params.timeout - Optional number of milliseconds before the request times out. Default is 30000
- * @returns {ContentfulClientAPI.ClientAPI}
- * @example
- * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
- * })
+ * @memberof Locale
+ * @typedef Locale
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {string} name
+ * @prop {string} code - Locale code (example: en-us)
+ * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
+ * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
+ * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
+ * @prop {boolean} default - If this is the default locale
+ * @prop {boolean} optional - If the locale needs to be filled in on entries or not
+ * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
  */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com'
+
+function createLocaleApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Locale
+     * @func update
+     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getLocale('&lt;locale_id>'))
+     * .then((locale) => {
+     *   locale.name = 'New locale name'
+     *   return locale.update()
+     * })
+     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    update: function () {
+      const locale = this
+      delete locale.default // we should not send this back
+      return createUpdateEntity({
+        http: http,
+        entityPath: 'locales',
+        wrapperMethod: wrapLocale
+      }).call(locale)
+    },
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Locale
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getLocale('&lt;locale_id>'))
+     * .then((locale) => locale.delete())
+     * .then(() => console.log(`locale deleted.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'locales'
+    })
   }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
-    params.application,
-    params.integration,
-    params.feature
-  )
+}
 
-  const requiredHeaders = {
-    'Content-Type': 'application/vnd.contentful.management.v1+json',
-    'X-Contentful-User-Agent': userAgentHeader
-  }
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw locale data
+ * @return {Locale} Wrapped locale data
+ */
+export function wrapLocale (http, data) {
+  delete data.internal_code
+  const locale = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(locale, createLocaleApi(http))
+  return freezeSys(locale)
+}
 
-  params = {
-    ...defaultParameters,
-    ...cloneDeep(params)
-  }
-
-  if (!params.accessToken) {
-    throw new TypeError('Expected parameter accessToken')
-  }
-
-  params.headers = {
-    ...params.headers,
-    ...requiredHeaders
-  }
-
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
-
-  return api
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw locale collection data
+ * @return {LocaleCollection} Wrapped locale collection data
+ */
+export function wrapLocaleCollection (http, data) {
+  const locales = toPlainObject(cloneDeep(data))
+  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
+  return freezeSys(locales)
 }
 </code></pre>
         </article>
