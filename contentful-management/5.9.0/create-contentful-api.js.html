@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>contentful-management.js - Documentation</title>
+    <title>create-contentful-api.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">contentful-management.js</h1>
+    <h1 class="page-title">create-contentful-api.js</h1>
     
 
     
@@ -37,78 +37,367 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Management API SDK. Allows you to create instances of a client
- * with access to the Contentful Content Management API.
- * @namespace contentfulManagement
- * @see ContentfulClientAPI
+ * Contentful Management API Client. Contains methods which allow access to
+ * any operations that can be performed with a management token.
+ * @namespace ContentfulClientAPI
  */
-import axios from 'axios'
-import cloneDeep from 'lodash/cloneDeep'
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
-import createContentfulApi from './create-contentful-api'
 
 /**
- * Create a client instance
- * @func
- * @name createClient
- * @memberof contentfulManagement
- * @param {object} params - Client initialization parameters
- * @prop {string=} params.accessToken - Contentful CDA Access Token
- * @prop {boolean=?} params.insecure - Requests will be made over http instead of the default https (default: false)
- * @prop {boolean=?} params.retryOnError - If we should retry on errors and 429 rate limit exceptions (default: true)
- * @prop {string=?} params.host - API host (default: api.contentful.com)
- * @prop {string=?} params.hostUpload - direct file upload host (default : upload.contentful.com)
- * @prop {Object=?} params.httpAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.httpsAgent - Optional Node.js HTTP agent for proxying (see &lt;a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs&lt;/a> and &lt;a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent&lt;/a>)
- * @prop {Object=?} params.proxy - Optional Axios proxy (see &lt;a href="https://github.com/mzabriskie/axios#request-config"> axios docs &lt;/a>)
- * @prop {object=?} params.headers - Optional additional headers
- * @prop {function=} params.logHandler - A log handler function to process given log messages &amp; errors. Receives the log level (error, warning &amp; info) and the actual log data (Error object or string). (The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js)
- * @prop {string=?} params.application - Application name and version e.g myApp/version
- * @prop {string=?} params.integration - Integration name and version e.g react/version
- * @prop {number=} params.timeout - Optional number of milliseconds before the request times out. Default is 30000
- * @prop {number=} params.maxContentLength - Optional maximum content length in bytes (default: 1073741824 i.e. 1GB)
- * @returns {ContentfulClientAPI.ClientAPI}
- * @example
- * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
- * })
+ * Types for meta information found across the different entities in Contentful
+ * @namespace Meta
  */
-export function createClient (params) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com'
+
+/**
+ * System metadata. See &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes&lt;/a> for more details.
+ * @memberof Meta
+ * @typedef Sys
+ * @prop {string} type
+ * @prop {string} id
+ * @prop {Meta.Link} space
+ * @prop {string} createdAt
+ * @prop {string} updatedAt
+ * @prop {number} revision
+ */
+
+/**
+ * Link to another entity. See &lt;a href="https://www.contentful.com/developers/docs/concepts/links/">Links&lt;/a> for more details.
+ * @memberof Meta
+ * @typedef Link
+ * @prop {string} type - type of this entity. Always link.
+ * @prop {string} id
+ * @prop {string} linkType - type of this link. If defined, either Entry or Asset
+ */
+
+/**
+ * @memberof ContentfulClientAPI
+ * @typedef {Object} ClientAPI
+ * @prop {function} getSpace
+ * @prop {function} getSpaces
+ * @prop {function} createSpace
+ * @prop {function} createPersonalAccessToken
+ * @prop {function} getCurrentUser
+ * @prop {function} getPersonalAccessTokens
+ * @prop {function} getPersonalAccessToken
+ * @prop {function} getOrganizations
+ * @prop {function} rawRequest
+ * @prop {function} getUsagePeriods
+ * @prop {function} getUsages
+ */
+
+import { createRequestConfig } from 'contentful-sdk-core'
+import errorHandler from './error-handler'
+import entities from './entities'
+/**
+ * Creates API object with methods to access functionality from Contentful's
+ * Management API
+ * @private
+ * @param {Object} params - API initialization params
+ * @prop {Object} http - HTTP client instance
+ * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
+ * @return {ClientAPI}
+ */
+export default function createClientApi ({ http }) {
+  const {wrapSpace, wrapSpaceCollection} = entities.space
+  const {wrapUser} = entities.user
+  const {wrapPersonalAccessToken, wrapPersonalAccessTokenCollection} = entities.personalAccessToken
+  const {wrapOrganizationCollection} = entities.organization
+  const {wrapUsagePeriodCollection} = entities.usagePeriod
+  const {wrapUsageCollection} = entities.usage
+
+  /**
+   * Gets all spaces
+   * @memberof ContentfulClientAPI
+   * @return {Promise&lt;Space.SpaceCollection>} Promise for a collection of Spaces
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getSpaces()
+   * .then((response) => console.log(response.items))
+   * .catch(console.error)
+   */
+  function getSpaces (query = {}) {
+    return http.get('', createRequestConfig({query: query}))
+      .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
   }
-  const userAgentHeader = getUserAgentHeader(`contentful-management.js/${__VERSION__}`,
-    params.application,
-    params.integration,
-    params.feature
-  )
 
-  const requiredHeaders = {
-    'Content-Type': 'application/vnd.contentful.management.v1+json',
-    'X-Contentful-User-Agent': userAgentHeader
+  /**
+   * Gets a space
+   * @memberof ContentfulClientAPI
+   * @param {string} id - Space ID
+   * @return {Promise&lt;Space.Space>} Promise for a Space
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getSpace('&lt;space_id>')
+   * .then((space) => console.log(space))
+   * .catch(console.error)
+   */
+  function getSpace (id) {
+    return http.get(id)
+      .then((response) => wrapSpace(http, response.data), errorHandler)
   }
 
-  params = {
-    ...defaultParameters,
-    ...cloneDeep(params)
+  /**
+   * Creates a space
+   * @memberof ContentfulClientAPI
+   * @see {Space.Space}
+   * @param {object} data - Object representation of the Space to be created
+   * @param {string=} organizationId - Organization ID, if the associated token can manage more than one organization.
+   * @return {Promise&lt;Space.Space>} Promise for the newly created Space
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.createSpace({
+   *   name: 'Name of new space'
+   * })
+   * .then((space) => console.log(space))
+   * .catch(console.error)
+   */
+  function createSpace (data, organizationId) {
+    return http.post('', data, {
+      headers: organizationId ? {'X-Contentful-Organization': organizationId} : {}
+    })
+      .then((response) => wrapSpace(http, response.data), errorHandler)
   }
 
-  if (!params.accessToken) {
-    throw new TypeError('Expected parameter accessToken')
+  /**
+   * Gets a collection of Organizations
+   * @memberof ContentfulClientAPI
+   * @return {Promise&lt;OrganizationCollection>} Promise for a collection of Organizations
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getOrganizations()
+   * .then(result => console.log(result.items))
+   * .catch(console.error)
+   */
+  function getOrganizations () {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', '/organizations/')
+    return http.get('', {
+      baseURL
+    })
+      .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
   }
 
-  params.headers = {
-    ...params.headers,
-    ...requiredHeaders
+  /**
+   * Gets a collection of usage periods for the organization.
+   * @memberof ContentfulClientAPI
+   * @param {string} organizationId - id of organization
+   * @return {Promise&lt;UsagePeriod.UsagePeriodCollection>} Promise for a collection of usage periods
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getUsagePeriods('&lt;organizationId>')
+   * .then(result => console.log(result.items))
+   * .catch(console.error)
+   */
+  function getUsagePeriods (organizationId) {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${organizationId}/usage_periods`)
+    const headers = {
+      'x-contentful-enable-alpha-feature': 'usage-insights'
+    }
+    return http.get('', {
+      baseURL,
+      headers
+    })
+      .then((response) => wrapUsagePeriodCollection(http, response.data), errorHandler)
   }
 
-  const http = createHttpClient(axios, params)
-  const api = createContentfulApi({
-    http: http
-  })
+  /**
+   * Gets a collection of usages for the organization.
+   * @memberof ContentfulClientAPI
+   * @param {string} organizationId
+   * @param {string} type - either 'organization' or 'space', type of usages to be returned
+   * @param {Object&lt;{filters:{metric: string, usagePeriod: string}, orderBy:{metricUsage: string}}>} query - Object with search params.
+   * 'filters[metric]' is a required field, possible values are one of 'cda', 'cma', 'cpa', 'all_apis'.
+   * 'filters[usagePeriod]' is also required, it's the ID of the usage period.
+   * 'orderBy[metricUsage]' is optional, value can be asc or desc. It orders resources in response's 'items' array by total usage
+   * @return {Promise&lt;Usage.UsageCollection>} Promise for a collection of usage
+   * @example
+   *
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getUsages('&lt;organizationId>', 'space', {
+   *    'filters[metric]': 'cda', // required
+   *    'filters[usagePeriod]': '1234', // required
+   *    'orderBy[metricUsage]': 'asc'
+   * })
+   * .then(result => console.log(result.items))
+   * .catch(console.error)
+   */
+  function getUsages (organizationId, type, query = {}) {
+    if (!(query['filters[metric]'] &amp;&amp; query['filters[usagePeriod]'])) {
+      return Promise.reject(new Error('Missing either filters[metric] or filters[usagePeriod] in usages query.'))
+    }
+    const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${organizationId}/usages/${type}`)
+    const headers = {
+      'x-contentful-enable-alpha-feature': 'usage-insights'
+    }
+    return http.get('', {baseURL, headers, params: createRequestConfig({query}).params})
+      .then((response) => wrapUsageCollection(http, response.data), errorHandler)
+  }
 
-  return api
+  /**
+   * Gets the authenticated user
+   * @memberof ContentfulClientAPI
+   * @return {Promise&lt;User>} Promise for a User
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getCurrentUser()
+   * .then(user => console.log(user.firstName))
+   * .catch(console.error)
+   */
+  function getCurrentUser () {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/')
+    return http.get('', {
+      baseURL
+    })
+      .then((response) => wrapUser(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates a personal access token
+   * @memberof ContentfulClientAPI
+   * @param {Object} data - personal access token config
+   * @return {Promise&lt;User>} Promise for a Token
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.createPersonalAccessToken(
+   *  {
+   *    "name": "My Token",
+   *    "scope": [
+   *      "content_management_manage"
+   *    ]
+   *  }
+   * )
+   * .then(personalAccessToken => console.log(personalAccessToken.token))
+   * .catch(console.error)
+   */
+  function createPersonalAccessToken (data) {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+    return http.post('', data, {
+      baseURL
+    })
+      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a personal access token
+   * @memberof ContentfulClientAPI
+   * @param {Object} data - personal access token config
+   * @return {Promise&lt;User>} Promise for a Token
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getPersonalAccessToken(tokenId)
+   * .then(token => console.log(token.token))
+   * .catch(console.error)
+   */
+  function getPersonalAccessToken (tokenId) {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+    return http.post(tokenId, {
+      baseURL
+    })
+      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets all personal access tokens
+   * @memberof ContentfulClientAPI
+   * @return {Promise&lt;User>} Promise for a Token
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getPersonalAccessTokens()
+   * .then(response => console.log(reponse.items))
+   * .catch(console.error)
+   */
+  function getPersonalAccessTokens () {
+    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+    return http.get('', {
+      baseURL
+    })
+      .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Make a custom request to the Contentful management API's /spaces endpoint
+   * @memberof ContentfulClientAPI
+   * @param {Object} opts - axios request options (https://github.com/mzabriskie/axios)
+   * @return {Promise&lt;Object>} Promise for the response data
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.rawRequest({
+   *   method: 'GET',
+   *   url: '/custom/path'
+   * })
+   * .then((responseData) => console.log(responseData))
+   * .catch(console.error)
+   */
+  function rawRequest (opts) {
+    return http(opts).then((response) => response.data, errorHandler)
+  }
+
+  return {
+    getSpaces: getSpaces,
+    getSpace: getSpace,
+    createSpace: createSpace,
+    getOrganizations: getOrganizations,
+    getCurrentUser: getCurrentUser,
+    createPersonalAccessToken: createPersonalAccessToken,
+    getPersonalAccessToken: getPersonalAccessToken,
+    getPersonalAccessTokens: getPersonalAccessTokens,
+    rawRequest: rawRequest,
+    getUsagePeriods: getUsagePeriods,
+    getUsages: getUsages
+  }
 }
 </code></pre>
         </article>
