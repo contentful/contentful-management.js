@@ -2,6 +2,7 @@ import { Fields } from './fields'
 import { MetaSys, MetaSysProps } from './meta'
 import { DefaultElements } from './defaultElements'
 import { Collection } from './collection'
+import { EditorInterface } from './editorInterface'
 
 export interface ContentTypeProps {
   name: string,
@@ -22,9 +23,7 @@ export interface ContentType
   publish(): Promise<ContentType>,
   unpublish(): Promise<ContentType>,
   update(): Promise<ContentType>,
-
-  // TODO: Handle these one correctly!
-  getEditorInterface(): Promise<any>,
+  getEditorInterface(): Promise<EditorInterface>,
   getSnapshot(id: string): Promise<any>,
   getSnapshots(): Promise<Collection<any>>,
 }

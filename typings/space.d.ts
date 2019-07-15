@@ -2,8 +2,21 @@ import { DefaultElements } from './defaultElements'
 import { MetaSys } from './meta'
 import { ApiKey, CreateApiKeyProps } from './apiKey'
 import { Collection } from './collection'
-import { Environment } from './environment'
-import { Asset } from './asset'
+import { Environment, EnvironmentProps } from './environment'
+import { Asset, AssetProps, AssetFileProp } from './asset'
+import { ContentType, ContentTypeProps } from './contentType'
+import { EntryProp, Entry } from './entry'
+import { LocaleProps, Locale } from './locale'
+import { Role, RoleProps } from './role'
+import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
+import { UIExtension, UIExtensionProps } from './uiExtension'
+import { Upload } from './upload'
+import { Stream } from 'stream'
+import { Search } from './search'
+import { Snapshot } from 'when'
+import { EditorInterface } from './editorInterface'
+import { WebhookProps, WebHooks } from './webhook'
+import { PreviewApiKey } from './previewApiKey'
 
 export interface SpaceProps {
   name: string
@@ -14,9 +27,50 @@ export interface ContentfulSpaceAPI {
   update(): Promise<void>,
   createApiKey(data: CreateApiKeyProps): Promise<ApiKey>,
   createApiKeyWithId(id: string, data: CreateApiKeyProps): Promise<ApiKey>,
-  createAsset(data: Object): Promise<Asset>,
+  createAsset(data: AssetProps): Promise<Asset>,
+  createAssetFromFiles(data: AssetFileProp): Promise<Asset>,
+  createAssetWithId(id: string, data: AssetProps): Promise<Asset>,
+  createContentType(data: ContentTypeProps): Promise<ContentType>,
+  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>,
   getEnvironments(): Promise<Collection<Environment>>,
   getEnvironment(id: string): Promise<Environment>,
+  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>,
+  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>,
+  createEnvironment(data: EnvironmentProps): Promise<Environment>,
+  createEnvironmentWithId(id: string, data: EnvironmentProps): Promise<Environment>,
+  createLocale(data: LocaleProps): Promise<Locale>,
+  createRole(data: RoleProps): Promise<Role>,
+  createRoleWithId(id: string, ata: RoleProps): Promise<Role>,
+  createSpaceMembership(data: SpaceMembershipProps): Promise<SpaceMembership>,
+  createSpaceMembershipWithId(id: string, data: SpaceMembershipProps): Promise<SpaceMembership>,
+  createUiExtension(data: UIExtensionProps): Promise<UIExtension>,
+  createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>,
+  createUpload(data: {
+    file: string | ArrayBuffer | Stream
+  }): Promise<Upload>,
+  getApiKey(id: string): Promise<ApiKey>,
+  getApiKeys(): Promise<Collection<ApiKey>>,
+  getAsset(id: string, query?: Search): Promise<Asset>,
+  getAssets(query?: Search): Promise<Collection<Asset>>,
+  getContentTypes(object?: Search): Promise<Collection<ContentType>>,
+  getContentType(id: string): Promise<ContentType>,
+  getContentTypeSnapshots(contentTypeId: string, query?: Search): Promise<Collection<Snapshot<ContentTypeProps>>>,
+  getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>,
+  getEntry(id: string): Promise<Entry>,
+  getEntries(object?: Search): Promise<Collection<Entry>>,
+  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
+  getLocale(id: string): Promise<Locale>,
+  getLocales(): Promise<Collection<Locale>>,
+  getUiExtension(id: string): Promise<UIExtension>,
+  getUiExtensions(): Promise<Collection<UIExtension>>,
+  getUpload(id: string): Promise<Upload>,
+  createWebhook(data: WebhookProps): Promise<WebHooks>,
+  createWebhookWithId(id:string, data: WebhookProps): Promise<any>,
+  getPreviewApiKey(id: string): Promise<PreviewApiKey>,
+  getPreviewApiKeys(): Promise<Collection<PreviewApiKey>>,
+  getWebhook(id: string): Promise<WebHooks>,
+  getWebhook(): Promise<Collection<WebHooks>>,
+
 }
 
 export interface Space extends SpaceProps, DefaultElements<SpaceProps & MetaSys>, MetaSys, ContentfulSpaceAPI {}

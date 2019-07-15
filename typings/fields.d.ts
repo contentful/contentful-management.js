@@ -1,3 +1,8 @@
 export interface Fields {
-  [key: string]: any,
+  id: string,
+  name: string,
+  required: boolean,
+  localized: boolean,
+  type: string,
+
 }

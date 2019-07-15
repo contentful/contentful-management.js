@@ -1,5 +1,6 @@
 import { MetaSysProps } from './meta'
 import { DefaultElements } from './defaultElements'
+import { Stream } from 'stream'
 
 export interface AssetProps {
   fields: {
@@ -12,6 +13,18 @@ export interface AssetProps {
         upload?: string,
         url?: string,
         details: Object,
+      }
+    }
+  }
+}
+
+export interface AssetFileProp {
+  fields: {
+    title: { [key: string]: string },
+    description: { [key: string]: string },
+    file: {
+      [key: string]: {
+        file: string | ArrayBuffer | Stream
       }
     }
   }
