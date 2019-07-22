@@ -1,11 +1,10 @@
-import { Fields } from './fields'
 import { DefaultElements } from './defaultElements'
 import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
 import { Collection } from './collection'
 
 export interface EntryProp {
   fields: {
-    [key: string]: Fields
+    [key: string]: any
   }
 }
 
@@ -19,7 +18,10 @@ export interface EntrySys extends MetaSysProps {
   publishedCounter?: number,
 }
 
-export interface Entry extends EntryProp, DefaultElements<EntryProp & EntrySys>, MetaSys<EntrySys> {
+export interface Entry
+  extends EntryProp,
+    DefaultElements<EntryProp & EntrySys>,
+    MetaSys<EntrySys> {
   archive(): Promise<Entry>,
   delete(): Promise<void>,
   getSnapshot(id: string): Promise<any>,

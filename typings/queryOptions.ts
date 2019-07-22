@@ -1,4 +1,4 @@
-export interface Search {
+export interface QueryOptions {
   skip?: number,
   limit?: number,
   order?: string,

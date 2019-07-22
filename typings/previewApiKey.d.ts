@@ -1,5 +1,5 @@
-import { MetaSys, MetaSysProps } from './meta';
-import { DefaultElements } from './defaultElements';
+import { MetaSys, MetaSysProps } from './meta'
+import { DefaultElements } from './defaultElements'
 
 export interface PreviewApiKeyProps {
   name: string,

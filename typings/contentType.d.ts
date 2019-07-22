@@ -1,4 +1,4 @@
-import { Fields } from './fields'
+import { ContentFields } from './contentFields'
 import { MetaSys, MetaSysProps } from './meta'
 import { DefaultElements } from './defaultElements'
 import { Collection } from './collection'
@@ -8,7 +8,7 @@ export interface ContentTypeProps {
   name: string,
   description: string,
   displayField: string,
-  fields: Fields[],
+  fields: ContentFields[],
 }
 
 export interface ContentType

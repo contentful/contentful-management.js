@@ -1,4 +1,4 @@
-export interface Fields {
+export interface ContentFields {
   id: string,
   name: string,
   required: boolean,

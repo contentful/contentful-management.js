@@ -12,7 +12,7 @@ import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
 import { UIExtension, UIExtensionProps } from './uiExtension'
 import { Upload } from './upload'
 import { Stream } from 'stream'
-import { Search } from './search'
+import { QueryOptions } from './queryOptions'
 import { Snapshot } from 'when'
 import { EditorInterface } from './editorInterface'
 import { WebhookProps, WebHooks } from './webhook'
@@ -50,14 +50,14 @@ export interface ContentfulSpaceAPI {
   }): Promise<Upload>,
   getApiKey(id: string): Promise<ApiKey>,
   getApiKeys(): Promise<Collection<ApiKey>>,
-  getAsset(id: string, query?: Search): Promise<Asset>,
-  getAssets(query?: Search): Promise<Collection<Asset>>,
-  getContentTypes(object?: Search): Promise<Collection<ContentType>>,
+  getAsset(id: string, query?: QueryOptions): Promise<Asset>,
+  getAssets(query?: QueryOptions): Promise<Collection<Asset>>,
+  getContentTypes(object?: QueryOptions): Promise<Collection<ContentType>>,
   getContentType(id: string): Promise<ContentType>,
-  getContentTypeSnapshots(contentTypeId: string, query?: Search): Promise<Collection<Snapshot<ContentTypeProps>>>,
+  getContentTypeSnapshots(contentTypeId: string, query?: QueryOptions): Promise<Collection<Snapshot<ContentTypeProps>>>,
   getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>,
   getEntry(id: string): Promise<Entry>,
-  getEntries(object?: Search): Promise<Collection<Entry>>,
+  getEntries(object?: QueryOptions): Promise<Collection<Entry>>,
   getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
   getLocale(id: string): Promise<Locale>,
   getLocales(): Promise<Collection<Locale>>,

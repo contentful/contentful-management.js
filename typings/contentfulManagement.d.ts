@@ -7,7 +7,7 @@ import { DefaultElements } from "./defaultElements"
 import { PersonalAccessToken, PersonalAccessTokenProp } from "./personalAccessToken"
 import { Space, SpaceProps } from "./space"
 import { Collection } from "./collection"
-import { Organisation } from "./organisation"
+import { Organization } from "./organization"
 
 export as namespace contentfulManagementStatic
 
@@ -33,7 +33,7 @@ export interface ClientAPI {
   createPersonalAccessToken(data: PersonalAccessTokenProp): Promise<PersonalAccessToken>,
   createSpace(data: SpaceProps, organizationId: string): Promise<Space>,
   getCurrentUser(): Promise<User>,
-  getOrganizations(): Promise<Collection<Organisation>>,
+  getOrganizations(): Promise<Collection<Organization>>,
   getPersonalAccessToken(data: PersonalAccessTokenProp): Promise<void>,
   getPersonalAccessTokens(): Promise<Collection<PersonalAccessToken>>,
   getSpace(id: string): Promise<Space>,

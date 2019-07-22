@@ -1,6 +1,6 @@
 import { DefaultElements } from './defaultElements'
 import { MetaSys, MetaSysProps } from './meta'
-import { Search } from './search'
+import { QueryOptions } from './queryOptions'
 import { Collection } from './collection'
 import { ContentType, ContentTypeProps } from './contentType'
 import { Entry, EntryProp } from './entry'
@@ -34,12 +34,12 @@ export interface Environment extends DefaultElements<EnvironmentProps>, MetaSys<
   }): Promise<Upload>,
   getAsset(id: string, query?: Object): Promise<Asset>,
   getAssets(query?: Object): Promise<Collection<Asset>>,
-  getContentTypes(object?: Search): Promise<Collection<ContentType>>,
+  getContentTypes(object?: QueryOptions): Promise<Collection<ContentType>>,
   getContentType(id: string): Promise<ContentType>,
-  getContentTypeSnapshots(contentTypeId: string, query?: Search): Promise<Collection<Snapshot<ContentTypeProps>>>,
+  getContentTypeSnapshots(contentTypeId: string, query?: QueryOptions): Promise<Collection<Snapshot<ContentTypeProps>>>,
   getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>,
   getEntry(id: string): Promise<Entry>,
-  getEntries(object?: Search): Promise<Collection<Entry>>,
+  getEntries(object?: QueryOptions): Promise<Collection<Entry>>,
   getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
   getLocale(id: string): Promise<Locale>,
   getLocales(): Promise<Collection<Locale>>,
