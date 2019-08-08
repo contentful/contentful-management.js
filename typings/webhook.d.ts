@@ -10,6 +10,12 @@ export interface WebhookProps {
     [key: string]: any
   },
   topics: string[]
+  transformation?: {
+    method?: string,
+    contentType?: string,
+    includeContentLength?: boolean,
+    body?: any
+  }
 }
 
 export interface WebHooks extends WebhookProps, MetaSys<MetaSysProps>, DefaultElements<WebhookProps & MetaSys<MetaSysProps>> {
