@@ -31,8 +31,8 @@ export interface AssetFileProp {
 }
 
 export interface AssetProcessingForLocale {
-  processingCheckWait: number,
-  processingCheckRetries: number
+  processingCheckWait?: number,
+  processingCheckRetries?: number
 }
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps & { sys: { locale: string } & MetaSysProps }> {
@@ -44,8 +44,8 @@ export interface Asset extends AssetProps, DefaultElements<AssetProps & { sys: {
   isPublished(): boolean,
   isUpdated(): boolean,
   isUpdated(): boolean,
-  processForAllLocales(options: AssetProcessingForLocale): Promise<Asset>,
-  processForLocale(locale: string, Options: AssetProcessingForLocale): Promise<Asset>,
+  processForAllLocales(options?: AssetProcessingForLocale): Promise<Asset>,
+  processForLocale(locale: string, Options?: AssetProcessingForLocale): Promise<Asset>,
   publish(): Promise<Asset>,
   unarchive(): Promise<Asset>,
   unpublish(): Promise<Asset>,

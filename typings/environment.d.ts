@@ -8,10 +8,9 @@ import { Locale, CreateLocaleProps } from './locale'
 import { UIExtensionProps, UIExtension } from './uiExtension'
 import { Stream } from 'stream'
 import { Upload } from './upload'
-import { Asset } from './entryFields'
 import { EditorInterface } from './editorInterface'
 import { Snapshot } from './snapshot'
-import { AssetProps, AssetFileProp } from './asset'
+import { Asset, AssetProps, AssetFileProp } from './asset'
 
 export interface EnvironmentProps {
   name: string
