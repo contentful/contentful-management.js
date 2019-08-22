@@ -116,7 +116,7 @@
   "bundlesize": [
     {
       "path": "./dist/contentful-management.browser.js",
-      "maxSize": "65Kb"
+      "maxSize": "71Kb"
     },
     {
       "path": "./dist/contentful-management.browser.min.js",
@@ -124,19 +124,15 @@
     },
     {
       "path": "./dist/contentful-management.legacy.js",
-      "maxSize": "76Kb"
+      "maxSize": "85Kb"
     },
     {
       "path": "./dist/contentful-management.legacy.min.js",
-      "maxSize": "24Kb"
-    },
-    {
-      "path": "./dist/contentful-management.node.js",
-      "maxSize": "72Kb"
+      "maxSize": "25Kb"
     },
     {
       "path": "./dist/contentful-management.node.min.js",
-      "maxSize": "23Kb"
+      "maxSize": "24Kb"
     }
   ]
 }

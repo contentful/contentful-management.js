@@ -190,7 +190,14 @@ test('Gets space for read only tests', (t) => {
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68')
     .then(space => {
-      environmentAliasReadOnlyTests(t, space, waitForEnvironmentToBeReady) // v2 space with alias feature enabled and opted-in
+      test.onFinish(() => {
+        // clean up and re-point alias to starting env
+        space.getEnvironmentAlias('master').then(alias => {
+          alias.environment.sys.id = 'previously-master'
+          return alias.update()
+        })
+      })
+      environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
     })
 })
 

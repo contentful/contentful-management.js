@@ -30,14 +30,6 @@ export function environmentAliasReadOnlyTests (t, space) {
       .then(updatedAlias => {
         t.equals(updatedAlias.sys.id, 'master')
         t.equals(updatedAlias.environment.sys.id, 'feature-13')
-        return updatedAlias
-      })
-      .finally(() => {
-        // clean up by reverting to the old aliased env
-        space.getEnvironmentAlias('master').then(alias => {
-          alias.environment.sys.id = 'previously-master'
-          return alias.update()
-        })
       })
   })
 }
