@@ -1,11 +1,11 @@
 export interface NumRange {
-  min: number
-  max: number
+  min?: number
+  max?: number
 }
 
 export interface DateRange {
-  min: string
-  max: string
+  min?: string
+  max?: string
 }
 
 export interface RegExp {
