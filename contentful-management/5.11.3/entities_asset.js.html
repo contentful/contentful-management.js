@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>entities/asset.js - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createPersonalAccessToken">createPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganizations">getOrganizations</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessToken">getPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessTokens">getPersonalAccessTokens</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getUsagePeriods">getUsagePeriods</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getUsages">getUsages</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="ContentfulEnvironmentAPI.html">ContentfulEnvironmentAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUpload">getUpload</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironment">createEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironmentWithId">createEnvironmentWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironment">getEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironments">getEnvironments</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKey">getPreviewApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKeys">getPreviewApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="ContentType.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.omitAndDeleteField">omitAndDeleteField</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="Environment.html">Environment</a><ul class='methods'><li data-type='method'><a href="Environment.html#.delete">delete</a></li><li data-type='method'><a href="Environment.html#.update">update</a></li></ul></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="PreviewApiKey.html">PreviewApiKey</a></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Usage.html">Usage</a></li><li><a href="UsagePeriod.html">UsagePeriod</a></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">entities/asset.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Asset instances
+ * @namespace Asset
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
+} from '../instance-actions'
+
+const ASSET_PROCESSING_CHECK_WAIT = 2000
+const ASSET_PROCESSING_CHECK_RETRIES = 10
+
+/**
+ * @memberof Asset
+ * @typedef Asset
+ * @prop {Meta.Sys} sys - Standard system metadata with additional asset specific properties
+ * @prop {string=} sys.locale - If present, indicates the locale which this asset uses
+ * @prop {Object} fields - Object with content for each field
+ * @prop {string} fields.title - Title for this asset
+ * @prop {string} fields.description - Description for this asset
+ * @prop {Object} fields.file - File object for this asset
+ * @prop {Object} fields.file.fileName - Name for the file
+ * @prop {string} fields.file.contentType - Mime type for the file
+ * @prop {string=} fields.file.upload - Url where the file is available to be downloaded from, into the Contentful asset system. After the asset is processed this field is gone.
+ * @prop {string=} fields.file.url - Url where the file is available at the Contentful media asset system. This field won't be available until the asset is processed.
+ * @prop {Object} fields.file.details - Details for the file, depending on file type (example: image size in bytes, etc)
+ * @prop {function(): Object} toPlainObject() - Returns this Asset as a plain JS object
+ */
+
+function createAssetApi (http) {
+  function checkIfAssetHasUrl ({
+    resolve,
+    reject,
+    id,
+    locale,
+    processingCheckWait = ASSET_PROCESSING_CHECK_WAIT,
+    processingCheckRetries = ASSET_PROCESSING_CHECK_RETRIES,
+    checkCount = 0
+  }) {
+    http.get('assets/' + id)
+      .then((response) => wrapAsset(http, response.data), errorHandler)
+      .then((asset) => {
+        if (asset.fields.file[locale].url) {
+          resolve(asset)
+        } else if (checkCount === processingCheckRetries) {
+          const error = new Error()
+          error.name = 'AssetProcessingTimeout'
+          error.message = 'Asset is taking longer then expected to process.'
+          reject(error)
+        } else {
+          checkCount++
+          setTimeout(
+            () => checkIfAssetHasUrl({
+              resolve: resolve,
+              reject: reject,
+              id: id,
+              locale: locale,
+              checkCount: checkCount,
+              processingCheckWait,
+              processingCheckRetries
+            }),
+            processingCheckWait
+          )
+        }
+      })
+  }
+
+  function processForLocale (locale, {processingCheckWait, processingCheckRetries} = {}) {
+    const assetId = this.sys.id
+    return http.put('assets/' + this.sys.id + '/files/' + locale + '/process', null, {
+      headers: {
+        'X-Contentful-Version': this.sys.version
+      }
+    })
+      .then(() => {
+        return new Promise(
+          (resolve, reject) => checkIfAssetHasUrl({
+            resolve: resolve,
+            reject: reject,
+            id: assetId,
+            locale: locale,
+            processingCheckWait: processingCheckWait,
+            processingCheckRetries: processingCheckRetries
+          })
+        )
+      }, errorHandler)
+  }
+
+  function processForAllLocales (options = {}) {
+    const self = this
+    const locales = Object.keys(this.fields.file || {})
+    return Promise.all(locales.map((locale) => processForLocale.call(self, locale, options)))
+      .then((assets) => assets[0])
+  }
+
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Asset
+     * @func update
+     * @return {Promise&lt;Asset>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => {
+     *   asset.fields.title['en-US'] = 'New asset title'
+     *   return asset.update()
+     * })
+     * .then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
+     * .catch(console.error)
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Asset
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.delete())
+     * .then((asset) => console.log(`Asset deleted.`)
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'assets'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Asset
+     * @func publish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.publish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} published.`)
+     * .catch(console.error)
+   */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Asset
+     * @func unpublish
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unpublish())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
+     * .catch(console.error)
+   */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Asset
+     * @func archive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.archive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
+     * .catch(console.error)
+    */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Asset
+     * @func unarchive
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAsset('&lt;asset_id>'))
+     * .then((asset) => asset.unarchive())
+     * .then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
+     * .catch(console.error)
+    */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'assets',
+      wrapperMethod: wrapAsset
+    }),
+
+    /**
+     * Triggers asset processing after an upload, for the file uploaded to a specific locale.
+     * @memberof Asset
+     * @func processForLocale
+     * @param {string} locale - Locale which processing should be triggered for
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForLocale('en-US'))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForLocale: processForLocale,
+
+    /**
+     * Triggers asset processing after an upload, for the files uploaded to all locales of an asset.
+     * @memberof Asset
+     * @func processForAllLocales
+     * @param {object} options - Additional options for processing
+     * @prop {number} options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
+     * @prop {number} options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
+     * @return {Promise&lt;Asset>} Object returned from the server with updated metadata.
+     * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.createAssetWithId('&lt;asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner',
+     *     'de-DE': 'Playsam Streamliner'
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     },
+     *     'de-DE': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example-de.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.processForAllLocales())
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     */
+    processForAllLocales: processForAllLocales,
+
+    /**
+     * Checks if the asset is published. A published asset might have unpublished changes (@see {Asset.isUpdated})
+     * @memberof Asset
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the asset is updated. This means the asset was previously published but has unpublished changes.
+     * @memberof Asset
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the asset is in draft mode. This means it is not published.
+     * @memberof Asset
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if asset is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Asset
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset data
+ * @return {Asset} Wrapped asset data
+ */
+export function wrapAsset (http, data) {
+  const asset = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(asset)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw asset collection data
+ * @return {AssetCollection} Wrapped asset collection data
+ */
+export function wrapAssetCollection (http, data) {
+  const assets = toPlainObject(cloneDeep(data))
+  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
+  return freezeSys(assets)
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
