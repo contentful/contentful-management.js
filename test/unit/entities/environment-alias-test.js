@@ -31,9 +31,6 @@ test('Environment alias collection is wrapped', (t) => {
 test('Environment alias update', (t) => {
   return entityUpdateTest(t, setup, {
     wrapperMethod: wrapEnvironmentAlias
-  }).then(({httpMock}) => {
-    t.plan(4) // the 3 from entityUpdateTest + one more assertion in .then()
-    t.equals(httpMock.put.args[0][2].headers['x-contentful-enable-alpha-feature'], 'environment-aliasing', 'alpha header is sent')
   })
 })
 
