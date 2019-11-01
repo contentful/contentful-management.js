@@ -2,10 +2,10 @@ import { DefaultElements } from './defaultElements'
 import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
 import { Collection } from './collection'
 
-export interface EntryProp<TFields = any> {
-  fields: {
-    [key: string]: any
-  } & TFields
+export interface EntryProp<TFields = {
+  [key: string]: any
+}> {
+  fields: TFields
 }
 
 export interface EntrySys extends MetaSysProps {
@@ -22,7 +22,7 @@ export interface Entry<TEntryFields = any>
   extends EntryProp<TEntryFields>,
     DefaultElements<EntryProp & EntrySys>,
     MetaSys<EntrySys> {
-  archive<TFieldType = any>(): Promise<Entry<TFieldType>>,
+  archive<TFieldType = {}>(): Promise<Entry<TFieldType>>,
   delete(): Promise<void>,
   getSnapshot(id: string): Promise<any>,
   getSnapshots(): Promise<Collection<any>>,
@@ -30,8 +30,8 @@ export interface Entry<TEntryFields = any>
   isDraft(): boolean,
   isPublished(): boolean,
   isUpdated(): boolean,
-  publish<TFieldType = any>(): Promise<Entry<TFieldType>>,
-  unarchive<TFieldType = any>(): Promise<Entry<TFieldType>>,
-  unpublish<TFieldType = any>(): Promise<Entry<TFieldType>>,
-  update<TFieldType = any>(): Promise<Entry<TFieldType>>,
+  publish<TFieldType = {}>(): Promise<Entry<TFieldType>>,
+  unarchive<TFieldType = {}>(): Promise<Entry<TFieldType>>,
+  unpublish<TFieldType = {}>(): Promise<Entry<TFieldType>>,
+  update<TFieldType = {}>(): Promise<Entry<TFieldType>>,
 }
