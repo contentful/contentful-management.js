@@ -3,7 +3,7 @@ import { MetaSys, MetaSysProps } from './meta'
 import { QueryOptions } from './queryOptions'
 import { Collection } from './collection'
 import { ContentType, ContentTypeProps } from './contentType'
-import { Entry, EntryProp } from './entry'
+import { Entry, EntryProp, KeyValueMap } from './entry'
 import { Locale, CreateLocaleProps } from './locale'
 import { UIExtensionProps, UIExtension } from './uiExtension'
 import { Stream } from 'stream'
@@ -37,8 +37,8 @@ export interface Environment extends DefaultElements<EnvironmentProps>, MetaSys<
   getContentType(id: string): Promise<ContentType>,
   getContentTypeSnapshots(contentTypeId: string, query?: QueryOptions): Promise<Collection<Snapshot<ContentTypeProps>>>,
   getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>,
-  getEntry<TFieldType = any>(id: string): Promise<Entry<TFieldType>>,
-  getEntries<TFieldType = any>(object?: QueryOptions): Promise<Collection<Entry<TFieldType>>>,
+  getEntry<TFieldType = KeyValueMap>(id: string): Promise<Entry<TFieldType>>,
+  getEntries<TFieldType = KeyValueMap>(object?: QueryOptions): Promise<Collection<Entry<TFieldType>>>,
   getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
   getLocale(id: string): Promise<Locale>,
   getLocales(): Promise<Collection<Locale>>,

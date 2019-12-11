@@ -2,11 +2,11 @@ import { DefaultElements } from './defaultElements'
 import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
 import { Collection } from './collection'
 
-export interface EntryProp<TFields> {
+type KeyValueMap = Record<string, any>;
+export interface EntryProp<TFields = KeyValueMap> {
   fields: TFields
 }
 
-type KeyValueMap = Record<string, any>;
 
 export interface EntrySys extends MetaSysProps {
   contentType: { sys: MetaLinkProps },
@@ -22,7 +22,7 @@ export interface Entry<TEntryFields = KeyValueMap>
   extends EntryProp<TEntryFields>,
   DefaultElements<EntryProp<TEntryFields> & EntrySys>,
       MetaSys<EntrySys> {
-  archive<TFieldType>(): Promise<Entry<TFieldType>>,
+  archive<TEntryField>(): Promise<Entry<TEntryField>>,
   delete(): Promise<void>,
   getSnapshot(id: string): Promise<any>,
   getSnapshots(): Promise<Collection<any>>,
@@ -30,8 +30,8 @@ export interface Entry<TEntryFields = KeyValueMap>
   isDraft(): boolean,
   isPublished(): boolean,
   isUpdated(): boolean,
-  publish<TFieldType>(): Promise<Entry<TFieldType>>,
-  unarchive<TFieldType>(): Promise<Entry<TFieldType>>,
-  unpublish<TFieldType>(): Promise<Entry<TFieldType>>,
-  update<TFieldType>(): Promise<Entry<TFieldType>>,
+  publish<TEntryField>(): Promise<Entry<TEntryField>>,
+  unarchive<TEntryField>(): Promise<Entry<TEntryField>>,
+  unpublish<TEntryField>(): Promise<Entry<TEntryField>>,
+  update<TEntryField>(): Promise<Entry<TEntryField>>,
 }
