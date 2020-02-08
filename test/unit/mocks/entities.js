@@ -352,6 +352,9 @@ function setupEntitiesMock (rewiredModuleApi) {
     usage: {
       wrapUsageCollection: sinon.stub()
     },
+    periodicUsage: {
+      wrapPeriodicUsageCollection: sinon.stub()
+    },
     environmentAlias: {
       wrapEnvironmentAlias: sinon.stub(),
       wrapEnvironmentAliasCollection: sinon.stub()

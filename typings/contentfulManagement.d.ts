@@ -8,8 +8,9 @@ import { PersonalAccessToken, PersonalAccessTokenProp } from "./personalAccessTo
 import { Space, SpaceProps } from "./space"
 import { Collection } from "./collection"
 import { Organization } from "./organization"
-import { UsagePeriod } from "./usagePeriod";
-import { Usage } from "./usage";
+import { UsagePeriod } from "./usagePeriod"
+import * as Usage from "./usage"
+import * as PeriodicUsage from "./periodicUsage"
 
 export as namespace contentfulManagementStatic
 
@@ -31,11 +32,9 @@ export interface ClientParams {
   timeout?: number,
 }
 
-export interface UsageFilter {filters: {metric: 'cda' | 'cma' | 'cpa' | 'all_apis', usagePeriod: string}, orderBy?: {metricUsage?: string}}
-
 export interface getSpacesParams {
   limit?: number,
-  skip?: number  
+  skip?: number
 }
 
 export interface ClientAPI {
@@ -46,8 +45,20 @@ export interface ClientAPI {
   getPersonalAccessToken(data: PersonalAccessTokenProp): Promise<void>,
   getPersonalAccessTokens(): Promise<Collection<PersonalAccessToken>>,
   getSpace(id: string): Promise<Space>,
-  getSpaces(params?: getSpacesParams): Promise<Collection<Space>>
-  getUsagePeriods(organizationId: string): Promise<Collection<UsagePeriod>>
-  getUsages(organizationId: string, type: 'organization' | 'space', query: UsageFilter): Promise<Collection<Usage>>
-  rawRequest(Opts: AxiosRequestConfig): Promise<AxiosResponse>
+  getSpaces(params?: getSpacesParams): Promise<Collection<Space>>,
+  getUsagePeriods(organizationId: string): Promise<Collection<UsagePeriod>>,
+  getUsages(
+    organizationId: string,
+    type: "organization" | "space",
+    query: Usage.UsageFilter
+  ): Promise<Collection<Usage.Usage>>,
+  getOrganizationPeriodicUsages(
+    organizationId: string,
+    query: PeriodicUsage.PeriodicUsageQuery
+  ): Promise<Collection<PeriodicUsage.PeriodicUsage>>,
+  getSpacePeriodicUsages(
+    organizationId: string,
+    query: PeriodicUsage.PeriodicUsageQuery
+  ): Promise<Collection<PeriodicUsage.PeriodicUsage>>,
+  rawRequest(Opts: AxiosRequestConfig): Promise<AxiosResponse>,
 }
