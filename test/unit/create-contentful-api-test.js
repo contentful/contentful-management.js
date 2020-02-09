@@ -1,7 +1,16 @@
 import test from 'blue-tape'
 import sinon from 'sinon'
 
-import {spaceMock, setupEntitiesMock, organizationMock, userMock, personalAccessTokenMock, usagePeriodMock} from './mocks/entities'
+import {
+  spaceMock,
+  setupEntitiesMock,
+  organizationMock,
+  userMock,
+  personalAccessTokenMock,
+  usagePeriodMock,
+  organizationPeriodicUsageMock,
+  spacePeriodicUsageMock
+} from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import createContentfulApi, {__RewireAPI__ as createContentfulApiRewireApi} from '../../lib/create-contentful-api'
 import {makeGetEntityTest, makeGetCollectionTest, makeEntityMethodFailingTest} from './test-creators/static-entity-methods'
@@ -90,7 +99,6 @@ test('API call getOrganizations fails', (t) => {
 })
 
 // Usage Periods tests
-
 test('API call getUsagePeriods', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'usagePeriod',
@@ -102,6 +110,36 @@ test('API call getUsagePeriods', (t) => {
 test('API call getUsagePeriods fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getUsagePeriods'
+  })
+})
+
+// Organization periodic usage tests
+test('API call getOrganizationPeriodicUsages', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'periodicUsage',
+    mockToReturn: organizationPeriodicUsageMock,
+    methodToTest: 'getOrganizationPeriodicUsages'
+  })
+})
+
+test('API call getOrganizationPeriodicUsages fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getOrganizationPeriodicUsages'
+  })
+})
+
+// Space periodic usage tests
+test('API call getSpacePeriodicUsages', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'periodicUsage',
+    mockToReturn: spacePeriodicUsageMock,
+    methodToTest: 'getSpacePeriodicUsages'
+  })
+})
+
+test('API call getSpacePeriodicUsages fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getSpacePeriodicUsages'
   })
 })
 

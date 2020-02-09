@@ -213,6 +213,18 @@ const usageMock = {
   })
 }
 
+const organizationPeriodicUsageMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'OrganizationPeriodicUsage'
+  })
+}
+
+const spacePeriodicUsageMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'SpacePeriodicUsage'
+  })
+}
+
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension'
@@ -260,6 +272,8 @@ const mocks = {
   personalAccessToken: personalAccessTokenMock,
   usagePeriod: usagePeriodMock,
   usage: usageMock,
+  organizationPeriodicUsageMock: organizationPeriodicUsageMock,
+  spacePeriodicUsageMock: spacePeriodicUsageMock,
   environmentAlias: environmentAliasMock
 }
 
