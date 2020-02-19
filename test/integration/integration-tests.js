@@ -294,7 +294,7 @@ test('Create space with an environment for tests which create, change and delete
 })
 
 test('Logs request and response with custom loggers', (t) => {
-  t.plan(3)
+  t.plan(4)
   const responseLoggerStub = sinon.stub()
   const requestLoggerStub = sinon.stub()
 
@@ -308,6 +308,8 @@ test('Logs request and response with custom loggers', (t) => {
       t.equal(responseLoggerStub.callCount, 1, 'responseLogger is called')
       t.equal(requestLoggerStub.callCount, 1, 'requestLogger is called')
       const {baseURL, url} = requestLoggerStub.args[0][0]
-      t.equal(`${baseURL}${url}`, 'https://api.contentful.com:443/spaces/ezs1swce23xe', 'requestLogger is called with correct url')
+      // Axios v0.19.2 changed the url report format
+      t.equal(baseURL, 'https://api.contentful.com:443/spaces/', 'requestLogger is called with correct baseUrl')
+      t.equal(url, 'https://api.contentful.com:443/spaces/ezs1swce23xe', 'requestLogger is called with correct url')
     })
 })

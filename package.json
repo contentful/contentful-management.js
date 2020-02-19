@@ -55,7 +55,7 @@
     "typings"
   ],
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.2",
     "contentful-sdk-core": "^6.4.0",
     "lodash": "^4.17.11"
   },
