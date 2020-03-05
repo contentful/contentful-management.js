@@ -2,7 +2,6 @@ import test from 'blue-tape'
 
 import { toPlainObject } from 'contentful-sdk-core'
 import createSpaceApi, {__RewireAPI__ as createSpaceApiRewireApi} from '../../lib/create-space-api'
-import cloneDeep from 'lodash/cloneDeep'
 import {
   contentTypeMock,
   editorInterfaceMock,
@@ -27,7 +26,8 @@ import {
   makeGetCollectionTest,
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
-  makeEntityMethodFailingTest
+  makeEntityMethodFailingTest,
+  testGettingEntrySDKObject
 } from './test-creators/static-entity-methods'
 import { wrapEntry } from '../../lib/entities/entry'
 import { wrapAsset } from '../../lib/entities/asset'
@@ -191,21 +191,15 @@ test('API call getEntry', (t) => {
 })
 
 test('GetSDKEntry from data', (t) => {
-  teardown()
-  let {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
-  const entryData = cloneDeep(entryMock)
-  entitiesMock.entry.wrapEntry.returns(wrapEntry(entryData, httpMock))
   const expectedFunctions = ['toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive', 'isPublished', 'isUpdated', 'isDraft', 'isArchived']
-  expectedFunctions.forEach(funcName => {
-    t.notEqual(typeof entryData[funcName], 'function')
+  testGettingEntrySDKObject(t, setup, {
+    type: 'entry',
+    wrapFunctionName: 'wrapEntry',
+    resourceMock: entryMock,
+    wrapFunction: wrapEntry,
+    expectedFunctions: expectedFunctions,
+    getResourceFromDataFunctionName: 'getEntryFromData'
   })
-
-  const sdkEntry = api.getEntryFromData(entryData)
-  t.ok(sdkEntry)
-  expectedFunctions.forEach(funcName => {
-    t.equal(typeof sdkEntry[funcName], 'function')
-  })
-  t.end()
 })
 
 test('API call getEntry fails', (t) => {
@@ -280,22 +274,15 @@ test('API call getAsset', (t) => {
 })
 
 test('GetSDKAsset from data', (t) => {
-  teardown()
-  let {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
-  const assetData = cloneDeep(assetMock)
-  entitiesMock.asset.wrapAsset.returns(wrapAsset(httpMock, assetData))
   const expectedFunctions = ['processForLocale', 'processForAllLocales', 'toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive']
-  expectedFunctions.forEach(funcName => {
-    t.notEqual(typeof assetData[funcName], 'function')
+  testGettingEntrySDKObject(t, setup, {
+    type: 'asset',
+    wrapFunctionName: 'wrapAsset',
+    resourceMock: assetMock,
+    wrapFunction: wrapAsset,
+    expectedFunctions: expectedFunctions,
+    getResourceFromDataFunctionName: 'getAssetFromData'
   })
-
-  const sdkEntry = api.getAssetFromData(assetData)
-
-  t.ok(sdkEntry)
-  expectedFunctions.forEach(funcName => {
-    t.equal(typeof sdkEntry[funcName], 'function')
-  })
-  t.end()
 })
 
 test('API call getAsset fails', (t) => {
