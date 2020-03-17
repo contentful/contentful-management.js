@@ -8,6 +8,7 @@ import {assetReadOnlyTests, assetWriteTests} from './asset-integration'
 import webhookTests from './webhook-integration'
 import spaceMembershipTests from './space-membership-integration'
 import roleTests from './role-integration'
+import userTests from './user-integration'
 import apiKeyTests from './api-key-integration'
 import uiExtensionTests from './ui-extension-integration'
 import generateRandomId from './generate-random-id'
@@ -223,6 +224,7 @@ test('Create space for tests which create, change and delete data', (t) => {
         webhookTests(t, space),
         spaceMembershipTests(t, space),
         roleTests(t, space),
+        userTests(t, space),
         apiKeyTests(t, space),
         uiExtensionTests(t, space),
         environmentTests(t, space, waitForEnvironmentToBeReady),
