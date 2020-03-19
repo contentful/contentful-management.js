@@ -192,6 +192,7 @@ test('Gets v2 space for read only tests', (t) => {
         })
       })
       environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
+      userTests(t, space)
     })
 })
 
@@ -224,7 +225,6 @@ test('Create space for tests which create, change and delete data', (t) => {
         webhookTests(t, space),
         spaceMembershipTests(t, space),
         roleTests(t, space),
-        userTests(t, space),
         apiKeyTests(t, space),
         uiExtensionTests(t, space),
         environmentTests(t, space, waitForEnvironmentToBeReady),
