@@ -326,6 +326,7 @@ function setupEntitiesMock (rewiredModuleApi) {
       wrapSnapshotCollection: sinon.stub()
     },
     organization: {
+      wrapOrganization: sinon.stub(),
       wrapOrganizationCollection: sinon.stub()
     },
     uiExtension: {

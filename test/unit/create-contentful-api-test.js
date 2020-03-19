@@ -81,7 +81,21 @@ test('API call createSpace fails', (t) => {
   })
 })
 
-// org tests
+// Organization tests
+test('API call getOrganization', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'organization',
+    mockToReturn: organizationMock,
+    methodToTest: 'getOrganization'
+  })
+})
+
+test('API call getOrganization fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getOrganization'
+  })
+})
+
 test('API call getOrganizations', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'organization',
