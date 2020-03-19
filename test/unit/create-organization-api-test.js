@@ -1,6 +1,5 @@
 import test from 'blue-tape'
 
-// import { toPlainObject } from 'contentful-sdk-core'
 import createOrganizationApi, {__RewireAPI__ as createOrganizationApiRewireApi} from '../../lib/create-organization-api'
 import {
   organizationMembershipMock,
