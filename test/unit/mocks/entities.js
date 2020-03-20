@@ -198,7 +198,8 @@ const previewApiKeyMock = {
 const organizationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Organization'
-  })
+  }),
+  name: 'name'
 }
 
 const usageMock = {
