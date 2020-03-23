@@ -351,6 +351,10 @@ function setupEntitiesMock (rewiredModuleApi) {
       wrapUiExtension: sinon.stub(),
       wrapUiExtensionCollection: sinon.stub()
     },
+    appInstallation: {
+      wrapAppInstallation: sinon.stub(),
+      wrapAppInstallationCollection: sinon.stub()
+    },
     user: {
       wrapUser: sinon.stub()
     },
