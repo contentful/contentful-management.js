@@ -10,10 +10,10 @@ export default function organizationMembershipTests (t, organization) {
 
   t.test('Gets organizationMembership', (t) => {
     t.plan(3)
-    return organization.getOrganizationMembership('0U1TTDC1ve5uNbgh93Wl7l')
+    return organization.getOrganizationMembership('3ugleZJgHKk89I1P5MSDuY')
       .then((response) => {
         t.ok(response.sys, 'sys')
-        t.ok(response.sys.id, '0U1TTDC1ve5uNbgh93Wl7l')
+        t.ok(response.sys.id, '3ugleZJgHKk89I1P5MSDuY')
         t.ok(response.sys.type, 'OrganizationMembership')
       })
   })

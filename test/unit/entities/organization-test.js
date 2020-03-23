@@ -1,6 +1,7 @@
 import test from 'blue-tape'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
+
 import { wrapOrganization, wrapOrganizationCollection } from '../../../lib/entities/organization'
 import {
   entityCollectionWrappedTest,

@@ -7,8 +7,7 @@ import {
   entityCollectionWrappedTest,
   entityUpdateTest,
   entityDeleteTest,
-  failingActionTest,
-  failingVersionActionTest
+  failingActionTest
 } from '../test-creators/instance-entity-methods'
 
 function setup (promise) {
@@ -37,7 +36,7 @@ test('OrganizationMembership update', (t) => {
 })
 
 test('OrganizationMembership update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
+  return failingActionTest(t, setup, {
     wrapperMethod: wrapOrganizationMembership,
     actionMethod: 'update'
   })
