@@ -289,6 +289,10 @@ function mockCollection (entityMock) {
 
 function setupEntitiesMock (rewiredModuleApi) {
   const entitiesMock = {
+    appDefinition: {
+      wrapAppDefinition: sinon.stub(),
+      wrapAppDefinitionCollection: sinon.stub()
+    },
     space: {
       wrapSpace: sinon.stub(),
       wrapSpaceCollection: sinon.stub()
