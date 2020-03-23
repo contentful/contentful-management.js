@@ -26,11 +26,8 @@ import {
   makeGetCollectionTest,
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
-  makeEntityMethodFailingTest,
-  testGettingEntrySDKObject
+  makeEntityMethodFailingTest
 } from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
 
 function setup (promise) {
   const entitiesMock = setupEntitiesMock(createSpaceApiRewireApi)
@@ -190,18 +187,6 @@ test('API call getEntry', (t) => {
   })
 })
 
-test('GetSDKEntry from data', (t) => {
-  const expectedFunctions = ['toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive', 'isPublished', 'isUpdated', 'isDraft', 'isArchived']
-  testGettingEntrySDKObject(t, setup, {
-    type: 'entry',
-    wrapFunctionName: 'wrapEntry',
-    resourceMock: entryMock,
-    wrapFunction: wrapEntry,
-    expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getEntryFromData'
-  })
-})
-
 test('API call getEntry fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getEntry'
@@ -270,18 +255,6 @@ test('API call getAsset', (t) => {
     entityType: 'asset',
     mockToReturn: assetMock,
     methodToTest: 'getAsset'
-  })
-})
-
-test('GetSDKAsset from data', (t) => {
-  const expectedFunctions = ['processForLocale', 'processForAllLocales', 'toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive']
-  testGettingEntrySDKObject(t, setup, {
-    type: 'asset',
-    wrapFunctionName: 'wrapAsset',
-    resourceMock: assetMock,
-    wrapFunction: wrapAsset,
-    expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getAssetFromData'
   })
 })
 
