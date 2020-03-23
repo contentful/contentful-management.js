@@ -83,7 +83,9 @@ test('API call createSpace fails', (t) => {
 
 // Organization tests
 test('API call getOrganization', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
+  const organizationMock2 = Object.assign({}, organizationMock, {sys: {id: 'eid'}})
+  const getOrganizationSetup = () => setup(Promise.resolve({data: {items: [organizationMock, organizationMock2]}}))
+  makeGetEntityTest(t, getOrganizationSetup, teardown, {
     entityType: 'organization',
     mockToReturn: organizationMock,
     methodToTest: 'getOrganization'
