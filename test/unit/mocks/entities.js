@@ -214,6 +214,18 @@ const uiExtensionMock = {
   })
 }
 
+const appInstallationMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppInstallation',
+    id: '<app_definition_id>',
+    appDefinition: {
+      sys: {
+        id: '<app_definition_id>'
+      }
+    }
+  })
+}
+
 const environmentAliasMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EnvironmentAlias'
@@ -251,6 +263,7 @@ const mocks = {
   upload: uploadMock,
   organization: organizationMock,
   uiExtension: uiExtensionMock,
+  appInstallation: appInstallationMock,
   user: userMock,
   personalAccessToken: personalAccessTokenMock,
   usage: usageMock,
