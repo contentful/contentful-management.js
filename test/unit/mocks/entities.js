@@ -56,6 +56,23 @@ const personalAccessTokenMock = {
   ]
 }
 
+const appDefinitionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppDefinition'
+  }),
+  name: 'AI Image Tagging',
+  src: 'https://ai-image-tagging.app-host.com/frontend/',
+  locations: [
+    {
+      location: 'app-config'
+    },
+    {
+      location: 'entry-field',
+      fieldTypes: [{ type: 'Symbol' }]
+    }
+  ]
+}
+
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType'
@@ -285,6 +302,10 @@ function mockCollection (entityMock) {
 
 function setupEntitiesMock (rewiredModuleApi) {
   const entitiesMock = {
+    appDefinition: {
+      wrapAppDefinition: sinon.stub(),
+      wrapAppDefinitionCollection: sinon.stub()
+    },
     space: {
       wrapSpace: sinon.stub(),
       wrapSpaceCollection: sinon.stub()
@@ -372,6 +393,7 @@ function setupEntitiesMock (rewiredModuleApi) {
 }
 
 export {
+  appDefinitionMock,
   linkMock,
   sysMock,
   spaceMock,
