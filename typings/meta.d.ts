@@ -1,6 +1,7 @@
 export interface MetaSysProps {
   type: string,
   id: string,
+  appDefinition?: { sys: MetaLinkProps }
   space?: { sys: MetaLinkProps },
   status?: { sys: MetaLinkProps },
   version: number,
