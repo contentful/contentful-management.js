@@ -11,6 +11,7 @@ import { Upload } from './upload'
 import { EditorInterface } from './editorInterface'
 import { Snapshot } from './snapshot'
 import { Asset, AssetProps, AssetFileProp } from './asset'
+import { AppInstallation } from './appInstallation'
 
 export interface EnvironmentProps {
   name: string
@@ -44,5 +45,7 @@ export interface Environment extends DefaultElements<EnvironmentProps>, MetaSys<
   getLocales(): Promise<Collection<Locale>>,
   getUiExtension(id: string): Promise<UIExtension>,
   getUiExtensions(): Promise<Collection<UIExtension>>,
+  getAppInstallation(id: string): Promise<AppInstallation>,
+  getAppInstallations(): Promise<Collection<AppInstallation>>,
   getUpload(id: string): Promise<Upload>
 }
