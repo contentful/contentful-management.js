@@ -234,7 +234,6 @@ const uiExtensionMock = {
 const appInstallationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppInstallation',
-    id: '<app_definition_id>',
     appDefinition: {
       sys: {
         id: '<app_definition_id>'

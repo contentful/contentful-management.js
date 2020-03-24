@@ -8,8 +8,7 @@ import {
   entityCollectionWrappedTest,
   entityUpdateTest,
   entityDeleteTest,
-  failingActionTest,
-  failingVersionActionTest
+  failingActionTest
 } from '../test-creators/instance-entity-methods'
 
 function setup (promise) {
@@ -38,10 +37,21 @@ test('AppInstallation update', (t) => {
 })
 
 test('AppInstallation update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapAppInstallation,
-    actionMethod: 'update'
-  })
+  /**
+   * Test needs to be inlined here because error object shape does not match
+   * the current test pattern
+   */
+  t.plan(2)
+  const error = cloneMock('error')
+  const { httpMock, entityMock } = setup(Promise.reject(error))
+  entityMock.sys.version = 2
+  const entity = wrapAppInstallation(httpMock, entityMock)
+
+  return entity['update']()
+    .catch((r) => {
+      t.equals(r.response.status, 404)
+      t.equals(r.response.statusText, 'Not Found')
+    })
 })
 
 test('AppInstallation delete', (t) => {
