@@ -6,6 +6,7 @@ import {contentTypeReadOnlyTests, contentTypeWriteTests} from './content-type-in
 import {entryReadOnlyTests, entryWriteTests} from './entry-integration'
 import {assetReadOnlyTests, assetWriteTests} from './asset-integration'
 import webhookTests from './webhook-integration'
+import spaceMembersTests from './space-members-integration'
 import spaceMembershipTests from './space-membership-integration'
 import roleTests from './role-integration'
 import userTests from './user-integration'
@@ -191,8 +192,9 @@ test('Gets v2 space for read only tests', (t) => {
           return alias.update()
         })
       })
-      environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
       userTests(t, space)
+      spaceMembersTests(t, space)
+      environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
     })
 })
 
