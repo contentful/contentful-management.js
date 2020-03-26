@@ -181,6 +181,13 @@ test('Gets space for read only tests', (t) => {
       assetReadOnlyTests(t, space)
     })
 })
+test('Gets v2 space for read only tests', (t) => {
+  return v2Client.getSpace('w6xueg32zr68')
+    .then(space => {
+      userTests(t, space)
+      spaceMembersTests(t, space)
+    })
+})
 
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68')
