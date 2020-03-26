@@ -2,7 +2,6 @@ import test from 'blue-tape'
 import sinon from 'sinon'
 import {organizationMock, mockCollection} from '../mocks/entities'
 import {wrapOrganization, wrapOrganizationCollection, __RewireAPI__ as organizationRewireApi} from '../../../lib/entities/organization'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods'
 
 const httpMock = {
   defaults: {
@@ -21,9 +20,12 @@ function teardown () {
 }
 
 test('Organization is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapOrganization
-  })
+  setup()
+  const wrappedOrg = wrapOrganization(httpMock, organizationMock)
+  t.looseEqual(wrappedOrg.toPlainObject(), organizationMock)
+  t.equal(httpMock.cloneWithNewParams.args[0][0].baseURL, 'http://foo.bar/organizations/id/', 'adjust the baseURL to match organizations')
+  teardown()
+  t.end()
 })
 
 test('Organization collection is wrapped', (t) => {
