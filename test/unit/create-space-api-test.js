@@ -14,6 +14,7 @@ import {
   spaceMembershipMock,
   roleMock,
   apiKeyMock,
+  userMock,
   setupEntitiesMock,
   cloneMock,
   uiExtensionMock,
@@ -26,11 +27,8 @@ import {
   makeGetCollectionTest,
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
-  makeEntityMethodFailingTest,
-  testGettingEntrySDKObject
+  makeEntityMethodFailingTest
 } from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
 
 function setup (promise) {
   const entitiesMock = setupEntitiesMock(createSpaceApiRewireApi)
@@ -190,18 +188,6 @@ test('API call getEntry', (t) => {
   })
 })
 
-test('GetSDKEntry from data', (t) => {
-  const expectedFunctions = ['toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive', 'isPublished', 'isUpdated', 'isDraft', 'isArchived']
-  testGettingEntrySDKObject(t, setup, {
-    type: 'entry',
-    wrapFunctionName: 'wrapEntry',
-    resourceMock: entryMock,
-    wrapFunction: wrapEntry,
-    expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getEntryFromData'
-  })
-})
-
 test('API call getEntry fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getEntry'
@@ -270,18 +256,6 @@ test('API call getAsset', (t) => {
     entityType: 'asset',
     mockToReturn: assetMock,
     methodToTest: 'getAsset'
-  })
-})
-
-test('GetSDKAsset from data', (t) => {
-  const expectedFunctions = ['processForLocale', 'processForAllLocales', 'toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive']
-  testGettingEntrySDKObject(t, setup, {
-    type: 'asset',
-    wrapFunctionName: 'wrapAsset',
-    resourceMock: assetMock,
-    wrapFunction: wrapAsset,
-    expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getAssetFromData'
   })
 })
 
@@ -595,6 +569,34 @@ test('API call createSpaceMembershipWithId', (t) => {
 test('API call createSpaceMembershipWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'createSpaceMembershipWithId'
+  })
+})
+
+test('API call getSpaceUser', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'user',
+    mockToReturn: userMock,
+    methodToTest: 'getSpaceUser'
+  })
+})
+
+test('API call getSpaceUser fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getSpaceUser'
+  })
+})
+
+test('API call getSpaceUsers', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'user',
+    mockToReturn: userMock,
+    methodToTest: 'getSpaceUsers'
+  })
+})
+
+test('API call getSpaceUsers fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getSpaceUsers'
   })
 })
 
