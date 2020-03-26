@@ -197,7 +197,7 @@ test('Gets v2 space for read only tests', (t) => {
     })
 })
 
-test('Create organization for tests which create, change and delete data', (t) => {
+test('Gets organization for tests which change and delete data', (t) => {
   return client.getOrganizations()
     .then((response) => {
       const organization = response.items[0]
