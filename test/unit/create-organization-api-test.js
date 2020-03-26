@@ -1,9 +1,9 @@
-
 import test from 'blue-tape'
 
 import createOrganizationApi, {__RewireAPI__ as createOrganizationApiRewireApi} from '../../lib/create-organization-api'
 import {
   appDefinitionMock,
+  organizationMembershipMock,
   setupEntitiesMock
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
@@ -17,12 +17,10 @@ import {
 function setup (promise) {
   const entitiesMock = setupEntitiesMock(createOrganizationApiRewireApi)
   const httpMock = setupHttpMock(promise)
-  const httpUploadMock = setupHttpMock(promise)
   const api = createOrganizationApi({ http: httpMock })
   return {
     api,
     httpMock,
-    httpUploadMock,
     entitiesMock
   }
 }
@@ -70,5 +68,33 @@ test('API call createAppDefinition', (t) => {
 test('API call createAppDefinition fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'createAppDefinition'
+  })
+})
+
+test('API call getOrganizationMembership', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'organizationMembership',
+    mockToReturn: organizationMembershipMock,
+    methodToTest: 'getOrganizationMembership'
+  })
+})
+
+test('API call getOrganizationMembership fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getOrganizationMembership'
+  })
+})
+
+test('API call getOrganizationMemberships', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'organizationMembership',
+    mockToReturn: organizationMembershipMock,
+    methodToTest: 'getOrganizationMemberships'
+  })
+})
+
+test('API call getOrganizationMemberships fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getOrganizationMemberships'
   })
 })
