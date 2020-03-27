@@ -7,4 +7,13 @@ export default function spaceMembersTests (t, space) {
       t.ok(response.items, 'items')
     })
   })
+  t.test('Gets spaceMember', t => {
+    t.plan(4)
+    return space.getSpaceMember('0PCYk22mt1xD7gTKZhHycN').then(response => {
+      t.ok(response.sys, 'sys')
+      t.ok(response.sys.type, 'SpaceMember')
+      t.ok(response.sys.id, 'w6xueg32zr68-0PCYk22mt1xD7gTKZhHycN')
+      t.ok(response.admin, 'true')
+    })
+  })
 }
