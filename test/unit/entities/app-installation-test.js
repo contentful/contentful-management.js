@@ -6,7 +6,7 @@ import {wrapAppInstallation, wrapAppInstallationCollection} from '../../../lib/e
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
+  failingVersionActionTest,
   entityDeleteTest,
   failingActionTest
 } from '../test-creators/instance-entity-methods'
@@ -31,27 +31,24 @@ test('AppInstallation collection is wrapped', (t) => {
 })
 
 test('AppInstallation update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapAppInstallation
-  })
+  t.plan(2)
+  const { httpMock, entityMock } = setup()
+  entityMock.sys.version = 2
+  const entity = wrapAppInstallation(httpMock, entityMock)
+  entity.name = 'updatedname'
+  return entity.update()
+    .then((response) => {
+      t.ok(response.toPlainObject, 'response is wrapped')
+      t.equals(httpMock.put.args[0][1].name, 'updatedname', 'data is sent')
+      return {httpMock, entityMock, response}
+    })
 })
 
 test('AppInstallation update fails', (t) => {
-  /**
-   * Test needs to be inlined here because error object shape does not match
-   * the current test pattern
-   */
-  t.plan(2)
-  const error = cloneMock('error')
-  const { httpMock, entityMock } = setup(Promise.reject(error))
-  entityMock.sys.version = 2
-  const entity = wrapAppInstallation(httpMock, entityMock)
-
-  return entity['update']()
-    .catch((r) => {
-      t.equals(r.response.status, 404)
-      t.equals(r.response.statusText, 'Not Found')
-    })
+  return failingVersionActionTest(t, setup, {
+    wrapperMethod: wrapAppInstallation,
+    actionMethod: 'update'
+  })
 })
 
 test('AppInstallation delete', (t) => {
