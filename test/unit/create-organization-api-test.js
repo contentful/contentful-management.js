@@ -72,16 +72,11 @@ test('API call createAppDefinition fails', (t) => {
 })
 
 test('API call getOrganizationMembership', (t) => {
-  t.plan(1)
-  const {api, entitiesMock} = setup(Promise.resolve({}))
-  entitiesMock.organizationMembership.wrapOrganizationMembership
-    .returns(organizationMembershipMock)
-
-  return api.getOrganizationMembership('eid')
-    .then((r) => {
-      t.looseEqual(r, organizationMembershipMock)
-      teardown()
-    })
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'organizationMembership',
+    mockToReturn: organizationMembershipMock,
+    methodToTest: 'getOrganizationMembership'
+  })
 })
 
 test('API call getOrganizationMembership fails', (t) => {
