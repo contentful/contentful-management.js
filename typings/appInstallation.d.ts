@@ -1,5 +1,5 @@
 import { DefaultElements } from './defaultElements'
-import { MetaSys, MetaSysProps } from './meta'
+import { MetaSys, MetaSysProps, MetaLinkProps } from './meta'
 
 export interface AppInstallationProps {
   parameters: {
@@ -7,9 +7,13 @@ export interface AppInstallationProps {
   }
 }
 
+interface AppInstallationMetaSys extends MetaSys<MetaSysProps> {
+  appDefinition: { sys: MetaLinkProps }
+}
+
 export interface AppInstallation
   extends AppInstallationProps,
-    DefaultElements<AppInstallationProps & MetaSys<MetaSysProps>>,
+    DefaultElements<AppInstallationProps & AppInstallationMetaSys>,
     MetaSys<MetaSysProps> {
   update(): Promise<AppInstallation>,
   delete(): Promise<void>,
