@@ -7,14 +7,14 @@ export interface AppInstallationProps {
   }
 }
 
-interface AppInstallationMetaSys extends MetaSys<MetaSysProps> {
+interface AppInstallationMetaSysProps extends MetaSysProps {
   appDefinition: { sys: MetaLinkProps }
 }
 
 export interface AppInstallation
   extends AppInstallationProps,
-    DefaultElements<AppInstallationProps & AppInstallationMetaSys>,
-    MetaSys<MetaSysProps> {
+    DefaultElements<AppInstallationProps & MetaSys<MetaSysProps>>,
+    MetaSys<AppInstallationMetaSysProps> {
   update(): Promise<AppInstallation>,
   delete(): Promise<void>,
 }
