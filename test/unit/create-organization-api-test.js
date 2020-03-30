@@ -77,9 +77,6 @@ test('API call getOrganizationMembership', (t) => {
   entitiesMock.organizationMembership.wrapOrganizationMembership
     .returns(organizationMembershipMock)
 
-  // needed as getOrganizationMembership reads the org's id from context
-  api.sys = { id: 'id' }
-
   return api.getOrganizationMembership('eid')
     .then((r) => {
       t.looseEqual(r, organizationMembershipMock)
