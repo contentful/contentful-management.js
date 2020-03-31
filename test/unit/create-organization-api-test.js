@@ -102,7 +102,7 @@ test('API call getOrganizationMemberships fails', (t) => {
 
 test('API call getOrganizationSpaceMembership', (t) => {
   makeGetEntityTest(t, setup, teardown, {
-    entityType: 'organizationSpaceMembership',
+    entityType: 'spaceMembership',
     mockToReturn: spaceMembershipMock,
     methodToTest: 'getOrganizationSpaceMembership'
   })
@@ -116,7 +116,7 @@ test('API call getOrganizationSpaceMembership fails', (t) => {
 
 test('API call getSpaceOrganizationMemberships', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'organizationSpaceMembership',
+    entityType: 'spaceMembership',
     mockToReturn: spaceMembershipMock,
     methodToTest: 'getOrganizationSpaceMemberships'
   })

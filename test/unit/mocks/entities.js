@@ -348,10 +348,6 @@ function setupEntitiesMock (rewiredModuleApi) {
       wrapOrganizationMembership: sinon.stub(),
       wrapOrganizationMembershipCollection: sinon.stub()
     },
-    organizationSpaceMembership: {
-      wrapOrganizationSpaceMembership: sinon.stub(),
-      wrapOrganizationSpaceMembershipCollection: sinon.stub()
-    },
     role: {
       wrapRole: sinon.stub(),
       wrapRoleCollection: sinon.stub()
