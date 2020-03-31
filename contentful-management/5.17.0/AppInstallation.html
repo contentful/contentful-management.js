@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/entry.js - Documentation</title>
+    <title>AppInstallation - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,359 +26,512 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/entry.js</h1>
+    <h1 class="page-title">AppInstallation</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Entry instances
- * @namespace Entry
- */
+        <h2>
+        AppInstallation
+        </h2>
+        
+    
+</header>
 
-import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createArchiveEntity,
-  createUnarchiveEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-  createArchivedChecker
-} from '../instance-actions'
-import errorHandler from '../error-handler'
-import {wrapSnapshot, wrapSnapshotCollection} from './snapshot'
-/**
- * Types of fields found in an Entry
- * @namespace EntryFields
- */
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * @memberof EntryFields
- * @typedef Symbol
- * @type string
- */
+<dl class="details">
 
-/**
- * @memberof EntryFields
- * @typedef Text
- * @type string
- */
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-installation.js.html">entities/app-installation.js</a>, <a href="entities_app-installation.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-/**
- * @memberof EntryFields
- * @typedef Integer
- * @type number
- */
+    
 
-/**
- * @memberof EntryFields
- * @typedef Number
- * @type number
- */
+    
 
-/**
- * @memberof EntryFields
- * @typedef Date
- * @type string
- */
+    
 
-/**
- * @memberof EntryFields
- * @typedef Boolean
- * @type boolean
- */
+    
 
-/**
- * @memberof EntryFields
- * @typedef Location
- * @prop {string} lat - latitude
- * @prop {string} lon - longitude
- */
+    
 
-/**
- * A Field in an Entry can have one of the following types that can be defined in Contentful. See &lt;a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types&lt;/a> for more details.
- * @memberof EntryFields
- * @typedef Field
- * @type EntryFields.Symbol | EntryFields.Text | EntryFields.Integer | EntryFields.Number | EntryFields.Date | EntryFields.Boolean | EntryFields.Location | Meta.Link | Array&lt;EntryFields.Symbol|Meta.Link> | Object
- */
+    
 
-/**
- * @memberof Entry
- * @typedef Entry
- * @prop {Meta.Sys} sys - Standard system metadata with additional entry specific properties
- * @prop {Meta.Link} sys.contentType - Content Type used by this Entry
- * @prop {string=} sys.locale - If present, indicates the locale which this entry uses
- * @prop {Object&lt;EntryFields.Field>} fields - Object with content for each field
- * @prop {function(): Object} toPlainObject() - Returns this Entry as a plain JS object
- */
+    
 
-function createEntryApi (http) {
-  return {
+    
 
-    /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof Entry
-     * @func update
-     * @return {Promise&lt;Entry>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => {
-     *   entry.fields.title['en-US'] = 'New entry title'
-     *   return entry.update()
-     * })
-     * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
-     * .catch(console.error)
-    */
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry
-    }),
+    
 
-    /**
-     * Deletes this object on the server.
-     * @memberof Entry
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.delete())
-     * .then(() => console.log(`Entry deleted.`))
-     * .catch(console.error)
-     */
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'entries'
-    }),
+    
 
-    /**
-     * Publishes the object
-     * @memberof Entry
-     * @func publish
-     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.publish())
-     * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
-     * .catch(console.error)
-     */
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry
-    }),
+    
 
-    /**
-     * Unpublishes the object
-     * @memberof Entry
-     * @func unpublish
-     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.unpublish())
-     * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
-     * .catch(console.error)
-     */
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry
-    }),
+    
 
-    /**
-     * Archives the object
-     * @memberof Entry
-     * @func archive
-     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.archive())
-     * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
-     * .catch(console.error)
-     */
-    archive: createArchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry
-    }),
+    
 
-    /**
-     * Unarchives the object
-     * @memberof Entry
-     * @func unarchive
-     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.unarchive())
-     * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
-     * .catch(console.error)
-     */
-    unarchive: createUnarchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry
-    }),
+    
 
-    /**
-     * Gets all snapshots of an entry
-     * @memberof Entry
-     * @func getSnapshots
-     * @return Promise&lt;Snapshot>
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.getSnapshots())
-     * .then((snapshots) => console.log(snapshots.items))
-     * .catch(console.error)
-     */
-    getSnapshots: function (query = {}) {
-      return http.get(`entries/${this.sys.id}/snapshots`, createRequestConfig({query: query}))
-        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
-    },
+    
+</dl>
 
-    /**
-     * Gets a snapshot of an entry
-     * @memberof Entry
-     * @func getSnapshot
-     * @param {string} snapshotId - Id of the snapshot
-     * @return Promise&lt;Snapshot>
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getSpace('&lt;space_id>')
-     * .then((space) => space.getEntry('&lt;entry_id>'))
-     * .then((entry) => entry.getSnapshot('&lt;snapshot_id>'))
-     * .then((snapshot) => console.log(snapshot))
-     * .catch(console.error)
-     */
-    getSnapshot: function (snapshotId) {
-      return http.get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot(http, response.data), errorHandler)
-    },
-    /**
-     * Checks if the entry is published. A published entry might have unpublished changes (@see {Entry.isUpdated})
-     * @memberof Entry
-     * @func isPublished
-     * @return {boolean}
-     */
-    isPublished: createPublishedChecker(),
 
-    /**
-     * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
-     * @memberof Entry
-     * @func isUpdated
-     * @return {boolean}
-     */
-    isUpdated: createUpdatedChecker(),
 
-    /**
-     * Checks if the entry is in draft mode. This means it is not published.
-     * @memberof Entry
-     * @func isDraft
-     * @return {boolean}
-     */
-    isDraft: createDraftChecker(),
 
-    /**
-     * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
-     * @memberof Entry
-     * @func isArchived
-     * @return {boolean}
-     */
-    isArchived: createArchivedChecker()
-  }
-}
+        
+            <div class="description">UI Extension instances</div>
+        
 
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw entry data
- * @return {Entry} Wrapped entry data
- */
-export function wrapEntry (http, data) {
-  const entry = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(entry, createEntryApi(http))
-  return freezeSys(entry)
-}
+        
+    
+    </div>
 
-/**
- * Data is also mixed in with link getters if links exist and includes were requested
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw entry collection data
- * @return {EntryCollection} Wrapped entry collection data
- */
-export function wrapEntryCollection (http, data, resolveLinks) {
-  const entries = toPlainObject(cloneDeep(data))
-  entries.items = entries.items.map((entity) => wrapEntry(http, entity))
-  return freezeSys(entries)
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".AppInstallation">AppInstallation</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-installation.js.html">entities/app-installation.js</a>, <a href="entities_app-installation.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>parameters</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">App Installation specific configuration variables</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns this App Installation as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-installation.js.html">entities/app-installation.js</a>, <a href="entities_app-installation.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deletes this object on the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEnvironment('&lt;environment_id>'))
+.then((environment) => environment.delete())
+.then(() => console.log(`App installation deleted.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="AppInstallation.html">AppInstallation</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-installation.js.html">entities/app-installation.js</a>, <a href="entities_app-installation.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getEnvironment('&lt;environment_id>'))
+.then((environment) => environment.getAppInstallation('&lt;app_definition_id>'))
+.then((appInstallation) => {
+   appInstallation.parameters.someParameter = 'New Value'
+   return appInstallation.update()
+})
+.then((appInstallation) => console.log(`App installation ${appInstallation.sys.id} was updated`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="AppInstallation.html">AppInstallation</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
 
 
 
