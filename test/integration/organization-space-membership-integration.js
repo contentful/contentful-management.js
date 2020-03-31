@@ -13,10 +13,11 @@ export default function organizationSpaceMembershipTests (t, organization) {
     return organization.getOrganizationSpaceMembership('527cW1W5JNlOlJq38lfr1k')
       .then((response) => {
         t.ok(response.sys, 'sys')
-        t.ok(response.sys.id, '527cW1W5JNlOlJq38lfr1k')
-        t.ok(response.sys.type, 'SpaceMembership')
-        t.ok(response.user, 'user')
-        t.ok(response.roles, 'roles')
+        t.equal(response.sys.id, '527cW1W5JNlOlJq38lfr1k', 'id')
+        t.equal(response.sys.type, 'SpaceMembership', 'type')
+        t.equal(response.user.sys.link, 'Link', 'type')
+        t.equal(response.user.sys.linkType, 'User', 'user')
+        t.looseEqual(response.roles, [], 'roles')
       })
   })
 }

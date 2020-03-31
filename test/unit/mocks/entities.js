@@ -200,12 +200,6 @@ const organizationMembershipMock = {
   })
 }
 
-const organizationSpaceMembershipMock = {
-  sys: Object.assign(cloneDeep(sysMock), {
-    type: 'OrganizationSpaceMembership'
-  })
-}
-
 const roleMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Role'
@@ -285,7 +279,6 @@ const mocks = {
   webhook: webhookMock,
   spaceMembership: spaceMembershipMock,
   organizationMembership: organizationMembershipMock,
-  organizationSpaceMembership: organizationSpaceMembershipMock,
   role: roleMock,
   apiKey: apiKeyMock,
   previewApiKey: previewApiKeyMock,
@@ -428,7 +421,6 @@ export {
   webhookMock,
   spaceMembershipMock,
   organizationMembershipMock,
-  organizationSpaceMembershipMock,
   roleMock,
   apiKeyMock,
   previewApiKeyMock,

@@ -10,7 +10,7 @@ import {
 function setup (promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('organizationSpaceMembership')
+    entityMock: cloneMock('spaceMembership')
   }
 }
 
