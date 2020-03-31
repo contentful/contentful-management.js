@@ -15,7 +15,6 @@ export default function organizationSpaceMembershipTests (t, organization) {
         t.ok(response.sys, 'sys')
         t.equal(response.sys.id, '527cW1W5JNlOlJq38lfr1k', 'id')
         t.equal(response.sys.type, 'SpaceMembership', 'type')
-        t.equal(response.user.sys.link, 'Link', 'type')
         t.equal(response.user.sys.linkType, 'User', 'user')
         t.looseEqual(response.roles, [], 'roles')
       })
