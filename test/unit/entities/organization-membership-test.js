@@ -51,7 +51,7 @@ test('OrganizationMembership update fails', (t) => {
 })
 
 test('OrganizationMembership delete', (t) => {
-  t.plan(3)
+  t.plan(2)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
   const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
@@ -59,7 +59,6 @@ test('OrganizationMembership delete', (t) => {
     .then((response) => {
       t.pass('entity was deleted')
       t.equals(httpMock.delete.args[0][0], `organization_memberships/${entityMock.sys.id}`, 'url is correct')
-      t.equals(httpMock.delete.args[0][1].headers['x-contentful-enable-alpha-feature'], 'organization-user-management-api', 'version header is sent')
       return {httpMock, entityMock, response}
     })
 })
