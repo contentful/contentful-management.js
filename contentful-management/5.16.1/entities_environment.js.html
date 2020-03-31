@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-organization-api.js - Documentation</title>
+    <title>entities/environment.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-organization-api.js</h1>
+    <h1 class="page-title">entities/environment.js</h1>
     
 
     
@@ -36,86 +36,74 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Contentful Organization API. Contains methods to access any operations at a organization level.
- * @namespace ContentfulOrganizationAPI
- */
-
-import errorHandler from './error-handler'
-import entities from './entities'
+            <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
+import {freezeSys, toPlainObject} from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import createEnvironmentApi from '../create-environment-api'
 
 /**
- * @memberof ContentfulOrganizationAPI
- * @typedef {object} ContentfulOrganizationAPI
- * @prop {function} getOrganizationMembership
- * @prop {function} getOrganizationMemberships
+ * @memberof Environment
+ * @typedef Environment
+ * @prop {Object} sys - System metadata
+ * @prop {string} sys.id - Environment id
+ * @prop {string} sys.type - Entity type
+ * @prop {string} name - Environment name
+ * @prop {function(): Object} toPlainObject() - Returns this Environment as a plain JS object
  */
 
 /**
- * Creates API object with methods to access the Organization API
+ * @memberof Environment
+ * @typedef SpaceCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;Environment.Environment>} items
+ * @prop {function(): Object} toPlainObject() - Returns this Environment collection as a plain JS object
+ */
+
+/**
+ * This method creates the API for the given environment with all the methods for
+ * reading and creating other entities. It also passes down a clone of the
+ * http client with a environment id, so the base path for requests now has the
+ * environment id already set.
  * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulOrganizationAPI}
+ * @param  {Object} http - HTTP client instance
+ * @param  {Object} data - API response for a Environment
+ * @return {Environment}
  */
-export default function createOrganizationApi ({
-  http,
-  orgId
-}) {
-  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
-  const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${orgId}`)
+export function wrapEnvironment (http, data) {
+  const environment = toPlainObject(cloneDeep(data))
+  const {
+    hostUpload,
+    defaultHostnameUpload
+  } = http.httpClientParams
+  const environmentScopedHttpClient = http.cloneWithNewParams({
+    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id
+  })
+  const environmentScopedUploadClient = http.cloneWithNewParams({
+    space: environment.sys.space.sys.id,
+    host: hostUpload || defaultHostnameUpload
+  })
+  const environmentApi = createEnvironmentApi({
+    http: environmentScopedHttpClient,
+    httpUpload: environmentScopedUploadClient
+  })
+  const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
+  return freezeSys(enhancedEnvironment)
+}
 
-  /**
-   * Organization instances.
-   * @namespace Organization
-   */
-
-  /**
-   * Gets a Organization Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organiztion Membership ID
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for a Organization Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationMembership (id) {
-    return http.get('organization_memberships/' + id, {
-      baseURL
-    })
-      .then(response => wrapOrganizationMembership(http, response.data, orgId), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Organization Memberships
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationMemberships (query = {}) {
-    return http.get('organization_memberships', {
-      baseURL,
-      query
-    })
-      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
-  }
-
-  return {
-    getOrganizationMembership,
-    getOrganizationMemberships
-  }
+/**
+ * This method wraps each environment in a collection with the environment API. See wrapEnvironment
+ * above for more details.
+ * @private
+ * @param  {Object} http - HTTP client instance
+ * @param  {Object} data - API response for a Environment collection
+ * @return {SpaceCollection}
+ */
+export function wrapEnvironmentCollection (http, data) {
+  const environments = toPlainObject(cloneDeep(data))
+  environments.items = environments.items.map((entity) => wrapEnvironment(http, entity))
+  return freezeSys(environments)
 }
 </code></pre>
         </article>

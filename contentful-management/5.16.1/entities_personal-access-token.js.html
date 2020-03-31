@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-organization-api.js - Documentation</title>
+    <title>entities/personal-access-token.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-organization-api.js</h1>
+    <h1 class="page-title">entities/personal-access-token.js</h1>
     
 
     
@@ -37,85 +37,67 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Organization API. Contains methods to access any operations at a organization level.
- * @namespace ContentfulOrganizationAPI
- */
+ * Personal access token
+ * @namespace PersonalAccessToken
+ * */
 
-import errorHandler from './error-handler'
-import entities from './entities'
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import errorHandler from '../error-handler'
 
-/**
- * @memberof ContentfulOrganizationAPI
- * @typedef {object} ContentfulOrganizationAPI
- * @prop {function} getOrganizationMembership
- * @prop {function} getOrganizationMemberships
- */
-
-/**
- * Creates API object with methods to access the Organization API
- * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulOrganizationAPI}
- */
-export default function createOrganizationApi ({
-  http,
-  orgId
-}) {
-  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
-  const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${orgId}`)
-
-  /**
-   * Organization instances.
-   * @namespace Organization
-   */
-
-  /**
-   * Gets a Organization Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organiztion Membership ID
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for a Organization Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationMembership (id) {
-    return http.get('organization_memberships/' + id, {
-      baseURL
-    })
-      .then(response => wrapOrganizationMembership(http, response.data, orgId), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Organization Memberships
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationMemberships (query = {}) {
-    return http.get('organization_memberships', {
-      baseURL,
-      query
-    })
-      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
-  }
-
+function createPersonalAccessToken (http) {
   return {
-    getOrganizationMembership,
-    getOrganizationMemberships
+    /**
+     * Revokes a personal access token
+     * @memberof PersonalAccessToken
+     * @func revoke
+     * @return {Promise&lt;PersonalAccessToken>} Object the revoked personal access token
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *  accessToken: &lt;content_management_api_key>
+     * })
+     *
+     * client.getPersonalAccessToken('&lt;token-id>')
+     *  .then((personalAccessToken) => {
+     *    return personalAccessToken.revoke()
+     *  })
+     *  .catch(console.error)
+     */
+    revoke: function () {
+      const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+      return http.put(`${this.sys.id}/revoked`, null, {
+        baseURL
+      })
+        .then((response) => response.data, errorHandler)
+    }
   }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw  personal access token data
+ * @return {PersonalAccessToken} Wrapped personal access token
+ */
+export function wrapPersonalAccessToken (http, data) {
+  const personalAccessToken = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(personalAccessToken, createPersonalAccessToken(http))
+  return freezeSys(personalAccessToken)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw personal access collection data
+ * @return {PersonalAccessTokenCollection} Wrapped personal access token collection data
+ */
+export function wrapPersonalAccessTokenCollection (http, data) {
+  const personalAccessTokens = toPlainObject(cloneDeep(data))
+  personalAccessTokens.items = personalAccessTokens.items.map((entity) => wrapPersonalAccessToken(http, entity))
+  return freezeSys(personalAccessTokens)
 }
 </code></pre>
         </article>

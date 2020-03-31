@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-organization-api.js - Documentation</title>
+    <title>entities/environment-alias.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-organization-api.js</h1>
+    <h1 class="page-title">entities/environment-alias.js</h1>
     
 
     
@@ -37,85 +37,90 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Contentful Organization API. Contains methods to access any operations at a organization level.
- * @namespace ContentfulOrganizationAPI
+ * Environment alias instances
+ * @namespace EnvironmentAlias
+ * @description Environment aliases allow environments to be accessed through another identifier. You must have a V2 org and manually opt-in to this feature from the
+ *  environments settings page in the Contentful web app. If you do not have access to this feature, these methods will return 403 errors.
  */
-
-import errorHandler from './error-handler'
-import entities from './entities'
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity
+} from '../instance-actions'
 
 /**
- * @memberof ContentfulOrganizationAPI
- * @typedef {object} ContentfulOrganizationAPI
- * @prop {function} getOrganizationMembership
- * @prop {function} getOrganizationMemberships
+ * @memberof EnvironmentAlias
+ * @typedef EnvironmentAlias
+ * @prop {Object} sys - System metadata
+ * @prop {string} sys.id - EnvironmentAlias id
+ * @prop {string} sys.type - Entity type
+ * @prop {Environment} environment - the environment this alias points to
+ * @prop {function(): Object} toPlainObject() - Returns this EnvironmentAlias as a plain JS object
  */
 
 /**
- * Creates API object with methods to access the Organization API
- * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulOrganizationAPI}
+ * @memberof EnvironmentAlias
+ * @typedef EnvironmentAliasCollection
+ * @prop {number} total
+ * @prop {number} skip
+ * @prop {number} limit
+ * @prop {Array&lt;EnvironmentAlias.EnvironmentAlias>} items
+ * @prop {function(): Object} toPlainObject() - Returns this EnvironmentAlias collection as a plain JS object
  */
-export default function createOrganizationApi ({
-  http,
-  orgId
-}) {
-  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
-  const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${orgId}`)
-
-  /**
-   * Organization instances.
-   * @namespace Organization
-   */
-
-  /**
-   * Gets a Organization Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organiztion Membership ID
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for a Organization Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationMembership (id) {
-    return http.get('organization_memberships/' + id, {
-      baseURL
-    })
-      .then(response => wrapOrganizationMembership(http, response.data, orgId), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Organization Memberships
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationMemberships (query = {}) {
-    return http.get('organization_memberships', {
-      baseURL,
-      query
-    })
-      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
-  }
-
+function createEnvironmentAliasApi (http) {
   return {
-    getOrganizationMembership,
-    getOrganizationMemberships
+    /**
+     * Sends an update to the server with any changes made to the object's properties. Currently, you can only change the id of the alias's underlying environment. See the example below.
+     * @memberof EnvironmentAlias
+     * @func update
+     * @return {Promise&lt;EnvironmentAlias>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEnvironmentAlias('&lt;environment_alias_id>'))
+     * .then((alias) => {
+     *   alias.environment.sys.id = '&lt;environment_id>'
+     *   return alias.update()
+     * })
+     * .then((alias) => console.log(`alias ${alias.sys.id} updated.`))
+     * .catch(console.error)
+     */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'environment_aliases',
+      wrapperMethod: wrapEnvironmentAlias
+    })
   }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw environment alias data
+ * @return {EnvironmentAlias} Wrapped environment alias data
+ */
+export function wrapEnvironmentAlias (http, data) {
+  const alias = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(alias, createEnvironmentAliasApi(http))
+  return freezeSys(alias)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw environment alias collection data
+ * @return {EnvironmentAliasCollection} Wrapped environment alias collection data
+ */
+export function wrapEnvironmentAliasCollection (http, data) {
+  const aliases = toPlainObject(cloneDeep(data))
+  aliases.items = aliases.items.map((entity) => wrapEnvironmentAlias(http, entity))
+  return freezeSys(aliases)
 }
 </code></pre>
         </article>

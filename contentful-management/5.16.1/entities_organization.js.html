@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-organization-api.js - Documentation</title>
+    <title>entities/organization.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-organization-api.js</h1>
+    <h1 class="page-title">entities/organization.js</h1>
     
 
     
@@ -36,86 +36,54 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Contentful Organization API. Contains methods to access any operations at a organization level.
- * @namespace ContentfulOrganizationAPI
- */
-
-import errorHandler from './error-handler'
-import entities from './entities'
+            <pre class="prettyprint source linenums"><code>import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import createOrganizationApi from '../create-organization-api'
+import enhanceWithMethods from '../enhance-with-methods'
 
 /**
- * @memberof ContentfulOrganizationAPI
- * @typedef {object} ContentfulOrganizationAPI
- * @prop {function} getOrganizationMembership
- * @prop {function} getOrganizationMemberships
+ * @memberof Organization
+ * @typedef Organization
+ * @prop {Object} sys - System metadata
+ * @prop {string} sys.id - Organization id
+ * @prop {string} sys.type - Entity type
+ * @prop {string} name - Organization name
+ * @prop {function(): Object} toPlainObject() - Returns this Organization as a plain JS object
  */
 
 /**
- * Creates API object with methods to access the Organization API
+ * This method creates the API for the given organization with all the methods for
+ * reading and creating other entities. It also passes down a clone of the
+ * http client with a organization id, so the base path for requests now has the
+ * organization id already set.
  * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulOrganizationAPI}
+ * @param  {Object} http - HTTP client instance
+ * @param  {Object} data - API response for a Organization
+ * @return {Organization}
  */
-export default function createOrganizationApi ({
-  http,
-  orgId
-}) {
-  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
-  const baseURL = http.defaults.baseURL.replace('/spaces/', `/organizations/${orgId}`)
 
-  /**
-   * Organization instances.
-   * @namespace Organization
-   */
+export function wrapOrganization (http, data) {
+  const organization = toPlainObject(cloneDeep(data))
 
-  /**
-   * Gets a Organization Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organiztion Membership ID
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for a Organization Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationMembership (id) {
-    return http.get('organization_memberships/' + id, {
-      baseURL
-    })
-      .then(response => wrapOrganizationMembership(http, response.data, orgId), errorHandler)
-  }
+  const organizationApi = createOrganizationApi({
+    http,
+    orgId: organization.sys.id
+  })
+  const enhancedOrg = enhanceWithMethods(organization, organizationApi)
+  return freezeSys(enhancedOrg)
+}
 
-  /**
-   * Gets a collection of Organization Memberships
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationMemberships (query = {}) {
-    return http.get('organization_memberships', {
-      baseURL,
-      query
-    })
-      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
-  }
-
-  return {
-    getOrganizationMembership,
-    getOrganizationMemberships
-  }
+/**
+* This method normalizes each organization in a collection.
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw organization collection data
+ * @return {OrganizationCollection} Normalized organization collection data
+ */
+export function wrapOrganizationCollection (http, data) {
+  const organizations = toPlainObject(cloneDeep(data))
+  organizations.items = organizations.items.map((entity) => wrapOrganization(http, entity))
+  return freezeSys(organizations)
 }
 </code></pre>
         </article>
