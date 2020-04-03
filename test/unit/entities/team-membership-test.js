@@ -28,7 +28,7 @@ test('TeamMembership collection is wrapped', (t) => {
 })
 
 test('TeamMembership update', (t) => {
-  t.plan(4)
+  t.plan(3)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
   const entity = wrapTeamMembershipByTeam(httpMock, entityMock, 'team1')

@@ -1,7 +1,7 @@
 import test from 'blue-tape'
-
 import createOrganizationApi, {__RewireAPI__ as createOrganizationApiRewireApi} from '../../lib/create-organization-api'
 import {
+  cloneMock,
   appDefinitionMock,
   organizationMembershipMock,
   spaceMembershipMock,
@@ -129,38 +129,60 @@ test('API call getOrganizationSpaceMemberships fails', (t) => {
   })
 })
 
-// test('API call createTeamMembershipByTeam', (t) => {
-//   makeCreateEntityTest(t, setup, teardown, {
-//     entityType: 'teamMembership',
-//     mockToReturn: teamMembershipMock,
-//     methodToTest: 'createTeamMembershipByTeam'
-//   })
-// })
-
 test('API call getTeamMembershipByTeam', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
-    entityType: 'teamMembership',
-    mockToReturn: teamMembershipMock,
-    methodToTest: 'getTeamMembershipByTeam'
-  })
+  t.plan(1)
+  const {api, entitiesMock} = setup(Promise.resolve({}))
+  entitiesMock['teamMembership'][`wrapTeamMembershipByTeam`]
+    .returns(teamMembershipMock)
+  return api['getTeamMembershipByTeam']('teamid', 'eid')
+    .then((r) => {
+      t.looseEqual(r, teamMembershipMock)
+      teardown()
+    })
 })
 
 test('API call getTeamMembershipByTeam fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getTeamMembershipByTeam'
-  })
+  t.plan(1)
+  const error = cloneMock('error')
+  const {api} = setup(Promise.reject(error))
+
+  return api['getTeamMembershipByTeam']('teamid', 'eid')
+    .then(() => {}, (r) => {
+      t.equals(r.name, '404 Not Found')
+      teardown()
+    })
 })
 
 test('API call getTeamMembershipsByTeam', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'teamMembership',
-    mockToReturn: teamMembershipMock,
-    methodToTest: 'getTeamMembershipsByTeam'
-  })
+  t.plan(1)
+  const {api, entitiesMock} = setup(Promise.resolve({}))
+  entitiesMock['teamMembership'][`wrapTeamMembershipCollectionByTeam`]
+    .returns({
+      total: 100,
+      skip: 0,
+      limit: 10,
+      items: [teamMembershipMock]
+    })
+  return api['getTeamMembershipsByTeam']('teamid')
+    .then((r) => {
+      t.looseEqual(r, {
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamMembershipMock]
+      })
+      teardown()
+    })
 })
 
 test('API call getTeamMembershipsByTeam fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getTeamMembershipsByTeam'
-  })
+  t.plan(1)
+  const error = cloneMock('error')
+  const {api} = setup(Promise.reject(error))
+
+  return api['getTeamMembershipByTeam']('teamid')
+    .then(() => {}, (r) => {
+      t.equals(r.name, '404 Not Found')
+      teardown()
+    })
 })
