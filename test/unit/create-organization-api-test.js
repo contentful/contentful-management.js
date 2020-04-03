@@ -5,6 +5,7 @@ import {
   appDefinitionMock,
   organizationMembershipMock,
   spaceMembershipMock,
+  teamMembershipMock,
   setupEntitiesMock
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
@@ -125,5 +126,41 @@ test('API call getSpaceOrganizationMemberships', (t) => {
 test('API call getOrganizationSpaceMemberships fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getOrganizationSpaceMemberships'
+  })
+})
+
+// test('API call createTeamMembershipByTeam', (t) => {
+//   makeCreateEntityTest(t, setup, teardown, {
+//     entityType: 'teamMembership',
+//     mockToReturn: teamMembershipMock,
+//     methodToTest: 'createTeamMembershipByTeam'
+//   })
+// })
+
+test('API call getTeamMembershipByTeam', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'teamMembership',
+    mockToReturn: teamMembershipMock,
+    methodToTest: 'getTeamMembershipByTeam'
+  })
+})
+
+test('API call getTeamMembershipByTeam fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getTeamMembershipByTeam'
+  })
+})
+
+test('API call getTeamMembershipsByTeam', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'teamMembership',
+    mockToReturn: teamMembershipMock,
+    methodToTest: 'getTeamMembershipsByTeam'
+  })
+})
+
+test('API call getTeamMembershipsByTeam fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getTeamMembershipsByTeam'
   })
 })
