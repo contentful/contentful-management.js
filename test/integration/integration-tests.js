@@ -8,6 +8,7 @@ import {assetReadOnlyTests, assetWriteTests} from './asset-integration'
 import webhookTests from './webhook-integration'
 import spaceMembersTests from './space-members-integration'
 import spaceMembershipTests from './space-membership-integration'
+import organizationMembershipTests from './organization-membership-integration'
 import roleTests from './role-integration'
 import userTests from './user-integration'
 import apiKeyTests from './api-key-integration'
@@ -200,6 +201,16 @@ test('Gets v2 space for read only tests', (t) => {
         })
       })
       environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
+    })
+})
+
+test('Gets organization for tests which change and delete data', (t) => {
+  return client.getOrganizations()
+    .then((response) => {
+      const organization = response.items[0]
+      return Promise.all([
+        organizationMembershipTests(t, organization)
+      ])
     })
 })
 
