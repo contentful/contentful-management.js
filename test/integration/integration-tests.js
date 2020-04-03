@@ -199,8 +199,6 @@ test('Gets v2 space for read only tests', (t) => {
           return alias.update()
         })
       })
-      userTests(t, space)
-      spaceMembersTests(t, space)
       environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
     })
 })
