@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>entities/entry.js - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="AppDefinition.html">AppDefinition</a><ul class='methods'><li data-type='method'><a href="AppDefinition.html#.delete">delete</a></li><li data-type='method'><a href="AppDefinition.html#.update">update</a></li></ul></li><li><a href="AppInstallation.html">AppInstallation</a><ul class='methods'><li data-type='method'><a href="AppInstallation.html#.delete">delete</a></li><li data-type='method'><a href="AppInstallation.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createPersonalAccessToken">createPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganization">getOrganization</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganizations">getOrganizations</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganizationUsage">getOrganizationUsage</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessToken">getPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessTokens">getPersonalAccessTokens</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaceUsage">getSpaceUsage</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="ContentfulEnvironmentAPI.html">ContentfulEnvironmentAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAppInstallation">createAppInstallation</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAppInstallation">getAppInstallation</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAppInstallations">getAppInstallations</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssetFromData">getAssetFromData</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntryFromData">getEntryFromData</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUpload">getUpload</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulOrganizationAPI.html">ContentfulOrganizationAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulOrganizationAPI.html#.createAppDefinition">createAppDefinition</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getAppDefinition">getAppDefinition</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getAppDefinitions">getAppDefinitions</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationMembership">getOrganizationMembership</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationMemberships">getOrganizationMemberships</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationSpaceMembership">getOrganizationSpaceMembership</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationSpaceMemberships">getOrganizationSpaceMemberships</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironment">createEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironmentWithId">createEnvironmentWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironment">getEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironmentAlias">getEnvironmentAlias</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironmentAliases">getEnvironmentAliases</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironments">getEnvironments</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKey">getPreviewApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKeys">getPreviewApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceUser">getSpaceUser</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceUsers">getSpaceUsers</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="ContentType.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.omitAndDeleteField">omitAndDeleteField</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Environment.html">Environment</a><ul class='methods'><li data-type='method'><a href="Environment.html#.delete">delete</a></li><li data-type='method'><a href="Environment.html#.update">update</a></li></ul></li><li><a href="EnvironmentAlias.html">EnvironmentAlias</a><ul class='methods'><li data-type='method'><a href="EnvironmentAlias.html#.update">update</a></li></ul></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="Organization.html">Organization</a></li><li><a href="OrganizationMembership.html">OrganizationMembership</a><ul class='methods'><li data-type='method'><a href="OrganizationMembership.html#.delete">delete</a></li><li data-type='method'><a href="OrganizationMembership.html#.update">update</a></li></ul></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="PreviewApiKey.html">PreviewApiKey</a></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Usage.html">Usage</a></li><li><a href="User.html">User</a></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">entities/entry.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Entry instances
+ * @namespace Entry
+ */
+
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createUpdateEntity,
+  createDeleteEntity,
+  createPublishEntity,
+  createUnpublishEntity,
+  createArchiveEntity,
+  createUnarchiveEntity,
+  createPublishedChecker,
+  createUpdatedChecker,
+  createDraftChecker,
+  createArchivedChecker
+} from '../instance-actions'
+import errorHandler from '../error-handler'
+import {wrapSnapshot, wrapSnapshotCollection} from './snapshot'
+/**
+ * Types of fields found in an Entry
+ * @namespace EntryFields
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Symbol
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Text
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Integer
+ * @type number
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Number
+ * @type number
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Date
+ * @type string
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Boolean
+ * @type boolean
+ */
+
+/**
+ * @memberof EntryFields
+ * @typedef Location
+ * @prop {string} lat - latitude
+ * @prop {string} lon - longitude
+ */
+
+/**
+ * A Field in an Entry can have one of the following types that can be defined in Contentful. See &lt;a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types&lt;/a> for more details.
+ * @memberof EntryFields
+ * @typedef Field
+ * @type EntryFields.Symbol | EntryFields.Text | EntryFields.Integer | EntryFields.Number | EntryFields.Date | EntryFields.Boolean | EntryFields.Location | Meta.Link | Array&lt;EntryFields.Symbol|Meta.Link> | Object
+ */
+
+/**
+ * @memberof Entry
+ * @typedef Entry
+ * @prop {Meta.Sys} sys - Standard system metadata with additional entry specific properties
+ * @prop {Meta.Link} sys.contentType - Content Type used by this Entry
+ * @prop {string=} sys.locale - If present, indicates the locale which this entry uses
+ * @prop {Object&lt;EntryFields.Field>} fields - Object with content for each field
+ * @prop {function(): Object} toPlainObject() - Returns this Entry as a plain JS object
+ */
+
+function createEntryApi (http) {
+  return {
+
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof Entry
+     * @func update
+     * @return {Promise&lt;Entry>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => {
+     *   entry.fields.title['en-US'] = 'New entry title'
+     *   return entry.update()
+     * })
+     * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
+     * .catch(console.error)
+    */
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Deletes this object on the server.
+     * @memberof Entry
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.delete())
+     * .then(() => console.log(`Entry deleted.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'entries'
+    }),
+
+    /**
+     * Publishes the object
+     * @memberof Entry
+     * @func publish
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.publish())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
+     * .catch(console.error)
+     */
+    publish: createPublishEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Unpublishes the object
+     * @memberof Entry
+     * @func unpublish
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.unpublish())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
+     * .catch(console.error)
+     */
+    unpublish: createUnpublishEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Archives the object
+     * @memberof Entry
+     * @func archive
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.archive())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
+     * .catch(console.error)
+     */
+    archive: createArchiveEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Unarchives the object
+     * @memberof Entry
+     * @func unarchive
+     * @return {Promise&lt;Entry>} Object returned from the server with updated metadata.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.unarchive())
+     * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
+     * .catch(console.error)
+     */
+    unarchive: createUnarchiveEntity({
+      http: http,
+      entityPath: 'entries',
+      wrapperMethod: wrapEntry
+    }),
+
+    /**
+     * Gets all snapshots of an entry
+     * @memberof Entry
+     * @func getSnapshots
+     * @return Promise&lt;Snapshot>
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.getSnapshots())
+     * .then((snapshots) => console.log(snapshots.items))
+     * .catch(console.error)
+     */
+    getSnapshots: function (query = {}) {
+      return http.get(`entries/${this.sys.id}/snapshots`, createRequestConfig({query: query}))
+        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+    },
+
+    /**
+     * Gets a snapshot of an entry
+     * @memberof Entry
+     * @func getSnapshot
+     * @param {string} snapshotId - Id of the snapshot
+     * @return Promise&lt;Snapshot>
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEntry('&lt;entry_id>'))
+     * .then((entry) => entry.getSnapshot('&lt;snapshot_id>'))
+     * .then((snapshot) => console.log(snapshot))
+     * .catch(console.error)
+     */
+    getSnapshot: function (snapshotId) {
+      return http.get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
+        .then((response) => wrapSnapshot(http, response.data), errorHandler)
+    },
+    /**
+     * Checks if the entry is published. A published entry might have unpublished changes (@see {Entry.isUpdated})
+     * @memberof Entry
+     * @func isPublished
+     * @return {boolean}
+     */
+    isPublished: createPublishedChecker(),
+
+    /**
+     * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
+     * @memberof Entry
+     * @func isUpdated
+     * @return {boolean}
+     */
+    isUpdated: createUpdatedChecker(),
+
+    /**
+     * Checks if the entry is in draft mode. This means it is not published.
+     * @memberof Entry
+     * @func isDraft
+     * @return {boolean}
+     */
+    isDraft: createDraftChecker(),
+
+    /**
+     * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @memberof Entry
+     * @func isArchived
+     * @return {boolean}
+     */
+    isArchived: createArchivedChecker()
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw entry data
+ * @return {Entry} Wrapped entry data
+ */
+export function wrapEntry (http, data) {
+  const entry = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(entry, createEntryApi(http))
+  return freezeSys(entry)
+}
+
+/**
+ * Data is also mixed in with link getters if links exist and includes were requested
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw entry collection data
+ * @return {EntryCollection} Wrapped entry collection data
+ */
+export function wrapEntryCollection (http, data, resolveLinks) {
+  const entries = toPlainObject(cloneDeep(data))
+  entries.items = entries.items.map((entity) => wrapEntry(http, entity))
+  return freezeSys(entries)
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>

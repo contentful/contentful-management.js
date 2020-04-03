@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>create-organization-api.js - Documentation</title>
+
+    <script src="scripts/hljs/highlight.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/hljs.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="ApiKey.html">ApiKey</a><ul class='methods'><li data-type='method'><a href="ApiKey.html#.delete">delete</a></li><li data-type='method'><a href="ApiKey.html#.update">update</a></li></ul></li><li><a href="AppDefinition.html">AppDefinition</a><ul class='methods'><li data-type='method'><a href="AppDefinition.html#.delete">delete</a></li><li data-type='method'><a href="AppDefinition.html#.update">update</a></li></ul></li><li><a href="AppInstallation.html">AppInstallation</a><ul class='methods'><li data-type='method'><a href="AppInstallation.html#.delete">delete</a></li><li data-type='method'><a href="AppInstallation.html#.update">update</a></li></ul></li><li><a href="Asset.html">Asset</a><ul class='methods'><li data-type='method'><a href="Asset.html#.archive">archive</a></li><li data-type='method'><a href="Asset.html#.delete">delete</a></li><li data-type='method'><a href="Asset.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Asset.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Asset.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Asset.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Asset.html#.processForAllLocales">processForAllLocales</a></li><li data-type='method'><a href="Asset.html#.processForLocale">processForLocale</a></li><li data-type='method'><a href="Asset.html#.publish">publish</a></li><li data-type='method'><a href="Asset.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Asset.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Asset.html#.update">update</a></li></ul></li><li><a href="ContentfulClientAPI.html">ContentfulClientAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulClientAPI.html#.createPersonalAccessToken">createPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.createSpace">createSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganization">getOrganization</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganizations">getOrganizations</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getOrganizationUsage">getOrganizationUsage</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessToken">getPersonalAccessToken</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getPersonalAccessTokens">getPersonalAccessTokens</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpace">getSpace</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaces">getSpaces</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.getSpaceUsage">getSpaceUsage</a></li><li data-type='method'><a href="ContentfulClientAPI.html#.rawRequest">rawRequest</a></li></ul></li><li><a href="ContentfulEnvironmentAPI.html">ContentfulEnvironmentAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAppInstallation">createAppInstallation</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAppInstallation">getAppInstallation</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAppInstallations">getAppInstallations</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssetFromData">getAssetFromData</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntries">getEntries</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntryFromData">getEntryFromData</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulEnvironmentAPI.html#.getUpload">getUpload</a></li></ul></li><li><a href="contentfulManagement.html">contentfulManagement</a><ul class='methods'><li data-type='method'><a href="contentfulManagement.html#.createClient">createClient</a></li></ul></li><li><a href="ContentfulOrganizationAPI.html">ContentfulOrganizationAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulOrganizationAPI.html#.createAppDefinition">createAppDefinition</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getAppDefinition">getAppDefinition</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getAppDefinitions">getAppDefinitions</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationMembership">getOrganizationMembership</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationMemberships">getOrganizationMemberships</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationSpaceMembership">getOrganizationSpaceMembership</a></li><li data-type='method'><a href="ContentfulOrganizationAPI.html#.getOrganizationSpaceMemberships">getOrganizationSpaceMemberships</a></li></ul></li><li><a href="ContentfulSpaceAPI.html">ContentfulSpaceAPI</a><ul class='methods'><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKey">createApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createApiKeyWithId">createApiKeyWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAsset">createAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetFromFiles">createAssetFromFiles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createAssetWithId">createAssetWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentType">createContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createContentTypeWithId">createContentTypeWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntry">createEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEntryWithId">createEntryWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironment">createEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createEnvironmentWithId">createEnvironmentWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createLocale">createLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRole">createRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createRoleWithId">createRoleWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembership">createSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createSpaceMembershipWithId">createSpaceMembershipWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtension">createUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUiExtensionWithId">createUiExtensionWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createUpload">createUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhook">createWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.createWebhookWithId">createWebhookWithId</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKey">getApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getApiKeys">getApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAsset">getAsset</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getAssets">getAssets</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentType">getContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypes">getContentTypes</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getContentTypeSnapshots">getContentTypeSnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEditorInterfaceForContentType">getEditorInterfaceForContentType</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntry">getEntry</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEntrySnapshots">getEntrySnapshots</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironment">getEnvironment</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironmentAlias">getEnvironmentAlias</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironmentAliases">getEnvironmentAliases</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getEnvironments">getEnvironments</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocale">getLocale</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getLocales">getLocales</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKey">getPreviewApiKey</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getPreviewApiKeys">getPreviewApiKeys</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRole">getRole</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getRoles">getRoles</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMembership">getSpaceMembership</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceMemberships">getSpaceMemberships</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceUser">getSpaceUser</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getSpaceUsers">getSpaceUsers</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtension">getUiExtension</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUiExtensions">getUiExtensions</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getUpload">getUpload</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhook">getWebhook</a></li><li data-type='method'><a href="ContentfulSpaceAPI.html#.getWebhooks">getWebhooks</a></li></ul></li><li><a href="ContentType.html">ContentType</a><ul class='methods'><li data-type='method'><a href="ContentType.html#.delete">delete</a></li><li data-type='method'><a href="ContentType.html#.getEditorInterface">getEditorInterface</a></li><li data-type='method'><a href="ContentType.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="ContentType.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="ContentType.html#.isDraft">isDraft</a></li><li data-type='method'><a href="ContentType.html#.isPublished">isPublished</a></li><li data-type='method'><a href="ContentType.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="ContentType.html#.omitAndDeleteField">omitAndDeleteField</a></li><li data-type='method'><a href="ContentType.html#.publish">publish</a></li><li data-type='method'><a href="ContentType.html#.unpublish">unpublish</a></li><li data-type='method'><a href="ContentType.html#.update">update</a></li></ul></li><li><a href="EditorInterface.html">EditorInterface</a><ul class='methods'><li data-type='method'><a href="EditorInterface.html#.getControlForField">getControlForField</a></li><li data-type='method'><a href="EditorInterface.html#.update">update</a></li></ul></li><li><a href="Entry.html">Entry</a><ul class='methods'><li data-type='method'><a href="Entry.html#.archive">archive</a></li><li data-type='method'><a href="Entry.html#.delete">delete</a></li><li data-type='method'><a href="Entry.html#.getSnapshot">getSnapshot</a></li><li data-type='method'><a href="Entry.html#.getSnapshots">getSnapshots</a></li><li data-type='method'><a href="Entry.html#.isArchived">isArchived</a></li><li data-type='method'><a href="Entry.html#.isDraft">isDraft</a></li><li data-type='method'><a href="Entry.html#.isPublished">isPublished</a></li><li data-type='method'><a href="Entry.html#.isUpdated">isUpdated</a></li><li data-type='method'><a href="Entry.html#.publish">publish</a></li><li data-type='method'><a href="Entry.html#.unarchive">unarchive</a></li><li data-type='method'><a href="Entry.html#.unpublish">unpublish</a></li><li data-type='method'><a href="Entry.html#.update">update</a></li></ul></li><li><a href="EntryFields.html">EntryFields</a></li><li><a href="Environment.html">Environment</a><ul class='methods'><li data-type='method'><a href="Environment.html#.delete">delete</a></li><li data-type='method'><a href="Environment.html#.update">update</a></li></ul></li><li><a href="EnvironmentAlias.html">EnvironmentAlias</a><ul class='methods'><li data-type='method'><a href="EnvironmentAlias.html#.update">update</a></li></ul></li><li><a href="Locale.html">Locale</a><ul class='methods'><li data-type='method'><a href="Locale.html#.delete">delete</a></li><li data-type='method'><a href="Locale.html#.update">update</a></li></ul></li><li><a href="Meta.html">Meta</a></li><li><a href="Organization.html">Organization</a></li><li><a href="OrganizationMembership.html">OrganizationMembership</a><ul class='methods'><li data-type='method'><a href="OrganizationMembership.html#.delete">delete</a></li><li data-type='method'><a href="OrganizationMembership.html#.update">update</a></li></ul></li><li><a href="PersonalAccessToken.html">PersonalAccessToken</a><ul class='methods'><li data-type='method'><a href="PersonalAccessToken.html#.revoke">revoke</a></li></ul></li><li><a href="PreviewApiKey.html">PreviewApiKey</a></li><li><a href="Role.html">Role</a><ul class='methods'><li data-type='method'><a href="Role.html#.delete">delete</a></li><li data-type='method'><a href="Role.html#.update">update</a></li></ul></li><li><a href="Snapshot.html">Snapshot</a></li><li><a href="Space.html">Space</a><ul class='methods'><li data-type='method'><a href="Space.html#.delete">delete</a></li><li data-type='method'><a href="Space.html#.update">update</a></li></ul></li><li><a href="SpaceMembership.html">SpaceMembership</a><ul class='methods'><li data-type='method'><a href="SpaceMembership.html#.delete">delete</a></li><li data-type='method'><a href="SpaceMembership.html#.update">update</a></li></ul></li><li><a href="UiExtension.html">UiExtension</a><ul class='methods'><li data-type='method'><a href="UiExtension.html#.delete">delete</a></li><li data-type='method'><a href="UiExtension.html#.update">update</a></li></ul></li><li><a href="Upload.html">Upload</a><ul class='methods'><li data-type='method'><a href="Upload.html#.delete">delete</a></li></ul></li><li><a href="Usage.html">Usage</a></li><li><a href="User.html">User</a></li><li><a href="Webhook.html">Webhook</a><ul class='methods'><li data-type='method'><a href="Webhook.html#.delete">delete</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getCalls">getCalls</a></li><li data-type='method'><a href="Webhook.html#.getHealth">getHealth</a></li><li data-type='method'><a href="Webhook.html#.update">update</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">create-organization-api.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Contentful Organization API. Contains methods to access any operations at a organization level.
+ * @namespace ContentfulOrganizationAPI
+ */
+
+import { createRequestConfig } from 'contentful-sdk-core'
+import errorHandler from './error-handler'
+import entities from './entities'
+
+/**
+ * @memberof ContentfulOrganizationAPI
+ * @typedef {object} ContentfulOrganizationAPI
+ * @prop {function} createAppDefinition
+ * @prop {function} getAppDefinition
+ * @prop {function} getAppDefinitions
+ * @prop {function} getOrganizationMembership
+ * @prop {function} getOrganizationMemberships
+ */
+
+/**
+ * Creates API object with methods to access the Organization API
+ * @private
+ * @param {object} params - API initialization params
+ * @prop {object} http - HTTP client instance
+ * @prop {object} entities - Object with wrapper methods for each kind of entity
+ * @return {ContentfulOrganizationAPI}
+ */
+export default function createOrganizationApi ({ http }) {
+  const {wrapAppDefinition, wrapAppDefinitionCollection} = entities.appDefinition
+  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
+  const {wrapSpaceMembership, wrapSpaceMembershipCollection} = entities.spaceMembership
+
+  const headers = {'x-contentful-enable-alpha-feature': 'organization-user-management-api'}
+
+  /**
+   * Organization instances.
+   * @namespace Organization
+   */
+
+  /**
+   * Gets an Organization Membership
+   * @memberof ContentfulOrganizationAPI
+   * @param {string} id - Organization Membership ID
+   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for an Organization Membership
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * client.getOrganizations()
+   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
+   * .then((organizationMembership) => console.log(organizationMembership))
+   * .catch(console.error)
+   */
+  function getOrganizationMembership (id) {
+    return http.get('organization_memberships/' + id)
+      .then(response => wrapOrganizationMembership(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection of Organization Memberships
+   * @memberof ContentfulOrganizationAPI
+   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
+   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * client.getOrganizations()
+   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
+   * .then((response) => console.log(response.items))
+   * .catch(console.error)
+   */
+  function getOrganizationMemberships (query = {}) {
+    return http.get('organization_memberships', {
+      query
+    })
+      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets an Space Membership in Organization
+   * @memberof ContentfulOrganizationAPI
+   * @param {string} id - Organiztion Space Membership ID
+   * @return {Promise&lt;SpaceMembership>} Promise for a Space Membership in an organization
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * client.getOrganizations()
+   * .then((organization) => organization.getOrganizationSpaceMembership('organizationSpaceMembership_id'))
+   * .then((organizationMembership) => console.log(organizationMembership))
+   * .catch(console.error)
+   */
+  function getOrganizationSpaceMembership (id) {
+    return http.get('space_memberships/' + id, {
+      headers
+    })
+      .then(response => wrapSpaceMembership(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets a collection Space Memberships in organization
+   * @memberof ContentfulOrganizationAPI
+   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
+   * @return {Promise&lt;SpaceMembership[]>} Promise for a Space Membership collection across all spaces in the organization
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * client.getOrganizations()
+   * .then((organization) => organization.getOrganizationSpaceMemberships()) // you can add queries like 'limit': 100
+   * .then((response) => console.log(response.items))
+   * .catch(console.error)
+   */
+  function getOrganizationSpaceMemberships (query = {}) {
+    return http.get('space_memberships', {
+      headers,
+      query
+    })
+      .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets all app definitions
+   * @memberof ContentfulOrganizationAPI
+   * @return {Promise&lt;AppDefinition.AppDefinitionCollection>} Promise for a collection of App Definitions
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getOrganization('&lt;org_id>')
+   * .then((org) => org.getAppDefinitions())
+   * .then((response) => console.log(response.items))
+   * .catch(console.error)
+   */
+  function getAppDefinitions (query = {}) {
+    return http.get('app_definitions', createRequestConfig({query: query}))
+      .then((response) => wrapAppDefinitionCollection(http, response.data), errorHandler)
+  }
+
+  /**
+   * Gets an app definition
+   * @memberof ContentfulOrganizationAPI
+   * @return {Promise&lt;AppDefinition.AppDefinition>} Promise for an App Definition
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getOrganization('&lt;org_id>')
+   * .then((org) => org.getAppDefinition('&lt;app_definition_id>'))
+   * .then((appDefinition) => console.log(appDefinition))
+   * .catch(console.error)
+   */
+  function getAppDefinition (id) {
+    return http.get('app_definitions/' + id)
+      .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+  }
+
+  /**
+   * Creates an app definition
+   * @memberof ContentfulOrganizationAPI
+   * @see {AppDefinition}
+   * @param {object=} data - Object representation of the App Definition to be created
+   * @return {Promise&lt;AppDefinition.AppDefinition>} Promise for the newly created AppDefinition
+   * @example
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '&lt;content_management_api_key>'
+   * })
+   *
+   * client.getOrganization('&lt;org_id>')
+   * .then((org) => org.createAppDefinition({
+   *    name: 'Example app',
+   *    locations: [{ location: 'app-config' }],
+   *    src: "http://my-app-host.com/my-app"
+   *  }))
+   * .then((appDefinition) => console.log(appDefinition))
+   * .catch(console.error)
+   */
+  function createAppDefinition (data = {}) {
+    return http.post('app_definitions', data)
+      .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+  }
+
+  return {
+    getAppDefinition,
+    getAppDefinitions,
+    createAppDefinition,
+    getOrganizationMembership,
+    getOrganizationMemberships,
+    getOrganizationSpaceMembership,
+    getOrganizationSpaceMemberships
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/contentful/contentful-sdk-jsdoc">contentful-sdk-jsdoc</a> theme.
+</footer>
+
+<script>hljs.initHighlightingOnLoad();</script>
+</body>
+</html>
