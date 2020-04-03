@@ -285,6 +285,7 @@ const mocks = {
   webhook: webhookMock,
   spaceMembership: spaceMembershipMock,
   organizationMembership: organizationMembershipMock,
+  invitation: invitationMock,
   role: roleMock,
   apiKey: apiKeyMock,
   previewApiKey: previewApiKeyMock,
