@@ -1,10 +1,11 @@
 export default function spaceMembersTests (t, space) {
   t.test('Gets spaceMembers', t => {
-    t.plan(3)
+    t.plan(4)
     return space.getSpaceMembers().then(response => {
       t.ok(response.sys, 'sys')
       t.ok(response.sys.type, 'Array')
       t.ok(response.items, 'items')
+      t.ok(response.items[0].type, 'SpaceMember')
     })
   })
   t.test('Gets spaceMember', t => {
