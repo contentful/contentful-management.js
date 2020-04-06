@@ -1,9 +1,9 @@
-import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSys, MetaSysProps } from "./meta";
+import { DefaultElements } from "./defaultElements";
 
 export interface TeamMembershipProps {
-  admin: boolean,
-  roles: MetaLinkProps[]
+  admin: boolean;
+  organizationMembershipId: string;
 }
 
 export interface TeamMembership
