@@ -60,6 +60,7 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.1.0",
@@ -78,7 +79,7 @@
     "cz-conventional-changelog": "^3.1.0",
     "delay": "^4.3.0",
     "eslint": "^6.8.0",
-    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
@@ -128,7 +129,9 @@
         }
       ],
       "@semantic-release/release-notes-generator",
-      "@semantic-release/npm"
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github"
     ]
   },
   "bundlesize": [
