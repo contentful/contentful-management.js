@@ -1,5 +1,5 @@
 import { DefaultElements } from './defaultElements'
-import { MetaSys } from './meta'
+import { MetaSys, MetaSysProps } from './meta'
 import { ApiKey, CreateApiKeyProps } from './apiKey'
 import { Collection } from './collection'
 import { Environment, EnvironmentProps } from './environment'
@@ -22,6 +22,11 @@ export interface SpaceProps {
   name: string
 }
 
+export interface EnvironmentAlias extends MetaSys<MetaSysProps> {
+  environment: Environment
+  update(): Promise<EnvironmentAlias>
+}
+
 export interface ContentfulSpaceAPI {
   delete(): Promise<void>,
   update(): Promise<void>,
@@ -37,7 +42,7 @@ export interface ContentfulSpaceAPI {
   createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>,
   createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>,
   createEnvironment(data: EnvironmentProps): Promise<Environment>,
-  createEnvironmentWithId(id: string, data: EnvironmentProps): Promise<Environment>,
+  createEnvironmentWithId(id: string, data: EnvironmentProps, sourceEnvironmentId: string): Promise<Environment>,
   createLocale(data: LocaleProps): Promise<Locale>,
   createRole(data: RoleProps): Promise<Role>,
   createRoleWithId(id: string, ata: RoleProps): Promise<Role>,
@@ -59,6 +64,7 @@ export interface ContentfulSpaceAPI {
   getEntry(id: string): Promise<Entry>,
   getEntries(object?: QueryOptions): Promise<Collection<Entry>>,
   getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
+  getEnvironmentAlias(name: string): Promise<EnvironmentAlias>,
   getLocale(id: string): Promise<Locale>,
   getLocales(): Promise<Collection<Locale>>,
   getUiExtension(id: string): Promise<UIExtension>,
