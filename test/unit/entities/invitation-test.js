@@ -4,17 +4,17 @@ import setupHttpMock from '../mocks/http'
 import {
   entityWrappedTest
 } from '../test-creators/instance-entity-methods'
-import { wrapInvitation } from '../../../lib/entities/invitation'
+import { wrapOrganizationInvitation } from '../../../lib/entities/organization-invitation'
 
 function setup (promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('invitation')
+    entityMock: cloneMock('organizationInvitation')
   }
 }
 
-test('Invitation is wrapped', (t) => {
+test('Organization invitation is wrapped', (t) => {
   entityWrappedTest(t, setup, {
-    wrapperMethod: wrapInvitation
+    wrapperMethod: wrapOrganizationInvitation
   })
 })
