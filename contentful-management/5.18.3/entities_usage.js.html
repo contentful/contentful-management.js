@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Organization - Documentation</title>
+    <title>entities/usage.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,536 +26,84 @@
 
 <div id="main">
     
-    <h1 class="page-title">Organization</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        Organization
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line33">line 33</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-        
-            <div class="description">Organization instances.</div>
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id=".Organization">Organization</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">System metadata
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Organization as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".OrganizationCollection">OrganizationCollection</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>total</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>items</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="Organization.html#.Organization">Organization.Organization</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Organization collection as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    
-    
-    
-
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">entities/usage.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace Usage
+ */
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import cloneDeep from 'lodash/cloneDeep'
+
+/**
+ * @memberof Usage
+ * @typedef { "cma" | "cda" | "cpa" | "gql" } UsageMetricEnum
+ */
+
+/**
+ * The &lt;code>dateRange&lt;/code> parameter is optional. When some or all of
+ * &lt;code>dateRange&lt;/code> properties are missing the usage period is derived
+ * from today and the maximum reported data points which are currently set to
+ * &lt;code>45 days&lt;/code>. The calculated usage period is part of the response
+ * object see {@link Usage.Usage}
+ *
+ * @memberof Usage
+ * @typedef UsageQuery
+ * @prop {string} [metric[in]] - One or more comma separated usage {@link Usage.UsageMetricEnum metrics}. By default no filtering is applied.
+ * @prop {string} [dateRange.startAt] - Start of a usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {string} [dateRange.endAt] - End of a usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {number} [skip=0]
+ * @prop {number} [limit=25]
+ * @prop {string} [order="-usage"]
+ */
+
+/**
+ * @memberof Usage
+ * @typedef Usage
+ * @prop {string} sys.id - Usage id in form of &lt;code>usage-{metric}-{entity}-key-{key}-{startAt}-{endAt}&lt;/code>
+ * @prop {"OrganizationPeriodicUsage" | "SpacePeriodicUsage"} sys.type - Usage internal type
+ * @prop {Meta.Link} [sys.organization] - Organization link when &lt;code>sys.type&lt;/code> is &lt;code>OrganizationPeriodicUsage&lt;/code>
+ * @prop {Meta.Link} [sys.space] - Space link when &lt;code>sys.code&lt;/code> is &lt;code>SpacePeriodicUsage&lt;/code>
+ * @prop {"apiRequestsCount"} unitOfMeasure - Unit of measurement
+ * @prop {Usage.UsageMetricEnum} metric - Type of the requested metric
+ * @prop {string} dateRange.startAt - Start of the requested usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {string} dateRange.endAt - End of the requested usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {number} usage - Usage total for the requested &lt;code>metric&lt;/code> and usage period
+ * @prop {Object} usagePerDay - Usage per day for the requested &lt;code>metric&lt;/code> and usage period, &lt;code>{ "yyyy-dd-mm": number, ... }&lt;/code>
+ */
+
+/**
+ * @memberof Usage
+ * @typedef UsageCollection
+ * @prop {number} total
+ * @prop {number} limit
+ * @prop {number} skip
+ * @prop {string} order
+ * @prop {Object&lt;{type: "Array"}>} sys
+ * @prop {Array&lt;Usage.Usage>} items
+ * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
+ */
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw usage data collection
+ * @return {Usage.UsageCollection} Normalized usage collection
+ */
+export function wrapUsageCollection (http, data) {
+  const usage = toPlainObject(cloneDeep(data))
+  return freezeSys(usage)
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

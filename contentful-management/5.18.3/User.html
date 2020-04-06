@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Organization - Documentation</title>
+    <title>User - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Organization</h1>
+    <h1 class="page-title">User</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Organization
+        User
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line33">line 33</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,8 +94,6 @@
 
 
         
-            <div class="description">Organization instances.</div>
-        
 
         
     
@@ -117,7 +115,7 @@
 
         
                 
-<h4 class="name" id=".Organization">Organization</h4>
+<h4 class="name" id=".User">User</h4>
 
 
 
@@ -128,7 +126,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line6">line 6</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -248,7 +246,7 @@
 
             
 
-            <td class="description last">Organization id</td>
+            <td class="description last">User id</td>
         </tr>
 
     
@@ -285,7 +283,7 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>firstName</code></td>
             
 
             <td class="type">
@@ -301,7 +299,145 @@
 
             
 
-            <td class="description last">Organization name</td>
+            <td class="description last">User first name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lastName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User last name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>avatarUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User avatar url</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User email</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>activated</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User activated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>signInCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User sign in count</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>confirmed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User confirmed</td>
         </tr>
 
     
@@ -324,7 +460,7 @@
 
             
 
-            <td class="description last">Returns this Organization as a plain JS object</td>
+            <td class="description last">Returns this User as a plain JS object</td>
         </tr>
 
     
@@ -345,7 +481,7 @@
 
             
                 
-<h4 class="name" id=".OrganizationCollection">OrganizationCollection</h4>
+<h4 class="name" id=".UserCollection">UserCollection</h4>
 
 
 
@@ -356,7 +492,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line16">line 16</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -442,29 +578,6 @@
 
         <tr>
             
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>limit</code></td>
             
 
@@ -488,13 +601,59 @@
 
         <tr>
             
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;{type: "Array"}></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>items</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Organization.html#.Organization">Organization.Organization</a>></span>
+<span class="param-type">Array.&lt;<a href="User.html#.User">User.User</a>></span>
 
 
             
@@ -527,7 +686,7 @@
 
             
 
-            <td class="description last">Returns this Organization collection as a plain JS object</td>
+            <td class="description last">Returns the collection as a plain JS object</td>
         </tr>
 
     

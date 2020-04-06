@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Organization - Documentation</title>
+    <title>entities/app-installation.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,536 +26,121 @@
 
 <div id="main">
     
-    <h1 class="page-title">Organization</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        Organization
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line33">line 33</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-        
-            <div class="description">Organization instances.</div>
-        
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id=".Organization">Organization</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line6">line 6</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">System metadata
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Organization as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".OrganizationCollection">OrganizationCollection</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>total</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>items</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="Organization.html#.Organization">Organization.Organization</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Organization collection as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-    
-    
-    
-
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">entities/app-installation.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * UI Extension instances
+ * @namespace AppInstallation
+ */
+
+import { toPlainObject, freezeSys } from 'contentful-sdk-core'
+import cloneDeep from 'lodash/cloneDeep'
+import errorHandler from '../error-handler'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  createDeleteEntity
+} from '../instance-actions'
+
+/**
+ * @memberof AppInstallation
+ * @typedef AppInstallation
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {object} parameters - App Installation specific configuration variables
+ * @prop {function(): Object} toPlainObject() - Returns this App Installation as a plain JS object
+ *
+ */
+
+function createAppInstallationApi (http) {
+  return {
+    /**
+     * Sends an update to the server with any changes made to the object's properties
+     * @memberof AppInstallation
+     * @func update
+     * @return {Promise&lt;AppInstallation>} Object returned from the server with updated changes.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEnvironment('&lt;environment_id>'))
+     * .then((environment) => environment.getAppInstallation('&lt;app_definition_id>'))
+     * .then((appInstallation) => {
+     *    appInstallation.parameters.someParameter = 'New Value'
+     *    return appInstallation.update()
+     * })
+     * .then((appInstallation) => console.log(`App installation ${appInstallation.sys.id} was updated`))
+     * .catch(console.error)
+     */
+    update: function () {
+      const raw = this.toPlainObject()
+      const data = cloneDeep(raw)
+      delete data.sys
+      return http.put(`app_installations/${this.sys.appDefinition.sys.id}`, data)
+        .then((response) => wrapAppInstallation(http, response.data), errorHandler)
+    },
+
+    /**
+     * Deletes this object on the server.
+     * @memberof AppInstallation
+     * @func delete
+     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '&lt;content_management_api_key>'
+     * })
+     *
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getEnvironment('&lt;environment_id>'))
+     * .then((environment) => environment.delete())
+     * .then(() => console.log(`App installation deleted.`))
+     * .catch(console.error)
+     */
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'app_installations'
+    })
+  }
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw App Installation data
+ * @return {AppInstallation} Wrapped App installation data
+ */
+export function wrapAppInstallation (http, data) {
+  const appInstallation = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(appInstallation, createAppInstallationApi(http))
+  return freezeSys(appInstallation)
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw App installation collection data
+ * @return {AppInstallationCollection} Wrapped App installation collection data
+ */
+export function wrapAppInstallationCollection (http, data) {
+  const appInstallations = toPlainObject(cloneDeep(data))
+  appInstallations.items = appInstallations.items.map(appInstallationEntity => wrapAppInstallation(http, appInstallationEntity))
+  return freezeSys(appInstallations)
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

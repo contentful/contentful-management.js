@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Organization - Documentation</title>
+    <title>OrganizationMembership - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Organization</h1>
+    <h1 class="page-title">OrganizationMembership</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Organization
+        OrganizationMembership
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line33">line 33</a>
+        <a href="entities_organization-membership.js.html">entities/organization-membership.js</a>, <a href="entities_organization-membership.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Organization instances.</div>
+            <div class="description">Organization membership instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Organization">Organization</h4>
+<h4 class="name" id=".OrganizationMembership">OrganizationMembership</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line6">line 6</a>
+        <a href="entities_organization-membership.js.html">entities/organization-membership.js</a>, <a href="entities_organization-membership.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -197,7 +197,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
 
 
             
@@ -207,32 +207,14 @@
 
             
 
-            <td class="description last">System metadata
-                <h6>Properties</h6>
+            <td class="description last">System metadata</td>
+        </tr>
 
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>role</code></td>
             
 
             <td class="type">
@@ -248,20 +230,20 @@
 
             
 
-            <td class="description last">Organization id</td>
+            <td class="description last"></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>status</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -271,37 +253,7 @@
 
             
 
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization name</td>
+            <td class="description last">User is an admin</td>
         </tr>
 
     
@@ -324,7 +276,7 @@
 
             
 
-            <td class="description last">Returns this Organization as a plain JS object</td>
+            <td class="description last">Returns this Organization Membership as a plain JS object</td>
         </tr>
 
     
@@ -345,7 +297,7 @@
 
             
                 
-<h4 class="name" id=".OrganizationCollection">OrganizationCollection</h4>
+<h4 class="name" id=".OrganizationMembershipCollection">OrganizationMembershipCollection</h4>
 
 
 
@@ -356,7 +308,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line16">line 16</a>
+        <a href="entities_organization-membership.js.html">entities/organization-membership.js</a>, <a href="entities_organization-membership.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -442,29 +394,6 @@
 
         <tr>
             
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>limit</code></td>
             
 
@@ -488,13 +417,59 @@
 
         <tr>
             
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;{type: "Array"}></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>items</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Organization.html#.Organization">Organization.Organization</a>></span>
+<span class="param-type">Array.&lt;<a href="OrganizationMembership.html#.OrganizationMembership">OrganizationMembership.OrganizationMembership</a>></span>
 
 
             
@@ -527,7 +502,7 @@
 
             
 
-            <td class="description last">Returns this Organization collection as a plain JS object</td>
+            <td class="description last">Returns the collection as a plain JS object</td>
         </tr>
 
     
@@ -549,6 +524,257 @@
             
     
     
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_organization-membership.js.html">entities/organization-membership.js</a>, <a href="entities_organization-membership.js.html#line67">line 67</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deletes this object on the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getOrganizations()
+.then((organizations) => organizations.items[0])
+.then(org => org.getOrganizationMembership('organizationMembership_id'))
+.then((organizationMembership) => {
+ organizationMembership.delete();
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="OrganizationMembership.html">OrganizationMembership</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_organization-membership.js.html">entities/organization-membership.js</a>, <a href="entities_organization-membership.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getOrganizations()
+.then((organizations) => organizations.items[0])
+.then(org => org.getOrganizationMembership('organizationMembership_id'))
+.then((organizationMembership) => {
+ organizationMembership.role = 'member';
+ organizationMembership.update();
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="OrganizationMembership.html">OrganizationMembership</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
     
 
 

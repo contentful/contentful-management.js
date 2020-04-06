@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Organization - Documentation</title>
+    <title>Usage - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Organization</h1>
+    <h1 class="page-title">Usage</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Organization
+        Usage
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line33">line 33</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,8 +94,6 @@
 
 
         
-            <div class="description">Organization instances.</div>
-        
 
         
     
@@ -117,7 +115,7 @@
 
         
                 
-<h4 class="name" id=".Organization">Organization</h4>
+<h4 class="name" id=".Usage">Usage</h4>
 
 
 
@@ -128,7 +126,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line6">line 6</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -179,6 +177,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -191,7 +191,275 @@
 
         <tr>
             
-                <td class="name"><code>sys</code></td>
+                <td class="name"><code>sys.id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Usage id in form of <code>usage-{metric}-{entity}-key-{key}-{startAt}-{endAt}</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys.type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"OrganizationPeriodicUsage"</span>
+|
+
+<span class="param-type">"SpacePeriodicUsage"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Usage internal type</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys.organization</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Organization link when <code>sys.type</code> is <code>OrganizationPeriodicUsage</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys.space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Space link when <code>sys.code</code> is <code>SpacePeriodicUsage</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>unitOfMeasure</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"apiRequestsCount"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Unit of measurement</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>metric</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Usage.html#.UsageMetricEnum">Usage.UsageMetricEnum</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Type of the requested metric</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.startAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Start of the requested usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.endAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">End of the requested usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>usage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Usage total for the requested <code>metric</code> and usage period</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>usagePerDay</code></td>
             
 
             <td class="type">
@@ -204,127 +472,16 @@
             </td>
 
             
-
-            
-
-            <td class="description last">System metadata
-                <h6>Properties</h6>
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">string</span>
 
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization id</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
                 
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
+                </td>
             
 
             
 
-            <td class="description last">Entity type</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Organization as a plain JS object</td>
+            <td class="description last">Usage per day for the requested <code>metric</code> and usage period, <code>{ "yyyy-dd-mm": number, ... }</code></td>
         </tr>
 
     
@@ -345,7 +502,7 @@
 
             
                 
-<h4 class="name" id=".OrganizationCollection">OrganizationCollection</h4>
+<h4 class="name" id=".UsageCollection">UsageCollection</h4>
 
 
 
@@ -356,7 +513,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_organization.js.html">entities/organization.js</a>, <a href="entities_organization.js.html#line16">line 16</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -442,29 +599,6 @@
 
         <tr>
             
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>limit</code></td>
             
 
@@ -488,13 +622,82 @@
 
         <tr>
             
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;{type: "Array"}></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>items</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="Organization.html#.Organization">Organization.Organization</a>></span>
+<span class="param-type">Array.&lt;<a href="Usage.html#.Usage">Usage.Usage</a>></span>
 
 
             
@@ -527,7 +730,7 @@
 
             
 
-            <td class="description last">Returns this Organization collection as a plain JS object</td>
+            <td class="description last">Returns the collection as a plain JS object</td>
         </tr>
 
     
@@ -538,6 +741,400 @@
 
 
 
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".UsageMetricEnum">UsageMetricEnum</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">"cma"</span>
+|
+
+<span class="param-type">"cda"</span>
+|
+
+<span class="param-type">"cpa"</span>
+|
+
+<span class="param-type">"gql"</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".UsageQuery">UsageQuery</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>metric[in]</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">One or more comma separated usage <a href="Usage.html#.UsageMetricEnum">metrics</a>. By default no filtering is applied.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.startAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Start of a usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.endAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">End of a usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>0</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>25</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"-usage"</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    The <code>dateRange</code> parameter is optional. When some or all of
+<code>dateRange</code> properties are missing the usage period is derived
+from today and the maximum reported data points which are currently set to
+<code>45 days</code>. The calculated usage period is part of the response
+object see <a href="Usage.html#.Usage">Usage.Usage</a>
+</div>
 
 
 
