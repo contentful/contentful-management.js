@@ -5,7 +5,7 @@ export default function spaceMembersTests (t, space) {
       t.ok(response.sys, 'sys')
       t.ok(response.sys.type, 'Array')
       t.ok(response.items, 'items')
-      t.ok(response.items[0].type, 'SpaceMember')
+      t.ok(response.items[0].sys.type, 'SpaceMember')
     })
   })
   t.test('Gets spaceMember', t => {
