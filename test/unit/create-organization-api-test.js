@@ -115,31 +115,31 @@ test('API call getOrganizationSpaceMembership fails', (t) => {
   })
 })
 
-test('API call getInvitation', (t) => {
+test('API call getOrganizationInvitation', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'invitation',
     mockToReturn: invitationMock,
-    methodToTest: 'getInvitation'
+    methodToTest: 'getOrganizationInvitation'
   })
 })
 
-test('API call getInvitation fails', (t) => {
+test('API call getOrganizationInvitation fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getInvitation'
+    methodToTest: 'getOrganizationInvitation'
   })
 })
 
-test('API call createInvitation', (t) => {
+test('API call createOrganizationInvitation', (t) => {
   makeCreateEntityTest(t, setup, teardown, {
     entityType: 'invitation',
     mockToReturn: invitationMock,
-    methodToTest: 'createInvitation'
+    methodToTest: 'createOrganizationInvitation'
   })
 })
 
-test('API call createInvitation fails', (t) => {
+test('API call createOrganizationInvitation fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createInvitation'
+    methodToTest: 'createOrganizationInvitation'
   })
 })
 

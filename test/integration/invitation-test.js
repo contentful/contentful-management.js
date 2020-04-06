@@ -1,13 +1,13 @@
 export default function invitationTests (t, organization) {
   t.test('Creates, gets an invitation in the organization and remove membership after test', (t) => {
     t.plan(5)
-    return organization.createInvitation({
+    return organization.createOrganizationInvitation({
       email: 'test.user@contentful.com',
       firstName: 'Test',
       lastName: 'User',
       role: 'developer'
     })
-      .then((response) => organization.getInvitation(response.sys.id))
+      .then((response) => organization.getOrganizationInvitation(response.sys.id))
       .then((invitation) => {
         t.equal(invitation.sys.type, 'Invitation', 'type')
         t.equal(invitation.sys.status, 'open', 'status')
