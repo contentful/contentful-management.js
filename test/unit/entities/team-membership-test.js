@@ -1,7 +1,7 @@
 import test from 'blue-tape'
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
-import {wrapTeamMembershipByTeam, wrapTeamMembershipCollectionByTeam} from '../../../lib/entities/team-membership'
+import {wrapTeamMembership, wrapTeamMembershipCollection} from '../../../lib/entities/team-membership'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -17,13 +17,13 @@ function setup (promise) {
 
 test('TeamMembership is wrapped', (t) => {
   entityWrappedTest(t, setup, {
-    wrapperMethod: wrapTeamMembershipByTeam
+    wrapperMethod: wrapTeamMembership
   })
 })
 
 test('TeamMembership collection is wrapped', (t) => {
   return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapTeamMembershipCollectionByTeam
+    wrapperMethod: wrapTeamMembershipCollection
   })
 })
 
@@ -31,7 +31,7 @@ test('TeamMembership update', (t) => {
   t.plan(3)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapTeamMembershipByTeam(httpMock, entityMock, 'team1')
+  const entity = wrapTeamMembership(httpMock, entityMock, 'team1')
   entity.admin = true
   return entity.update()
     .then((response) => {
@@ -44,7 +44,7 @@ test('TeamMembership update', (t) => {
 
 test('TeamMembership update fails', (t) => {
   return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeamMembershipByTeam,
+    wrapperMethod: wrapTeamMembership,
     actionMethod: 'update'
   })
 })
@@ -53,7 +53,7 @@ test('TeamMembership delete', (t) => {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapTeamMembershipByTeam(httpMock, entityMock, 'team1')
+  const entity = wrapTeamMembership(httpMock, entityMock, 'team1')
   return entity.delete()
     .then((response) => {
       t.pass('entity was deleted')
@@ -64,7 +64,7 @@ test('TeamMembership delete', (t) => {
 
 test('TeamMembership delete fails', (t) => {
   return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeamMembershipByTeam,
+    wrapperMethod: wrapTeamMembership,
     actionMethod: 'delete'
   })
 })

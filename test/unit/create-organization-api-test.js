@@ -132,7 +132,7 @@ test('API call getOrganizationSpaceMemberships fails', (t) => {
 test('API call getTeamMembershipByTeam', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))
-  entitiesMock['teamMembership'][`wrapTeamMembershipByTeam`]
+  entitiesMock['teamMembership'][`wrapTeamMembership`]
     .returns(teamMembershipMock)
   return api['getTeamMembershipByTeam']('teamid', 'eid')
     .then((r) => {
@@ -156,7 +156,7 @@ test('API call getTeamMembershipByTeam fails', (t) => {
 test('API call getTeamMembershipsByTeam', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))
-  entitiesMock['teamMembership'][`wrapTeamMembershipCollectionByTeam`]
+  entitiesMock['teamMembership'][`wrapTeamMembershipCollection`]
     .returns({
       total: 100,
       skip: 0,
