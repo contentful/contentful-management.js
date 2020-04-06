@@ -129,31 +129,31 @@ test('API call getOrganizationSpaceMemberships fails', (t) => {
   })
 })
 
-test('API call getTeamMembershipByTeam', (t) => {
+test('API call getTeamMembership', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock['teamMembership'][`wrapTeamMembership`]
     .returns(teamMembershipMock)
-  return api['getTeamMembershipByTeam']('teamid', 'eid')
+  return api['getTeamMembership']('teamid', 'eid')
     .then((r) => {
       t.looseEqual(r, teamMembershipMock)
       teardown()
     })
 })
 
-test('API call getTeamMembershipByTeam fails', (t) => {
+test('API call getTeamMembership fails', (t) => {
   t.plan(1)
   const error = cloneMock('error')
   const {api} = setup(Promise.reject(error))
 
-  return api['getTeamMembershipByTeam']('teamid', 'eid')
+  return api['getTeamMembership']('teamid', 'eid')
     .then(() => {}, (r) => {
       t.equals(r.name, '404 Not Found')
       teardown()
     })
 })
 
-test('API call getTeamMembershipsByTeam', (t) => {
+test('API call getTeamMemberships', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock['teamMembership'][`wrapTeamMembershipCollection`]
@@ -163,7 +163,7 @@ test('API call getTeamMembershipsByTeam', (t) => {
       limit: 10,
       items: [teamMembershipMock]
     })
-  return api['getTeamMembershipsByTeam']('teamid')
+  return api['getTeamMemberships']('teamid')
     .then((r) => {
       t.looseEqual(r, {
         total: 100,
@@ -175,12 +175,12 @@ test('API call getTeamMembershipsByTeam', (t) => {
     })
 })
 
-test('API call getTeamMembershipsByTeam fails', (t) => {
+test('API call getTeamMemberships fails', (t) => {
   t.plan(1)
   const error = cloneMock('error')
   const {api} = setup(Promise.reject(error))
 
-  return api['getTeamMembershipByTeam']('teamid')
+  return api['getTeamMembership']('teamid')
     .then(() => {}, (r) => {
       t.equals(r.name, '404 Not Found')
       teardown()
