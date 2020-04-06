@@ -9,12 +9,11 @@ export default function spaceMembersTests (t, space) {
     })
   })
   t.test('Gets spaceMember', t => {
-    t.plan(4)
+    t.plan(3)
     return space.getSpaceMember('0PCYk22mt1xD7gTKZhHycN').then(response => {
       t.ok(response.sys, 'sys')
       t.equal(response.sys.type, 'SpaceMember')
       t.ok(response.sys.id, 'w6xueg32zr68-0PCYk22mt1xD7gTKZhHycN')
-      t.ok(response.admin, 'true')
     })
   })
 }
