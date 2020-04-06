@@ -129,6 +129,19 @@ test('API call getOrganizationSpaceMemberships fails', (t) => {
   })
 })
 
+test('API call createTeamMembership', (t) => {
+  t.plan(1)
+  const {api, entitiesMock} = setup(Promise.resolve({}))
+  entitiesMock['teamMembership'][`wrapTeamMembership`]
+    .returns(teamMembershipMock)
+
+  return api['createTeamMembership']({admin: true, organizationMembershipId: 'id'})
+    .then((r) => {
+      t.looseEqual(r, teamMembershipMock)
+      teardown()
+    })
+})
+
 test('API call getTeamMembership', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))

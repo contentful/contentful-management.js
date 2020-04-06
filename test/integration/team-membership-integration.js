@@ -9,7 +9,7 @@ export default function teamMembershipTests (t, organization) {
       })
   })
 
-  t.test('Gets organizationMembership', (t) => {
+  t.test('Gets teamMembership', (t) => {
     t.plan(3)
     return organization.getTeamMembership('4bsQOABPBKerHD35NPGEPh', '4NcpxJYamTkuHxWMVqoLaI')
       .then((response) => {
