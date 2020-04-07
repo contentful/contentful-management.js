@@ -20,17 +20,16 @@ export default function teamMembershipTests (t, organization) {
   })
 
   t.test('Create and delete teamMembership', (t) => {
-    t.plan(3)
+    t.plan(4)
     return organization.createTeamMembership('7pIEx2fMx53SSR1jd7C46M', {
       admin: true, organizationMembershipId: '5mDCHGHvePI8NOzw0WaY2Z'
     })
-      .then((teamMembership) => {
+      .then(async (teamMembership) => {
         t.ok(teamMembership.sys, 'sys')
         t.equal(teamMembership.admin, true)
         t.ok(teamMembership.sys.type, 'TeamMembership')
-        return teamMembership.delete().then((response) => {
-          t.ok(response, {})
-        })
+        await teamMembership.delete()
+        t.pass('teamMembership was deleted')
       })
   })
 }
