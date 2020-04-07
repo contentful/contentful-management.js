@@ -188,6 +188,12 @@ const webhookMock = {
   })
 }
 
+const spaceMemberMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'SpaceMember'
+  })
+}
+
 const spaceMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'SpaceMembership'
@@ -283,6 +289,7 @@ const mocks = {
   asset: assetMock,
   locale: localeMock,
   webhook: webhookMock,
+  spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
   organizationMembership: organizationMembershipMock,
   teamMembership: teamMembershipMock,
@@ -346,6 +353,10 @@ function setupEntitiesMock (rewiredModuleApi) {
     webhook: {
       wrapWebhook: sinon.stub(),
       wrapWebhookCollection: sinon.stub()
+    },
+    spaceMember: {
+      wrapSpaceMember: sinon.stub(),
+      wrapSpaceMemberCollection: sinon.stub()
     },
     spaceMembership: {
       wrapSpaceMembership: sinon.stub(),
@@ -426,6 +437,7 @@ export {
   assetWithFilesMock,
   localeMock,
   webhookMock,
+  spaceMemberMock,
   spaceMembershipMock,
   organizationMembershipMock,
   teamMembershipMock,
