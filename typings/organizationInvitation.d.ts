@@ -9,6 +9,6 @@ export interface OrganizationInvitationProps {
 
 export interface OrganizationInvitation extends MetaSys<MetaSysProps> {
   organizationMembership: { sys: MetaLinkProps },
-  user: null,
+  user: Object | null,
   invitationUrl: string,
 }
