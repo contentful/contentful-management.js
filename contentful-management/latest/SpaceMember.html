@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Role - Documentation</title>
+    <title>SpaceMember - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Role</h1>
+    <h1 class="page-title">SpaceMember</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        Role
+        SpaceMember
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_role.js.html">entities/role.js</a>, <a href="entities_role.js.html#line1">line 1</a>
+        <a href="entities_space-member.js.html">entities/space-member.js</a>, <a href="entities_space-member.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Role instances</div>
+            <div class="description">Space Member instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".Role">Role</h4>
+<h4 class="name" id=".SpaceMember">SpaceMember</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_role.js.html">entities/role.js</a>, <a href="entities_role.js.html#line13">line 13</a>
+        <a href="entities_space-member.js.html">entities/space-member.js</a>, <a href="entities_space-member.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -207,14 +207,32 @@
 
             
 
-            <td class="description last">System metadata</td>
-        </tr>
+            <td class="description last">System metadata
+                <h6>Properties</h6>
 
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
@@ -230,20 +248,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Space member id is of form <spaceId>-<userId></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>permissions</code></td>
+                <td class="name"><code>relatedMemberships</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">array</span>
 
 
             
@@ -253,20 +271,27 @@
 
             
 
-            <td class="description last">Permissions for application sections</td>
+            <td class="description last">Array of SpaceMemberships or TeamSpaceMemberships Links</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>policies</code></td>
+                <td class="name"><code>admin</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">boolean</span>
 
 
             
@@ -276,7 +301,30 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">User is an admin</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>roles</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of Role Links</td>
         </tr>
 
     
@@ -299,7 +347,7 @@
 
             
 
-            <td class="description last">Returns this Role as a plain JS object</td>
+            <td class="description last">Returns this Space Member as a plain JS object</td>
         </tr>
 
     
@@ -311,10 +359,6 @@
 
 
 
-<div class="description">
-    See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/roles/create-a-role
-</div>
-
 
 
 
@@ -325,255 +369,6 @@
             
     
     
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_role.js.html">entities/role.js</a>, <a href="entities_role.js.html#line54">line 54</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Deletes this object on the server.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => space.getRole('&lt;role_id>'))
-.then((role) => role.delete())
-.then((role) => console.log(`role deleted.`))
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Role.html">Role</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_role.js.html">entities/role.js</a>, <a href="entities_role.js.html#line27">line 27</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Sends an update to the server with any changes made to the object's properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getSpace('&lt;space_id>')
-.then((space) => space.getRole('&lt;roles_id>'))
-.then((roles) => {
-  roles.name = 'New role name'
-  return roles.update()
-})
-.then((roles) => console.log(`roles ${roles.sys.id} updated.`))
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object returned from the server with updated changes.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="Role.html">Role</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
     
 
 
