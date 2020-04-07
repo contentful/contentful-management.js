@@ -28,7 +28,9 @@ export default function teamMembershipTests (t, organization) {
         t.ok(teamMembership.sys, 'sys')
         t.equal(teamMembership.admin, true)
         t.ok(teamMembership.sys.type, 'TeamMembership')
-        teamMembership.delete()
+        return teamMembership.delete().then((response) => {
+          t.ok(response, {})
+        })
       })
   })
 }
