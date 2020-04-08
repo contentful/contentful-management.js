@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/team-membership.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/team-membership.js</h1>
     
 
     
@@ -37,8 +37,8 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * TeamMembership instances
+ * @namespace TeamMembership
  */
 
 import cloneDeep from 'lodash/cloneDeep'
@@ -47,32 +47,31 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
+ * @memberof TeamMembership
+ * @typedef TeamMembership
  * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @prop {boolean} admin - User is an admin
+ * @prop {function(): Object} toPlainObject() - Returns this Team Membership as a plain JS object
  */
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
+ * @memberof TeamMembership
+ * @typedef TeamMembershipCollection
  * @prop {number} total
  * @prop {number} limit
  * @prop {number} skip
  * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
+ * @prop {Array&lt;TeamMembership.TeamMembership>} items
  * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
  */
 
-function createOrganizationMembershipApi (http) {
+function createTeamMembershipApi (http, teamId) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
+     * @memberof TeamMembership
      * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
+     * @return {Promise&lt;TeamMembership>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -80,30 +79,30 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
+     * client.getOrganizations()
+     * .then((organizations) => organizations.items[0])
+     * .then(org => org.getTeamMembership('teamId', 'teamMembership_id'))
+     * .then((teamMembership) => {
+     *  teamMembership.admin = true;
+     *  teamMembership.update();
      * })
      * .catch(console.error)
      */
 
     update: function () {
       const raw = this.toPlainObject()
-      const { role } = raw
 
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
+      return http.put('teams/' + teamId + '/team_memberships/' + this.sys.id, raw, {
         headers: {
           'X-Contentful-Version': this.sys.version || 0
         }
       })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+        .then((response) => wrapTeamMembership(http, response.data), errorHandler)
     },
 
     /**
      * Deletes this object on the server.
-     * @memberof OrganizationMembership
+     * @memberof TeamMembership
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -113,43 +112,45 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
+     * client.getOrganizations()
+     * .then((organizations) => organizations.items[0])
+     * .then(org => org.getTeamMembership('teamId', 'teamMembership_id'))
+     * .then((teamMembership) => {
+     *  teamMembership.delete();
      * })
      * .catch(console.error)
      */
 
     delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
+      return http.delete('teams/' + teamId + '/team_memberships/' + this.sys.id,
+        {headers: {'x-contentful-enable-alpha-feature': 'teams-api'}}
+      )
         .then((response) => {}, errorHandler)
     }
   }
 }
-
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw team membership data
+ * @return {TeamMembership} Wrapped team membership data
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+export function wrapTeamMembership (http, data, teamId) {
+  const teamMembership = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(teamMembership, createTeamMembershipApi(http, teamId))
+  return freezeSys(teamMembership)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
+ * @param {Object} data - Raw team membership collection data
+ * @return {TeamMembershipCollection} Wrapped team membership collection data
  */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapTeamMembershipCollection (http, data, teamId) {
+  const teamMemberships = toPlainObject(cloneDeep(data))
+  teamMemberships.items = teamMemberships.items.map((entity) => wrapTeamMembership(http, entity, teamId))
+  return freezeSys(teamMemberships)
 }
 </code></pre>
         </article>

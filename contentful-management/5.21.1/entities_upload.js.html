@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/upload.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/upload.js</h1>
     
 
     
@@ -37,73 +37,30 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * Upload instances
+ * @namespace Upload
  */
-
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import {
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @memberof Upload
+ * @typedef {Upload} Upload
+ * @prop {Object} sys - Standard system metadata with additional asset specific properties
+ * @prop {string} sys.id - The id of the upload
+ * @prop {function(): Promise} delete - Deletes an upload
+ * @prop {function(): Object} toPlainObject - Returns this Asset as a plain JS object
  */
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
-
-function createOrganizationMembershipApi (http) {
+function createUploadApi (http) {
   return {
     /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
-     * })
-     * .catch(console.error)
-     */
-
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
-
-    /**
      * Deletes this object on the server.
-     * @memberof OrganizationMembership
+     * @memberof Upload
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -113,43 +70,29 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getUpload('&lt;upload_id>'))
+     * .then((upload) => upload.delete())
+     * .then((upload) => console.log(`upload ${upload.sys.id} updated.`))
      * .catch(console.error)
      */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'uploads'
+    })
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw upload data
+ * @return {Upload} Wrapped upload data
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
-}
-
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
- */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapUpload (http, data) {
+  const upload = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(upload, createUploadApi(http))
+  return freezeSys(upload)
 }
 </code></pre>
         </article>

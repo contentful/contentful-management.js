@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/usage.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/usage.js</h1>
     
 
     
@@ -37,119 +37,69 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * @namespace Usage
  */
-
-import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import cloneDeep from 'lodash/cloneDeep'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @memberof Usage
+ * @typedef { "cma" | "cda" | "cpa" | "gql" } UsageMetricEnum
  */
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
+ * The &lt;code>dateRange&lt;/code> parameter is optional. When some or all of
+ * &lt;code>dateRange&lt;/code> properties are missing the usage period is derived
+ * from today and the maximum reported data points which are currently set to
+ * &lt;code>45 days&lt;/code>. The calculated usage period is part of the response
+ * object see {@link Usage.Usage}
+ *
+ * @memberof Usage
+ * @typedef UsageQuery
+ * @prop {string} [metric[in]] - One or more comma separated usage {@link Usage.UsageMetricEnum metrics}. By default no filtering is applied.
+ * @prop {string} [dateRange.startAt] - Start of a usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {string} [dateRange.endAt] - End of a usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {number} [skip=0]
+ * @prop {number} [limit=25]
+ * @prop {string} [order="-usage"]
+ */
+
+/**
+ * @memberof Usage
+ * @typedef Usage
+ * @prop {string} sys.id - Usage id in form of &lt;code>usage-{metric}-{entity}-key-{key}-{startAt}-{endAt}&lt;/code>
+ * @prop {"OrganizationPeriodicUsage" | "SpacePeriodicUsage"} sys.type - Usage internal type
+ * @prop {Meta.Link} [sys.organization] - Organization link when &lt;code>sys.type&lt;/code> is &lt;code>OrganizationPeriodicUsage&lt;/code>
+ * @prop {Meta.Link} [sys.space] - Space link when &lt;code>sys.code&lt;/code> is &lt;code>SpacePeriodicUsage&lt;/code>
+ * @prop {"apiRequestsCount"} unitOfMeasure - Unit of measurement
+ * @prop {Usage.UsageMetricEnum} metric - Type of the requested metric
+ * @prop {string} dateRange.startAt - Start of the requested usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {string} dateRange.endAt - End of the requested usage period in &lt;code>yyyy-mm-dd&lt;/code> format
+ * @prop {number} usage - Usage total for the requested &lt;code>metric&lt;/code> and usage period
+ * @prop {Object} usagePerDay - Usage per day for the requested &lt;code>metric&lt;/code> and usage period, &lt;code>{ "yyyy-dd-mm": number, ... }&lt;/code>
+ */
+
+/**
+ * @memberof Usage
+ * @typedef UsageCollection
  * @prop {number} total
  * @prop {number} limit
  * @prop {number} skip
+ * @prop {string} order
  * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
+ * @prop {Array&lt;Usage.Usage>} items
  * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
  */
 
-function createOrganizationMembershipApi (http) {
-  return {
-    /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
-     * })
-     * .catch(console.error)
-     */
-
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
-
-    /**
-     * Deletes this object on the server.
-     * @memberof OrganizationMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
-     * .catch(console.error)
-     */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
-  }
-}
-
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw usage data collection
+ * @return {Usage.UsageCollection} Normalized usage collection
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
-}
-
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
- */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapUsageCollection (http, data) {
+  const usage = toPlainObject(cloneDeep(data))
+  return freezeSys(usage)
 }
 </code></pre>
         </article>

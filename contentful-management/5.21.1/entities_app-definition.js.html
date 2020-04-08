@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/app-definition.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/app-definition.js</h1>
     
 
     
@@ -37,42 +37,37 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * App Definition instances
+ * @namespace AppDefinition
  */
-
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
+
+const entityPath = 'app_definitions'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
+ * @memberof AppDefinition
+ * @typedef AppDefinition
  * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @prop {object} appDefinition - App Definition config
+ * @prop {string} app.name - App name
+ * @prop {array} app.locations - Locations where the app can be installed
+ * @prop {array} app.src - URL where the root HTML document of the app can be found
+ * @prop {function(): Object} toPlainObject() - Returns this App Definition as a plain JS object
  */
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
-
-function createOrganizationMembershipApi (http) {
+function createAppDefinitionApi (http) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
+     * @memberof AppDefinition
      * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
+     * @return {Promise&lt;AppDefinition>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -80,30 +75,24 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAppDefinition('&lt;ui_extension_id>'))
+     * .then((appDefinition) => {
+     *   appDefinition.extension.name = 'New App Definition name'
+     *   return appDefinition.update()
      * })
+     * .then((appDefinition) => console.log(`App Definition ${appDefinition.sys.id} updated.`))
      * .catch(console.error)
      */
-
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
+    update: createUpdateEntity({
+      http,
+      entityPath,
+      wrapperMethod: wrapAppDefinition
+    }),
 
     /**
      * Deletes this object on the server.
-     * @memberof OrganizationMembership
+     * @memberof AppDefinition
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -113,43 +102,41 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getAppDefinition('&lt;ui_extension_id>'))
+     * .then((appDefinition) => appDefinition.delete())
+     * .then(() => console.log(`App Definition deleted.`))
      * .catch(console.error)
      */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
+    delete: createDeleteEntity({
+      http,
+      entityPath
+    })
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw App Definition data
+ * @return {AppDefinition} Wrapped App Definition data
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+export function wrapAppDefinition (http, data) {
+  const appDefinition = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(appDefinition, createAppDefinitionApi(http))
+  return freezeSys(appDefinition)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
+ * @param {Object} data - Raw App Definition collection data
+ * @return {AppDefinitionCollection} Wrapped App Definition collection data
  */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapAppDefinitionCollection (http, data) {
+  const appDefinitions = toPlainObject(cloneDeep(data))
+  appDefinitions.items = appDefinitions.items.map((entity) => wrapAppDefinition(http, entity))
+  return freezeSys(appDefinitions)
 }
 </code></pre>
         </article>

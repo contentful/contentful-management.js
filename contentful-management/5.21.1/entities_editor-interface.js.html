@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/editor-interface.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/editor-interface.js</h1>
     
 
     
@@ -37,8 +37,8 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * Editor Interface instances
+ * @namespace EditorInterface
  */
 
 import cloneDeep from 'lodash/cloneDeep'
@@ -47,32 +47,26 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @memberof EditorInterface
+ * @typedef Control
+ * @prop {srting} fieldId - the id of the customized field
+ * @prop {string} widgetId - customization associated to the field
  */
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
+ * @memberof EditorInterface
+ * @typedef EditorInterface
+ * @prop {Meta.Sys} sys - System metadata
+ * @prop {EditorInterface.Control[]} controls - array of fields and it's associated widgetId
  */
 
-function createOrganizationMembershipApi (http) {
+function createEditorInterfaceApi (http) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
+     * @memberof EditorInterface
      * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
+     * @return {Promise&lt;EditorInterface>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -80,32 +74,32 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getContentType('&lt;contentType_id>'))
+     * .then((contentType) => contentType.getEditorInterface())
+     * .then((editorInterface) => {
+     *  editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+     *  return editorInterface.update()
      * })
      * .catch(console.error)
      */
-
     update: function () {
       const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
+      const data = cloneDeep(raw)
+      delete data.sys
+      return http.put(`content_types/${this.sys.contentType.sys.id}/editor_interface`,
+        data,
+        {
+          headers: {'X-Contentful-Version': this.sys.version}
         }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      )
+        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
     },
-
     /**
-     * Deletes this object on the server.
-     * @memberof OrganizationMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * gets a control for a specific field
+     * @memberof EditorInterface
+     * @func getControlForField
+     * @return {?Object} control object for specific field.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -113,43 +107,34 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getContentType('&lt;contentType_id>'))
+     * .then((contentType) => contentType.getEditorInterface())
+     * .then((editorInterface) => {
+     *  control = editorInterface.getControlForField('&lt;field-id>')
+     *  console.log(control)
      * })
      * .catch(console.error)
      */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
+    getControlForField: function (fieldId) {
+      const result = this.controls.filter((control) => {
+        return control.fieldId === fieldId
+      })
+      return (result &amp;&amp; result.length > 0) ? result[0] : null
     }
   }
 }
 
 /**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
- */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
-}
-
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
- */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+* @private
+* @param {Object} http - HTTP client instance
+* @param {Object} data - Raw editor-interface data
+* @return {EditorInterface} Wrapped editor-interface data
+*/
+export function wrapEditorInterface (http, data) {
+  const editorInterface = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(editorInterface, createEditorInterfaceApi(http))
+  return freezeSys(editorInterface)
 }
 </code></pre>
         </article>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>EditorInterface - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,134 +26,625 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">EditorInterface</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
- */
+        <h2>
+        EditorInterface
+        </h2>
+        
+    
+</header>
 
-import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
- */
+<dl class="details">
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-function createOrganizationMembershipApi (http) {
-  return {
-    /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
-     * })
-     * .catch(console.error)
-     */
+    
 
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
+    
 
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
+    
 
-    /**
-     * Deletes this object on the server.
-     * @memberof OrganizationMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
-     * .catch(console.error)
-     */
+    
 
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
-  }
-}
+    
 
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
- */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
-}
+    
 
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
- */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">Editor Interface instances</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".Control">Control</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fieldId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">srting</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the id of the customized field</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>widgetId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">customization associated to the field</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".EditorInterface">EditorInterface</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>controls</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="EditorInterface.html#.Control">EditorInterface.Control</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">array of fields and it's associated widgetId</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".getControlForField"><span class="type-signature">(static) </span>getControlForField<span class="signature">()</span><span class="type-signature"> &rarr; (nullable) {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    gets a control for a specific field
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ control = editorInterface.getControlForField('&lt;field-id>')
+ console.log(control)
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    control object for specific field.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_editor-interface.js.html">entities/editor-interface.js</a>, <a href="entities_editor-interface.js.html#line27">line 27</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getContentType('&lt;contentType_id>'))
+.then((contentType) => contentType.getEditorInterface())
+.then((editorInterface) => {
+ editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+ return editorInterface.update()
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="EditorInterface.html">EditorInterface</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
 
 
 

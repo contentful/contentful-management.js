@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/locale.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/locale.js</h1>
     
 
     
@@ -37,42 +37,38 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
+ * Locale instances
+ * @namespace Locale
  */
-
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import {
+  createUpdateEntity,
+  createDeleteEntity
+} from '../instance-actions'
 
 /**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
+ * @memberof Locale
+ * @typedef Locale
  * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
+ * @prop {string} name
+ * @prop {string} code - Locale code (example: en-us)
+ * @prop {string} fallbackCode - the locale code to fallback to when there is not content for the current locale
+ * @prop {boolean} contentDeliveryApi - If the content under this locale should be available on the CDA (for public reading)
+ * @prop {boolean} contentManagementApi - If the content under this locale should be available on the CMA (for editing)
+ * @prop {boolean} default - If this is the default locale
+ * @prop {boolean} optional - If the locale needs to be filled in on entries or not
+ * @prop {function(): Object} toPlainObject() - Returns this Locale as a plain JS object
  */
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
-
-function createOrganizationMembershipApi (http) {
+function createLocaleApi (http) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
+     * @memberof Locale
      * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
+     * @return {Promise&lt;Locale>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -80,30 +76,28 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getLocale('&lt;locale_id>'))
+     * .then((locale) => {
+     *   locale.name = 'New locale name'
+     *   return locale.update()
      * })
+     * .then((locale) => console.log(`locale ${locale.sys.id} updated.`))
      * .catch(console.error)
      */
-
     update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      const locale = this
+      delete locale.default // we should not send this back
+      return createUpdateEntity({
+        http: http,
+        entityPath: 'locales',
+        wrapperMethod: wrapLocale
+      }).call(locale)
     },
 
     /**
      * Deletes this object on the server.
-     * @memberof OrganizationMembership
+     * @memberof Locale
      * @func delete
      * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
@@ -113,43 +107,42 @@ function createOrganizationMembershipApi (http) {
      *   accessToken: '&lt;content_management_api_key>'
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
+     * client.getSpace('&lt;space_id>')
+     * .then((space) => space.getLocale('&lt;locale_id>'))
+     * .then((locale) => locale.delete())
+     * .then(() => console.log(`locale deleted.`))
      * .catch(console.error)
      */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'locales'
+    })
   }
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw locale data
+ * @return {Locale} Wrapped locale data
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+export function wrapLocale (http, data) {
+  delete data.internal_code
+  const locale = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(locale, createLocaleApi(http))
+  return freezeSys(locale)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
+ * @param {Object} data - Raw locale collection data
+ * @return {LocaleCollection} Wrapped locale collection data
  */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapLocaleCollection (http, data) {
+  const locales = toPlainObject(cloneDeep(data))
+  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
+  return freezeSys(locales)
 }
 </code></pre>
         </article>

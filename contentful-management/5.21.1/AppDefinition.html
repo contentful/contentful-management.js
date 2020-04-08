@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>AppDefinition - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,134 +26,580 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">AppDefinition</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
- */
+        <h2>
+        AppDefinition
+        </h2>
+        
+    
+</header>
 
-import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
- */
+<dl class="details">
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-definition.js.html">entities/app-definition.js</a>, <a href="entities_app-definition.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-function createOrganizationMembershipApi (http) {
-  return {
-    /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
-     * })
-     * .catch(console.error)
-     */
+    
 
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
+    
 
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
-      })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
+    
 
-    /**
-     * Deletes this object on the server.
-     * @memberof OrganizationMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
-     * .catch(console.error)
-     */
+    
 
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
-    }
-  }
-}
+    
 
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
- */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
-}
+    
 
-/**
- * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
- */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+        
+            <div class="description">App Definition instances</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".AppDefinition">AppDefinition</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-definition.js.html">entities/app-definition.js</a>, <a href="entities_app-definition.js.html#line15">line 15</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>appDefinition</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">App Definition config</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>app.name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">App name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>app.locations</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Locations where the app can be installed</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>app.src</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">URL where the root HTML document of the app can be found</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns this App Definition as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-definition.js.html">entities/app-definition.js</a>, <a href="entities_app-definition.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deletes this object on the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAppDefinition('&lt;ui_extension_id>'))
+.then((appDefinition) => appDefinition.delete())
+.then(() => console.log(`App Definition deleted.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="AppDefinition.html">AppDefinition</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_app-definition.js.html">entities/app-definition.js</a>, <a href="entities_app-definition.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAppDefinition('&lt;ui_extension_id>'))
+.then((appDefinition) => {
+  appDefinition.extension.name = 'New App Definition name'
+  return appDefinition.update()
+})
+.then((appDefinition) => console.log(`App Definition ${appDefinition.sys.id} updated.`))
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="AppDefinition.html">AppDefinition</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
 
 
 

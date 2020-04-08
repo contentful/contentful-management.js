@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>entities/organization-membership.js - Documentation</title>
+    <title>entities/personal-access-token.js - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">entities/organization-membership.js</h1>
+    <h1 class="page-title">entities/personal-access-token.js</h1>
     
 
     
@@ -37,93 +37,41 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Organization membership instances
- * @namespace OrganizationMembership
- */
+ * Personal access token
+ * @namespace PersonalAccessToken
+ * */
 
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {string} role
- * @prop {boolean} status - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Organization Membership as a plain JS object
- */
-
-/**
- * @memberof OrganizationMembership
- * @typedef OrganizationMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object&lt;{type: "Array"}>} sys
- * @prop {Array&lt;OrganizationMembership.OrganizationMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
-
-function createOrganizationMembershipApi (http) {
+function createPersonalAccessToken (http) {
   return {
     /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise&lt;OrganizationMembership>} Object returned from the server with updated changes.
+     * Revokes a personal access token
+     * @memberof PersonalAccessToken
+     * @func revoke
+     * @return {Promise&lt;PersonalAccessToken>} Object the revoked personal access token
      * @example
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
+     *  accessToken: &lt;content_management_api_key>
      * })
      *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.role = 'member';
-     *  organizationMembership.update();
-     * })
-     * .catch(console.error)
+     * client.getPersonalAccessToken('&lt;token-id>')
+     *  .then((personalAccessToken) => {
+     *    return personalAccessToken.revoke()
+     *  })
+     *  .catch(console.error)
      */
-
-    update: function () {
-      const raw = this.toPlainObject()
-      const { role } = raw
-
-      return http.put('organization_memberships' + '/' + this.sys.id, {role}, {
-        headers: {
-          'X-Contentful-Version': this.sys.version || 0
-        }
+    revoke: function () {
+      const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+      return http.put(`${this.sys.id}/revoked`, null, {
+        baseURL
       })
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
-    },
-
-    /**
-     * Deletes this object on the server.
-     * @memberof OrganizationMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '&lt;content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organization_id')
-     * .then(org => org.getOrganizationMembership('organizationMembership_id'))
-     * .then((organizationMembership) => {
-     *  organizationMembership.delete();
-     * })
-     * .catch(console.error)
-     */
-
-    delete: function () {
-      return http.delete('organization_memberships' + '/' + this.sys.id)
-        .then((response) => {}, errorHandler)
+        .then((response) => response.data, errorHandler)
     }
   }
 }
@@ -131,25 +79,25 @@ function createOrganizationMembershipApi (http) {
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @param {Object} data - Raw  personal access token data
+ * @return {PersonalAccessToken} Wrapped personal access token
  */
-export function wrapOrganizationMembership (http, data) {
-  const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+export function wrapPersonalAccessToken (http, data) {
+  const personalAccessToken = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(personalAccessToken, createPersonalAccessToken(http))
+  return freezeSys(personalAccessToken)
 }
 
 /**
  * @private
  * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
+ * @param {Object} data - Raw personal access collection data
+ * @return {PersonalAccessTokenCollection} Wrapped personal access token collection data
  */
-export function wrapOrganizationMembershipCollection (http, data) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity))
-  return freezeSys(organizationMemberships)
+export function wrapPersonalAccessTokenCollection (http, data) {
+  const personalAccessTokens = toPlainObject(cloneDeep(data))
+  personalAccessTokens.items = personalAccessTokens.items.map((entity) => wrapPersonalAccessToken(http, entity))
+  return freezeSys(personalAccessTokens)
 }
 </code></pre>
         </article>
