@@ -228,3 +228,31 @@ test('API call getTeamMemberships fails', (t) => {
       teardown()
     })
 })
+
+test('API call getOrganizationTeamMemberships', (t) => {
+  t.plan(1)
+  const {api, entitiesMock} = setup(Promise.resolve({}))
+  entitiesMock['teamMembership'][`wrapOrganizationTeamMembershipCollection`]
+    .returns({
+      total: 100,
+      skip: 0,
+      limit: 10,
+      items: [teamMembershipMock]
+    })
+  return api['getOrganizationTeamMemberships']()
+    .then((r) => {
+      t.looseEqual(r, {
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamMembershipMock]
+      })
+      teardown()
+    })
+})
+
+test('API call getOrganizationTeamMemberships fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getOrganizationTeamMemberships'
+  })
+})

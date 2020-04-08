@@ -1,7 +1,7 @@
 import test from 'blue-tape'
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
-import {wrapTeamMembership, wrapTeamMembershipCollection} from '../../../lib/entities/team-membership'
+import {wrapTeamMembership, wrapTeamMembershipCollection, wrapOrganizationTeamMembership, wrapOrganizationTeamMembershipCollection} from '../../../lib/entities/team-membership'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -66,5 +66,17 @@ test('TeamMembership delete fails', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapTeamMembership,
     actionMethod: 'delete'
+  })
+})
+
+test('OrganizationTeamMembership is wrapped', (t) => {
+  entityWrappedTest(t, setup, {
+    wrapperMethod: wrapOrganizationTeamMembership
+  })
+})
+
+test('OrganizationTeamMembership collection is wrapped', (t) => {
+  return entityCollectionWrappedTest(t, setup, {
+    wrapperMethod: wrapOrganizationTeamMembershipCollection
   })
 })

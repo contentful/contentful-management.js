@@ -32,4 +32,14 @@ export default function teamMembershipTests (t, organization) {
         t.pass('teamMembership was deleted')
       })
   })
+
+  t.test('Gets organizationTeamMemberships', (t) => {
+    t.plan(3)
+    return organization.getOrganizationTeamMemberships()
+      .then((response) => {
+        t.ok(response.sys, 'sys')
+        t.ok(response.items, 'items')
+        t.ok(response.items[0].sys.type, 'TeamMembership')
+      })
+  })
 }
