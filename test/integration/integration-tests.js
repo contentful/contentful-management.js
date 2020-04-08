@@ -214,7 +214,7 @@ test('Gets organization for tests which change and delete data', (t) => {
       return Promise.all([
         organizationMembershipTests(t, organization),
         organizationSpaceMembershipTests(t, organization),
-        teamMembershipTests(t, organization)
+        teamMembershipTests(t, organization),
         organizationInvitationTests(t, organization)
       ])
     })
