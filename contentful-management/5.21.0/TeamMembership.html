@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>create-organization-api.js - Documentation</title>
+    <title>TeamMembership - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,337 +26,739 @@
 
 <div id="main">
     
-    <h1 class="page-title">create-organization-api.js</h1>
+    <h1 class="page-title">TeamMembership</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * Contentful Organization API. Contains methods to access any operations at a organization level.
- * @namespace ContentfulOrganizationAPI
- */
+        <h2>
+        TeamMembership
+        </h2>
+        
+    
+</header>
 
-import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
-import entities from './entities'
+<article>
+    <div class="container-overview">
+    
+        
 
-/**
- * @memberof ContentfulOrganizationAPI
- * @typedef {object} ContentfulOrganizationAPI
- * @prop {function} createAppDefinition
- * @prop {function} getAppDefinition
- * @prop {function} getAppDefinitions
- * @prop {function} getOrganizationMembership
- * @prop {function} getOrganizationMemberships
- * @prop {function} getTeamMembership
- * @prop {function} getTeamMemberships
- * @prop {function} getOrganizationInvitation
- * @prop {function} createOrganizationInvitation
- */
+<dl class="details">
 
-/**
- * Creates API object with methods to access the Organization API
- * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulOrganizationAPI}
- */
-export default function createOrganizationApi ({ http }) {
-  const {wrapAppDefinition, wrapAppDefinitionCollection} = entities.appDefinition
-  const {wrapOrganizationMembership, wrapOrganizationMembershipCollection} = entities.organizationMembership
-  const {wrapTeamMembership, wrapTeamMembershipCollection} = entities.teamMembership
-  const {wrapSpaceMembership, wrapSpaceMembershipCollection} = entities.spaceMembership
-  const {wrapOrganizationInvitation} = entities.organizationInvitation
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
 
-  const teamAlphaHeaders = {'x-contentful-enable-alpha-feature': 'teams-api'}
-  const headers = {'x-contentful-enable-alpha-feature': 'organization-user-management-api'}
+    
 
-  /**
-   * Organization instances.
-   * @namespace Organization
-   */
+    
 
-  /**
-   * Gets an Organization Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organization Membership ID
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembership>} Promise for an Organization Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationMembership (id) {
-    return http.get('organization_memberships/' + id)
-      .then(response => wrapOrganizationMembership(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Gets a collection of Organization Memberships
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;OrganizationMembership.OrganizationMembershipCollection>} Promise for a collection of Organization Memberships
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationMemberships (query = {}) {
-    return http.get('organization_memberships', {
-      query
-    })
-      .then(response => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Gets an Space Membership in Organization
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Organiztion Space Membership ID
-   * @return {Promise&lt;SpaceMembership>} Promise for a Space Membership in an organization
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationSpaceMembership('organizationSpaceMembership_id'))
-   * .then((organizationMembership) => console.log(organizationMembership))
-   * .catch(console.error)
-   */
-  function getOrganizationSpaceMembership (id) {
-    return http.get('space_memberships/' + id)
-      .then(response => wrapSpaceMembership(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Gets a collection Space Memberships in organization
-   * @memberof ContentfulOrganizationAPI
-   * @param {object=} query - Object with search parameters. Check the &lt;a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial&lt;/a> and the &lt;a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference&lt;/a> for more details.
-   * @return {Promise&lt;SpaceMembership[]>} Promise for a Space Membership collection across all spaces in the organization
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getOrganizationSpaceMemberships()) // you can add queries like 'limit': 100
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getOrganizationSpaceMemberships (query = {}) {
-    return http.get('space_memberships', {
-      query
-    })
-      .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Creates a Team membership
-   * @memberof ContentfulOrganizationAPI
-   * @see {TeamMembership}
-   * @param {object=} data - Object representation of the Team Membership to be created
-   * @return {Promise&lt;TeamMembership.TeamMembership>} Promise for the newly created TeamMembership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('&lt;org_id>')
-   * .then((org) => org.createTeamMembership('teamId', {
-   *    admin: true,
-   *    organizationMembershipId: "3ugleZJgHKk89I1P5MSDuY"
-   *  }))
-   * .then((teamMembership) => console.log(teamMembership))
-   * .catch(console.error)
-   */
-  function createTeamMembership (teamId, data = {}) {
-    return http.post('teams/' + teamId + '/team_memberships', data, {headers: teamAlphaHeaders})
-      .then((response) => wrapTeamMembership(http, response.data, teamId), errorHandler)
-  }
+    
 
-  /**
-   * Gets an Team Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Team Membership ID
-   * @return {Promise&lt;TeamMembership>} Promise for an Team Membership
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getTeamMembership('teamId', 'teamMembership_id'))
-   * .then((teamMembership) => console.log(teamMembership))
-   * .catch(console.error)
-   */
-  function getTeamMembership (teamId, teamMembershipId) {
-    return http.get('teams/' + teamId + '/team_memberships/' + teamMembershipId, {headers: teamAlphaHeaders})
-      .then(response => wrapTeamMembership(http, response.data, teamId), errorHandler)
-  }
+    
 
-  /**
-   * Gets an Team Membership
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Team Membership ID
-   * @return {Promise&lt;TeamMembership[]>} Promise for a Team Membership Collection
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganizations()
-   * .then((organization) => organization.getTeamMemberships('teamId'))
-   * .then((teamMemberships) => console.log(teamMemberships))
-   * .catch(console.error)
-   */
-  function getTeamMemberships (teamId, query = {}) {
-    return http.get('teams/' + teamId + '/team_memberships', {headers: teamAlphaHeaders, query})
-      .then(response => wrapTeamMembershipCollection(http, response.data, teamId), errorHandler)
-  }
+    
 
-  /**
-   * Gets an Invitation in Organization
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Invitation ID
-   * @return {Promise&lt;OrganizationInvitation>} Promise for a OrganizationInvitation in an organization
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * client.getOrganization('&lt;org_id>')
-   * .then((organization) => organization.getOrganizationInvitation('invitation_id'))
-   * .then((invitation) => console.log(invitation))
-   * .catch(console.error)
-   */
-  function getOrganizationInvitation (id) {
-    return http.get('invitations/' + id, {
-      headers
-    })
-      .then(response => wrapOrganizationInvitation(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Create an Invitation in Organization
-   * @memberof ContentfulOrganizationAPI
-   * @param {string} id - Invitation ID
-   * @return {Promise&lt;OrganizationInvitation>} Promise for a OrganizationInvitation in an organization
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('&lt;org_id>')
-   *  .then((organization) => organization.createOrganizationInvitation({
-   *    email: 'user.email@example.com'
-   *    firstName: 'User First Name'
-   *    lastName: 'User Last Name'
-   *    role: 'developer'
-   *  })
-   * .catch(console.error)
-   */
-  function createOrganizationInvitation (data) {
-    const invitationAlphaHeaders = {
-      'x-contentful-enable-alpha-feature': 'pending-org-membership'
-    }
+    
 
-    return http.post('invitations', data, { headers: invitationAlphaHeaders })
-      .then(response => wrapOrganizationInvitation(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Gets all app definitions
-   * @memberof ContentfulOrganizationAPI
-   * @return {Promise&lt;AppDefinition.AppDefinitionCollection>} Promise for a collection of App Definitions
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('&lt;org_id>')
-   * .then((org) => org.getAppDefinitions())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   */
-  function getAppDefinitions (query = {}) {
-    return http.get('app_definitions', createRequestConfig({query: query}))
-      .then((response) => wrapAppDefinitionCollection(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Gets an app definition
-   * @memberof ContentfulOrganizationAPI
-   * @return {Promise&lt;AppDefinition.AppDefinition>} Promise for an App Definition
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('&lt;org_id>')
-   * .then((org) => org.getAppDefinition('&lt;app_definition_id>'))
-   * .then((appDefinition) => console.log(appDefinition))
-   * .catch(console.error)
-   */
-  function getAppDefinition (id) {
-    return http.get('app_definitions/' + id)
-      .then((response) => wrapAppDefinition(http, response.data), errorHandler)
-  }
+    
 
-  /**
-   * Creates an app definition
-   * @memberof ContentfulOrganizationAPI
-   * @see {AppDefinition}
-   * @param {object=} data - Object representation of the App Definition to be created
-   * @return {Promise&lt;AppDefinition.AppDefinition>} Promise for the newly created AppDefinition
-   * @example
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '&lt;content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('&lt;org_id>')
-   * .then((org) => org.createAppDefinition({
-   *    name: 'Example app',
-   *    locations: [{ location: 'app-config' }],
-   *    src: "http://my-app-host.com/my-app"
-   *  }))
-   * .then((appDefinition) => console.log(appDefinition))
-   * .catch(console.error)
-   */
-  function createAppDefinition (data = {}) {
-    return http.post('app_definitions', data)
-      .then((response) => wrapAppDefinition(http, response.data), errorHandler)
-  }
+    
+</dl>
 
-  return {
-    getAppDefinition,
-    getAppDefinitions,
-    createAppDefinition,
-    getOrganizationMembership,
-    getOrganizationMemberships,
-    createTeamMembership,
-    getTeamMembership,
-    getTeamMemberships,
-    getOrganizationSpaceMembership,
-    getOrganizationSpaceMemberships,
-    getOrganizationInvitation,
-    createOrganizationInvitation
-  }
-}
-</code></pre>
-        </article>
-    </section>
+
+
+
+        
+            <div class="description">TeamMembership instances</div>
+        
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">System metadata</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>admin</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User is an admin</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns this Team Membership as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object.&lt;{type: "Array"}></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>items</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlainObject()</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Returns the collection as a plain JS object</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Deletes this object on the server.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getOrganizations()
+.then((organizations) => organizations.items[0])
+.then(org => org.getTeamMembership('teamId', 'teamMembership_id'))
+.then((teamMembership) => {
+ teamMembership.delete();
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Sends an update to the server with any changes made to the object's properties
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getOrganizations()
+.then((organizations) => organizations.items[0])
+.then(org => org.getTeamMembership('teamId', 'teamMembership_id'))
+.then((teamMembership) => {
+ teamMembership.admin = true;
+ teamMembership.update();
+})
+.catch(console.error)</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated changes.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+    
+
+
+    
+</article>
+
+</section>
 
 
 
