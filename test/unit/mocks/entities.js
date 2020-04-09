@@ -375,9 +375,7 @@ function setupEntitiesMock (rewiredModuleApi) {
     },
     teamMembership: {
       wrapTeamMembership: sinon.stub(),
-      wrapTeamMembershipCollection: sinon.stub(),
-      wrapOrganizationTeamMembership: sinon.stub(),
-      wrapOrganizationTeamMembershipCollection: sinon.stub()
+      wrapTeamMembershipCollection: sinon.stub()
     },
     organizationInvitation: {
       wrapOrganizationInvitation: sinon.stub()

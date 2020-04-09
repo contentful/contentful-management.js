@@ -1,7 +1,7 @@
 export default function teamMembershipTests (t, organization) {
   t.test('Gets teamMemberships', (t) => {
     t.plan(3)
-    return organization.getTeamMemberships('7pIEx2fMx53SSR1jd7C46M')
+    return organization.getTeamMemberships({teamId: '7pIEx2fMx53SSR1jd7C46M'})
       .then((response) => {
         t.ok(response.sys, 'sys')
         t.ok(response.items, 'items')
@@ -35,10 +35,21 @@ export default function teamMembershipTests (t, organization) {
 
   t.test('Gets organizationTeamMemberships', (t) => {
     t.plan(3)
-    return organization.getOrganizationTeamMemberships()
+    return organization.getTeamMemberships()
       .then((response) => {
         t.ok(response.sys, 'sys')
         t.ok(response.items, 'items')
+        t.ok(response.items[0].sys.type, 'TeamMembership')
+      })
+  })
+
+  t.test('Gets organizationTeamMemberships', (t) => {
+    t.plan(4)
+    return organization.getTeamMemberships({query: {limit: 1}})
+      .then((response) => {
+        t.ok(response.sys, 'sys')
+        t.ok(response.items, 'items')
+        t.equal(response.items.length, 1)
         t.ok(response.items[0].sys.type, 'TeamMembership')
       })
   })

@@ -1,7 +1,7 @@
 import test from 'blue-tape'
 import {cloneMock} from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
-import {wrapTeamMembership, wrapTeamMembershipCollection, wrapOrganizationTeamMembership, wrapOrganizationTeamMembershipCollection} from '../../../lib/entities/team-membership'
+import {wrapTeamMembership, wrapTeamMembershipCollection} from '../../../lib/entities/team-membership'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -31,7 +31,8 @@ test('TeamMembership update', (t) => {
   t.plan(3)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapTeamMembership(httpMock, entityMock, 'team1')
+  entityMock.sys.team = {sys: {id: 'team1'}}
+  const entity = wrapTeamMembership(httpMock, entityMock)
   entity.admin = true
   return entity.update()
     .then((response) => {
@@ -53,7 +54,8 @@ test('TeamMembership delete', (t) => {
   t.plan(2)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapTeamMembership(httpMock, entityMock, 'team1')
+  entityMock.sys.team = {sys: {id: 'team1'}}
+  const entity = wrapTeamMembership(httpMock, entityMock)
   return entity.delete()
     .then((response) => {
       t.pass('entity was deleted')
@@ -66,17 +68,5 @@ test('TeamMembership delete fails', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapTeamMembership,
     actionMethod: 'delete'
-  })
-})
-
-test('OrganizationTeamMembership is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapOrganizationTeamMembership
-  })
-})
-
-test('OrganizationTeamMembership collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapOrganizationTeamMembershipCollection
   })
 })
