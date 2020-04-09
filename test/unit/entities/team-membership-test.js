@@ -4,8 +4,7 @@ import setupHttpMock from '../mocks/http'
 import {wrapTeamMembership, wrapTeamMembershipCollection} from '../../../lib/entities/team-membership'
 import {
   entityWrappedTest,
-  entityCollectionWrappedTest,
-  failingActionTest
+  entityCollectionWrappedTest
 } from '../test-creators/instance-entity-methods'
 
 function setup (promise) {
@@ -44,10 +43,16 @@ test('TeamMembership update', (t) => {
 })
 
 test('TeamMembership update fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeamMembership,
-    actionMethod: 'update'
-  })
+  t.plan(1)
+  const error = cloneMock('error')
+  const { httpMock, entityMock } = setup(Promise.reject(error))
+  entityMock.sys.team = {sys: {id: 'team1'}}
+  const entity = wrapTeamMembership(httpMock, entityMock)
+
+  return entity['update']()
+    .catch((r) => {
+      t.equals(r.name, '404 Not Found')
+    })
 })
 
 test('TeamMembership delete', (t) => {
@@ -65,8 +70,14 @@ test('TeamMembership delete', (t) => {
 })
 
 test('TeamMembership delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeamMembership,
-    actionMethod: 'delete'
-  })
+  t.plan(1)
+  const error = cloneMock('error')
+  const { httpMock, entityMock } = setup(Promise.reject(error))
+  entityMock.sys.team = {sys: {id: 'team1'}}
+  const entity = wrapTeamMembership(httpMock, entityMock)
+
+  return entity['delete']()
+    .catch((r) => {
+      t.equals(r.name, '404 Not Found')
+    })
 })
