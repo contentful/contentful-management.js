@@ -14,7 +14,7 @@ export interface ContentfulOrganizationAPI {
   createAppDefinition(data: AppDefinitionProps): Promise<AppDefinition>;
   getAppDefinition(id: string): Promise<AppDefinition>;
   getAppDefinitions(): Promise<Collection<AppDefinition>>;
-  createTeam(data: TeamMembershipProps): Promise<Team>;
+  createTeam(data: TeamProps): Promise<Team>;
   getTeam(teamId: string, id: string): Promise<Team>;
   getTeams(teamId: string): Promise<Collection<Team>>;
   createTeamMembership(data: TeamMembershipProps): Promise<TeamMembership>;
