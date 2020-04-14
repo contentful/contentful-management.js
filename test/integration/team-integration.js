@@ -20,16 +20,22 @@ export default function teamTests (t, organization) {
       })
   })
 
-  t.test('Create and delete team', (t) => {
-    t.plan(4)
+  t.test('Create, update and delete team', (t) => {
+    t.plan(8)
     return organization.createTeam({
       name: 'test team'
     })
       .then(async (team) => {
         t.ok(team.sys, 'sys')
-        t.equal(team.name, 'test team')
+        t.ok(team.name, 'test team')
         t.ok(team.sys.type, 'Team')
-        await team.delete()
+        team.description = 'test description'
+        const updatedTeam = await team.update()
+        t.ok(updatedTeam.sys, 'sys')
+        t.ok(updatedTeam.name, 'test team')
+        t.ok(updatedTeam.sys.type, 'Team')
+        t.ok(updatedTeam.description, 'test description')
+        await updatedTeam.delete()
         t.pass('team was deleted')
       })
   })
