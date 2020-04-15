@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamMembership - Documentation</title>
+    <title>User - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">TeamMembership</h1>
+    <h1 class="page-title">User</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        TeamMembership
+        User
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,8 +94,6 @@
 
 
         
-            <div class="description">TeamMembership instances</div>
-        
 
         
     
@@ -117,7 +115,7 @@
 
         
                 
-<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+<h4 class="name" id=".User">User</h4>
 
 
 
@@ -128,7 +126,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line8">line 8</a>
     </li></ul></dd>
     
 
@@ -197,7 +195,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+<span class="param-type">Object</span>
 
 
             
@@ -207,14 +205,177 @@
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">System metadata
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User id</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>admin</code></td>
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Entity type</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>firstName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User first name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lastName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User last name</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>avatarUrl</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User avatar url</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User email</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>activated</code></td>
             
 
             <td class="type">
@@ -230,7 +391,53 @@
 
             
 
-            <td class="description last">User is an admin</td>
+            <td class="description last">User activated</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>signInCount</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User sign in count</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>confirmed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">User confirmed</td>
         </tr>
 
     
@@ -253,7 +460,7 @@
 
             
 
-            <td class="description last">Returns this Team Membership as a plain JS object</td>
+            <td class="description last">Returns this User as a plain JS object</td>
         </tr>
 
     
@@ -274,7 +481,7 @@
 
             
                 
-<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
+<h4 class="name" id=".UserCollection">UserCollection</h4>
 
 
 
@@ -285,7 +492,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
+        <a href="entities_user.js.html">entities/user.js</a>, <a href="entities_user.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -446,7 +653,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+<span class="param-type">Array.&lt;<a href="User.html#.User">User.User</a>></span>
 
 
             
@@ -501,255 +708,6 @@
             
     
     
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line64">line 64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Deletes this object on the server.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.delete();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Sends an update to the server with any changes made to the object's properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.admin = true;
- teamMembership.update();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object returned from the server with updated changes.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
     
 
 

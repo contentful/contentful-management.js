@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamMembership - Documentation</title>
+    <title>UiExtension - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">TeamMembership</h1>
+    <h1 class="page-title">UiExtension</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        TeamMembership
+        UiExtension
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">TeamMembership instances</div>
+            <div class="description">UI Extension instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+<h4 class="name" id=".UiExtension">UiExtension</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -214,13 +214,13 @@
 
         <tr>
             
-                <td class="name"><code>admin</code></td>
+                <td class="name"><code>extension</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">object</span>
 
 
             
@@ -230,101 +230,8 @@
 
             
 
-            <td class="description last">User is an admin</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>toPlainObject()</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Returns this Team Membership as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
+            <td class="description last">UI Extension config
+                <h6>Properties</h6>
 
 <table class="props">
     <thead>
@@ -348,13 +255,13 @@
 
         <tr>
             
-                <td class="name"><code>total</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -364,20 +271,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Extension name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>limit</code></td>
+                <td class="name"><code>fieldTypes</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">array</span>
 
 
             
@@ -387,20 +294,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Field types where an extension can be used</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>skip</code></td>
+                <td class="name"><code>src</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">array</span>
 
 
             
@@ -410,20 +317,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">URL where the root HTML document of the extension can be found</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>sys</code></td>
+                <td class="name"><code>srcdoc</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object.&lt;{type: "Array"}></span>
+<span class="param-type">array</span>
 
 
             
@@ -433,20 +340,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">String representation of the extension (e.g. inline HTML code)</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>items</code></td>
+                <td class="name"><code>sidebar</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+<span class="param-type">boolean</span>
 
 
             
@@ -456,7 +363,14 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Controls the location of the extension. If true it will be rendered on the sidebar instead of replacing the field's editing control</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -479,7 +393,7 @@
 
             
 
-            <td class="description last">Returns the collection as a plain JS object</td>
+            <td class="description last">Returns this UI Extension as a plain JS object</td>
         </tr>
 
     
@@ -521,7 +435,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line64">line 64</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line55">line 55</a>
     </li></ul></dd>
     
 
@@ -580,11 +494,10 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.delete();
-})
+client.getSpace('&lt;space_id>')
+.then((space) => space.getUiExtension('&lt;ui_extension_id>'))
+.then((uiExtension) => uiExtension.delete())
+.then(() => console.log(`UI Extension deleted.`))
 .catch(console.error)</code></pre>
 
 
@@ -631,7 +544,7 @@ client.getOrganization('organizationId')
 
     
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="UiExtension.html">UiExtension</a>>}</span></h4>
 
     
 
@@ -643,7 +556,7 @@ client.getOrganization('organizationId')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
+        <a href="entities_ui-extension.js.html">entities/ui-extension.js</a>, <a href="entities_ui-extension.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -702,12 +615,13 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.admin = true;
- teamMembership.update();
+client.getSpace('&lt;space_id>')
+.then((space) => space.getUiExtension('&lt;ui_extension_id>'))
+.then((uiExtension) => {
+  uiExtension.extension.name = 'New UI Extension name'
+  return uiExtension.update()
 })
+.then((uiExtension) => console.log(`UI Extension ${uiExtension.sys.id} updated.`))
 .catch(console.error)</code></pre>
 
 
@@ -740,7 +654,7 @@ client.getOrganization('organizationId')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
+<span class="param-type">Promise.&lt;<a href="UiExtension.html">UiExtension</a>></span>
 
 
     </dd>

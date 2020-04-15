@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamMembership - Documentation</title>
+    <title>Usage - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">TeamMembership</h1>
+    <h1 class="page-title">Usage</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        TeamMembership
+        Usage
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,8 +94,6 @@
 
 
         
-            <div class="description">TeamMembership instances</div>
-        
 
         
     
@@ -117,7 +115,7 @@
 
         
                 
-<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+<h4 class="name" id=".Usage">Usage</h4>
 
 
 
@@ -128,7 +126,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -179,6 +177,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -191,69 +191,297 @@
 
         <tr>
             
-                <td class="name"><code>sys</code></td>
+                <td class="name"><code>sys.id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">Usage id in form of <code>usage-{metric}-{entity}-key-{key}-{startAt}-{endAt}</code></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>admin</code></td>
+                <td class="name"><code>sys.type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">"OrganizationPeriodicUsage"</span>
+|
+
+<span class="param-type">"SpacePeriodicUsage"</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">User is an admin</td>
+            <td class="description last">Usage internal type</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>toPlainObject()</code></td>
+                <td class="name"><code>sys.organization</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">Returns this Team Membership as a plain JS object</td>
+            <td class="description last">Organization link when <code>sys.type</code> is <code>OrganizationPeriodicUsage</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>sys.space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Meta.html#.Link">Meta.Link</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Space link when <code>sys.code</code> is <code>SpacePeriodicUsage</code></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>unitOfMeasure</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">"apiRequestsCount"</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Unit of measurement</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>metric</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Usage.html#.UsageMetricEnum">Usage.UsageMetricEnum</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Type of the requested metric</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.startAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Start of the requested usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.endAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">End of the requested usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>usage</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Usage total for the requested <code>metric</code> and usage period</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>usagePerDay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Usage per day for the requested <code>metric</code> and usage period, <code>{ "yyyy-dd-mm": number, ... }</code></td>
         </tr>
 
     
@@ -274,7 +502,7 @@
 
             
                 
-<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
+<h4 class="name" id=".UsageCollection">UsageCollection</h4>
 
 
 
@@ -285,7 +513,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line44">line 44</a>
     </li></ul></dd>
     
 
@@ -417,6 +645,29 @@
 
         <tr>
             
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>sys</code></td>
             
 
@@ -446,7 +697,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+<span class="param-type">Array.&lt;<a href="Usage.html#.Usage">Usage.Usage</a>></span>
 
 
             
@@ -499,19 +750,9 @@
 
 
             
-    
-    
-    
-        <h3 class="subsection-title">Methods</h3>
+                
+<h4 class="name" id=".UsageMetricEnum">UsageMetricEnum</h4>
 
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
 
 
 
@@ -521,7 +762,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line64">line 64</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line7">line 7</a>
     </li></ul></dd>
     
 
@@ -560,80 +801,36 @@
 
 
 
-<div class="description">
-    Deletes this object on the server.
-</div>
 
 
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.delete();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
+<span class="param-type">"cma"</span>
+|
 
-    
+<span class="param-type">"cda"</span>
+|
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
+<span class="param-type">"cpa"</span>
+|
 
-    
+<span class="param-type">"gql"</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id=".UsageQuery">UsageQuery</h4>
+
 
 
 
@@ -643,7 +840,7 @@ client.getOrganization('organizationId')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
+        <a href="entities_usage.js.html">entities/usage.js</a>, <a href="entities_usage.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -680,10 +877,263 @@ client.getOrganization('organizationId')
 
 
 
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>metric[in]</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">One or more comma separated usage <a href="Usage.html#.UsageMetricEnum">metrics</a>. By default no filtering is applied.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.startAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">Start of a usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dateRange.endAt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">End of a usage period in <code>yyyy-mm-dd</code> format</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>skip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>0</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>25</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>"-usage"</code>
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
 
 
 <div class="description">
-    Sends an update to the server with any changes made to the object's properties
+    The <code>dateRange</code> parameter is optional. When some or all of
+<code>dateRange</code> properties are missing the usage period is derived
+from today and the maximum reported data points which are currently set to
+<code>45 days</code>. The calculated usage period is part of the response
+object see <a href="Usage.html#.Usage">Usage.Usage</a>
 </div>
 
 
@@ -693,63 +1143,9 @@ client.getOrganization('organizationId')
 
 
 
-
-    <h5>Example</h5>
+            
     
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.admin = true;
- teamMembership.update();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object returned from the server with updated changes.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
-
-
-    </dd>
-</dl>
-
     
-
-
-        
     
 
 

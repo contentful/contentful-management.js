@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamMembership - Documentation</title>
+    <title>SpaceMember - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">TeamMembership</h1>
+    <h1 class="page-title">SpaceMember</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        TeamMembership
+        SpaceMember
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+        <a href="entities_space-member.js.html">entities/space-member.js</a>, <a href="entities_space-member.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">TeamMembership instances</div>
+            <div class="description">Space Member instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+<h4 class="name" id=".SpaceMember">SpaceMember</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+        <a href="entities_space-member.js.html">entities/space-member.js</a>, <a href="entities_space-member.js.html#line9">line 9</a>
     </li></ul></dd>
     
 
@@ -207,7 +207,78 @@
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">System metadata
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space member id is of form <spaceId>-<userId></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>relatedMemberships</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of SpaceMemberships or TeamSpaceMemberships Links</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -237,13 +308,13 @@
 
         <tr>
             
-                <td class="name"><code>toPlainObject()</code></td>
+                <td class="name"><code>roles</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">array</span>
 
 
             
@@ -253,210 +324,7 @@
 
             
 
-            <td class="description last">Returns this Team Membership as a plain JS object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-                
-<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
-
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>total</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>skip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>sys</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object.&lt;{type: "Array"}></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>items</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
+            <td class="description last">Array of Role Links</td>
         </tr>
 
     
@@ -479,7 +347,7 @@
 
             
 
-            <td class="description last">Returns the collection as a plain JS object</td>
+            <td class="description last">Returns this Space Member as a plain JS object</td>
         </tr>
 
     
@@ -501,255 +369,6 @@
             
     
     
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line64">line 64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Deletes this object on the server.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.delete();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for the deletion. It contains no data, but the Promise error case should be handled.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Sends an update to the server with any changes made to the object's properties
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-const client = contentful.createClient({
-  accessToken: '&lt;content_management_api_key>'
-})
-
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.admin = true;
- teamMembership.update();
-})
-.catch(console.error)</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Object returned from the server with updated changes.
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
     
 
 

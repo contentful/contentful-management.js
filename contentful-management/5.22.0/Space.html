@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>TeamMembership - Documentation</title>
+    <title>Space - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">TeamMembership</h1>
+    <h1 class="page-title">Space</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        TeamMembership
+        Space
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line1">line 1</a>
+        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line109">line 109</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">TeamMembership instances</div>
+            <div class="description">Space instances.</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".TeamMembership">TeamMembership</h4>
+<h4 class="name" id=".Space">Space</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line11">line 11</a>
+        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -197,7 +197,7 @@
             <td class="type">
             
                 
-<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
+<span class="param-type">Object</span>
 
 
             
@@ -207,20 +207,61 @@
 
             
 
-            <td class="description last">System metadata</td>
+            <td class="description last">System metadata
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space id</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>admin</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
             
@@ -230,7 +271,37 @@
 
             
 
-            <td class="description last">User is an admin</td>
+            <td class="description last">Entity type</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Space name</td>
         </tr>
 
     
@@ -253,7 +324,7 @@
 
             
 
-            <td class="description last">Returns this Team Membership as a plain JS object</td>
+            <td class="description last">Returns this Space as a plain JS object</td>
         </tr>
 
     
@@ -274,7 +345,7 @@
 
             
                 
-<h4 class="name" id=".TeamMembershipCollection">TeamMembershipCollection</h4>
+<h4 class="name" id=".SpaceCollection">SpaceCollection</h4>
 
 
 
@@ -285,7 +356,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line19">line 19</a>
+        <a href="entities_space.js.html">entities/space.js</a>, <a href="entities_space.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -371,29 +442,6 @@
 
         <tr>
             
-                <td class="name"><code>limit</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
                 <td class="name"><code>skip</code></td>
             
 
@@ -417,13 +465,13 @@
 
         <tr>
             
-                <td class="name"><code>sys</code></td>
+                <td class="name"><code>limit</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object.&lt;{type: "Array"}></span>
+<span class="param-type">number</span>
 
 
             
@@ -446,7 +494,7 @@
             <td class="type">
             
                 
-<span class="param-type">Array.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+<span class="param-type">Array.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
 
 
             
@@ -479,7 +527,7 @@
 
             
 
-            <td class="description last">Returns the collection as a plain JS object</td>
+            <td class="description last">Returns this Space collection as a plain JS object</td>
         </tr>
 
     
@@ -521,7 +569,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line64">line 64</a>
+        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line114">line 114</a>
     </li></ul></dd>
     
 
@@ -561,7 +609,7 @@
 
 
 <div class="description">
-    Deletes this object on the server.
+    Deletes the space
 </div>
 
 
@@ -580,11 +628,9 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.delete();
-})
+client.getSpace('&lt;space_id>')
+.then((space) => space.delete())
+.then(() => console.log('Space deleted.'))
 .catch(console.error)</code></pre>
 
 
@@ -631,7 +677,7 @@ client.getOrganization('organizationId')
 
     
 
-    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Space.html#.Space">Space.Space</a>>}</span></h4>
 
     
 
@@ -643,7 +689,7 @@ client.getOrganization('organizationId')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="entities_team-membership.js.html">entities/team-membership.js</a>, <a href="entities_team-membership.js.html#line32">line 32</a>
+        <a href="create-space-api.js.html">create-space-api.js</a>, <a href="create-space-api.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -683,7 +729,7 @@ client.getOrganization('organizationId')
 
 
 <div class="description">
-    Sends an update to the server with any changes made to the object's properties
+    Updates the space
 </div>
 
 
@@ -702,12 +748,12 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('organizationId')
-.then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-.then((teamMembership) => {
- teamMembership.admin = true;
- teamMembership.update();
+client.getSpace('&lt;space_id>')
+.then((space) => {
+  space.name = 'New name'
+  return space.update()
 })
+.then((space) => console.log(`Space ${space.sys.id} renamed.`)
 .catch(console.error)</code></pre>
 
 
@@ -729,7 +775,7 @@ client.getOrganization('organizationId')
 
         
 <div class="param-desc">
-    Object returned from the server with updated changes.
+    Promise for the updated space.
 </div>
 
 
@@ -740,7 +786,7 @@ client.getOrganization('organizationId')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
+<span class="param-type">Promise.&lt;<a href="Space.html#.Space">Space.Space</a>></span>
 
 
     </dd>

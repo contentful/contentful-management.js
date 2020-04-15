@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>ContentfulOrganizationAPI - Documentation</title>
+    <title>Asset - Documentation</title>
 
     <script src="scripts/hljs/highlight.min.js"></script>
     <!--[if lt IE 9]>
@@ -26,7 +26,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">ContentfulOrganizationAPI</h1>
+    <h1 class="page-title">Asset</h1>
     
 
     
@@ -39,7 +39,7 @@
 <header>
     
         <h2>
-        ContentfulOrganizationAPI
+        Asset
         </h2>
         
     
@@ -55,7 +55,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line1">line 1</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -94,7 +94,7 @@
 
 
         
-            <div class="description">Contentful Organization API. Contains methods to access any operations at a organization level.</div>
+            <div class="description">Asset instances</div>
         
 
         
@@ -117,7 +117,7 @@
 
         
                 
-<h4 class="name" id=".ContentfulOrganizationAPI">ContentfulOrganizationAPI</h4>
+<h4 class="name" id=".Asset">Asset</h4>
 
 
 
@@ -128,7 +128,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line10">line 10</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -191,13 +191,13 @@
 
         <tr>
             
-                <td class="name"><code>createAppDefinition</code></td>
+                <td class="name"><code>sys</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type"><a href="Meta.html#.Sys">Meta.Sys</a></span>
 
 
             
@@ -207,20 +207,78 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Standard system metadata with additional asset specific properties
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>locale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">If present, indicates the locale which this asset uses</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getAppDefinition</code></td>
+                <td class="name"><code>fields</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Object</span>
 
 
             
@@ -230,20 +288,61 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Object with content for each field
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>title</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Title for this asset</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getAppDefinitions</code></td>
+                <td class="name"><code>description</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
@@ -253,20 +352,20 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Description for this asset</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getOrganizationMembership</code></td>
+                <td class="name"><code>file</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Object</span>
 
 
             
@@ -276,106 +375,197 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">File object for this asset
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fileName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Name for the file</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getOrganizationMemberships</code></td>
+                <td class="name"><code>contentType</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Mime type for the file</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getTeamMembership</code></td>
+                <td class="name"><code>upload</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Url where the file is available to be downloaded from, into the Contentful asset system. After the asset is processed this field is gone.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getTeamMemberships</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Url where the file is available at the Contentful media asset system. This field won't be available until the asset is processed.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>getOrganizationInvitation</code></td>
+                <td class="name"><code>details</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Object</span>
 
 
             
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Details for the file, depending on file type (example: image size in bytes, etc)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>createOrganizationInvitation</code></td>
+                <td class="name"><code>toPlainObject()</code></td>
             
 
             <td class="type">
@@ -391,7 +581,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">Returns this Asset as a plain JS object</td>
         </tr>
 
     
@@ -404,16 +594,6 @@
 
 
 
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
 
 
 
@@ -431,7 +611,7 @@
 
     
 
-    <h4 class="name" id=".createAppDefinition"><span class="type-signature">(static) </span>createAppDefinition<span class="signature">(data<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="AppDefinition.html#.AppDefinition">AppDefinition.AppDefinition</a>>}</span></h4>
+    <h4 class="name" id=".archive"><span class="type-signature">(static) </span>archive<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
 
     
 
@@ -443,7 +623,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line302">line 302</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -474,13 +654,6 @@
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>{<a href="AppDefinition.html">AppDefinition</a>}</li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -490,7 +663,7 @@
 
 
 <div class="description">
-    Creates an app definition
+    Archives the object
 </div>
 
 
@@ -509,77 +682,13 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('&lt;org_id>')
-.then((org) => org.createAppDefinition({
-   name: 'Example app',
-   locations: [{ location: 'app-config' }],
-   src: "http://my-app-host.com/my-app"
- }))
-.then((appDefinition) => console.log(appDefinition))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => asset.archive())
+.then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object representation of the App Definition to be created</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -598,7 +707,7 @@ client.getOrganization('&lt;org_id>')
 
         
 <div class="param-desc">
-    Promise for the newly created AppDefinition
+    Object returned from the server with updated metadata.
 </div>
 
 
@@ -609,7 +718,7 @@ client.getOrganization('&lt;org_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="AppDefinition.html#.AppDefinition">AppDefinition.AppDefinition</a>></span>
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
 
 
     </dd>
@@ -623,7 +732,7 @@ client.getOrganization('&lt;org_id>')
 
     
 
-    <h4 class="name" id=".createOrganizationInvitation"><span class="type-signature">(static) </span>createOrganizationInvitation<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="OrganizationInvitation.html">OrganizationInvitation</a>>}</span></h4>
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">()</span><span class="type-signature"> &rarr; {Promise}</span></h4>
 
     
 
@@ -635,7 +744,7 @@ client.getOrganization('&lt;org_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line229">line 229</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line151">line 151</a>
     </li></ul></dd>
     
 
@@ -675,7 +784,7 @@ client.getOrganization('&lt;org_id>')
 
 
 <div class="description">
-    Create an Invitation in Organization
+    Deletes this object on the server.
 </div>
 
 
@@ -694,65 +803,13 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('&lt;org_id>')
- .then((organization) => organization.createOrganizationInvitation({
-   email: 'user.email@example.com'
-   firstName: 'User First Name'
-   lastName: 'User Last Name'
-   role: 'developer'
- })
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => asset.delete())
+.then((asset) => console.log(`Asset deleted.`)
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Invitation ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -771,7 +828,7 @@ client.getOrganization('&lt;org_id>')
 
         
 <div class="param-desc">
-    Promise for a OrganizationInvitation in an organization
+    Promise for the deletion. It contains no data, but the Promise error case should be handled.
 </div>
 
 
@@ -782,7 +839,7 @@ client.getOrganization('&lt;org_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="OrganizationInvitation.html">OrganizationInvitation</a>></span>
+<span class="param-type">Promise</span>
 
 
     </dd>
@@ -796,7 +853,7 @@ client.getOrganization('&lt;org_id>')
 
     
 
-    <h4 class="name" id=".createTeamMembership"><span class="type-signature">(static) </span>createTeamMembership<span class="signature">(data<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>>}</span></h4>
+    <h4 class="name" id=".isArchived"><span class="type-signature">(static) </span>isArchived<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -808,7 +865,7 @@ client.getOrganization('&lt;org_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line139">line 139</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line369">line 369</a>
     </li></ul></dd>
     
 
@@ -839,12 +896,107 @@ client.getOrganization('&lt;org_id>')
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>{<a href="TeamMembership.html">TeamMembership</a>}</li>
-        </ul>
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if asset is archived. This means it's not exposed to the Delivery/Preview APIs.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
     </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isDraft"><span class="type-signature">(static) </span>isDraft<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line361">line 361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -855,7 +1007,910 @@ client.getOrganization('&lt;org_id>')
 
 
 <div class="description">
-    Creates a Team membership
+    Checks if the asset is in draft mode. This means it is not published.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isPublished"><span class="type-signature">(static) </span>isPublished<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line345">line 345</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if the asset is published. A published asset might have unpublished changes (@see {Asset.isUpdated})
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isUpdated"><span class="type-signature">(static) </span>isUpdated<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line353">line 353</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Checks if the asset is updated. This means the asset was previously published but has unpublished changes.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".processForAllLocales"><span class="type-signature">(static) </span>processForAllLocales<span class="signature">(options)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line305">line 305</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.processingCheckWait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.processingCheckRetries</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum amount of times to check if the asset has been processed (default: 5)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    Triggers asset processing after an upload, for the files uploaded to all locales of an asset.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+client.getSpace('&lt;space_id>')
+.then((space) => space.createAssetWithId('&lt;asset_id>', {
+  title: {
+    'en-US': 'Playsam Streamliner',
+    'de-DE': 'Playsam Streamliner'
+  },
+  file: {
+    'en-US': {
+      contentType: 'image/jpeg',
+      fileName: 'example.jpeg',
+      upload: 'https://example.com/example.jpg'
+    },
+    'de-DE': {
+      contentType: 'image/jpeg',
+      fileName: 'example.jpeg',
+      upload: 'https://example.com/example-de.jpg'
+    }
+  }
+}))
+.then((asset) => asset.processForAllLocales())
+.then((asset) => console.log(asset))
+.catch(console.error)</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Additional options for processing</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">AssetProcessingTimeout</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".processForLocale"><span class="type-signature">(static) </span>processForLocale<span class="signature">(locale, options)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line270">line 270</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options.processingCheckWait</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options.processingCheckRetries</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Maximum amount of times to check if the asset has been processed (default: 5)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description">
+    Triggers asset processing after an upload, for the file uploaded to a specific locale.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const contentful = require('contentful-management')
+
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+client.getSpace('&lt;space_id>')
+.then((space) => space.createAssetWithId('&lt;asset_id>', {
+  title: {
+    'en-US': 'Playsam Streamliner',
+  },
+  file: {
+    'en-US': {
+      contentType: 'image/jpeg',
+      fileName: 'example.jpeg',
+      upload: 'https://example.com/example.jpg'
+    }
+  }
+}))
+.then((asset) => asset.processForLocale('en-US'))
+.then((asset) => console.log(asset))
+.catch(console.error)</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>locale</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Locale which processing should be triggered for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Additional options for processing</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">AssetProcessingTimeout</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Object returned from the server with updated metadata.
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".publish"><span class="type-signature">(static) </span>publish<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line174">line 174</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    Publishes the object
 </div>
 
 
@@ -874,76 +1929,13 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('organizationId')
-.then((org) => org.createTeamMembership('teamId', {
-   admin: true,
-   organizationMembershipId: "3ugleZJgHKk89I1P5MSDuY"
- }))
-.then((teamMembership) => console.log(teamMembership))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => asset.publish())
+.then((asset) => console.log(`Asset ${asset.sys.id} published.`)
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>data</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object representation of the Team Membership to be created</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -962,7 +1954,7 @@ client.getOrganization('organizationId')
 
         
 <div class="param-desc">
-    Promise for the newly created TeamMembership
+    Object returned from the server with updated metadata.
 </div>
 
 
@@ -973,7 +1965,7 @@ client.getOrganization('organizationId')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html#.TeamMembership">TeamMembership.TeamMembership</a>></span>
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
 
 
     </dd>
@@ -987,7 +1979,7 @@ client.getOrganization('organizationId')
 
     
 
-    <h4 class="name" id=".getAppDefinition"><span class="type-signature">(static) </span>getAppDefinition<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="AppDefinition.html#.AppDefinition">AppDefinition.AppDefinition</a>>}</span></h4>
+    <h4 class="name" id=".unarchive"><span class="type-signature">(static) </span>unarchive<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
 
     
 
@@ -999,7 +1991,7 @@ client.getOrganization('organizationId')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line275">line 275</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -1039,7 +2031,7 @@ client.getOrganization('organizationId')
 
 
 <div class="description">
-    Gets an app definition
+    Unarchives the object
 </div>
 
 
@@ -1058,9 +2050,10 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('&lt;org_id>')
-.then((org) => org.getAppDefinition('&lt;app_definition_id>'))
-.then((appDefinition) => console.log(appDefinition))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => asset.unarchive())
+.then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
 .catch(console.error)</code></pre>
 
 
@@ -1082,7 +2075,7 @@ client.getOrganization('&lt;org_id>')
 
         
 <div class="param-desc">
-    Promise for an App Definition
+    Object returned from the server with updated metadata.
 </div>
 
 
@@ -1093,7 +2086,7 @@ client.getOrganization('&lt;org_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="AppDefinition.html#.AppDefinition">AppDefinition.AppDefinition</a>></span>
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
 
 
     </dd>
@@ -1107,7 +2100,7 @@ client.getOrganization('&lt;org_id>')
 
     
 
-    <h4 class="name" id=".getAppDefinitions"><span class="type-signature">(static) </span>getAppDefinitions<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;AppDefinition.AppDefinitionCollection>}</span></h4>
+    <h4 class="name" id=".unpublish"><span class="type-signature">(static) </span>unpublish<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
 
     
 
@@ -1119,7 +2112,7 @@ client.getOrganization('&lt;org_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line254">line 254</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line198">line 198</a>
     </li></ul></dd>
     
 
@@ -1159,7 +2152,7 @@ client.getOrganization('&lt;org_id>')
 
 
 <div class="description">
-    Gets all app definitions
+    Unpublishes the object
 </div>
 
 
@@ -1178,9 +2171,10 @@ const client = contentful.createClient({
   accessToken: '&lt;content_management_api_key>'
 })
 
-client.getOrganization('&lt;org_id>')
-.then((org) => org.getAppDefinitions())
-.then((response) => console.log(response.items))
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => asset.unpublish())
+.then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
 .catch(console.error)</code></pre>
 
 
@@ -1202,7 +2196,7 @@ client.getOrganization('&lt;org_id>')
 
         
 <div class="param-desc">
-    Promise for a collection of App Definitions
+    Object returned from the server with updated metadata.
 </div>
 
 
@@ -1213,7 +2207,7 @@ client.getOrganization('&lt;org_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;AppDefinition.AppDefinitionCollection></span>
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
 
 
     </dd>
@@ -1227,7 +2221,7 @@ client.getOrganization('&lt;org_id>')
 
     
 
-    <h4 class="name" id=".getOrganizationInvitation"><span class="type-signature">(static) </span>getOrganizationInvitation<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="OrganizationInvitation.html">OrganizationInvitation</a>>}</span></h4>
+    <h4 class="name" id=".update"><span class="type-signature">(static) </span>update<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="Asset.html">Asset</a>>}</span></h4>
 
     
 
@@ -1239,7 +2233,7 @@ client.getOrganization('&lt;org_id>')
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line201">line 201</a>
+        <a href="entities_asset.js.html">entities/asset.js</a>, <a href="entities_asset.js.html#line124">line 124</a>
     </li></ul></dd>
     
 
@@ -1279,7 +2273,7 @@ client.getOrganization('&lt;org_id>')
 
 
 <div class="description">
-    Gets an Invitation in Organization
+    Sends an update to the server with any changes made to the object's properties
 </div>
 
 
@@ -1294,61 +2288,20 @@ client.getOrganization('&lt;org_id>')
     
     <pre class="prettyprint"><code>const contentful = require('contentful-management')
 
-client.getOrganization('&lt;org_id>')
-.then((organization) => organization.getOrganizationInvitation('invitation_id'))
-.then((invitation) => console.log(invitation))
+const client = contentful.createClient({
+  accessToken: '&lt;content_management_api_key>'
+})
+
+client.getSpace('&lt;space_id>')
+.then((space) => space.getAsset('&lt;asset_id>'))
+.then((asset) => {
+  asset.fields.title['en-US'] = 'New asset title'
+  return asset.update()
+})
+.then((asset) => console.log(`Asset ${asset.sys.id} updated.`)
 .catch(console.error)</code></pre>
 
 
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Invitation ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -1367,7 +2320,7 @@ client.getOrganization('&lt;org_id>')
 
         
 <div class="param-desc">
-    Promise for a OrganizationInvitation in an organization
+    Object returned from the server with updated changes.
 </div>
 
 
@@ -1378,1148 +2331,7 @@ client.getOrganization('&lt;org_id>')
     </dt>
     <dd>
         
-<span class="param-type">Promise.&lt;<a href="OrganizationInvitation.html">OrganizationInvitation</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getOrganizationMembership"><span class="type-signature">(static) </span>getOrganizationMembership<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="OrganizationMembership.html#.OrganizationMembership">OrganizationMembership.OrganizationMembership</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line59">line 59</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gets an Organization Membership
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organization_id')
-.then((organization) => organization.getOrganizationMembership('organizationMembership_id'))
-.then((organizationMembership) => console.log(organizationMembership))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organization Membership ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for an Organization Membership
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="OrganizationMembership.html#.OrganizationMembership">OrganizationMembership.OrganizationMembership</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getOrganizationMemberships"><span class="type-signature">(static) </span>getOrganizationMemberships<span class="signature">(query<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="OrganizationMembership.html#.OrganizationMembershipCollection">OrganizationMembership.OrganizationMembershipCollection</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line77">line 77</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gets a collection of Organization Memberships
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organization_id')
-.then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-.then((response) => console.log(response.items))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>query</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for a collection of Organization Memberships
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="OrganizationMembership.html#.OrganizationMembershipCollection">OrganizationMembership.OrganizationMembershipCollection</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getOrganizationSpaceMembership"><span class="type-signature">(static) </span>getOrganizationSpaceMembership<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="SpaceMembership.html">SpaceMembership</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line95">line 95</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gets an Space Membership in Organization
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organization_id')
-.then((organization) => organization.getOrganizationSpaceMembership('organizationSpaceMembership_id'))
-.then((organizationMembership) => console.log(organizationMembership))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Organiztion Space Membership ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for a Space Membership in an organization
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="SpaceMembership.html">SpaceMembership</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getOrganizationSpaceMemberships"><span class="type-signature">(static) </span>getOrganizationSpaceMemberships<span class="signature">(query<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="SpaceMembership.html">SpaceMembership</a>>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line113">line 113</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gets a collection Space Memberships in organization
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organization_id')
-.then((organization) => organization.getOrganizationSpaceMemberships()) // you can add queries like 'limit': 100
-.then((response) => console.log(response.items))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>query</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for a Space Membership collection across all spaces in the organization
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;Array.&lt;<a href="SpaceMembership.html">SpaceMembership</a>>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getTeamMembership"><span class="type-signature">(static) </span>getTeamMembership<span class="signature">(teamId, id)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line158">line 158</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Gets an Team Membership from the team with given teamId
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organizationId')
-.then((organization) => organization.getTeamMembership('teamId', 'teamMembership_id'))
-.then((teamMembership) => console.log(teamMembership))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>teamId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Team ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Team Membership ID</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for an Team Membership
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;<a href="TeamMembership.html">TeamMembership</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".getTeamMemberships"><span class="type-signature">(static) </span>getTeamMemberships<span class="signature">(opts<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;<a href="TeamMembership.html">TeamMembership</a>>>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="create-organization-api.js.html">create-organization-api.js</a>, <a href="create-organization-api.js.html#line178">line 178</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    Get all Team Memberships. If teamID is provided in the optional config object, it will return all Team Memberships in that team. By default, returns all team memberships for the organization.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>const contentful = require('contentful-management')
-
-client.getOrganization('organizationId')
-.then((organization) => organization.getTeamMemberships('teamId'))
-.then((teamMemberships) => console.log(teamMemberships))
-.catch(console.error)</code></pre>
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opts</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>teamId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>query</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Promise for a Team Membership Collection
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise.&lt;Array.&lt;<a href="TeamMembership.html">TeamMembership</a>>></span>
+<span class="param-type">Promise.&lt;<a href="Asset.html">Asset</a>></span>
 
 
     </dd>
