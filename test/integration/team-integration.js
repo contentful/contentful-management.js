@@ -5,7 +5,7 @@ export default function teamTests (t, organization) {
       .then((response) => {
         t.ok(response.sys, 'sys')
         t.ok(response.items, 'items')
-        t.ok(response.items[0].sys.type, 'Team')
+        t.equal(response.items[0].sys.type, 'Team')
       })
   })
 
@@ -14,9 +14,9 @@ export default function teamTests (t, organization) {
     return organization.getTeam('7pIEx2fMx53SSR1jd7C46M')
       .then((response) => {
         t.ok(response.sys, 'sys')
-        t.ok(response.sys.id, '7pIEx2fMx53SSR1jd7C46M')
-        t.ok(response.sys.type, 'Team')
-        t.ok(response.name, 'SDK test team [DO NOT DELETE]')
+        t.equal(response.sys.id, '7pIEx2fMx53SSR1jd7C46M')
+        t.equal(response.sys.type, 'Team')
+        t.equal(response.name, 'SDK test team [DO NOT DELETE]')
       })
   })
 
@@ -27,14 +27,14 @@ export default function teamTests (t, organization) {
     })
       .then(async (team) => {
         t.ok(team.sys, 'sys')
-        t.ok(team.name, 'test team')
-        t.ok(team.sys.type, 'Team')
+        t.equal(team.name, 'test team')
+        t.equal(team.sys.type, 'Team')
         team.description = 'test description'
         const updatedTeam = await team.update()
         t.ok(updatedTeam.sys, 'sys')
-        t.ok(updatedTeam.name, 'test team')
-        t.ok(updatedTeam.sys.type, 'Team')
-        t.ok(updatedTeam.description, 'test description')
+        t.equal(updatedTeam.name, 'test team')
+        t.equal(updatedTeam.sys.type, 'Team')
+        t.equal(updatedTeam.description, 'test description')
         await updatedTeam.delete()
         t.pass('team was deleted')
       })
