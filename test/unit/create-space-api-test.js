@@ -589,7 +589,7 @@ test('API call getTeamSpaceMemberships fails', (t) => {
   })
 })
 
-test.only('API call createTeamSpaceMembership', (t) => {
+test('API call createTeamSpaceMembership', (t) => {
   t.plan(1)
   const {api, entitiesMock} = setup(Promise.resolve({}))
   entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembership`]
