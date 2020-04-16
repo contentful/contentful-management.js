@@ -182,6 +182,16 @@ const localeMock = {
   default: true
 }
 
+const membershipMock = {
+  type: 'TeamSpaceMembership',
+  id: 'randomId',
+  version: 3,
+  space: Object.assign(cloneDeep(linkMock), {linkType: 'Space'}),
+  team: {sys: Object.assign(cloneDeep(linkMock), {linkType: 'Team'})},
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+}
+
 const webhookMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'WebhookDefinition'
@@ -198,6 +208,15 @@ const spaceMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'SpaceMembership'
   })
+}
+
+const teamSpaceMembershipMock = {
+  sys: Object.assign(cloneDeep(membershipMock), {
+    type: 'TeamSpaceMembership'
+  }),
+  roles: [
+    {sys: Object.assign(cloneDeep(linkMock), {linkType: 'Role'})}
+  ]
 }
 
 const organizationMembershipMock = {
@@ -297,6 +316,7 @@ const mocks = {
   webhook: webhookMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
+  teamSpaceMembership: teamSpaceMembershipMock,
   organizationMembership: organizationMembershipMock,
   teamMembership: teamMembershipMock,
   organizationInvitation: organizationInvitationMock,
@@ -368,6 +388,10 @@ function setupEntitiesMock (rewiredModuleApi) {
     spaceMembership: {
       wrapSpaceMembership: sinon.stub(),
       wrapSpaceMembershipCollection: sinon.stub()
+    },
+    teamSpaceMembership: {
+      wrapTeamSpaceMembership: sinon.stub(),
+      wrapTeamSpaceMembershipCollection: sinon.stub()
     },
     organizationMembership: {
       wrapOrganizationMembership: sinon.stub(),
@@ -449,6 +473,7 @@ export {
   webhookMock,
   spaceMemberMock,
   spaceMembershipMock,
+  teamSpaceMembershipMock,
   organizationMembershipMock,
   teamMembershipMock,
   organizationInvitationMock,
