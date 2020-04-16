@@ -35,7 +35,6 @@ export default function teamSpaceMembershipTests (t, space) {
         return space.getTeamSpaceMembership(teamMembership.sys.id)
       })
       .then((membership) => {
-        console.log(membership)
         // delete team space membership
         membership.delete()
       })
