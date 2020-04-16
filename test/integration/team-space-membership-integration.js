@@ -25,6 +25,7 @@ export default function teamSpaceMembershipTests (t, space) {
             }
           }
         ]
+        teamMembership.update()
         return teamMembership
       })
       .then((teamMembership) => {
