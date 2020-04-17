@@ -14,6 +14,7 @@ import organizationMembershipTests from './organization-membership-integration'
 import organizationSpaceMembershipTests from './organization-space-membership-integration'
 import organizationInvitationTests from './organization-invitation-test'
 import roleTests from './role-integration'
+import spaceUserTests from './space-user-integration'
 import userTests from './user-integration'
 import apiKeyTests from './api-key-integration'
 import uiExtensionTests from './ui-extension-integration'
@@ -189,7 +190,7 @@ test('Gets space for read only tests', (t) => {
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68')
     .then(space => {
-      userTests(t, space)
+      spaceUserTests(t, space)
       spaceMembersTests(t, space)
     })
 })
@@ -213,6 +214,7 @@ test('Gets organization for tests which change and delete data', (t) => {
     .then((response) => {
       const organization = response.items[0]
       return Promise.all([
+        userTests(t, organization),
         organizationMembershipTests(t, organization),
         organizationSpaceMembershipTests(t, organization),
         teamTests(t, organization),
