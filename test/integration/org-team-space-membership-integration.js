@@ -2,18 +2,12 @@ export default function orgTeamSpaceMembershipTests (t, organization) {
   t.test('Get a single Team Space Membership', (t) => {
     t.plan(3)
     // create space membership for existing team
-    return organization.getTeamSpaceMembership('5vllqmpyrhlgaz0xb2S90C', {
-      admin: false,
-      roles: [
-        {
-          sys: {
-            type: 'Link',
-            linkType: 'Role',
-            id: '6YFO0dKMUjeXB5OPoWnoNm' // role developer
-          }
-        }
-      ]
-    })
+    return organization.getTeamSpaceMembership('6KPB2kockewetUV71cryiw')
+      .then((response) => {
+        t.equal(response.sys.type, 'TeamSpaceMembership', 'type')
+        t.ok(response.sys.team, 'team')
+        t.ok(response.roles, 'roles')
+      })
   })
 
   t.test('Gets all Team Space Memberships in organization', (t) => {
@@ -28,7 +22,7 @@ export default function orgTeamSpaceMembershipTests (t, organization) {
 
   t.test('Gets all Team Space Memberships in a team', (t) => {
     t.plan(3)
-    return organization.getTeamSpaceMemberships({teamId: '7pIEx2fMx53SSR1jd7C46M'})
+    return organization.getTeamSpaceMemberships({teamId: '6mjkr732nwCxRTDuh2vWHn'})
       .then((response) => {
         t.ok(response.sys, 'sys')
         t.ok(response.items, 'items')
