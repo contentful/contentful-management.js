@@ -282,7 +282,6 @@ test('Create space for tests which create, change and delete data', (t) => {
         entryWriteTests(t, space),
         assetWriteTests(t, space),
         webhookTests(t, space),
-        // spaceMembershipTests(t, space),
         roleTests(t, space),
         apiKeyTests(t, space),
         uiExtensionTests(t, space),

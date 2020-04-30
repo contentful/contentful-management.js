@@ -36,7 +36,7 @@ export default function spaceMembershipTests (t, organization, space) {
                 return spaceMembership.delete()
               })
               .then(() => {
-                // delete membership means also delete the invitation for this user
+                // delete organization membership
                 membership.delete()
               })
           })
@@ -69,7 +69,7 @@ export default function spaceMembershipTests (t, organization, space) {
                 return spaceMembership.delete()
               })
               .then(() => {
-                // delete membership means also delete the invitation for this user
+                // delete organization membership
                 membership.delete()
               })
           })
