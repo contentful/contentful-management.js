@@ -241,6 +241,20 @@ test('Get existing space and test team space memberships', (t) => {
     })
 })
 
+test('Create space for tests of space membership', (t) => {
+  return client.getOrganizations()
+    .then((response) => {
+      const organization = response.items[0]
+      client.getSpace('ezs1swce23xe')
+        .then(space => {
+          test.onFinish(() => space.delete())
+          return Promise.all([
+            spaceMembershipTests(t, organization, space)
+          ])
+        })
+    })
+})
+
 test('Create space for tests which create, change and delete data', (t) => {
   return client.createSpace({
     name: 'CMA JS SDK tests'
@@ -268,7 +282,7 @@ test('Create space for tests which create, change and delete data', (t) => {
         entryWriteTests(t, space),
         assetWriteTests(t, space),
         webhookTests(t, space),
-        spaceMembershipTests(t, space),
+        // spaceMembershipTests(t, space),
         roleTests(t, space),
         apiKeyTests(t, space),
         uiExtensionTests(t, space),
