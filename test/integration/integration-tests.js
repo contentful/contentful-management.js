@@ -247,7 +247,6 @@ test('Create space for tests of space membership', (t) => {
       const organization = response.items[0]
       client.getSpace('ezs1swce23xe')
         .then(space => {
-          test.onFinish(() => space.delete())
           return Promise.all([
             spaceMembershipTests(t, organization, space)
           ])
@@ -275,7 +274,6 @@ test('Create space for tests which create, change and delete data', (t) => {
         })
     })
     .then((space) => {
-      test.onFinish(() => space.delete())
       return Promise.all([
         localeTests(t, space),
         contentTypeWriteTests(t, space),
