@@ -46,7 +46,7 @@ export interface AppDefinitionProps {
 export interface AppDefinition
   extends AppDefinitionProps,
     MetaSys<MetaSysProps>,
-    DefaultElements<AppDefinitionProps & MetaSysProps> {
+    DefaultElements<AppDefinitionProps & MetaSys<MetaSysProps>> {
   delete(): Promise<void>,
   update(): Promise<AppDefinition>
 }
