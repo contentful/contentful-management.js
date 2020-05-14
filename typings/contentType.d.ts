@@ -14,7 +14,7 @@ export interface ContentTypeProps {
 export interface ContentType
   extends ContentTypeProps,
     MetaSys<MetaSysProps>,
-    DefaultElements<ContentTypeProps & MetaSysProps> {
+    DefaultElements<ContentTypeProps & MetaSys<MetaSysProps>> {
   delete(): Promise<void>,
   isDraft(): boolean,
   isPublished(): boolean,
