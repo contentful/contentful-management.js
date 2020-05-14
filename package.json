@@ -78,7 +78,7 @@
     "core-js": "^2.5.7",
     "cz-conventional-changelog": "^3.1.0",
     "delay": "^4.3.0",
-    "eslint": "^6.8.0",
+    "eslint": "^7.0.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.1.0",
