@@ -19,6 +19,7 @@ import { Snapshot } from './snapshot'
 import { EditorInterface } from './editorInterface'
 import { WebhookProps, WebHooks } from './webhook'
 import { PreviewApiKey } from './previewApiKey'
+import { User } from './user'
 
 export interface SpaceProps {
   name: string
@@ -81,6 +82,7 @@ export interface ContentfulSpaceAPI {
   getWebhook(): Promise<Collection<WebHooks>>,
   getSpaceMember(id: string): Promise<SpaceMember>,
   getSpaceMembers(): Promise<Collection<SpaceMember>>,
+  getSpaceUsers: (query: QueryOptions) => Promise<Collection<User>>,
   getTeamSpaceMembership(id: string): Promise<TeamSpaceMembership>,
   getTeamSpaceMemberships(): Promise<Collection<TeamSpaceMembership>>,
 }
