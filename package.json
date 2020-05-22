@@ -26,6 +26,7 @@
     "docs:dev": "npm run build && npm run docs:build",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib",
     "docs:publish": "npm run docs:build && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
+    "check-types": "tsc",
     "lint": "eslint lib test",
     "format": "eslint --fix lib test",
     "pretest": "rimraf coverage && npm run lint",
@@ -60,12 +61,14 @@
     "lodash": "^4.17.11"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^5.0.1",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
     "@babel/node": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
+    "@semantic-release/changelog": "^5.0.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-minify-webpack-plugin": "^0.3.1",
@@ -106,6 +109,7 @@
     "sinon": "^9.0.1",
     "tap-spec": "^5.0.0",
     "trevor": "^2.2.0",
+    "typescript": "^3.9.3",
     "webpack": "^4.23.1",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.2"

@@ -47,6 +47,9 @@ const baseBundleConfig = {
   module: {
     rules: []
   },
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
   devtool: PROD ? false : 'source-map',
   plugins,
   node: {
