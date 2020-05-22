@@ -72,7 +72,7 @@ const browserBundle = clone(baseBundleConfig)
 browserBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'browser'
+      envName: 'browser'
     })
   })
 ]
@@ -83,7 +83,7 @@ const legacyBundle = clone(baseBundleConfig)
 legacyBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'legacy'
+      envName: 'legacy'
     })
   })
 ]
@@ -103,7 +103,7 @@ const nodeBundle = clone(baseBundleConfig)
 nodeBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'node'
+      envName: 'node'
     })
   })
 ]
