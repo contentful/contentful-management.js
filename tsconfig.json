@@ -4,12 +4,14 @@
 		"moduleResolution": "node",
 		"allowJs": true,
 		"noEmit": true,
+		"outDir": "./typings",
 		"strict": true,
 		"isolatedModules": true,
 		"esModuleInterop": true,
-		"typeRoots": ["node_modules/@types", "lib/global-types"]
+		"typeRoots": ["node_modules/@types", "global-types"]
 	},
 	"include": [
-		"lib"
+		"lib",
+		"global-types"
 	]
 }

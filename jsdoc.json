@@ -1,8 +1,15 @@
 {
+    "plugins": ["node_modules/jsdoc-babel"],
+    "babel": {
+        "babelrc": false,
+        "extensions": ["js", "jsx", "ts", "tsx"],
+        "presets": ["@babel/preset-typescript"]
+    },
     "tags": {
         "allowUnknownTags": true
     },
     "source": {
+        "includePattern": "\\.(jsx|js|ts|tsx)$",
         "include": [
             "lib/",
             "./README.md"
