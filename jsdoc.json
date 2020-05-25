@@ -1,10 +1,5 @@
 {
-    "plugins": ["node_modules/jsdoc-babel"],
-    "babel": {
-        "babelrc": false,
-        "extensions": ["js", "jsx", "ts", "tsx"],
-        "presets": ["@babel/preset-typescript"]
-    },
+    "plugins": [ "node_modules/better-docs/typescript"],
     "tags": {
         "allowUnknownTags": true
     },

@@ -6,7 +6,11 @@ import { Agent as httpAgent } from 'http'
 import { Agent as httpsAgent } from 'https'
 import { AxiosProxyConfig } from 'axios'
 
-export interface ClientParams {
+/**
+ * @global
+ * @alias ClientParams
+ */
+export type ClientParams = {
   /**
    * Contentful CDA Access Token
    */

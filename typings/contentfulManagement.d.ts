@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { ClientParams } from './create-cma-http-client';
+import { ClientParams } from './generated/create-cma-http-client';
 import { User } from './user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
@@ -7,12 +7,11 @@ import { Collection } from './collection'
 import { Organization } from './organization'
 import * as Usage from './usage'
 
-export { ClientParams } from './create-cma-http-client'
+export { ClientParams } from './generated/create-cma-http-client'
 
 export as namespace contentfulManagementStatic
 
 declare function createClient(params: ClientParams): ClientAPI
-
 
 export interface getSpacesParams {
   limit?: number,

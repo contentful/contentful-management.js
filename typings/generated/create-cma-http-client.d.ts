@@ -2,7 +2,11 @@
 import { Agent as httpAgent } from 'http';
 import { Agent as httpsAgent } from 'https';
 import { AxiosProxyConfig } from 'axios';
-export interface ClientParams {
+/**
+ * @global
+ * @alias ClientParams
+ */
+export declare type ClientParams = {
     /**
      * Contentful CDA Access Token
      */
@@ -78,5 +82,5 @@ export interface ClientParams {
      */
     maxContentLength?: number;
     feature?: string;
-}
+};
 export declare function createCMAHttpClient(params: ClientParams): import("axios").AxiosInstance;
