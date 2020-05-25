@@ -104,7 +104,7 @@ if (env === 'test') {
       '@babel/typescript',
     ],
     'plugins': babelConfig.plugins.concat([
-      'rewire'
+      'rewire-ts'
     ])
   })
 }

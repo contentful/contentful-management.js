@@ -1,4 +1,4 @@
-import {createHttpClient as createCoreHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
+import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
 import axios from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -84,7 +84,7 @@ export interface ClientParams {
 }
 
 
-export function createHttpClient(params: ClientParams) {
+export function createCMAHttpClient(params: ClientParams) {
   const defaultParameters = {
     defaultHostname: 'api.contentful.com',
     defaultHostnameUpload: 'upload.contentful.com'
@@ -116,5 +116,5 @@ export function createHttpClient(params: ClientParams) {
     ...requiredHeaders
   }
 
-  return createCoreHttpClient(axios, params);
+  return createHttpClient(axios, params);
 }

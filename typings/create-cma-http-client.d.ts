@@ -79,4 +79,4 @@ export interface ClientParams {
     maxContentLength?: number;
     feature?: string;
 }
-export declare function createHttpClient(params: ClientParams): import("axios").AxiosInstance;
+export declare function createCMAHttpClient(params: ClientParams): import("axios").AxiosInstance;
