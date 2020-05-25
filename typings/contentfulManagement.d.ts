@@ -1,35 +1,18 @@
-import { Agent as httpAgent } from 'http'
-import { Agent as httpsAgent } from 'https'
-import { AxiosProxyConfig, AxiosRequestConfig, AxiosResponse } from 'axios'
-import { Stream } from 'stream'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { ClientParams } from './create-http-client';
 import { User } from './user'
-import { DefaultElements } from './defaultElements'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
 import { Collection } from './collection'
 import { Organization } from './organization'
 import * as Usage from './usage'
 
+export { ClientParams } from './create-http-client'
+
 export as namespace contentfulManagementStatic
 
 declare function createClient(params: ClientParams): ClientAPI
 
-export interface ClientParams {
-  accessToken: string,
-  insecure?: boolean | null,
-  retryOnError?: boolean | null,
-  host?: null | string,
-  hostUpload?: null | string,
-  httpAgent?: null | httpAgent,
-  httpsAgent?: null | httpsAgent,
-  proxy?: null | AxiosProxyConfig,
-  headers?: null | { [key: string]: any },
-  logHandler?: (level: string, data: Error | string) => void,
-  application?: null | string,
-  integration?: null | string,
-  timeout?: number,
-  retryLimit?: number,
-}
 
 export interface getSpacesParams {
   limit?: number,
