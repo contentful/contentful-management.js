@@ -6,7 +6,8 @@
 		"noEmit": true,
 		"strict": true,
 		"isolatedModules": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"typeRoots": ["node_modules/@types", "lib/global-types"]
 	},
 	"include": [
 		"lib"

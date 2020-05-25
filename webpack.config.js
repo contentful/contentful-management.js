@@ -61,13 +61,17 @@ const baseBundleConfig = {
 }
 
 const defaultBabelLoader = {
-  test: /\.js?$/,
+  test: /\.(ts|js)x?$/,
   include: [
     path.resolve(__dirname, 'lib'),
     path.resolve(__dirname, 'test')
   ],
   loader: 'babel-loader',
-  options: {}
+  options: {
+    presets: [
+      '@babel/typescript'
+    ]
+  }
 }
 
 // Browsers
