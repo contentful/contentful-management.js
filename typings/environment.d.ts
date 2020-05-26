@@ -17,7 +17,7 @@ export interface EnvironmentProps {
   name: string
 }
 
-export interface Environment extends DefaultElements<EnvironmentProps>, MetaSys<MetaSysProps>, EnvironmentProps {
+export interface ContentfulEnvironmentAPI {
   createAppInstallation(id: string, data: AppInstallationProps): Promise<AppInstallation>
   createAsset(data: AssetProps): Promise<Asset>,
   createAssetFromFiles(data: AssetFileProp): Promise<Asset>,
@@ -50,3 +50,5 @@ export interface Environment extends DefaultElements<EnvironmentProps>, MetaSys<
   getAppInstallations(): Promise<Collection<AppInstallation>>,
   getUpload(id: string): Promise<Upload>
 }
+
+export interface Environment extends EnvironmentProps, ContentfulEnvironmentAPI, DefaultElements<EnvironmentProps & MetaSys>, MetaSys<MetaSysProps> {}
