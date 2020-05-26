@@ -8,7 +8,7 @@ import { Agent as httpsAgent } from 'https';
 import { AxiosProxyConfig } from 'axios';
 export declare type ClientParams = {
     /**
-     * Contentful CDA Access Token
+     * Contentful CMA Access Token
      */
     accessToken: string;
     /**

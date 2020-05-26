@@ -3,18 +3,17 @@
  * @hidden
  */
 
-import axios from 'axios'
+import axios, { AxiosRequestConfig, AxiosProxyConfig, AxiosResponse } from 'axios'
 // @ts-ignore
 import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 
 import { Agent as httpAgent } from 'http'
 import { Agent as httpsAgent } from 'https'
-import { AxiosProxyConfig } from 'axios'
 
 export type ClientParams = {
   /**
-   * Contentful CDA Access Token
+   * Contentful CMA Access Token
    */
   accessToken: string,
   /**
@@ -62,6 +61,16 @@ export type ClientParams = {
    * @see The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js
    */
   logHandler?: (level: string, data: Error | string) => void,
+  /**
+   * Gets called on every request triggered by the SDK
+   */
+  requestLogger?: (config: AxiosRequestConfig) => void;
+
+  /**
+   * Gets called on every response
+   */
+  responseLogger?: (response: AxiosResponse) => void;
+
   /**
    * Application name and version e.g myApp/version
    */
