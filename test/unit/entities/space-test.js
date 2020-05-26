@@ -1,18 +1,22 @@
 import test from 'blue-tape'
 import sinon from 'sinon'
-import {spaceMock, mockCollection} from '../mocks/entities'
-import {wrapSpace, wrapSpaceCollection, __RewireAPI__ as spaceRewireApi} from '../../../lib/entities/space'
+import { spaceMock, mockCollection } from '../mocks/entities'
+import {
+  wrapSpace,
+  wrapSpaceCollection,
+  __RewireAPI__ as spaceRewireApi,
+} from '../../../lib/entities/space'
 
 const httpMock = {
   httpClientParams: {},
-  cloneWithNewParams: sinon.stub()
+  cloneWithNewParams: sinon.stub(),
 }
 
-function setup () {
+function setup() {
   spaceRewireApi.__Rewire__('rateLimit', sinon.stub())
 }
 
-function teardown () {
+function teardown() {
   spaceRewireApi.__ResetDependency__('rateLimit', sinon.stub())
 }
 

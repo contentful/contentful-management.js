@@ -1,30 +1,30 @@
 import test from 'blue-tape'
-import {cloneMock} from '../mocks/entities'
+import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
   wrapPersonalAccessToken,
-  wrapPersonalAccessTokenCollection
+  wrapPersonalAccessTokenCollection,
 } from '../../../lib/entities/personal-access-token'
 import {
   entityWrappedTest,
-  entityCollectionWrappedTest
+  entityCollectionWrappedTest,
 } from '../test-creators/instance-entity-methods'
 
-function setup (promise) {
+function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('personalAccessToken')
+    entityMock: cloneMock('personalAccessToken'),
   }
 }
 
 test('personalAccessToken is wrapped', (t) => {
   entityWrappedTest(t, setup, {
-    wrapperMethod: wrapPersonalAccessToken
+    wrapperMethod: wrapPersonalAccessToken,
   })
 })
 
 test('personalAccessToken collection is wrapped', (t) => {
   return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapPersonalAccessTokenCollection
+    wrapperMethod: wrapPersonalAccessTokenCollection,
   })
 })

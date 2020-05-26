@@ -10,7 +10,7 @@ const caps = {
   'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
   build: process.env.TRAVIS_BUILD_NUMBER,
   tag: 'e2e',
-  name: 'Firefox e2e test with .browser.min.js'
+  name: 'Firefox e2e test with .browser.min.js',
 }
 
 if (mode === 'legacy') {
@@ -21,7 +21,9 @@ if (mode === 'legacy') {
 
 const driver = new Builder()
   .withCapabilities(caps)
-  .usingServer(`http://${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY}@ondemand.saucelabs.com/wd/hub`)
+  .usingServer(
+    `http://${process.env.SAUCE_USERNAME}:${process.env.SAUCE_ACCESS_KEY}@ondemand.saucelabs.com/wd/hub`
+  )
   .build()
 
 initServer((server) => {
@@ -30,8 +32,7 @@ initServer((server) => {
   const h1 = driver.findElement(By.tagName('h1'))
 
   driver.wait(until.elementTextIs(h1, 'Success'), 30000)
-  driver.quit()
-    .then(() => {
-      server.close()
-    })
+  driver.quit().then(() => {
+    server.close()
+  })
 })

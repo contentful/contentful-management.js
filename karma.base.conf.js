@@ -11,7 +11,7 @@ webpackConfig.devtool = 'inline-source-map'
 // https://webpack.github.io/docs/configuration.html#node
 // https://rmurphey.com/blog/2015/07/20/karma-webpack-tape-code-coverage
 webpackConfig.node = {
-  fs: 'empty'
+  fs: 'empty',
 }
 
 webpackConfig.module.rules = webpackConfig.module.rules.map((rule) => {
@@ -25,20 +25,15 @@ console.log('Karma webpack config:')
 console.log(JSON.stringify(webpackConfig, null, 2))
 
 module.exports = {
-  plugins: [
-    require('karma-tap'),
-    require('karma-webpack')
-  ],
+  plugins: [require('karma-tap'), require('karma-webpack')],
 
   basePath: '',
-  frameworks: [ 'tap' ],
-  files: [
-    'test/runner-browser.js'
-  ],
+  frameworks: ['tap'],
+  files: ['test/runner-browser.js'],
 
   preprocessors: {
     'test/runner-browser.js': ['webpack'],
-    'test/unit/**/*.js': ['webpack']
+    'test/unit/**/*.js': ['webpack'],
   },
 
   webpack: webpackConfig,
@@ -46,9 +41,9 @@ module.exports = {
   browserNoActivityTimeout: 4 * 60 * 1000,
   browserDisconnectTimeout: 10000,
   captureTimeout: 4 * 60 * 1000,
-  reporters: [ 'dots' ],
+  reporters: ['dots'],
   port: 9876,
   colors: true,
   autoWatch: false,
-  singleRun: true
+  singleRun: true,
 }

@@ -25,7 +25,9 @@ app.get('/', function (req, res) {
 })
 
 app.get('/sdk.js', function (req, res) {
-  const sdk = readFileSync(resolve(__dirname, '..', '..', 'dist', `contentful-management.${mode}.min.js`))
+  const sdk = readFileSync(
+    resolve(__dirname, '..', '..', 'dist', `contentful-management.${mode}.min.js`)
+  )
   res.send(sdk)
 })
 
@@ -86,6 +88,6 @@ app.get('/test.js', function (req, res) {
 `)
 })
 
-module.exports = function initServer (cb) {
+module.exports = function initServer(cb) {
   const server = app.listen(3000, () => cb(server))
 }

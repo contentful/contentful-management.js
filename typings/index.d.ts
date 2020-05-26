@@ -5,7 +5,7 @@
  */
 
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { ClientParams } from './generated/create-cma-http-client';
+import { ClientParams } from './generated/create-cma-http-client'
 import { User } from './user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
@@ -28,13 +28,7 @@ export as namespace contentfulManagementStatic
  */
 declare function createClient(params: ClientParams): ClientAPI
 
-export interface getSpacesParams {
-  limit?: number,
-  skip?: number
-}
-
 export interface ClientAPI {
-
   /**
    * Creates a personal access token
    * @param data - personal access token config
@@ -58,7 +52,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  createPersonalAccessToken(data: PersonalAccessTokenProp): Promise<PersonalAccessToken>,
+  createPersonalAccessToken(data: PersonalAccessTokenProp): Promise<PersonalAccessToken>
   /**
    * Creates a space
    * @param data - Object representation of the Space to be created
@@ -78,7 +72,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  createSpace(data: SpaceProps, organizationId: string): Promise<Space>,
+  createSpace(data: SpaceProps, organizationId: string): Promise<Space>
   /**
    * Gets the authenticated user
    * @return Promise for a User
@@ -94,7 +88,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getCurrentUser(): Promise<User>,
+  getCurrentUser(): Promise<User>
   /**
    * Gets an organization
    * @param  id - Organization ID
@@ -111,7 +105,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getOrganization(id: string): Promise<Organization>,
+  getOrganization(id: string): Promise<Organization>
   /**
    * Gets a collection of Organizations
    * @return Promise for a collection of Organizations
@@ -127,8 +121,8 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getOrganizations(): Promise<Collection<Organization>>,
-   /**
+  getOrganizations(): Promise<Collection<Organization>>
+  /**
    * Gets a personal access token
    * @param data - personal access token config
    * @return Promise for a Token
@@ -144,7 +138,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getPersonalAccessToken(data: PersonalAccessTokenProp): Promise<void>,
+  getPersonalAccessToken(data: PersonalAccessTokenProp): Promise<void>
   /**
    * Gets all personal access tokens
    * @return Promise for a Token
@@ -160,7 +154,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getPersonalAccessTokens(): Promise<Collection<PersonalAccessToken>>,
+  getPersonalAccessTokens(): Promise<Collection<PersonalAccessToken>>
   /**
    * Gets a space
    * @param id - Space ID
@@ -177,7 +171,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getSpace(id: string): Promise<Space>,
+  getSpace(id: string): Promise<Space>
   /**
    * Gets all spaces
    * @return Promise for a collection of Spaces
@@ -193,7 +187,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaces(params?: getSpacesParams): Promise<Collection<Space>>,
+  getSpaces(params?: { limit?: number; skip?: number }): Promise<Collection<Space>>
   /**
    * Get organization usage grouped by {@link Usage.UsageMetricEnum metric}
    *
@@ -218,7 +212,10 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getOrganizationUsage(organizationId: string, query: Usage.UsageQuery): Promise<Collection<Usage.Usage>>,
+  getOrganizationUsage(
+    organizationId: string,
+    query: Usage.UsageQuery
+  ): Promise<Collection<Usage.Usage>>
   /**
    * Get organization usage grouped by space and metric
    *
@@ -244,7 +241,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceUsage(organizationId: string, query: Usage.UsageQuery): Promise<Collection<Usage.Usage>>,
+  getSpaceUsage(organizationId: string, query: Usage.UsageQuery): Promise<Collection<Usage.Usage>>
   /**
    * Make a custom request to the Contentful management API's /spaces endpoint
    * @param opts - axios request options (https://github.com/mzabriskie/axios)
@@ -264,5 +261,5 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  rawRequest(Opts: AxiosRequestConfig): Promise<AxiosResponse>,
+  rawRequest(Opts: AxiosRequestConfig): Promise<AxiosResponse>
 }

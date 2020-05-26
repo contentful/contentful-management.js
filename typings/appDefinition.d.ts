@@ -2,7 +2,16 @@ import { MetaSys, MetaSysProps } from './meta'
 import { DefaultElements } from './defaultElements'
 
 // Fields
-type Field = 'Symbol' | 'Text' | 'RichText' | 'Integer' | 'Number' | 'Date' | 'Location' | 'Boolean' | 'Object'
+type Field =
+  | 'Symbol'
+  | 'Text'
+  | 'RichText'
+  | 'Integer'
+  | 'Number'
+  | 'Date'
+  | 'Location'
+  | 'Boolean'
+  | 'Object'
 
 type LinkType = 'Asset' | 'Entry'
 
@@ -12,12 +21,12 @@ interface SingleFieldType {
 }
 
 interface LinkFieldType {
-  type: 'Link',
+  type: 'Link'
   linkType: LinkType
 }
 
 interface ArrayFieldType {
-  type: 'Array',
+  type: 'Array'
   items: SingleFieldType | LinkFieldType
 }
 
@@ -31,15 +40,15 @@ interface SingleLocationDefinition {
 }
 
 interface EntryFieldLocationDefinition {
-  location: 'entry-field',
+  location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
 type LocationDefinition = SingleLocationDefinition | EntryFieldLocationDefinition
 
 export interface AppDefinitionProps {
-  name: string,
-  src: string,
+  name: string
+  src: string
   locations: LocationDefinition[]
 }
 
@@ -47,6 +56,6 @@ export interface AppDefinition
   extends AppDefinitionProps,
     MetaSys<MetaSysProps>,
     DefaultElements<AppDefinitionProps & MetaSys<MetaSysProps>> {
-  delete(): Promise<void>,
+  delete(): Promise<void>
   update(): Promise<AppDefinition>
 }

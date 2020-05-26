@@ -52,9 +52,9 @@ export interface ContentfulSpaceAPI {
    *   .then(() => console.log('Space deleted.'))
    *   .catch(console.error)
    * ```
-  */
-  delete(): Promise<void>,
-    /**
+   */
+  delete(): Promise<void>
+  /**
    * Updates the space
    * @return Promise for the updated space.
    * @example ```javascript
@@ -72,8 +72,8 @@ export interface ContentfulSpaceAPI {
    * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
    * .catch(console.error)
    * ```
-  */
-  update(): Promise<void>,
+   */
+  update(): Promise<void>
   /**
    * Creates a Api Key
    * @param data - Object representation of the Api Key to be created
@@ -102,8 +102,8 @@ export interface ContentfulSpaceAPI {
    * .then((apiKey) => console.log(apiKey))
    * .catch(console.error)
    * ```
-  */
-  createApiKey(data: CreateApiKeyProps): Promise<ApiKey>,
+   */
+  createApiKey(data: CreateApiKeyProps): Promise<ApiKey>
   /**
    * Creates a Api Key with a custom ID
    * @param id - Api Key ID
@@ -134,7 +134,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createApiKeyWithId(id: string, data: CreateApiKeyProps): Promise<ApiKey>,
+  createApiKeyWithId(id: string, data: CreateApiKeyProps): Promise<ApiKey>
   /**
    * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
@@ -166,7 +166,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAsset(data: AssetProps): Promise<Asset>,
+  createAsset(data: AssetProps): Promise<Asset>
   /**
    * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
@@ -198,7 +198,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAssetFromFiles(data: AssetFileProp): Promise<Asset>,
+  createAssetFromFiles(data: AssetFileProp): Promise<Asset>
   /**
    * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
@@ -229,7 +229,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAssetWithId(id: string, data: AssetProps): Promise<Asset>,
+  createAssetWithId(id: string, data: AssetProps): Promise<Asset>
   /**
    * Creates a Content Type
    * @deprecated since version 5.0
@@ -259,7 +259,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentType(data: ContentTypeProps): Promise<ContentType>,
+  createContentType(data: ContentTypeProps): Promise<ContentType>
   /**
    * Creates a Content Type with a custom ID
    * @deprecated since version 5.0
@@ -290,7 +290,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>,
+  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
   /**
    * Gets a collection of Environments
    * @return Promise for a collection of Environment
@@ -306,9 +306,9 @@ export interface ContentfulSpaceAPI {
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    * ```
-  */
-  getEnvironments(): Promise<Collection<Environment>>,
-   /**
+   */
+  getEnvironments(): Promise<Collection<Environment>>
+  /**
    * Gets an environment
    * @param id - Environment ID
    * @return Promise for an Environment
@@ -325,7 +325,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEnvironment(id: string): Promise<Environment>,
+  getEnvironment(id: string): Promise<Environment>
   /**
    * Creates a Entry
    * @deprecated since version 5.0
@@ -351,7 +351,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>,
+  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -379,7 +379,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>,
+  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created
@@ -397,7 +397,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEnvironment(data: EnvironmentProps): Promise<Environment>,
+  createEnvironment(data: EnvironmentProps): Promise<Environment>
   /**
    * Creates an Environment with a custom ID
    * @param id - Environment ID
@@ -417,7 +417,11 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEnvironmentWithId(id: string, data: EnvironmentProps, sourceEnvironmentId: string): Promise<Environment>,
+  createEnvironmentWithId(
+    id: string,
+    data: EnvironmentProps,
+    sourceEnvironmentId: string
+  ): Promise<Environment>
 
   /**
    * Creates a Locale
@@ -443,7 +447,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createLocale(data: LocaleProps): Promise<Locale>,
+  createLocale(data: LocaleProps): Promise<Locale>
   /**
    * Creates a Role
    * @param data - Object representation of the Role to be created
@@ -490,7 +494,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRole(data: RoleProps): Promise<Role>,
+  createRole(data: RoleProps): Promise<Role>
   /**
    * Creates a Role with a custom ID
    * @param id - Role ID
@@ -538,7 +542,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRoleWithId(id: string, ata: RoleProps): Promise<Role>,
+  createRoleWithId(id: string, ata: RoleProps): Promise<Role>
   /**
    * Gets a Role
    * @param id - Role ID
@@ -561,8 +565,8 @@ export interface ContentfulSpaceAPI {
    * .then((role) => console.log(role))
    * .catch(console.error)
    * ```
-  */
-  getRole(id: string): Promise<Role>,
+   */
+  getRole(id: string): Promise<Role>
   /**
    * Gets a collection of Roles
    * @return Promise for a collection of Roles
@@ -579,7 +583,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getRoles(): Promise<Collection<Role>>,
+  getRoles(): Promise<Collection<Role>>
   /**
    * Creates a Space Membership
    * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
@@ -608,7 +612,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembership(data: SpaceMembershipProps): Promise<SpaceMembership>,
+  createSpaceMembership(data: SpaceMembershipProps): Promise<SpaceMembership>
   /**
    * Creates a Space Membership with a custom ID
    * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
@@ -638,7 +642,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembershipWithId(id: string, data: SpaceMembershipProps): Promise<SpaceMembership>,
+  createSpaceMembershipWithId(id: string, data: SpaceMembershipProps): Promise<SpaceMembership>
   /**
    * Creates a Team Space Membership
    * @param id - Team ID
@@ -666,7 +670,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createTeamSpaceMembership(data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>,
+  createTeamSpaceMembership(data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>
   /**
    * Creates a UI Extension
    * @deprecated since version 5.0
@@ -699,7 +703,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createUiExtension(data: UIExtensionProps): Promise<UIExtension>,
+  createUiExtension(data: UIExtensionProps): Promise<UIExtension>
   /**
    * Creates a UI Extension with a custom ID
    * @deprecated since version 5.0
@@ -733,7 +737,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>,
+  createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>
   /**
    * Creates a Upload.
    * @deprecated since version 5.0
@@ -751,9 +755,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createUpload(data: {
-    file: string | ArrayBuffer | Stream
-  }): Promise<Upload>,
+  createUpload(data: { file: string | ArrayBuffer | Stream }): Promise<Upload>
   /**
    * Gets a Api Key
    * @param id - API Key ID
@@ -771,7 +773,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getApiKey(id: string): Promise<ApiKey>,
+  getApiKey(id: string): Promise<ApiKey>
   /**
    * Gets a collection of Api Keys
    * @return Promise for a collection of Api Keys
@@ -788,7 +790,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getApiKeys(): Promise<Collection<ApiKey>>,
+  getApiKeys(): Promise<Collection<ApiKey>>
   /**
    * Gets an Asset
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
@@ -809,8 +811,8 @@ export interface ContentfulSpaceAPI {
    * .then((asset) => console.log(asset))
    * .catch(console.error)
    * ```
-  */
-  getAsset(id: string, query?: QueryOptions): Promise<Asset>,
+   */
+  getAsset(id: string, query?: QueryOptions): Promise<Asset>
   /**
    * Gets a collection of Assets
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
@@ -830,8 +832,8 @@ export interface ContentfulSpaceAPI {
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    * ```
-  */
-  getAssets(query?: QueryOptions): Promise<Collection<Asset>>,
+   */
+  getAssets(query?: QueryOptions): Promise<Collection<Asset>>
   /**
    * Gets a collection of Content Types
    * @deprecated since version 5.0
@@ -849,8 +851,8 @@ export interface ContentfulSpaceAPI {
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    * ```
-  */
-  getContentTypes(object?: QueryOptions): Promise<Collection<ContentType>>,
+   */
+  getContentTypes(object?: QueryOptions): Promise<Collection<ContentType>>
   /**
    * Gets a Content Type
    * @deprecated since version 5.0
@@ -869,7 +871,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getContentType(id: string): Promise<ContentType>,
+  getContentType(id: string): Promise<ContentType>
   /**
    * Gets all snapshots of a contentType
    * @deprecated since version 5.0
@@ -889,7 +891,10 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getContentTypeSnapshots(contentTypeId: string, query?: QueryOptions): Promise<Collection<Snapshot<ContentTypeProps>>>,
+  getContentTypeSnapshots(
+    contentTypeId: string,
+    query?: QueryOptions
+  ): Promise<Collection<Snapshot<ContentTypeProps>>>
   /**
    * Gets an EditorInterface for a ContentType
    * @deprecated since version 5.0
@@ -908,7 +913,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>,
+  getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>
   /**
    * Gets an Entry
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
@@ -930,7 +935,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEntry(id: string): Promise<Entry>,
+  getEntry(id: string): Promise<Entry>
   /**
    * Gets a collection of Entries
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
@@ -951,7 +956,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEntries(object?: QueryOptions): Promise<Collection<Entry>>,
+  getEntries(object?: QueryOptions): Promise<Collection<Entry>>
 
   /**
    * Gets all snapshots of an entry
@@ -972,7 +977,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>,
+  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>
   /**
    * Gets an Environment Alias
    * @param Environment Alias ID
@@ -990,7 +995,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEnvironmentAlias(id: string): Promise<EnvironmentAlias>,
+  getEnvironmentAlias(id: string): Promise<EnvironmentAlias>
   /**
    * Gets a collection of Environment Aliases
    * @return Promise for a collection of Environment Aliases
@@ -1007,7 +1012,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEnvironmentAliases(): Promise<Collection<EnvironmentAlias>>,
+  getEnvironmentAliases(): Promise<Collection<EnvironmentAlias>>
   /**
    * Gets a Locale
    * @deprecated since version 5.0
@@ -1025,8 +1030,8 @@ export interface ContentfulSpaceAPI {
    * .then((locale) => console.log(locale))
    * .catch(console.error)
    * ```
-  */
-  getLocale(id: string): Promise<Locale>,
+   */
+  getLocale(id: string): Promise<Locale>
   /**
    * Gets a collection of Locales
    * @deprecated since version 5.0
@@ -1043,8 +1048,8 @@ export interface ContentfulSpaceAPI {
    * .then((response) => console.log(response.items))
    * .catch(console.error)
    * ```
-  */
-  getLocales(): Promise<Collection<Locale>>,
+   */
+  getLocales(): Promise<Collection<Locale>>
   /**
    * Gets an UI Extension
    * @deprecated since version 5.0
@@ -1063,7 +1068,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getUiExtension(id: string): Promise<UIExtension>,
+  getUiExtension(id: string): Promise<UIExtension>
   /**
    * Gets a collection of UI Extension
    * @deprecated since version 5.0
@@ -1081,7 +1086,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getUiExtensions(): Promise<Collection<UIExtension>>,
+  getUiExtensions(): Promise<Collection<UIExtension>>
   /**
    * Gets an Upload
    * @deprecated since version 5.0
@@ -1098,7 +1103,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getUpload(id: string): Promise<Upload>,
+  getUpload(id: string): Promise<Upload>
   /**
    * Creates a Webhook
    * @param data - Object representation of the Webhook to be created
@@ -1121,8 +1126,8 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createWebhook(data: WebhookProps): Promise<WebHooks>,
-   /**
+  createWebhook(data: WebhookProps): Promise<WebHooks>
+  /**
    * Creates a Webhook with a custom ID
    * @param id - Webhook ID
    * @param  data - Object representation of the Webhook to be created
@@ -1145,7 +1150,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createWebhookWithId(id:string, data: WebhookProps): Promise<WebHooks>,
+  createWebhookWithId(id: string, data: WebhookProps): Promise<WebHooks>
   /**
    * Gets a preview Api Key
    * @param id - Preview API Key ID
@@ -1163,7 +1168,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getPreviewApiKey(id: string): Promise<PreviewApiKey>,
+  getPreviewApiKey(id: string): Promise<PreviewApiKey>
   /**
    * Gets a collection of preview Api Keys
    * @return Promise for a collection of Preview Api Keys
@@ -1180,7 +1185,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getPreviewApiKeys(): Promise<Collection<PreviewApiKey>>,
+  getPreviewApiKeys(): Promise<Collection<PreviewApiKey>>
   /**
    * Gets a Webhook
    * @param id - Webhook ID
@@ -1197,8 +1202,8 @@ export interface ContentfulSpaceAPI {
    * .then((webhook) => console.log(webhook))
    * .catch(console.error)
    * ```
-  */
-  getWebhook(id: string): Promise<WebHooks>,
+   */
+  getWebhook(id: string): Promise<WebHooks>
   /**
    * Gets a collection of Webhooks
    * @return Promise for a collection of Webhooks
@@ -1215,7 +1220,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getWebhooks(): Promise<Collection<WebHooks>>,
+  getWebhooks(): Promise<Collection<WebHooks>>
   /**
    * Gets a Space Member
    * @param id Get Space Member by user_id
@@ -1229,7 +1234,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceMember(id: string): Promise<SpaceMember>,
+  getSpaceMember(id: string): Promise<SpaceMember>
 
   /**
    * Gets a collection of Space Members
@@ -1244,9 +1249,9 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceMembers(query?: object): Promise<Collection<SpaceMember>>,
+  getSpaceMembers(query?: object): Promise<Collection<SpaceMember>>
 
-   /**
+  /**
    * Gets a Space Membership
    * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
    * @param id - Space Membership ID
@@ -1260,7 +1265,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceMembership(id: string): Promise<SpaceMembership>,
+  getSpaceMembership(id: string): Promise<SpaceMembership>
 
   /**
    * Gets a collection of Space Memberships
@@ -1276,7 +1281,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceMemberships(query?: object): Promise<Collection<SpaceMembership>>,
+  getSpaceMemberships(query?: object): Promise<Collection<SpaceMembership>>
 
   /**
    * Gets a User
@@ -1291,7 +1296,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceUser(id: string): Promise<User>,
+  getSpaceUser(id: string): Promise<User>
   /**
    * Gets a collection of Users in a space
    * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -1305,7 +1310,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceUsers: (query: QueryOptions) => Promise<Collection<User>>,
+  getSpaceUsers: (query: QueryOptions) => Promise<Collection<User>>
   /**
    * Gets a Team Space Membership
    * @param id - Team Space Membership ID
@@ -1319,7 +1324,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getTeamSpaceMembership(id: string): Promise<TeamSpaceMembership>,
+  getTeamSpaceMembership(id: string): Promise<TeamSpaceMembership>
 
   /**
    * Gets a collection of Team Space Memberships
@@ -1334,7 +1339,11 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getTeamSpaceMemberships(): Promise<Collection<TeamSpaceMembership>>,
+  getTeamSpaceMemberships(): Promise<Collection<TeamSpaceMembership>>
 }
 
-export interface Space extends SpaceProps, DefaultElements<SpaceProps & MetaSys>, MetaSys, ContentfulSpaceAPI {}
+export interface Space
+  extends SpaceProps,
+    DefaultElements<SpaceProps & MetaSys>,
+    MetaSys,
+    ContentfulSpaceAPI {}
