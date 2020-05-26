@@ -29,7 +29,6 @@
     "docs:publish": "npm run docs:build && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
     "check-types": "tsc",
     "lint": "eslint lib test",
-    "format": "eslint --fix lib test",
     "pretest": "rimraf coverage && npm run lint",
     "test": "npm run test:cover && npm run test:integration && npm run test:browser-local && npm run test:size",
     "test:ci": "./node_modules/contentful-sdk-core/bin/test-ci.sh",
@@ -44,6 +43,8 @@
     "test:size": "bundlesize",
     "test:prepush": "npm run build && npm run test:unit && npm run test:size",
     "browser-coverage": "npm run test:cover && opener coverage/lcov-report/index.html",
+    "prettier": "prettier --write '**/*.{jsx,js,ts,tsx}'",
+    "prettier:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "presemantic-release": "npm run build",
     "semantic-release": "semantic-release",
     "postpublish": "npm run docs:publish && npm run clean",
@@ -86,15 +87,15 @@
     "cz-conventional-changelog": "^3.1.0",
     "delay": "^4.3.0",
     "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
     "express": "^4.16.4",
     "husky": "^4.2.3",
     "in-publish": "^2.0.0",
     "istanbul": "^1.0.0-alpha.2",
+    "lint-staged": "^10.2.6",
     "json": "^9.0.3",
     "nodemon": "^2.0.4",
     "karma": "^5.0.1",
@@ -107,6 +108,7 @@
     "lodash-webpack-plugin": "^0.11.5",
     "require-all": "^3.0.0",
     "rimraf": "^3.0.2",
+    "prettier": "^2.0.5",
     "selenium-webdriver": "^3.5.0",
     "semantic-release": "^17.0.4",
     "sinon": "^9.0.1",
@@ -121,6 +123,20 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
   "release": {
