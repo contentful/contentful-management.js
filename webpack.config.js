@@ -47,6 +47,9 @@ const baseBundleConfig = {
   module: {
     rules: []
   },
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
   devtool: PROD ? false : 'source-map',
   plugins,
   node: {
@@ -58,13 +61,17 @@ const baseBundleConfig = {
 }
 
 const defaultBabelLoader = {
-  test: /\.js?$/,
+  test: /\.(ts|js)x?$/,
   include: [
     path.resolve(__dirname, 'lib'),
     path.resolve(__dirname, 'test')
   ],
   loader: 'babel-loader',
-  options: {}
+  options: {
+    presets: [
+      '@babel/typescript'
+    ]
+  }
 }
 
 // Browsers
@@ -72,7 +79,7 @@ const browserBundle = clone(baseBundleConfig)
 browserBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'browser'
+      envName: 'browser'
     })
   })
 ]
@@ -83,7 +90,7 @@ const legacyBundle = clone(baseBundleConfig)
 legacyBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'legacy'
+      envName: 'legacy'
     })
   })
 ]
@@ -103,7 +110,7 @@ const nodeBundle = clone(baseBundleConfig)
 nodeBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      forceEnv: 'node'
+      envName: 'node'
     })
   })
 ]

@@ -48,7 +48,8 @@ var testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
 })
 
 var plugins = [
-  'transform-object-rest-spread',
+  '@babel/proposal-class-properties',
+  '@babel/plugin-proposal-object-rest-spread',
   'lodash',
   ['inline-replace-variables', {
     // Inject version number into code
@@ -63,7 +64,8 @@ var babelConfig = {
 if (env === 'browser') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', browserBabelPresetEnvConfig]
+      ['@babel/preset-env', browserBabelPresetEnvConfig],
+      '@babel/typescript',
     ]
   })
 }
@@ -71,7 +73,8 @@ if (env === 'browser') {
 if (env === 'legacy') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', legacyBabelPresetEnvConfig]
+      ['@babel/preset-env', legacyBabelPresetEnvConfig],
+      '@babel/typescript',
     ]
   })
 }
@@ -79,7 +82,8 @@ if (env === 'legacy') {
 if (env === 'modules') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', modulesBabelPresetEnvConfig]
+      ['@babel/preset-env', modulesBabelPresetEnvConfig],
+      '@babel/typescript',
     ]
   })
 }
@@ -87,7 +91,8 @@ if (env === 'modules') {
 if (env === 'node') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', nodeBabelPresetEnvConfig]
+      ['@babel/preset-env', nodeBabelPresetEnvConfig],
+      '@babel/typescript',
     ]
   })
 }
@@ -95,10 +100,11 @@ if (env === 'node') {
 if (env === 'test') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', testBabelPresetEnvConfig]
+      ['@babel/preset-env', testBabelPresetEnvConfig],
+      '@babel/typescript',
     ],
     'plugins': babelConfig.plugins.concat([
-      'rewire'
+      'rewire-ts'
     ])
   })
 }
