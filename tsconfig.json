@@ -31,7 +31,6 @@
 			"ContentfulEnvironmentAPI",
 			"ContentfulOrganizationAPI",
 
-			"Space",
 			"ContentType",
 			"Entry",
 			"Asset",
@@ -48,15 +47,16 @@
 			"PreviewApiKey",
 			"Role",
 			"Snapshot",
+			"Space",
 			"SpaceMember",
 			"SpaceMembership",
 			"Team",
 			"TeamSpaceMembership",
-			"UiExtension",
+			"UIExtension",
 			"Upload",
 			"Usage",
 			"User",
-			"Webhook"
+			"Webhooks"
 		]
 	}
 }
