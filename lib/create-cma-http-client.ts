@@ -65,12 +65,10 @@ export type ClientParams = {
    * Gets called on every request triggered by the SDK
    */
   requestLogger?: (config: AxiosRequestConfig) => void;
-
   /**
    * Gets called on every response
    */
   responseLogger?: (response: AxiosResponse) => void;
-
   /**
    * Application name and version e.g myApp/version
    */

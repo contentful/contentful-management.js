@@ -3,9 +3,9 @@
  * @hidden
  */
 /// <reference types="node" />
+import { AxiosRequestConfig, AxiosProxyConfig, AxiosResponse } from 'axios';
 import { Agent as httpAgent } from 'http';
 import { Agent as httpsAgent } from 'https';
-import { AxiosProxyConfig } from 'axios';
 export declare type ClientParams = {
     /**
      * Contentful CMA Access Token
@@ -58,6 +58,14 @@ export declare type ClientParams = {
      * @see The default can be found at: https://github.com/contentful/contentful-sdk-core/blob/master/lib/create-http-client.js
      */
     logHandler?: (level: string, data: Error | string) => void;
+    /**
+     * Gets called on every request triggered by the SDK
+     */
+    requestLogger?: (config: AxiosRequestConfig) => void;
+    /**
+     * Gets called on every response
+     */
+    responseLogger?: (response: AxiosResponse) => void;
     /**
      * Application name and version e.g myApp/version
      */
