@@ -1,11 +1,11 @@
+/**
+ * @packageDocumentation
+ * @hidden
+ */
 /// <reference types="node" />
 import { Agent as httpAgent } from 'http';
 import { Agent as httpsAgent } from 'https';
 import { AxiosProxyConfig } from 'axios';
-/**
- * @global
- * @alias ClientParams
- */
 export declare type ClientParams = {
     /**
      * Contentful CDA Access Token
@@ -83,4 +83,7 @@ export declare type ClientParams = {
     maxContentLength?: number;
     feature?: string;
 };
-export declare function createCMAHttpClient(params: ClientParams): import("axios").AxiosInstance;
+/**
+ * @private
+ */
+export declare function createCMAHttpClient(params: ClientParams): any;

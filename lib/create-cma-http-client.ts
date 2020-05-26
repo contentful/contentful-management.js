@@ -1,15 +1,17 @@
-import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
+/**
+ * @packageDocumentation
+ * @hidden
+ */
+
 import axios from 'axios'
+// @ts-ignore
+import {createHttpClient, getUserAgentHeader} from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 
 import { Agent as httpAgent } from 'http'
 import { Agent as httpsAgent } from 'https'
 import { AxiosProxyConfig } from 'axios'
 
-/**
- * @global
- * @alias ClientParams
- */
 export type ClientParams = {
   /**
    * Contentful CDA Access Token
@@ -87,7 +89,9 @@ export type ClientParams = {
   feature?: string
 }
 
-
+/**
+ * @private
+ */
 export function createCMAHttpClient(params: ClientParams) {
   const defaultParameters = {
     defaultHostname: 'api.contentful.com',
