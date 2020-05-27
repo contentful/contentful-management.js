@@ -1,7 +1,5 @@
 import { ContentFields } from './contentFields'
-import { MetaSys, MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
-import { Collection } from './collection'
+import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
 import { EditorInterface } from './editorInterface'
 
 export interface ContentTypeProps {

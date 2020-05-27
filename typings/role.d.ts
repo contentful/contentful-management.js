@@ -1,5 +1,4 @@
-import { MetaSys, MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSys, MetaSysProps, DefaultElements } from './generated/common-types'
 
 export interface RoleProps {
   name: string

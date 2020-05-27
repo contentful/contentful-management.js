@@ -1,4 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject'
+import { AxiosError } from 'axios'
 
 /**
  * Handles errors received from the server. Parses the error into a more useful
@@ -7,10 +8,8 @@ import isPlainObject from 'lodash/isPlainObject'
  * for more details on the data received on the errorResponse.data property
  * and the expected error codes.
  * @private
- * @param {Object} errorResponse - Error received from an axios request
- * @throws {ErrorResponse}
  */
-export default function errorHandler(errorResponse) {
+export default function errorHandler(errorResponse: AxiosError): never {
   const { config, response } = errorResponse
   let errorName
 
@@ -18,11 +17,18 @@ export default function errorHandler(errorResponse) {
     throw errorResponse
   }
 
-  const { data } = response
+  const data = response?.data
 
-  const errorData = {
-    status: response.status,
-    statusText: response.statusText,
+  const errorData: {
+    status?: number
+    statusText?: string
+    requestId?: string
+    message: string
+    details: object
+    request?: object
+  } = {
+    status: response?.status,
+    statusText: response?.statusText,
     message: '',
     details: {},
   }
@@ -40,7 +46,7 @@ export default function errorHandler(errorResponse) {
       payloadData: config.data,
     }
   }
-  if (isPlainObject(data)) {
+  if (data && isPlainObject(data)) {
     if ('requestId' in data) {
       errorData.requestId = data.requestId || 'UNKNOWN'
     }
@@ -59,7 +65,7 @@ export default function errorHandler(errorResponse) {
 
   const error = new Error()
   error.name =
-    errorName && errorName !== 'Unknown' ? errorName : `${response.status} ${response.statusText}`
+    errorName && errorName !== 'Unknown' ? errorName : `${response?.status} ${response?.statusText}`
   error.message = JSON.stringify(errorData, null, '  ')
   throw error
 }
