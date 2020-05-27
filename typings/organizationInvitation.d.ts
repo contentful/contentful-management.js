@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, MetaLinkProps } from './meta'
+import { MetaSys, MetaSysProps, MetaLinkProps } from './generated/common-types'
 
 export interface OrganizationInvitationProps {
   firstName: string

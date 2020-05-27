@@ -4,7 +4,6 @@
  */
 
 import axios, { AxiosRequestConfig, AxiosProxyConfig, AxiosResponse } from 'axios'
-// @ts-expect-error
 import { createHttpClient, getUserAgentHeader } from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -20,41 +19,41 @@ export type ClientParams = {
    * Requests will be made over http instead of the default https
    * @default false
    */
-  insecure?: boolean | null
+  insecure?: boolean
   /**
    * If we should retry on errors and 429 rate limit exceptions
    * @default true
    */
-  retryOnError?: boolean | null
+  retryOnError?: boolean
   /**
    * API host
    * @default api.contentful.com
    */
-  host?: null | string
+  host?: string
   /**
    * direct file upload host
    * @default upload.contentful.com
    */
-  hostUpload?: null | string
+  hostUpload?: string
   /**
    * Optional Node.js HTTP agent for proxying
    * @see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>
    */
-  httpAgent?: null | httpAgent
+  httpAgent?: httpAgent
   /**
    * Optional Node.js HTTP agent for proxying
    * @see <a href="https://nodejs.org/api/http.html#http_class_http_agent">Node.js docs</a> and <a href="https://www.npmjs.com/package/https-proxy-agent">https-proxy-agent</a>
    */
-  httpsAgent?: null | httpsAgent
+  httpsAgent?: httpsAgent
   /**
    * Optional Axios proxy
    * @see <a href="https://github.com/mzabriskie/axios#request-config"> axios docs </a>
    */
-  proxy?: null | AxiosProxyConfig
+  proxy?: AxiosProxyConfig
   /**
    * Optional additional headers
    */
-  headers?: null | { [key: string]: any }
+  headers?: { [key: string]: unknown }
   /**
    * A log handler function to process given log messages & errors.
    * Receives the log level (error, warning & info) and the actual log data (Error object or string).
@@ -72,11 +71,11 @@ export type ClientParams = {
   /**
    * Application name and version e.g myApp/version
    */
-  application?: null | string
+  application?: string
   /**
    * Integration name and version e.g react/version
    */
-  integration?: null | string
+  integration?: string
   /**
    * Optional number of milliseconds before the request times out.
    * @default 30000

@@ -1,5 +1,4 @@
-import { DefaultElements } from './defaultElements'
-import { MetaSys, MetaSysProps, MetaLinkProps } from './meta'
+import { MetaSys, MetaLinkProps, MetaSysProps, DefaultElements } from './generated/common-types'
 
 export interface AppInstallationProps {
   parameters: {

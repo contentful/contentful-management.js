@@ -47,7 +47,7 @@ Code is documented using Typedoc, and reference documentation is published autom
 
 - `npm run docs:watch` watches code directory, and rebuilds documentation when anything changes. Useful for documentation writing and development.
 - `npm run docs:dev` builds code and builds docs afterwards. Used by `npm run docs:watch`. Code building is required as the documentation is generated from the unminified ES5 compiled sources, rather than the original ES6 sources. You should then open the generated `out/index.html` in your browser.
-- `npm run docs:build` builds documentation.
+- `npm run build:docs` builds documentation.
 - `npm run docs:publish` builds documentation and publishes it to github pages.
 
 # Other tasks

@@ -1,5 +1,4 @@
-import { MetaSysProps, MetaSys } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSys, MetaSysProps, DefaultElements } from './generated/common-types'
 
 export interface LocaleProps {
   name: string

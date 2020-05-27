@@ -1,5 +1,4 @@
-import { MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSysProps, DefaultElements } from './generated/common-types'
 import { Stream } from 'stream'
 
 export interface AssetProps {
