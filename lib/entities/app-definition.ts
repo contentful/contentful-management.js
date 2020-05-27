@@ -129,9 +129,9 @@ function createAppDefinitionApi(http: AxiosInstance) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw App Definition data
- * @return {AppDefinition} Wrapped App Definition data
+ * @param http - HTTP client instance
+ * @param data - Raw App Definition data
+ * @return Wrapped App Definition data
  */
 export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps) {
   const appDefinition = toPlainObject(cloneDeep(data))
@@ -141,9 +141,9 @@ export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps)
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw App Definition collection data
- * @return {AppDefinitionCollection} Wrapped App Definition collection data
+ * @param http - HTTP client instance
+ * @param data - Raw App Definition collection data
+ * @return Wrapped App Definition collection data
  */
 export function wrapAppDefinitionCollection(
   http: AxiosInstance,

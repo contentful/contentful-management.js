@@ -84,9 +84,9 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
 }
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw App Definition data
- * @return {AppDefinition} Wrapped App Definition data
+ * @param http - HTTP client instance
+ * @param data - Raw App Definition data
+ * @return Wrapped App Definition data
  */
 export declare function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps): {
     update: () => Promise<AppDefinition>;
@@ -96,9 +96,9 @@ export declare function wrapAppDefinition(http: AxiosInstance, data: AppDefiniti
 };
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw App Definition collection data
- * @return {AppDefinitionCollection} Wrapped App Definition collection data
+ * @param http - HTTP client instance
+ * @param data - Raw App Definition collection data
+ * @return Wrapped App Definition collection data
  */
 export declare function wrapAppDefinitionCollection(http: AxiosInstance, data: CollectionProp<AppDefinitionProps>): CollectionProp<AppDefinitionProps> & {
     toPlainObject(): CollectionProp<AppDefinitionProps>;
