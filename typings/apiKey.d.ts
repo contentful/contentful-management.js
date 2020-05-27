@@ -1,5 +1,4 @@
-import { MetaSys, MetaLinkProps, MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSys, MetaLinkProps, MetaSysProps, DefaultElements } from './generated/common-types'
 
 export interface ApiKeyProps {
   name: string

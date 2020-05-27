@@ -1,5 +1,4 @@
-import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
-import { DefaultElements } from './defaultElements'
+import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements } from './generated/common-types'
 import { QueryOptions } from './queryOptions'
 
 export interface Options {

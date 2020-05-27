@@ -1,7 +1,5 @@
-import { DefaultElements } from './defaultElements'
-import { MetaSys, MetaSysProps } from './meta'
+import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
 import { QueryOptions } from './queryOptions'
-import { Collection } from './collection'
 import { ContentType, ContentTypeProps } from './contentType'
 import { Entry, EntryProp } from './entry'
 import { Locale, CreateLocaleProps } from './locale'

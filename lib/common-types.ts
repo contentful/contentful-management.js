@@ -1,3 +1,7 @@
+export interface DefaultElements<TPlainObject extends object = object> {
+  toPlainObject(): TPlainObject
+}
+
 export interface MetaSysProps {
   type: string
   id: string
@@ -8,6 +12,8 @@ export interface MetaSysProps {
   createdAt: string
   updatedBy?: { sys: MetaLinkProps }
   updatedAt: string
+  publishedVersion?: number
+  archivedVersion?: number
 }
 
 export interface MetaSys<
@@ -20,4 +26,19 @@ export interface MetaLinkProps {
   type: string
   linkType: string
   id: string
+}
+
+export interface CollectionProp<TObj extends Object> {
+  total: number
+  skip: number
+  limit: number
+  items: TObj[]
+}
+
+export interface Collection<TObj extends Object>
+  extends CollectionProp<TObj>,
+    DefaultElements<CollectionProp<TObj>> {
+  sys: {
+    type: 'Array'
+  }
 }

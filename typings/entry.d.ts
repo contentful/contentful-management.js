@@ -1,6 +1,4 @@
-import { DefaultElements } from './defaultElements'
-import { MetaLinkProps, MetaSys, MetaSysProps } from './meta'
-import { Collection } from './collection'
+import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements, Collection } from './generated/common-types'
 
 export interface EntryProp {
   fields: {

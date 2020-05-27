@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps } from './meta'
+import { MetaSys, MetaSysProps } from './generated/common-types'
 
 export interface Control {
   fieldId: string

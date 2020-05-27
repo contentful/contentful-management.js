@@ -8,6 +8,7 @@
     "strict": true,
     "isolatedModules": true,
     "esModuleInterop": true,
+    "noImplicitThis": false,
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["lib"],
