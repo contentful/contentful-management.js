@@ -9,9 +9,9 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitThis": false,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types", "./global-types"]
   },
-  "include": ["lib"],
+  "include": ["lib", "global-types"],
   "typedocOptions": {
     "mode": "file",
     "out": "./out",

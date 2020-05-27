@@ -28,14 +28,14 @@ export interface MetaLinkProps {
   id: string
 }
 
-export interface CollectionProp<TObj extends Object> {
+export interface CollectionProp<TObj> {
   total: number
   skip: number
   limit: number
   items: TObj[]
 }
 
-export interface Collection<TObj extends Object>
+export interface Collection<TObj>
   extends CollectionProp<TObj>,
     DefaultElements<CollectionProp<TObj>> {
   sys: {

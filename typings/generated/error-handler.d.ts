@@ -7,4 +7,4 @@ import { AxiosError } from 'axios';
  * and the expected error codes.
  * @private
  */
-export default function errorHandler(errorResponse: AxiosError): void;
+export default function errorHandler(errorResponse: AxiosError): never;

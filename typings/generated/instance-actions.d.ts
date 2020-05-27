@@ -2,23 +2,23 @@ import { AxiosInstance } from 'axios';
 /**
  * @private
  */
-export declare function createUpdateEntity({ http, entityPath, wrapperMethod, headers }: {
+export declare function createUpdateEntity<T = unknown>({ http, entityPath, wrapperMethod, headers, }: {
     http: AxiosInstance;
     entityPath: string;
     wrapperMethod: Function;
-    headers?: Record<string, any>;
-}): () => Promise<any>;
+    headers?: Record<string, unknown>;
+}): () => Promise<T>;
 /**
  * @private
  */
-export declare function createDeleteEntity({ http, entityPath }: {
+export declare function createDeleteEntity({ http, entityPath, }: {
     http: AxiosInstance;
     entityPath: string;
 }): () => Promise<void>;
 /**
  * @private
  */
-export declare function createPublishEntity({ http, entityPath, wrapperMethod }: {
+export declare function createPublishEntity<T = unknown>({ http, entityPath, wrapperMethod, }: {
     http: AxiosInstance;
     entityPath: string;
     wrapperMethod: Function;
@@ -26,7 +26,7 @@ export declare function createPublishEntity({ http, entityPath, wrapperMethod }:
 /**
  * @private
  */
-export declare function createUnpublishEntity({ http, entityPath, wrapperMethod }: {
+export declare function createUnpublishEntity<T = unknown>({ http, entityPath, wrapperMethod, }: {
     http: AxiosInstance;
     entityPath: string;
     wrapperMethod: Function;
@@ -34,7 +34,7 @@ export declare function createUnpublishEntity({ http, entityPath, wrapperMethod 
 /**
  * @private
  */
-export declare function createArchiveEntity({ http, entityPath, wrapperMethod }: {
+export declare function createArchiveEntity<T = unknown>({ http, entityPath, wrapperMethod, }: {
     http: AxiosInstance;
     entityPath: string;
     wrapperMethod: Function;
@@ -42,7 +42,7 @@ export declare function createArchiveEntity({ http, entityPath, wrapperMethod }:
 /**
  * @private
  */
-export declare function createUnarchiveEntity({ http, entityPath, wrapperMethod }: {
+export declare function createUnarchiveEntity<T = unknown>({ http, entityPath, wrapperMethod, }: {
     http: AxiosInstance;
     entityPath: string;
     wrapperMethod: Function;
