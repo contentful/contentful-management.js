@@ -29,6 +29,9 @@ export interface MetaLinkProps {
 }
 
 export interface CollectionProp<TObj> {
+  sys: {
+    type: 'Array'
+  }
   total: number
   skip: number
   limit: number
@@ -37,8 +40,4 @@ export interface CollectionProp<TObj> {
 
 export interface Collection<TObj>
   extends CollectionProp<TObj>,
-    DefaultElements<CollectionProp<TObj>> {
-  sys: {
-    type: 'Array'
-  }
-}
+    DefaultElements<CollectionProp<TObj>> {}
