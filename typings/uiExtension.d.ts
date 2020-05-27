@@ -7,23 +7,23 @@ export interface UIExtensionProps {
     /**
      * Extension name
      */
-    name: string,
+    name: string
     /**
      * Field types where an extension can be used
      */
-    fieldTypes: EntryFields[],
+    fieldTypes: EntryFields[]
     /**
      * URL where the root HTML document of the extension can be found
      */
-    src?: string,
+    src?: string
     /**
      * String representation of the extension (e.g. inline HTML code)
      */
-    srcdoc?: string,
+    srcdoc?: string
     /**
      * Controls the location of the extension. If true it will be rendered on the sidebar instead of replacing the field's editing control
      */
-    sidebar: boolean,
+    sidebar: boolean
   }
 }
 
@@ -51,7 +51,7 @@ export interface UIExtension
    * .catch(console.error)
    * ```
    */
-  update(): Promise<UIExtension>,
+  update(): Promise<UIExtension>
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
@@ -69,5 +69,5 @@ export interface UIExtension
    * .catch(console.error)
    * ```
    */
-  delete(): Promise<void>,
+  delete(): Promise<void>
 }

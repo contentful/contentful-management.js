@@ -1,13 +1,12 @@
 // import generateRandomId from './generate-random-id'
 
-export default function webhookTests (t, space) {
+export default function webhookTests(t, space) {
   t.test('Gets webhooks', (t) => {
     t.plan(2)
-    return space.getWebhooks()
-      .then((webhooks) => {
-        t.ok(webhooks.sys, 'sys')
-        t.ok(webhooks.items, 'fields')
-      })
+    return space.getWebhooks().then((webhooks) => {
+      t.ok(webhooks.sys, 'sys')
+      t.ok(webhooks.items, 'fields')
+    })
   })
 
   // does not work in our API ¯\_(ツ)_/¯
@@ -35,20 +34,20 @@ export default function webhookTests (t, space) {
   */
 
   t.test('Create webhook', (t) => {
-    return space.createWebhook({
-      name: 'testname',
-      url: 'http://localhost:8080',
-      topics: ['Entry.publish']
-    })
+    return space
+      .createWebhook({
+        name: 'testname',
+        url: 'http://localhost:8080',
+        topics: ['Entry.publish'],
+      })
       .then((webhook) => {
         t.equals(webhook.name, 'testname', 'name')
         t.ok(webhook.url, 'url')
         webhook.name = 'updatedname'
-        return webhook.update()
-          .then((updatedWebhook) => {
-            t.equals(updatedWebhook.name, 'updatedname', 'name')
-            return updatedWebhook.delete()
-          })
+        return webhook.update().then((updatedWebhook) => {
+          t.equals(updatedWebhook.name, 'updatedname', 'name')
+          return updatedWebhook.delete()
+        })
       })
   })
 }

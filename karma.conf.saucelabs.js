@@ -4,24 +4,24 @@ var browsers = {
   sl_chrome: {
     base: 'SauceLabs',
     browserName: 'chrome',
-    platform: 'Linux'
+    platform: 'Linux',
   },
   sl_firefox: {
     base: 'SauceLabs',
     browserName: 'firefox',
-    platform: 'Linux'
+    platform: 'Linux',
   },
   sl_ie_11: {
     base: 'SauceLabs',
     browserName: 'internet explorer',
     platform: 'Windows 10',
-    version: '11.103'
+    version: '11.103',
   },
   sl_edge: {
     base: 'SauceLabs',
     browserName: 'MicrosoftEdge',
-    platform: 'Windows 10'
-  }
+    platform: 'Windows 10',
+  },
 }
 
 module.exports = function (config) {
@@ -34,7 +34,7 @@ module.exports = function (config) {
   karmaBaseConf.sauceLabs = {
     // Should be false for running on travis, as travis already starts its own
     // sauce connect
-    startConnect: false
+    startConnect: false,
   }
 
   config.set(karmaBaseConf)

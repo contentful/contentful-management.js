@@ -10,27 +10,23 @@ const PROD = process.env.NODE_ENV === 'production'
 const plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.EnvironmentPlugin({
-    NODE_ENV: 'development'
+    NODE_ENV: 'development',
   }),
   new LodashModuleReplacementPlugin({
     caching: true,
-    cloning: true
-  })
+    cloning: true,
+  }),
 ]
 
 if (PROD) {
-  plugins.push(
-    new MinifyPlugin()
-  )
+  plugins.push(new MinifyPlugin())
   plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
-      debug: false
+      debug: false,
     })
   )
-  plugins.push(
-    new webpack.optimize.ModuleConcatenationPlugin()
-  )
+  plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 }
 
 const baseFileName = `contentful-management`
@@ -42,36 +38,31 @@ const baseBundleConfig = {
   output: {
     path: path.join(__dirname, 'dist'),
     libraryTarget: 'umd',
-    library: 'contentfulManagement'
+    library: 'contentfulManagement',
   },
   module: {
-    rules: []
+    rules: [],
   },
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts'],
   },
   devtool: PROD ? false : 'source-map',
   plugins,
   node: {
-    os: 'empty'
+    os: 'empty',
   },
   // Show minimal information, but all errors and warnings
   // Except for log generation which have to contain all information
-  stats: process.env.WEBPACK_MODE === 'log' ? 'verbose' : 'normal'
+  stats: process.env.WEBPACK_MODE === 'log' ? 'verbose' : 'normal',
 }
 
 const defaultBabelLoader = {
   test: /\.(ts|js)x?$/,
-  include: [
-    path.resolve(__dirname, 'lib'),
-    path.resolve(__dirname, 'test')
-  ],
+  include: [path.resolve(__dirname, 'lib'), path.resolve(__dirname, 'test')],
   loader: 'babel-loader',
   options: {
-    presets: [
-      '@babel/typescript'
-    ]
-  }
+    presets: ['@babel/typescript'],
+  },
 }
 
 // Browsers
@@ -79,9 +70,9 @@ const browserBundle = clone(baseBundleConfig)
 browserBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      envName: 'browser'
-    })
-  })
+      envName: 'browser',
+    }),
+  }),
 ]
 browserBundle.output.filename = `${baseFileName}.browser${PROD ? '.min' : ''}.js`
 
@@ -90,9 +81,9 @@ const legacyBundle = clone(baseBundleConfig)
 legacyBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      envName: 'legacy'
-    })
-  })
+      envName: 'legacy',
+    }),
+  }),
 ]
 // To be replaced with babel-polyfill with babel-preset-env 2.0:
 // https://github.com/babel/babel-preset-env#usebuiltins
@@ -100,7 +91,7 @@ legacyBundle.module.rules = [
 legacyBundle.entry = [
   'core-js/fn/promise',
   'core-js/fn/object/assign',
-  'core-js/fn/array/from'
+  'core-js/fn/array/from',
 ].concat(legacyBundle.entry)
 
 legacyBundle.output.filename = `${baseFileName}.legacy${PROD ? '.min' : ''}.js`
@@ -110,17 +101,13 @@ const nodeBundle = clone(baseBundleConfig)
 nodeBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
-      envName: 'node'
-    })
-  })
+      envName: 'node',
+    }),
+  }),
 ]
 nodeBundle.target = 'node'
 nodeBundle.output.libraryTarget = 'commonjs2'
 nodeBundle.output.filename = `${baseFileName}.node${PROD ? '.min' : ''}.js`
 delete nodeBundle.node
 
-module.exports = [
-  browserBundle,
-  legacyBundle,
-  nodeBundle
-]
+module.exports = [browserBundle, legacyBundle, nodeBundle]

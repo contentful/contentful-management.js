@@ -1,53 +1,63 @@
-
 export interface Symbol {
-  type: "Symbol"
+  type: 'Symbol'
 }
 
 export interface Text {
-  type: "Text"
+  type: 'Text'
 }
 
 export interface RichText {
-  type: "RichText"
+  type: 'RichText'
 }
 
 export interface Integer {
-  type: "Integer"
+  type: 'Integer'
 }
 
 export interface Number {
-  type: "Number"
+  type: 'Number'
 }
 
 export interface Date {
-  type: "Date"
+  type: 'Date'
 }
 
 export interface Boolean {
-  type: "Boolean"
+  type: 'Boolean'
 }
 
 export interface Object {
-  type: "Object"
+  type: 'Object'
 }
 
 export interface Location {
-  type: "Location"
+  type: 'Location'
 }
 
 export interface Asset {
-  type: "Link",
-  linkType: "Asset"
+  type: 'Link'
+  linkType: 'Asset'
 }
 
 export interface Entry {
-  type: "Link",
-  linkType: "Entry"
+  type: 'Link'
+  linkType: 'Entry'
 }
 
-export interface Array{
-  "type": "Array",
-  "items": Entry | Asset | Symbol
+export interface Array {
+  type: 'Array'
+  items: Entry | Asset | symbol
 }
 
-export type EntryFields = Symbol | Text | RichText | Integer | Number | Date | Boolean | Object | Location | Entry | Array
+export type EntryFields =
+  | symbol
+  | Text
+  | RichText
+  | Integer
+  | number
+  | Date
+  | boolean
+  | Record<string, any>
+  | Location
+  | Entry
+  | Array

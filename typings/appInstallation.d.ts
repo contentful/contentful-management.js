@@ -15,6 +15,6 @@ export interface AppInstallation
   extends AppInstallationProps,
     DefaultElements<AppInstallationProps & MetaSys<MetaSysProps>>,
     MetaSys<AppInstallationMetaSysProps> {
-  update(): Promise<AppInstallation>,
-  delete(): Promise<void>,
+  update(): Promise<AppInstallation>
+  delete(): Promise<void>
 }

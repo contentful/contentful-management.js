@@ -4,8 +4,8 @@ import { QueryOptions } from './queryOptions'
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 
 export interface UsageQuery extends QueryOptions {
-  'metric[in]'?: string,
-  'dateRange.startAt'?: string,
+  'metric[in]'?: string
+  'dateRange.startAt'?: string
   'dateRange.endAt'?: string
 }
 
@@ -14,12 +14,12 @@ interface UsageSysProps extends MetaSysProps {
 }
 
 export interface Usage extends MetaSys<UsageSysProps> {
-  metric: UsageMetricEnum,
-  unitOfMeasure: string,
+  metric: UsageMetricEnum
+  unitOfMeasure: string
   dateRange: {
-    startAt: string,
+    startAt: string
     endAt: string
-  },
-  usage: number,
+  }
+  usage: number
   usagePerDay: {} // { 'yyyy-mm-dd': number, ... }
 }

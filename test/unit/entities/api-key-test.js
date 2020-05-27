@@ -1,57 +1,57 @@
 import test from 'blue-tape'
-import {cloneMock} from '../mocks/entities'
+import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
-import {wrapApiKey, wrapApiKeyCollection} from '../../../lib/entities/api-key'
+import { wrapApiKey, wrapApiKeyCollection } from '../../../lib/entities/api-key'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
   entityUpdateTest,
   entityDeleteTest,
   failingActionTest,
-  failingVersionActionTest
+  failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
 
-function setup (promise) {
+function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('apiKey')
+    entityMock: cloneMock('apiKey'),
   }
 }
 
 test('ApiKey is wrapped', (t) => {
   entityWrappedTest(t, setup, {
-    wrapperMethod: wrapApiKey
+    wrapperMethod: wrapApiKey,
   })
 })
 
 test('ApiKey collection is wrapped', (t) => {
   return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapApiKeyCollection
+    wrapperMethod: wrapApiKeyCollection,
   })
 })
 
 test('ApiKey update', (t) => {
   return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapApiKey
+    wrapperMethod: wrapApiKey,
   })
 })
 
 test('ApiKey update fails', (t) => {
   return failingVersionActionTest(t, setup, {
     wrapperMethod: wrapApiKey,
-    actionMethod: 'update'
+    actionMethod: 'update',
   })
 })
 
 test('ApiKey delete', (t) => {
   return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapApiKey
+    wrapperMethod: wrapApiKey,
   })
 })
 
 test('ApiKey delete fails', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapApiKey,
-    actionMethod: 'delete'
+    actionMethod: 'delete',
   })
 })

@@ -1,6 +1,9 @@
 import test from 'blue-tape'
 import sinon from 'sinon'
-import { createCMAHttpClient, __RewireAPI__ as createCMAHttpClientRewireApi } from '../../lib/create-cma-http-client'
+import {
+  createCMAHttpClient,
+  __RewireAPI__ as createCMAHttpClientRewireApi,
+} from '../../lib/create-cma-http-client'
 
 import { version } from '../../package.json'
 
@@ -46,7 +49,12 @@ test('Generate the correct custom User Agent Header', (t) => {
 
   const createHttpClientStub = sinon.stub()
   createCMAHttpClientRewireApi.__Rewire__('createHttpClient', createHttpClientStub)
-  createCMAHttpClient({ accessToken: 'accesstoken', application: 'myApplication/1.1.1', integration: 'myIntegration/1.0.0', feature: 'some-feature' })
+  createCMAHttpClient({
+    accessToken: 'accesstoken',
+    application: 'myApplication/1.1.1',
+    integration: 'myIntegration/1.0.0',
+    feature: 'some-feature',
+  })
   const headerParts = createHttpClientStub.args[0][1].headers['X-Contentful-User-Agent'].split('; ')
   t.equal(headerParts.length, 6)
   t.equal(headerParts[0], 'app myApplication/1.1.1')
