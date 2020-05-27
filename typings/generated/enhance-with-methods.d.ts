@@ -9,14 +9,4 @@
  * @param {object} methodsObject - Object with methods as properties. The key
  * values used here will be the same that will be defined on the baseObject.
  */
-export default function enhanceWithMethods(baseObject, methodsObject) {
-  return Object.keys(methodsObject).reduce((enhancedObject, methodName) => {
-    Object.defineProperty(enhancedObject, methodName, {
-      enumerable: false,
-      configurable: true,
-      writable: false,
-      value: methodsObject[methodName],
-    })
-    return enhancedObject
-  }, baseObject)
-}
+export default function enhanceWithMethods(baseObject: Record<string, any>, methodsObject: Record<string, Function>): Record<string, any>;

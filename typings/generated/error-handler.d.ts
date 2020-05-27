@@ -6,6 +6,5 @@ import { AxiosError } from 'axios';
  * for more details on the data received on the errorResponse.data property
  * and the expected error codes.
  * @private
- * @param errorResponse - Error received from an axios request
  */
 export default function errorHandler(errorResponse: AxiosError): void;
