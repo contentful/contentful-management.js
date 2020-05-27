@@ -1,6 +1,6 @@
 import test from 'blue-tape'
 import errorHandler from '../../lib/error-handler'
-import {cloneMock} from './mocks/entities'
+import { cloneMock } from './mocks/entities'
 
 // Best case scenario where an error is a known and expected situation and the
 // server returns an error with a JSON payload with all the information possible
@@ -9,11 +9,11 @@ test('Throws well formed error with details from server', (t) => {
   error.response.data = {
     sys: {
       id: 'SpecificError',
-      type: 'Error'
+      type: 'Error',
     },
     message: 'datamessage',
     requestId: 'requestid',
-    details: 'errordetails'
+    details: 'errordetails',
   }
 
   try {
@@ -36,9 +36,9 @@ test('Throws unknown error received from server', (t) => {
   error.response.data = {
     sys: {
       id: 'Unknown',
-      type: 'Error'
+      type: 'Error',
     },
-    requestId: 'requestid'
+    requestId: 'requestid',
   }
   error.response.status = 500
   error.response.statusText = 'Internal'

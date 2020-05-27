@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep'
 const linkMock = {
   id: 'linkid',
   type: 'Link',
-  linkType: 'linkType'
+  linkType: 'linkType',
 }
 
 const sysMock = {
@@ -13,28 +13,28 @@ const sysMock = {
   id: 'id',
   space: cloneDeep(linkMock),
   createdAt: 'createdatdate',
-  updatedAt: 'updatedatdate'
+  updatedAt: 'updatedatdate',
 }
 
 const spaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Space'
+    type: 'Space',
   }),
   name: 'name',
-  locales: [ 'en-US' ]
+  locales: ['en-US'],
 }
 
 const environmentMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Environment',
-    space: spaceMock
+    space: spaceMock,
   }),
-  name: 'name'
+  name: 'name',
 }
 
 const userMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'User'
+    type: 'User',
   }),
   firstName: 'Dwight',
   lastName: 'Schrute',
@@ -42,40 +42,38 @@ const userMock = {
   email: 'dwight@dundermifflin.com',
   activated: true,
   signInCount: 1,
-  confirmed: true
+  confirmed: true,
 }
 
 const personalAccessTokenMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'PersonalAccessToken'
+    type: 'PersonalAccessToken',
   }),
   name: 'My Token',
   revokeAt: null,
-  scopes: [
-    'content_management_manage'
-  ]
+  scopes: ['content_management_manage'],
 }
 
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'AppDefinition'
+    type: 'AppDefinition',
   }),
   name: 'AI Image Tagging',
   src: 'https://ai-image-tagging.app-host.com/frontend/',
   locations: [
     {
-      location: 'app-config'
+      location: 'app-config',
     },
     {
       location: 'entry-field',
-      fieldTypes: [{ type: 'Symbol' }]
-    }
-  ]
+      fieldTypes: [{ type: 'Symbol' }],
+    },
+  ],
 }
 
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'ContentType'
+    type: 'ContentType',
   }),
   name: 'name',
   description: 'desc',
@@ -86,55 +84,55 @@ const contentTypeMock = {
       name: 'fieldname',
       type: 'Text',
       localized: true,
-      required: false
-    }
-  ]
+      required: false,
+    },
+  ],
 }
 const snapShotMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Snapshot'
+    type: 'Snapshot',
   }),
   fields: {
-    field1: 'str'
-  }
+    field1: 'str',
+  },
 }
 const entryMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Entry',
-    contentType: Object.assign(cloneDeep(linkMock), {linkType: 'ContentType'}),
-    locale: 'locale'
+    contentType: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }),
+    locale: 'locale',
   }),
   fields: {
-    field1: 'str'
-  }
+    field1: 'str',
+  },
 }
 const editorInterfaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
-    contentType: {sys: Object.assign(cloneDeep(linkMock), {linkType: 'ContentType'})},
-    space: Object.assign(cloneDeep(linkMock), {linkType: 'Space'})
+    contentType: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }) },
+    space: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }),
   }),
   controls: [
     {
-      'fieldId': 'fieldId',
-      'widgetId': 'singleLine'
-    }
-  ]
+      fieldId: 'fieldId',
+      widgetId: 'singleLine',
+    },
+  ],
 }
 const assetMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
-    locale: 'locale'
+    locale: 'locale',
   }),
   fields: {
-    field1: 'str'
-  }
+    field1: 'str',
+  },
 }
 
 const assetWithFilesMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
-    locale: 'locale'
+    locale: 'locale',
   }),
   fields: {
     files: {
@@ -145,9 +143,9 @@ const assetWithFilesMock = {
           sys: {
             type: 'Link',
             linkType: 'Upload',
-            id: 'some_random_id'
-          }
-        }
+            id: 'some_random_id',
+          },
+        },
       },
       locale2: {
         contentType: 'image/svg',
@@ -156,131 +154,129 @@ const assetWithFilesMock = {
           sys: {
             type: 'Link',
             linkType: 'Upload',
-            id: 'some_random_id'
-          }
-        }
-      }
-    }
-  }
+            id: 'some_random_id',
+          },
+        },
+      },
+    },
+  },
 }
 
 const uploadMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Upload',
-    id: 'some_random_id'
-  })
+    id: 'some_random_id',
+  }),
 }
 
 const localeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Locale'
+    type: 'Locale',
   }),
   name: 'English',
   code: 'en',
   contentDeliveryApi: true,
   contentManagementApi: true,
-  default: true
+  default: true,
 }
 
 const membershipMock = {
   type: 'TeamSpaceMembership',
   id: 'randomId',
   version: 3,
-  space: Object.assign(cloneDeep(linkMock), {linkType: 'Space'}),
-  team: {sys: Object.assign(cloneDeep(linkMock), {linkType: 'Team'})},
+  space: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }),
+  team: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'Team' }) },
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
 }
 
 const webhookMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'WebhookDefinition'
-  })
+    type: 'WebhookDefinition',
+  }),
 }
 
 const spaceMemberMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'SpaceMember'
-  })
+    type: 'SpaceMember',
+  }),
 }
 
 const spaceMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'SpaceMembership'
-  })
+    type: 'SpaceMembership',
+  }),
 }
 
 const teamSpaceMembershipMock = {
   sys: Object.assign(cloneDeep(membershipMock), {
     type: 'TeamSpaceMembership',
     space: {
-      sys: { id: 'space_id', type: 'Link', linkType: 'Space' }
-    }
+      sys: { id: 'space_id', type: 'Link', linkType: 'Space' },
+    },
   }),
-  roles: [
-    {sys: Object.assign(cloneDeep(linkMock), {linkType: 'Role'})}
-  ]
+  roles: [{ sys: Object.assign(cloneDeep(linkMock), { linkType: 'Role' }) }],
 }
 
 const organizationMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'OrganizationMembership'
-  })
+    type: 'OrganizationMembership',
+  }),
 }
 
 const teamMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Team'
-  })
+    type: 'Team',
+  }),
 }
 
 const teamMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'TeamMembership'
-  })
+    type: 'TeamMembership',
+  }),
 }
 
 const organizationInvitationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'organizationInvitation'
-  })
+    type: 'organizationInvitation',
+  }),
 }
 
 const roleMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Role'
-  })
+    type: 'Role',
+  }),
 }
 
 const apiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'ApiKey'
-  })
+    type: 'ApiKey',
+  }),
 }
 
 const previewApiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'ApiKey'
-  })
+    type: 'ApiKey',
+  }),
 }
 
 const organizationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Organization'
+    type: 'Organization',
   }),
-  name: 'name'
+  name: 'name',
 }
 
 const usageMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Usage'
-  })
+    type: 'Usage',
+  }),
 }
 
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'Extension'
-  })
+    type: 'Extension',
+  }),
 }
 
 const appInstallationMock = {
@@ -288,29 +284,29 @@ const appInstallationMock = {
     type: 'AppInstallation',
     appDefinition: {
       sys: {
-        id: '<app_definition_id>'
-      }
-    }
-  })
+        id: '<app_definition_id>',
+      },
+    },
+  }),
 }
 
 const environmentAliasMock = {
   sys: Object.assign(cloneDeep(sysMock), {
-    type: 'EnvironmentAlias'
+    type: 'EnvironmentAlias',
   }),
-  environment: environmentMock
+  environment: environmentMock,
 }
 
 const errorMock = {
   config: {
     url: 'requesturl',
-    headers: {}
+    headers: {},
   },
   data: {},
   response: {
     status: 404,
-    statusText: 'Not Found'
-  }
+    statusText: 'Not Found',
+  },
 }
 
 const mocks = {
@@ -341,132 +337,132 @@ const mocks = {
   user: userMock,
   personalAccessToken: personalAccessTokenMock,
   usage: usageMock,
-  environmentAlias: environmentAliasMock
+  environmentAlias: environmentAliasMock,
 }
 
-function cloneMock (name) {
+function cloneMock(name) {
   return cloneDeep(mocks[name])
 }
 
-function mockCollection (entityMock) {
+function mockCollection(entityMock) {
   return {
     total: 1,
     skip: 0,
     limit: 100,
-    items: [entityMock]
+    items: [entityMock],
   }
 }
 
-function setupEntitiesMock (rewiredModuleApi) {
+function setupEntitiesMock(rewiredModuleApi) {
   const entitiesMock = {
     appDefinition: {
       wrapAppDefinition: sinon.stub(),
-      wrapAppDefinitionCollection: sinon.stub()
+      wrapAppDefinitionCollection: sinon.stub(),
     },
     space: {
       wrapSpace: sinon.stub(),
-      wrapSpaceCollection: sinon.stub()
+      wrapSpaceCollection: sinon.stub(),
     },
     environment: {
       wrapEnvironment: sinon.stub(),
-      wrapEnvironmentCollection: sinon.stub()
+      wrapEnvironmentCollection: sinon.stub(),
     },
     contentType: {
       wrapContentType: sinon.stub(),
-      wrapContentTypeCollection: sinon.stub()
+      wrapContentTypeCollection: sinon.stub(),
     },
     entry: {
       wrapEntry: sinon.stub(),
-      wrapEntryCollection: sinon.stub()
+      wrapEntryCollection: sinon.stub(),
     },
     asset: {
       wrapAsset: sinon.stub(),
-      wrapAssetCollection: sinon.stub()
+      wrapAssetCollection: sinon.stub(),
     },
     locale: {
       wrapLocale: sinon.stub(),
-      wrapLocaleCollection: sinon.stub()
+      wrapLocaleCollection: sinon.stub(),
     },
     webhook: {
       wrapWebhook: sinon.stub(),
-      wrapWebhookCollection: sinon.stub()
+      wrapWebhookCollection: sinon.stub(),
     },
     spaceMember: {
       wrapSpaceMember: sinon.stub(),
-      wrapSpaceMemberCollection: sinon.stub()
+      wrapSpaceMemberCollection: sinon.stub(),
     },
     spaceMembership: {
       wrapSpaceMembership: sinon.stub(),
-      wrapSpaceMembershipCollection: sinon.stub()
+      wrapSpaceMembershipCollection: sinon.stub(),
     },
     teamSpaceMembership: {
       wrapTeamSpaceMembership: sinon.stub(),
-      wrapTeamSpaceMembershipCollection: sinon.stub()
+      wrapTeamSpaceMembershipCollection: sinon.stub(),
     },
     organizationMembership: {
       wrapOrganizationMembership: sinon.stub(),
-      wrapOrganizationMembershipCollection: sinon.stub()
+      wrapOrganizationMembershipCollection: sinon.stub(),
     },
     team: {
       wrapTeam: sinon.stub(),
-      wrapTeamCollection: sinon.stub()
+      wrapTeamCollection: sinon.stub(),
     },
     teamMembership: {
       wrapTeamMembership: sinon.stub(),
-      wrapTeamMembershipCollection: sinon.stub()
+      wrapTeamMembershipCollection: sinon.stub(),
     },
     organizationInvitation: {
-      wrapOrganizationInvitation: sinon.stub()
+      wrapOrganizationInvitation: sinon.stub(),
     },
     role: {
       wrapRole: sinon.stub(),
-      wrapRoleCollection: sinon.stub()
+      wrapRoleCollection: sinon.stub(),
     },
     apiKey: {
       wrapApiKey: sinon.stub(),
-      wrapApiKeyCollection: sinon.stub()
+      wrapApiKeyCollection: sinon.stub(),
     },
     previewApiKey: {
       wrapPreviewApiKey: sinon.stub(),
-      wrapPreviewApiKeyCollection: sinon.stub()
+      wrapPreviewApiKeyCollection: sinon.stub(),
     },
     editorInterface: {
-      wrapEditorInterface: sinon.stub()
+      wrapEditorInterface: sinon.stub(),
     },
     upload: {
-      wrapUpload: sinon.stub()
+      wrapUpload: sinon.stub(),
     },
     snapshot: {
       wrapSnapshot: sinon.stub(),
-      wrapSnapshotCollection: sinon.stub()
+      wrapSnapshotCollection: sinon.stub(),
     },
     organization: {
       wrapOrganization: sinon.stub(),
-      wrapOrganizationCollection: sinon.stub()
+      wrapOrganizationCollection: sinon.stub(),
     },
     uiExtension: {
       wrapUiExtension: sinon.stub(),
-      wrapUiExtensionCollection: sinon.stub()
+      wrapUiExtensionCollection: sinon.stub(),
     },
     appInstallation: {
       wrapAppInstallation: sinon.stub(),
-      wrapAppInstallationCollection: sinon.stub()
+      wrapAppInstallationCollection: sinon.stub(),
     },
     user: {
       wrapUser: sinon.stub(),
-      wrapUserCollection: sinon.stub()
+      wrapUserCollection: sinon.stub(),
     },
     personalAccessToken: {
       wrapPersonalAccessToken: sinon.stub(),
-      wrapPersonalAccessTokenCollection: sinon.stub()
+      wrapPersonalAccessTokenCollection: sinon.stub(),
     },
     usage: {
-      wrapUsageCollection: sinon.stub()
+      wrapUsageCollection: sinon.stub(),
     },
     environmentAlias: {
       wrapEnvironmentAlias: sinon.stub(),
-      wrapEnvironmentAliasCollection: sinon.stub()
-    }
+      wrapEnvironmentAliasCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -507,5 +503,5 @@ export {
   personalAccessTokenMock,
   environmentMock,
   usageMock,
-  environmentAliasMock
+  environmentAliasMock,
 }

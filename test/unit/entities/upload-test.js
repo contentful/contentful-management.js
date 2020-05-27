@@ -5,31 +5,31 @@ import { wrapUpload } from '../../../lib/entities/upload'
 import {
   entityWrappedTest,
   entityDeleteTest,
-  failingActionTest
+  failingActionTest,
 } from '../test-creators/instance-entity-methods'
 
-function setup (promise) {
+function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('upload')
+    entityMock: cloneMock('upload'),
   }
 }
 
 test('Upload is wrapped', (t) => {
   entityWrappedTest(t, setup, {
-    wrapperMethod: wrapUpload
+    wrapperMethod: wrapUpload,
   })
 })
 
 test('Upload delete', (t) => {
   return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapUpload
+    wrapperMethod: wrapUpload,
   })
 })
 
 test('Upload delete fails', (t) => {
   return failingActionTest(t, setup, {
     wrapperMethod: wrapUpload,
-    actionMethod: 'delete'
+    actionMethod: 'delete',
   })
 })

@@ -1,7 +1,9 @@
 import test from 'blue-tape'
 
 import { toPlainObject } from 'contentful-sdk-core'
-import createEnvironmentApi, {__RewireAPI__ as createEnvironmentApiRewireApi} from '../../lib/create-environment-api'
+import createEnvironmentApi, {
+  __RewireAPI__ as createEnvironmentApiRewireApi,
+} from '../../lib/create-environment-api'
 import {
   contentTypeMock,
   editorInterfaceMock,
@@ -14,7 +16,7 @@ import {
   cloneMock,
   uiExtensionMock,
   appInstallationMock,
-  snapShotMock
+  snapShotMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import {
@@ -23,12 +25,12 @@ import {
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
   makeEntityMethodFailingTest,
-  testGettingEntrySDKObject
+  testGettingEntrySDKObject,
 } from './test-creators/static-entity-methods'
 import { wrapEntry } from '../../lib/entities/entry'
 import { wrapAsset } from '../../lib/entities/asset'
 
-function setup (promise) {
+function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
@@ -37,44 +39,42 @@ function setup (promise) {
     api,
     httpMock,
     httpUploadMock,
-    entitiesMock
+    entitiesMock,
   }
 }
 
-function teardown () {
+function teardown() {
   createEnvironmentApiRewireApi.__ResetDependency__('entities')
 }
 
 test('API call environment delete', (t) => {
   t.plan(1)
-  const {api} = setup(Promise.resolve({}))
+  const { api } = setup(Promise.resolve({}))
 
-  return api.delete()
-    .then((r) => {
-      t.pass('environment was deleted')
-      teardown()
-    })
+  return api.delete().then(() => {
+    t.pass('environment was deleted')
+    teardown()
+  })
 })
 
 test('API call environment delete fails', (t) => {
   t.plan(1)
   const error = cloneMock('error')
-  const {api} = setup(Promise.reject(error))
+  const { api } = setup(Promise.reject(error))
 
-  return api.delete()
-    .catch((r) => {
-      t.equals(r.name, '404 Not Found')
-      teardown()
-    })
+  return api.delete().catch((r) => {
+    t.equals(r.name, '404 Not Found')
+    teardown()
+  })
 })
 
 test('API call environment update', (t) => {
   t.plan(3)
   const responseData = {
     sys: { id: 'id', type: 'Environment' },
-    name: 'updatedname'
+    name: 'updatedname',
   }
-  let {api, httpMock, entitiesMock} = setup(Promise.resolve({data: responseData}))
+  let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
   entitiesMock.environment.wrapEnvironment.returns(responseData)
 
   // mocks data that would exist in a environment object already retrieved from the server
@@ -82,42 +82,40 @@ test('API call environment update', (t) => {
   api = toPlainObject(api)
 
   api.name = 'updatedname'
-  return api.update()
-    .then((r) => {
-      t.looseEqual(r, responseData, 'environment is wrapped')
-      t.equals(httpMock.put.args[0][1].name, 'updatedname', 'data is sent')
-      t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
-      teardown()
-    })
+  return api.update().then((r) => {
+    t.looseEqual(r, responseData, 'environment is wrapped')
+    t.equals(httpMock.put.args[0][1].name, 'updatedname', 'data is sent')
+    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
+    teardown()
+  })
 })
 
 test('API call environment update fails', (t) => {
   t.plan(1)
   const error = cloneMock('error')
-  let {api} = setup(Promise.reject(error))
+  let { api } = setup(Promise.reject(error))
 
   // mocks data that would exist in a environment object already retrieved from the server
   api.sys = { id: 'id', type: 'Space', version: 2 }
   api = toPlainObject(api)
 
-  return api.update()
-    .catch((r) => {
-      t.equals(r.name, '404 Not Found')
-      teardown()
-    })
+  return api.update().catch((r) => {
+    t.equals(r.name, '404 Not Found')
+    teardown()
+  })
 })
 
 test('API call getContentType', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
-    methodToTest: 'getContentType'
+    methodToTest: 'getContentType',
   })
 })
 
 test('API call getContentType fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getContentType'
+    methodToTest: 'getContentType',
   })
 })
 
@@ -125,13 +123,13 @@ test('API call getContentTypes', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
-    methodToTest: 'getContentTypes'
+    methodToTest: 'getContentTypes',
   })
 })
 
 test('API call getContentTypes fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getContentTypes'
+    methodToTest: 'getContentTypes',
   })
 })
 
@@ -139,13 +137,13 @@ test('API call createContentType', (t) => {
   makeCreateEntityTest(t, setup, teardown, {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
-    methodToTest: 'createContentType'
+    methodToTest: 'createContentType',
   })
 })
 
 test('API call createContentType fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createContentType'
+    methodToTest: 'createContentType',
   })
 })
 
@@ -154,13 +152,13 @@ test('API call createContentTypeWithId', (t) => {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
     methodToTest: 'createContentTypeWithId',
-    entityPath: 'content_types'
+    entityPath: 'content_types',
   })
 })
 
 test('API call createContentTypeWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createContentTypeWithId'
+    methodToTest: 'createContentTypeWithId',
   })
 })
 
@@ -168,13 +166,13 @@ test('API call getEditorInterfaceForContentType', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'editorInterface',
     mockToReturn: editorInterfaceMock,
-    methodToTest: 'getEditorInterfaceForContentType'
+    methodToTest: 'getEditorInterfaceForContentType',
   })
 })
 
 test('API call getEditorInterfaceForContentType fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getEditorInterfaceForContentType'
+    methodToTest: 'getEditorInterfaceForContentType',
   })
 })
 
@@ -182,25 +180,37 @@ test('API call getEntry', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'entry',
     mockToReturn: entryMock,
-    methodToTest: 'getEntry'
+    methodToTest: 'getEntry',
   })
 })
 
 test('GetSDKEntry from data', (t) => {
-  const expectedFunctions = ['toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive', 'isPublished', 'isUpdated', 'isDraft', 'isArchived']
+  const expectedFunctions = [
+    'toPlainObject',
+    'update',
+    'delete',
+    'publish',
+    'unpublish',
+    'archive',
+    'unarchive',
+    'isPublished',
+    'isUpdated',
+    'isDraft',
+    'isArchived',
+  ]
   testGettingEntrySDKObject(t, setup, {
     type: 'entry',
     wrapFunctionName: 'wrapEntry',
     resourceMock: entryMock,
     wrapFunction: wrapEntry,
     expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getEntryFromData'
+    getResourceFromDataFunctionName: 'getEntryFromData',
   })
 })
 
 test('API call getEntry fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getEntry'
+    methodToTest: 'getEntry',
   })
 })
 
@@ -208,56 +218,60 @@ test('API call getEntries', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'entry',
     mockToReturn: entryMock,
-    methodToTest: 'getEntries'
+    methodToTest: 'getEntries',
   })
 })
 
 test('API call getEntries fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getEntries'
+    methodToTest: 'getEntries',
   })
 })
 
 test('API call createEntry', (t) => {
   t.plan(3)
-  const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
-  entitiesMock.entry.wrapEntry
-    .returns(entryMock)
+  const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+  entitiesMock.entry.wrapEntry.returns(entryMock)
 
-  return api.createEntry('contentTypeId', entryMock)
-    .then((r) => {
-      t.looseEqual(r, entryMock)
-      t.looseEqual(httpMock.post.args[0][1], entryMock, 'data is sent')
-      t.looseEqual(httpMock.post.args[0][2].headers['X-Contentful-Content-Type'], 'contentTypeId', 'content type is specified')
-      teardown()
-    })
+  return api.createEntry('contentTypeId', entryMock).then((r) => {
+    t.looseEqual(r, entryMock)
+    t.looseEqual(httpMock.post.args[0][1], entryMock, 'data is sent')
+    t.looseEqual(
+      httpMock.post.args[0][2].headers['X-Contentful-Content-Type'],
+      'contentTypeId',
+      'content type is specified'
+    )
+    teardown()
+  })
 })
 
 test('API call createEntry fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createEntry'
+    methodToTest: 'createEntry',
   })
 })
 
 test('API call createEntryWithId', (t) => {
   t.plan(4)
-  const {api, httpMock, entitiesMock} = setup(Promise.resolve({}))
-  entitiesMock.entry.wrapEntry
-    .returns(entryMock)
+  const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+  entitiesMock.entry.wrapEntry.returns(entryMock)
 
-  return api.createEntryWithId('contentTypeId', 'entryId', entryMock)
-    .then((r) => {
-      t.looseEqual(r, entryMock)
-      t.equals(httpMock.put.args[0][0], 'entries/entryId', 'entry id is sent')
-      t.looseEqual(httpMock.put.args[0][1], entryMock, 'data is sent')
-      t.equals(httpMock.put.args[0][2].headers['X-Contentful-Content-Type'], 'contentTypeId', 'content type is specified')
-      teardown()
-    })
+  return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
+    t.looseEqual(r, entryMock)
+    t.equals(httpMock.put.args[0][0], 'entries/entryId', 'entry id is sent')
+    t.looseEqual(httpMock.put.args[0][1], entryMock, 'data is sent')
+    t.equals(
+      httpMock.put.args[0][2].headers['X-Contentful-Content-Type'],
+      'contentTypeId',
+      'content type is specified'
+    )
+    teardown()
+  })
 })
 
 test('API call createEntryWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createEntryWithId'
+    methodToTest: 'createEntryWithId',
   })
 })
 
@@ -265,25 +279,35 @@ test('API call getAsset', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'asset',
     mockToReturn: assetMock,
-    methodToTest: 'getAsset'
+    methodToTest: 'getAsset',
   })
 })
 
 test('GetSDKAsset from data', (t) => {
-  const expectedFunctions = ['processForLocale', 'processForAllLocales', 'toPlainObject', 'update', 'delete', 'publish', 'unpublish', 'archive', 'unarchive']
+  const expectedFunctions = [
+    'processForLocale',
+    'processForAllLocales',
+    'toPlainObject',
+    'update',
+    'delete',
+    'publish',
+    'unpublish',
+    'archive',
+    'unarchive',
+  ]
   testGettingEntrySDKObject(t, setup, {
     type: 'asset',
     wrapFunctionName: 'wrapAsset',
     resourceMock: assetMock,
     wrapFunction: wrapAsset,
     expectedFunctions: expectedFunctions,
-    getResourceFromDataFunctionName: 'getAssetFromData'
+    getResourceFromDataFunctionName: 'getAssetFromData',
   })
 })
 
 test('API call getAsset fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getAsset'
+    methodToTest: 'getAsset',
   })
 })
 
@@ -291,13 +315,13 @@ test('API call getAssets', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'asset',
     mockToReturn: assetMock,
-    methodToTest: 'getAssets'
+    methodToTest: 'getAssets',
   })
 })
 
 test('API call getAssets fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getAssets'
+    methodToTest: 'getAssets',
   })
 })
 
@@ -305,13 +329,13 @@ test('API call createAsset', (t) => {
   makeCreateEntityTest(t, setup, teardown, {
     entityType: 'asset',
     mockToReturn: assetMock,
-    methodToTest: 'createAsset'
+    methodToTest: 'createAsset',
   })
 })
 
 test('API call createAsset fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createAsset'
+    methodToTest: 'createAsset',
   })
 })
 
@@ -320,13 +344,13 @@ test('API call createAssetWithId', (t) => {
     entityType: 'asset',
     mockToReturn: assetMock,
     methodToTest: 'createAssetWithId',
-    entityPath: 'assets'
+    entityPath: 'assets',
   })
 })
 
 test('API call createAssetWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createAssetWithId'
+    methodToTest: 'createAssetWithId',
   })
 })
 
@@ -334,37 +358,56 @@ test('API call createAssetFromFiles', (t) => {
   const { api, httpMock, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
 
   entitiesMock.upload.wrapUpload.returns(Promise.resolve(uploadMock))
-  httpUploadMock.post.returns(Promise.resolve({
-    data: {
-      sys: {
-        id: 'some_random_id'
-      }
-    }
-  }))
-  httpMock.post.returns(Promise.resolve({
-    data: assetWithFilesMock
-  }))
-
-  return api.createAssetFromFiles({
-    fields: {
-      file: {
-        locale: {
-          contentType: 'image/svg+xml',
-          fileName: 'filename.svg',
-          file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>'
+  httpUploadMock.post.returns(
+    Promise.resolve({
+      data: {
+        sys: {
+          id: 'some_random_id',
         },
-        locale2: {
-          contentType: 'image/svg+xml',
-          fileName: 'filename.svg',
-          file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>'
-        }
-      }
-    }
-  })
+      },
+    })
+  )
+  httpMock.post.returns(
+    Promise.resolve({
+      data: assetWithFilesMock,
+    })
+  )
+
+  return api
+    .createAssetFromFiles({
+      fields: {
+        file: {
+          locale: {
+            contentType: 'image/svg+xml',
+            fileName: 'filename.svg',
+            file:
+              '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+          },
+          locale2: {
+            contentType: 'image/svg+xml',
+            fileName: 'filename.svg',
+            file:
+              '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+          },
+        },
+      },
+    })
     .then(() => {
-      t.equals(httpUploadMock.post.args[0][1], '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>', 'uploads file #1 to upload endpoint')
-      t.equals(httpUploadMock.post.args[1][1], '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>', 'uploads file #2 to upload endpoint')
-      t.deepEqual(entitiesMock.asset.wrapAsset.args[0][1], assetWithFilesMock, 'wrapAsset was called with proper asset')
+      t.equals(
+        httpUploadMock.post.args[0][1],
+        '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+        'uploads file #1 to upload endpoint'
+      )
+      t.equals(
+        httpUploadMock.post.args[1][1],
+        '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+        'uploads file #2 to upload endpoint'
+      )
+      t.deepEqual(
+        entitiesMock.asset.wrapAsset.args[0][1],
+        assetWithFilesMock,
+        'wrapAsset was called with proper asset'
+      )
     })
 })
 
@@ -372,13 +415,13 @@ test('API call getUpload', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'upload',
     mockToReturn: uploadMock,
-    methodToTest: 'getUpload'
+    methodToTest: 'getUpload',
   })
 })
 
 test('API call getUpload fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getUpload'
+    methodToTest: 'getUpload',
   })
 })
 
@@ -386,22 +429,33 @@ test('API call createUpload', (t) => {
   const { api, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
   const mockedUpload = {
     sys: {
-      id: 'some_random_id'
-    }
+      id: 'some_random_id',
+    },
   }
-  httpUploadMock.post.returns(Promise.resolve({
-    data: mockedUpload
-  }))
+  httpUploadMock.post.returns(
+    Promise.resolve({
+      data: mockedUpload,
+    })
+  )
 
-  return api.createUpload({
-    contentType: 'image/svg',
-    fileName: 'filename.svg',
-    file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
-  })
+  return api
+    .createUpload({
+      contentType: 'image/svg',
+      fileName: 'filename.svg',
+      file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
+    })
     .then(() => {
       t.equals(httpUploadMock.post.args[0][2].headers['Content-Type'], 'application/octet-stream')
-      t.equals(httpUploadMock.post.args[0][1], '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>', 'uploads file to upload endpoint')
-      t.deepEqual(entitiesMock.upload.wrapUpload.args[0][1], mockedUpload, 'wrapUpload was called with correct raw upload object')
+      t.equals(
+        httpUploadMock.post.args[0][1],
+        '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
+        'uploads file to upload endpoint'
+      )
+      t.deepEqual(
+        entitiesMock.upload.wrapUpload.args[0][1],
+        mockedUpload,
+        'wrapUpload was called with correct raw upload object'
+      )
     })
 })
 
@@ -409,46 +463,61 @@ test('API call createUpload defaults the content type to octet-stream', (t) => {
   const { api, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
   const mockedUpload = {
     sys: {
-      id: 'some_random_id'
-    }
+      id: 'some_random_id',
+    },
   }
-  httpUploadMock.post.returns(Promise.resolve({
-    data: mockedUpload
-  }))
+  httpUploadMock.post.returns(
+    Promise.resolve({
+      data: mockedUpload,
+    })
+  )
 
-  return api.createUpload({ // no contentType set here
-    fileName: 'filename.svg',
-    file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
-  })
+  return api
+    .createUpload({
+      // no contentType set here
+      fileName: 'filename.svg',
+      file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
+    })
     .then(() => {
       t.equals(httpUploadMock.post.args[0][2].headers['Content-Type'], 'application/octet-stream')
-      t.equals(httpUploadMock.post.args[0][1], '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>', 'uploads file to upload endpoint')
-      t.deepEqual(entitiesMock.upload.wrapUpload.args[0][1], mockedUpload, 'wrapUpload was called with correct raw upload object')
+      t.equals(
+        httpUploadMock.post.args[0][1],
+        '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
+        'uploads file to upload endpoint'
+      )
+      t.deepEqual(
+        entitiesMock.upload.wrapUpload.args[0][1],
+        mockedUpload,
+        'wrapUpload was called with correct raw upload object'
+      )
     })
 })
 
 test('API call createAssetFromFiles with invalid data', (t) => {
   const { api } = setup(Promise.resolve({}))
-  return t.shouldFail(api.createAssetFromFiles({
-    fields: {
-      file: {
-        locale: {}
-      }
-    }
-  }), new Error('Unable to locate a file to upload.'))
+  return t.shouldFail(
+    api.createAssetFromFiles({
+      fields: {
+        file: {
+          locale: {},
+        },
+      },
+    }),
+    new Error('Unable to locate a file to upload.')
+  )
 })
 
 test('API call getLocale', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'locale',
     mockToReturn: localeMock,
-    methodToTest: 'getLocale'
+    methodToTest: 'getLocale',
   })
 })
 
 test('API call getLocale fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getLocale'
+    methodToTest: 'getLocale',
   })
 })
 
@@ -456,13 +525,13 @@ test('API call getLocales', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'locale',
     mockToReturn: localeMock,
-    methodToTest: 'getLocales'
+    methodToTest: 'getLocales',
   })
 })
 
 test('API call getLocales fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getLocales'
+    methodToTest: 'getLocales',
   })
 })
 
@@ -470,13 +539,13 @@ test('API call createLocale', (t) => {
   makeCreateEntityTest(t, setup, teardown, {
     entityType: 'locale',
     mockToReturn: localeMock,
-    methodToTest: 'createLocale'
+    methodToTest: 'createLocale',
   })
 })
 
 test('API call createLocale fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createLocale'
+    methodToTest: 'createLocale',
   })
 })
 
@@ -484,13 +553,13 @@ test('API call getEntrySnapshots snapshots', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'snapshot',
     mockToReturn: snapShotMock,
-    methodToTest: 'getEntrySnapshots'
+    methodToTest: 'getEntrySnapshots',
   })
 })
 
 test('API call getEntrySnapshots fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getEntrySnapshots'
+    methodToTest: 'getEntrySnapshots',
   })
 })
 
@@ -498,13 +567,13 @@ test('API call getContentTypeSnapshots snapshots', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'snapshot',
     mockToReturn: snapShotMock,
-    methodToTest: 'getContentTypeSnapshots'
+    methodToTest: 'getContentTypeSnapshots',
   })
 })
 
 test('API call getContentTypeSnapshots fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getContentTypeSnapshots'
+    methodToTest: 'getContentTypeSnapshots',
   })
 })
 
@@ -512,13 +581,13 @@ test('API call getUiExtension', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
-    methodToTest: 'getUiExtension'
+    methodToTest: 'getUiExtension',
   })
 })
 
 test('API call getUiExtension fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getUiExtension'
+    methodToTest: 'getUiExtension',
   })
 })
 
@@ -526,13 +595,13 @@ test('API call getUiExtensions', (t) => {
   makeGetCollectionTest(t, setup, teardown, {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
-    methodToTest: 'getUiExtensions'
+    methodToTest: 'getUiExtensions',
   })
 })
 
 test('API call getUiExtensions fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getUiExtensions'
+    methodToTest: 'getUiExtensions',
   })
 })
 
@@ -540,13 +609,13 @@ test('API call createUiExtension', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
-    methodToTest: 'createUiExtension'
+    methodToTest: 'createUiExtension',
   })
 })
 
 test('API call createUiExtension fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createUiExtension'
+    methodToTest: 'createUiExtension',
   })
 })
 
@@ -555,13 +624,13 @@ test('API call createUiExtensionWithId', (t) => {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
     methodToTest: 'createUiExtensionWithId',
-    entityPath: 'extensions'
+    entityPath: 'extensions',
   })
 })
 
 test('API call createUiExtensionWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createUiExtensionWithId'
+    methodToTest: 'createUiExtensionWithId',
   })
 })
 
@@ -569,13 +638,13 @@ test('API call getAppInstallation', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'appInstallation',
     mockToReturn: appInstallationMock,
-    methodToTest: 'getAppInstallation'
+    methodToTest: 'getAppInstallation',
   })
 })
 
 test('API call getAppInstallation fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getAppInstallation'
+    methodToTest: 'getAppInstallation',
   })
 })
 
@@ -583,12 +652,12 @@ test('API call getAppInstallations', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'appInstallation',
     mockToReturn: appInstallationMock,
-    methodToTest: 'getAppInstallations'
+    methodToTest: 'getAppInstallations',
   })
 })
 
 test('API call getAppInstallations fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getAppInstallations'
+    methodToTest: 'getAppInstallations',
   })
 })
