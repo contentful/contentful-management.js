@@ -53,7 +53,11 @@ function teardown() {
 
 test('API call space delete', (t) => {
   t.plan(1)
-  const { api } = setup(Promise.resolve({}))
+  const { api } = setup(
+    Promise.resolve({
+      data: { sys: { id: 'spaceId' } },
+    })
+  )
 
   return api.delete().then(() => {
     t.pass('space was deleted')

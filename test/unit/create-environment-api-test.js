@@ -71,14 +71,14 @@ test('API call environment delete fails', (t) => {
 test('API call environment update', (t) => {
   t.plan(3)
   const responseData = {
-    sys: { id: 'id', type: 'Environment' },
+    sys: { id: 'id', type: 'Environment', space: { sys: { id: 'spaceId' } } },
     name: 'updatedname',
   }
   let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
   entitiesMock.environment.wrapEnvironment.returns(responseData)
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = { id: 'id', type: 'Environment', version: 2 }
+  api.sys = { id: 'id', type: 'Environment', version: 2, space: { sys: { id: 'spaceId' } } }
   api = toPlainObject(api)
 
   api.name = 'updatedname'
@@ -96,7 +96,7 @@ test('API call environment update fails', (t) => {
   let { api } = setup(Promise.reject(error))
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = { id: 'id', type: 'Space', version: 2 }
+  api.sys = { id: 'id', type: 'Space', version: 2, space: { sys: { id: 'spaceId' } } }
   api = toPlainObject(api)
 
   return api.update().catch((r) => {
