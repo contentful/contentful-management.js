@@ -8,8 +8,6 @@ export type DefaultParams = {
   organizationId?: string
 }
 
-export type PlainClientParams = ClientParams & { defaults: DefaultParams }
-
 export type Optional<B, O> = Omit<B, keyof O> & Partial<O>
 
 const withHttp = <T extends any[], R>(
@@ -20,15 +18,15 @@ const withHttp = <T extends any[], R>(
 }
 
 const withDefaults = <F extends {}, T extends any[], R>(
-  defaults: PlainClientParams['defaults'],
+  defaults: DefaultParams | undefined,
   fn: (params: F, ...rest: T) => R
 ) => {
   return (params: Optional<F, DefaultParams>, ...rest: T) =>
     fn({ ...defaults, ...params } as F, ...rest)
 }
 
-export const createPlainClient = ({ defaults, ...clientParams }: PlainClientParams) => {
-  const http = createCMAHttpClient(clientParams)
+export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
+  const http = createCMAHttpClient(params)
 
   return {
     space: {
