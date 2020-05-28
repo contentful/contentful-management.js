@@ -13,7 +13,8 @@ import { Collection } from './generated/common-types'
 import { Organization } from './organization'
 import * as Usage from './usage'
 
-export { ClientParams } from './generated/create-cma-http-client'
+export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
+export { createPlainClient } from './generated/plain/plain-client'
 
 export as namespace contentfulManagementStatic
 
@@ -26,7 +27,7 @@ export as namespace contentfulManagementStatic
  * })
  * ```
  */
-declare function createClient(params: ClientParams): ClientAPI
+export function createClient(params: ClientParams): ClientAPI
 
 export interface ClientAPI {
   /**

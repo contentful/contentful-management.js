@@ -21,13 +21,14 @@ export const createPlainClient = (params: ClientParams) => {
       get: withHttp(http, endpoints.environment.get),
       update: withHttp(http, endpoints.environment.update),
     },
+    contentType: {
+      getAll: withHttp(http, endpoints.contentType.getAll),
+    },
+    user: {
+      getAllForSpace: withHttp(http, endpoints.user.getAllForSpace),
+    },
+    entry: {
+      getMany: withHttp(http, endpoints.entry.getMany),
+    },
   }
 }
-
-const client = createPlainClient({ accessToken: '' })
-
-client.space.get({ spaceId: '13' })
-client.space.delete({ spaceId: '13' })
-client.space.update({ spaceId: '123' }, {})
-
-client.environment.get({ spaceId: 'spaceId', environmentId: 'environmentId' })
