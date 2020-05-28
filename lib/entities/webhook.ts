@@ -170,19 +170,19 @@ function createWebhookApi(http: AxiosInstance) {
       entityPath,
     }),
 
-    getCalls: (): Promise<Record<string, unknown>> => {
+    getCalls: function (): Promise<Record<string, unknown>> {
       return http
         .get('webhooks/' + this.sys.id + '/calls')
         .then((response) => response.data, errorHandler)
     },
 
-    getCall: (id: string): Promise<Record<string, unknown>> => {
+    getCall: function (id: string): Promise<Record<string, unknown>> {
       return http
         .get('webhooks/' + this.sys.id + '/calls/' + id)
         .then((response) => response.data, errorHandler)
     },
 
-    getHealth: (): Promise<Record<string, unknown>> => {
+    getHealth: function (): Promise<Record<string, unknown>> {
       return http
         .get('webhooks/' + this.sys.id + '/health')
         .then((response) => response.data, errorHandler)
