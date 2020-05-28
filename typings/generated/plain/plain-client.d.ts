@@ -1,12 +1,21 @@
 import { ClientParams } from '../create-cma-http-client';
-export declare const createPlainClient: (params: ClientParams) => {
+export declare type DefaultParams = {
+    spaceId?: string;
+    environmentId?: string;
+    organizationId?: string;
+};
+export declare type PlainClientParams = ClientParams & {
+    defaults: DefaultParams;
+};
+export declare type Optional<B, O> = Omit<B, keyof O> & Partial<O>;
+export declare const createPlainClient: ({ defaults, ...clientParams }: PlainClientParams) => {
     space: {
-        get: (params: {
+        get: (params: Optional<{
             spaceId: string;
-        }) => Promise<import("../types/space").SpaceProps>;
-        update: (params: {
+        }, DefaultParams>) => Promise<import("../types/space").SpaceProps>;
+        update: (params: Optional<{
             spaceId: string;
-        }, raw: import("../types/space").SpaceProps) => Promise<import("../types/space").SpaceProps>;
+        }, DefaultParams>, raw: import("../types/space").SpaceProps) => Promise<import("../types/space").SpaceProps>;
         delete: (params: {
             spaceId: string;
         }) => Promise<any>;
