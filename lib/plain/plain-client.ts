@@ -10,42 +10,61 @@ export type DefaultParams = {
 
 export type Optional<B, O> = Omit<B, keyof O> & Partial<O>
 
-const withHttp = <T extends any[], R>(
+type EndpointDefinition<T extends any[], P extends {}, R> = (
   http: AxiosInstance,
-  fn: (http: AxiosInstance, ...rest: T) => R
+  params: P,
+  ...rest: T
+) => R
+
+const withHttp = <T extends any[], P extends {}, R>(
+  http: AxiosInstance,
+  fn: EndpointDefinition<T, P, R>
 ) => {
-  return (...rest: T) => fn(http, ...rest)
+  return (params: P, ...rest: T) => fn(http, params, ...rest)
 }
 
-const withDefaults = <F extends {}, T extends any[], R>(
+const withDefaults = <T extends any[], P extends {}, R>(
   defaults: DefaultParams | undefined,
-  fn: (params: F, ...rest: T) => R
+  fn: (params: P, ...rest: T) => R
 ) => {
-  return (params: Optional<F, DefaultParams>, ...rest: T) =>
-    fn({ ...defaults, ...params } as F, ...rest)
+  return (params: Optional<P, DefaultParams>, ...rest: T) =>
+    fn({ ...defaults, ...params } as P, ...rest)
+}
+
+type WrapParams = {
+  http: AxiosInstance
+  defaults?: DefaultParams
+}
+
+const wrap = <T extends any[], P extends {}, R>(
+  { http, defaults }: WrapParams,
+  fn: EndpointDefinition<T, P, R>
+) => {
+  return withDefaults(defaults, withHttp(http, fn))
 }
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params)
+  const wrapParams = { http, defaults }
 
   return {
     space: {
-      get: withDefaults(defaults, withHttp(http, endpoints.space.get)),
-      update: withDefaults(defaults, withHttp(http, endpoints.space.update)),
-      delete: withDefaults(defaults, withHttp(http, endpoints.space.delete)),
+      get: wrap(wrapParams, endpoints.space.get),
+      update: wrap(wrapParams, endpoints.space.update),
+      delete: wrap(wrapParams, endpoints.space.delete),
     },
     environment: {
-      get: withDefaults(defaults, withHttp(http, endpoints.environment.get)),
-      update: withDefaults(defaults, withHttp(http, endpoints.environment.update)),
+      get: wrap(wrapParams, endpoints.environment.get),
+      update: wrap(wrapParams, endpoints.environment.update),
     },
     contentType: {
-      getMany: withDefaults(defaults, withHttp(http, endpoints.contentType.getMany)),
+      getMany: wrap(wrapParams, endpoints.contentType.getMany),
     },
     user: {
-      getManyForSpace: withDefaults(defaults, withHttp(http, endpoints.user.getManyForSpace)),
+      getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
     },
     entry: {
-      getMany: withDefaults(defaults, withHttp(http, endpoints.entry.getMany)),
+      getMany: wrap(wrapParams, endpoints.entry.getMany),
     },
   }
 }
