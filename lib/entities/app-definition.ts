@@ -38,7 +38,7 @@ interface ArrayFieldType {
 type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
 
 // Locations
-type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog'
+type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
 interface SingleLocationDefinition {
   location: AppLocation

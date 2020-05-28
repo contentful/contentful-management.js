@@ -14,7 +14,7 @@ interface ArrayFieldType {
     items: SingleFieldType | LinkFieldType;
 }
 declare type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType;
-declare type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog';
+declare type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page';
 interface SingleLocationDefinition {
     location: AppLocation;
 }
