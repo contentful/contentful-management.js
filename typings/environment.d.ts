@@ -1,7 +1,8 @@
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
-import { QueryOptions } from './queryOptions'
-import { ContentType, ContentTypeProps } from './contentType'
-import { Entry, EntryProp } from './entry'
+import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/types/common-types'
+import { ContentTypeProps, } from './generated/types/content-type'
+import { EntryProps } from './generated/types/entry'
+import { ContentType,  } from './contentType'
+import { Entry } from './entry'
 import { Locale, CreateLocaleProps } from './locale'
 import { UIExtensionProps, UIExtension } from './uiExtension'
 import { Stream } from 'stream'
@@ -22,8 +23,8 @@ export interface ContentfulEnvironmentAPI {
   createAssetWithId(id: string, data: AssetProps): Promise<Asset>
   createContentType(data: ContentTypeProps): Promise<ContentType>
   createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
-  createEntry(contentTypeId: string, data: EntryProp): Promise<Entry>
-  createEntryWithId(contentTypeId: string, id: string, data: EntryProp): Promise<Entry>
+  createEntry(contentTypeId: string, data: EntryProps): Promise<Entry>
+  createEntryWithId(contentTypeId: string, id: string, data: EntryProps): Promise<Entry>
   createLocale(data: CreateLocaleProps): Promise<Locale>
   createUiExtension(data: UIExtensionProps): Promise<UIExtension>
   createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>
@@ -40,7 +41,7 @@ export interface ContentfulEnvironmentAPI {
   getEditorInterfaceForContentType(contentTypeId: string): Promise<EditorInterface>
   getEntry(id: string): Promise<Entry>
   getEntries(object?: QueryOptions): Promise<Collection<Entry>>
-  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>
+  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProps>>>
   getLocale(id: string): Promise<Locale>
   getLocales(): Promise<Collection<Locale>>
   getUiExtension(id: string): Promise<UIExtension>

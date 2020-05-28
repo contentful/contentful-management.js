@@ -1,6 +1,22 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
+import { SpaceProps } from '../types/space'
+import { EnvironmentProps } from '../types/environment'
+import { ContentTypeProps } from '../types/content-type'
+import { UserProps } from '../types/user'
+import { EntryProps } from '../types/entry'
+import { CollectionProp, QueryOptions } from '../types/common-types'
 import errorHandler from '../error-handler'
+
+function normalizeSelect(query?: QueryOptions): QueryOptions | undefined {
+  if (query && query.select && !/sys/i.test(query.select)) {
+    return {
+      ...query,
+      select: query.select + ',sys',
+    }
+  }
+  return query
+}
 
 function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
@@ -40,12 +56,12 @@ function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
 
 export const space = {
   get(http: AxiosInstance, params: { spaceId: string }) {
-    return get(http, `/spaces/${params.spaceId}`)
+    return get<SpaceProps>(http, `/spaces/${params.spaceId}`)
   },
-  update(http: AxiosInstance, params: { spaceId: string }, raw: any) {
+  update(http: AxiosInstance, params: { spaceId: string }, raw: SpaceProps) {
     const data = cloneDeep(raw)
     delete data.sys
-    return update(http, `/spaces/${params.spaceId}`, data, {
+    return update<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
       headers: {
         'X-Contentful-Version': raw.sys.version ?? 0,
       },
@@ -58,22 +74,37 @@ export const space = {
 
 export const environment = {
   get(http: AxiosInstance, params: { spaceId: string; environmentId: string }) {
-    return get(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`)
+    return get<EnvironmentProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}`
+    )
   },
-  update(http: AxiosInstance, params: { spaceId: string; environmentId: string }, raw: any) {
+  update(
+    http: AxiosInstance,
+    params: { spaceId: string; environmentId: string },
+    raw: EnvironmentProps
+  ) {
     const data = cloneDeep(raw)
     delete data.sys
-    return update(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`, data, {
-      headers: {
-        'X-Contentful-Version': raw.sys.version ?? 0,
-      },
-    })
+    return update<EnvironmentProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}`,
+      data,
+      {
+        headers: {
+          'X-Contentful-Version': raw.sys.version ?? 0,
+        },
+      }
+    )
   },
 }
 
 export const contentType = {
-  getAll(http: AxiosInstance, params: { spaceId: string; environmentId: string; query?: object }) {
-    return get(
+  getMany(
+    http: AxiosInstance,
+    params: { spaceId: string; environmentId: string; query?: QueryOptions }
+  ) {
+    return get<CollectionProp<ContentTypeProps>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types`,
       {
@@ -84,17 +115,24 @@ export const contentType = {
 }
 
 export const user = {
-  getAllForSpace(http: AxiosInstance, params: { spaceId: string; query?: object }) {
-    return get(http, `/spaces/${params.spaceId}/users`, {
+  getManyForSpace(http: AxiosInstance, params: { spaceId: string; query?: QueryOptions }) {
+    return get<CollectionProp<UserProps>>(http, `/spaces/${params.spaceId}/users`, {
       params: params.query,
     })
   },
 }
 
 export const entry = {
-  getMany(http: AxiosInstance, params: { spaceId: string; environmentId: string; query?: object }) {
-    return get(http, `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`, {
-      params: params.query,
-    })
+  getMany(
+    http: AxiosInstance,
+    params: { spaceId: string; environmentId: string; query?: QueryOptions }
+  ) {
+    return get<CollectionProp<EntryProps>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+      {
+        params: normalizeSelect(params.query),
+      }
+    )
   },
 }

@@ -9,7 +9,7 @@ import {
   MetaSysProps,
   CollectionProp,
   DefaultElements,
-} from '../common-types'
+} from '../types/common-types'
 
 export type ApiKeyProps = {
   sys: MetaSysProps

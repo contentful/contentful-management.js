@@ -1,5 +1,4 @@
-import { MetaSys, MetaSysProps, MetaLinkProps } from './generated/common-types'
-import { QueryOptions } from './queryOptions'
+import { MetaSys, MetaSysProps, MetaLinkProps, QueryOptions } from './generated/types/common-types'
 
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 

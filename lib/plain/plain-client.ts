@@ -22,10 +22,10 @@ export const createPlainClient = (params: ClientParams) => {
       update: withHttp(http, endpoints.environment.update),
     },
     contentType: {
-      getAll: withHttp(http, endpoints.contentType.getAll),
+      getMany: withHttp(http, endpoints.contentType.getMany),
     },
     user: {
-      getAllForSpace: withHttp(http, endpoints.user.getAllForSpace),
+      getManyForSpace: withHttp(http, endpoints.user.getManyForSpace),
     },
     entry: {
       getMany: withHttp(http, endpoints.entry.getMany),

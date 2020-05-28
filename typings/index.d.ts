@@ -9,7 +9,7 @@ import { ClientParams } from './generated/create-cma-http-client'
 import { User } from './user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
-import { Collection } from './generated/common-types'
+import { Collection } from './generated/types/common-types'
 import { Organization } from './organization'
 import * as Usage from './usage'
 

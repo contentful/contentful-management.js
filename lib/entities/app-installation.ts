@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import errorHandler from '../error-handler'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../types/common-types'
 
 export type AppInstallationProps = {
   sys: MetaSysProps & {

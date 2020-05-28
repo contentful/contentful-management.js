@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
-import type { MetaSysProps, DefaultElements } from './common-types'
+import type { MetaSysProps, DefaultElements } from './types/common-types'
 
 import errorHandler from './error-handler'
 

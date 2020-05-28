@@ -1,14 +1,20 @@
 import { AxiosInstance } from 'axios';
+import { SpaceProps } from '../types/space';
+import { EnvironmentProps } from '../types/environment';
+import { ContentTypeProps } from '../types/content-type';
+import { UserProps } from '../types/user';
+import { EntryProps } from '../types/entry';
+import { CollectionProp, QueryOptions } from '../types/common-types';
 /**
  * Space
  */
 export declare const space: {
     get(http: AxiosInstance, params: {
         spaceId: string;
-    }): Promise<any>;
+    }): Promise<SpaceProps>;
     update(http: AxiosInstance, params: {
         spaceId: string;
-    }, raw: any): Promise<any>;
+    }, raw: SpaceProps): Promise<SpaceProps>;
     delete(http: AxiosInstance, params: {
         spaceId: string;
     }): Promise<any>;
@@ -17,29 +23,29 @@ export declare const environment: {
     get(http: AxiosInstance, params: {
         spaceId: string;
         environmentId: string;
-    }): Promise<any>;
+    }): Promise<EnvironmentProps>;
     update(http: AxiosInstance, params: {
         spaceId: string;
         environmentId: string;
-    }, raw: any): Promise<any>;
+    }, raw: EnvironmentProps): Promise<EnvironmentProps>;
 };
 export declare const contentType: {
-    getAll(http: AxiosInstance, params: {
+    getMany(http: AxiosInstance, params: {
         spaceId: string;
         environmentId: string;
-        query?: object;
-    }): Promise<any>;
+        query?: QueryOptions;
+    }): Promise<CollectionProp<ContentTypeProps>>;
 };
 export declare const user: {
-    getAllForSpace(http: AxiosInstance, params: {
+    getManyForSpace(http: AxiosInstance, params: {
         spaceId: string;
-        query?: object;
-    }): Promise<any>;
+        query?: QueryOptions;
+    }): Promise<CollectionProp<UserProps>>;
 };
 export declare const entry: {
     getMany(http: AxiosInstance, params: {
         spaceId: string;
         environmentId: string;
-        query?: object;
-    }): Promise<any>;
+        query?: QueryOptions;
+    }): Promise<CollectionProp<EntryProps>>;
 };

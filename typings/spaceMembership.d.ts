@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements } from './generated/common-types'
+import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements } from './generated/types/common-types'
 
 export interface SpaceMembershipProps {
   name: string

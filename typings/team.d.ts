@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, DefaultElements } from './generated/common-types'
+import { MetaSys, MetaSysProps, DefaultElements } from './generated/types/common-types'
 
 export interface TeamProps {
   name: string

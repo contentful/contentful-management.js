@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../types/common-types';
 export declare type AppInstallationProps = {
     sys: MetaSysProps & {
         appDefinition: {
