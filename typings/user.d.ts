@@ -1,6 +1,7 @@
-import { MetaSys, MetaSysProps, DefaultElements } from './generated/types/common-types'
+import { MetaSysProps, DefaultElements } from './generated/types/common-types'
 
 export interface UserProps {
+  sys: MetaSysProps;
   firstName: string
   lastName: string
   avatarUrl: string
@@ -12,5 +13,4 @@ export interface UserProps {
 
 export interface User
   extends UserProps,
-    MetaSys<MetaSysProps>,
-    DefaultElements<UserProps & MetaSys<MetaSysProps>> {}
+    DefaultElements<UserProps> {}

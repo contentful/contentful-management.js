@@ -13,38 +13,38 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         update: (params: Optional<{
             spaceId: string;
         }, DefaultParams>, raw: import("../types/space").SpaceProps) => Promise<import("../types/space").SpaceProps>;
-        delete: (params: {
+        delete: (params: Optional<{
             spaceId: string;
-        }) => Promise<any>;
+        }, DefaultParams>) => Promise<any>;
     };
     environment: {
-        get: (params: {
+        get: (params: Optional<{
             spaceId: string;
             environmentId: string;
-        }) => Promise<import("../types/environment").EnvironmentProps>;
-        update: (params: {
+        }, DefaultParams>) => Promise<import("../types/environment").EnvironmentProps>;
+        update: (params: Optional<{
             spaceId: string;
             environmentId: string;
-        }, raw: import("../types/environment").EnvironmentProps) => Promise<import("../types/environment").EnvironmentProps>;
+        }, DefaultParams>, raw: import("../types/environment").EnvironmentProps) => Promise<import("../types/environment").EnvironmentProps>;
     };
     contentType: {
-        getMany: (params: {
+        getMany: (params: Optional<{
             spaceId: string;
             environmentId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }) => Promise<import("../types/common-types").CollectionProp<import("../types/content-type").ContentTypeProps>>;
+        }, DefaultParams>) => Promise<import("../types/common-types").CollectionProp<import("../types/content-type").ContentTypeProps>>;
     };
     user: {
-        getManyForSpace: (params: {
+        getManyForSpace: (params: Optional<{
             spaceId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }) => Promise<import("../types/common-types").CollectionProp<import("../types/user").UserProps>>;
+        }, DefaultParams>) => Promise<import("../types/common-types").CollectionProp<import("../types/user").UserProps>>;
     };
     entry: {
-        getMany: (params: {
+        getMany: (params: Optional<{
             spaceId: string;
             environmentId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps>>;
+        }, DefaultParams>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps>>;
     };
 };

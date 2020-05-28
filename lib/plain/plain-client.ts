@@ -32,20 +32,20 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     space: {
       get: withDefaults(defaults, withHttp(http, endpoints.space.get)),
       update: withDefaults(defaults, withHttp(http, endpoints.space.update)),
-      delete: withHttp(http, endpoints.space.delete),
+      delete: withDefaults(defaults, withHttp(http, endpoints.space.delete)),
     },
     environment: {
-      get: withHttp(http, endpoints.environment.get),
-      update: withHttp(http, endpoints.environment.update),
+      get: withDefaults(defaults, withHttp(http, endpoints.environment.get)),
+      update: withDefaults(defaults, withHttp(http, endpoints.environment.update)),
     },
     contentType: {
-      getMany: withHttp(http, endpoints.contentType.getMany),
+      getMany: withDefaults(defaults, withHttp(http, endpoints.contentType.getMany)),
     },
     user: {
-      getManyForSpace: withHttp(http, endpoints.user.getManyForSpace),
+      getManyForSpace: withDefaults(defaults, withHttp(http, endpoints.user.getManyForSpace)),
     },
     entry: {
-      getMany: withHttp(http, endpoints.entry.getMany),
+      getMany: withDefaults(defaults, withHttp(http, endpoints.entry.getMany)),
     },
   }
 }

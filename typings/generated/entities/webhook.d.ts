@@ -1,10 +1,14 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { CollectionProp, DefaultElements, BasicMetaSysProps, MetaLinkProps } from '../types/common-types';
 export declare type WebhookProps = {
     /**
      * System metadata
      */
-    sys: MetaSysProps;
+    sys: BasicMetaSysProps & {
+        space: {
+            sys: MetaLinkProps;
+        };
+    };
     /**
      * Webhook name
      */
@@ -157,4 +161,6 @@ export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): {
  * @param data - Raw webhook collection data
  * @return Wrapped webhook collection data
  */
-export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): any;
+export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): CollectionProp<WebhookProps> & {
+    toPlainObject(): CollectionProp<WebhookProps>;
+};
