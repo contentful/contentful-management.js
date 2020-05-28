@@ -1,6 +1,5 @@
 import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './index'
-import { AxiosInstance } from 'axios'
 
 export type DefaultParams = {
   spaceId?: string
@@ -8,44 +7,21 @@ export type DefaultParams = {
   organizationId?: string
 }
 
-export type Optional<B, O> = Omit<B, keyof O> & Partial<O>
+import { wrapWithHttp } from './wrappers/wrapWithHttp'
+import { wrapWithDefaultParams } from './wrappers/wrapWithDefaultParams'
 
-const withHttp = <T extends any[], R>(
-  http: AxiosInstance,
-  fn: (http: AxiosInstance, ...rest: T) => R
-) => {
-  return (...rest: T) => fn(http, ...rest)
-}
-
-const withDefaults = <F extends {}, T extends any[], R>(
-  defaults: DefaultParams | undefined,
-  fn: (params: F, ...rest: T) => R
-) => {
-  return (params: Optional<F, DefaultParams>, ...rest: T) =>
-    fn({ ...defaults, ...params } as F, ...rest)
-}
-
-export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
+export const createPlainClient = (params: ClientParams, defaultParams?: DefaultParams) => {
   const http = createCMAHttpClient(params)
 
   return {
-    space: {
-      get: withDefaults(defaults, withHttp(http, endpoints.space.get)),
-      update: withDefaults(defaults, withHttp(http, endpoints.space.update)),
-      delete: withDefaults(defaults, withHttp(http, endpoints.space.delete)),
-    },
-    environment: {
-      get: withDefaults(defaults, withHttp(http, endpoints.environment.get)),
-      update: withDefaults(defaults, withHttp(http, endpoints.environment.update)),
-    },
-    contentType: {
-      getMany: withDefaults(defaults, withHttp(http, endpoints.contentType.getMany)),
-    },
-    user: {
-      getManyForSpace: withDefaults(defaults, withHttp(http, endpoints.user.getManyForSpace)),
-    },
-    entry: {
-      getMany: withDefaults(defaults, withHttp(http, endpoints.entry.getMany)),
-    },
+    space: wrapWithDefaultParams(wrapWithHttp(endpoints.space, http), defaultParams),
+    environment: wrapWithDefaultParams(wrapWithHttp(endpoints.environment, http), defaultParams),
+    contentType: wrapWithDefaultParams(wrapWithHttp(endpoints.contentType, http), defaultParams),
+    user: wrapWithDefaultParams(wrapWithHttp(endpoints.user, http), defaultParams),
+    entry: wrapWithDefaultParams(wrapWithHttp(endpoints.entry, http), defaultParams),
   }
 }
+
+const client = createPlainClient({ accessToken: '' })
+
+client.space.get({})
