@@ -9,7 +9,7 @@ import { Upload } from './upload'
 import { EditorInterface } from './editorInterface'
 import { Snapshot } from './snapshot'
 import { Asset, AssetProps, AssetFileProp } from './asset'
-import { AppInstallation, AppInstallationProps } from './appInstallation'
+import { AppInstallation, AppInstallationProps } from './generated/entities/app-installation'
 
 export interface EnvironmentProps {
   name: string
