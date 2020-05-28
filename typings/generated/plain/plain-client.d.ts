@@ -4,11 +4,8 @@ export declare type DefaultParams = {
     environmentId?: string;
     organizationId?: string;
 };
-export declare type PlainClientParams = ClientParams & {
-    defaults: DefaultParams;
-};
 export declare type Optional<B, O> = Omit<B, keyof O> & Partial<O>;
-export declare const createPlainClient: ({ defaults, ...clientParams }: PlainClientParams) => {
+export declare const createPlainClient: (params: ClientParams, defaults?: DefaultParams | undefined) => {
     space: {
         get: (params: Optional<{
             spaceId: string;

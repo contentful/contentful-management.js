@@ -22,7 +22,7 @@ import { Upload } from './upload'
 import { Stream } from 'stream'
 import { Snapshot } from './snapshot'
 import { EditorInterface } from './editorInterface'
-import { WebhookProps, WebHooks } from './webhook'
+import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './previewApiKey'
 import { User } from './user'
 
