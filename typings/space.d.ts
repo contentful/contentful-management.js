@@ -21,7 +21,7 @@ import { Stream } from 'stream'
 import { QueryOptions } from './queryOptions'
 import { Snapshot } from './snapshot'
 import { EditorInterface } from './editorInterface'
-import { WebhookProps, WebHooks } from './webhook'
+import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './previewApiKey'
 import { User } from './user'
 
