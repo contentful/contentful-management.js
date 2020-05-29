@@ -144,6 +144,16 @@
     }
   },
   "release": {
+    "branches": [
+      "master",
+      "next",
+      "next-major",
+      {
+        "name": "experimental",
+        "channel": "experimental",
+        "prerelease": true
+      }
+    ],
     "plugins": [
       [
         "@semantic-release/commit-analyzer",
