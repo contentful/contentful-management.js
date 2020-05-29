@@ -1,10 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FunctionWithAtLeastOneParam, RestParamsType, FirstParamType } from './wrapWithHttp'
 
-type Optional<B, O> = Omit<B, keyof O> & Partial<O>
+type Except<ObjectType, KeysType extends keyof ObjectType> = Pick<
+  ObjectType,
+  Exclude<keyof ObjectType, KeysType>
+>
+
+export type SetOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
+  // Pick just the keys that are not optional from the base type.
+  Except<BaseType, Keys> &
+    // Pick the keys that should be optional from the base type and make them optional.
+    Partial<Pick<BaseType, Keys>>
 
 type ModifiedFirstParamType<F extends FunctionWithAtLeastOneParam, D extends object> = (
-  params: Optional<FirstParamType<F>, D>,
+  params: SetOptional<FirstParamType<F>, keyof (D | FirstParamType<F>)>,
   ...rest: RestParamsType<F>
 ) => ReturnType<F>
 

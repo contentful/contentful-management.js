@@ -1,27 +1,23 @@
 import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './index'
 
-export type DefaultParams = {
+import { wrapWithHttp } from './wrappers/wrapWithHttp'
+import { wrapWithDefaultParams } from './wrappers/wrapWithDefaultParams'
+
+type DefaultParams = {
   spaceId?: string
   environmentId?: string
   organizationId?: string
 }
 
-import { wrapWithHttp } from './wrappers/wrapWithHttp'
-import { wrapWithDefaultParams } from './wrappers/wrapWithDefaultParams'
-
-export const createPlainClient = (params: ClientParams, defaultParams?: DefaultParams) => {
+export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params)
 
   return {
-    space: wrapWithDefaultParams(wrapWithHttp(endpoints.space, http), defaultParams),
-    environment: wrapWithDefaultParams(wrapWithHttp(endpoints.environment, http), defaultParams),
-    contentType: wrapWithDefaultParams(wrapWithHttp(endpoints.contentType, http), defaultParams),
-    user: wrapWithDefaultParams(wrapWithHttp(endpoints.user, http), defaultParams),
-    entry: wrapWithDefaultParams(wrapWithHttp(endpoints.entry, http), defaultParams),
+    space: wrapWithDefaultParams(wrapWithHttp(endpoints.space, http), defaults),
+    environment: wrapWithDefaultParams(wrapWithHttp(endpoints.environment, http), defaults),
+    contentType: wrapWithDefaultParams(wrapWithHttp(endpoints.contentType, http), defaults),
+    user: wrapWithDefaultParams(wrapWithHttp(endpoints.user, http), defaults),
+    entry: wrapWithDefaultParams(wrapWithHttp(endpoints.entry, http), defaults),
   }
 }
-
-const client = createPlainClient({ accessToken: '' })
-
-client.space.get({})
