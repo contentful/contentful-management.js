@@ -50,15 +50,18 @@ function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
     .then((response) => response.data, errorHandler)
 }
 
+export type QueryParams = { query?: QueryOptions }
+
 /**
  * Space
  */
+export type GetSpaceParams = { spaceId: string }
 
 export const space = {
-  get(http: AxiosInstance, params: { spaceId: string }) {
+  get(http: AxiosInstance, params: GetSpaceParams) {
     return get<SpaceProps>(http, `/spaces/${params.spaceId}`)
   },
-  update(http: AxiosInstance, params: { spaceId: string }, raw: SpaceProps) {
+  update(http: AxiosInstance, params: GetSpaceParams, raw: SpaceProps) {
     const data = cloneDeep(raw)
     delete data.sys
     return update<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
@@ -67,23 +70,21 @@ export const space = {
       },
     })
   },
-  delete(http: AxiosInstance, params: { spaceId: string }) {
+  delete(http: AxiosInstance, params: GetSpaceParams) {
     return del(http, `/spaces/${params.spaceId}`)
   },
 }
 
+export type GetEnvironmentParams = GetSpaceParams & { environmentId: string }
+
 export const environment = {
-  get(http: AxiosInstance, params: { spaceId: string; environmentId: string }) {
+  get(http: AxiosInstance, params: GetEnvironmentParams) {
     return get<EnvironmentProps>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}`
     )
   },
-  update(
-    http: AxiosInstance,
-    params: { spaceId: string; environmentId: string },
-    raw: EnvironmentProps
-  ) {
+  update(http: AxiosInstance, params: GetEnvironmentParams, raw: EnvironmentProps) {
     const data = cloneDeep(raw)
     delete data.sys
     return update<EnvironmentProps>(
@@ -99,11 +100,10 @@ export const environment = {
   },
 }
 
+export type GetManyContentTypesParams = GetEnvironmentParams & QueryParams
+
 export const contentType = {
-  getMany(
-    http: AxiosInstance,
-    params: { spaceId: string; environmentId: string; query?: QueryOptions }
-  ) {
+  getMany(http: AxiosInstance, params: GetManyContentTypesParams) {
     return get<CollectionProp<ContentTypeProps>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types`,
@@ -114,19 +114,20 @@ export const contentType = {
   },
 }
 
+export type GetManyUsersParams = GetSpaceParams & QueryParams
+
 export const user = {
-  getManyForSpace(http: AxiosInstance, params: { spaceId: string; query?: QueryOptions }) {
+  getManyForSpace(http: AxiosInstance, params: GetManyUsersParams) {
     return get<CollectionProp<UserProps>>(http, `/spaces/${params.spaceId}/users`, {
       params: params.query,
     })
   },
 }
 
+export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
+
 export const entry = {
-  getMany(
-    http: AxiosInstance,
-    params: { spaceId: string; environmentId: string; query?: QueryOptions }
-  ) {
+  getMany(http: AxiosInstance, params: GetManyEntriesParams) {
     return get<CollectionProp<EntryProps>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
