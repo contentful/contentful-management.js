@@ -1,6 +1,8 @@
+
 import { DefaultElements, Collection } from './generated/types/common-types'
-import { EditorInterface } from './editorInterface'
-import { ContentTypeProps} from './generated/types/content-type'
+import { ContentTypeProps } from './generated/types/content-type'
+import { EditorInterface } from './generated/entities/editor-interface'
+
 
 export interface ContentType
   extends ContentTypeProps,
