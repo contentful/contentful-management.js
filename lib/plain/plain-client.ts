@@ -1,23 +1,29 @@
 import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './index'
-
-import { wrapWithHttp } from './wrappers/wrapWithHttp'
-import { wrapWithDefaultParams } from './wrappers/wrapWithDefaultParams'
-
-type DefaultParams = {
-  spaceId?: string
-  environmentId?: string
-  organizationId?: string
-}
+import { wrap, DefaultParams } from './wrappers/wrap'
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params)
+  const wrapParams = { http, defaults }
 
   return {
-    space: wrapWithDefaultParams(wrapWithHttp(endpoints.space, http), defaults),
-    environment: wrapWithDefaultParams(wrapWithHttp(endpoints.environment, http), defaults),
-    contentType: wrapWithDefaultParams(wrapWithHttp(endpoints.contentType, http), defaults),
-    user: wrapWithDefaultParams(wrapWithHttp(endpoints.user, http), defaults),
-    entry: wrapWithDefaultParams(wrapWithHttp(endpoints.entry, http), defaults),
+    space: {
+      get: wrap(wrapParams, endpoints.space.get),
+      update: wrap(wrapParams, endpoints.space.update),
+      delete: wrap(wrapParams, endpoints.space.delete),
+    },
+    environment: {
+      get: wrap(wrapParams, endpoints.environment.get),
+      update: wrap(wrapParams, endpoints.environment.update),
+    },
+    contentType: {
+      getMany: wrap(wrapParams, endpoints.contentType.getMany),
+    },
+    user: {
+      getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
+    },
+    entry: {
+      getMany: wrap(wrapParams, endpoints.entry.getMany),
+    },
   }
 }

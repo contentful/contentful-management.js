@@ -1,50 +1,68 @@
 import { ClientParams } from '../create-cma-http-client';
-declare type DefaultParams = {
-    spaceId?: string;
-    environmentId?: string;
-    organizationId?: string;
-};
+import { DefaultParams } from './wrappers/wrap';
 export declare const createPlainClient: (params: ClientParams, defaults?: DefaultParams | undefined) => {
     space: {
-        get: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        get: (params: Pick<{
             spaceId: string;
-        }, "spaceId">) => Promise<import("../types/space").SpaceProps>;
-        update: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        }, never> & Partial<Pick<{
             spaceId: string;
-        }, "spaceId">, raw: import("../types/space").SpaceProps) => Promise<import("../types/space").SpaceProps>;
-        delete: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        }, "spaceId">>) => Promise<import("../types/space").SpaceProps>;
+        update: (params: Pick<{
             spaceId: string;
-        }, "spaceId">) => Promise<any>;
+        }, never> & Partial<Pick<{
+            spaceId: string;
+        }, "spaceId">>, raw: import("../types/space").SpaceProps) => Promise<import("../types/space").SpaceProps>;
+        delete: (params: Pick<{
+            spaceId: string;
+        }, never> & Partial<Pick<{
+            spaceId: string;
+        }, "spaceId">>) => Promise<any>;
     };
     environment: {
-        get: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        get: (params: Pick<{
             spaceId: string;
             environmentId: string;
-        }, "spaceId" | "environmentId">) => Promise<import("../types/environment").EnvironmentProps>;
-        update: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        }, never> & Partial<Pick<{
             spaceId: string;
             environmentId: string;
-        }, "spaceId" | "environmentId">, raw: import("../types/environment").EnvironmentProps) => Promise<import("../types/environment").EnvironmentProps>;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/environment").EnvironmentProps>;
+        update: (params: Pick<{
+            spaceId: string;
+            environmentId: string;
+        }, never> & Partial<Pick<{
+            spaceId: string;
+            environmentId: string;
+        }, "spaceId" | "environmentId">>, raw: import("../types/environment").EnvironmentProps) => Promise<import("../types/environment").EnvironmentProps>;
     };
     contentType: {
-        getMany: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        getMany: (params: Pick<{
             spaceId: string;
             environmentId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }, "spaceId" | "environmentId">) => Promise<import("../types/common-types").CollectionProp<import("../types/content-type").ContentTypeProps>>;
+        }, "query"> & Partial<Pick<{
+            spaceId: string;
+            environmentId: string;
+            query?: import("../types/common-types").QueryOptions | undefined;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/content-type").ContentTypeProps>>;
     };
     user: {
-        getManyForSpace: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        getManyForSpace: (params: Pick<{
             spaceId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }, "spaceId">) => Promise<import("../types/common-types").CollectionProp<import("../types/user").UserProps>>;
+        }, "query"> & Partial<Pick<{
+            spaceId: string;
+            query?: import("../types/common-types").QueryOptions | undefined;
+        }, "spaceId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/user").UserProps>>;
     };
     entry: {
-        getMany: (params: import("./wrappers/wrapWithDefaultParams").SetOptional<{
+        getMany: (params: Pick<{
             spaceId: string;
             environmentId: string;
             query?: import("../types/common-types").QueryOptions | undefined;
-        }, "spaceId" | "environmentId">) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps>>;
+        }, "query"> & Partial<Pick<{
+            spaceId: string;
+            environmentId: string;
+            query?: import("../types/common-types").QueryOptions | undefined;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps>>;
     };
 };
-export {};
