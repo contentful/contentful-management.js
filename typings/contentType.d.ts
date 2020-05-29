@@ -1,6 +1,6 @@
 import { ContentFields } from './contentFields'
 import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
-import { EditorInterface } from './editorInterface'
+import { EditorInterface } from './generated/entities/editor-interface'
 
 export interface ContentTypeProps {
   name: string
