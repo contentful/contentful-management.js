@@ -1,5 +1,4 @@
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
-import { QueryOptions } from './queryOptions'
+import { QueryOptions, MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
 import { ContentType, ContentTypeProps } from './contentType'
 import { Entry, EntryProp } from './entry'
 import { Locale, CreateLocaleProps } from './locale'

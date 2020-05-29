@@ -41,3 +41,13 @@ export interface CollectionProp<TObj> {
 export interface Collection<TObj>
   extends CollectionProp<TObj>,
     DefaultElements<CollectionProp<TObj>> {}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface QueryOptions {
+  skip?: number
+  limit?: number
+  order?: string
+  content_type?: string
+  include?: number
+  [key: string]: any
+}
