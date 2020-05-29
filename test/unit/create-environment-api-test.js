@@ -6,6 +6,7 @@ import createEnvironmentApi, {
 } from '../../lib/create-environment-api'
 import {
   contentTypeMock,
+  environmentMock,
   editorInterfaceMock,
   assetMock,
   assetWithFilesMock,
@@ -35,6 +36,7 @@ function setup(promise) {
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
   const api = createEnvironmentApi({ http: httpMock, httpUpload: httpUploadMock })
+  api.toPlainObject = () => environmentMock
   return {
     api,
     httpMock,
