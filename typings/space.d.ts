@@ -4,7 +4,7 @@
  * @packageDocumentation
  */
 
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
+import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './asset'
@@ -18,12 +18,11 @@ import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMember
 import { UIExtension, UIExtensionProps } from './uiExtension'
 import { Upload } from './upload'
 import { Stream } from 'stream'
-import { QueryOptions } from './queryOptions'
 import { Snapshot } from './snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './previewApiKey'
-import { User } from './user'
+import { User } from './generated/entities/user'
 
 export interface SpaceProps {
   name: string
