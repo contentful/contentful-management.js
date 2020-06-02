@@ -36,7 +36,7 @@ export default function errorHandler(errorResponse: AxiosError): never {
     status: response?.status,
     statusText: response?.statusText,
     message: '',
-    details: {}
+    details: {},
   }
 
   if (isPlainObject(config)) {
@@ -44,7 +44,7 @@ export default function errorHandler(errorResponse: AxiosError): never {
       url: config.url,
       headers: config.headers,
       method: config.method,
-      payloadData: config.data
+      payloadData: config.data,
     }
   }
   if (data && isPlainObject(data)) {
