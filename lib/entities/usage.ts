@@ -7,7 +7,7 @@ import {
   MetaLinkProps,
   MetaSysProps,
   QueryOptions,
-} from '../common-types'
+} from '../types/common-types'
 
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 

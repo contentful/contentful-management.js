@@ -4,12 +4,14 @@
  * @packageDocumentation
  */
 
-import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
+import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/types/common-types'
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './asset'
-import { ContentType, ContentTypeProps } from './contentType'
-import { EntryProp, Entry } from './entry'
+import { ContentType } from './contentType'
+import {  ContentTypeProps} from './generated/types/content-type'
+import { EntryProps } from './generated/types/entry'
+import { Entry } from './entry'
 import { LocaleProps, Locale } from './locale'
 import { SpaceMember } from './spaceMember'
 import { Role, RoleProps } from './role'
@@ -348,7 +350,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>
+  createEntry(contentTypeID: string, data: EntryProps): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -376,7 +378,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>
+  createEntryWithId(contentTypeID: string, id: string, data: EntryProps): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created
@@ -974,7 +976,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProp>>>
+  getEntrySnapshots(id: string): Promise<Collection<Snapshot<EntryProps>>>
   /**
    * Gets an Environment Alias
    * @param Environment Alias ID

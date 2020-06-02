@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { AxiosInstance } from 'axios'
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../types/common-types'
 
 export interface Control {
   /**

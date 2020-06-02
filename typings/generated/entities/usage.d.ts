@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types';
+import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../types/common-types';
 export declare type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql';
 export interface UsageQuery extends QueryOptions {
     'metric[in]'?: string;

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { CollectionProp, DefaultElements, MetaSysProps } from '../types/common-types';
 export declare type UserProps = {
     /**
      * System metadata

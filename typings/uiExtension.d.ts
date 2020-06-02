@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, DefaultElements } from './generated/common-types'
+import { MetaSys, MetaSysProps, DefaultElements } from './generated/types/common-types'
 import { EntryFields } from './entryFields'
 
 export interface UIExtensionProps {

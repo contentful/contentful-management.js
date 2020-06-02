@@ -1,18 +1,12 @@
-import { ContentFields } from './contentFields'
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
+
+import { DefaultElements, Collection } from './generated/types/common-types'
+import { ContentTypeProps } from './generated/types/content-type'
 import { EditorInterface } from './generated/entities/editor-interface'
 
-export interface ContentTypeProps {
-  name: string
-  description: string
-  displayField: string
-  fields: ContentFields[]
-}
 
 export interface ContentType
   extends ContentTypeProps,
-    MetaSys<MetaSysProps>,
-    DefaultElements<ContentTypeProps & MetaSys<MetaSysProps>> {
+    DefaultElements<ContentTypeProps> {
   delete(): Promise<void>
   isDraft(): boolean
   isPublished(): boolean

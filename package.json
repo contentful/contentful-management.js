@@ -32,10 +32,10 @@
     "pretest": "rimraf coverage && npm run lint",
     "test": "npm run test:cover && npm run test:integration && npm run test:browser-local && npm run test:size",
     "test:ci": "./node_modules/contentful-sdk-core/bin/test-ci.sh",
-    "test:cover": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\" ./node_modules/istanbul/lib/cli.js cover ./test/runner.js | tap-dot",
-    "test:unit": "BABEL_ENV=test babel-node --extensions \".ts\" --extensions \".js\" ./test/runner.js | tap-dot",
+    "test:cover": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\" ./node_modules/istanbul/lib/cli.js cover ./test/runner.js | tap-spec",
+    "test:unit": "BABEL_ENV=test babel-node --extensions \".ts\" --extensions \".js\" ./test/runner.js | tap-spec",
     "test:debug": "BABEL_ENV=test babel-node debug  --extensions \".ts\" --extensions \".js\"  ./test/runner.js",
-    "test:integration": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\"  ./test/integration/integration-tests.js",
+    "test:integration": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\"  ./test/integration/integration-tests.js | tap-spec",
     "test:browser-local": "BABEL_ENV=test karma start karma.conf.local.js",
     "test:browser-remote": "BABEL_ENV=test karma start karma.conf.saucelabs.js",
     "test:e2e": "node test/e2e/index.js",
@@ -59,7 +59,7 @@
   ],
   "dependencies": {
     "axios": "^0.19.0",
-    "contentful-sdk-core": "^6.4.0",
+    "contentful-sdk-core": "^6.4.5",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
@@ -116,7 +116,7 @@
     "selenium-webdriver": "^3.5.0",
     "semantic-release": "^17.0.4",
     "sinon": "^9.0.1",
-    "tap-dot": "^2.0.0",
+    "tap-spec": "^5.0.0",
     "trevor": "^2.2.0",
     "typedoc": "^0.17.7",
     "typescript": "^3.9.3",

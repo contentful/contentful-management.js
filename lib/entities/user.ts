@@ -2,7 +2,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import { CollectionProp, DefaultElements, MetaSysProps } from '../types/common-types'
 
 export type UserProps = {
   /**

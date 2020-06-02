@@ -1,22 +1,7 @@
-import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements, Collection } from './generated/common-types'
+import { DefaultElements, Collection } from './generated/types/common-types'
+import { EntryProps } from './generated/types/entry'
 
-export interface EntryProp {
-  fields: {
-    [key: string]: any
-  }
-}
-
-export interface EntrySys extends MetaSysProps {
-  contentType: { sys: MetaLinkProps }
-  environment: { sys: MetaLinkProps }
-  publishedBy?: { sys: MetaLinkProps }
-  publishedVersion?: number
-  publishedAt?: string
-  firstPublishedAt?: string
-  publishedCounter?: number
-}
-
-export interface Entry extends EntryProp, DefaultElements<EntryProp & EntrySys>, MetaSys<EntrySys> {
+export interface Entry extends EntryProps, DefaultElements<EntryProps> {
   archive(): Promise<Entry>
   delete(): Promise<void>
   getSnapshot(id: string): Promise<any>

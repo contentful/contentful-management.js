@@ -1,4 +1,4 @@
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements, CollectionProp } from '../types/common-types';
 import { AxiosInstance } from 'axios';
 declare type Field = 'Symbol' | 'Text' | 'RichText' | 'Integer' | 'Number' | 'Date' | 'Location' | 'Boolean' | 'Object';
 declare type LinkType = 'Asset' | 'Entry';

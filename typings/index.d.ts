@@ -9,11 +9,12 @@ import { ClientParams } from './generated/create-cma-http-client'
 import { User } from './generated/entities/user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
-import { Collection } from './generated/common-types'
+import { Collection } from './generated/types/common-types'
 import { Organization } from './organization'
 import { UsageMetricEnum, Usage, UsageQuery } from './generated/entities/usage'
 
-export { ClientParams } from './generated/create-cma-http-client'
+export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
+export { createPlainClient } from './generated/plain/plain-client'
 
 export as namespace contentfulManagementStatic
 
@@ -26,7 +27,7 @@ export as namespace contentfulManagementStatic
  * })
  * ```
  */
-declare function createClient(params: ClientParams): ClientAPI
+export function createClient(params: ClientParams): ClientAPI
 
 export interface ClientAPI {
   /**

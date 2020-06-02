@@ -1,10 +1,14 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { CollectionProp, DefaultElements, BasicMetaSysProps, MetaLinkProps } from '../types/common-types';
 export declare type WebhookProps = {
     /**
      * System metadata
      */
-    sys: MetaSysProps;
+    sys: BasicMetaSysProps & {
+        space: {
+            sys: MetaLinkProps;
+        };
+    };
     /**
      * Webhook name
      */

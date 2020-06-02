@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSys, MetaLinkProps, MetaSysProps, CollectionProp, DefaultElements } from '../common-types';
+import { MetaSys, MetaLinkProps, MetaSysProps, CollectionProp, DefaultElements } from '../types/common-types';
 export declare type ApiKeyProps = {
     sys: MetaSysProps;
     name: string;

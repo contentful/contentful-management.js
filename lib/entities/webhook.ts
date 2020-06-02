@@ -4,7 +4,12 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import {
+  CollectionProp,
+  DefaultElements,
+  BasicMetaSysProps,
+  MetaLinkProps,
+} from '../types/common-types'
 
 const entityPath = 'webhook_definitions'
 
@@ -12,7 +17,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: { sys: MetaLinkProps } }
 
   /**
    * Webhook name

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types';
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../types/common-types';
 export interface Control {
     /**
      * the id of the customized field

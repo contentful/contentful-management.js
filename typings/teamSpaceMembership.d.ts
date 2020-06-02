@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements, QueryOptions } from './generated/common-types'
+import { MetaSys, MetaSysProps, MetaLinkProps, DefaultElements, QueryOptions } from './generated/types/common-types'
 
 export interface Options {
   teamId?: string
