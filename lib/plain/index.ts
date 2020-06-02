@@ -141,6 +141,20 @@ export const entry = {
       }
     )
   },
+  update(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }, raw: EntryProps) {
+    const data = cloneDeep(raw)
+    delete data.sys
+    return put<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+      data,
+      {
+        headers: {
+          'X-Contentful-Version': raw.sys.version ?? 0,
+        },
+      }
+    )
+  },
   getMany(http: AxiosInstance, params: GetManyEntriesParams) {
     return get<CollectionProp<EntryProps>>(
       http,

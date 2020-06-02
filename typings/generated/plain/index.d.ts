@@ -40,6 +40,9 @@ export declare const entry: {
     get(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
     } & QueryParams): Promise<EntryProps>;
+    update(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }, raw: EntryProps): Promise<EntryProps>;
     getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
 };
 export declare const locale: {
