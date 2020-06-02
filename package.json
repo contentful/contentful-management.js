@@ -149,8 +149,8 @@
       "next",
       "next-major",
       {
-        "name": "experimental-api",
-        "channel": "experimental-api",
+        "name": "experimental",
+        "channel": "experimental",
         "prerelease": true
       }
     ],
