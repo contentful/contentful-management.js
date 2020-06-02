@@ -3,8 +3,9 @@ import cloneDeep from 'lodash/cloneDeep'
 import { SpaceProps } from '../types/space'
 import { EnvironmentProps } from '../types/environment'
 import { ContentTypeProps } from '../types/content-type'
-import { UserProps } from '../types/user'
 import { EntryProps } from '../types/entry'
+import { UserProps } from '../entities/user'
+import { LocaleProps } from '../types/locale'
 import { CollectionProp, QueryOptions } from '../types/common-types'
 import errorHandler from '../error-handler'
 
@@ -138,6 +139,15 @@ export const entry = {
       {
         params: normalizeSelect(params.query),
       }
+    )
+  },
+}
+
+export const locale = {
+  getMany(http: AxiosInstance, params: GetEnvironmentParams) {
+    return get<CollectionProp<LocaleProps>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`
     )
   },
 }

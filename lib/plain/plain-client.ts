@@ -25,5 +25,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     entry: {
       getMany: wrap(wrapParams, endpoints.entry.getMany),
     },
+    locale: {
+      getMany: wrap(wrapParams, endpoints.locale.getMany),
+    },
   }
 }

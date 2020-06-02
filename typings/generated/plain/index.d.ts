@@ -2,8 +2,9 @@ import { AxiosInstance } from 'axios';
 import { SpaceProps } from '../types/space';
 import { EnvironmentProps } from '../types/environment';
 import { ContentTypeProps } from '../types/content-type';
-import { UserProps } from '../types/user';
 import { EntryProps } from '../types/entry';
+import { UserProps } from '../entities/user';
+import { LocaleProps } from '../types/locale';
 import { CollectionProp, QueryOptions } from '../types/common-types';
 export declare type QueryParams = {
     query?: QueryOptions;
@@ -37,4 +38,7 @@ export declare const user: {
 export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
 export declare const entry: {
     getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
+};
+export declare const locale: {
+    getMany(http: AxiosInstance, params: GetEnvironmentParams): Promise<CollectionProp<LocaleProps>>;
 };
