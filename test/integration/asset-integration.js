@@ -30,31 +30,27 @@ export function assetWriteTests() {}
 
 // todo: enable before merging the branch
 // export function assetWriteTests(t, space) {
-//   const TEST_IMAGE_SOURCE_URL =
-//     'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
+//   t.test(
+//     'Create, process, update, publish, unpublish, archive, unarchive and delete asset',
+//     (t) => {
+//       t.plan(10)
 
-// t.test(
-//   'Create, process, update, publish, unpublish, archive, unarchive and delete asset',
-//   (t) => {
-//     t.plan(10)
-//     return space
-//       .createAsset({
-//         fields: {
-//           title: { 'en-US': 'this is the title' },
-//           file: {
-//             'en-US': {
-//               contentType: 'image/jpeg',
-//               fileName: 'shiba-stuck.jpg',
-//               upload: TEST_IMAGE_SOURCE_URL,
+//       return space
+//         .createAsset({
+//           fields: {
+//             title: { 'en-US': 'this is the title' },
+//             file: {
+//               'en-US': {
+//                 contentType: 'image/jpeg',
+//                 fileName: 'shiba-stuck.jpg',
+//                 upload: TEST_IMAGE_SOURCE_URL,
+//               },
 //             },
 //           },
-//         },
-//       })
-//       .then((asset) => {
-//         t.equals(asset.fields.title['en-US'], 'this is the title', 'original title')
-//         return asset
-//           .processForLocale('en-US', { processingCheckWait: 2000 })
-//           .then((processedAsset) => {
+//         })
+//         .then((asset) => {
+//           t.equals(asset.fields.title['en-US'], 'this is the title', 'original title')
+//           return asset.processForLocale('en-US').then((processedAsset) => {
 //             t.ok(asset.isDraft(), 'asset is in draft')
 //             t.ok(processedAsset.fields.file['en-US'].url, 'file was uploaded')
 //             return processedAsset.publish().then((publishedAsset) => {
@@ -77,63 +73,67 @@ export function assetWriteTests() {}
 //               })
 //             })
 //           })
-//       })
-//   }
-// )
-// t.test('Create and process asset with multiple locales', (t) => {
-//   t.plan(2)
-//   return space
-//     .createAsset({
-//       fields: {
-//         title: { 'en-US': 'this is the title' },
-//         file: {
-//           'en-US': {
-//             contentType: 'image/jpeg',
-//             fileName: 'shiba-stuck.jpg',
-//             upload: TEST_IMAGE_SOURCE_URL,
-//           },
-//           'de-DE': {
-//             contentType: 'image/jpeg',
-//             fileName: 'shiba-stuck.jpg',
-//             upload: TEST_IMAGE_SOURCE_URL,
-//           },
-//         },
-//       },
-//     })
-//     .then((asset) => {
-//       return asset.processForAllLocales({ processingCheckWait: 2000 }).then((processedAsset) => {
-//         t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
-//         t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
-//       })
-//     })
-// })
-// t.test('Upload and process asset with multiple locales', (t) => {
-//   t.plan(2)
-//   return space
-//     .createAssetFromFiles({
-//       fields: {
-//         title: { 'en-US': 'SVG upload test' },
-//         file: {
-//           'en-US': {
-//             contentType: 'image/svg+xml',
-//             fileName: 'blue-square.svg',
-//             file:
-//               '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
-//           },
-//           'de-DE': {
-//             contentType: 'image/svg+xml',
-//             fileName: 'red-square.svg',
-//             file:
-//               '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+//         })
+//     }
+//   )
+
+//   t.test('Create and process asset with multiple locales', (t) => {
+//     t.plan(2)
+
+//     return space
+//       .createAsset({
+//         fields: {
+//           title: { 'en-US': 'this is the title' },
+//           file: {
+//             'en-US': {
+//               contentType: 'image/jpeg',
+//               fileName: 'shiba-stuck.jpg',
+//               upload: TEST_IMAGE_SOURCE_URL,
+//             },
+//             'de-DE': {
+//               contentType: 'image/jpeg',
+//               fileName: 'shiba-stuck.jpg',
+//               upload: TEST_IMAGE_SOURCE_URL,
+//             },
 //           },
 //         },
-//       },
-//     })
-//     .then((asset) => {
-//       return asset.processForAllLocales({ processingCheckWait: 2000 }).then((processedAsset) => {
-//         t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
-//         t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
 //       })
-//     })
-// })
+//       .then((asset) => {
+//         return asset.processForAllLocales().then((processedAsset) => {
+//           t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
+//           t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
+//         })
+//       })
+//   })
+
+//   t.test('Upload and process asset with multiple locales', (t) => {
+//     t.plan(2)
+
+//     return space
+//       .createAssetFromFiles({
+//         fields: {
+//           title: { 'en-US': 'SVG upload test' },
+//           file: {
+//             'en-US': {
+//               contentType: 'image/svg+xml',
+//               fileName: 'blue-square.svg',
+//               file:
+//                 '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+//             },
+//             'de-DE': {
+//               contentType: 'image/svg+xml',
+//               fileName: 'red-square.svg',
+//               file:
+//                 '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+//             },
+//           },
+//         },
+//       })
+//       .then((asset) => {
+//         return asset.processForAllLocales().then((processedAsset) => {
+//           t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
+//           t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
+//         })
+//       })
+//   })
 // }
