@@ -4,16 +4,16 @@ import { cloneMock } from './mocks/entities'
 
 // Best case scenario where an error is a known and expected situation and the
 // server returns an error with a JSON payload with all the information possible
-test('Throws well formed error with details from server', (t) => {
+test('Throws well formed error with details from server', t => {
   const error = cloneMock('error')
   error.response.data = {
     sys: {
       id: 'SpecificError',
-      type: 'Error',
+      type: 'Error'
     },
     message: 'datamessage',
     requestId: 'requestid',
-    details: 'errordetails',
+    details: 'errordetails'
   }
 
   try {
@@ -31,14 +31,14 @@ test('Throws well formed error with details from server', (t) => {
 
 // Second best case scenario, where we'll still get a JSON payload from the server
 // but only with an Unknown error type and no additional details
-test('Throws unknown error received from server', (t) => {
+test('Throws unknown error received from server', t => {
   const error = cloneMock('error')
   error.response.data = {
     sys: {
       id: 'Unknown',
-      type: 'Error',
+      type: 'Error'
     },
-    requestId: 'requestid',
+    requestId: 'requestid'
   }
   error.response.status = 500
   error.response.statusText = 'Internal'
@@ -55,7 +55,7 @@ test('Throws unknown error received from server', (t) => {
 })
 
 // Wurst case scenario, where we have no JSON payload and only HTTP status information
-test('Throws error without additional detail', (t) => {
+test('Throws error without additional detail', t => {
   const error = cloneMock('error')
   error.response.status = 500
   error.response.statusText = 'Everything is on fire'
@@ -70,7 +70,7 @@ test('Throws error without additional detail', (t) => {
   t.end()
 })
 
-test('Obscures management token in any error message', (t) => {
+test('Obscures management token in any error message', t => {
   const responseError = cloneMock('error')
   responseError.config.headers = {
     Authorization: 'Bearer secret-management-token'
@@ -80,19 +80,23 @@ test('Obscures management token in any error message', (t) => {
     errorHandler(responseError)
   } catch (err) {
     const parsedMessage = JSON.parse(err.message)
-    t.equals(parsedMessage.request.headers.Authorization, 'Bearer ...token', 'Obscures management token')
+    t.equals(
+      parsedMessage.request.headers.Authorization,
+      'Bearer ...token',
+      'Obscures management token'
+    )
   }
 
   const requestError = {
     config: {
       url: 'requesturl',
-      headers: {},
+      headers: {}
     },
     data: {},
     request: {
       status: 404,
-      statusText: 'Not Found',
-    },
+      statusText: 'Not Found'
+    }
   }
 
   requestError.config.headers = {
@@ -106,4 +110,3 @@ test('Obscures management token in any error message', (t) => {
   }
   t.end()
 })
-
