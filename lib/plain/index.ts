@@ -132,6 +132,15 @@ export const user = {
 export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
 
 export const entry = {
+  get(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string } & QueryParams) {
+    return get<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+      {
+        params: normalizeSelect(params.query),
+      }
+    )
+  },
   getMany(http: AxiosInstance, params: GetManyEntriesParams) {
     return get<CollectionProp<EntryProps>>(
       http,

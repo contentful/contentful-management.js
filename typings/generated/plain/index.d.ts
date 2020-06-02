@@ -37,6 +37,9 @@ export declare const user: {
 };
 export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
 export declare const entry: {
+    get(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    } & QueryParams): Promise<EntryProps>;
     getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
 };
 export declare const locale: {
