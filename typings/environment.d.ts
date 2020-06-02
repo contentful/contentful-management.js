@@ -3,6 +3,7 @@ import { ContentTypeProps, } from './generated/types/content-type'
 import { EntryProps } from './generated/types/entry'
 import { ContentType,  } from './contentType'
 import { Entry } from './entry'
+
 import { Locale, CreateLocaleProps } from './locale'
 import { UIExtensionProps, UIExtension } from './uiExtension'
 import { Stream } from 'stream'

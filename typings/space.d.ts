@@ -24,7 +24,7 @@ import { Snapshot } from './snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './previewApiKey'
-import { User } from './user'
+import { User } from './generated/entities/user'
 
 export interface SpaceProps {
   name: string

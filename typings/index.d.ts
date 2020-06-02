@@ -6,12 +6,12 @@
 
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ClientParams } from './generated/create-cma-http-client'
-import { User } from './user'
+import { User } from './generated/entities/user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
 import { Space, SpaceProps } from './space'
 import { Collection } from './generated/types/common-types'
 import { Organization } from './organization'
-import * as Usage from './usage'
+import { UsageMetricEnum, Usage, UsageQuery } from './generated/entities/usage'
 
 export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
 export { createPlainClient } from './generated/plain/plain-client'
@@ -190,7 +190,7 @@ export interface ClientAPI {
    */
   getSpaces(params?: { limit?: number; skip?: number }): Promise<Collection<Space>>
   /**
-   * Get organization usage grouped by {@link Usage.UsageMetricEnum metric}
+   * Get organization usage grouped by {@link UsageMetricEnum metric}
    *
    * @param organizationId - Id of an organization
    * @param query - Query parameters
@@ -215,8 +215,8 @@ export interface ClientAPI {
    */
   getOrganizationUsage(
     organizationId: string,
-    query: Usage.UsageQuery
-  ): Promise<Collection<Usage.Usage>>
+    query: UsageQuery
+  ): Promise<Collection<Usage>>
   /**
    * Get organization usage grouped by space and metric
    *
@@ -242,7 +242,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getSpaceUsage(organizationId: string, query: Usage.UsageQuery): Promise<Collection<Usage.Usage>>
+  getSpaceUsage(organizationId: string, query: UsageQuery): Promise<Collection<Usage>>
   /**
    * Make a custom request to the Contentful management API's /spaces endpoint
    * @param opts - axios request options (https://github.com/mzabriskie/axios)

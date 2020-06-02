@@ -4,7 +4,7 @@ import {OrganizationInvitation, OrganizationInvitationProps} from './organizatio
 import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './teamMembership'
 import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './teamSpaceMembership'
 import { Team, TeamProps } from './team'
-import { User } from './user'
+import { User } from './generated/entities/user'
 
 export interface OrganizationProp {
   name: string
