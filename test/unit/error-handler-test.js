@@ -70,23 +70,20 @@ test('Throws error without additional detail', (t) => {
   t.end()
 })
 
-test('Obscures management token in error message', (t) => {
-  const error = cloneMock('error')
-  error.config.headers = {
+test('Obscures management token in any error message', (t) => {
+  const responseError = cloneMock('error')
+  responseError.config.headers = {
     Authorization: 'Bearer secret-management-token'
   }
 
   try {
-    errorHandler(error)
+    errorHandler(responseError)
   } catch (err) {
     const parsedMessage = JSON.parse(err.message)
     t.equals(parsedMessage.request.headers.Authorization, 'Bearer ...token', 'Obscures management token')
   }
-  t.end()
-})
 
-test('Obscures token even for request errors', (t) => {
-  const error = {
+  const requestError = {
     config: {
       url: 'requesturl',
       headers: {},
@@ -98,12 +95,12 @@ test('Obscures token even for request errors', (t) => {
     },
   }
 
-  error.config.headers = {
+  requestError.config.headers = {
     Authorization: 'Bearer secret-management-token'
   }
 
   try {
-    errorHandler(error)
+    errorHandler(requestError)
   } catch (err) {
     t.equals(err.config.headers.Authorization, 'Bearer ...token', 'Obscures management token')
   }
