@@ -1,19 +1,9 @@
-import { MetaSys, MetaSysProps, DefaultElements } from './generated/types/common-types'
-
-export interface LocaleProps {
-  name: string
-  code: string
-  fallbackCode: string
-  contentDeliveryApi: boolean
-  contentManagementApi: boolean
-  default: boolean
-  optional: boolean
-}
+import { DefaultElements } from './generated/types/common-types'
+import { LocaleProps } from './generated/types/locale'
 
 export interface Locale
   extends LocaleProps,
-    DefaultElements<LocaleProps & MetaSys<MetaSysProps>>,
-    MetaSys<MetaSysProps> {
+    DefaultElements<LocaleProps> {
   delete(): Promise<void>
   update(): Promise<Locale>
 }

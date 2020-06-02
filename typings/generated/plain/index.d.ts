@@ -2,8 +2,9 @@ import { AxiosInstance } from 'axios';
 import { SpaceProps } from '../types/space';
 import { EnvironmentProps } from '../types/environment';
 import { ContentTypeProps } from '../types/content-type';
-import { UserProps } from '../types/user';
 import { EntryProps } from '../types/entry';
+import { UserProps } from '../entities/user';
+import { LocaleProps } from '../types/locale';
 import { CollectionProp, QueryOptions } from '../types/common-types';
 export declare type QueryParams = {
     query?: QueryOptions;
@@ -36,5 +37,29 @@ export declare const user: {
 };
 export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
 export declare const entry: {
+    get(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    } & QueryParams): Promise<EntryProps>;
     getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
+    update(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }, raw: EntryProps): Promise<EntryProps>;
+    delete(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<any>;
+    publish(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }, raw: EntryProps): Promise<EntryProps>;
+    unpublish(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
+    archive(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
+    unarchive(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
+};
+export declare const locale: {
+    getMany(http: AxiosInstance, params: GetEnvironmentParams & QueryParams): Promise<CollectionProp<LocaleProps>>;
 };
