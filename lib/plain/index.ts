@@ -8,6 +8,10 @@ import { EntryProps } from '../types/entry'
 import { CollectionProp, QueryOptions } from '../types/common-types'
 import errorHandler from '../error-handler'
 
+function getBaseUrl(http: AxiosInstance) {
+  return http.defaults.baseURL?.split('/spaces')[0]
+}
+
 function normalizeSelect(query?: QueryOptions): QueryOptions | undefined {
   if (query && query.select && !/sys/i.test(query.select)) {
     return {
@@ -21,13 +25,13 @@ function normalizeSelect(query?: QueryOptions): QueryOptions | undefined {
 function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
     .get<T>(url, {
-      baseURL: http.defaults.baseURL?.replace('/spaces/', ''),
+      baseURL: getBaseUrl(http),
       ...config,
     })
     .then((response) => response.data, errorHandler)
 }
 
-function update<T = any>(
+function put<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
@@ -35,7 +39,7 @@ function update<T = any>(
 ) {
   return http
     .put<T>(url, payload, {
-      baseURL: http.defaults.baseURL?.replace('/spaces/', ''),
+      baseURL: getBaseUrl(http),
       ...config,
     })
     .then((response) => response.data, errorHandler)
@@ -44,7 +48,7 @@ function update<T = any>(
 function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
     .delete<T>(url, {
-      baseURL: http.defaults.baseURL?.replace('/spaces/', ''),
+      baseURL: getBaseUrl(http),
       ...config,
     })
     .then((response) => response.data, errorHandler)
@@ -64,7 +68,7 @@ export const space = {
   update(http: AxiosInstance, params: GetSpaceParams, raw: SpaceProps) {
     const data = cloneDeep(raw)
     delete data.sys
-    return update<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
+    return put<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
       headers: {
         'X-Contentful-Version': raw.sys.version ?? 0,
       },
@@ -87,7 +91,7 @@ export const environment = {
   update(http: AxiosInstance, params: GetEnvironmentParams, raw: EnvironmentProps) {
     const data = cloneDeep(raw)
     delete data.sys
-    return update<EnvironmentProps>(
+    return put<EnvironmentProps>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}`,
       data,
