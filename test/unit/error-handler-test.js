@@ -69,3 +69,19 @@ test('Throws error without additional detail', (t) => {
   }
   t.end()
 })
+
+test('Obscures secret management token in error message', (t) => {
+  const error = cloneMock('error')
+  error.config.headers = {
+    Authorization: 'Bearer secret-management-token'
+  }
+
+  try {
+    errorHandler(error)
+  } catch (err) {
+    const parsedMessage = JSON.parse(err.message)
+    t.equals(parsedMessage.request.headers.Authorization, 'Bearer ...token', 'Obscures management token')
+  }
+  t.end()
+})
+
