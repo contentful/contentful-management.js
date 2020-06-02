@@ -69,3 +69,44 @@ test('Throws error without additional detail', (t) => {
   }
   t.end()
 })
+
+test('Obscures management token in any error message', (t) => {
+  const responseError = cloneMock('error')
+  responseError.config.headers = {
+    Authorization: 'Bearer secret-management-token',
+  }
+
+  try {
+    errorHandler(responseError)
+  } catch (err) {
+    const parsedMessage = JSON.parse(err.message)
+    t.equals(
+      parsedMessage.request.headers.Authorization,
+      'Bearer ...token',
+      'Obscures management token'
+    )
+  }
+
+  const requestError = {
+    config: {
+      url: 'requesturl',
+      headers: {},
+    },
+    data: {},
+    request: {
+      status: 404,
+      statusText: 'Not Found',
+    },
+  }
+
+  requestError.config.headers = {
+    Authorization: 'Bearer secret-management-token',
+  }
+
+  try {
+    errorHandler(requestError)
+  } catch (err) {
+    t.equals(err.config.headers.Authorization, 'Bearer ...token', 'Obscures management token')
+  }
+  t.end()
+})
