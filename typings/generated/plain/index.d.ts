@@ -40,10 +40,25 @@ export declare const entry: {
     get(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
     } & QueryParams): Promise<EntryProps>;
+    getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
     update(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
     }, raw: EntryProps): Promise<EntryProps>;
-    getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps>>;
+    delete(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<any>;
+    publish(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }, raw: EntryProps): Promise<EntryProps>;
+    unpublish(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
+    archive(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
+    unarchive(http: AxiosInstance, params: GetEnvironmentParams & {
+        entryId: string;
+    }): Promise<EntryProps>;
 };
 export declare const locale: {
     getMany(http: AxiosInstance, params: GetEnvironmentParams): Promise<CollectionProp<LocaleProps>>;

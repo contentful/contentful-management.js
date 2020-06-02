@@ -37,6 +37,51 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         } & {
             entryId: string;
         }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps) => Promise<import("../types/entry").EntryProps>;
+        delete: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "entryId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "spaceId" | "environmentId">>) => Promise<any>;
+        publish: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "entryId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps) => Promise<import("../types/entry").EntryProps>;
+        unpublish: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "entryId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        archive: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "entryId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        unarchive: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "entryId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
     };
     locale: {
         getMany: (params: Pick<endpoints.GetEnvironmentParams, never> & Partial<Pick<endpoints.GetEnvironmentParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;

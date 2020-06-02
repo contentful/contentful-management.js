@@ -141,6 +141,15 @@ export const entry = {
       }
     )
   },
+  getMany(http: AxiosInstance, params: GetManyEntriesParams) {
+    return get<CollectionProp<EntryProps>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+      {
+        params: normalizeSelect(params.query),
+      }
+    )
+  },
   update(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }, raw: EntryProps) {
     const data = cloneDeep(raw)
     delete data.sys
@@ -155,13 +164,44 @@ export const entry = {
       }
     )
   },
-  getMany(http: AxiosInstance, params: GetManyEntriesParams) {
-    return get<CollectionProp<EntryProps>>(
+  delete(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
+    return del(
       http,
-      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`
+    )
+  },
+  publish(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string },
+    raw: EntryProps
+  ) {
+    return put<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`,
+      null,
       {
-        params: normalizeSelect(params.query),
+        headers: {
+          'X-Contentful-Version': raw.sys.version ?? 0,
+        },
       }
+    )
+  },
+  unpublish(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
+    return del<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`
+    )
+  },
+  archive(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
+    return put<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
+    )
+  },
+  unarchive(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
+    return del<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
     )
   },
 }

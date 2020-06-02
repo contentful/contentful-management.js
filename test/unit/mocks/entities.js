@@ -100,12 +100,16 @@ const entryMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Entry',
     contentType: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }),
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     locale: 'locale',
   }),
   fields: {
     field1: 'str',
   },
 }
+
 const editorInterfaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
