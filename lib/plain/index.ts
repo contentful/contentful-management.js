@@ -207,10 +207,13 @@ export const entry = {
 }
 
 export const locale = {
-  getMany(http: AxiosInstance, params: GetEnvironmentParams) {
+  getMany(http: AxiosInstance, params: GetEnvironmentParams & QueryParams) {
     return get<CollectionProp<LocaleProps>>(
       http,
-      `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
+      {
+        params: normalizeSelect(params.query),
+      }
     )
   },
 }

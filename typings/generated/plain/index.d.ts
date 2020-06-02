@@ -61,5 +61,5 @@ export declare const entry: {
     }): Promise<EntryProps>;
 };
 export declare const locale: {
-    getMany(http: AxiosInstance, params: GetEnvironmentParams): Promise<CollectionProp<LocaleProps>>;
+    getMany(http: AxiosInstance, params: GetEnvironmentParams & QueryParams): Promise<CollectionProp<LocaleProps>>;
 };

@@ -84,6 +84,6 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
     };
     locale: {
-        getMany: (params: Pick<endpoints.GetEnvironmentParams, never> & Partial<Pick<endpoints.GetEnvironmentParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;
+        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;
     };
 };
