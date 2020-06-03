@@ -31,6 +31,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       unpublish: wrap(wrapParams, endpoints.entry.unpublish),
       archive: wrap(wrapParams, endpoints.entry.archive),
       unarchive: wrap(wrapParams, endpoints.entry.unarchive),
+      create: wrap(wrapParams, endpoints.entry.create),
+      createWithId: wrap(wrapParams, endpoints.entry.createWithId),
     },
     locale: {
       getMany: wrap(wrapParams, endpoints.locale.getMany),

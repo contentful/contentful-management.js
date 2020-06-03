@@ -11,7 +11,7 @@ import { Asset, AssetProps, AssetFileProp } from './asset'
 import { ContentType } from './contentType'
 import {  ContentTypeProps} from './generated/types/content-type'
 import { LocaleProps } from './generated/types/locale'
-import { EntryProps } from './generated/types/entry'
+import { EntryProps, CreateEntryProps } from './generated/types/entry'
 import { Entry } from './entry'
 import { Locale } from './locale'
 import { SpaceMember } from './spaceMember'
@@ -351,7 +351,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: Omit<EntryProps, 'sys'>): Promise<Entry>
+  createEntry(contentTypeID: string, data: CreateEntryProps): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -379,7 +379,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProps): Promise<Entry>
+  createEntryWithId(contentTypeID: string, id: string, data: CreateEntryProps): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created

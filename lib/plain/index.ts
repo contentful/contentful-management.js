@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { SpaceProps } from '../types/space'
 import { EnvironmentProps } from '../types/environment'
 import { ContentTypeProps } from '../types/content-type'
-import { EntryProps } from '../types/entry'
+import { EntryProps, CreateEntryProps } from '../types/entry'
 import { UserProps } from '../entities/user'
 import { LocaleProps } from '../types/locale'
 import { CollectionProp, QueryOptions } from '../types/common-types'
@@ -26,6 +26,20 @@ function normalizeSelect(query?: QueryOptions): QueryOptions | undefined {
 function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
     .get<T>(url, {
+      baseURL: getBaseUrl(http),
+      ...config,
+    })
+    .then((response) => response.data, errorHandler)
+}
+
+function post<T = any>(
+  http: AxiosInstance,
+  url: string,
+  payload?: any,
+  config?: AxiosRequestConfig
+) {
+  return http
+    .post<T>(url, payload, {
       baseURL: getBaseUrl(http),
       ...config,
     })
@@ -202,6 +216,40 @@ export const entry = {
     return del<EntryProps>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
+    )
+  },
+  create(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { contentTypeId: string },
+    raw: CreateEntryProps
+  ) {
+    const data = cloneDeep(raw)
+    return post<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+      data,
+      {
+        headers: {
+          'X-Contentful-Content-Type': params.contentTypeId,
+        },
+      }
+    )
+  },
+  createWithId(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string; contentTypeId: string },
+    raw: CreateEntryProps
+  ) {
+    const data = cloneDeep(raw)
+    return put<EntryProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+      data,
+      {
+        headers: {
+          'X-Contentful-Content-Type': params.contentTypeId,
+        },
+      }
     )
   },
 }
