@@ -44,6 +44,13 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run semantic-release
+  publish-docs:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run docs:publish
 workflows:
   version: 2
   build_and_test:
@@ -58,3 +65,10 @@ workflows:
           requires:
             - unit
             - integration
+      - publish-docs:
+          requires:
+            - release
+          filters:
+            branches:
+              only:
+                - master

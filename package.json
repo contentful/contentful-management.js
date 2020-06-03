@@ -47,7 +47,6 @@
     "prettier:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "presemantic-release": "npm run build",
     "semantic-release": "semantic-release",
-    "postpublish": "npm run docs:publish && npm run clean",
     "precommit": "npm run lint",
     "prepush": "npm run test:prepush",
     "prepare": "npm run build"
