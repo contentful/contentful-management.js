@@ -50,7 +50,7 @@ export function assetWriteTests(t, space) {
         })
         .then((asset) => {
           t.equals(asset.fields.title['en-US'], 'this is the title', 'original title')
-          return asset.processForLocale('en-US').then((processedAsset) => {
+          return asset.processForLocale('en-US', { processingCheckWait: 5000 }).then((processedAsset) => {
             t.ok(asset.isDraft(), 'asset is in draft')
             t.ok(processedAsset.fields.file['en-US'].url, 'file was uploaded')
             return processedAsset.publish().then((publishedAsset) => {
@@ -99,7 +99,7 @@ export function assetWriteTests(t, space) {
         },
       })
       .then((asset) => {
-        return asset.processForAllLocales().then((processedAsset) => {
+        return asset.processForAllLocales({ processingCheckWait: 5000 }).then((processedAsset) => {
           t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
           t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
         })
@@ -130,7 +130,7 @@ export function assetWriteTests(t, space) {
         },
       })
       .then((asset) => {
-        return asset.processForAllLocales().then((processedAsset) => {
+        return asset.processForAllLocales({ processingCheckWait: 5000 }).then((processedAsset) => {
           t.ok(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded')
           t.ok(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded')
         })
