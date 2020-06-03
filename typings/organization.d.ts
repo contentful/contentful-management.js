@@ -19,7 +19,7 @@ export interface ContentfulOrganizationAPI {
   createTeam(data: TeamProps): Promise<Team>
   getTeam(teamId: string, id: string): Promise<Team>
   getTeams(teamId: string): Promise<Collection<Team>>
-  createTeamMembership(data: TeamMembershipProps): Promise<TeamMembership>
+  createTeamMembership(teamId: string, data: TeamMembershipProps): Promise<TeamMembership>
   getTeamMembership(teamId: string, id: string): Promise<TeamMembership>
   getTeamMemberships(opts?: TeamMembershipOptions): Promise<Collection<TeamMembership>>
   getTeamSpaceMembership(id: string): Promise<TeamSpaceMembership>

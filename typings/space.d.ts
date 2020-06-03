@@ -659,18 +659,20 @@ export interface ContentfulSpaceAPI {
    * .then((space) => space.createTeamSpaceMembership('team_id', {
    *   admin: false,
    *   roles: [
-   *     {
+   *    {
+          sys: {
    *       type: 'Link',
    *       linkType: 'Role',
    *       id: '<role_id>'
-   *     }
+   *      }
+   *    }
    *   ],
    * }))
    * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
    * .catch(console.error)
    * ```
    */
-  createTeamSpaceMembership(data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>
+  createTeamSpaceMembership(teamId: string, data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>
   /**
    * Creates a UI Extension
    * @deprecated since version 5.0
