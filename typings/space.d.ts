@@ -351,7 +351,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProps): Promise<Entry>
+  createEntry(contentTypeID: string, data: Omit<EntryProps, 'sys'>): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0

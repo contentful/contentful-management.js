@@ -24,8 +24,8 @@ export interface ContentfulEnvironmentAPI {
   createAssetWithId(id: string, data: AssetProps): Promise<Asset>
   createContentType(data: ContentTypeProps): Promise<ContentType>
   createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
-  createEntry(contentTypeId: string, data: EntryProps): Promise<Entry>
-  createEntryWithId(contentTypeId: string, id: string, data: EntryProps): Promise<Entry>
+  createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>): Promise<Entry>
+  createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProps, 'sys'>): Promise<Entry>
   createLocale(data: CreateLocaleProps): Promise<Locale>
   createUiExtension(data: UIExtensionProps): Promise<UIExtension>
   createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>
