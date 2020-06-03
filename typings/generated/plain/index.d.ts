@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { SpaceProps } from '../types/space';
 import { EnvironmentProps } from '../types/environment';
 import { ContentTypeProps } from '../types/content-type';
@@ -6,8 +6,18 @@ import { EntryProps, CreateEntryProps } from '../types/entry';
 import { UserProps } from '../entities/user';
 import { LocaleProps } from '../types/locale';
 import { CollectionProp, QueryOptions } from '../types/common-types';
+declare function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig): Promise<T>;
+declare function post<T = any>(http: AxiosInstance, url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>;
+declare function put<T = any>(http: AxiosInstance, url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>;
+declare function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig): Promise<T>;
 export declare type QueryParams = {
     query?: QueryOptions;
+};
+export declare const raw: {
+    get: typeof get;
+    post: typeof post;
+    put: typeof put;
+    delete: typeof del;
 };
 /**
  * Space
@@ -23,19 +33,31 @@ export declare const space: {
 export declare type GetEnvironmentParams = GetSpaceParams & {
     environmentId: string;
 };
+/**
+ * Environment
+ */
 export declare const environment: {
     get(http: AxiosInstance, params: GetEnvironmentParams): Promise<EnvironmentProps>;
     update(http: AxiosInstance, params: GetEnvironmentParams, raw: EnvironmentProps): Promise<EnvironmentProps>;
 };
+/**
+ * Content type
+ */
 export declare type GetManyContentTypesParams = GetEnvironmentParams & QueryParams;
 export declare const contentType: {
     getMany(http: AxiosInstance, params: GetManyContentTypesParams): Promise<CollectionProp<ContentTypeProps>>;
 };
+/**
+ * User
+ */
 export declare type GetManyUsersParams = GetSpaceParams & QueryParams;
 export declare const user: {
     getManyForSpace(http: AxiosInstance, params: GetManyUsersParams): Promise<CollectionProp<UserProps>>;
 };
 export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
+/**
+ * Entry
+ */
 export declare const entry: {
     get(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
@@ -67,6 +89,10 @@ export declare const entry: {
         contentTypeId: string;
     }, raw: CreateEntryProps): Promise<EntryProps<Record<string, any>>>;
 };
+/**
+ * Locale
+ */
 export declare const locale: {
     getMany(http: AxiosInstance, params: GetEnvironmentParams & QueryParams): Promise<CollectionProp<LocaleProps>>;
 };
+export {};

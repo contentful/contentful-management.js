@@ -106,4 +106,11 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
     locale: {
         getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;
     };
+    raw: {
+        getDefaultParams: () => DefaultParams | undefined;
+        get: (url: string, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        post: (url: string, payload?: any, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        put: (url: string, payload?: any, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        delete: (url: string, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+    };
 };

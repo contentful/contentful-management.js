@@ -71,6 +71,13 @@ function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
 
 export type QueryParams = { query?: QueryOptions }
 
+export const raw = {
+  get: get,
+  post: post,
+  put: put,
+  delete: del,
+}
+
 /**
  * Space
  */
@@ -96,6 +103,10 @@ export const space = {
 
 export type GetEnvironmentParams = GetSpaceParams & { environmentId: string }
 
+/**
+ * Environment
+ */
+
 export const environment = {
   get(http: AxiosInstance, params: GetEnvironmentParams) {
     return get<EnvironmentProps>(
@@ -119,6 +130,10 @@ export const environment = {
   },
 }
 
+/**
+ * Content type
+ */
+
 export type GetManyContentTypesParams = GetEnvironmentParams & QueryParams
 
 export const contentType = {
@@ -133,6 +148,10 @@ export const contentType = {
   },
 }
 
+/**
+ * User
+ */
+
 export type GetManyUsersParams = GetSpaceParams & QueryParams
 
 export const user = {
@@ -144,6 +163,10 @@ export const user = {
 }
 
 export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
+
+/**
+ * Entry
+ */
 
 export const entry = {
   get(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string } & QueryParams) {
@@ -253,6 +276,10 @@ export const entry = {
     )
   },
 }
+
+/**
+ * Locale
+ */
 
 export const locale = {
   getMany(http: AxiosInstance, params: GetEnvironmentParams & QueryParams) {

@@ -2,6 +2,9 @@ import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './index'
 import { wrap, DefaultParams } from './wrappers/wrap'
 
+type ArgsType<T> = T extends (...args: infer U) => any ? U : never
+type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
+
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params)
   const wrapParams = { http, defaults }
@@ -36,6 +39,22 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     locale: {
       getMany: wrap(wrapParams, endpoints.locale.getMany),
+    },
+
+    raw: {
+      getDefaultParams: () => defaults,
+      get: (...args: RestParamsType<typeof endpoints.raw.get>) => {
+        return endpoints.raw.get(http, ...args)
+      },
+      post: (...args: RestParamsType<typeof endpoints.raw.post>) => {
+        return endpoints.raw.post(http, ...args)
+      },
+      put: (...args: RestParamsType<typeof endpoints.raw.put>) => {
+        return endpoints.raw.put(http, ...args)
+      },
+      delete: (...args: RestParamsType<typeof endpoints.raw.delete>) => {
+        return endpoints.raw.delete(http, ...args)
+      },
     },
   }
 }
