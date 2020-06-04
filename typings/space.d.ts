@@ -21,7 +21,7 @@ import { Stream } from 'stream'
 import { Snapshot } from './snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
-import { PreviewApiKey } from './previewApiKey'
+import { PreviewApiKey } from './generated/entities/preview-api-key'
 import { User } from './generated/entities/user'
 
 export interface SpaceProps {
