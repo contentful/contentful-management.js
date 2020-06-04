@@ -5,7 +5,7 @@ import entities from './entities'
 import * as endpoints from './plain'
 import type { ContentType, CreateContentTypeProps } from './entities/content-type'
 import type { QueryOptions } from './common-types'
-import type { EntryProp, Entry } from './entities/entry'
+import type { EntryProps, Entry, CreateEntryProps } from './entities/entry'
 import type { CreateLocaleProps } from './entities/locale'
 import type { AssetFileProp, AssetProps } from './entities/asset'
 import type { UIExtensionProps } from './entities/ui-extension'
@@ -153,7 +153,7 @@ export default function createEnvironmentApi({
      * });
      * ```
      **/
-    getEntryFromData(entryData: EntryProp) {
+    getEntryFromData(entryData: EntryProps) {
       return wrapEntry(http, entryData)
     },
     /**
@@ -358,10 +358,15 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntry(id: string, query: QueryOptions = {}) {
-      normalizeSelect(query)
-      return http
-        .get('entries/' + id, createRequestConfig({ query: query }))
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -420,14 +425,19 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
-      return http
-        .post('entries', data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
+    createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            contentTypeId: contentTypeId,
           },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -457,14 +467,20 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
-      return http
-        .put('entries/' + id, data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
+    createEntryWithId(contentTypeId: string, id: string, data: CreateEntryProps) {
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            entryId: id,
+            contentTypeId: contentTypeId,
           },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -739,9 +755,13 @@ export default function createEnvironmentApi({
      * ```
      */
     getLocales() {
-      return http
-        .get('locales')
-        .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.locale
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        })
+        .then((data) => wrapLocaleCollection(http, data))
     },
     /**
      * Creates a Locale
