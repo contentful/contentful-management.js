@@ -69,18 +69,18 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
 }
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw UI Extension data
- * @return {UiExtension} Wrapped UI Extension data
+ * @param http - HTTP client instance
+ * @param data - Raw UI Extension data
+ * @return Wrapped UI Extension data
  */
 export declare function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): UIExtensionProps & {
     toPlainObject(): UIExtensionProps;
 };
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw UI Extension collection data
- * @return {UiExtensionCollection} Wrapped UI Extension collection data
+ * @param http - HTTP client instance
+ * @param data - Raw UI Extension collection data
+ * @return Wrapped UI Extension collection data
  */
 export declare function wrapUiExtensionCollection(http: AxiosInstance, data: CollectionProp<UIExtensionProps>): CollectionProp<UIExtensionProps> & {
     toPlainObject(): CollectionProp<UIExtensionProps>;

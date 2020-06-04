@@ -35,7 +35,7 @@ export interface TeamSpaceMembership
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -47,12 +47,14 @@ export interface TeamSpaceMembership
    * .then((teamSpaceMembership) => teamSpaceMembership.delete())
    * .then(() => console.log(`spaceMembership deleted.`))
    * .catch(console.error)
+   * ```
    */
   delete(): Promise<void>
+
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @return Object returned from the server with updated changes.
-   * @example
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -74,6 +76,7 @@ export interface TeamSpaceMembership
    *  })
    *  .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
    *  .catch(console.error)
+   *  ```
    */
   update(): Promise<TeamSpaceMembership>
 }
@@ -81,7 +84,7 @@ export interface TeamSpaceMembership
 function createTeamSpaceMembershipApi(http: AxiosInstance) {
   return {
     update: function () {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as TeamSpaceMembershipProps
       const data = cloneDeep(raw)
       delete data.sys
 

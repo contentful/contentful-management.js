@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { DefaultElements, MetaSysProps, QueryOptions, CollectionProp } from '../common-types'
+import { DefaultElements, MetaSysProps, QueryOptions, CollectionProp, MetaLinkProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
 export interface Options {
@@ -14,7 +14,7 @@ export type TeamMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { team: { sys: MetaLinkProps } }
 
   /**
    * Is admin
@@ -28,30 +28,50 @@ export type TeamMembershipProps = {
 }
 
 export interface TeamMembership extends TeamMembershipProps, DefaultElements<TeamMembershipProps> {
+  /**
+   * Deletes this object on the server.
+   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   *
+   * client.getOrganization('organizationId')
+   * .then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
+   * .then((teamMembership) => {
+   *  teamMembership.delete();
+   * })
+   * .catch(console.error)
+   * ```
+   */
   delete(): Promise<void>
+
+  /**
+   * Sends an update to the server with any changes made to the object's properties
+   * @return Object returned from the server with updated changes.
+   * @example ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   *
+   * client.getOrganization('organizationId')
+   * .then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
+   * .then((teamMembership) => {
+   *  teamMembership.admin = true;
+   *  teamMembership.update();
+   * })
+   * .catch(console.error)
+   * ```
+   */
   update(): Promise<TeamMembership>
 }
 
 function createTeamMembershipApi(http: AxiosInstance) {
   return {
-    /**
-     * Sends an update to the server with any changes made to the object's properties
-     * @return {Promise<TeamMembership>} Object returned from the server with updated changes.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organizationId')
-     * .then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-     * .then((teamMembership) => {
-     *  teamMembership.admin = true;
-     *  teamMembership.update();
-     * })
-     * .catch(console.error)
-     */
     update: function () {
       const raw = this.toPlainObject()
       const teamId = raw.sys.team.sys.id
@@ -64,23 +84,6 @@ function createTeamMembershipApi(http: AxiosInstance) {
         .then((response) => wrapTeamMembership(http, response.data), errorHandler)
     },
 
-    /**
-     * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('organizationId')
-     * .then(org => org.getTeamMembership('teamId', 'teamMembershipId'))
-     * .then((teamMembership) => {
-     *  teamMembership.delete();
-     * })
-     * .catch(console.error)
-     */
     delete: function () {
       const raw = this.toPlainObject()
       const teamId = raw.sys.team.sys.id

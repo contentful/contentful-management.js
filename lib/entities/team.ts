@@ -25,8 +25,8 @@ export type TeamProps = {
 export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
    * Deletes this object on the server.
-   * @return {Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example
+   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -39,13 +39,14 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
    *  team.delete();
    * })
    * .catch(console.error)
+   * ```
    */
   delete(): Promise<void>
 
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @return Object returned from the server with updated changes.
-   * @example
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -59,6 +60,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
    *  team.update();
    * })
    * .catch(console.error)
+   * ```
    */
   update(): Promise<Team>
 }
