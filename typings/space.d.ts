@@ -11,9 +11,9 @@ import { Asset, AssetProps, AssetFileProp } from './asset'
 import { ContentType, ContentTypeProps } from './contentType'
 import { EntryProp, Entry } from './entry'
 import { LocaleProps, Locale } from './locale'
-import { SpaceMember } from './spaceMember'
+import { SpaceMember } from './generated/entities/space-member'
 import { Role, RoleProps } from './generated/entities/role'
-import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
+import { SpaceMembershipProps, SpaceMembership } from './generated/entities/space-membership'
 import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMembership'
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
 import { Upload } from './upload'
@@ -609,7 +609,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembership(data: SpaceMembershipProps): Promise<SpaceMembership>
+  createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>): Promise<SpaceMembership>
   /**
    * Creates a Space Membership with a custom ID
    * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
@@ -639,7 +639,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembershipWithId(id: string, data: SpaceMembershipProps): Promise<SpaceMembership>
+  createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>): Promise<SpaceMembership>
   /**
    * Creates a Team Space Membership
    * @param id - Team ID
