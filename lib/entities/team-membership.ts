@@ -1,38 +1,41 @@
-/**
- * TeamMembership instances
- * @namespace TeamMembership
- */
-
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
+import { DefaultElements, MetaSysProps, QueryOptions, CollectionProp } from '../common-types'
+import { AxiosInstance } from 'axios'
 
-/**
- * @memberof TeamMembership
- * @typedef TeamMembership
- * @prop {Meta.Sys} sys - System metadata
- * @prop {boolean} admin - User is an admin
- * @prop {function(): Object} toPlainObject() - Returns this Team Membership as a plain JS object
- */
+export interface Options {
+  teamId?: string
+  query?: QueryOptions
+}
 
-/**
- * @memberof TeamMembership
- * @typedef TeamMembershipCollection
- * @prop {number} total
- * @prop {number} limit
- * @prop {number} skip
- * @prop {Object<{type: "Array"}>} sys
- * @prop {Array<TeamMembership.TeamMembership>} items
- * @prop {function(): Object} toPlainObject() - Returns the collection as a plain JS object
- */
+export type TeamMembershipProps = {
+  /**
+   * System metadata
+   */
+  sys: MetaSysProps
 
-function createTeamMembershipApi(http) {
+  /**
+   * Is admin
+   */
+  admin: boolean
+
+  /**
+   * Organization membership id
+   */
+  organizationMembershipId: string
+}
+
+export interface TeamMembership extends TeamMembershipProps, DefaultElements<TeamMembershipProps> {
+  delete(): Promise<void>
+  update(): Promise<TeamMembership>
+}
+
+function createTeamMembershipApi(http: AxiosInstance) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof TeamMembership
-     * @func update
      * @return {Promise<TeamMembership>} Object returned from the server with updated changes.
      * @example
      * const contentful = require('contentful-management')
@@ -49,7 +52,6 @@ function createTeamMembershipApi(http) {
      * })
      * .catch(console.error)
      */
-
     update: function () {
       const raw = this.toPlainObject()
       const teamId = raw.sys.team.sys.id
@@ -64,9 +66,7 @@ function createTeamMembershipApi(http) {
 
     /**
      * Deletes this object on the server.
-     * @memberof TeamMembership
-     * @func delete
-     * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
      * const contentful = require('contentful-management')
      *
@@ -81,23 +81,22 @@ function createTeamMembershipApi(http) {
      * })
      * .catch(console.error)
      */
-
     delete: function () {
       const raw = this.toPlainObject()
       const teamId = raw.sys.team.sys.id
-      return http
-        .delete('teams/' + teamId + '/team_memberships/' + this.sys.id)
-        .then(() => {}, errorHandler)
+      return http.delete('teams/' + teamId + '/team_memberships/' + this.sys.id).then(() => {
+        // do nothing
+      }, errorHandler)
     },
   }
 }
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw team membership data
- * @return {TeamMembership} Wrapped team membership data
+ * @param http - HTTP client instance
+ * @param data - Raw team membership data
+ * @return Wrapped team membership data
  */
-export function wrapTeamMembership(http, data) {
+export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps) {
   const teamMembership = toPlainObject(cloneDeep(data))
   enhanceWithMethods(teamMembership, createTeamMembershipApi(http))
   return freezeSys(teamMembership)
@@ -105,11 +104,14 @@ export function wrapTeamMembership(http, data) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw team membership collection data
- * @return {TeamMembershipCollection} Wrapped team membership collection data
+ * @param http - HTTP client instance
+ * @param data - Raw team membership collection data
+ * @return Wrapped team membership collection data
  */
-export function wrapTeamMembershipCollection(http, data) {
+export function wrapTeamMembershipCollection(
+  http: AxiosInstance,
+  data: CollectionProp<TeamMembershipProps>
+) {
   const teamMemberships = toPlainObject(cloneDeep(data))
   teamMemberships.items = teamMemberships.items.map((entity) => wrapTeamMembership(http, entity))
   return freezeSys(teamMemberships)
