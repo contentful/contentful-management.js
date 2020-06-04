@@ -11,12 +11,11 @@ import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessTo
 import { Space, SpaceProps } from './space'
 import { Collection } from './generated/types/common-types'
 import { Organization } from './organization'
-import { UsageMetricEnum, Usage, UsageQuery } from './generated/entities/usage'
+import {  Usage, UsageQuery } from './generated/entities/usage'
 
 export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
 export { createPlainClient } from './generated/plain/plain-client'
 
-export as namespace contentfulManagementStatic
 
 /**
  * Create a client instance

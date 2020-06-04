@@ -11,14 +11,14 @@ import { Asset, AssetProps, AssetFileProp } from './asset'
 import { ContentType } from './contentType'
 import {  ContentTypeProps} from './generated/types/content-type'
 import { LocaleProps } from './generated/types/locale'
-import { EntryProps } from './generated/types/entry'
+import { EntryProps, CreateEntryProps } from './generated/types/entry'
 import { Entry } from './entry'
 import { Locale } from './locale'
 import { SpaceMember } from './spaceMember'
 import { Role, RoleProps } from './role'
 import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
 import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMembership'
-import { UIExtension, UIExtensionProps } from './uiExtension'
+import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
 import { Upload } from './upload'
 import { Stream } from 'stream'
 import { Snapshot } from './snapshot'
@@ -351,7 +351,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProps): Promise<Entry>
+  createEntry(contentTypeID: string, data: CreateEntryProps): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -379,7 +379,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProps): Promise<Entry>
+  createEntryWithId(contentTypeID: string, id: string, data: CreateEntryProps): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created
@@ -659,18 +659,20 @@ export interface ContentfulSpaceAPI {
    * .then((space) => space.createTeamSpaceMembership('team_id', {
    *   admin: false,
    *   roles: [
-   *     {
+   *    {
+          sys: {
    *       type: 'Link',
    *       linkType: 'Role',
    *       id: '<role_id>'
-   *     }
+   *      }
+   *    }
    *   ],
    * }))
    * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
    * .catch(console.error)
    * ```
    */
-  createTeamSpaceMembership(data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>
+  createTeamSpaceMembership(teamId: string, data: TeamSpaceMembershipProps): Promise<TeamSpaceMembership>
   /**
    * Creates a UI Extension
    * @deprecated since version 5.0

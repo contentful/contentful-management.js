@@ -18,7 +18,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         getManyForSpace: (params: Pick<endpoints.GetManyUsersParams, "query"> & Partial<Pick<endpoints.GetManyUsersParams, "spaceId">>) => Promise<import("../types/common-types").CollectionProp<import("../entities/user").UserProps>>;
     };
     entry: {
-        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps>>;
+        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps<Record<string, any>>>>;
         get: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -27,7 +27,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        } & endpoints.QueryParams, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        } & endpoints.QueryParams, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
         update: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -36,7 +36,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps) => Promise<import("../types/entry").EntryProps>;
+        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<Record<string, any>>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
         delete: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -54,7 +54,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps) => Promise<import("../types/entry").EntryProps>;
+        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<Record<string, any>>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
         unpublish: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -63,7 +63,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
         archive: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -72,7 +72,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
         unarchive: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -81,9 +81,36 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps>;
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
+        create: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            contentTypeId: string;
+        }, "contentTypeId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            contentTypeId: string;
+        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<Record<string, any>>, "fields">) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
+        createWithId: (params: Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+            contentTypeId: string;
+        }, "entryId" | "contentTypeId"> & Partial<Pick<endpoints.GetSpaceParams & {
+            environmentId: string;
+        } & {
+            entryId: string;
+            contentTypeId: string;
+        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<Record<string, any>>, "fields">) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
     };
     locale: {
         getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;
+    };
+    raw: {
+        getDefaultParams: () => DefaultParams | undefined;
+        get: (url: string, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        post: (url: string, payload?: any, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        put: (url: string, payload?: any, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
+        delete: (url: string, config?: import("axios").AxiosRequestConfig | undefined) => Promise<any>;
     };
 };
