@@ -10,7 +10,7 @@ import errorHandler from './error-handler'
 import entities from './entities'
 import { EnvironmentProps } from './entities/environment'
 import { CreateContentTypeProps } from './entities/content-type'
-import { EntryProp } from './entities/entry'
+import { EntryProps } from './entities/entry'
 import { AssetProps, AssetFileProp } from './entities/asset'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
@@ -490,7 +490,7 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
+    createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
       raiseDeprecationWarning('createEntry')
       return http
         .post('entries', data, {
@@ -527,7 +527,7 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
+    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProps, 'sys'>) {
       raiseDeprecationWarning('createEntryWithId')
       return http
         .put('entries/' + id, data, {
