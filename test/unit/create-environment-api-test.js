@@ -260,7 +260,11 @@ test('API call createEntryWithId', (t) => {
 
   return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
     t.looseEqual(r, entryMock)
-    t.equals(httpMock.put.args[0][0], 'entries/entryId', 'entry id is sent')
+    t.equals(
+      httpMock.put.args[0][0],
+      '/spaces/id/environments/id/entries/entryId',
+      'entry id is sent'
+    )
     t.looseEqual(httpMock.put.args[0][1], entryMock, 'data is sent')
     t.equals(
       httpMock.put.args[0][2].headers['X-Contentful-Content-Type'],

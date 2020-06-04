@@ -356,10 +356,15 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntry(id: string, query: QueryOptions = {}) {
-      normalizeSelect(query)
-      return http
-        .get('entries/' + id, createRequestConfig({ query: query }))
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -419,13 +424,18 @@ export default function createEnvironmentApi({
      * ```
      */
     createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
-      return http
-        .post('entries', data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            contentTypeId: contentTypeId,
           },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -456,13 +466,19 @@ export default function createEnvironmentApi({
      * ```
      */
     createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
-      return http
-        .put('entries/' + id, data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            entryId: id,
+            contentTypeId: contentTypeId,
           },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapEntry(http, data))
     },
 
     /**
@@ -737,9 +753,13 @@ export default function createEnvironmentApi({
      * ```
      */
     getLocales() {
-      return http
-        .get('locales')
-        .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.locale
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        })
+        .then((data) => wrapLocaleCollection(http, data))
     },
     /**
      * Creates a Locale

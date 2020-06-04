@@ -19,21 +19,27 @@ import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import { BasicMetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types'
 
-export interface EntrySys extends BasicMetaSysProps {
-  space: { sys: MetaLinkProps }
-  contentType: { sys: MetaLinkProps }
-  environment: { sys: MetaLinkProps }
-  publishedBy?: { sys: MetaLinkProps }
-  publishedVersion?: number
-  publishedAt?: string
-  firstPublishedAt?: string
-  publishedCounter?: number
+type KeyValueMap = Record<string, any>
+
+export interface EntryProp<TFields = KeyValueMap> {
+  fields: TFields
 }
 
-export type EntryProp = {
-  sys: EntrySys
-  fields: Record<string, any>
+export interface EntryProps<TFields = KeyValueMap> {
+  sys: BasicMetaSysProps & {
+    space: { sys: MetaLinkProps }
+    contentType: { sys: MetaLinkProps }
+    environment: { sys: MetaLinkProps }
+    publishedBy?: { sys: MetaLinkProps }
+    publishedVersion?: number
+    publishedAt?: string
+    firstPublishedAt?: string
+    publishedCounter?: number
+  }
+  fields: TFields
 }
+
+export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
 type EntryApi = {
   /**
