@@ -5,7 +5,7 @@ import { ContentType,  } from './contentType'
 import { Entry } from './entry'
 
 import { Locale, CreateLocaleProps } from './locale'
-import { UIExtensionProps, UIExtension } from './uiExtension'
+import { UIExtensionProps, UIExtension } from './generated/entities/ui-extension'
 import { Stream } from 'stream'
 import { Upload } from './upload'
 import { EditorInterface } from './generated/entities/editor-interface'

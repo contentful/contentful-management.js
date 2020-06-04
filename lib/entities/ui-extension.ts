@@ -1,7 +1,13 @@
-import { MetaSys, MetaSysProps, DefaultElements } from './generated/types/common-types'
-import { EntryFields } from './entryFields'
+import cloneDeep from 'lodash/cloneDeep'
+import { AxiosInstance } from 'axios'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import enhanceWithMethods from '../enhance-with-methods'
+import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
+import { EntryFields } from './entry-fields'
+import { CollectionProp, DefaultElements, MetaSysProps } from '../types/common-types'
 
-export interface UIExtensionProps {
+export type UIExtensionProps = {
+  sys: MetaSysProps
   extension: {
     /**
      * Extension name
@@ -26,10 +32,7 @@ export interface UIExtensionProps {
   }
 }
 
-export interface UIExtension
-  extends UIExtensionProps,
-    DefaultElements<UIExtensionProps & MetaSys<MetaSysProps>>,
-    MetaSys<MetaSysProps> {
+export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensionProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @return Object returned from the server with updated changes.
@@ -69,4 +72,45 @@ export interface UIExtension
    * ```
    */
   delete(): Promise<void>
+}
+
+function createUiExtensionApi(http: AxiosInstance) {
+  return {
+    update: createUpdateEntity({
+      http: http,
+      entityPath: 'extensions',
+      wrapperMethod: wrapUiExtension,
+    }),
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'extensions',
+    }),
+  }
+}
+
+/**
+ * @private
+ * @param http - HTTP client instance
+ * @param data - Raw UI Extension data
+ * @return Wrapped UI Extension data
+ */
+export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps) {
+  const uiExtension = toPlainObject(cloneDeep(data))
+  enhanceWithMethods(uiExtension, createUiExtensionApi(http))
+  return freezeSys(uiExtension)
+}
+
+/**
+ * @private
+ * @param http - HTTP client instance
+ * @param data - Raw UI Extension collection data
+ * @return Wrapped UI Extension collection data
+ */
+export function wrapUiExtensionCollection(
+  http: AxiosInstance,
+  data: CollectionProp<UIExtensionProps>
+) {
+  const uiExtensions = toPlainObject(cloneDeep(data))
+  uiExtensions.items = uiExtensions.items.map((entity) => wrapUiExtension(http, entity))
+  return freezeSys(uiExtensions)
 }
