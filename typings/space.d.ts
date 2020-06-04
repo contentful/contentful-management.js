@@ -12,7 +12,7 @@ import { ContentType, ContentTypeProps } from './contentType'
 import { EntryProp, Entry } from './entry'
 import { LocaleProps, Locale } from './locale'
 import { SpaceMember } from './spaceMember'
-import { Role, RoleProps } from './role'
+import { Role, RoleProps } from './generated/entities/role'
 import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
 import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMembership'
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
@@ -491,7 +491,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRole(data: RoleProps): Promise<Role>
+  createRole(data: Omit<RoleProps, 'sys'>): Promise<Role>
   /**
    * Creates a Role with a custom ID
    * @param id - Role ID
@@ -539,7 +539,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRoleWithId(id: string, ata: RoleProps): Promise<Role>
+  createRoleWithId(id: string, ata: Omit<RoleProps, 'sys'>): Promise<Role>
   /**
    * Gets a Role
    * @param id - Role ID
