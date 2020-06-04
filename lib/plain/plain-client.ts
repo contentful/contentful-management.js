@@ -2,7 +2,6 @@ import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './index'
 import { wrap, DefaultParams } from './wrappers/wrap'
 
-type ArgsType<T> = T extends (...args: infer U) => any ? U : never
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
