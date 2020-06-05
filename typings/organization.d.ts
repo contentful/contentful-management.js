@@ -1,4 +1,4 @@
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
+import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { AppDefinition, AppDefinitionProps } from './generated/entities/app-definition'
 import {OrganizationInvitation, OrganizationInvitationProps} from './organizationInvitation';
 import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './generated/entities/team-membership'
@@ -29,7 +29,7 @@ export interface ContentfulOrganizationAPI {
   ): Promise<Collection<TeamSpaceMembership>>
   getOrganizationInvitation(id: string): Promise<OrganizationInvitation>
   createOrganizationInvitation(data: OrganizationInvitationProps): Promise<OrganizationInvitation>
-  getOrganizationMemberships(opts?: OrganizationMembershipOptions): Promise<Collection<OrganizationMembership>>
+  getOrganizationMemberships(query?: QueryOptions): Promise<Collection<OrganizationMembership>>
   getOrganizationMembership(id: string): Promise<OrganizationMembership>
 }
 

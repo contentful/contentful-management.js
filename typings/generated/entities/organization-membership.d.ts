@@ -1,8 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, QueryOptions, DefaultElements, CollectionProp } from '../common-types';
-export interface Options {
-    query?: QueryOptions;
-}
+import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
 export declare type OrganizationMembershipProps = {
     /**
      * System metadata
@@ -20,10 +17,8 @@ export declare type OrganizationMembershipProps = {
 export interface OrganizationMembership extends OrganizationMembershipProps, DefaultElements<OrganizationMembershipProps> {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @memberof OrganizationMembership
-     * @func update
-     * @return {Promise<OrganizationMembership>} Object returned from the server with updated changes.
-     * @example
+     * @return Object returned from the server with updated changes.
+     * @example ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({

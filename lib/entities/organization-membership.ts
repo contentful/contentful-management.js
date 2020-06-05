@@ -4,11 +4,8 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
-import { MetaSysProps, QueryOptions, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
 
-export interface Options {
-  query?: QueryOptions
-}
 export type OrganizationMembershipProps = {
   /**
    * System metadata
@@ -31,10 +28,8 @@ export interface OrganizationMembership
     DefaultElements<OrganizationMembershipProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @memberof OrganizationMembership
-   * @func update
-   * @return {Promise<OrganizationMembership>} Object returned from the server with updated changes.
-   * @example
+   * @return Object returned from the server with updated changes.
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -74,16 +69,17 @@ export interface OrganizationMembership
 function createOrganizationMembershipApi(http: AxiosInstance) {
   return {
     update: function () {
-      const raw = this.toPlainObject()
+      const self = this as OrganizationMembership
+      const raw = self.toPlainObject()
       const { role } = raw
 
       return http
         .put(
-          'organization_memberships' + '/' + this.sys.id,
+          'organization_memberships' + '/' + self.sys.id,
           { role },
           {
             headers: {
-              'X-Contentful-Version': this.sys.version || 0,
+              'X-Contentful-Version': self.sys.version || 0,
             },
           }
         )
