@@ -1,9 +1,9 @@
 import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
 import { AppDefinition, AppDefinitionProps } from './generated/entities/app-definition'
 import {OrganizationInvitation, OrganizationInvitationProps} from './organizationInvitation';
-import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './teamMembership'
-import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './teamSpaceMembership'
-import { Team, TeamProps } from './team'
+import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './generated/entities/team-membership'
+import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './generated/entities/team-space-membership'
+import { Team, TeamProps } from './generated/entities/team'
 import { User } from './generated/entities/user'
 
 export interface OrganizationProp {
