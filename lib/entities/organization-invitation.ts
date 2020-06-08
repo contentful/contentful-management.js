@@ -1,0 +1,30 @@
+import cloneDeep from 'lodash/cloneDeep'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import { AxiosInstance } from 'axios'
+import { MetaLinkProps, DefaultElements } from '../common-types'
+
+export type OrganizationInvitationProps = {
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+}
+
+export interface OrganizationInvitation
+  extends OrganizationInvitationProps,
+    DefaultElements<OrganizationInvitationProps> {
+  organizationMembership: { sys: MetaLinkProps }
+  user: Record<string, any> | null
+  invitationUrl: string
+}
+
+/**
+ * @private
+ * @param {Object} http - HTTP client instance
+ * @param {Object} data - Raw invitation data
+ * @return {OrganizationInvitation} Wrapped Inviation data
+ */
+export function wrapOrganizationInvitation(http: AxiosInstance, data: OrganizationInvitationProps) {
+  const invitation = toPlainObject(cloneDeep(data))
+  return freezeSys(invitation)
+}
