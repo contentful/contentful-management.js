@@ -30,7 +30,6 @@ module.exports = {
       rules: {
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-use-before-define': 'off',
-        '@typescript-eslint/ban-ts-ignore': 'off', // TODO remove as soon as create-organization-api is converted to ts
         '@typescript-eslint/no-this-alias': [
           'error',
           {

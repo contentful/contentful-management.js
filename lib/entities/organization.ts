@@ -1,6 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+// eslint-disable-next-line
 // @ts-ignore
 import createOrganizationApi from '../create-organization-api'
 import { AxiosInstance } from 'axios'
