@@ -20,8 +20,8 @@ export interface OrganizationInvitation
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw invitation data
+ * @param http - HTTP client instance
+ * @param data - Raw invitation data
  * @return {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(http: AxiosInstance, data: OrganizationInvitationProps) {
