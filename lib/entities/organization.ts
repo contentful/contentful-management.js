@@ -23,8 +23,8 @@ export type OrganizationProp = {
  * http client with an organization id, so the base path for requests now has the
  * organization id already set.
  * @private
- * @param  {Object} http - HTTP client instance
- * @param  {Object} data - API response for a Organization
+ * @param http - HTTP client instance
+ * @param data - API response for an Organization
  * @return {Organization}
  */
 export function wrapOrganization(http: AxiosInstance, data: OrganizationProp) {
@@ -44,8 +44,8 @@ export function wrapOrganization(http: AxiosInstance, data: OrganizationProp) {
 /**
  * This method normalizes each organization in a collection.
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization collection data
+ * @param http - HTTP client instance
+ * @param data - Raw organization collection data
  * @return {OrganizationCollection} Normalized organization collection data
  */
 export function wrapOrganizationCollection(
