@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-// @ts-expect-error
+// @ts-ignore
 import createOrganizationApi from '../create-organization-api'
 import { AxiosInstance } from 'axios'
 import { MetaSysProps, CollectionProp } from '../common-types'
