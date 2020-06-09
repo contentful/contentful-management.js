@@ -6,10 +6,7 @@ import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './ge
 import { Team, TeamProps } from './generated/entities/team'
 import { User } from './generated/entities/user'
 import { OrganizationMembership } from './generated/entities/organization-membership'
-
-export interface OrganizationProp {
-  name: string
-}
+import {OrganizationProp} from './generated/entities/organization';
 
 export interface ContentfulOrganizationAPI {
   createAppDefinition(data: AppDefinitionProps): Promise<AppDefinition>
