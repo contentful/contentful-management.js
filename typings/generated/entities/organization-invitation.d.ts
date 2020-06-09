@@ -1,17 +1,20 @@
 import { AxiosInstance } from 'axios';
-import { MetaLinkProps, DefaultElements } from '../common-types';
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types';
 export declare type OrganizationInvitationProps = {
+    sys: MetaSysProps & {
+        organizationMembership: {
+            sys: MetaLinkProps;
+        };
+        user: Record<string, any> | null;
+        invitationUrl: string;
+        status: string;
+    };
     firstName: string;
     lastName: string;
     email: string;
     role: string;
 };
 export interface OrganizationInvitation extends OrganizationInvitationProps, DefaultElements<OrganizationInvitationProps> {
-    organizationMembership: {
-        sys: MetaLinkProps;
-    };
-    user: Record<string, any> | null;
-    invitationUrl: string;
 }
 /**
  * @private

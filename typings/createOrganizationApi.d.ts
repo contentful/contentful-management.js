@@ -6,7 +6,7 @@ import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './ge
 import { Team, TeamProps } from './generated/entities/team'
 import { User } from './generated/entities/user'
 import { OrganizationMembership } from './generated/entities/organization-membership'
-import {OrganizationProp} from './generated/entities/organization';
+import { OrganizationProp } from './generated/entities/organization';
 
 export interface ContentfulOrganizationAPI {
   createAppDefinition(data: AppDefinitionProps): Promise<AppDefinition>
@@ -25,7 +25,7 @@ export interface ContentfulOrganizationAPI {
     opts?: TeamSpaceMembershipOptions
   ): Promise<Collection<TeamSpaceMembership>>
   getOrganizationInvitation(id: string): Promise<OrganizationInvitation>
-  createOrganizationInvitation(data: OrganizationInvitationProps): Promise<OrganizationInvitation>
+  createOrganizationInvitation(data: Omit<OrganizationInvitationProps, 'sys'>): Promise<OrganizationInvitation>
   getOrganizationMemberships(query?: QueryOptions): Promise<Collection<OrganizationMembership>>
   getOrganizationMembership(id: string): Promise<OrganizationMembership>
 }

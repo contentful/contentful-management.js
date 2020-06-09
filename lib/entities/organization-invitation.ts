@@ -1,9 +1,15 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { AxiosInstance } from 'axios'
-import { MetaLinkProps, DefaultElements } from '../common-types'
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
 
 export type OrganizationInvitationProps = {
+  sys: MetaSysProps & {
+    organizationMembership: { sys: MetaLinkProps }
+    user: Record<string, any> | null
+    invitationUrl: string
+    status: string
+  }
   firstName: string
   lastName: string
   email: string
@@ -12,11 +18,7 @@ export type OrganizationInvitationProps = {
 
 export interface OrganizationInvitation
   extends OrganizationInvitationProps,
-    DefaultElements<OrganizationInvitationProps> {
-  organizationMembership: { sys: MetaLinkProps }
-  user: Record<string, any> | null
-  invitationUrl: string
-}
+    DefaultElements<OrganizationInvitationProps> {}
 
 /**
  * @private
