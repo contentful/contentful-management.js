@@ -7,6 +7,8 @@ const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 const PROD = process.env.NODE_ENV === 'production'
 
+const presets = (targets) => [['@babel/preset-env', { targets }], '@babel/typescript']
+
 const plugins = [
   new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.EnvironmentPlugin({
@@ -61,7 +63,7 @@ const defaultBabelLoader = {
   include: [path.resolve(__dirname, 'lib'), path.resolve(__dirname, 'test')],
   loader: 'babel-loader',
   options: {
-    presets: ['@babel/typescript'],
+    presets: [],
   },
 }
 
@@ -70,6 +72,9 @@ const browserBundle = clone(baseBundleConfig)
 browserBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
+      presets: presets({
+        browsers: ['last 2 versions', 'not ie < 13', 'not android < 50'],
+      }),
       envName: 'browser',
     }),
   }),
@@ -82,6 +87,9 @@ legacyBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
       envName: 'legacy',
+      presets: presets({
+        browsers: ['last 5 versions', 'not ie < 10'],
+      }),
     }),
   }),
 ]
@@ -102,6 +110,9 @@ nodeBundle.module.rules = [
   Object.assign({}, defaultBabelLoader, {
     options: Object.assign({}, defaultBabelLoader.options, {
       envName: 'node',
+      presets: presets({
+        node: '6',
+      }),
     }),
   }),
 ]
