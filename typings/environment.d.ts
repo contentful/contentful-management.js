@@ -7,7 +7,7 @@ import { Stream } from 'stream'
 import { Upload } from './generated/entities/upload'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { Snapshot } from './snapshot'
-import { Asset, AssetProps, AssetFileProp } from './asset'
+import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { AppInstallation, AppInstallationProps } from './generated/entities/app-installation'
 
 export interface EnvironmentProps {
@@ -16,9 +16,9 @@ export interface EnvironmentProps {
 
 export interface ContentfulEnvironmentAPI {
   createAppInstallation(id: string, data: AppInstallationProps): Promise<AppInstallation>
-  createAsset(data: AssetProps): Promise<Asset>
-  createAssetFromFiles(data: AssetFileProp): Promise<Asset>
-  createAssetWithId(id: string, data: AssetProps): Promise<Asset>
+  createAsset(data: Omit<AssetProps, 'sys'>): Promise<Asset>
+  createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>): Promise<Asset>
+  createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>): Promise<Asset>
   createContentType(data: ContentTypeProps): Promise<ContentType>
   createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
   createEntry(contentTypeId: string, data: EntryProp): Promise<Entry>

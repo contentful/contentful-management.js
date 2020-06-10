@@ -7,7 +7,7 @@
 import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
-import { Asset, AssetProps, AssetFileProp } from './asset'
+import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { ContentType, ContentTypeProps } from './contentType'
 import { EntryProp, Entry } from './entry'
 import { CreateLocaleProps, Locale } from './generated/entities/locale'
@@ -163,7 +163,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAsset(data: AssetProps): Promise<Asset>
+  createAsset(data: Omit<AssetProps, 'sys'>): Promise<Asset>
   /**
    * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
@@ -195,7 +195,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAssetFromFiles(data: AssetFileProp): Promise<Asset>
+  createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>): Promise<Asset>
   /**
    * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
@@ -226,7 +226,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createAssetWithId(id: string, data: AssetProps): Promise<Asset>
+  createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>): Promise<Asset>
   /**
    * Creates a Content Type
    * @deprecated since version 5.0
