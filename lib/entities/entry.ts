@@ -23,9 +23,8 @@ import {
   DefaultElements,
   Collection,
   MetadataProps,
+  KeyValueMap,
 } from '../common-types'
-
-type KeyValueMap = Record<string, any>
 
 export type EntryProps<TFields = KeyValueMap> = {
   sys: BasicMetaSysProps & {

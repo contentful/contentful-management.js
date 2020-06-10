@@ -6,7 +6,7 @@ import { ContentTypeProps } from '../entities/content-type'
 import { EntryProps, CreateEntryProps } from '../entities/entry'
 import { UserProps } from '../entities/user'
 import { LocaleProps } from '../entities/locale'
-import { CollectionProp, QueryOptions } from '../common-types'
+import { CollectionProp, QueryOptions, KeyValueMap } from '../common-types'
 import errorHandler from '../error-handler'
 
 function getBaseUrl(http: AxiosInstance) {
@@ -169,8 +169,11 @@ export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
  */
 
 export const entry = {
-  get(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string } & QueryParams) {
-    return get<EntryProps>(
+  get<T extends KeyValueMap = KeyValueMap>(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string } & QueryParams
+  ) {
+    return get<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
       {
@@ -178,8 +181,8 @@ export const entry = {
       }
     )
   },
-  getMany(http: AxiosInstance, params: GetManyEntriesParams) {
-    return get<CollectionProp<EntryProps>>(
+  getMany<T extends KeyValueMap = KeyValueMap>(http: AxiosInstance, params: GetManyEntriesParams) {
+    return get<CollectionProp<EntryProps<T>>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
       {
@@ -187,10 +190,14 @@ export const entry = {
       }
     )
   },
-  update(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }, raw: EntryProps) {
+  update<T extends KeyValueMap = KeyValueMap>(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string },
+    raw: EntryProps<T>
+  ) {
     const data = cloneDeep(raw)
     delete data.sys
-    return put<EntryProps>(
+    return put<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
       data,
@@ -207,12 +214,12 @@ export const entry = {
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`
     )
   },
-  publish(
+  publish<T extends KeyValueMap = KeyValueMap>(
     http: AxiosInstance,
     params: GetEnvironmentParams & { entryId: string },
-    raw: EntryProps
+    raw: EntryProps<T>
   ) {
-    return put<EntryProps>(
+    return put<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`,
       null,
@@ -223,31 +230,40 @@ export const entry = {
       }
     )
   },
-  unpublish(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
-    return del<EntryProps>(
+  unpublish<T extends KeyValueMap = KeyValueMap>(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string }
+  ) {
+    return del<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`
     )
   },
-  archive(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
-    return put<EntryProps>(
+  archive<T extends KeyValueMap = KeyValueMap>(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string }
+  ) {
+    return put<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
     )
   },
-  unarchive(http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) {
-    return del<EntryProps>(
+  unarchive<T extends KeyValueMap = KeyValueMap>(
+    http: AxiosInstance,
+    params: GetEnvironmentParams & { entryId: string }
+  ) {
+    return del<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
     )
   },
-  create(
+  create<T extends KeyValueMap = KeyValueMap>(
     http: AxiosInstance,
     params: GetEnvironmentParams & { contentTypeId: string },
-    raw: CreateEntryProps
+    raw: CreateEntryProps<T>
   ) {
     const data = cloneDeep(raw)
-    return post<EntryProps>(
+    return post<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
       data,
@@ -258,13 +274,13 @@ export const entry = {
       }
     )
   },
-  createWithId(
+  createWithId<T extends KeyValueMap = KeyValueMap>(
     http: AxiosInstance,
     params: GetEnvironmentParams & { entryId: string; contentTypeId: string },
-    raw: CreateEntryProps
+    raw: CreateEntryProps<T>
   ) {
     const data = cloneDeep(raw)
-    return put<EntryProps>(
+    return put<EntryProps<T>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
       data,
