@@ -1,12 +1,12 @@
 import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { AppDefinition, AppDefinitionProps } from './generated/entities/app-definition'
-import {OrganizationInvitation, OrganizationInvitationProps} from './organizationInvitation';
+import { OrganizationInvitation, OrganizationInvitationProps } from './generated/entities/organizationInvitation';
 import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './generated/entities/team-membership'
 import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './generated/entities/team-space-membership'
 import { Team, TeamProps } from './generated/entities/team'
 import { User } from './generated/entities/user'
 import { OrganizationMembership } from './generated/entities/organization-membership'
-import {OrganizationProp} from './generated/entities/organization';
+import { OrganizationProp } from './generated/entities/organization';
 
 export interface ContentfulOrganizationAPI {
   createAppDefinition(data: AppDefinitionProps): Promise<AppDefinition>
@@ -25,7 +25,7 @@ export interface ContentfulOrganizationAPI {
     opts?: TeamSpaceMembershipOptions
   ): Promise<Collection<TeamSpaceMembership>>
   getOrganizationInvitation(id: string): Promise<OrganizationInvitation>
-  createOrganizationInvitation(data: OrganizationInvitationProps): Promise<OrganizationInvitation>
+  createOrganizationInvitation(data: Omit<OrganizationInvitationProps, 'sys'>): Promise<OrganizationInvitation>
   getOrganizationMemberships(query?: QueryOptions): Promise<Collection<OrganizationMembership>>
   getOrganizationMembership(id: string): Promise<OrganizationMembership>
 }
