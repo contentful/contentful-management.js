@@ -9,22 +9,21 @@ import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './asset'
 import { ContentType } from './contentType'
-import {  ContentTypeProps} from './generated/types/content-type'
-import { LocaleProps } from './generated/types/locale'
-import { EntryProps, CreateEntryProps } from './generated/types/entry'
+import { ContentTypeProps } from './generated/types/content-type'
 import { Entry } from './entry'
-import { Locale } from './locale'
-import { SpaceMember } from './spaceMember'
-import { Role, RoleProps } from './role'
-import { SpaceMembershipProps, SpaceMembership } from './spaceMembership'
-import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMembership'
+import { EntryProps, CreateEntryProps } from './generated/types/entry'
+import { CreateLocaleProps, Locale } from './generated/entities/locale'
+import { SpaceMember } from './generated/entities/space-member'
+import { Role, RoleProps } from './generated/entities/role'
+import { SpaceMembershipProps, SpaceMembership } from './generated/entities/space-membership'
+import { TeamSpaceMembershipProps, TeamSpaceMembership } from './generated/entities/team-space-membership'
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
-import { Upload } from './upload'
+import { Upload } from './generated/entities/upload'
 import { Stream } from 'stream'
 import { Snapshot } from './snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
-import { PreviewApiKey } from './previewApiKey'
+import { PreviewApiKey } from './generated/entities/preview-api-key'
 import { User } from './generated/entities/user'
 
 export interface SpaceProps {
@@ -447,7 +446,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createLocale(data: LocaleProps): Promise<Locale>
+  createLocale(data: CreateLocaleProps): Promise<Locale>
   /**
    * Creates a Role
    * @param data - Object representation of the Role to be created
@@ -494,7 +493,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRole(data: RoleProps): Promise<Role>
+  createRole(data: Omit<RoleProps, 'sys'>): Promise<Role>
   /**
    * Creates a Role with a custom ID
    * @param id - Role ID
@@ -542,7 +541,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createRoleWithId(id: string, ata: RoleProps): Promise<Role>
+  createRoleWithId(id: string, ata: Omit<RoleProps, 'sys'>): Promise<Role>
   /**
    * Gets a Role
    * @param id - Role ID
@@ -612,7 +611,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembership(data: SpaceMembershipProps): Promise<SpaceMembership>
+  createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>): Promise<SpaceMembership>
   /**
    * Creates a Space Membership with a custom ID
    * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
@@ -642,7 +641,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createSpaceMembershipWithId(id: string, data: SpaceMembershipProps): Promise<SpaceMembership>
+  createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>): Promise<SpaceMembership>
   /**
    * Creates a Team Space Membership
    * @param id - Team ID

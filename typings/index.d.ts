@@ -7,15 +7,14 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ClientParams } from './generated/create-cma-http-client'
 import { User } from './generated/entities/user'
-import { PersonalAccessToken, PersonalAccessTokenProp } from './personalAccessToken'
+import { PersonalAccessToken, PersonalAccessTokenProp } from './generated/entities/personal-access-token'
 import { Space, SpaceProps } from './space'
 import { Collection } from './generated/types/common-types'
-import { Organization } from './organization'
+import { Organization } from './createOrganizationApi'
 import {  Usage, UsageQuery } from './generated/entities/usage'
 
 export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
 export { createPlainClient } from './generated/plain/plain-client'
-
 
 /**
  * Create a client instance
@@ -52,7 +51,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  createPersonalAccessToken(data: PersonalAccessTokenProp): Promise<PersonalAccessToken>
+  createPersonalAccessToken(data: Omit<PersonalAccessTokenProp, 'sys'>): Promise<PersonalAccessToken>
   /**
    * Creates a space
    * @param data - Object representation of the Space to be created
@@ -138,7 +137,7 @@ export interface ClientAPI {
    * .catch(console.error)
    * ```
    */
-  getPersonalAccessToken(data: PersonalAccessTokenProp): Promise<void>
+  getPersonalAccessToken(tokenId: string): Promise<PersonalAccessToken>
   /**
    * Gets all personal access tokens
    * @return Promise for a Token

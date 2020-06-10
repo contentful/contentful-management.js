@@ -1,14 +1,12 @@
 import { AppDefinition, AppDefinitionProps } from './generated/entities/app-definition'
-import { MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/types/common-types'
-import {OrganizationInvitation, OrganizationInvitationProps} from './organizationInvitation';
-import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './teamMembership'
-import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './teamSpaceMembership'
-import { Team, TeamProps } from './team'
+import { DefaultElements, Collection, QueryOptions } from './generated/types/common-types'
+import { OrganizationInvitation, OrganizationInvitationProps } from './generated/entities/organization-invitation';
+import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './generated/entities/team-membership'
+import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './generated/entities/team-space-membership'
+import { Team, TeamProps } from './generated/entities/team'
 import { User } from './generated/entities/user'
-
-export interface OrganizationProp {
-  name: string
-}
+import { OrganizationMembership } from './generated/entities/organization-membership'
+import { OrganizationProp } from './generated/entities/organization';
 
 export interface ContentfulOrganizationAPI {
   createAppDefinition(data: AppDefinitionProps): Promise<AppDefinition>
@@ -27,11 +25,12 @@ export interface ContentfulOrganizationAPI {
     opts?: TeamSpaceMembershipOptions
   ): Promise<Collection<TeamSpaceMembership>>
   getOrganizationInvitation(id: string): Promise<OrganizationInvitation>
-  createOrganizationInvitation(data: OrganizationInvitationProps): Promise<OrganizationInvitation>
+  createOrganizationInvitation(data: Omit<OrganizationInvitationProps, 'sys'>): Promise<OrganizationInvitation>
+  getOrganizationMemberships(query?: QueryOptions): Promise<Collection<OrganizationMembership>>
+  getOrganizationMembership(id: string): Promise<OrganizationMembership>
 }
 
 export interface Organization
   extends DefaultElements<OrganizationProp>,
     OrganizationProp,
-    MetaSys<MetaSysProps>,
     ContentfulOrganizationAPI {}
