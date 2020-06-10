@@ -1,7 +1,7 @@
 import { QueryOptions, MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
 import { ContentType, ContentTypeProps } from './contentType'
 import { Entry, EntryProp } from './entry'
-import { Locale, CreateLocaleProps } from './locale'
+import { Locale, CreateLocaleProps } from './generated/entities/locale'
 import { UIExtensionProps, UIExtension } from './generated/entities/ui-extension'
 import { Stream } from 'stream'
 import { Upload } from './generated/entities/upload'
