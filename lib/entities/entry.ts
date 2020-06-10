@@ -17,9 +17,13 @@ import {
 } from '../instance-actions'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
-import { BasicMetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types'
-
-type KeyValueMap = Record<string, any>
+import {
+  BasicMetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  Collection,
+  KeyValueMap,
+} from '../common-types'
 
 export interface EntryProp<TFields = KeyValueMap> {
   fields: TFields

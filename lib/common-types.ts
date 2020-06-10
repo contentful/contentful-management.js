@@ -58,3 +58,5 @@ export interface QueryOptions {
   include?: number
   select?: string
 }
+
+export type KeyValueMap = Record<string, any>
