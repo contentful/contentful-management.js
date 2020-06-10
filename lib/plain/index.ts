@@ -5,7 +5,7 @@ import { EnvironmentProps } from '../types/environment'
 import { ContentTypeProps } from '../types/content-type'
 import { EntryProps, CreateEntryProps } from '../types/entry'
 import { UserProps } from '../entities/user'
-import { LocaleProps } from '../types/locale'
+import { LocaleProps } from '../entities/locale'
 import { CollectionProp, QueryOptions } from '../types/common-types'
 import errorHandler from '../error-handler'
 

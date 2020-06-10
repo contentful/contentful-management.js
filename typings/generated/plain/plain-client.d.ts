@@ -104,7 +104,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<Record<string, any>>, "fields">) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
     };
     locale: {
-        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/locale").LocaleProps>>;
+        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../entities/locale").LocaleProps>>;
     };
     raw: {
         getDefaultParams: () => DefaultParams | undefined;

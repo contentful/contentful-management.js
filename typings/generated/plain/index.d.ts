@@ -4,7 +4,7 @@ import { EnvironmentProps } from '../types/environment';
 import { ContentTypeProps } from '../types/content-type';
 import { EntryProps, CreateEntryProps } from '../types/entry';
 import { UserProps } from '../entities/user';
-import { LocaleProps } from '../types/locale';
+import { LocaleProps } from '../entities/locale';
 import { CollectionProp, QueryOptions } from '../types/common-types';
 declare function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig): Promise<T>;
 declare function post<T = any>(http: AxiosInstance, url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>;
