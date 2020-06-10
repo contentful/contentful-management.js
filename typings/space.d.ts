@@ -10,11 +10,11 @@ import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './asset'
 import { ContentType, ContentTypeProps } from './contentType'
 import { EntryProp, Entry } from './entry'
-import { LocaleProps, Locale } from './locale'
+import { CreateLocaleProps, Locale } from './generated/entities/locale'
 import { SpaceMember } from './generated/entities/space-member'
 import { Role, RoleProps } from './generated/entities/role'
 import { SpaceMembershipProps, SpaceMembership } from './generated/entities/space-membership'
-import { TeamSpaceMembershipProps, TeamSpaceMembership } from './teamSpaceMembership'
+import { TeamSpaceMembershipProps, TeamSpaceMembership } from './generated/entities/team-space-membership'
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
 import { Upload } from './generated/entities/upload'
 import { Stream } from 'stream'
@@ -444,7 +444,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createLocale(data: LocaleProps): Promise<Locale>
+  createLocale(data: CreateLocaleProps): Promise<Locale>
   /**
    * Creates a Role
    * @param data - Object representation of the Role to be created

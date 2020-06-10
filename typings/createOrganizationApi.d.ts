@@ -1,6 +1,6 @@
 import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { AppDefinition, AppDefinitionProps } from './generated/entities/app-definition'
-import { OrganizationInvitation, OrganizationInvitationProps } from './generated/entities/organizationInvitation';
+import { OrganizationInvitation, OrganizationInvitationProps } from './generated/entities/organization-invitation';
 import { Options as TeamMembershipOptions, TeamMembership, TeamMembershipProps } from './generated/entities/team-membership'
 import { Options as TeamSpaceMembershipOptions, TeamSpaceMembership } from './generated/entities/team-space-membership'
 import { Team, TeamProps } from './generated/entities/team'

@@ -46,7 +46,8 @@ export interface AppInstallation extends AppInstallationProps, DefaultElements<A
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
-     * .then((environment) => environment.delete())
+     * .then((environment) => environment.getAppInstallation('<app_definition_id>'))
+     * .then((appInstallation) => appInstallation.delete())
      * .then(() => console.log(`App installation deleted.`))
      * .catch(console.error)
      * ```
