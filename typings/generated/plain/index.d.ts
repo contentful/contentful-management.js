@@ -59,35 +59,35 @@ export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
  * Entry
  */
 export declare const entry: {
-    get(http: AxiosInstance, params: GetEnvironmentParams & {
+    get<T extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    } & QueryParams): Promise<EntryProps<Record<string, any>>>;
-    getMany(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps<Record<string, any>>>>;
-    update(http: AxiosInstance, params: GetEnvironmentParams & {
+    } & QueryParams): Promise<EntryProps<T>>;
+    getMany<T_1 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetManyEntriesParams): Promise<CollectionProp<EntryProps<T_1>>>;
+    update<T_2 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    }, raw: EntryProps): Promise<EntryProps<Record<string, any>>>;
+    }, raw: EntryProps<T_2>): Promise<EntryProps<T_2>>;
     delete(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
     }): Promise<any>;
-    publish(http: AxiosInstance, params: GetEnvironmentParams & {
+    publish<T_3 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    }, raw: EntryProps): Promise<EntryProps<Record<string, any>>>;
-    unpublish(http: AxiosInstance, params: GetEnvironmentParams & {
+    }, raw: EntryProps<T_3>): Promise<EntryProps<T_3>>;
+    unpublish<T_4 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    }): Promise<EntryProps<Record<string, any>>>;
-    archive(http: AxiosInstance, params: GetEnvironmentParams & {
+    }): Promise<EntryProps<T_4>>;
+    archive<T_5 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    }): Promise<EntryProps<Record<string, any>>>;
-    unarchive(http: AxiosInstance, params: GetEnvironmentParams & {
+    }): Promise<EntryProps<T_5>>;
+    unarchive<T_6 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
-    }): Promise<EntryProps<Record<string, any>>>;
-    create(http: AxiosInstance, params: GetEnvironmentParams & {
+    }): Promise<EntryProps<T_6>>;
+    create<T_7 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         contentTypeId: string;
-    }, raw: CreateEntryProps): Promise<EntryProps<Record<string, any>>>;
-    createWithId(http: AxiosInstance, params: GetEnvironmentParams & {
+    }, raw: Pick<EntryProps<T_7>, "fields">): Promise<EntryProps<T_7>>;
+    createWithId<T_8 extends Record<string, any> = Record<string, any>>(http: AxiosInstance, params: GetEnvironmentParams & {
         entryId: string;
         contentTypeId: string;
-    }, raw: CreateEntryProps): Promise<EntryProps<Record<string, any>>>;
+    }, raw: Pick<EntryProps<T_8>, "fields">): Promise<EntryProps<T_8>>;
 };
 /**
  * Locale

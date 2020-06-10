@@ -1,5 +1,4 @@
-import { BasicMetaSysProps, MetaLinkProps } from './common-types';
-declare type KeyValueMap = Record<string, any>;
+import { BasicMetaSysProps, MetaLinkProps, KeyValueMap } from './common-types';
 export interface EntryProp<TFields = KeyValueMap> {
     fields: TFields;
 }
@@ -25,4 +24,3 @@ export interface EntryProps<TFields = KeyValueMap> {
     fields: TFields;
 }
 export declare type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>;
-export {};

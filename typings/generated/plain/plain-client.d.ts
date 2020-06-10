@@ -18,8 +18,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         getManyForSpace: (params: Pick<endpoints.GetManyUsersParams, "query"> & Partial<Pick<endpoints.GetManyUsersParams, "spaceId">>) => Promise<import("../types/common-types").CollectionProp<import("../entities/user").UserProps>>;
     };
     entry: {
-        getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps<Record<string, any>>>>;
-        get: (params: Pick<endpoints.GetSpaceParams & {
+        getMany: <T extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../types/entry").EntryProps<T>>>;
+        get: <T_1 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -27,8 +27,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        } & endpoints.QueryParams, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        update: (params: Pick<endpoints.GetSpaceParams & {
+        } & endpoints.QueryParams, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<T_1>>;
+        update: <T_2 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -36,7 +36,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<Record<string, any>>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
+        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<T_2>) => Promise<import("../types/entry").EntryProps<T_2>>;
         delete: (params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
@@ -46,7 +46,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         } & {
             entryId: string;
         }, "spaceId" | "environmentId">>) => Promise<any>;
-        publish: (params: Pick<endpoints.GetSpaceParams & {
+        publish: <T_3 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -54,8 +54,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<Record<string, any>>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        unpublish: (params: Pick<endpoints.GetSpaceParams & {
+        }, "spaceId" | "environmentId">>, raw: import("../types/entry").EntryProps<T_3>) => Promise<import("../types/entry").EntryProps<T_3>>;
+        unpublish: <T_4 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -63,8 +63,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        archive: (params: Pick<endpoints.GetSpaceParams & {
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<T_4>>;
+        archive: <T_5 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -72,8 +72,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        unarchive: (params: Pick<endpoints.GetSpaceParams & {
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<T_5>>;
+        unarchive: <T_6 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -81,8 +81,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             entryId: string;
-        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        create: (params: Pick<endpoints.GetSpaceParams & {
+        }, "spaceId" | "environmentId">>) => Promise<import("../types/entry").EntryProps<T_6>>;
+        create: <T_7 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             contentTypeId: string;
@@ -90,8 +90,8 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
             environmentId: string;
         } & {
             contentTypeId: string;
-        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<Record<string, any>>, "fields">) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
-        createWithId: (params: Pick<endpoints.GetSpaceParams & {
+        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<T_7>, "fields">) => Promise<import("../types/entry").EntryProps<T_7>>;
+        createWithId: <T_8 extends Record<string, any> = Record<string, any>>(params: Pick<endpoints.GetSpaceParams & {
             environmentId: string;
         } & {
             entryId: string;
@@ -101,7 +101,7 @@ export declare const createPlainClient: (params: ClientParams, defaults?: Defaul
         } & {
             entryId: string;
             contentTypeId: string;
-        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<Record<string, any>>, "fields">) => Promise<import("../types/entry").EntryProps<Record<string, any>>>;
+        }, "spaceId" | "environmentId">>, raw: Pick<import("../types/entry").EntryProps<T_8>, "fields">) => Promise<import("../types/entry").EntryProps<T_8>>;
     };
     locale: {
         getMany: (params: Pick<endpoints.GetManyContentTypesParams, "query"> & Partial<Pick<endpoints.GetManyContentTypesParams, "spaceId" | "environmentId">>) => Promise<import("../types/common-types").CollectionProp<import("../entities/locale").LocaleProps>>;

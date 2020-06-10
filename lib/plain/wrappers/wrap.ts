@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AxiosInstance } from 'axios'
+import { Except } from 'type-fest'
 
 export type DefaultParams = {
   spaceId?: string
@@ -13,12 +14,7 @@ export type WrapParams = {
   defaults?: DefaultParams
 }
 
-type Except<ObjectType, KeysType extends keyof ObjectType> = Pick<
-  ObjectType,
-  Exclude<keyof ObjectType, KeysType>
->
-
-type SetOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
+type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
   // Pick just the keys that are not optional from the base type.
   Except<BaseType, Keys> &
     // Pick the keys that should be optional from the base type and make them optional.
@@ -41,7 +37,7 @@ const withDefaults = <T extends any[], P extends {}, R, D>(
   defaults: D | undefined,
   fn: (params: P, ...rest: T) => R
 ) => {
-  return (params: SetOptional<P, keyof (P | D)>, ...rest: T) =>
+  return (params: MarkOptional<P, keyof (P | D)>, ...rest: T) =>
     fn({ ...defaults, ...params } as P, ...rest)
 }
 
