@@ -67,3 +67,5 @@ export interface BasicQueryOptions {
   limit?: number
   [key: string]: any
 }
+
+export type KeyValueMap = Record<string, any>
