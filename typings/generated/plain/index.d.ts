@@ -7,7 +7,6 @@ import { UserProps } from '../entities/user';
 import { LocaleProps } from '../entities/locale';
 import { CollectionProp, QueryOptions } from '../types/common-types';
 declare function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig): Promise<T>;
-declare type PaginatedResult<T, C> = Promise<C> & AsyncIterable<T>;
 declare function post<T = any>(http: AxiosInstance, url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>;
 declare function put<T = any>(http: AxiosInstance, url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>;
 declare function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig): Promise<T>;
@@ -46,14 +45,14 @@ export declare const environment: {
  */
 export declare type GetManyContentTypesParams = GetEnvironmentParams & QueryParams;
 export declare const contentType: {
-    getMany(http: AxiosInstance, params: GetManyContentTypesParams): PaginatedResult<ContentTypeProps, CollectionProp<ContentTypeProps>>;
+    getMany(http: AxiosInstance, params: GetManyContentTypesParams): Promise<CollectionProp<ContentTypeProps>>;
 };
 /**
  * User
  */
 export declare type GetManyUsersParams = GetSpaceParams & QueryParams;
 export declare const user: {
-    getManyForSpace(http: AxiosInstance, params: GetManyUsersParams): PaginatedResult<UserProps, CollectionProp<UserProps>>;
+    getManyForSpace(http: AxiosInstance, params: GetManyUsersParams): Promise<CollectionProp<UserProps>>;
 };
 export declare type GetManyEntriesParams = GetEnvironmentParams & QueryParams;
 /**

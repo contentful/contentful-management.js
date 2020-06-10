@@ -8,7 +8,6 @@ import { UserProps } from '../entities/user'
 import { LocaleProps } from '../entities/locale'
 import { CollectionProp, QueryOptions, KeyValueMap } from '../types/common-types'
 import errorHandler from '../error-handler'
-import merge from 'lodash/merge'
 
 function getBaseUrl(http: AxiosInstance) {
   return http.defaults.baseURL?.split('/spaces')[0]
@@ -31,52 +30,6 @@ function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
       ...config,
     })
     .then((response) => response.data, errorHandler)
-}
-
-type PaginatedResult<T, C> = Promise<C> & AsyncIterable<T>
-
-function getMany<T = any, C extends CollectionProp<any> = CollectionProp<T>>(
-  http: AxiosInstance,
-  url: string,
-  config?: AxiosRequestConfig
-): PaginatedResult<T, C> {
-  const options = cloneDeep(config ?? {})
-  const get = () =>
-    http
-      .get<C>(url, {
-        baseURL: getBaseUrl(http),
-        ...options,
-      })
-      .then((response) => response.data, errorHandler)
-  const result = get()
-
-  return Object.assign(result, {
-    [Symbol.asyncIterator]() {
-      let currentResult = result
-
-      return {
-        current: 0,
-        async next() {
-          const { total, items, skip, limit } = await currentResult
-
-          if (total === this.current) {
-            return { done: true }
-          }
-
-          const value = items[this.current++ - skip]
-          const endOfPage = this.current % limit === 0
-          const endOfList = this.current === total
-
-          if (endOfPage && !endOfList) {
-            merge(options, { params: { skip: skip + limit } })
-            currentResult = get()
-          }
-
-          return { done: false, value }
-        },
-      }
-    },
-  }) as PaginatedResult<T, C>
 }
 
 function post<T = any>(
@@ -185,7 +138,7 @@ export type GetManyContentTypesParams = GetEnvironmentParams & QueryParams
 
 export const contentType = {
   getMany(http: AxiosInstance, params: GetManyContentTypesParams) {
-    return getMany<ContentTypeProps>(
+    return get<CollectionProp<ContentTypeProps>>(
       http,
       `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types`,
       {
@@ -203,7 +156,7 @@ export type GetManyUsersParams = GetSpaceParams & QueryParams
 
 export const user = {
   getManyForSpace(http: AxiosInstance, params: GetManyUsersParams) {
-    return getMany<UserProps>(http, `/spaces/${params.spaceId}/users`, {
+    return get<CollectionProp<UserProps>>(http, `/spaces/${params.spaceId}/users`, {
       params: params.query,
     })
   },
