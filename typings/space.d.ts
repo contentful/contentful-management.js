@@ -9,7 +9,7 @@ import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { ContentType, ContentTypeProps } from './generated/entities/content-type'
-import { EntryProp, Entry } from './entry'
+import { EntryProp, Entry } from './generated/entities/entry'
 import { CreateLocaleProps, Locale } from './generated/entities/locale'
 import { SpaceMember } from './generated/entities/space-member'
 import { Role, RoleProps } from './generated/entities/role'
@@ -348,7 +348,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>
+  createEntry(contentTypeID: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -376,7 +376,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>
+  createEntryWithId(contentTypeID: string, id: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created
