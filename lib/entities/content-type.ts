@@ -269,7 +269,7 @@ const findAndUpdateField = function (
   if (!field) {
     return Promise.reject(
       new Error(
-        `Tried to omitAndDeleteField on a nonexistent field, ${id}, on the content type ${this.name}.`
+        `Tried to omitAndDeleteField on a nonexistent field, ${id}, on the content type ${contentType.name}.`
       )
     )
   }
