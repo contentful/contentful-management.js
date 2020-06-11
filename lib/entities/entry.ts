@@ -1,8 +1,4 @@
-/**
- * Entry instances
- * @namespace Entry
- */
-
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -19,54 +15,46 @@ import {
   createArchivedChecker,
 } from '../instance-actions'
 import errorHandler from '../error-handler'
-import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
-/**
- * Types of fields found in an Entry
- * @namespace EntryFields
- */
+import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps } from './snapshot'
+import {
+  MetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  Collection,
+  CollectionProp,
+} from '../common-types'
 
-/**
- * @memberof EntryFields
- * @typedef Symbol
- * @type string
- */
+export interface EntrySys extends MetaSysProps {
+  contentType: { sys: MetaLinkProps }
+  environment: { sys: MetaLinkProps }
+  publishedBy?: { sys: MetaLinkProps }
+  publishedVersion?: number
+  publishedAt?: string
+  firstPublishedAt?: string
+  publishedCounter?: number
+}
 
-/**
- * @memberof EntryFields
- * @typedef Text
- * @type string
- */
+export type EntryProp = {
+  sys: EntrySys
+  fields: Record<string, any>
+}
 
-/**
- * @memberof EntryFields
- * @typedef Integer
- * @type number
- */
+type EntryApi = {
+  archive(): Promise<Entry>
+  delete(): Promise<void>
+  getSnapshot(id: string): Promise<SnapshotProps<EntryProp>>
+  getSnapshots(): Promise<Collection<SnapshotProps<EntryProp>>>
+  isArchived(): boolean
+  isDraft(): boolean
+  isPublished(): boolean
+  isUpdated(): boolean
+  publish(): Promise<Entry>
+  unarchive(): Promise<Entry>
+  unpublish(): Promise<Entry>
+  update(): Promise<Entry>
+}
 
-/**
- * @memberof EntryFields
- * @typedef Number
- * @type number
- */
-
-/**
- * @memberof EntryFields
- * @typedef Date
- * @type string
- */
-
-/**
- * @memberof EntryFields
- * @typedef Boolean
- * @type boolean
- */
-
-/**
- * @memberof EntryFields
- * @typedef Location
- * @prop {string} lat - latitude
- * @prop {string} lon - longitude
- */
+export interface Entry extends EntryProp, DefaultElements<EntryProp>, EntryApi {}
 
 /**
  * A Field in an Entry can have one of the following types that can be defined in Contentful. See <a href="https://www.contentful.com/developers/docs/references/field-type/">Field Types</a> for more details.
@@ -85,7 +73,7 @@ import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
  * @prop {function(): Object} toPlainObject() - Returns this Entry as a plain JS object
  */
 
-function createEntryApi(http) {
+function createEntryApi(http: AxiosInstance): EntryApi {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
@@ -261,7 +249,7 @@ function createEntryApi(http) {
     getSnapshots: function (query = {}) {
       return http
         .get(`entries/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+        .then((response) => wrapSnapshotCollection<EntryProp>(http, response.data), errorHandler)
     },
 
     /**
@@ -284,10 +272,10 @@ function createEntryApi(http) {
      * .catch(console.error)
      * ```
      */
-    getSnapshot: function (snapshotId) {
+    getSnapshot: function (snapshotId: string) {
       return http
         .get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot(http, response.data), errorHandler)
+        .then((response) => wrapSnapshot<EntryProp>(http, response.data), errorHandler)
     },
     /**
      * Checks if the entry is published. A published entry might have unpublished changes (@see {Entry.isUpdated})
@@ -325,11 +313,11 @@ function createEntryApi(http) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw entry data
- * @return {Entry} Wrapped entry data
+ * @param http - HTTP client instance
+ * @param data - Raw entry data
+ * @return Wrapped entry data
  */
-export function wrapEntry(http, data) {
+export function wrapEntry(http: AxiosInstance, data: EntryProp) {
   const entry = toPlainObject(cloneDeep(data))
   enhanceWithMethods(entry, createEntryApi(http))
   return freezeSys(entry)
@@ -338,11 +326,11 @@ export function wrapEntry(http, data) {
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw entry collection data
- * @return {EntryCollection} Wrapped entry collection data
+ * @param http - HTTP client instance
+ * @param data - Raw entry collection data
+ * @return Wrapped entry collection data
  */
-export function wrapEntryCollection(http, data) {
+export function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>) {
   const entries = toPlainObject(cloneDeep(data))
   entries.items = entries.items.map((entity) => wrapEntry(http, entity))
   return freezeSys(entries)
