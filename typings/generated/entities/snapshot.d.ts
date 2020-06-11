@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
-declare type SnapshotProps<T> = {
+export declare type SnapshotProps<T> = {
     sys: MetaSysProps & {
         snapshotType: string;
         snapshotEntityType: string;
@@ -27,4 +27,3 @@ export declare function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProp
 export declare function wrapSnapshotCollection<T>(http: AxiosInstance, data: CollectionProp<SnapshotProps<T>>): CollectionProp<SnapshotProps<T>> & {
     toPlainObject(): CollectionProp<SnapshotProps<T>>;
 };
-export {};

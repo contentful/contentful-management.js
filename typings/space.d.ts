@@ -8,7 +8,7 @@ import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
-import { ContentType, ContentTypeProps } from './contentType'
+import { ContentType, ContentTypeProps } from './generated/entities/content-type'
 import { EntryProp, Entry } from './entry'
 import { CreateLocaleProps, Locale } from './generated/entities/locale'
 import { SpaceMember } from './generated/entities/space-member'
@@ -256,7 +256,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentType(data: ContentTypeProps): Promise<ContentType>
+  createContentType(data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
   /**
    * Creates a Content Type with a custom ID
    * @deprecated since version 5.0
@@ -287,7 +287,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
+  createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
   /**
    * Gets a collection of Environments
    * @return Promise for a collection of Environment

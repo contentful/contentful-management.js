@@ -1,5 +1,5 @@
 import { QueryOptions, MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
-import { ContentType, ContentTypeProps } from './contentType'
+import { ContentType, ContentTypeProps } from './generated/entities/content-type'
 import { Entry, EntryProp } from './entry'
 import { Locale, CreateLocaleProps } from './generated/entities/locale'
 import { UIExtensionProps, UIExtension } from './generated/entities/ui-extension'
@@ -19,8 +19,8 @@ export interface ContentfulEnvironmentAPI {
   createAsset(data: Omit<AssetProps, 'sys'>): Promise<Asset>
   createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>): Promise<Asset>
   createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>): Promise<Asset>
-  createContentType(data: ContentTypeProps): Promise<ContentType>
-  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
+  createContentType(data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
+  createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
   createEntry(contentTypeId: string, data: EntryProp): Promise<Entry>
   createEntryWithId(contentTypeId: string, id: string, data: EntryProp): Promise<Entry>
   createLocale(data: CreateLocaleProps): Promise<Locale>

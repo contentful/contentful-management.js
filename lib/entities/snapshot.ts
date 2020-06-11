@@ -4,7 +4,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
 
-type SnapshotProps<T> = {
+export type SnapshotProps<T> = {
   sys: MetaSysProps & {
     snapshotType: string
     snapshotEntityType: string
