@@ -18,7 +18,7 @@ import { TeamSpaceMembershipProps, TeamSpaceMembership } from './generated/entit
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
 import { Upload } from './generated/entities/upload'
 import { Stream } from 'stream'
-import { Snapshot } from './snapshot'
+import { Snapshot } from './generated/entities/snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './generated/entities/preview-api-key'

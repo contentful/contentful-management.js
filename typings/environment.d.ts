@@ -6,7 +6,7 @@ import { UIExtensionProps, UIExtension } from './generated/entities/ui-extension
 import { Stream } from 'stream'
 import { Upload } from './generated/entities/upload'
 import { EditorInterface } from './generated/entities/editor-interface'
-import { Snapshot } from './snapshot'
+import { Snapshot } from './generated/entities/snapshot'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { AppInstallation, AppInstallationProps } from './generated/entities/app-installation'
 
