@@ -1,12 +1,12 @@
 import { QueryOptions, MetaSys, MetaSysProps, DefaultElements, Collection } from './generated/common-types'
-import { ContentType, ContentTypeProps } from './contentType'
-import { Entry, EntryProp } from './entry'
+import { ContentType, ContentTypeProps } from './generated/entities/content-type'
+import { Entry, EntryProp } from './generated/entities/entry'
 import { Locale, CreateLocaleProps } from './generated/entities/locale'
 import { UIExtensionProps, UIExtension } from './generated/entities/ui-extension'
 import { Stream } from 'stream'
 import { Upload } from './generated/entities/upload'
 import { EditorInterface } from './generated/entities/editor-interface'
-import { Snapshot } from './snapshot'
+import { Snapshot } from './generated/entities/snapshot'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { AppInstallation, AppInstallationProps } from './generated/entities/app-installation'
 
@@ -19,10 +19,10 @@ export interface ContentfulEnvironmentAPI {
   createAsset(data: Omit<AssetProps, 'sys'>): Promise<Asset>
   createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>): Promise<Asset>
   createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>): Promise<Asset>
-  createContentType(data: ContentTypeProps): Promise<ContentType>
-  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
-  createEntry(contentTypeId: string, data: EntryProp): Promise<Entry>
-  createEntryWithId(contentTypeId: string, id: string, data: EntryProp): Promise<Entry>
+  createContentType(data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
+  createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
+  createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
+  createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
   createLocale(data: CreateLocaleProps): Promise<Locale>
   createUiExtension(data: UIExtensionProps): Promise<UIExtension>
   createUiExtensionWithId(id: string, data: UIExtensionProps): Promise<UIExtension>

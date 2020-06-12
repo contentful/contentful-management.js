@@ -17,4 +17,6 @@ declare module 'contentful-sdk-core' {
     integration?: string,
     feature?: string
   ) => string
+
+  export const createRequestConfig: ({ query }: any) => any
 }
