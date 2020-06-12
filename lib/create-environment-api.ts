@@ -1,74 +1,54 @@
-/**
- * Contentful Environment API. Contains methods to access any operations at a space
- * level, such as creating and reading entities contained in a space.
- * @namespace ContentfulEnvironmentAPI
- */
 import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
-import entities from './entities'
+import * as contentType from './entities/content-type'
+import * as environment from './entities/environment'
+import * as entry from './entities/entry'
+import * as asset from './entities/asset'
+import * as locale from './entities/locale'
+import * as uiExtension from './entities/ui-extension'
+import * as snapshot from './entities/snapshot'
+import * as editorInterface from './entities/editor-interface'
+import * as upload from './entities/upload'
+import * as appInstallation from './entities/app-installation'
 
-/**
- * @memberof ContentfulEnvironmentAPI
- * @typedef {object} ContentfulEnvironmentAPI
- * @prop {function} delete
- * @prop {function} update
- * @prop {function} getContentType
- * @prop {function} getContentTypes
- * @prop {function} createContentType
- * @prop {function} createContentTypeWithId
- * @prop {function} getEntry
- * @prop {function} getEntries
- * @prop {function} createEntry
- * @prop {function} createEntryWithId
- * @prop {function} getAsset
- * @prop {function} getAssets
- * @prop {function} createAsset
- * @prop {function} createAssetWithId
- * @prop {function} getLocale
- * @prop {function} getLocales
- * @prop {function} createLocale
- * @prop {function} getUiExtension
- * @prop {function} getUiExtensions
- * @prop {function} createUiExtension
- * @prop {function} createUiExtensionWithId
- * @prop {function} getAppInstallation
- * @prop {function} getAppInstallations
- * @prop {function} createAppInstallation
- * @prop {function} getEntrySnapshots
- * @prop {function} getContentTypeSnapshots
- */
+import type { ContentTypeProps } from './entities/content-type'
+import type { DefaultElements, QueryOptions } from './common-types'
+import type { EntryProp } from './entities/entry'
+import type { AssetFileProp, AssetProps } from './entities/asset'
+import type { LocaleProps } from './entities/locale'
+import type { UIExtensionProps } from './entities/ui-extension'
+import type { AppInstallationProps } from './entities/app-installation'
+import type { EnvironmentProps } from './entities/environment'
+import { Stream } from 'stream'
+import { AxiosInstance } from 'axios'
 
 /**
  * Creates API object with methods to access the Environment API
  * @private
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
- * @return {ContentfulEnvironmentAPI}
  */
-export default function createEnvironmentApi({ http, httpUpload }) {
-  const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
-  const { wrapLocale, wrapLocaleCollection } = entities.locale
-  const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapEditorInterface } = entities.editorInterface
-  const { wrapUpload } = entities.upload
-  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
-  const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
-  /**
-   * Environment instances.
-   * @namespace Environment
-   */
+export default function createEnvironmentApi({
+  http,
+  httpUpload,
+}: {
+  http: AxiosInstance
+  httpUpload: AxiosInstance
+}) {
+  const { wrapEnvironment } = environment
+  const { wrapContentType, wrapContentTypeCollection } = contentType
+  const { wrapEntry, wrapEntryCollection } = entry
+  const { wrapAsset, wrapAssetCollection } = asset
+  const { wrapLocale, wrapLocaleCollection } = locale
+  const { wrapSnapshotCollection } = snapshot
+  const { wrapEditorInterface } = editorInterface
+  const { wrapUpload } = upload
+  const { wrapUiExtension, wrapUiExtensionCollection } = uiExtension
+  const { wrapAppInstallation, wrapAppInstallationCollection } = appInstallation
 
   /**
-   * Deletes the environment
-   * @memberof Environment
-   * @func delete
-   * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example
+   * Deletes the environment   * @func delete
+   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -80,17 +60,18 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.delete())
    * .then(() => console.log('Environment deleted.'))
    * .catch(console.error)
+   * ```
    */
   function deleteEnvironment() {
-    return http.delete('').then(() => {}, errorHandler)
+    return http.delete('').then(() => {
+      // noop
+    }, errorHandler)
   }
 
   /**
    * Updates the environment
-   * @memberof Environment
-   * @func update
-   * @return {Promise<Environment.Environment>} Promise for the updated environment.
-   * @example
+   * @return Promise for the updated environment.
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -105,6 +86,7 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * })
    * .then((environment) => console.log(`Environment ${environment.sys.id} renamed.`)
    * .catch(console.error)
+   * ```
    */
   function updateEnvironment() {
     const raw = this.toPlainObject()
@@ -121,10 +103,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a Content Type
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Content Type ID
-   * @return {Promise<ContentType.ContentType>} Promise for a Content Type
-   * @example
+   * @param id - Content Type ID
+   * @return Promise for a Content Type
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -136,8 +117,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getContentType('<content_type_id>'))
    * .then((contentType) => console.log(contentType))
    * .catch(console.error)
+   * ```
    */
-  function getContentType(id) {
+  function getContentType(id: string) {
     return http
       .get('content_types/' + id)
       .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -145,10 +127,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets an EditorInterface for a ContentType
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} contentTypeId - Content Type ID
-   * @return {Promise<EditorInterface.EditorInterface>} Promise for an EditorInterface
-   * @example
+   * @param contentTypeId - Content Type ID
+   * @return Promise for an EditorInterface
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -160,8 +141,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getEditorInterfaceForContentType('<content_type_id>'))
    * .then((EditorInterface) => console.log(EditorInterface))
    * .catch(console.error)
+   * ```
    */
-  function getEditorInterfaceForContentType(contentTypeId) {
+  function getEditorInterfaceForContentType(contentTypeId: string) {
     return http
       .get('content_types/' + contentTypeId + '/editor_interface')
       .then((response) => wrapEditorInterface(http, response.data), errorHandler)
@@ -169,10 +151,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a collection of Content Types
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object=} query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return {Promise<ContentType.ContentTypeCollection>} Promise for a collection of Content Types
-   * @example
+   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+   * @return Promise for a collection of Content Types
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -184,8 +165,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getContentTypes())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
+   * ```
    */
-  function getContentTypes(query = {}) {
+  function getContentTypes(query: QueryOptions = {}) {
     return http
       .get('content_types', createRequestConfig({ query: query }))
       .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
@@ -193,11 +175,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Content Type
-   * @memberof ContentfulEnvironmentAPI
-   * @see {ContentType}
-   * @param {object} data - Object representation of the Content Type to be created
-   * @return {Promise<ContentType.ContentType>} Promise for the newly created Content Type
-   * @example
+   * @param data - Object representation of the Content Type to be created
+   * @return Promise for the newly created Content Type
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -220,8 +200,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((contentType) => console.log(contentType))
    * .catch(console.error)
+   * ```
    */
-  function createContentType(data) {
+  function createContentType(data: Omit<ContentTypeProps, 'sys'>) {
     return http
       .post('content_types', data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -229,12 +210,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Content Type with a custom ID
-   * @memberof ContentfulEnvironmentAPI
-   * @see {ContentType.ContentType}
-   * @param {string} id - Content Type ID
-   * @param {object} data - Object representation of the Content Type to be created
-   * @return {Promise<ContentType.ContentType>} Promise for the newly created Content Type
-   * @example
+   * @param id - Content Type ID
+   * @param data - Object representation of the Content Type to be created
+   * @return Promise for the newly created Content Type
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -257,8 +236,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((contentType) => console.log(contentType))
    * .catch(console.error)
+   * ```
    */
-  function createContentTypeWithId(id, data) {
+  function createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
     return http
       .put('content_types/' + id, data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -268,11 +248,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * Gets an Entry
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Entry ID
-   * @param {object=} query - Object with search parameters. In this method it's only useful for `locale`.
-   * @return {Promise<Entry.Entry>} Promise for an Entry
-   * @example
+   * @param id - Entry ID
+   * @param query - Object with search parameters. In this method it's only useful for `locale`.
+   * @return Promise for an Entry
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -284,8 +263,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getEntry('<entry-id>'))
    * .then((entry) => console.log(entry))
    * .catch(console.error)
+   * ```
    */
-  function getEntry(id, query = {}) {
+  function getEntry(id: string, query: QueryOptions = {}) {
     normalizeSelect(query)
     return http
       .get('entries/' + id, createRequestConfig({ query: query }))
@@ -296,10 +276,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * Gets a collection of Entries
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object=} query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return {Promise<Entry.EntryCollection>} Promise for a collection of Entries
-   * @example
+   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+   * @return Promise for a collection of Entries
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -311,8 +290,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
    * .then((response) => console.log(response.items))
    * .catch(console.error)
+   * ```
    */
-  function getEntries(query = {}) {
+  function getEntries(query: QueryOptions = {}) {
     normalizeSelect(query)
     return http
       .get('entries', createRequestConfig({ query: query }))
@@ -321,12 +301,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Entry
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Entry.Entry}
-   * @param {string} contentTypeId - The Content Type ID of the newly created Entry
-   * @param {object} data - Object representation of the Entry to be created
-   * @return {Promise<Entry.Entry>} Promise for the newly created Entry
-   * @example
+   * @param contentTypeId - The Content Type ID of the newly created Entry
+   * @param data - Object representation of the Entry to be created
+   * @return Promise for the newly created Entry
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -344,8 +322,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((entry) => console.log(entry))
    * .catch(console.error)
+   * ```
    */
-  function createEntry(contentTypeId, data) {
+  function createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
     return http
       .post('entries', data, {
         headers: {
@@ -357,13 +336,11 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Entry with a custom ID
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Entry.Entry}
-   * @param {string} contentTypeId - The Content Type of the newly created Entry
-   * @param {string} id - Entry ID
-   * @param {object} data - Object representation of the Entry to be created
-   * @return {Promise<Entry.Entry>} Promise for the newly created Entry
-   * @example
+   * @param contentTypeId - The Content Type of the newly created Entry
+   * @param id - Entry ID
+   * @param data - Object representation of the Entry to be created
+   * @return Promise for the newly created Entry
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -382,8 +359,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((entry) => console.log(entry))
    * .catch(console.error)
+   * ```
    */
-  function createEntryWithId(contentTypeId, id, data) {
+  function createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
     return http
       .put('entries/' + id, data, {
         headers: {
@@ -397,11 +375,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * Gets an Asset
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Asset ID
-   * @param {object=} query - Object with search parameters. In this method it's only useful for `locale`.
-   * @return {Promise<Asset.Asset>} Promise for an Asset
-   * @example
+   * @param id - Asset ID
+   * @param query - Object with search parameters. In this method it's only useful for `locale`.
+   * @return Promise for an Asset
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -413,8 +390,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => console.log(asset))
    * .catch(console.error)
+   * ```
    */
-  function getAsset(id, query = {}) {
+  function getAsset(id: string, query: QueryOptions = {}) {
     normalizeSelect(query)
     return http
       .get('assets/' + id, createRequestConfig({ query: query }))
@@ -425,10 +403,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * Gets a collection of Assets
    * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
    * from your entry in the backend
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object=} query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return {Promise<Asset.AssetCollection>} Promise for a collection of Assets
-   * @example
+   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+   * @return Promise for a collection of Assets
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -440,8 +417,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getAssets())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
+   * ```
    */
-  function getAssets(query = {}) {
+  function getAssets(query: QueryOptions = {}) {
     normalizeSelect(query)
     return http
       .get('assets', createRequestConfig({ query: query }))
@@ -450,11 +428,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Asset.Asset}
-   * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @return {Promise<Asset.Asset>} Promise for the newly created Asset
-   * @example
+   * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+   * @return Promise for the newly created Asset
+   * @example ```javascript
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
@@ -479,8 +455,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((asset) => asset.processForLocale("en-US")) // OR asset.processForAllLocales()
    * .then((asset) => console.log(asset))
    * .catch(console.error)
+   * ```
    */
-  function createAsset(data) {
+  function createAsset(data: Omit<AssetProps, 'sys'>) {
     return http
       .post('assets', data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
@@ -488,12 +465,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Asset.Asset}
-   * @param {string} id - Asset ID
-   * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @return {Promise<Asset.Asset>} Promise for the newly created Asset
-   * @example
+   * @param id - Asset ID
+   * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+   * @return Promise for the newly created Asset
+   * @example ```javascript
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
@@ -516,8 +491,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((asset) => asset.process())
    * .then((asset) => console.log(asset))
    * .catch(console.error)
+   * ```
    */
-  function createAssetWithId(id, data) {
+  function createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
     return http
       .put('assets/' + id, data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
@@ -525,12 +501,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Asset.Asset}
-   * @param {object} data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @param {object} data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
-   * @return {Promise<Asset.Asset>} Promise for the newly created Asset
-   * @example
+   * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
+   * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
+   * @return Promise for the newly created Asset
+   * @example ```javascript
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
@@ -555,8 +529,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((asset) => console.log(asset))
    * .catch(console.error)
+   * ```
    */
-  function createAssetFromFiles(data) {
+  function createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
     const { file } = data.fields
     return Promise.all(
       Object.keys(file).map((locale) => {
@@ -579,24 +554,25 @@ export default function createEnvironmentApi({ http, httpUpload }) {
       })
     )
       .then((uploads) => {
-        data.fields.file = uploads.reduce((fieldsData, upload) => {
-          return {
-            ...fieldsData,
-            ...upload,
-          }
-        }, {})
-        return createAsset(data)
+        const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
+        const asset = {
+          ...data,
+          fields: {
+            ...data.fields,
+            file,
+          },
+        }
+        return createAsset(asset)
       })
       .catch(errorHandler)
   }
 
   /**
    * Creates a Upload.
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object} data - Object with file information.
-   * @param {object} data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
-   * @return {Promise<Upload>} Upload object containing information about the uploaded file.
-   * @example
+   * @param data - Object with file information.
+   * @param data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
+   * @return Upload object containing information about the uploaded file.
+   * @example ```javascript
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
@@ -607,8 +583,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.createUpload({file: uploadStream})
    * .then((upload) => console.log(upload))
    * .catch(console.error)
+   * ```
    */
-  function createUpload(data) {
+  function createUpload(data: { file: string | ArrayBuffer | Stream }) {
     const { file } = data
     if (!file) {
       return Promise.reject(new Error('Unable to locate a file to upload.'))
@@ -627,10 +604,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets an Upload
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Upload ID
-   * @return {Promise<Upload>} Promise for an Upload
-   * @example
+   * @param id - Upload ID
+   * @return Promise for an Upload
+   * @example ```javascript
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
@@ -642,7 +618,7 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((upload) => console.log(upload))
    * .catch(console.error)
    */
-  function getUpload(id) {
+  function getUpload(id: string) {
     return httpUpload
       .get('uploads/' + id)
       .then((response) => wrapUpload(http, response.data))
@@ -651,10 +627,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a Locale
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Locale ID
-   * @return {Promise<Locale.Locale>} Promise for an Locale
-   * @example
+   * @param id - Locale ID
+   * @return Promise for an Locale
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -666,8 +641,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getLocale('<locale_id>'))
    * .then((locale) => console.log(locale))
    * .catch(console.error)
+   * ```
    */
-  function getLocale(id) {
+  function getLocale(id: string) {
     return http
       .get('locales/' + id)
       .then((response) => wrapLocale(http, response.data), errorHandler)
@@ -675,9 +651,8 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a collection of Locales
-   * @memberof ContentfulEnvironmentAPI
-   * @return {Promise<Locale.LocaleCollection>} Promise for a collection of Locales
-   * @example
+   * @return Promise for a collection of Locales
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -689,6 +664,7 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getLocales())
    * .then((response) => console.log(response.items))
    * .catch(console.error)
+   * ```
    */
   function getLocales() {
     return http
@@ -698,11 +674,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a Locale
-   * @memberof ContentfulEnvironmentAPI
-   * @see {Locale.Locale}
-   * @param {object} data - Object representation of the Locale to be created
-   * @return {Promise<Locale.Locale>} Promise for the newly created Locale
-   * @example
+   * @param data - Object representation of the Locale to be created
+   * @return Promise for the newly created Locale
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -720,8 +694,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((locale) => console.log(locale))
    * .catch(console.error)
+   * ```
    */
-  function createLocale(data) {
+  function createLocale(data: Omit<LocaleProps, 'sys'>) {
     return http
       .post('locales', data)
       .then((response) => wrapLocale(http, response.data), errorHandler)
@@ -729,10 +704,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets an UI Extension
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - Extension ID
-   * @return {Promise<UiExtension.UiExtension>} Promise for an UI Extension
-   * @example
+   * @param id - Extension ID
+   * @return Promise for an UI Extension
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -744,8 +718,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getUiExtension('<extension-id>'))
    * .then((uiExtension) => console.log(uiExtension))
    * .catch(console.error)
+   * ```
    */
-  function getUiExtension(id) {
+  function getUiExtension(id: string) {
     return http
       .get('extensions/' + id)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
@@ -753,9 +728,8 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a collection of UI Extension
-   * @memberof ContentfulEnvironmentAPI
-   * @return {Promise<UiExtension.UiExtensionCollection>} Promise for a collection of UI Extensions
-   * @example
+   * @return Promise for a collection of UI Extensions
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -767,6 +741,7 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getUiExtensions()
    * .then((response) => console.log(response.items))
    * .catch(console.error)
+   * ```
    */
   function getUiExtensions() {
     return http
@@ -776,11 +751,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a UI Extension
-   * @memberof ContentfulEnvironmentAPI
-   * @see {UiExtension.UiExtension}
-   * @param {object} data - Object representation of the UI Extension to be created
-   * @return {Promise<UiExtension.UiExtension>} Promise for the newly created UI Extension
-   * @example
+   * @param data - Object representation of the UI Extension to be created
+   * @return Promise for the newly created UI Extension
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -806,8 +779,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((uiExtension) => console.log(uiExtension))
    * .catch(console.error)
+   * ```
    */
-  function createUiExtension(data) {
+  function createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
     return http
       .post('extensions', data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
@@ -815,12 +789,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates a UI Extension with a custom ID
-   * @memberof ContentfulEnvironmentAPI
-   * @see {UiExtension.UiExtension}
-   * @param {string} id - Extension ID
-   * @param {object} data - Object representation of the UI Extension to be created
-   * @return {Promise<UiExtension.UiExtension>} Promise for the newly created UI Extension
-   * @example
+   * @param id - Extension ID
+   * @param data - Object representation of the UI Extension to be created
+   * @return Promise for the newly created UI Extension
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -846,8 +818,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * }))
    * .then((uiExtension) => console.log(uiExtension))
    * .catch(console.error)
+   * ```
    */
-  function createUiExtensionWithId(id, data) {
+  function createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
     return http
       .put('extensions/' + id, data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
@@ -855,10 +828,10 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets an App Installation
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - AppDefinition ID
-   * @return {Promise<AppInstallation.AppInstallation>} Promise for an App Installation
-   * @example
+   * @param appDefinitionId - AppDefinition ID
+   * @param data - AppInstallation data
+   * @return Promise for an App Installation
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -874,19 +847,19 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    *   })
    *  .then((appInstallation) => console.log(appInstallation))
    *  .catch(console.error)
+   *  ```
    */
-  function createAppInstallation(appDefinitionId, parameters) {
+  function createAppInstallation(appDefinitionId: string, data: Omit<AppInstallationProps, 'sys'>) {
     return http
-      .put('app_installations/' + appDefinitionId, parameters)
+      .put('app_installations/' + appDefinitionId, data)
       .then((response) => wrapAppInstallation(http, response.data), errorHandler)
   }
 
   /**
    * Gets an App Installation
-   * @memberof ContentfulEnvironmentAPI
-   * @param {string} id - AppDefintion ID
-   * @return {Promise<AppInstallation.AppInstallation>} Promise for an App Installation
-   * @example
+   * @param id - AppDefintion ID
+   * @return Promise for an App Installation
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -898,9 +871,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    *  .then((environment) => environment.getAppInstallation('<app-definition-id>'))
    *  .then((appInstallation) => console.log(appInstallation))
    *  .catch(console.error)
+   *  ```
    */
-
-  function getAppInstallation(id) {
+  function getAppInstallation(id: string) {
     return http
       .get('app_installations/' + id)
       .then((response) => wrapAppInstallation(http, response.data), errorHandler)
@@ -908,9 +881,8 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets a collection of App Installation
-   * @memberof ContentfulEnvironmentAPI
-   * @return {Promise<AppInstallation.AppInstallationCollection>} Promise for a collection of App Installations
-   * @example
+   * @return Promise for a collection of App Installations
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -922,6 +894,7 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    *  .then((environment) => environment.getAppInstallations()
    *  .then((response) => console.log(response.items))
    *  .catch(console.error)
+   *  ```
    */
   function getAppInstallations() {
     return http
@@ -931,15 +904,11 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets all snapshots of an entry
-   * @memberof ContentfulEnvironmentAPI
    * @func getEntrySnapshots
-   * @param {string} entryId - Entry ID
-   * @param {object=} query - query additional query paramaters
-   * @param {number=} query.skip - optional, number of items to skip
-   * @param {number=} query.limit - optional, limit total number of snapshots returned
-   * @param
-   * @return {Promise<Snapshot.SnapshotCollection>} Promise for a collection of Entry Snapshots
-   * @example
+   * @param entryId - Entry ID
+   * @param query - query additional query paramaters
+   * @return Promise for a collection of Entry Snapshots
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -951,8 +920,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getEntrySnapshots('<entry_id>'))
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
+   * ```
    */
-  function getEntrySnapshots(entryId, query = {}) {
+  function getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
     return http
       .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
@@ -960,14 +930,11 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Gets all snapshots of a contentType
-   * @memberof ContentfulEnvironmentAPI
    * @func getContentTypeSnapshots
-   * @param {string} contentTypeId - Content Type ID
-   * @param {object=} query - query additional query paramaters
-   * @param {number=} query.skip - optional, number of items to skip
-   * @param {number=} query.limit - optional, limit total number of snapshots returned
-   * @return {Promise<Snapshot.SnapshotCollection>} Promise for a collection of Content Type Snapshots
-   * @example
+   * @param contentTypeId - Content Type ID
+   * @param query - query additional query paramaters
+   * @return Promise for a collection of Content Type Snapshots
+   * @example ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -979,20 +946,20 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    * .then((environment) => environment.getContentTypeSnapshots('<contentTypeId>'))
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
+   * ```
    */
-  function getContentTypeSnapshots(contentTypeId, query = {}) {
+  function getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
     return http
       .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
   }
 
-  /*
+  /**
    * @private
    * sdk relies heavily on sys metadata
    * so we cannot omit the sys property on sdk level
-   *
    */
-  function normalizeSelect(query) {
+  function normalizeSelect(query: QueryOptions) {
     if (query.select && !/sys/i.test(query.select)) {
       query.select += ',sys'
     }
@@ -1000,10 +967,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
 
   /**
    * Creates SDK Entry object (locally) from entry data
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object} entryData - Entry Data
-   * @return {Entry.Entry} Entry
-   * @example
+   * @param entryData - Entry Data
+   * @return Entry
+   * @example ```javascript
    * environment.getEntry('entryId').then(entry => {
    *
    *   // Build a plainObject in order to make it usable for React (saving in state or redux)
@@ -1027,17 +993,17 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    *   entryWithMethodsAgain.update();
    *
    * });
+   * ```
    **/
-  function getEntryFromData(entryData) {
+  function getEntryFromData(entryData: EntryProp) {
     return wrapEntry(http, entryData)
   }
 
   /**
    * Creates SDK Asset object (locally) from entry data
-   * @memberof ContentfulEnvironmentAPI
-   * @param {object} entryData - Asset ID
-   * @return {Asset.Asset} Asset
-   * @example
+   * @param assetData - Asset ID
+   * @return Asset
+   * @example ```javascript
    * environment.getAsset('asset_id').then(asset => {
    *
    *   // Build a plainObject in order to make it usable for React (saving in state or redux)
@@ -1061,9 +1027,9 @@ export default function createEnvironmentApi({ http, httpUpload }) {
    *   assetWithMethodsAgain.update();
    *
    * });
+   * ```
    */
-
-  function getAssetFromData(assetData) {
+  function getAssetFromData(assetData: AssetProps) {
     return wrapAsset(http, assetData)
   }
 

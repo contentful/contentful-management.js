@@ -6,7 +6,7 @@
 
 import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from './generated/common-types'
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
-import { Environment, EnvironmentProps } from './environment'
+import { Environment, EnvironmentProps } from './generated/entities/environment'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
 import { ContentType, ContentTypeProps } from './generated/entities/content-type'
 import { EntryProp, Entry } from './generated/entities/entry'
