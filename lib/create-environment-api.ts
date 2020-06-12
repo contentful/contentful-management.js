@@ -4,7 +4,7 @@ import entities from './entities'
 import * as endpoints from './plain'
 import type { ContentTypeProps, ContentType } from './entities/content-type'
 import type { QueryOptions } from './common-types'
-import { EntryProp, Entry } from './entities/entry'
+import { EntryProps, Entry } from './entities/entry'
 import type { AssetFileProp, AssetProps } from './entities/asset'
 import type { LocaleProps } from './entities/locale'
 import type { UIExtensionProps } from './entities/ui-extension'
@@ -151,7 +151,7 @@ export default function createEnvironmentApi({
      * });
      * ```
      **/
-    getEntryFromData(entryData: EntryProp) {
+    getEntryFromData(entryData: EntryProps) {
       return wrapEntry(http, entryData)
     },
     /**
@@ -423,7 +423,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
+    createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
       const raw = this.toPlainObject()
       return endpoints.entry
         .create(
@@ -465,7 +465,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
+    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProps, 'sys'>) {
       const raw = this.toPlainObject()
       return endpoints.entry
         .createWithId(

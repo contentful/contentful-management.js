@@ -25,11 +25,7 @@ import {
   KeyValueMap,
 } from '../common-types'
 
-export interface EntryProp<TFields = KeyValueMap> {
-  fields: TFields
-}
-
-export interface EntryProps<TFields = KeyValueMap> {
+export type EntryProps<T = KeyValueMap> = {
   sys: BasicMetaSysProps & {
     space: { sys: MetaLinkProps }
     contentType: { sys: MetaLinkProps }
@@ -40,7 +36,7 @@ export interface EntryProps<TFields = KeyValueMap> {
     firstPublishedAt?: string
     publishedCounter?: number
   }
-  fields: TFields
+  fields: T
 }
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
@@ -177,7 +173,7 @@ type EntryApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<Snapshot<EntryProp>>
+  getSnapshot(id: string): Promise<Snapshot<EntryProps>>
   /**
    * Gets all snapshots of an entry
    * @example ```javascript
@@ -194,7 +190,7 @@ type EntryApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshots(): Promise<Collection<Snapshot<EntryProp>, SnapshotProps<EntryProp>>>
+  getSnapshots(): Promise<Collection<Snapshot<EntryProps>, SnapshotProps<EntryProps>>>
   /**
    * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
    */
@@ -214,7 +210,7 @@ type EntryApi = {
   isUpdated(): boolean
 }
 
-export interface Entry extends EntryProp, DefaultElements<EntryProp>, EntryApi {}
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
 function createEntryApi(http: AxiosInstance): EntryApi {
   return {
@@ -256,13 +252,13 @@ function createEntryApi(http: AxiosInstance): EntryApi {
     getSnapshots: function (query = {}) {
       return http
         .get(`entries/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection<EntryProp>(http, response.data), errorHandler)
+        .then((response) => wrapSnapshotCollection<EntryProps>(http, response.data), errorHandler)
     },
 
     getSnapshot: function (snapshotId: string) {
       return http
         .get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot<EntryProp>(http, response.data), errorHandler)
+        .then((response) => wrapSnapshot<EntryProps>(http, response.data), errorHandler)
     },
 
     isPublished: createPublishedChecker(),
@@ -281,7 +277,7 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(http: AxiosInstance, data: EntryProp): Entry {
+export function wrapEntry(http: AxiosInstance, data: EntryProps): Entry {
   const entry = toPlainObject(cloneDeep(data))
   const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
   return freezeSys(entryWithMethods)
