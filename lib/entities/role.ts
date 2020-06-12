@@ -90,8 +90,8 @@ function createRoleApi(http: AxiosInstance) {
  */
 export function wrapRole(http: AxiosInstance, data: RoleProps) {
   const role = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(role, createRoleApi(http))
-  return freezeSys(role)
+  const roleWithMethods = enhanceWithMethods(role, createRoleApi(http))
+  return freezeSys(roleWithMethods)
 }
 
 /**
@@ -102,6 +102,5 @@ export function wrapRole(http: AxiosInstance, data: RoleProps) {
  */
 export function wrapRoleCollection(http: AxiosInstance, data: CollectionProp<RoleProps>) {
   const roles = toPlainObject(cloneDeep(data))
-  roles.items = roles.items.map((entity) => wrapRole(http, entity))
-  return freezeSys(roles)
+  return freezeSys({ ...roles, items: roles.items.map((entity) => wrapRole(http, entity)) })
 }

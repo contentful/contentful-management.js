@@ -56,8 +56,8 @@ export interface User extends UserProps, DefaultElements<UserProps> {}
  */
 export function wrapUser(http: AxiosInstance, data: UserProps) {
   const user = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(user, {})
-  return freezeSys(user)
+  const userWithMethods = enhanceWithMethods(user, {})
+  return freezeSys(userWithMethods)
 }
 
 /**
@@ -68,6 +68,5 @@ export function wrapUser(http: AxiosInstance, data: UserProps) {
  */
 export function wrapUserCollection(http: AxiosInstance, data: CollectionProp<UserProps>) {
   const users = toPlainObject(cloneDeep(data))
-  users.items = users.items.map((entity) => wrapUser(http, entity))
-  return freezeSys(users)
+  return freezeSys({ ...users, items: users.items.map((entity) => wrapUser(http, entity)) })
 }

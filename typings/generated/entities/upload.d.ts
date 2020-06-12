@@ -31,6 +31,8 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
  * @param {Object} data - Raw upload data
  * @return {Upload} Wrapped upload data
  */
-export declare function wrapUpload(http: AxiosInstance, data: UploadProps): UploadProps & {
+export declare function wrapUpload(http: AxiosInstance, data: UploadProps): {
+    delete: () => Promise<void>;
+} & UploadProps & {
     toPlainObject(): UploadProps;
 };

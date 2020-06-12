@@ -96,8 +96,11 @@ function createTeamMembershipApi(http: AxiosInstance) {
  */
 export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps) {
   const teamMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(teamMembership, createTeamMembershipApi(http))
-  return freezeSys(teamMembership)
+  const teamMembershipWithMethods = enhanceWithMethods(
+    teamMembership,
+    createTeamMembershipApi(http)
+  )
+  return freezeSys(teamMembershipWithMethods)
 }
 
 /**
@@ -111,6 +114,8 @@ export function wrapTeamMembershipCollection(
   data: CollectionProp<TeamMembershipProps>
 ) {
   const teamMemberships = toPlainObject(cloneDeep(data))
-  teamMemberships.items = teamMemberships.items.map((entity) => wrapTeamMembership(http, entity))
-  return freezeSys(teamMemberships)
+  return freezeSys({
+    ...teamMemberships,
+    items: teamMemberships.items.map((entity) => wrapTeamMembership(http, entity)),
+  })
 }

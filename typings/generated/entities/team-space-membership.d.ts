@@ -73,7 +73,12 @@ export interface TeamSpaceMembership extends TeamSpaceMembershipProps, DefaultEl
  * @param data - Raw space membership data
  * @return Wrapped team space membership data
  */
-export declare function wrapTeamSpaceMembership(http: AxiosInstance, data: TeamSpaceMembershipProps): TeamSpaceMembershipProps & {
+export declare function wrapTeamSpaceMembership(http: AxiosInstance, data: TeamSpaceMembershipProps): {
+    update: () => Promise<any & TeamSpaceMembershipProps & {
+        toPlainObject(): TeamSpaceMembershipProps;
+    }>;
+    delete: () => Promise<void>;
+} & TeamSpaceMembershipProps & {
     toPlainObject(): TeamSpaceMembershipProps;
 };
 /**
@@ -82,6 +87,20 @@ export declare function wrapTeamSpaceMembership(http: AxiosInstance, data: TeamS
  * @param data - Raw space membership collection data
  * @return Wrapped team space membership collection data
  */
-export declare function wrapTeamSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<TeamSpaceMembershipProps>): CollectionProp<TeamSpaceMembershipProps> & {
+export declare function wrapTeamSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<TeamSpaceMembershipProps>): {
+    items: ({
+        update: () => Promise<any & TeamSpaceMembershipProps & {
+            toPlainObject(): TeamSpaceMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & TeamSpaceMembershipProps & {
+        toPlainObject(): TeamSpaceMembershipProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<TeamSpaceMembershipProps>;
 };

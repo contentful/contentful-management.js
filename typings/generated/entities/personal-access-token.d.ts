@@ -33,7 +33,9 @@ export interface PersonalAccessToken extends PersonalAccessTokenProp, DefaultEle
  * @param data - Raw  personal access token data
  * @return Wrapped personal access token
  */
-export declare function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp): PersonalAccessTokenProp & {
+export declare function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp): {
+    revoke: () => Promise<any>;
+} & PersonalAccessTokenProp & {
     toPlainObject(): PersonalAccessTokenProp;
 };
 /**
@@ -42,6 +44,17 @@ export declare function wrapPersonalAccessToken(http: AxiosInstance, data: Perso
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */
-export declare function wrapPersonalAccessTokenCollection(http: AxiosInstance, data: CollectionProp<PersonalAccessTokenProp>): CollectionProp<PersonalAccessTokenProp> & {
+export declare function wrapPersonalAccessTokenCollection(http: AxiosInstance, data: CollectionProp<PersonalAccessTokenProp>): {
+    items: ({
+        revoke: () => Promise<any>;
+    } & PersonalAccessTokenProp & {
+        toPlainObject(): PersonalAccessTokenProp;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<PersonalAccessTokenProp>;
 };

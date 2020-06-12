@@ -115,8 +115,8 @@ export function wrapLocale(http: AxiosInstance, data: LocaleProps) {
   // @ts-ignore
   delete data.internal_code
   const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+  const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(http))
+  return freezeSys(localeWithMethods)
 }
 
 /**
@@ -127,6 +127,5 @@ export function wrapLocale(http: AxiosInstance, data: LocaleProps) {
  */
 export function wrapLocaleCollection(http: AxiosInstance, data: CollectionProp<LocaleProps>) {
   const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
+  return freezeSys({ ...locales, items: locales.items.map((entity) => wrapLocale(http, entity)) })
 }

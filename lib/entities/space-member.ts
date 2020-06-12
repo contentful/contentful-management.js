@@ -39,6 +39,8 @@ export function wrapSpaceMemberCollection(
   data: CollectionProp<SpaceMemberProps>
 ) {
   const spaceMembers = toPlainObject(cloneDeep(data))
-  spaceMembers.items = spaceMembers.items.map((entity) => wrapSpaceMember(http, entity))
-  return freezeSys(spaceMembers)
+  return freezeSys({
+    ...spaceMembers,
+    items: spaceMembers.items.map((entity) => wrapSpaceMember(http, entity)),
+  })
 }

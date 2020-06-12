@@ -27,8 +27,8 @@ function createSnapshotApi() {
  */
 export function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProps<T>) {
   const snapshot = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(snapshot, createSnapshotApi())
-  return freezeSys(snapshot)
+  const snapshotWithMethods = enhanceWithMethods(snapshot, createSnapshotApi())
+  return freezeSys(snapshotWithMethods)
 }
 
 /**
@@ -42,6 +42,8 @@ export function wrapSnapshotCollection<T>(
   data: CollectionProp<SnapshotProps<T>>
 ) {
   const snapshots = toPlainObject(cloneDeep(data))
-  snapshots.items = snapshots.items.map((entity) => wrapSnapshot(http, entity))
-  return freezeSys(snapshots)
+  return freezeSys({
+    ...snapshots,
+    items: snapshots.items.map((entity) => wrapSnapshot(http, entity)),
+  })
 }

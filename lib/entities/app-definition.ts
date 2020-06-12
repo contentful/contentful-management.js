@@ -150,6 +150,8 @@ export function wrapAppDefinitionCollection(
   data: CollectionProp<AppDefinitionProps>
 ) {
   const appDefinitions = toPlainObject(cloneDeep(data))
-  appDefinitions.items = appDefinitions.items.map((entity) => wrapAppDefinition(http, entity))
-  return freezeSys(appDefinitions)
+  return freezeSys({
+    ...appDefinitions,
+    items: appDefinitions.items.map((entity) => wrapAppDefinition(http, entity)),
+  })
 }

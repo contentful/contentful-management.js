@@ -57,8 +57,11 @@ function createPersonalAccessToken(http: AxiosInstance) {
  */
 export function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp) {
   const personalAccessToken = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(personalAccessToken, createPersonalAccessToken(http))
-  return freezeSys(personalAccessToken)
+  const personalAccessTokenWithMethods = enhanceWithMethods(
+    personalAccessToken,
+    createPersonalAccessToken(http)
+  )
+  return freezeSys(personalAccessTokenWithMethods)
 }
 
 /**
@@ -72,8 +75,8 @@ export function wrapPersonalAccessTokenCollection(
   data: CollectionProp<PersonalAccessTokenProp>
 ) {
   const personalAccessTokens = toPlainObject(cloneDeep(data))
-  personalAccessTokens.items = personalAccessTokens.items.map((entity) =>
-    wrapPersonalAccessToken(http, entity)
-  )
-  return freezeSys(personalAccessTokens)
+  return freezeSys({
+    ...personalAccessTokens,
+    items: personalAccessTokens.items.map((entity) => wrapPersonalAccessToken(http, entity)),
+  })
 }

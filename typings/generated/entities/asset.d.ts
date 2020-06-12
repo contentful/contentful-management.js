@@ -262,7 +262,7 @@ export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi
  * @param data - Raw asset data
  * @return Wrapped asset data
  */
-export declare function wrapAsset(http: AxiosInstance, data: AssetProps): AssetProps & {
+export declare function wrapAsset(http: AxiosInstance, data: AssetProps): AssetApi & AssetProps & {
     toPlainObject(): AssetProps;
 };
 /**
@@ -271,7 +271,16 @@ export declare function wrapAsset(http: AxiosInstance, data: AssetProps): AssetP
  * @param data - Raw asset collection data
  * @return Wrapped asset collection data
  */
-export declare function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>): CollectionProp<AssetProps> & {
+export declare function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>): {
+    items: (AssetApi & AssetProps & {
+        toPlainObject(): AssetProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<AssetProps>;
 };
 export {};

@@ -54,6 +54,8 @@ export function wrapOrganizationCollection(
   data: CollectionProp<OrganizationProp>
 ) {
   const organizations = toPlainObject(cloneDeep(data))
-  organizations.items = organizations.items.map((entity) => wrapOrganization(http, entity))
-  return freezeSys(organizations)
+  return freezeSys({
+    ...organizations,
+    items: organizations.items.map((entity) => wrapOrganization(http, entity)),
+  })
 }

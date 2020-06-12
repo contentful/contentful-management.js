@@ -174,7 +174,7 @@ export interface ContentType extends ContentTypeProps, DefaultElements<ContentTy
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export declare function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentTypeProps & {
+export declare function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentTypeApi & ContentTypeProps & {
     toPlainObject(): ContentTypeProps;
 };
 /**
@@ -183,7 +183,16 @@ export declare function wrapContentType(http: AxiosInstance, data: ContentTypePr
  * @param data - Raw content type collection data
  * @return Wrapped content type collection data
  */
-export declare function wrapContentTypeCollection(http: AxiosInstance, data: CollectionProp<ContentTypeProps>): CollectionProp<ContentTypeProps> & {
+export declare function wrapContentTypeCollection(http: AxiosInstance, data: CollectionProp<ContentTypeProps>): {
+    items: (ContentTypeApi & ContentTypeProps & {
+        toPlainObject(): ContentTypeProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<ContentTypeProps>;
 };
 export {};

@@ -65,7 +65,12 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
  * @param data - Raw team membership data
  * @return Wrapped team membership data
  */
-export declare function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps): TeamMembershipProps & {
+export declare function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps): {
+    update: () => Promise<any & TeamMembershipProps & {
+        toPlainObject(): TeamMembershipProps;
+    }>;
+    delete: () => Promise<void>;
+} & TeamMembershipProps & {
     toPlainObject(): TeamMembershipProps;
 };
 /**
@@ -74,6 +79,20 @@ export declare function wrapTeamMembership(http: AxiosInstance, data: TeamMember
  * @param data - Raw team membership collection data
  * @return Wrapped team membership collection data
  */
-export declare function wrapTeamMembershipCollection(http: AxiosInstance, data: CollectionProp<TeamMembershipProps>): CollectionProp<TeamMembershipProps> & {
+export declare function wrapTeamMembershipCollection(http: AxiosInstance, data: CollectionProp<TeamMembershipProps>): {
+    items: ({
+        update: () => Promise<any & TeamMembershipProps & {
+            toPlainObject(): TeamMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & TeamMembershipProps & {
+        toPlainObject(): TeamMembershipProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<TeamMembershipProps>;
 };

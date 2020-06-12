@@ -101,8 +101,11 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
  */
 export function wrapOrganizationMembership(http: AxiosInstance, data: OrganizationMembershipProps) {
   const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+  const organizationMembershipWithMethods = enhanceWithMethods(
+    organizationMembership,
+    createOrganizationMembershipApi(http)
+  )
+  return freezeSys(organizationMembershipWithMethods)
 }
 
 /**
@@ -116,8 +119,8 @@ export function wrapOrganizationMembershipCollection(
   data: CollectionProp<OrganizationMembershipProps>
 ) {
   const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) =>
-    wrapOrganizationMembership(http, entity)
-  )
-  return freezeSys(organizationMemberships)
+  return freezeSys({
+    ...organizationMemberships,
+    items: organizationMemberships.items.map((entity) => wrapOrganizationMembership(http, entity)),
+  })
 }

@@ -90,8 +90,8 @@ function createTeamApi(http: AxiosInstance) {
  */
 export function wrapTeam(http: AxiosInstance, data: TeamProps) {
   const team = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(team, createTeamApi(http))
-  return freezeSys(team)
+  const teamWithMethods = enhanceWithMethods(team, createTeamApi(http))
+  return freezeSys(teamWithMethods)
 }
 
 /**
@@ -102,6 +102,5 @@ export function wrapTeam(http: AxiosInstance, data: TeamProps) {
  */
 export function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>) {
   const teams = toPlainObject(cloneDeep(data))
-  teams.items = teams.items.map((entity) => wrapTeam(http, entity))
-  return freezeSys(teams)
+  return freezeSys({ ...teams, items: teams.items.map((entity) => wrapTeam(http, entity)) })
 }

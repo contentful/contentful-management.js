@@ -22,6 +22,15 @@ export declare function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApi
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */
-export declare function wrapPreviewApiKeyCollection(http: AxiosInstance, data: CollectionProp<PreviewApiKeyProps>): CollectionProp<PreviewApiKeyProps> & {
+export declare function wrapPreviewApiKeyCollection(http: AxiosInstance, data: CollectionProp<PreviewApiKeyProps>): {
+    items: (PreviewApiKeyProps & {
+        toPlainObject(): PreviewApiKeyProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<PreviewApiKeyProps>;
 };

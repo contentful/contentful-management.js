@@ -59,7 +59,12 @@ export interface OrganizationMembership extends OrganizationMembershipProps, Def
  * @param {Object} data - Raw organization membership data
  * @return {OrganizationMembership} Wrapped organization membership data
  */
-export declare function wrapOrganizationMembership(http: AxiosInstance, data: OrganizationMembershipProps): OrganizationMembershipProps & {
+export declare function wrapOrganizationMembership(http: AxiosInstance, data: OrganizationMembershipProps): {
+    update: () => Promise<any & OrganizationMembershipProps & {
+        toPlainObject(): OrganizationMembershipProps;
+    }>;
+    delete: () => Promise<void>;
+} & OrganizationMembershipProps & {
     toPlainObject(): OrganizationMembershipProps;
 };
 /**
@@ -68,6 +73,20 @@ export declare function wrapOrganizationMembership(http: AxiosInstance, data: Or
  * @param {Object} data - Raw organization membership collection data
  * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
  */
-export declare function wrapOrganizationMembershipCollection(http: AxiosInstance, data: CollectionProp<OrganizationMembershipProps>): CollectionProp<OrganizationMembershipProps> & {
+export declare function wrapOrganizationMembershipCollection(http: AxiosInstance, data: CollectionProp<OrganizationMembershipProps>): {
+    items: ({
+        update: () => Promise<any & OrganizationMembershipProps & {
+            toPlainObject(): OrganizationMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & OrganizationMembershipProps & {
+        toPlainObject(): OrganizationMembershipProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<OrganizationMembershipProps>;
 };

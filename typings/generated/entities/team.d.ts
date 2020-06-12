@@ -61,7 +61,10 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
  * @param data - Raw team data
  * @return Wrapped team data
  */
-export declare function wrapTeam(http: AxiosInstance, data: TeamProps): TeamProps & {
+export declare function wrapTeam(http: AxiosInstance, data: TeamProps): {
+    update: () => Promise<unknown>;
+    delete: () => Promise<void>;
+} & TeamProps & {
     toPlainObject(): TeamProps;
 };
 /**
@@ -70,6 +73,18 @@ export declare function wrapTeam(http: AxiosInstance, data: TeamProps): TeamProp
  * @param data - Raw team collection data
  * @return Wrapped team collection data
  */
-export declare function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>): CollectionProp<TeamProps> & {
+export declare function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>): {
+    items: ({
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+    } & TeamProps & {
+        toPlainObject(): TeamProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<TeamProps>;
 };

@@ -286,8 +286,8 @@ const findAndUpdateField = function (
  */
 export function wrapContentType(http: AxiosInstance, data: ContentTypeProps) {
   const contentType = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(contentType, createContentTypeApi(http))
-  return freezeSys(contentType)
+  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
+  return freezeSys(contentTypeWithMethods)
 }
 
 /**
@@ -301,6 +301,8 @@ export function wrapContentTypeCollection(
   data: CollectionProp<ContentTypeProps>
 ) {
   const contentTypes = toPlainObject(cloneDeep(data))
-  contentTypes.items = contentTypes.items.map((entity) => wrapContentType(http, entity))
-  return freezeSys(contentTypes)
+  return freezeSys({
+    ...contentTypes,
+    items: contentTypes.items.map((entity) => wrapContentType(http, entity)),
+  })
 }

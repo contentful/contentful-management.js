@@ -107,8 +107,10 @@ export function wrapAppInstallationCollection(
   data: CollectionProp<AppInstallationProps>
 ) {
   const appInstallations = toPlainObject(cloneDeep(data))
-  appInstallations.items = appInstallations.items.map((appInstallationEntity) =>
-    wrapAppInstallation(http, appInstallationEntity)
-  )
-  return freezeSys(appInstallations)
+  return freezeSys({
+    ...appInstallations,
+    items: appInstallations.items.map((appInstallationEntity) =>
+      wrapAppInstallation(http, appInstallationEntity)
+    ),
+  })
 }

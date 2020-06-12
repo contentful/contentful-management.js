@@ -277,8 +277,8 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  */
 export function wrapEntry(http: AxiosInstance, data: EntryProp) {
   const entry = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(entry, createEntryApi(http))
-  return freezeSys(entry)
+  const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
+  return freezeSys(entryWithMethods)
 }
 
 /**
@@ -290,6 +290,5 @@ export function wrapEntry(http: AxiosInstance, data: EntryProp) {
  */
 export function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>) {
   const entries = toPlainObject(cloneDeep(data))
-  entries.items = entries.items.map((entity) => wrapEntry(http, entity))
-  return freezeSys(entries)
+  return freezeSys({ ...entries, items: entries.items.map((entity) => wrapEntry(http, entity)) })
 }

@@ -157,6 +157,21 @@ export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): {
  * @param data - Raw webhook collection data
  * @return Wrapped webhook collection data
  */
-export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): CollectionProp<WebhookProps> & {
+export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): {
+    items: ({
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+        getCalls: () => Promise<Record<string, unknown>>;
+        getCall: (id: string) => Promise<Record<string, unknown>>;
+        getHealth: () => Promise<Record<string, unknown>>;
+    } & WebhookProps & {
+        toPlainObject(): WebhookProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<WebhookProps>;
 };

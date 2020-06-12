@@ -81,8 +81,11 @@ function createSpaceMembershipApi(http: AxiosInstance) {
  */
 export function wrapSpaceMembership(http: AxiosInstance, data: SpaceMembershipProps) {
   const spaceMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(spaceMembership, createSpaceMembershipApi(http))
-  return freezeSys(spaceMembership)
+  const spaceMembershipWithMethods = enhanceWithMethods(
+    spaceMembership,
+    createSpaceMembershipApi(http)
+  )
+  return freezeSys(spaceMembershipWithMethods)
 }
 
 /**
@@ -96,6 +99,8 @@ export function wrapSpaceMembershipCollection(
   data: CollectionProp<SpaceMembershipProps>
 ) {
   const spaceMemberships = toPlainObject(cloneDeep(data))
-  spaceMemberships.items = spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity))
-  return freezeSys(spaceMemberships)
+  return freezeSys({
+    ...spaceMemberships,
+    items: spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity)),
+  })
 }

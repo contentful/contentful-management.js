@@ -64,6 +64,13 @@ export declare function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiK
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */
-export declare function wrapApiKeyCollection(http: AxiosInstance, data: CollectionProp<ApiKeyProps>): CollectionProp<ApiKeyProps> & {
+export declare function wrapApiKeyCollection(http: AxiosInstance, data: CollectionProp<ApiKeyProps>): {
+    items: ApiKey[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<ApiKeyProps>;
 };

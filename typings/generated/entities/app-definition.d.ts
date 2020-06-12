@@ -100,7 +100,19 @@ export declare function wrapAppDefinition(http: AxiosInstance, data: AppDefiniti
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */
-export declare function wrapAppDefinitionCollection(http: AxiosInstance, data: CollectionProp<AppDefinitionProps>): CollectionProp<AppDefinitionProps> & {
+export declare function wrapAppDefinitionCollection(http: AxiosInstance, data: CollectionProp<AppDefinitionProps>): {
+    items: ({
+        update: () => Promise<AppDefinition>;
+        delete: () => Promise<void>;
+    } & AppDefinitionProps & {
+        toPlainObject(): AppDefinitionProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<AppDefinitionProps>;
 };
 export {};

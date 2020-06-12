@@ -192,7 +192,7 @@ export interface Entry extends EntryProp, DefaultElements<EntryProp>, EntryApi {
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export declare function wrapEntry(http: AxiosInstance, data: EntryProp): EntryProp & {
+export declare function wrapEntry(http: AxiosInstance, data: EntryProp): EntryApi & EntryProp & {
     toPlainObject(): EntryProp;
 };
 /**
@@ -202,7 +202,16 @@ export declare function wrapEntry(http: AxiosInstance, data: EntryProp): EntryPr
  * @param data - Raw entry collection data
  * @return Wrapped entry collection data
  */
-export declare function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>): CollectionProp<EntryProp> & {
+export declare function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>): {
+    items: (EntryApi & EntryProp & {
+        toPlainObject(): EntryProp;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<EntryProp>;
 };
 export {};

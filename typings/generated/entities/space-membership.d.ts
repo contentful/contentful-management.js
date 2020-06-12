@@ -55,7 +55,10 @@ export interface SpaceMembership extends SpaceMembershipProps, DefaultElements<S
  * @param data - Raw space membership data
  * @return Wrapped space membership data
  */
-export declare function wrapSpaceMembership(http: AxiosInstance, data: SpaceMembershipProps): SpaceMembershipProps & {
+export declare function wrapSpaceMembership(http: AxiosInstance, data: SpaceMembershipProps): {
+    update: () => Promise<unknown>;
+    delete: () => Promise<void>;
+} & SpaceMembershipProps & {
     toPlainObject(): SpaceMembershipProps;
 };
 /**
@@ -64,6 +67,18 @@ export declare function wrapSpaceMembership(http: AxiosInstance, data: SpaceMemb
  * @param data - Raw space membership collection data
  * @return Wrapped space membership collection data
  */
-export declare function wrapSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<SpaceMembershipProps>): CollectionProp<SpaceMembershipProps> & {
+export declare function wrapSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<SpaceMembershipProps>): {
+    items: ({
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+    } & SpaceMembershipProps & {
+        toPlainObject(): SpaceMembershipProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<SpaceMembershipProps>;
 };

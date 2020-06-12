@@ -96,8 +96,8 @@ function createUiExtensionApi(http: AxiosInstance) {
  */
 export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps) {
   const uiExtension = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(uiExtension, createUiExtensionApi(http))
-  return freezeSys(uiExtension)
+  const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(http))
+  return freezeSys(uiExtensionWithMethods)
 }
 
 /**
@@ -111,6 +111,8 @@ export function wrapUiExtensionCollection(
   data: CollectionProp<UIExtensionProps>
 ) {
   const uiExtensions = toPlainObject(cloneDeep(data))
-  uiExtensions.items = uiExtensions.items.map((entity) => wrapUiExtension(http, entity))
-  return freezeSys(uiExtensions)
+  return freezeSys({
+    ...uiExtensions,
+    items: uiExtensions.items.map((entity) => wrapUiExtension(http, entity)),
+  })
 }

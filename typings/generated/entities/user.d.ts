@@ -51,6 +51,17 @@ export declare function wrapUser(http: AxiosInstance, data: UserProps): UserProp
  * @param data - Raw data collection
  * @return Normalized user collection
  */
-export declare function wrapUserCollection(http: AxiosInstance, data: CollectionProp<UserProps>): CollectionProp<UserProps> & {
+export declare function wrapUserCollection(http: AxiosInstance, data: CollectionProp<UserProps>): {
+    items: (UserProps & {
+        toPlainObject(): UserProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number; /**
+     * User confirmation flag
+     */
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<UserProps>;
 };

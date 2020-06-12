@@ -422,8 +422,8 @@ function createAssetApi(http: AxiosInstance): AssetApi {
  */
 export function wrapAsset(http: AxiosInstance, data: AssetProps) {
   const asset = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(asset, createAssetApi(http))
-  return freezeSys(asset)
+  const assetWithMethods = enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(assetWithMethods)
 }
 
 /**
@@ -434,6 +434,5 @@ export function wrapAsset(http: AxiosInstance, data: AssetProps) {
  */
 export function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>) {
   const assets = toPlainObject(cloneDeep(data))
-  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
-  return freezeSys(assets)
+  return freezeSys({ ...assets, items: assets.items.map((entity) => wrapAsset(http, entity)) })
 }

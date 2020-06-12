@@ -27,13 +27,34 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
     } & import("./app-definition").AppDefinitionProps & {
         toPlainObject(): import("./app-definition").AppDefinitionProps;
     }>;
-    getAppDefinitions: (query?: import("../common-types").QueryOptions) => Promise<CollectionProp<import("./app-definition").AppDefinitionProps> & {
+    getAppDefinitions: (query?: import("../common-types").QueryOptions) => Promise<{
+        items: ({
+            update: () => Promise<import("./app-definition").AppDefinition>;
+            delete: () => Promise<void>;
+        } & import("./app-definition").AppDefinitionProps & {
+            toPlainObject(): import("./app-definition").AppDefinitionProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./app-definition").AppDefinitionProps>;
     }>;
     getUser: (id: string) => Promise<import("./user").UserProps & {
         toPlainObject(): import("./user").UserProps;
     }>;
-    getUsers: (query?: import("../common-types").QueryOptions) => Promise<CollectionProp<import("./user").UserProps> & {
+    getUsers: (query?: import("../common-types").QueryOptions) => Promise<{
+        items: (import("./user").UserProps & {
+            toPlainObject(): import("./user").UserProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./user").UserProps>;
     }>;
     createAppDefinition: (data: Pick<import("./app-definition").AppDefinitionProps, "name" | "src" | "locations">) => Promise<{
@@ -42,46 +63,141 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
     } & import("./app-definition").AppDefinitionProps & {
         toPlainObject(): import("./app-definition").AppDefinitionProps;
     }>;
-    getOrganizationMembership: (id: string) => Promise<import("./organization-membership").OrganizationMembershipProps & {
+    getOrganizationMembership: (id: string) => Promise<{
+        update: () => Promise<any & import("./organization-membership").OrganizationMembershipProps & {
+            toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & import("./organization-membership").OrganizationMembershipProps & {
         toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
     }>;
-    getOrganizationMemberships: (query?: import("../common-types").QueryOptions) => Promise<CollectionProp<import("./organization-membership").OrganizationMembershipProps> & {
+    getOrganizationMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
+        items: ({
+            update: () => Promise<any & import("./organization-membership").OrganizationMembershipProps & {
+                toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./organization-membership").OrganizationMembershipProps & {
+            toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./organization-membership").OrganizationMembershipProps>;
     }>;
-    createTeam: (data: Pick<import("./team").TeamProps, "description" | "name">) => Promise<import("./team").TeamProps & {
+    createTeam: (data: Pick<import("./team").TeamProps, "description" | "name">) => Promise<{
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+    } & import("./team").TeamProps & {
         toPlainObject(): import("./team").TeamProps;
     }>;
-    getTeam: (teamId: string) => Promise<import("./team").TeamProps & {
+    getTeam: (teamId: string) => Promise<{
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+    } & import("./team").TeamProps & {
         toPlainObject(): import("./team").TeamProps;
     }>;
-    getTeams: (query?: import("../common-types").QueryOptions) => Promise<CollectionProp<import("./team").TeamProps> & {
+    getTeams: (query?: import("../common-types").QueryOptions) => Promise<{
+        items: ({
+            update: () => Promise<unknown>;
+            delete: () => Promise<void>;
+        } & import("./team").TeamProps & {
+            toPlainObject(): import("./team").TeamProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./team").TeamProps>;
     }>;
-    createTeamMembership: (teamId: string, data: Pick<import("./team-membership").TeamMembershipProps, "admin" | "organizationMembershipId">) => Promise<import("./team-membership").TeamMembershipProps & {
+    createTeamMembership: (teamId: string, data: Pick<import("./team-membership").TeamMembershipProps, "admin" | "organizationMembershipId">) => Promise<{
+        update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+            toPlainObject(): import("./team-membership").TeamMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & import("./team-membership").TeamMembershipProps & {
         toPlainObject(): import("./team-membership").TeamMembershipProps;
     }>;
-    getTeamMembership: (teamId: string, teamMembershipId: string) => Promise<import("./team-membership").TeamMembershipProps & {
+    getTeamMembership: (teamId: string, teamMembershipId: string) => Promise<{
+        update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+            toPlainObject(): import("./team-membership").TeamMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & import("./team-membership").TeamMembershipProps & {
         toPlainObject(): import("./team-membership").TeamMembershipProps;
     }>;
     getTeamMemberships: (opts?: {
         teamId?: string | undefined;
         query?: import("../common-types").QueryOptions | undefined;
-    }) => Promise<CollectionProp<import("./team-membership").TeamMembershipProps> & {
+    }) => Promise<{
+        items: ({
+            update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+                toPlainObject(): import("./team-membership").TeamMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./team-membership").TeamMembershipProps & {
+            toPlainObject(): import("./team-membership").TeamMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./team-membership").TeamMembershipProps>;
     }>;
     getTeamSpaceMemberships: (opts?: {
         teamId?: string | undefined;
         query?: import("../common-types").QueryOptions | undefined;
-    }) => Promise<CollectionProp<import("./team-space-membership").TeamSpaceMembershipProps> & {
+    }) => Promise<{
+        items: ({
+            update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
+                toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./team-space-membership").TeamSpaceMembershipProps & {
+            toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./team-space-membership").TeamSpaceMembershipProps>;
     }>;
-    getTeamSpaceMembership: (teamSpaceMembershipId: string) => Promise<import("./team-space-membership").TeamSpaceMembershipProps & {
+    getTeamSpaceMembership: (teamSpaceMembershipId: string) => Promise<{
+        update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
+            toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+        }>;
+        delete: () => Promise<void>;
+    } & import("./team-space-membership").TeamSpaceMembershipProps & {
         toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
     }>;
-    getOrganizationSpaceMembership: (id: string) => Promise<import("./space-membership").SpaceMembershipProps & {
+    getOrganizationSpaceMembership: (id: string) => Promise<{
+        update: () => Promise<unknown>;
+        delete: () => Promise<void>;
+    } & import("./space-membership").SpaceMembershipProps & {
         toPlainObject(): import("./space-membership").SpaceMembershipProps;
     }>;
-    getOrganizationSpaceMemberships: (query?: import("../common-types").QueryOptions) => Promise<CollectionProp<import("./space-membership").SpaceMembershipProps> & {
+    getOrganizationSpaceMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
+        items: ({
+            update: () => Promise<unknown>;
+            delete: () => Promise<void>;
+        } & import("./space-membership").SpaceMembershipProps & {
+            toPlainObject(): import("./space-membership").SpaceMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
         toPlainObject(): CollectionProp<import("./space-membership").SpaceMembershipProps>;
     }>;
     getOrganizationInvitation: (invitationId: string) => Promise<import("./organization-invitation").OrganizationInvitationProps & {
@@ -100,6 +216,201 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
  * @param data - Raw organization collection data
  * @return {OrganizationCollection} Normalized organization collection data
  */
-export declare function wrapOrganizationCollection(http: AxiosInstance, data: CollectionProp<OrganizationProp>): CollectionProp<OrganizationProp> & {
+export declare function wrapOrganizationCollection(http: AxiosInstance, data: CollectionProp<OrganizationProp>): {
+    items: ({
+        getAppDefinition: (id: string) => Promise<{
+            update: () => Promise<import("./app-definition").AppDefinition>;
+            delete: () => Promise<void>;
+        } & import("./app-definition").AppDefinitionProps & {
+            toPlainObject(): import("./app-definition").AppDefinitionProps;
+        }>;
+        getAppDefinitions: (query?: import("../common-types").QueryOptions) => Promise<{
+            items: ({
+                update: () => Promise<import("./app-definition").AppDefinition>;
+                delete: () => Promise<void>;
+            } & import("./app-definition").AppDefinitionProps & {
+                toPlainObject(): import("./app-definition").AppDefinitionProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./app-definition").AppDefinitionProps>;
+        }>;
+        getUser: (id: string) => Promise<import("./user").UserProps & {
+            toPlainObject(): import("./user").UserProps;
+        }>;
+        getUsers: (query?: import("../common-types").QueryOptions) => Promise<{
+            items: (import("./user").UserProps & {
+                toPlainObject(): import("./user").UserProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./user").UserProps>;
+        }>;
+        createAppDefinition: (data: Pick<import("./app-definition").AppDefinitionProps, "name" | "src" | "locations">) => Promise<{
+            update: () => Promise<import("./app-definition").AppDefinition>;
+            delete: () => Promise<void>;
+        } & import("./app-definition").AppDefinitionProps & {
+            toPlainObject(): import("./app-definition").AppDefinitionProps;
+        }>;
+        getOrganizationMembership: (id: string) => Promise<{
+            update: () => Promise<any & import("./organization-membership").OrganizationMembershipProps & {
+                toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./organization-membership").OrganizationMembershipProps & {
+            toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+        }>;
+        getOrganizationMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
+            items: ({
+                update: () => Promise<any & import("./organization-membership").OrganizationMembershipProps & {
+                    toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & import("./organization-membership").OrganizationMembershipProps & {
+                toPlainObject(): import("./organization-membership").OrganizationMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./organization-membership").OrganizationMembershipProps>;
+        }>;
+        createTeam: (data: Pick<import("./team").TeamProps, "description" | "name">) => Promise<{
+            update: () => Promise<unknown>;
+            delete: () => Promise<void>;
+        } & import("./team").TeamProps & {
+            toPlainObject(): import("./team").TeamProps;
+        }>;
+        getTeam: (teamId: string) => Promise<{
+            update: () => Promise<unknown>;
+            delete: () => Promise<void>;
+        } & import("./team").TeamProps & {
+            toPlainObject(): import("./team").TeamProps;
+        }>;
+        getTeams: (query?: import("../common-types").QueryOptions) => Promise<{
+            items: ({
+                update: () => Promise<unknown>;
+                delete: () => Promise<void>;
+            } & import("./team").TeamProps & {
+                toPlainObject(): import("./team").TeamProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./team").TeamProps>;
+        }>;
+        createTeamMembership: (teamId: string, data: Pick<import("./team-membership").TeamMembershipProps, "admin" | "organizationMembershipId">) => Promise<{
+            update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+                toPlainObject(): import("./team-membership").TeamMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./team-membership").TeamMembershipProps & {
+            toPlainObject(): import("./team-membership").TeamMembershipProps;
+        }>;
+        getTeamMembership: (teamId: string, teamMembershipId: string) => Promise<{
+            update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+                toPlainObject(): import("./team-membership").TeamMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./team-membership").TeamMembershipProps & {
+            toPlainObject(): import("./team-membership").TeamMembershipProps;
+        }>;
+        getTeamMemberships: (opts?: {
+            teamId?: string | undefined;
+            query?: import("../common-types").QueryOptions | undefined;
+        }) => Promise<{
+            items: ({
+                update: () => Promise<any & import("./team-membership").TeamMembershipProps & {
+                    toPlainObject(): import("./team-membership").TeamMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & import("./team-membership").TeamMembershipProps & {
+                toPlainObject(): import("./team-membership").TeamMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./team-membership").TeamMembershipProps>;
+        }>;
+        getTeamSpaceMemberships: (opts?: {
+            teamId?: string | undefined;
+            query?: import("../common-types").QueryOptions | undefined;
+        }) => Promise<{
+            items: ({
+                update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
+                    toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & import("./team-space-membership").TeamSpaceMembershipProps & {
+                toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./team-space-membership").TeamSpaceMembershipProps>;
+        }>;
+        getTeamSpaceMembership: (teamSpaceMembershipId: string) => Promise<{
+            update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
+                toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & import("./team-space-membership").TeamSpaceMembershipProps & {
+            toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
+        }>;
+        getOrganizationSpaceMembership: (id: string) => Promise<{
+            update: () => Promise<unknown>;
+            delete: () => Promise<void>;
+        } & import("./space-membership").SpaceMembershipProps & {
+            toPlainObject(): import("./space-membership").SpaceMembershipProps;
+        }>;
+        getOrganizationSpaceMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
+            items: ({
+                update: () => Promise<unknown>;
+                delete: () => Promise<void>;
+            } & import("./space-membership").SpaceMembershipProps & {
+                toPlainObject(): import("./space-membership").SpaceMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+            toPlainObject(): CollectionProp<import("./space-membership").SpaceMembershipProps>;
+        }>;
+        getOrganizationInvitation: (invitationId: string) => Promise<import("./organization-invitation").OrganizationInvitationProps & {
+            toPlainObject(): import("./organization-invitation").OrganizationInvitationProps;
+        }>;
+        createOrganizationInvitation: (data: Pick<import("./organization-invitation").OrganizationInvitationProps, "role" | "firstName" | "lastName" | "email">) => Promise<import("./organization-invitation").OrganizationInvitationProps & {
+            toPlainObject(): import("./organization-invitation").OrganizationInvitationProps;
+        }>;
+    } & OrganizationProp & {
+        toPlainObject(): OrganizationProp;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<OrganizationProp>;
 };

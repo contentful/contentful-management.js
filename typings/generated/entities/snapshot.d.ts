@@ -24,6 +24,15 @@ export declare function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProp
  * @param data - Raw snapshot collection data
  * @return Wrapped snapshot collection data
  */
-export declare function wrapSnapshotCollection<T>(http: AxiosInstance, data: CollectionProp<SnapshotProps<T>>): CollectionProp<SnapshotProps<T>> & {
+export declare function wrapSnapshotCollection<T>(http: AxiosInstance, data: CollectionProp<SnapshotProps<T>>): {
+    items: (SnapshotProps<T> & {
+        toPlainObject(): SnapshotProps<T>;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<SnapshotProps<T>>;
 };

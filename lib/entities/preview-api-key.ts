@@ -24,8 +24,8 @@ function createPreviewApiKeyApi() {
  */
 export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps) {
   const previewApiKey = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())
-  return freezeSys(previewApiKey)
+  const previewApiKeyWithMethods = enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())
+  return freezeSys(previewApiKeyWithMethods)
 }
 
 /**
@@ -39,6 +39,8 @@ export function wrapPreviewApiKeyCollection(
   data: CollectionProp<PreviewApiKeyProps>
 ) {
   const previewApiKeys = toPlainObject(cloneDeep(data))
-  previewApiKeys.items = previewApiKeys.items.map((entity) => wrapPreviewApiKey(http, entity))
-  return freezeSys(previewApiKeys)
+  return freezeSys({
+    ...previewApiKeys,
+    items: previewApiKeys.items.map((entity) => wrapPreviewApiKey(http, entity)),
+  })
 }

@@ -28,6 +28,15 @@ export declare function wrapSpaceMember(http: AxiosInstance, data: SpaceMemberPr
  * @param data - Raw space members collection data
  * @return Wrapped space members collection data
  */
-export declare function wrapSpaceMemberCollection(http: AxiosInstance, data: CollectionProp<SpaceMemberProps>): CollectionProp<SpaceMemberProps> & {
+export declare function wrapSpaceMemberCollection(http: AxiosInstance, data: CollectionProp<SpaceMemberProps>): {
+    items: (SpaceMemberProps & {
+        toPlainObject(): SpaceMemberProps;
+    })[];
+    sys: {
+        type: "Array";
+    };
+    total: number;
+    skip: number;
+    limit: number;
     toPlainObject(): CollectionProp<SpaceMemberProps>;
 };
