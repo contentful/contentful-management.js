@@ -8,6 +8,7 @@ import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
 
 export { createPlainClient } from './plain/plain-client'
+export { asIterator } from './plain/as-iterator'
 
 /**
  * Create a client instance
