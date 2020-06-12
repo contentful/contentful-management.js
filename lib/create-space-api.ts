@@ -1,15 +1,28 @@
 /**
  * Contentful Space API. Contains methods to access any operations at a space
  * level, such as creating and reading entities contained in a space.
- * @namespace ContentfulSpaceAPI
  */
 
+import { AxiosInstance } from 'axios'
+import { Stream } from 'stream'
 import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
+import { EnvironmentProps } from './entities/environment'
+import { ContentTypeProps } from './entities/content-type'
+import { EntryProp } from './entities/entry'
+import { AssetProps, AssetFileProp } from './entities/asset'
+import { TeamSpaceMembershipProps } from './entities/team-space-membership'
+import { SpaceMembershipProps } from './entities/space-membership'
+import { RoleProps } from './entities/role'
+import { LocaleProps } from './entities/locale'
+import { WebhookProps } from './entities/webhook'
+import { QueryOptions } from './common-types'
+import { UIExtensionProps } from './entities/ui-extension'
+import { CreateApiKeyProps } from './entities/api-key'
 
-function raiseDeprecationWarning(method) {
+function raiseDeprecationWarning(method: string) {
   console.warn(
     [
       `Deprecated: Space.${method}() will be removed in future major versions.`,
@@ -35,7 +48,13 @@ function spaceMembershipDeprecationWarning() {
  * @prop {object} entities - Object with wrapper methods for each kind of entity
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({ http, httpUpload }) {
+export default function createSpaceApi({
+  http,
+  httpUpload,
+}: {
+  http: AxiosInstance
+  httpUpload: AxiosInstance
+}) {
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
@@ -60,7 +79,9 @@ export default function createSpaceApi({ http, httpUpload }) {
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
 
   function deleteSpace() {
-    return http.delete('').then(() => {}, errorHandler)
+    return http.delete('').then(() => {
+      // do nothing
+    }, errorHandler)
   }
 
   function updateSpace() {
@@ -76,7 +97,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapSpace(http, response.data), errorHandler)
   }
 
-  function getEnvironment(id) {
+  function getEnvironment(id: string) {
     return http
       .get('environments/' + id)
       .then((response) => wrapEnvironment(http, response.data), errorHandler)
@@ -94,7 +115,11 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEnvironment(http, response.data), errorHandler)
   }
 
-  function createEnvironmentWithId(id, data = {}, sourceEnvironmentId) {
+  function createEnvironmentWithId(
+    id: string,
+    data: Omit<EnvironmentProps, 'sys'>,
+    sourceEnvironmentId?: string
+  ) {
     return http
       .put('environments/' + id, data, {
         headers: sourceEnvironmentId
@@ -104,42 +129,42 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEnvironment(http, response.data), errorHandler)
   }
 
-  function getContentType(id) {
+  function getContentType(id: string) {
     raiseDeprecationWarning('getContentType')
     return http
       .get('content_types/' + id)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
 
-  function getEditorInterfaceForContentType(contentTypeId) {
+  function getEditorInterfaceForContentType(contentTypeId: string) {
     raiseDeprecationWarning('getEditorInterfaceForContentType')
     return http
       .get('content_types/' + contentTypeId + '/editor_interface')
       .then((response) => wrapEditorInterface(http, response.data), errorHandler)
   }
 
-  function getContentTypes(query = {}) {
+  function getContentTypes(query: QueryOptions = {}) {
     raiseDeprecationWarning('getContentTypes')
     return http
       .get('content_types', createRequestConfig({ query: query }))
       .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
   }
 
-  function createContentType(data) {
+  function createContentType(data: Omit<ContentTypeProps, 'sys'>) {
     raiseDeprecationWarning('createContentType')
     return http
       .post('content_types', data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
 
-  function createContentTypeWithId(id, data) {
+  function createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
     raiseDeprecationWarning('createContentTypeWithId')
     return http
       .put('content_types/' + id, data)
       .then((response) => wrapContentType(http, response.data), errorHandler)
   }
 
-  function getEntry(id, query = {}) {
+  function getEntry(id: string, query: QueryOptions = {}) {
     raiseDeprecationWarning('getEntry')
     normalizeSelect(query)
     return http
@@ -147,7 +172,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEntry(http, response.data), errorHandler)
   }
 
-  function getEntries(query = {}) {
+  function getEntries(query: QueryOptions = {}) {
     raiseDeprecationWarning('getEntries')
     normalizeSelect(query)
     return http
@@ -155,7 +180,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEntryCollection(http, response.data), errorHandler)
   }
 
-  function createEntry(contentTypeId, data) {
+  function createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
     raiseDeprecationWarning('createEntry')
     return http
       .post('entries', data, {
@@ -166,7 +191,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEntry(http, response.data), errorHandler)
   }
 
-  function createEntryWithId(contentTypeId, id, data) {
+  function createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
     raiseDeprecationWarning('createEntryWithId')
     return http
       .put('entries/' + id, data, {
@@ -177,7 +202,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapEntry(http, response.data), errorHandler)
   }
 
-  function getAsset(id, query = {}) {
+  function getAsset(id: string, query: QueryOptions = {}) {
     raiseDeprecationWarning('getAsset')
     normalizeSelect(query)
     return http
@@ -185,7 +210,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapAsset(http, response.data), errorHandler)
   }
 
-  function getAssets(query = {}) {
+  function getAssets(query: QueryOptions = {}) {
     raiseDeprecationWarning('getAssets')
     normalizeSelect(query)
     return http
@@ -193,20 +218,20 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapAssetCollection(http, response.data), errorHandler)
   }
 
-  function createAsset(data) {
+  function createAsset(data: Omit<AssetProps, 'sys'>) {
     return http
       .post('assets', data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
   }
 
-  function createAssetWithId(id, data) {
+  function createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
     raiseDeprecationWarning('createAssetWithId')
     return http
       .put('assets/' + id, data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
   }
 
-  function createAssetFromFiles(data) {
+  function createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
     raiseDeprecationWarning('createAssetFromFiles')
     const { file } = data.fields
     return Promise.all(
@@ -230,6 +255,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       })
     )
       .then((uploads) => {
+        // @ts-expect-error
         data.fields.file = uploads.reduce((fieldsData, upload) => {
           return {
             ...fieldsData,
@@ -241,7 +267,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .catch(errorHandler)
   }
 
-  function createUpload(data) {
+  function createUpload(data: { file: string | ArrayBuffer | Stream }) {
     raiseDeprecationWarning('createUpload')
     const { file } = data
     if (!file) {
@@ -259,7 +285,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .catch(errorHandler)
   }
 
-  function getUpload(id) {
+  function getUpload(id: string) {
     raiseDeprecationWarning('getUpload')
     return httpUpload
       .get('uploads/' + id)
@@ -267,7 +293,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .catch(errorHandler)
   }
 
-  function getLocale(id) {
+  function getLocale(id: string) {
     raiseDeprecationWarning('getLocale')
     return http
       .get('locales/' + id)
@@ -281,14 +307,14 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
   }
 
-  function createLocale(data) {
+  function createLocale(data: Omit<LocaleProps, 'sys'>) {
     raiseDeprecationWarning('createLocale')
     return http
       .post('locales', data)
       .then((response) => wrapLocale(http, response.data), errorHandler)
   }
 
-  function getWebhook(id) {
+  function getWebhook(id: string) {
     return http
       .get('webhook_definitions/' + id)
       .then((response) => wrapWebhook(http, response.data), errorHandler)
@@ -300,55 +326,55 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
   }
 
-  function createWebhook(data) {
+  function createWebhook(data: Omit<WebhookProps, 'sys'>) {
     return http
       .post('webhook_definitions', data)
       .then((response) => wrapWebhook(http, response.data), errorHandler)
   }
 
-  function createWebhookWithId(id, data) {
+  function createWebhookWithId(id: string, data: Omit<WebhookProps, 'sys'>) {
     return http
       .put('webhook_definitions/' + id, data)
       .then((response) => wrapWebhook(http, response.data), errorHandler)
   }
 
-  function getSpaceUser(id) {
+  function getSpaceUser(id: string) {
     return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
   }
 
-  function getSpaceUsers(query = {}) {
+  function getSpaceUsers(query: QueryOptions = {}) {
     return http
       .get('users/', createRequestConfig({ query: query }))
       .then((response) => wrapUserCollection(http, response.data), errorHandler)
   }
 
-  function getSpaceMember(id) {
+  function getSpaceMember(id: string) {
     return http
       .get('space_members/' + id)
       .then((response) => wrapSpaceMember(http, response.data), errorHandler)
   }
 
-  function getSpaceMembers(query = {}) {
+  function getSpaceMembers(query: QueryOptions = {}) {
     return http
       .get('space_members', createRequestConfig({ query: query }))
       .then((response) => wrapSpaceMemberCollection(http, response.data), errorHandler)
   }
 
-  function getSpaceMembership(id) {
+  function getSpaceMembership(id: string) {
     spaceMembershipDeprecationWarning()
     return http
       .get('space_memberships/' + id)
       .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
   }
 
-  function getSpaceMemberships(query = {}) {
+  function getSpaceMemberships(query: QueryOptions = {}) {
     spaceMembershipDeprecationWarning()
     return http
       .get('space_memberships', createRequestConfig({ query: query }))
       .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
   }
 
-  function createTeamSpaceMembership(teamId, data = {}) {
+  function createTeamSpaceMembership(teamId: string, data: Omit<TeamSpaceMembershipProps, 'sys'>) {
     return http
       .post('team_space_memberships', data, {
         headers: {
@@ -358,33 +384,33 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
   }
 
-  function getTeamSpaceMembership(teamSpaceMembershipId) {
+  function getTeamSpaceMembership(teamSpaceMembershipId: string) {
     return http
       .get('team_space_memberships/' + teamSpaceMembershipId)
       .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
   }
 
-  function getTeamSpaceMemberships(query = {}) {
+  function getTeamSpaceMemberships(query: QueryOptions = {}) {
     return http
-      .get('team_space_memberships', { query })
+      .get('team_space_memberships', createRequestConfig({ query: query }))
       .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
   }
 
-  function createSpaceMembership(data) {
+  function createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>) {
     spaceMembershipDeprecationWarning()
     return http
       .post('space_memberships', data)
       .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
   }
 
-  function createSpaceMembershipWithId(id, data) {
+  function createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>) {
     spaceMembershipDeprecationWarning()
     return http
       .put('space_memberships/' + id, data)
       .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
   }
 
-  function getRole(id) {
+  function getRole(id: string) {
     return http.get('roles/' + id).then((response) => wrapRole(http, response.data), errorHandler)
   }
 
@@ -394,17 +420,17 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapRoleCollection(http, response.data), errorHandler)
   }
 
-  function createRole(data) {
+  function createRole(data: Omit<RoleProps, 'sys'>) {
     return http.post('roles', data).then((response) => wrapRole(http, response.data), errorHandler)
   }
 
-  function createRoleWithId(id, data) {
+  function createRoleWithId(id: string, data: Omit<RoleProps, 'sys'>) {
     return http
       .put('roles/' + id, data)
       .then((response) => wrapRole(http, response.data), errorHandler)
   }
 
-  function getApiKey(id) {
+  function getApiKey(id: string) {
     return http
       .get('api_keys/' + id)
       .then((response) => wrapApiKey(http, response.data), errorHandler)
@@ -416,7 +442,7 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
   }
 
-  function getPreviewApiKey(id) {
+  function getPreviewApiKey(id: string) {
     return http
       .get('preview_api_keys/' + id)
       .then((response) => wrapPreviewApiKey(http, response.data), errorHandler)
@@ -428,19 +454,19 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapPreviewApiKeyCollection(http, response.data), errorHandler)
   }
 
-  function createApiKey(data) {
+  function createApiKey(data: CreateApiKeyProps) {
     return http
       .post('api_keys', data)
       .then((response) => wrapApiKey(http, response.data), errorHandler)
   }
 
-  function createApiKeyWithId(id, data) {
+  function createApiKeyWithId(id: string, data: CreateApiKeyProps) {
     return http
       .put('api_keys/' + id, data)
       .then((response) => wrapApiKey(http, response.data), errorHandler)
   }
 
-  function getUiExtension(id) {
+  function getUiExtension(id: string) {
     raiseDeprecationWarning('getUiExtension')
     return http
       .get('extensions/' + id)
@@ -454,35 +480,35 @@ export default function createSpaceApi({ http, httpUpload }) {
       .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
   }
 
-  function createUiExtension(data) {
+  function createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
     raiseDeprecationWarning('createUiExtension')
     return http
       .post('extensions', data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
   }
 
-  function createUiExtensionWithId(id, data) {
+  function createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
     raiseDeprecationWarning('createUiExtensionWithId')
     return http
       .put('extensions/' + id, data)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
   }
 
-  function getEntrySnapshots(entryId, query = {}) {
+  function getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
     raiseDeprecationWarning('getEntrySnapshots')
     return http
       .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
   }
 
-  function getContentTypeSnapshots(contentTypeId, query = {}) {
+  function getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
     raiseDeprecationWarning('getContentTypeSnapshots')
     return http
       .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
       .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
   }
 
-  function getEnvironmentAlias(id) {
+  function getEnvironmentAlias(id: string) {
     return http
       .get('environment_aliases/' + id)
       .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
@@ -500,7 +526,7 @@ export default function createSpaceApi({ http, httpUpload }) {
    * so we cannot omit the sys property on sdk level
    *
    */
-  function normalizeSelect(query) {
+  function normalizeSelect(query: QueryOptions) {
     if (query.select && !/sys/i.test(query.select)) {
       query.select += ',sys'
     }

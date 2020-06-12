@@ -69,7 +69,7 @@ export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps) {
  * @return
  */
 export function wrapEnvironmentCollection(
-  http: SdkHttpClient,
+  http: AxiosInstance,
   data: CollectionProp<EnvironmentProps>
 ) {
   const environments = toPlainObject(cloneDeep(data))

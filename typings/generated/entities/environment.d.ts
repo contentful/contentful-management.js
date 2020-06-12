@@ -2,10 +2,6 @@
 import createEnvironmentApi from '../create-environment-api';
 import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types';
 import { AxiosInstance } from 'axios';
-declare type SdkHttpClient = AxiosInstance & {
-    httpClientParams: Record<string, any>;
-    cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient;
-};
 export declare type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>;
 export declare type EnvironmentProps = {
     /**
@@ -442,7 +438,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
  * @param data - API response for a Environment collection
  * @return
  */
-export declare function wrapEnvironmentCollection(http: SdkHttpClient, data: CollectionProp<EnvironmentProps>): {
+export declare function wrapEnvironmentCollection(http: AxiosInstance, data: CollectionProp<EnvironmentProps>): {
     items: ({
         getEntryFromData: (entryData: import("./entry").EntryProp) => {
             update(): Promise<import("./entry").Entry>;
@@ -852,4 +848,3 @@ export declare function wrapEnvironmentCollection(http: SdkHttpClient, data: Col
     limit: number;
     toPlainObject(): CollectionProp<EnvironmentProps>;
 };
-export {};
