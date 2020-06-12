@@ -32,5 +32,16 @@ export declare function wrapPreviewApiKeyCollection(http: AxiosInstance, data: C
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<PreviewApiKeyProps>;
+} & {
+    toPlainObject(): {
+        items: (PreviewApiKeyProps & {
+            toPlainObject(): PreviewApiKeyProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

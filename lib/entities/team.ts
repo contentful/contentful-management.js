@@ -101,6 +101,8 @@ export function wrapTeam(http: AxiosInstance, data: TeamProps) {
  * @return Wrapped team collection data
  */
 export function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>) {
-  const teams = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...teams, items: teams.items.map((entity) => wrapTeam(http, entity)) })
+  const teams = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...teams, items: teams.items.map((entity) => wrapTeam(http, entity)) })
+  )
 }

@@ -212,6 +212,17 @@ export declare function wrapEntryCollection(http: AxiosInstance, data: Collectio
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<EntryProp>;
+} & {
+    toPlainObject(): {
+        items: (EntryApi & EntryProp & {
+            toPlainObject(): EntryProp;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };
 export {};

@@ -53,9 +53,11 @@ export function wrapOrganizationCollection(
   http: AxiosInstance,
   data: CollectionProp<OrganizationProp>
 ) {
-  const organizations = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...organizations,
-    items: organizations.items.map((entity) => wrapOrganization(http, entity)),
-  })
+  const organizations = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...organizations,
+      items: organizations.items.map((entity) => wrapOrganization(http, entity)),
+    })
+  )
 }

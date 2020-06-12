@@ -109,6 +109,8 @@ export function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiKey {
  * @return Wrapped api key collection data
  */
 export function wrapApiKeyCollection(http: AxiosInstance, data: CollectionProp<ApiKeyProps>) {
-  const apiKeys = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...apiKeys, items: apiKeys.items.map((entity) => wrapApiKey(http, entity)) })
+  const apiKeys = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...apiKeys, items: apiKeys.items.map((entity) => wrapApiKey(http, entity)) })
+  )
 }

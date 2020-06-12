@@ -281,6 +281,17 @@ export declare function wrapAssetCollection(http: AxiosInstance, data: Collectio
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<AssetProps>;
+} & {
+    toPlainObject(): {
+        items: (AssetApi & AssetProps & {
+            toPlainObject(): AssetProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };
 export {};

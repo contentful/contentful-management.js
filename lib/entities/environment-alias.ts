@@ -73,9 +73,11 @@ export function wrapEnvironmentAliasCollection(
   http: AxiosInstance,
   data: CollectionProp<EnvironmentAliasProps>
 ) {
-  const aliases = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...aliases,
-    items: aliases.items.map((entity) => wrapEnvironmentAlias(http, entity)),
-  })
+  const aliases = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...aliases,
+      items: aliases.items.map((entity) => wrapEnvironmentAlias(http, entity)),
+    })
+  )
 }

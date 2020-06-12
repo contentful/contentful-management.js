@@ -433,6 +433,8 @@ export function wrapAsset(http: AxiosInstance, data: AssetProps) {
  * @return Wrapped asset collection data
  */
 export function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>) {
-  const assets = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...assets, items: assets.items.map((entity) => wrapAsset(http, entity)) })
+  const assets = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...assets, items: assets.items.map((entity) => wrapAsset(http, entity)) })
+  )
 }

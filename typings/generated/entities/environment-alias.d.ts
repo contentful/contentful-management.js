@@ -61,5 +61,18 @@ export declare function wrapEnvironmentAliasCollection(http: AxiosInstance, data
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<EnvironmentAliasProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<unknown>;
+        } & EnvironmentAliasProps & {
+            toPlainObject(): EnvironmentAliasProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

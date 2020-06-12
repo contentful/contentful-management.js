@@ -98,5 +98,19 @@ export declare function wrapUiExtensionCollection(http: AxiosInstance, data: Col
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<UIExtensionProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<UIExtension>;
+            delete: () => Promise<void>;
+        } & UIExtensionProps & {
+            toPlainObject(): UIExtensionProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

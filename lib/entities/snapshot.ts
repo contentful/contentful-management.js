@@ -41,9 +41,11 @@ export function wrapSnapshotCollection<T>(
   http: AxiosInstance,
   data: CollectionProp<SnapshotProps<T>>
 ) {
-  const snapshots = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...snapshots,
-    items: snapshots.items.map((entity) => wrapSnapshot(http, entity)),
-  })
+  const snapshots = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...snapshots,
+      items: snapshots.items.map((entity) => wrapSnapshot(http, entity)),
+    })
+  )
 }

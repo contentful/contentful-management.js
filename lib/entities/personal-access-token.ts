@@ -74,9 +74,11 @@ export function wrapPersonalAccessTokenCollection(
   http: AxiosInstance,
   data: CollectionProp<PersonalAccessTokenProp>
 ) {
-  const personalAccessTokens = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...personalAccessTokens,
-    items: personalAccessTokens.items.map((entity) => wrapPersonalAccessToken(http, entity)),
-  })
+  const personalAccessTokens = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...personalAccessTokens,
+      items: personalAccessTokens.items.map((entity) => wrapPersonalAccessToken(http, entity)),
+    })
+  )
 }

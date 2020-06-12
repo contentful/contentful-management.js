@@ -126,6 +126,8 @@ export function wrapLocale(http: AxiosInstance, data: LocaleProps) {
  * @return Wrapped locale collection data
  */
 export function wrapLocaleCollection(http: AxiosInstance, data: CollectionProp<LocaleProps>) {
-  const locales = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...locales, items: locales.items.map((entity) => wrapLocale(http, entity)) })
+  const locales = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...locales, items: locales.items.map((entity) => wrapLocale(http, entity)) })
+  )
 }

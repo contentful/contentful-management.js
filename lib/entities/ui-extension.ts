@@ -110,9 +110,11 @@ export function wrapUiExtensionCollection(
   http: AxiosInstance,
   data: CollectionProp<UIExtensionProps>
 ) {
-  const uiExtensions = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...uiExtensions,
-    items: uiExtensions.items.map((entity) => wrapUiExtension(http, entity)),
-  })
+  const uiExtensions = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...uiExtensions,
+      items: uiExtensions.items.map((entity) => wrapUiExtension(http, entity)),
+    })
+  )
 }

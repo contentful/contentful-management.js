@@ -67,6 +67,8 @@ export function wrapUser(http: AxiosInstance, data: UserProps) {
  * @return Normalized user collection
  */
 export function wrapUserCollection(http: AxiosInstance, data: CollectionProp<UserProps>) {
-  const users = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...users, items: users.items.map((entity) => wrapUser(http, entity)) })
+  const users = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...users, items: users.items.map((entity) => wrapUser(http, entity)) })
+  )
 }

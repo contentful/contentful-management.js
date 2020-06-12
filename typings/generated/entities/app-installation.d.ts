@@ -89,5 +89,21 @@ export declare function wrapAppInstallationCollection(http: AxiosInstance, data:
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<AppInstallationProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<any & AppInstallationProps & {
+                toPlainObject(): AppInstallationProps;
+            }>;
+            delete: () => Promise<void>;
+        } & AppInstallationProps & {
+            toPlainObject(): AppInstallationProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

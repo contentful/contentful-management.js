@@ -38,5 +38,16 @@ export declare function wrapSpaceMemberCollection(http: AxiosInstance, data: Col
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<SpaceMemberProps>;
+} & {
+    toPlainObject(): {
+        items: (SpaceMemberProps & {
+            toPlainObject(): SpaceMemberProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

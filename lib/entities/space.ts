@@ -57,9 +57,11 @@ export function wrapSpace(http: AxiosInstance, data: SpaceProps) {
  * @param  data - API response for a Space collection
  */
 export function wrapSpaceCollection(http: AxiosInstance, data: CollectionProp<SpaceProps>) {
-  const spaces = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...spaces,
-    items: spaces.items.map((entity) => wrapSpace(http, entity)),
-  })
+  const spaces = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...spaces,
+      items: spaces.items.map((entity) => wrapSpace(http, entity)),
+    })
+  )
 }

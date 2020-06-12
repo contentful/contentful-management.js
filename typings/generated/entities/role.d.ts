@@ -91,5 +91,19 @@ export declare function wrapRoleCollection(http: AxiosInstance, data: Collection
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<RoleProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<Role>;
+            delete: () => Promise<void>;
+        } & RoleProps & {
+            toPlainObject(): RoleProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

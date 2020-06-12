@@ -193,6 +193,17 @@ export declare function wrapContentTypeCollection(http: AxiosInstance, data: Col
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<ContentTypeProps>;
+} & {
+    toPlainObject(): {
+        items: (ContentTypeApi & ContentTypeProps & {
+            toPlainObject(): ContentTypeProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };
 export {};

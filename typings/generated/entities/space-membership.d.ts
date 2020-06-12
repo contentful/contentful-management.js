@@ -80,5 +80,19 @@ export declare function wrapSpaceMembershipCollection(http: AxiosInstance, data:
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<SpaceMembershipProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<SpaceMembership>;
+            delete: () => Promise<void>;
+        } & SpaceMembershipProps & {
+            toPlainObject(): SpaceMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

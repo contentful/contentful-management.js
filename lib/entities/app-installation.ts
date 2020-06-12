@@ -106,11 +106,13 @@ export function wrapAppInstallationCollection(
   http: AxiosInstance,
   data: CollectionProp<AppInstallationProps>
 ) {
-  const appInstallations = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...appInstallations,
-    items: appInstallations.items.map((appInstallationEntity) =>
-      wrapAppInstallation(http, appInstallationEntity)
-    ),
-  })
+  const appInstallations = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...appInstallations,
+      items: appInstallations.items.map((appInstallationEntity) =>
+        wrapAppInstallation(http, appInstallationEntity)
+      ),
+    })
+  )
 }

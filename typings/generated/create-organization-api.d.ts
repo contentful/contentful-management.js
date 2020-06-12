@@ -34,7 +34,21 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<AppDefinitionProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<import("./entities/app-definition").AppDefinition>;
+                delete: () => Promise<void>;
+            } & AppDefinitionProps & {
+                toPlainObject(): AppDefinitionProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     getUser: (id: string) => Promise<import("./entities/user").UserProps & {
         toPlainObject(): import("./entities/user").UserProps;
@@ -49,7 +63,18 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/user").UserProps>;
+    } & {
+        toPlainObject(): {
+            items: (import("./entities/user").UserProps & {
+                toPlainObject(): import("./entities/user").UserProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     createAppDefinition: (data: Omit<AppDefinitionProps, 'sys'>) => Promise<{
         update: () => Promise<import("./entities/app-definition").AppDefinition>;
@@ -80,7 +105,23 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/organization-membership").OrganizationMembershipProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<any & import("./entities/organization-membership").OrganizationMembershipProps & {
+                    toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & import("./entities/organization-membership").OrganizationMembershipProps & {
+                toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     createTeam: (data: Omit<TeamProps, 'sys'>) => Promise<{
         update: () => Promise<import("./entities/team").Team>;
@@ -107,7 +148,21 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<TeamProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<import("./entities/team").Team>;
+                delete: () => Promise<void>;
+            } & TeamProps & {
+                toPlainObject(): TeamProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     createTeamMembership: (teamId: string, data: Omit<TeamMembershipProps, 'sys'>) => Promise<{
         update: () => Promise<any & TeamMembershipProps & {
@@ -143,7 +198,23 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<TeamMembershipProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<any & TeamMembershipProps & {
+                    toPlainObject(): TeamMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & TeamMembershipProps & {
+                toPlainObject(): TeamMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     getTeamSpaceMemberships: (opts?: {
         teamId?: string;
@@ -163,7 +234,23 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/team-space-membership").TeamSpaceMembershipProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<any & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+                    toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
+                }>;
+                delete: () => Promise<void>;
+            } & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+                toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     getTeamSpaceMembership: (teamSpaceMembershipId: string) => Promise<{
         update: () => Promise<any & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
@@ -192,7 +279,21 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/space-membership").SpaceMembershipProps>;
+    } & {
+        toPlainObject(): {
+            items: ({
+                update: () => Promise<import("./entities/space-membership").SpaceMembership>;
+                delete: () => Promise<void>;
+            } & import("./entities/space-membership").SpaceMembershipProps & {
+                toPlainObject(): import("./entities/space-membership").SpaceMembershipProps;
+            })[];
+            sys: {
+                type: "Array";
+            };
+            total: number;
+            skip: number;
+            limit: number;
+        };
     }>;
     getOrganizationInvitation: (invitationId: string) => Promise<OrganizationInvitationProps & {
         toPlainObject(): OrganizationInvitationProps;

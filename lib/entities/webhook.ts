@@ -209,9 +209,11 @@ export function wrapWebhook(http: AxiosInstance, data: WebhookProps) {
  * @return Wrapped webhook collection data
  */
 export function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>) {
-  const webhooks = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...webhooks,
-    items: webhooks.items.map((entity) => wrapWebhook(http, entity)),
-  })
+  const webhooks = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...webhooks,
+      items: webhooks.items.map((entity) => wrapWebhook(http, entity)),
+    })
+  )
 }

@@ -102,5 +102,21 @@ export declare function wrapTeamSpaceMembershipCollection(http: AxiosInstance, d
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<TeamSpaceMembershipProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<any & TeamSpaceMembershipProps & {
+                toPlainObject(): TeamSpaceMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & TeamSpaceMembershipProps & {
+            toPlainObject(): TeamSpaceMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

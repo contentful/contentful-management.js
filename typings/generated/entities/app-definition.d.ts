@@ -113,6 +113,20 @@ export declare function wrapAppDefinitionCollection(http: AxiosInstance, data: C
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<AppDefinitionProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<AppDefinition>;
+            delete: () => Promise<void>;
+        } & AppDefinitionProps & {
+            toPlainObject(): AppDefinitionProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };
 export {};

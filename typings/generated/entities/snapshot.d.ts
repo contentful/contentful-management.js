@@ -34,5 +34,16 @@ export declare function wrapSnapshotCollection<T>(http: AxiosInstance, data: Col
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<SnapshotProps<T>>;
+} & {
+    toPlainObject(): {
+        items: (SnapshotProps<T> & {
+            toPlainObject(): SnapshotProps<T>;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

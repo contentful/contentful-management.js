@@ -113,9 +113,11 @@ export function wrapTeamMembershipCollection(
   http: AxiosInstance,
   data: CollectionProp<TeamMembershipProps>
 ) {
-  const teamMemberships = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...teamMemberships,
-    items: teamMemberships.items.map((entity) => wrapTeamMembership(http, entity)),
-  })
+  const teamMemberships = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...teamMemberships,
+      items: teamMemberships.items.map((entity) => wrapTeamMembership(http, entity)),
+    })
+  )
 }

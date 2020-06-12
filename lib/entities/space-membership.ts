@@ -98,9 +98,11 @@ export function wrapSpaceMembershipCollection(
   http: AxiosInstance,
   data: CollectionProp<SpaceMembershipProps>
 ) {
-  const spaceMemberships = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...spaceMemberships,
-    items: spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity)),
-  })
+  const spaceMemberships = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...spaceMemberships,
+      items: spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity)),
+    })
+  )
 }

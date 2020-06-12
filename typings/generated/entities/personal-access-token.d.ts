@@ -56,5 +56,18 @@ export declare function wrapPersonalAccessTokenCollection(http: AxiosInstance, d
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<PersonalAccessTokenProp>;
+} & {
+    toPlainObject(): {
+        items: ({
+            revoke: () => Promise<any>;
+        } & PersonalAccessTokenProp & {
+            toPlainObject(): PersonalAccessTokenProp;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

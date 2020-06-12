@@ -105,5 +105,19 @@ export declare function wrapLocaleCollection(http: AxiosInstance, data: Collecti
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<LocaleProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<Locale>;
+            delete: () => Promise<void>;
+        } & LocaleProps & {
+            toPlainObject(): LocaleProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

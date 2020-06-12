@@ -101,6 +101,8 @@ export function wrapRole(http: AxiosInstance, data: RoleProps) {
  * @return Wrapped role collection data
  */
 export function wrapRoleCollection(http: AxiosInstance, data: CollectionProp<RoleProps>) {
-  const roles = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...roles, items: roles.items.map((entity) => wrapRole(http, entity)) })
+  const roles = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...roles, items: roles.items.map((entity) => wrapRole(http, entity)) })
+  )
 }

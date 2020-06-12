@@ -300,9 +300,11 @@ export function wrapContentTypeCollection(
   http: AxiosInstance,
   data: CollectionProp<ContentTypeProps>
 ) {
-  const contentTypes = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...contentTypes,
-    items: contentTypes.items.map((entity) => wrapContentType(http, entity)),
-  })
+  const contentTypes = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...contentTypes,
+      items: contentTypes.items.map((entity) => wrapContentType(http, entity)),
+    })
+  )
 }

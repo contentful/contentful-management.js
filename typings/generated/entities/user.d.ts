@@ -63,5 +63,18 @@ export declare function wrapUserCollection(http: AxiosInstance, data: Collection
      */
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<UserProps>;
+} & {
+    toPlainObject(): {
+        items: (UserProps & {
+            toPlainObject(): UserProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number; /**
+         * User confirmation flag
+         */
+        skip: number;
+        limit: number;
+    };
 };

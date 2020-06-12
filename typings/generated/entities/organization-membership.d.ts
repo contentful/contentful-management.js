@@ -88,5 +88,21 @@ export declare function wrapOrganizationMembershipCollection(http: AxiosInstance
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<OrganizationMembershipProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<any & OrganizationMembershipProps & {
+                toPlainObject(): OrganizationMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & OrganizationMembershipProps & {
+            toPlainObject(): OrganizationMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

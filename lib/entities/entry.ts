@@ -289,6 +289,8 @@ export function wrapEntry(http: AxiosInstance, data: EntryProp) {
  * @return Wrapped entry collection data
  */
 export function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>) {
-  const entries = toPlainObject(cloneDeep(data))
-  return freezeSys({ ...entries, items: entries.items.map((entity) => wrapEntry(http, entity)) })
+  const entries = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({ ...entries, items: entries.items.map((entity) => wrapEntry(http, entity)) })
+  )
 }

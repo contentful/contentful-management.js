@@ -149,9 +149,11 @@ export function wrapAppDefinitionCollection(
   http: AxiosInstance,
   data: CollectionProp<AppDefinitionProps>
 ) {
-  const appDefinitions = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...appDefinitions,
-    items: appDefinitions.items.map((entity) => wrapAppDefinition(http, entity)),
-  })
+  const appDefinitions = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...appDefinitions,
+      items: appDefinitions.items.map((entity) => wrapAppDefinition(http, entity)),
+    })
+  )
 }

@@ -72,5 +72,14 @@ export declare function wrapApiKeyCollection(http: AxiosInstance, data: Collecti
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<ApiKeyProps>;
+} & {
+    toPlainObject(): {
+        items: ApiKey[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

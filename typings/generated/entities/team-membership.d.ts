@@ -94,5 +94,21 @@ export declare function wrapTeamMembershipCollection(http: AxiosInstance, data: 
     total: number;
     skip: number;
     limit: number;
-    toPlainObject(): CollectionProp<TeamMembershipProps>;
+} & {
+    toPlainObject(): {
+        items: ({
+            update: () => Promise<any & TeamMembershipProps & {
+                toPlainObject(): TeamMembershipProps;
+            }>;
+            delete: () => Promise<void>;
+        } & TeamMembershipProps & {
+            toPlainObject(): TeamMembershipProps;
+        })[];
+        sys: {
+            type: "Array";
+        };
+        total: number;
+        skip: number;
+        limit: number;
+    };
 };

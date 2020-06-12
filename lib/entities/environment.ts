@@ -72,9 +72,11 @@ export function wrapEnvironmentCollection(
   http: AxiosInstance,
   data: CollectionProp<EnvironmentProps>
 ) {
-  const environments = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...environments,
-    items: environments.items.map((entity) => wrapEnvironment(http, entity)),
-  })
+  const environments = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...environments,
+      items: environments.items.map((entity) => wrapEnvironment(http, entity)),
+    })
+  )
 }

@@ -38,9 +38,11 @@ export function wrapPreviewApiKeyCollection(
   http: AxiosInstance,
   data: CollectionProp<PreviewApiKeyProps>
 ) {
-  const previewApiKeys = toPlainObject(cloneDeep(data))
-  return freezeSys({
-    ...previewApiKeys,
-    items: previewApiKeys.items.map((entity) => wrapPreviewApiKey(http, entity)),
-  })
+  const previewApiKeys = cloneDeep(data)
+  return freezeSys(
+    toPlainObject({
+      ...previewApiKeys,
+      items: previewApiKeys.items.map((entity) => wrapPreviewApiKey(http, entity)),
+    })
+  )
 }
