@@ -2074,7 +2074,25 @@ export default function createSpaceApi({ http, httpUpload, }: {
             delete: () => Promise<void>;
         } & TeamSpaceMembershipProps & {
             toPlainObject(): TeamSpaceMembershipProps;
-        })[];
+        })[]; /**
+         * Updates the space
+         * @return Promise for the updated space.
+         * @example ```javascript
+         * const contentful = require('contentful-management')
+         *
+         * const client = contentful.createClient({
+         *   accessToken: '<content_management_api_key>'
+         * })
+         *
+         * client.getSpace('<space_id>')
+         * .then((space) => {
+         *   space.name = 'New name'
+         *   return space.update()
+         * })
+         * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
+         * .catch(console.error)
+         * ```
+         */
         sys: {
             type: "Array";
         };
