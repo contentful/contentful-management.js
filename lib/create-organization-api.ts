@@ -2,20 +2,13 @@ import { AxiosInstance } from 'axios'
 import { get } from 'lodash'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
-import * as appDefinition from './entities/app-definition'
-import * as user from './entities/user'
-import * as organizationMembership from './entities/organization-membership'
-import * as teamMembership from './entities/team-membership'
-import * as teamSpaceMembership from './entities/team-space-membership'
-import * as team from './entities/team'
-import * as spaceMembership from './entities/space-membership'
-import * as organizationInvitation from './entities/organization-invitation'
-import type { TeamMembershipProps } from './entities/team-membership'
-import type { TeamProps } from './entities/team'
-import type { OrganizationInvitationProps } from './entities/organization-invitation'
+import entities from './entities'
+import { TeamMembershipProps } from './entities/team-membership'
+import { TeamProps } from './entities/team'
+import { OrganizationInvitationProps } from './entities/organization-invitation'
 import { QueryOptions, DefaultElements } from './common-types'
 import { OrganizationProp } from './entities/organization'
-import type { AppDefinitionProps } from './entities/app-definition'
+import { AppDefinitionProps } from './entities/app-definition'
 
 type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
@@ -29,17 +22,20 @@ export interface Organization
  * @private
  */
 export default function createOrganizationApi({ http }: { http: AxiosInstance }) {
-  const { wrapAppDefinition, wrapAppDefinitionCollection } = appDefinition
-  const { wrapUser, wrapUserCollection } = user
+  const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
+  const { wrapUser, wrapUserCollection } = entities.user
   const {
     wrapOrganizationMembership,
     wrapOrganizationMembershipCollection,
-  } = organizationMembership
-  const { wrapTeamMembership, wrapTeamMembershipCollection } = teamMembership
-  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } = teamSpaceMembership
-  const { wrapTeam, wrapTeamCollection } = team
-  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = spaceMembership
-  const { wrapOrganizationInvitation } = organizationInvitation
+  } = entities.organizationMembership
+  const { wrapTeamMembership, wrapTeamMembershipCollection } = entities.teamMembership
+  const {
+    wrapTeamSpaceMembership,
+    wrapTeamSpaceMembershipCollection,
+  } = entities.teamSpaceMembership
+  const { wrapTeam, wrapTeamCollection } = entities.team
+  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
+  const { wrapOrganizationInvitation } = entities.organizationInvitation
 
   const headers = { 'x-contentful-enable-alpha-feature': 'organization-user-management-api' }
 

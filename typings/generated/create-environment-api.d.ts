@@ -1,13 +1,3 @@
-import * as contentType from './entities/content-type';
-import * as environment from './entities/environment';
-import * as entry from './entities/entry';
-import * as asset from './entities/asset';
-import * as locale from './entities/locale';
-import * as uiExtension from './entities/ui-extension';
-import * as snapshot from './entities/snapshot';
-import * as editorInterface from './entities/editor-interface';
-import * as upload from './entities/upload';
-import * as appInstallation from './entities/app-installation';
 import type { ContentTypeProps } from './entities/content-type';
 import type { QueryOptions } from './common-types';
 import type { EntryProp } from './entities/entry';
@@ -26,71 +16,71 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     httpUpload: AxiosInstance;
 }): {
     getEntryFromData: (entryData: EntryProp) => {
-        update(): Promise<entry.Entry>;
-        archive(): Promise<entry.Entry>;
+        update(): Promise<import("./entities/entry").Entry>;
+        archive(): Promise<import("./entities/entry").Entry>;
         delete(): Promise<void>;
-        publish(): Promise<entry.Entry>;
-        unarchive(): Promise<entry.Entry>;
-        unpublish(): Promise<entry.Entry>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<entry.EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<entry.EntryProp>>>;
+        publish(): Promise<import("./entities/entry").Entry>;
+        unarchive(): Promise<import("./entities/entry").Entry>;
+        unpublish(): Promise<import("./entities/entry").Entry>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-    } & entry.EntryProp & {
-        toPlainObject(): entry.EntryProp;
+    } & EntryProp & {
+        toPlainObject(): EntryProp;
     };
     getAssetFromData: (assetData: AssetProps) => {
-        processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        publish(): Promise<asset.Asset>;
-        archive(): Promise<asset.Asset>;
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
         delete(): Promise<void>;
-        unarchive(): Promise<asset.Asset>;
-        unpublish(): Promise<asset.Asset>;
-        update(): Promise<asset.Asset>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
         isPublished(): boolean;
         isUpdated(): boolean;
         isDraft(): boolean;
         isArchived(): boolean;
-    } & asset.AssetProps & {
-        toPlainObject(): asset.AssetProps;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
     };
     delete: () => Promise<void>;
-    update: () => Promise<any & environment.EnvironmentProps & {
-        toPlainObject(): environment.EnvironmentProps;
+    update: () => Promise<any & import("./entities/environment").EnvironmentProps & {
+        toPlainObject(): import("./entities/environment").EnvironmentProps;
     }>;
     getContentType: (id: string) => Promise<{
-        update(): Promise<contentType.ContentType>;
+        update(): Promise<import("./entities/content-type").ContentType>;
         delete(): Promise<void>;
-        publish(): Promise<contentType.ContentType>;
-        unpublish(): Promise<contentType.ContentType>;
-        getEditorInterface(): Promise<editorInterface.EditorInterface>;
+        publish(): Promise<import("./entities/content-type").ContentType>;
+        unpublish(): Promise<import("./entities/content-type").ContentType>;
+        getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-        omitAndDeleteField(id: string): Promise<contentType.ContentType>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<contentType.ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<contentType.ContentTypeProps>>>;
-    } & contentType.ContentTypeProps & {
-        toPlainObject(): contentType.ContentTypeProps;
+        omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+    } & ContentTypeProps & {
+        toPlainObject(): ContentTypeProps;
     }>;
     getContentTypes: (query?: QueryOptions) => Promise<{
         items: ({
-            update(): Promise<contentType.ContentType>;
+            update(): Promise<import("./entities/content-type").ContentType>;
             delete(): Promise<void>;
-            publish(): Promise<contentType.ContentType>;
-            unpublish(): Promise<contentType.ContentType>;
-            getEditorInterface(): Promise<editorInterface.EditorInterface>;
+            publish(): Promise<import("./entities/content-type").ContentType>;
+            unpublish(): Promise<import("./entities/content-type").ContentType>;
+            getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
             isDraft(): boolean;
             isPublished(): boolean;
             isUpdated(): boolean;
-            omitAndDeleteField(id: string): Promise<contentType.ContentType>;
-            getSnapshot(id: string): Promise<snapshot.SnapshotProps<contentType.ContentTypeProps>>;
-            getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<contentType.ContentTypeProps>>>;
-        } & contentType.ContentTypeProps & {
-            toPlainObject(): contentType.ContentTypeProps;
+            omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
+            getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
+            getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+        } & ContentTypeProps & {
+            toPlainObject(): ContentTypeProps;
         })[];
         sys: {
             type: "Array";
@@ -98,71 +88,71 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<contentType.ContentTypeProps>;
+        toPlainObject(): import("./common-types").CollectionProp<ContentTypeProps>;
     }>;
     createContentType: (data: Omit<ContentTypeProps, 'sys'>) => Promise<{
-        update(): Promise<contentType.ContentType>;
+        update(): Promise<import("./entities/content-type").ContentType>;
         delete(): Promise<void>;
-        publish(): Promise<contentType.ContentType>;
-        unpublish(): Promise<contentType.ContentType>;
-        getEditorInterface(): Promise<editorInterface.EditorInterface>;
+        publish(): Promise<import("./entities/content-type").ContentType>;
+        unpublish(): Promise<import("./entities/content-type").ContentType>;
+        getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-        omitAndDeleteField(id: string): Promise<contentType.ContentType>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<contentType.ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<contentType.ContentTypeProps>>>;
-    } & contentType.ContentTypeProps & {
-        toPlainObject(): contentType.ContentTypeProps;
+        omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+    } & ContentTypeProps & {
+        toPlainObject(): ContentTypeProps;
     }>;
     createContentTypeWithId: (id: string, data: Omit<ContentTypeProps, 'sys'>) => Promise<{
-        update(): Promise<contentType.ContentType>;
+        update(): Promise<import("./entities/content-type").ContentType>;
         delete(): Promise<void>;
-        publish(): Promise<contentType.ContentType>;
-        unpublish(): Promise<contentType.ContentType>;
-        getEditorInterface(): Promise<editorInterface.EditorInterface>;
+        publish(): Promise<import("./entities/content-type").ContentType>;
+        unpublish(): Promise<import("./entities/content-type").ContentType>;
+        getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-        omitAndDeleteField(id: string): Promise<contentType.ContentType>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<contentType.ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<contentType.ContentTypeProps>>>;
-    } & contentType.ContentTypeProps & {
-        toPlainObject(): contentType.ContentTypeProps;
+        omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+    } & ContentTypeProps & {
+        toPlainObject(): ContentTypeProps;
     }>;
-    getEditorInterfaceForContentType: (contentTypeId: string) => Promise<editorInterface.EditorInterface>;
+    getEditorInterfaceForContentType: (contentTypeId: string) => Promise<import("./entities/editor-interface").EditorInterface>;
     getEntry: (id: string, query?: QueryOptions) => Promise<{
-        update(): Promise<entry.Entry>;
-        archive(): Promise<entry.Entry>;
+        update(): Promise<import("./entities/entry").Entry>;
+        archive(): Promise<import("./entities/entry").Entry>;
         delete(): Promise<void>;
-        publish(): Promise<entry.Entry>;
-        unarchive(): Promise<entry.Entry>;
-        unpublish(): Promise<entry.Entry>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<entry.EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<entry.EntryProp>>>;
+        publish(): Promise<import("./entities/entry").Entry>;
+        unarchive(): Promise<import("./entities/entry").Entry>;
+        unpublish(): Promise<import("./entities/entry").Entry>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-    } & entry.EntryProp & {
-        toPlainObject(): entry.EntryProp;
+    } & EntryProp & {
+        toPlainObject(): EntryProp;
     }>;
     getEntries: (query?: QueryOptions) => Promise<{
         items: ({
-            update(): Promise<entry.Entry>;
-            archive(): Promise<entry.Entry>;
+            update(): Promise<import("./entities/entry").Entry>;
+            archive(): Promise<import("./entities/entry").Entry>;
             delete(): Promise<void>;
-            publish(): Promise<entry.Entry>;
-            unarchive(): Promise<entry.Entry>;
-            unpublish(): Promise<entry.Entry>;
-            getSnapshot(id: string): Promise<snapshot.SnapshotProps<entry.EntryProp>>;
-            getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<entry.EntryProp>>>;
+            publish(): Promise<import("./entities/entry").Entry>;
+            unarchive(): Promise<import("./entities/entry").Entry>;
+            unpublish(): Promise<import("./entities/entry").Entry>;
+            getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+            getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
             isArchived(): boolean;
             isDraft(): boolean;
             isPublished(): boolean;
             isUpdated(): boolean;
-        } & entry.EntryProp & {
-            toPlainObject(): entry.EntryProp;
+        } & EntryProp & {
+            toPlainObject(): EntryProp;
         })[];
         sys: {
             type: "Array";
@@ -170,72 +160,72 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<entry.EntryProp>;
+        toPlainObject(): import("./common-types").CollectionProp<EntryProp>;
     }>;
     createEntry: (contentTypeId: string, data: Omit<EntryProp, 'sys'>) => Promise<{
-        update(): Promise<entry.Entry>;
-        archive(): Promise<entry.Entry>;
+        update(): Promise<import("./entities/entry").Entry>;
+        archive(): Promise<import("./entities/entry").Entry>;
         delete(): Promise<void>;
-        publish(): Promise<entry.Entry>;
-        unarchive(): Promise<entry.Entry>;
-        unpublish(): Promise<entry.Entry>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<entry.EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<entry.EntryProp>>>;
+        publish(): Promise<import("./entities/entry").Entry>;
+        unarchive(): Promise<import("./entities/entry").Entry>;
+        unpublish(): Promise<import("./entities/entry").Entry>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-    } & entry.EntryProp & {
-        toPlainObject(): entry.EntryProp;
+    } & EntryProp & {
+        toPlainObject(): EntryProp;
     }>;
     createEntryWithId: (contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) => Promise<{
-        update(): Promise<entry.Entry>;
-        archive(): Promise<entry.Entry>;
+        update(): Promise<import("./entities/entry").Entry>;
+        archive(): Promise<import("./entities/entry").Entry>;
         delete(): Promise<void>;
-        publish(): Promise<entry.Entry>;
-        unarchive(): Promise<entry.Entry>;
-        unpublish(): Promise<entry.Entry>;
-        getSnapshot(id: string): Promise<snapshot.SnapshotProps<entry.EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<snapshot.SnapshotProps<entry.EntryProp>>>;
+        publish(): Promise<import("./entities/entry").Entry>;
+        unarchive(): Promise<import("./entities/entry").Entry>;
+        unpublish(): Promise<import("./entities/entry").Entry>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
-    } & entry.EntryProp & {
-        toPlainObject(): entry.EntryProp;
+    } & EntryProp & {
+        toPlainObject(): EntryProp;
     }>;
     getAsset: (id: string, query?: QueryOptions) => Promise<{
-        processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        publish(): Promise<asset.Asset>;
-        archive(): Promise<asset.Asset>;
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
         delete(): Promise<void>;
-        unarchive(): Promise<asset.Asset>;
-        unpublish(): Promise<asset.Asset>;
-        update(): Promise<asset.Asset>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
         isPublished(): boolean;
         isUpdated(): boolean;
         isDraft(): boolean;
         isArchived(): boolean;
-    } & asset.AssetProps & {
-        toPlainObject(): asset.AssetProps;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
     }>;
     getAssets: (query?: QueryOptions) => Promise<{
         items: ({
-            processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-            processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-            publish(): Promise<asset.Asset>;
-            archive(): Promise<asset.Asset>;
+            processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+            processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+            publish(): Promise<import("./entities/asset").Asset>;
+            archive(): Promise<import("./entities/asset").Asset>;
             delete(): Promise<void>;
-            unarchive(): Promise<asset.Asset>;
-            unpublish(): Promise<asset.Asset>;
-            update(): Promise<asset.Asset>;
+            unarchive(): Promise<import("./entities/asset").Asset>;
+            unpublish(): Promise<import("./entities/asset").Asset>;
+            update(): Promise<import("./entities/asset").Asset>;
             isPublished(): boolean;
             isUpdated(): boolean;
             isDraft(): boolean;
             isArchived(): boolean;
-        } & asset.AssetProps & {
-            toPlainObject(): asset.AssetProps;
+        } & AssetProps & {
+            toPlainObject(): AssetProps;
         })[];
         sys: {
             type: "Array";
@@ -243,80 +233,80 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<asset.AssetProps>;
+        toPlainObject(): import("./common-types").CollectionProp<AssetProps>;
     }>;
     createAsset: (data: Omit<AssetProps, 'sys'>) => Promise<{
-        processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        publish(): Promise<asset.Asset>;
-        archive(): Promise<asset.Asset>;
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
         delete(): Promise<void>;
-        unarchive(): Promise<asset.Asset>;
-        unpublish(): Promise<asset.Asset>;
-        update(): Promise<asset.Asset>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
         isPublished(): boolean;
         isUpdated(): boolean;
         isDraft(): boolean;
         isArchived(): boolean;
-    } & asset.AssetProps & {
-        toPlainObject(): asset.AssetProps;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
     }>;
     createAssetWithId: (id: string, data: Omit<AssetProps, 'sys'>) => Promise<{
-        processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        publish(): Promise<asset.Asset>;
-        archive(): Promise<asset.Asset>;
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
         delete(): Promise<void>;
-        unarchive(): Promise<asset.Asset>;
-        unpublish(): Promise<asset.Asset>;
-        update(): Promise<asset.Asset>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
         isPublished(): boolean;
         isUpdated(): boolean;
         isDraft(): boolean;
         isArchived(): boolean;
-    } & asset.AssetProps & {
-        toPlainObject(): asset.AssetProps;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
     }>;
     createAssetFromFiles: (data: Omit<AssetFileProp, 'sys'>) => Promise<{
-        processForAllLocales(options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        processForLocale(locale: string, Options?: asset.AssetProcessingForLocale | undefined): Promise<asset.Asset>;
-        publish(): Promise<asset.Asset>;
-        archive(): Promise<asset.Asset>;
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
         delete(): Promise<void>;
-        unarchive(): Promise<asset.Asset>;
-        unpublish(): Promise<asset.Asset>;
-        update(): Promise<asset.Asset>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
         isPublished(): boolean;
         isUpdated(): boolean;
         isDraft(): boolean;
         isArchived(): boolean;
-    } & asset.AssetProps & {
-        toPlainObject(): asset.AssetProps;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
     }>;
     getUpload: (id: string) => Promise<{
         delete: () => Promise<void>;
-    } & upload.UploadProps & {
-        toPlainObject(): upload.UploadProps;
+    } & import("./entities/upload").UploadProps & {
+        toPlainObject(): import("./entities/upload").UploadProps;
     }>;
     createUpload: (data: {
         file: string | ArrayBuffer | Stream;
     }) => Promise<{
         delete: () => Promise<void>;
-    } & upload.UploadProps & {
-        toPlainObject(): upload.UploadProps;
+    } & import("./entities/upload").UploadProps & {
+        toPlainObject(): import("./entities/upload").UploadProps;
     }>;
     getLocale: (id: string) => Promise<{
-        update: () => Promise<locale.Locale>;
+        update: () => Promise<import("./entities/locale").Locale>;
         delete: () => Promise<void>;
-    } & locale.LocaleProps & {
-        toPlainObject(): locale.LocaleProps;
+    } & LocaleProps & {
+        toPlainObject(): LocaleProps;
     }>;
     getLocales: () => Promise<{
         items: ({
-            update: () => Promise<locale.Locale>;
+            update: () => Promise<import("./entities/locale").Locale>;
             delete: () => Promise<void>;
-        } & locale.LocaleProps & {
-            toPlainObject(): locale.LocaleProps;
+        } & LocaleProps & {
+            toPlainObject(): LocaleProps;
         })[];
         sys: {
             type: "Array";
@@ -324,26 +314,26 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<locale.LocaleProps>;
+        toPlainObject(): import("./common-types").CollectionProp<LocaleProps>;
     }>;
     createLocale: (data: Omit<LocaleProps, 'sys'>) => Promise<{
-        update: () => Promise<locale.Locale>;
+        update: () => Promise<import("./entities/locale").Locale>;
         delete: () => Promise<void>;
-    } & locale.LocaleProps & {
-        toPlainObject(): locale.LocaleProps;
+    } & LocaleProps & {
+        toPlainObject(): LocaleProps;
     }>;
     getUiExtension: (id: string) => Promise<{
-        update: () => Promise<uiExtension.UIExtension>;
+        update: () => Promise<import("./entities/ui-extension").UIExtension>;
         delete: () => Promise<void>;
-    } & uiExtension.UIExtensionProps & {
-        toPlainObject(): uiExtension.UIExtensionProps;
+    } & UIExtensionProps & {
+        toPlainObject(): UIExtensionProps;
     }>;
     getUiExtensions: () => Promise<{
         items: ({
-            update: () => Promise<uiExtension.UIExtension>;
+            update: () => Promise<import("./entities/ui-extension").UIExtension>;
             delete: () => Promise<void>;
-        } & uiExtension.UIExtensionProps & {
-            toPlainObject(): uiExtension.UIExtensionProps;
+        } & UIExtensionProps & {
+            toPlainObject(): UIExtensionProps;
         })[];
         sys: {
             type: "Array";
@@ -351,44 +341,44 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<uiExtension.UIExtensionProps>;
+        toPlainObject(): import("./common-types").CollectionProp<UIExtensionProps>;
     }>;
     createUiExtension: (data: Omit<UIExtensionProps, 'sys'>) => Promise<{
-        update: () => Promise<uiExtension.UIExtension>;
+        update: () => Promise<import("./entities/ui-extension").UIExtension>;
         delete: () => Promise<void>;
-    } & uiExtension.UIExtensionProps & {
-        toPlainObject(): uiExtension.UIExtensionProps;
+    } & UIExtensionProps & {
+        toPlainObject(): UIExtensionProps;
     }>;
     createUiExtensionWithId: (id: string, data: Omit<UIExtensionProps, 'sys'>) => Promise<{
-        update: () => Promise<uiExtension.UIExtension>;
+        update: () => Promise<import("./entities/ui-extension").UIExtension>;
         delete: () => Promise<void>;
-    } & uiExtension.UIExtensionProps & {
-        toPlainObject(): uiExtension.UIExtensionProps;
+    } & UIExtensionProps & {
+        toPlainObject(): UIExtensionProps;
     }>;
     createAppInstallation: (appDefinitionId: string, data: Omit<AppInstallationProps, 'sys'>) => Promise<{
-        update: () => Promise<any & appInstallation.AppInstallationProps & {
-            toPlainObject(): appInstallation.AppInstallationProps;
+        update: () => Promise<any & AppInstallationProps & {
+            toPlainObject(): AppInstallationProps;
         }>;
         delete: () => Promise<void>;
-    } & appInstallation.AppInstallationProps & {
-        toPlainObject(): appInstallation.AppInstallationProps;
+    } & AppInstallationProps & {
+        toPlainObject(): AppInstallationProps;
     }>;
     getAppInstallation: (id: string) => Promise<{
-        update: () => Promise<any & appInstallation.AppInstallationProps & {
-            toPlainObject(): appInstallation.AppInstallationProps;
+        update: () => Promise<any & AppInstallationProps & {
+            toPlainObject(): AppInstallationProps;
         }>;
         delete: () => Promise<void>;
-    } & appInstallation.AppInstallationProps & {
-        toPlainObject(): appInstallation.AppInstallationProps;
+    } & AppInstallationProps & {
+        toPlainObject(): AppInstallationProps;
     }>;
     getAppInstallations: () => Promise<{
         items: ({
-            update: () => Promise<any & appInstallation.AppInstallationProps & {
-                toPlainObject(): appInstallation.AppInstallationProps;
+            update: () => Promise<any & AppInstallationProps & {
+                toPlainObject(): AppInstallationProps;
             }>;
             delete: () => Promise<void>;
-        } & appInstallation.AppInstallationProps & {
-            toPlainObject(): appInstallation.AppInstallationProps;
+        } & AppInstallationProps & {
+            toPlainObject(): AppInstallationProps;
         })[];
         sys: {
             type: "Array";
@@ -396,11 +386,11 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<appInstallation.AppInstallationProps>;
+        toPlainObject(): import("./common-types").CollectionProp<AppInstallationProps>;
     }>;
     getEntrySnapshots: (entryId: string, query?: QueryOptions) => Promise<{
-        items: (snapshot.SnapshotProps<unknown> & {
-            toPlainObject(): snapshot.SnapshotProps<unknown>;
+        items: (import("./entities/snapshot").SnapshotProps<unknown> & {
+            toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
         })[];
         sys: {
             type: "Array";
@@ -408,11 +398,11 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<snapshot.SnapshotProps<unknown>>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
     }>;
     getContentTypeSnapshots: (contentTypeId: string, query?: QueryOptions) => Promise<{
-        items: (snapshot.SnapshotProps<unknown> & {
-            toPlainObject(): snapshot.SnapshotProps<unknown>;
+        items: (import("./entities/snapshot").SnapshotProps<unknown> & {
+            toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
         })[];
         sys: {
             type: "Array";
@@ -420,6 +410,6 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<snapshot.SnapshotProps<unknown>>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
     }>;
 };

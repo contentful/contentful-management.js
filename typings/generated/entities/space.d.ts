@@ -2037,13 +2037,13 @@ export declare function wrapSpace(http: AxiosInstance, data: SpaceProps): {
         limit: number;
         toPlainObject(): CollectionProp<import("./space-membership").SpaceMembershipProps>;
     }>;
-    createSpaceMembership: (data: Pick<import("./space-membership").SpaceMembershipProps, "name" | "admin" | "roles">) => Promise<{
+    createSpaceMembership: (data: Pick<import("./space-membership").SpaceMembershipProps, "roles" | "name" | "admin">) => Promise<{
         update: () => Promise<import("./space-membership").SpaceMembership>;
         delete: () => Promise<void>;
     } & import("./space-membership").SpaceMembershipProps & {
         toPlainObject(): import("./space-membership").SpaceMembershipProps;
     }>;
-    createSpaceMembershipWithId: (id: string, data: Pick<import("./space-membership").SpaceMembershipProps, "name" | "admin" | "roles">) => Promise<{
+    createSpaceMembershipWithId: (id: string, data: Pick<import("./space-membership").SpaceMembershipProps, "roles" | "name" | "admin">) => Promise<{
         update: () => Promise<import("./space-membership").SpaceMembership>;
         delete: () => Promise<void>;
     } & import("./space-membership").SpaceMembershipProps & {
@@ -2074,7 +2074,7 @@ export declare function wrapSpace(http: AxiosInstance, data: SpaceProps): {
         limit: number;
         toPlainObject(): CollectionProp<import("./team-space-membership").TeamSpaceMembershipProps>;
     }>;
-    createTeamSpaceMembership: (teamId: string, data: Pick<import("./team-space-membership").TeamSpaceMembershipProps, "admin" | "roles">) => Promise<{
+    createTeamSpaceMembership: (teamId: string, data: Pick<import("./team-space-membership").TeamSpaceMembershipProps, "roles" | "admin">) => Promise<{
         update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
             toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
         }>;
@@ -4215,13 +4215,13 @@ export declare function wrapSpaceCollection(http: AxiosInstance, data: Collectio
             limit: number;
             toPlainObject(): CollectionProp<import("./space-membership").SpaceMembershipProps>;
         }>;
-        createSpaceMembership: (data: Pick<import("./space-membership").SpaceMembershipProps, "name" | "admin" | "roles">) => Promise<{
+        createSpaceMembership: (data: Pick<import("./space-membership").SpaceMembershipProps, "roles" | "name" | "admin">) => Promise<{
             update: () => Promise<import("./space-membership").SpaceMembership>;
             delete: () => Promise<void>;
         } & import("./space-membership").SpaceMembershipProps & {
             toPlainObject(): import("./space-membership").SpaceMembershipProps;
         }>;
-        createSpaceMembershipWithId: (id: string, data: Pick<import("./space-membership").SpaceMembershipProps, "name" | "admin" | "roles">) => Promise<{
+        createSpaceMembershipWithId: (id: string, data: Pick<import("./space-membership").SpaceMembershipProps, "roles" | "name" | "admin">) => Promise<{
             update: () => Promise<import("./space-membership").SpaceMembership>;
             delete: () => Promise<void>;
         } & import("./space-membership").SpaceMembershipProps & {
@@ -4252,7 +4252,7 @@ export declare function wrapSpaceCollection(http: AxiosInstance, data: Collectio
             limit: number;
             toPlainObject(): CollectionProp<import("./team-space-membership").TeamSpaceMembershipProps>;
         }>;
-        createTeamSpaceMembership: (teamId: string, data: Pick<import("./team-space-membership").TeamSpaceMembershipProps, "admin" | "roles">) => Promise<{
+        createTeamSpaceMembership: (teamId: string, data: Pick<import("./team-space-membership").TeamSpaceMembershipProps, "roles" | "admin">) => Promise<{
             update: () => Promise<any & import("./team-space-membership").TeamSpaceMembershipProps & {
                 toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
             }>;

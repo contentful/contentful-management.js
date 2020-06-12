@@ -1,18 +1,10 @@
 import { AxiosInstance } from 'axios';
-import * as appDefinition from './entities/app-definition';
-import * as user from './entities/user';
-import * as organizationMembership from './entities/organization-membership';
-import * as teamMembership from './entities/team-membership';
-import * as teamSpaceMembership from './entities/team-space-membership';
-import * as team from './entities/team';
-import * as spaceMembership from './entities/space-membership';
-import * as organizationInvitation from './entities/organization-invitation';
-import type { TeamMembershipProps } from './entities/team-membership';
-import type { TeamProps } from './entities/team';
-import type { OrganizationInvitationProps } from './entities/organization-invitation';
+import { TeamMembershipProps } from './entities/team-membership';
+import { TeamProps } from './entities/team';
+import { OrganizationInvitationProps } from './entities/organization-invitation';
 import { QueryOptions, DefaultElements } from './common-types';
 import { OrganizationProp } from './entities/organization';
-import type { AppDefinitionProps } from './entities/app-definition';
+import { AppDefinitionProps } from './entities/app-definition';
 declare type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>;
 export interface Organization extends DefaultElements<OrganizationProp>, OrganizationProp, ContentfulOrganizationAPI {
 }
@@ -24,17 +16,17 @@ export default function createOrganizationApi({ http }: {
     http: AxiosInstance;
 }): {
     getAppDefinition: (id: string) => Promise<{
-        update: () => Promise<appDefinition.AppDefinition>;
+        update: () => Promise<import("./entities/app-definition").AppDefinition>;
         delete: () => Promise<void>;
-    } & appDefinition.AppDefinitionProps & {
-        toPlainObject(): appDefinition.AppDefinitionProps;
+    } & AppDefinitionProps & {
+        toPlainObject(): AppDefinitionProps;
     }>;
     getAppDefinitions: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<appDefinition.AppDefinition>;
+            update: () => Promise<import("./entities/app-definition").AppDefinition>;
             delete: () => Promise<void>;
-        } & appDefinition.AppDefinitionProps & {
-            toPlainObject(): appDefinition.AppDefinitionProps;
+        } & AppDefinitionProps & {
+            toPlainObject(): AppDefinitionProps;
         })[];
         sys: {
             type: "Array";
@@ -42,14 +34,14 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<appDefinition.AppDefinitionProps>;
+        toPlainObject(): import("./common-types").CollectionProp<AppDefinitionProps>;
     }>;
-    getUser: (id: string) => Promise<user.UserProps & {
-        toPlainObject(): user.UserProps;
+    getUser: (id: string) => Promise<import("./entities/user").UserProps & {
+        toPlainObject(): import("./entities/user").UserProps;
     }>;
     getUsers: (query?: QueryOptions) => Promise<{
-        items: (user.UserProps & {
-            toPlainObject(): user.UserProps;
+        items: (import("./entities/user").UserProps & {
+            toPlainObject(): import("./entities/user").UserProps;
         })[];
         sys: {
             type: "Array";
@@ -57,30 +49,30 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<user.UserProps>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/user").UserProps>;
     }>;
     createAppDefinition: (data: Omit<AppDefinitionProps, 'sys'>) => Promise<{
-        update: () => Promise<appDefinition.AppDefinition>;
+        update: () => Promise<import("./entities/app-definition").AppDefinition>;
         delete: () => Promise<void>;
-    } & appDefinition.AppDefinitionProps & {
-        toPlainObject(): appDefinition.AppDefinitionProps;
+    } & AppDefinitionProps & {
+        toPlainObject(): AppDefinitionProps;
     }>;
     getOrganizationMembership: (id: string) => Promise<{
-        update: () => Promise<any & organizationMembership.OrganizationMembershipProps & {
-            toPlainObject(): organizationMembership.OrganizationMembershipProps;
+        update: () => Promise<any & import("./entities/organization-membership").OrganizationMembershipProps & {
+            toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
         }>;
         delete: () => Promise<void>;
-    } & organizationMembership.OrganizationMembershipProps & {
-        toPlainObject(): organizationMembership.OrganizationMembershipProps;
+    } & import("./entities/organization-membership").OrganizationMembershipProps & {
+        toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
     }>;
     getOrganizationMemberships: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<any & organizationMembership.OrganizationMembershipProps & {
-                toPlainObject(): organizationMembership.OrganizationMembershipProps;
+            update: () => Promise<any & import("./entities/organization-membership").OrganizationMembershipProps & {
+                toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
             }>;
             delete: () => Promise<void>;
-        } & organizationMembership.OrganizationMembershipProps & {
-            toPlainObject(): organizationMembership.OrganizationMembershipProps;
+        } & import("./entities/organization-membership").OrganizationMembershipProps & {
+            toPlainObject(): import("./entities/organization-membership").OrganizationMembershipProps;
         })[];
         sys: {
             type: "Array";
@@ -88,26 +80,26 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<organizationMembership.OrganizationMembershipProps>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/organization-membership").OrganizationMembershipProps>;
     }>;
     createTeam: (data: Omit<TeamProps, 'sys'>) => Promise<{
-        update: () => Promise<team.Team>;
+        update: () => Promise<import("./entities/team").Team>;
         delete: () => Promise<void>;
-    } & team.TeamProps & {
-        toPlainObject(): team.TeamProps;
+    } & TeamProps & {
+        toPlainObject(): TeamProps;
     }>;
     getTeam: (teamId: string) => Promise<{
-        update: () => Promise<team.Team>;
+        update: () => Promise<import("./entities/team").Team>;
         delete: () => Promise<void>;
-    } & team.TeamProps & {
-        toPlainObject(): team.TeamProps;
+    } & TeamProps & {
+        toPlainObject(): TeamProps;
     }>;
     getTeams: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<team.Team>;
+            update: () => Promise<import("./entities/team").Team>;
             delete: () => Promise<void>;
-        } & team.TeamProps & {
-            toPlainObject(): team.TeamProps;
+        } & TeamProps & {
+            toPlainObject(): TeamProps;
         })[];
         sys: {
             type: "Array";
@@ -115,35 +107,35 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<team.TeamProps>;
+        toPlainObject(): import("./common-types").CollectionProp<TeamProps>;
     }>;
     createTeamMembership: (teamId: string, data: Omit<TeamMembershipProps, 'sys'>) => Promise<{
-        update: () => Promise<any & teamMembership.TeamMembershipProps & {
-            toPlainObject(): teamMembership.TeamMembershipProps;
+        update: () => Promise<any & TeamMembershipProps & {
+            toPlainObject(): TeamMembershipProps;
         }>;
         delete: () => Promise<void>;
-    } & teamMembership.TeamMembershipProps & {
-        toPlainObject(): teamMembership.TeamMembershipProps;
+    } & TeamMembershipProps & {
+        toPlainObject(): TeamMembershipProps;
     }>;
     getTeamMembership: (teamId: string, teamMembershipId: string) => Promise<{
-        update: () => Promise<any & teamMembership.TeamMembershipProps & {
-            toPlainObject(): teamMembership.TeamMembershipProps;
+        update: () => Promise<any & TeamMembershipProps & {
+            toPlainObject(): TeamMembershipProps;
         }>;
         delete: () => Promise<void>;
-    } & teamMembership.TeamMembershipProps & {
-        toPlainObject(): teamMembership.TeamMembershipProps;
+    } & TeamMembershipProps & {
+        toPlainObject(): TeamMembershipProps;
     }>;
     getTeamMemberships: (opts?: {
         teamId?: string;
         query?: QueryOptions;
     }) => Promise<{
         items: ({
-            update: () => Promise<any & teamMembership.TeamMembershipProps & {
-                toPlainObject(): teamMembership.TeamMembershipProps;
+            update: () => Promise<any & TeamMembershipProps & {
+                toPlainObject(): TeamMembershipProps;
             }>;
             delete: () => Promise<void>;
-        } & teamMembership.TeamMembershipProps & {
-            toPlainObject(): teamMembership.TeamMembershipProps;
+        } & TeamMembershipProps & {
+            toPlainObject(): TeamMembershipProps;
         })[];
         sys: {
             type: "Array";
@@ -151,34 +143,19 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<teamMembership.TeamMembershipProps>;
+        toPlainObject(): import("./common-types").CollectionProp<TeamMembershipProps>;
     }>;
     getTeamSpaceMemberships: (opts?: {
         teamId?: string;
         query?: QueryOptions;
     }) => Promise<{
         items: ({
-            update: () => Promise<any & teamSpaceMembership.TeamSpaceMembershipProps & {
-                toPlainObject(): teamSpaceMembership.TeamSpaceMembershipProps;
-            }>; /**
-             * Gets a collection of Organization Memberships
-             * @param  query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-             * @return Promise for a collection of Organization Memberships
-             * @example ```javascript
-             * const contentful = require('contentful-management')
-             * const client = contentful.createClient({
-             *   accessToken: '<content_management_api_key>'
-             * })
-             *
-             * client.getOrganization('organization_id')
-             * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-             * .then((response) => console.log(response.items))
-             * .catch(console.error)
-             * ```
-             */
+            update: () => Promise<any & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+                toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
+            }>;
             delete: () => Promise<void>;
-        } & teamSpaceMembership.TeamSpaceMembershipProps & {
-            toPlainObject(): teamSpaceMembership.TeamSpaceMembershipProps;
+        } & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+            toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
         })[];
         sys: {
             type: "Array";
@@ -186,43 +163,28 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<teamSpaceMembership.TeamSpaceMembershipProps>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/team-space-membership").TeamSpaceMembershipProps>;
     }>;
     getTeamSpaceMembership: (teamSpaceMembershipId: string) => Promise<{
-        update: () => Promise<any & teamSpaceMembership.TeamSpaceMembershipProps & {
-            toPlainObject(): teamSpaceMembership.TeamSpaceMembershipProps;
-        }>; /**
-         * Gets a collection of Organization Memberships
-         * @param  query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-         * @return Promise for a collection of Organization Memberships
-         * @example ```javascript
-         * const contentful = require('contentful-management')
-         * const client = contentful.createClient({
-         *   accessToken: '<content_management_api_key>'
-         * })
-         *
-         * client.getOrganization('organization_id')
-         * .then((organization) => organization.getOrganizationMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-         * .then((response) => console.log(response.items))
-         * .catch(console.error)
-         * ```
-         */
+        update: () => Promise<any & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+            toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
+        }>;
         delete: () => Promise<void>;
-    } & teamSpaceMembership.TeamSpaceMembershipProps & {
-        toPlainObject(): teamSpaceMembership.TeamSpaceMembershipProps;
+    } & import("./entities/team-space-membership").TeamSpaceMembershipProps & {
+        toPlainObject(): import("./entities/team-space-membership").TeamSpaceMembershipProps;
     }>;
     getOrganizationSpaceMembership: (id: string) => Promise<{
-        update: () => Promise<spaceMembership.SpaceMembership>;
+        update: () => Promise<import("./entities/space-membership").SpaceMembership>;
         delete: () => Promise<void>;
-    } & spaceMembership.SpaceMembershipProps & {
-        toPlainObject(): spaceMembership.SpaceMembershipProps;
+    } & import("./entities/space-membership").SpaceMembershipProps & {
+        toPlainObject(): import("./entities/space-membership").SpaceMembershipProps;
     }>;
     getOrganizationSpaceMemberships: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<spaceMembership.SpaceMembership>;
+            update: () => Promise<import("./entities/space-membership").SpaceMembership>;
             delete: () => Promise<void>;
-        } & spaceMembership.SpaceMembershipProps & {
-            toPlainObject(): spaceMembership.SpaceMembershipProps;
+        } & import("./entities/space-membership").SpaceMembershipProps & {
+            toPlainObject(): import("./entities/space-membership").SpaceMembershipProps;
         })[];
         sys: {
             type: "Array";
@@ -230,13 +192,13 @@ export default function createOrganizationApi({ http }: {
         total: number;
         skip: number;
         limit: number;
-        toPlainObject(): import("./common-types").CollectionProp<spaceMembership.SpaceMembershipProps>;
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/space-membership").SpaceMembershipProps>;
     }>;
-    getOrganizationInvitation: (invitationId: string) => Promise<organizationInvitation.OrganizationInvitationProps & {
-        toPlainObject(): organizationInvitation.OrganizationInvitationProps;
+    getOrganizationInvitation: (invitationId: string) => Promise<OrganizationInvitationProps & {
+        toPlainObject(): OrganizationInvitationProps;
     }>;
-    createOrganizationInvitation: (data: Omit<OrganizationInvitationProps, 'sys'>) => Promise<organizationInvitation.OrganizationInvitationProps & {
-        toPlainObject(): organizationInvitation.OrganizationInvitationProps;
+    createOrganizationInvitation: (data: Omit<OrganizationInvitationProps, 'sys'>) => Promise<OrganizationInvitationProps & {
+        toPlainObject(): OrganizationInvitationProps;
     }>;
 };
 export {};

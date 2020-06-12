@@ -1,16 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
-import * as contentType from './entities/content-type'
-import * as environment from './entities/environment'
-import * as entry from './entities/entry'
-import * as asset from './entities/asset'
-import * as locale from './entities/locale'
-import * as uiExtension from './entities/ui-extension'
-import * as snapshot from './entities/snapshot'
-import * as editorInterface from './entities/editor-interface'
-import * as upload from './entities/upload'
-import * as appInstallation from './entities/app-installation'
+import entities from './entities'
 
 import type { ContentTypeProps } from './entities/content-type'
 import type { QueryOptions } from './common-types'
@@ -33,16 +24,16 @@ export default function createEnvironmentApi({
   http: AxiosInstance
   httpUpload: AxiosInstance
 }) {
-  const { wrapEnvironment } = environment
-  const { wrapContentType, wrapContentTypeCollection } = contentType
-  const { wrapEntry, wrapEntryCollection } = entry
-  const { wrapAsset, wrapAssetCollection } = asset
-  const { wrapLocale, wrapLocaleCollection } = locale
-  const { wrapSnapshotCollection } = snapshot
-  const { wrapEditorInterface } = editorInterface
-  const { wrapUpload } = upload
-  const { wrapUiExtension, wrapUiExtensionCollection } = uiExtension
-  const { wrapAppInstallation, wrapAppInstallationCollection } = appInstallation
+  const { wrapEnvironment } = entities.environment
+  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
+  const { wrapEntry, wrapEntryCollection } = entities.entry
+  const { wrapAsset, wrapAssetCollection } = entities.asset
+  const { wrapLocale, wrapLocaleCollection } = entities.locale
+  const { wrapSnapshotCollection } = entities.snapshot
+  const { wrapEditorInterface } = entities.editorInterface
+  const { wrapUpload } = entities.upload
+  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
+  const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
 
   /**
    * Deletes the environment   * @func delete
