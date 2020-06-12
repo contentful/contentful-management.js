@@ -212,7 +212,7 @@ export interface Entry extends EntryProp, DefaultElements<EntryProp>, EntryApi {
 
 function createEntryApi(http: AxiosInstance): EntryApi {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<Entry>({
       http: http,
       entityPath: 'entries',
       wrapperMethod: wrapEntry,
@@ -223,25 +223,25 @@ function createEntryApi(http: AxiosInstance): EntryApi {
       entityPath: 'entries',
     }),
 
-    publish: createPublishEntity({
+    publish: createPublishEntity<Entry>({
       http: http,
       entityPath: 'entries',
       wrapperMethod: wrapEntry,
     }),
 
-    unpublish: createUnpublishEntity({
+    unpublish: createUnpublishEntity<Entry>({
       http: http,
       entityPath: 'entries',
       wrapperMethod: wrapEntry,
     }),
 
-    archive: createArchiveEntity({
+    archive: createArchiveEntity<Entry>({
       http: http,
       entityPath: 'entries',
       wrapperMethod: wrapEntry,
     }),
 
-    unarchive: createUnarchiveEntity({
+    unarchive: createUnarchiveEntity<Entry>({
       http: http,
       entityPath: 'entries',
       wrapperMethod: wrapEntry,

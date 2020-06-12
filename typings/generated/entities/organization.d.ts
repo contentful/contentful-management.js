@@ -89,20 +89,20 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
         toPlainObject(): CollectionProp<import("./organization-membership").OrganizationMembershipProps>;
     }>;
     createTeam: (data: Pick<import("./team").TeamProps, "description" | "name">) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<import("./team").Team>;
         delete: () => Promise<void>;
     } & import("./team").TeamProps & {
         toPlainObject(): import("./team").TeamProps;
     }>;
     getTeam: (teamId: string) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<import("./team").Team>;
         delete: () => Promise<void>;
     } & import("./team").TeamProps & {
         toPlainObject(): import("./team").TeamProps;
     }>;
     getTeams: (query?: import("../common-types").QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<unknown>;
+            update: () => Promise<import("./team").Team>;
             delete: () => Promise<void>;
         } & import("./team").TeamProps & {
             toPlainObject(): import("./team").TeamProps;
@@ -180,14 +180,14 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
         toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
     }>;
     getOrganizationSpaceMembership: (id: string) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<import("./space-membership").SpaceMembership>;
         delete: () => Promise<void>;
     } & import("./space-membership").SpaceMembershipProps & {
         toPlainObject(): import("./space-membership").SpaceMembershipProps;
     }>;
     getOrganizationSpaceMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<unknown>;
+            update: () => Promise<import("./space-membership").SpaceMembership>;
             delete: () => Promise<void>;
         } & import("./space-membership").SpaceMembershipProps & {
             toPlainObject(): import("./space-membership").SpaceMembershipProps;
@@ -286,20 +286,20 @@ export declare function wrapOrganizationCollection(http: AxiosInstance, data: Co
             toPlainObject(): CollectionProp<import("./organization-membership").OrganizationMembershipProps>;
         }>;
         createTeam: (data: Pick<import("./team").TeamProps, "description" | "name">) => Promise<{
-            update: () => Promise<unknown>;
+            update: () => Promise<import("./team").Team>;
             delete: () => Promise<void>;
         } & import("./team").TeamProps & {
             toPlainObject(): import("./team").TeamProps;
         }>;
         getTeam: (teamId: string) => Promise<{
-            update: () => Promise<unknown>;
+            update: () => Promise<import("./team").Team>;
             delete: () => Promise<void>;
         } & import("./team").TeamProps & {
             toPlainObject(): import("./team").TeamProps;
         }>;
         getTeams: (query?: import("../common-types").QueryOptions) => Promise<{
             items: ({
-                update: () => Promise<unknown>;
+                update: () => Promise<import("./team").Team>;
                 delete: () => Promise<void>;
             } & import("./team").TeamProps & {
                 toPlainObject(): import("./team").TeamProps;
@@ -377,14 +377,14 @@ export declare function wrapOrganizationCollection(http: AxiosInstance, data: Co
             toPlainObject(): import("./team-space-membership").TeamSpaceMembershipProps;
         }>;
         getOrganizationSpaceMembership: (id: string) => Promise<{
-            update: () => Promise<unknown>;
+            update: () => Promise<import("./space-membership").SpaceMembership>;
             delete: () => Promise<void>;
         } & import("./space-membership").SpaceMembershipProps & {
             toPlainObject(): import("./space-membership").SpaceMembershipProps;
         }>;
         getOrganizationSpaceMemberships: (query?: import("../common-types").QueryOptions) => Promise<{
             items: ({
-                update: () => Promise<unknown>;
+                update: () => Promise<import("./space-membership").SpaceMembership>;
                 delete: () => Promise<void>;
             } & import("./space-membership").SpaceMembershipProps & {
                 toPlainObject(): import("./space-membership").SpaceMembershipProps;

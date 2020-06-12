@@ -60,7 +60,7 @@ export interface SpaceMembership
 
 function createSpaceMembershipApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<SpaceMembership>({
       http: http,
       entityPath: 'space_memberships',
       wrapperMethod: wrapSpaceMembership,

@@ -195,7 +195,7 @@ export interface ContentType
 
 function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<ContentType>({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,
@@ -206,13 +206,13 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
       entityPath: 'content_types',
     }),
 
-    publish: createPublishEntity({
+    publish: createPublishEntity<ContentType>({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,
     }),
 
-    unpublish: createUnpublishEntity({
+    unpublish: createUnpublishEntity<ContentType>({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,

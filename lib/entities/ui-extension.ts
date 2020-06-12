@@ -76,7 +76,7 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
 
 function createUiExtensionApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<UIExtension>({
       http: http,
       entityPath: 'extensions',
       wrapperMethod: wrapUiExtension,

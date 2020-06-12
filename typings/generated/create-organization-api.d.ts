@@ -91,20 +91,20 @@ export default function createOrganizationApi({ http }: {
         toPlainObject(): import("./common-types").CollectionProp<organizationMembership.OrganizationMembershipProps>;
     }>;
     createTeam: (data: Omit<TeamProps, 'sys'>) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<team.Team>;
         delete: () => Promise<void>;
     } & team.TeamProps & {
         toPlainObject(): team.TeamProps;
     }>;
     getTeam: (teamId: string) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<team.Team>;
         delete: () => Promise<void>;
     } & team.TeamProps & {
         toPlainObject(): team.TeamProps;
     }>;
     getTeams: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<unknown>;
+            update: () => Promise<team.Team>;
             delete: () => Promise<void>;
         } & team.TeamProps & {
             toPlainObject(): team.TeamProps;
@@ -212,14 +212,14 @@ export default function createOrganizationApi({ http }: {
         toPlainObject(): teamSpaceMembership.TeamSpaceMembershipProps;
     }>;
     getOrganizationSpaceMembership: (id: string) => Promise<{
-        update: () => Promise<unknown>;
+        update: () => Promise<spaceMembership.SpaceMembership>;
         delete: () => Promise<void>;
     } & spaceMembership.SpaceMembershipProps & {
         toPlainObject(): spaceMembership.SpaceMembershipProps;
     }>;
     getOrganizationSpaceMemberships: (query?: QueryOptions) => Promise<{
         items: ({
-            update: () => Promise<unknown>;
+            update: () => Promise<spaceMembership.SpaceMembership>;
             delete: () => Promise<void>;
         } & spaceMembership.SpaceMembershipProps & {
             toPlainObject(): spaceMembership.SpaceMembershipProps;

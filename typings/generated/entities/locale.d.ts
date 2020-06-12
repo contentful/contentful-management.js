@@ -81,7 +81,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
  * @return Wrapped locale data
  */
 export declare function wrapLocale(http: AxiosInstance, data: LocaleProps): {
-    update: () => Promise<unknown>;
+    update: () => Promise<Locale>;
     delete: () => Promise<void>;
 } & LocaleProps & {
     toPlainObject(): LocaleProps;
@@ -94,7 +94,7 @@ export declare function wrapLocale(http: AxiosInstance, data: LocaleProps): {
  */
 export declare function wrapLocaleCollection(http: AxiosInstance, data: CollectionProp<LocaleProps>): {
     items: ({
-        update: () => Promise<unknown>;
+        update: () => Promise<Locale>;
         delete: () => Promise<void>;
     } & LocaleProps & {
         toPlainObject(): LocaleProps;

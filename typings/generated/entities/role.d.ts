@@ -67,7 +67,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
  * @return Wrapped role data
  */
 export declare function wrapRole(http: AxiosInstance, data: RoleProps): {
-    update: () => Promise<unknown>;
+    update: () => Promise<Role>;
     delete: () => Promise<void>;
 } & RoleProps & {
     toPlainObject(): RoleProps;
@@ -80,7 +80,7 @@ export declare function wrapRole(http: AxiosInstance, data: RoleProps): {
  */
 export declare function wrapRoleCollection(http: AxiosInstance, data: CollectionProp<RoleProps>): {
     items: ({
-        update: () => Promise<unknown>;
+        update: () => Promise<Role>;
         delete: () => Promise<void>;
     } & RoleProps & {
         toPlainObject(): RoleProps;

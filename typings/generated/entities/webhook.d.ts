@@ -143,7 +143,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
  * @return Wrapped webhook data
  */
 export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): {
-    update: () => Promise<unknown>;
+    update: () => Promise<WebHooks>;
     delete: () => Promise<void>;
     getCalls: () => Promise<Record<string, unknown>>;
     getCall: (id: string) => Promise<Record<string, unknown>>;
@@ -159,7 +159,7 @@ export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): {
  */
 export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): {
     items: ({
-        update: () => Promise<unknown>;
+        update: () => Promise<WebHooks>;
         delete: () => Promise<void>;
         getCalls: () => Promise<Record<string, unknown>>;
         getCall: (id: string) => Promise<Record<string, unknown>>;

@@ -159,7 +159,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 
 function createWebhookApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<WebHooks>({
       http,
       entityPath,
       wrapperMethod: wrapWebhook,
