@@ -8,8 +8,8 @@ import { MetaSys, MetaSysProps, DefaultElements, Collection, QueryOptions } from
 import { ApiKey, CreateApiKeyProps } from './generated/entities/api-key'
 import { Environment, EnvironmentProps } from './environment'
 import { Asset, AssetProps, AssetFileProp } from './generated/entities/asset'
-import { ContentType, ContentTypeProps } from './contentType'
-import { EntryProp, Entry } from './entry'
+import { ContentType, ContentTypeProps } from './generated/entities/content-type'
+import { EntryProp, Entry } from './generated/entities/entry'
 import { CreateLocaleProps, Locale } from './generated/entities/locale'
 import { SpaceMember } from './generated/entities/space-member'
 import { Role, RoleProps } from './generated/entities/role'
@@ -18,7 +18,7 @@ import { TeamSpaceMembershipProps, TeamSpaceMembership } from './generated/entit
 import { UIExtension, UIExtensionProps } from './generated/entities/ui-extension'
 import { Upload } from './generated/entities/upload'
 import { Stream } from 'stream'
-import { Snapshot } from './snapshot'
+import { Snapshot } from './generated/entities/snapshot'
 import { EditorInterface } from './generated/entities/editor-interface'
 import { WebhookProps, WebHooks } from './generated/entities/webhook'
 import { PreviewApiKey } from './generated/entities/preview-api-key'
@@ -256,7 +256,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentType(data: ContentTypeProps): Promise<ContentType>
+  createContentType(data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
   /**
    * Creates a Content Type with a custom ID
    * @deprecated since version 5.0
@@ -287,7 +287,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createContentTypeWithId(id: string, data: ContentTypeProps): Promise<ContentType>
+  createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>): Promise<ContentType>
   /**
    * Gets a collection of Environments
    * @return Promise for a collection of Environment
@@ -348,7 +348,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntry(contentTypeID: string, data: EntryProp): Promise<Entry>
+  createEntry(contentTypeID: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
   /**
    * Creates a Entry with a custom ID
    * @deprecated since version 5.0
@@ -376,7 +376,7 @@ export interface ContentfulSpaceAPI {
    * .catch(console.error)
    * ```
    */
-  createEntryWithId(contentTypeID: string, id: string, data: EntryProp): Promise<Entry>
+  createEntryWithId(contentTypeID: string, id: string, data: Omit<EntryProp, 'sys'>): Promise<Entry>
   /**
    * Creates an Environement
    * @param data - Object representation of the Environment to be created
