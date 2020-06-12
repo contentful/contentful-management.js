@@ -15,6 +15,7 @@ import {  Usage, UsageQuery } from './generated/entities/usage'
 
 export { ClientParams, createCMAHttpClient } from './generated/create-cma-http-client'
 export { createPlainClient } from './generated/plain/plain-client'
+export { asIterator } from './generated/plain/as-iterator'
 
 /**
  * Create a client instance
