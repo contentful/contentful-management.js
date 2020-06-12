@@ -10,7 +10,7 @@ import { User } from './generated/entities/user'
 import { PersonalAccessToken, PersonalAccessTokenProp } from './generated/entities/personal-access-token'
 import { Space, SpaceProps } from './space'
 import { Collection } from './generated/common-types'
-import { Organization } from './createOrganizationApi'
+import { Organization } from './generated/create-organization-api'
 import {  Usage, UsageQuery } from './generated/entities/usage'
 
 export { ClientParams } from './generated/create-cma-http-client'

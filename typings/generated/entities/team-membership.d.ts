@@ -1,9 +1,5 @@
-import { DefaultElements, MetaSysProps, QueryOptions, CollectionProp, MetaLinkProps } from '../common-types';
+import { DefaultElements, MetaSysProps, CollectionProp, MetaLinkProps } from '../common-types';
 import { AxiosInstance } from 'axios';
-export interface Options {
-    teamId?: string;
-    query?: QueryOptions;
-}
 export declare type TeamMembershipProps = {
     /**
      * System metadata
