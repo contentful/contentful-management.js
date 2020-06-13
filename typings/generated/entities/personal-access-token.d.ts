@@ -33,21 +33,13 @@ export interface PersonalAccessToken extends PersonalAccessTokenProp, DefaultEle
  * @param data - Raw  personal access token data
  * @return Wrapped personal access token
  */
-export declare function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp): {
-    revoke: () => Promise<any>;
-} & PersonalAccessTokenProp & {
-    toPlainObject(): PersonalAccessTokenProp;
-};
+export declare function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp): PersonalAccessToken;
 /**
  * @private
  * @param http - HTTP client instance
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */
-export declare const wrapPersonalAccessTokenCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PersonalAccessTokenProp>) => import("../common-types").Collection<{
-    revoke: () => Promise<any>;
-} & PersonalAccessTokenProp & {
-    toPlainObject(): PersonalAccessTokenProp;
-}> & {
+export declare const wrapPersonalAccessTokenCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PersonalAccessTokenProp>) => import("../common-types").Collection<PersonalAccessToken> & {
     toPlainObject(): import("../common-types").CollectionProp<PersonalAccessTokenProp>;
 };

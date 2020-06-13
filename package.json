@@ -23,7 +23,7 @@
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
     "build:types": "rimraf typings/generated && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
-    "build:docs": "typedoc typings",
+    "build:docs": "typedoc lib",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",

@@ -106,15 +106,6 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       .then((response) => wrapUser(http, response.data), errorHandler)
   }
 
-  function createPersonalAccessToken(data: Omit<PersonalAccessTokenProp, 'sys'>) {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-    return http
-      .post('', data, {
-        baseURL,
-      })
-      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-  }
-
   function getPersonalAccessToken(tokenId: string) {
     const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
     return http
@@ -144,7 +135,39 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getOrganization: getOrganization,
     getOrganizations: getOrganizations,
     getCurrentUser: getCurrentUser,
-    createPersonalAccessToken: createPersonalAccessToken,
+    /**
+     * Creates a personal access token
+     * @param data - personal access token config
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.createPersonalAccessToken(
+     *  {
+     *    "name": "My Token",
+     *    "scope": [
+     *      "content_management_manage"
+     *    ]
+     *  }
+     * )
+     * .then(personalAccessToken => console.log(personalAccessToken.token))
+     * .catch(console.error)
+     * ```
+     */
+    createPersonalAccessToken: function createPersonalAccessToken(
+      data: Omit<PersonalAccessTokenProp, 'sys'>
+    ) {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
+      return http
+        .post('', data, {
+          baseURL,
+        })
+        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+    },
     getPersonalAccessToken: getPersonalAccessToken,
     getPersonalAccessTokens: getPersonalAccessTokens,
     rawRequest: rawRequest,

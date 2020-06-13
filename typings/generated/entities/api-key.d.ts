@@ -13,7 +13,7 @@ export declare type ApiKeyProps = {
     }[];
 };
 export declare type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'description'>;
-export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
+declare type ApiKeyApi = {
     /**
      * Deletes this object on the server.
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
@@ -51,7 +51,8 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
      * ```
      */
     update(): Promise<ApiKey>;
-}
+};
+export declare type ApiKey = ApiKeyProps & DefaultElements<ApiKeyProps> & ApiKeyApi;
 /**
  * @private
  * @param http - HTTP client instance
@@ -67,3 +68,4 @@ export declare function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiK
 export declare const wrapApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ApiKeyProps>) => import("../common-types").Collection<ApiKey> & {
     toPlainObject(): import("../common-types").CollectionProp<ApiKeyProps>;
 };
+export {};

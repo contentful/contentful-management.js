@@ -14,21 +14,9 @@ export declare function createClient(params: ClientParams): {
         toPlainObject(): import("./common-types").CollectionProp<import("./entities/organization").OrganizationProp>;
     }>;
     getCurrentUser: () => Promise<import("./entities/user").User>;
-    createPersonalAccessToken: (data: Pick<import("./entities/personal-access-token").PersonalAccessTokenProp, "name" | "scopes" | "revokedAt" | "token">) => Promise<{
-        revoke: () => Promise<any>;
-    } & import("./entities/personal-access-token").PersonalAccessTokenProp & {
-        toPlainObject(): import("./entities/personal-access-token").PersonalAccessTokenProp;
-    }>;
-    getPersonalAccessToken: (tokenId: string) => Promise<{
-        revoke: () => Promise<any>;
-    } & import("./entities/personal-access-token").PersonalAccessTokenProp & {
-        toPlainObject(): import("./entities/personal-access-token").PersonalAccessTokenProp;
-    }>;
-    getPersonalAccessTokens: () => Promise<import("./common-types").Collection<{
-        revoke: () => Promise<any>;
-    } & import("./entities/personal-access-token").PersonalAccessTokenProp & {
-        toPlainObject(): import("./entities/personal-access-token").PersonalAccessTokenProp;
-    }> & {
+    createPersonalAccessToken: (data: Pick<import("./entities/personal-access-token").PersonalAccessTokenProp, "name" | "scopes" | "revokedAt" | "token">) => Promise<import("./entities/personal-access-token").PersonalAccessToken>;
+    getPersonalAccessToken: (tokenId: string) => Promise<import("./entities/personal-access-token").PersonalAccessToken>;
+    getPersonalAccessTokens: () => Promise<import("./common-types").Collection<import("./entities/personal-access-token").PersonalAccessToken> & {
         toPlainObject(): import("./common-types").CollectionProp<import("./entities/personal-access-token").PersonalAccessTokenProp>;
     }>;
     rawRequest: (opts: import("axios").AxiosRequestConfig) => Promise<any>;

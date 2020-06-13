@@ -56,7 +56,10 @@ function createPersonalAccessToken(http: AxiosInstance) {
  * @param data - Raw  personal access token data
  * @return Wrapped personal access token
  */
-export function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp) {
+export function wrapPersonalAccessToken(
+  http: AxiosInstance,
+  data: PersonalAccessTokenProp
+): PersonalAccessToken {
   const personalAccessToken = toPlainObject(cloneDeep(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(
     personalAccessToken,

@@ -27,21 +27,32 @@ export default function createClientApi({ http }: {
         toPlainObject(): CollectionProp<OrganizationProp>;
     }>;
     getCurrentUser: () => Promise<import("./entities/user").User>;
-    createPersonalAccessToken: (data: Omit<PersonalAccessTokenProp, 'sys'>) => Promise<{
-        revoke: () => Promise<any>;
-    } & PersonalAccessTokenProp & {
-        toPlainObject(): PersonalAccessTokenProp;
-    }>;
-    getPersonalAccessToken: (tokenId: string) => Promise<{
-        revoke: () => Promise<any>;
-    } & PersonalAccessTokenProp & {
-        toPlainObject(): PersonalAccessTokenProp;
-    }>;
-    getPersonalAccessTokens: () => Promise<import("./common-types").Collection<{
-        revoke: () => Promise<any>;
-    } & PersonalAccessTokenProp & {
-        toPlainObject(): PersonalAccessTokenProp;
-    }> & {
+    /**
+     * Creates a personal access token
+     * @param data - personal access token config
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.createPersonalAccessToken(
+     *  {
+     *    "name": "My Token",
+     *    "scope": [
+     *      "content_management_manage"
+     *    ]
+     *  }
+     * )
+     * .then(personalAccessToken => console.log(personalAccessToken.token))
+     * .catch(console.error)
+     * ```
+     */
+    createPersonalAccessToken: (data: Omit<PersonalAccessTokenProp, 'sys'>) => Promise<import("./entities/personal-access-token").PersonalAccessToken>;
+    getPersonalAccessToken: (tokenId: string) => Promise<import("./entities/personal-access-token").PersonalAccessToken>;
+    getPersonalAccessTokens: () => Promise<import("./common-types").Collection<import("./entities/personal-access-token").PersonalAccessToken> & {
         toPlainObject(): CollectionProp<PersonalAccessTokenProp>;
     }>;
     rawRequest: (opts: AxiosRequestConfig) => Promise<any>;

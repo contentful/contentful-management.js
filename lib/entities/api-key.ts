@@ -18,7 +18,7 @@ export type ApiKeyProps = {
 
 export type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'description'>
 
-export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
+type ApiKeyApi = {
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
@@ -57,6 +57,8 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
    */
   update(): Promise<ApiKey>
 }
+
+export type ApiKey = ApiKeyProps & DefaultElements<ApiKeyProps> & ApiKeyApi
 
 function createApiKeyApi(http: AxiosInstance) {
   return {
