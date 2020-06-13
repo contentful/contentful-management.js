@@ -1,10 +1,11 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createDeleteEntity } from '../instance-actions'
-import { AxiosInstance } from 'axios'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type OrganizationMembershipProps = {
   /**
@@ -110,21 +111,5 @@ export function wrapOrganizationMembership(http: AxiosInstance, data: Organizati
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
  */
-export function wrapOrganizationMembershipCollection(
-  http: AxiosInstance,
-  data: CollectionProp<OrganizationMembershipProps>
-) {
-  const organizationMemberships = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...organizationMemberships,
-      items: organizationMemberships.items.map((entity) =>
-        wrapOrganizationMembership(http, entity)
-      ),
-    })
-  )
-}
+export const wrapOrganizationMembershipCollection = wrapCollection(wrapOrganizationMembership)

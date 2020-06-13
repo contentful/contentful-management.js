@@ -88,36 +88,12 @@ export declare function wrapLocale(http: AxiosInstance, data: LocaleProps): {
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw locale collection data
- * @return Wrapped locale collection data
  */
-export declare function wrapLocaleCollection(http: AxiosInstance, data: CollectionProp<LocaleProps>): {
-    items: ({
-        update: () => Promise<Locale>;
-        delete: () => Promise<void>;
-    } & LocaleProps & {
-        toPlainObject(): LocaleProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<Locale>;
-            delete: () => Promise<void>;
-        } & LocaleProps & {
-            toPlainObject(): LocaleProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapLocaleCollection: (http: AxiosInstance, data: CollectionProp<LocaleProps>) => import("../common-types").Collection<{
+    update: () => Promise<Locale>;
+    delete: () => Promise<void>;
+} & LocaleProps & {
+    toPlainObject(): LocaleProps;
+}> & {
+    toPlainObject(): CollectionProp<LocaleProps>;
 };

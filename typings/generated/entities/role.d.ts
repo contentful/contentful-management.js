@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type RoleProps = {
     sys: MetaSysProps;
     name: string;
@@ -74,36 +74,12 @@ export declare function wrapRole(http: AxiosInstance, data: RoleProps): {
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw role collection data
- * @return Wrapped role collection data
  */
-export declare function wrapRoleCollection(http: AxiosInstance, data: CollectionProp<RoleProps>): {
-    items: ({
-        update: () => Promise<Role>;
-        delete: () => Promise<void>;
-    } & RoleProps & {
-        toPlainObject(): RoleProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<Role>;
-            delete: () => Promise<void>;
-        } & RoleProps & {
-            toPlainObject(): RoleProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapRoleCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<RoleProps>) => import("../common-types").Collection<{
+    update: () => Promise<Role>;
+    delete: () => Promise<void>;
+} & RoleProps & {
+    toPlainObject(): RoleProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<RoleProps>;
 };

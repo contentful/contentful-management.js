@@ -4,7 +4,8 @@ import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements } from '../common-types'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -428,13 +429,5 @@ export function wrapAsset(http: AxiosInstance, data: AssetProps) {
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw asset collection data
- * @return Wrapped asset collection data
  */
-export function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>) {
-  const assets = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({ ...assets, items: assets.items.map((entity) => wrapAsset(http, entity)) })
-  )
-}
+export const wrapAssetCollection = wrapCollection(wrapAsset)

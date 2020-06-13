@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type OrganizationMembershipProps = {
     /**
      * System metadata
@@ -69,40 +69,14 @@ export declare function wrapOrganizationMembership(http: AxiosInstance, data: Or
 };
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
  */
-export declare function wrapOrganizationMembershipCollection(http: AxiosInstance, data: CollectionProp<OrganizationMembershipProps>): {
-    items: ({
-        update: () => Promise<any & OrganizationMembershipProps & {
-            toPlainObject(): OrganizationMembershipProps;
-        }>;
-        delete: () => Promise<void>;
-    } & OrganizationMembershipProps & {
+export declare const wrapOrganizationMembershipCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<OrganizationMembershipProps>) => import("../common-types").Collection<{
+    update: () => Promise<any & OrganizationMembershipProps & {
         toPlainObject(): OrganizationMembershipProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<any & OrganizationMembershipProps & {
-                toPlainObject(): OrganizationMembershipProps;
-            }>;
-            delete: () => Promise<void>;
-        } & OrganizationMembershipProps & {
-            toPlainObject(): OrganizationMembershipProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+    }>;
+    delete: () => Promise<void>;
+} & OrganizationMembershipProps & {
+    toPlainObject(): OrganizationMembershipProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<OrganizationMembershipProps>;
 };

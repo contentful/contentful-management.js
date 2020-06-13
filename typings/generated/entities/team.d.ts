@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { DefaultElements, MetaSysProps } from '../common-types';
 export declare type TeamProps = {
     /**
      * System metadata
@@ -61,44 +61,10 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
  * @param data - Raw team data
  * @return Wrapped team data
  */
-export declare function wrapTeam(http: AxiosInstance, data: TeamProps): {
-    update: () => Promise<Team>;
-    delete: () => Promise<void>;
-} & TeamProps & {
-    toPlainObject(): TeamProps;
-};
+export declare function wrapTeam(http: AxiosInstance, data: TeamProps): Team;
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw team collection data
- * @return Wrapped team collection data
  */
-export declare function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>): {
-    items: ({
-        update: () => Promise<Team>;
-        delete: () => Promise<void>;
-    } & TeamProps & {
-        toPlainObject(): TeamProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<Team>;
-            delete: () => Promise<void>;
-        } & TeamProps & {
-            toPlainObject(): TeamProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapTeamCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<TeamProps>) => import("../common-types").Collection<Team> & {
+    toPlainObject(): import("../common-types").CollectionProp<TeamProps>;
 };

@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { SnapshotProps } from './snapshot';
-import { MetaSysProps, MetaLinkProps, DefaultElements, Collection, CollectionProp } from '../common-types';
+import { MetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types';
 export interface EntrySys extends MetaSysProps {
     contentType: {
         sys: MetaLinkProps;
@@ -198,31 +198,10 @@ export declare function wrapEntry(http: AxiosInstance, data: EntryProp): EntryAp
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
  * @private
- * @param http - HTTP client instance
- * @param data - Raw entry collection data
- * @return Wrapped entry collection data
  */
-export declare function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>): {
-    items: (EntryApi & EntryProp & {
-        toPlainObject(): EntryProp;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: (EntryApi & EntryProp & {
-            toPlainObject(): EntryProp;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapEntryCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<EntryProp>) => Collection<EntryApi & EntryProp & {
+    toPlainObject(): EntryProp;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<EntryProp>;
 };
 export {};

@@ -2,8 +2,9 @@ import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type RoleProps = {
   sys: MetaSysProps
@@ -96,13 +97,5 @@ export function wrapRole(http: AxiosInstance, data: RoleProps) {
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw role collection data
- * @return Wrapped role collection data
  */
-export function wrapRoleCollection(http: AxiosInstance, data: CollectionProp<RoleProps>) {
-  const roles = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({ ...roles, items: roles.items.map((entity) => wrapRole(http, entity)) })
-  )
-}
+export const wrapRoleCollection = wrapCollection(wrapRole)

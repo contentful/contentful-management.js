@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type PersonalAccessTokenProp = {
     sys: MetaSysProps;
     name: string;
@@ -44,30 +44,10 @@ export declare function wrapPersonalAccessToken(http: AxiosInstance, data: Perso
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */
-export declare function wrapPersonalAccessTokenCollection(http: AxiosInstance, data: CollectionProp<PersonalAccessTokenProp>): {
-    items: ({
-        revoke: () => Promise<any>;
-    } & PersonalAccessTokenProp & {
-        toPlainObject(): PersonalAccessTokenProp;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            revoke: () => Promise<any>;
-        } & PersonalAccessTokenProp & {
-            toPlainObject(): PersonalAccessTokenProp;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapPersonalAccessTokenCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PersonalAccessTokenProp>) => import("../common-types").Collection<{
+    revoke: () => Promise<any>;
+} & PersonalAccessTokenProp & {
+    toPlainObject(): PersonalAccessTokenProp;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<PersonalAccessTokenProp>;
 };

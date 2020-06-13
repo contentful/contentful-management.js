@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types';
 export declare type SpaceMembershipProps = {
     sys: MetaSysProps;
     name: string;
@@ -63,36 +63,12 @@ export declare function wrapSpaceMembership(http: AxiosInstance, data: SpaceMemb
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw space membership collection data
- * @return Wrapped space membership collection data
  */
-export declare function wrapSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<SpaceMembershipProps>): {
-    items: ({
-        update: () => Promise<SpaceMembership>;
-        delete: () => Promise<void>;
-    } & SpaceMembershipProps & {
-        toPlainObject(): SpaceMembershipProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<SpaceMembership>;
-            delete: () => Promise<void>;
-        } & SpaceMembershipProps & {
-            toPlainObject(): SpaceMembershipProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapSpaceMembershipCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<SpaceMembershipProps>) => import("../common-types").Collection<{
+    update: () => Promise<SpaceMembership>;
+    delete: () => Promise<void>;
+} & SpaceMembershipProps & {
+    toPlainObject(): SpaceMembershipProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<SpaceMembershipProps>;
 };

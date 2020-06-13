@@ -1,9 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
+import { wrapCollection } from '../common-utils'
 
 const entityPath = 'app_definitions'
 
@@ -145,15 +146,4 @@ export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps)
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */
-export function wrapAppDefinitionCollection(
-  http: AxiosInstance,
-  data: CollectionProp<AppDefinitionProps>
-) {
-  const appDefinitions = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...appDefinitions,
-      items: appDefinitions.items.map((entity) => wrapAppDefinition(http, entity)),
-    })
-  )
-}
+export const wrapAppDefinitionCollection = wrapCollection(wrapAppDefinition)

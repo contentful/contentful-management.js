@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type SnapshotProps<T> = {
     sys: MetaSysProps & {
         snapshotType: string;
@@ -24,26 +24,8 @@ export declare function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProp
  * @param data - Raw snapshot collection data
  * @return Wrapped snapshot collection data
  */
-export declare function wrapSnapshotCollection<T>(http: AxiosInstance, data: CollectionProp<SnapshotProps<T>>): {
-    items: (SnapshotProps<T> & {
-        toPlainObject(): SnapshotProps<T>;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: (SnapshotProps<T> & {
-            toPlainObject(): SnapshotProps<T>;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapSnapshotCollection: <T>(http: AxiosInstance, data: import("../common-types").CollectionProp<SnapshotProps<T>>) => import("../common-types").Collection<SnapshotProps<T> & {
+    toPlainObject(): SnapshotProps<T>;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<SnapshotProps<T>>;
 };

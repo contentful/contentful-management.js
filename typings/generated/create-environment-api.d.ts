@@ -66,52 +66,22 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & ContentTypeProps & {
         toPlainObject(): ContentTypeProps;
     }>;
-    getContentTypes: (query?: QueryOptions) => Promise<{
-        items: ({
-            update(): Promise<import("./entities/content-type").ContentType>;
-            delete(): Promise<void>;
-            publish(): Promise<import("./entities/content-type").ContentType>;
-            unpublish(): Promise<import("./entities/content-type").ContentType>;
-            getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
-            isDraft(): boolean;
-            isPublished(): boolean;
-            isUpdated(): boolean;
-            omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
-            getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-            getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
-        } & ContentTypeProps & {
-            toPlainObject(): ContentTypeProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                update(): Promise<import("./entities/content-type").ContentType>;
-                delete(): Promise<void>;
-                publish(): Promise<import("./entities/content-type").ContentType>;
-                unpublish(): Promise<import("./entities/content-type").ContentType>;
-                getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
-                isDraft(): boolean;
-                isPublished(): boolean;
-                isUpdated(): boolean;
-                omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
-                getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-                getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
-            } & ContentTypeProps & {
-                toPlainObject(): ContentTypeProps;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getContentTypes: (query?: QueryOptions) => Promise<import("./common-types").Collection<{
+        update(): Promise<import("./entities/content-type").ContentType>;
+        delete(): Promise<void>;
+        publish(): Promise<import("./entities/content-type").ContentType>;
+        unpublish(): Promise<import("./entities/content-type").ContentType>;
+        getEditorInterface(): Promise<import("./entities/editor-interface").EditorInterface>;
+        isDraft(): boolean;
+        isPublished(): boolean;
+        isUpdated(): boolean;
+        omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+    } & ContentTypeProps & {
+        toPlainObject(): ContentTypeProps;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<ContentTypeProps>;
     }>;
     createContentType: (data: Omit<ContentTypeProps, 'sys'>) => Promise<{
         update(): Promise<import("./entities/content-type").ContentType>;
@@ -160,54 +130,23 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & EntryProp & {
         toPlainObject(): EntryProp;
     }>;
-    getEntries: (query?: QueryOptions) => Promise<{
-        items: ({
-            update(): Promise<import("./entities/entry").Entry>;
-            archive(): Promise<import("./entities/entry").Entry>;
-            delete(): Promise<void>;
-            publish(): Promise<import("./entities/entry").Entry>;
-            unarchive(): Promise<import("./entities/entry").Entry>;
-            unpublish(): Promise<import("./entities/entry").Entry>;
-            getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-            getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
-            isArchived(): boolean;
-            isDraft(): boolean;
-            isPublished(): boolean;
-            isUpdated(): boolean;
-        } & EntryProp & {
-            toPlainObject(): EntryProp;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                update(): Promise<import("./entities/entry").Entry>;
-                archive(): Promise<import("./entities/entry").Entry>;
-                delete(): Promise<void>;
-                publish(): Promise<import("./entities/entry").Entry>;
-                unarchive(): Promise<import("./entities/entry").Entry>;
-                unpublish(): Promise<import("./entities/entry").Entry>;
-                getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-                getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
-                isArchived(): boolean;
-                isDraft(): boolean;
-                isPublished(): boolean;
-                isUpdated(): boolean;
-            } & EntryProp & {
-                toPlainObject(): EntryProp;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getEntries: (query?: QueryOptions) => Promise<import("./common-types").Collection<{
+        update(): Promise<import("./entities/entry").Entry>;
+        archive(): Promise<import("./entities/entry").Entry>;
+        delete(): Promise<void>;
+        publish(): Promise<import("./entities/entry").Entry>;
+        unarchive(): Promise<import("./entities/entry").Entry>;
+        unpublish(): Promise<import("./entities/entry").Entry>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        isArchived(): boolean;
+        isDraft(): boolean;
+        isPublished(): boolean;
+        isUpdated(): boolean;
+    } & EntryProp & {
+        toPlainObject(): EntryProp;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<EntryProp>;
     }>;
     createEntry: (contentTypeId: string, data: Omit<EntryProp, 'sys'>) => Promise<{
         update(): Promise<import("./entities/entry").Entry>;
@@ -257,54 +196,23 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & AssetProps & {
         toPlainObject(): AssetProps;
     }>;
-    getAssets: (query?: QueryOptions) => Promise<{
-        items: ({
-            processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
-            processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
-            publish(): Promise<import("./entities/asset").Asset>;
-            archive(): Promise<import("./entities/asset").Asset>;
-            delete(): Promise<void>;
-            unarchive(): Promise<import("./entities/asset").Asset>;
-            unpublish(): Promise<import("./entities/asset").Asset>;
-            update(): Promise<import("./entities/asset").Asset>;
-            isPublished(): boolean;
-            isUpdated(): boolean;
-            isDraft(): boolean;
-            isArchived(): boolean;
-        } & AssetProps & {
-            toPlainObject(): AssetProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
-                processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
-                publish(): Promise<import("./entities/asset").Asset>;
-                archive(): Promise<import("./entities/asset").Asset>;
-                delete(): Promise<void>;
-                unarchive(): Promise<import("./entities/asset").Asset>;
-                unpublish(): Promise<import("./entities/asset").Asset>;
-                update(): Promise<import("./entities/asset").Asset>;
-                isPublished(): boolean;
-                isUpdated(): boolean;
-                isDraft(): boolean;
-                isArchived(): boolean;
-            } & AssetProps & {
-                toPlainObject(): AssetProps;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getAssets: (query?: QueryOptions) => Promise<import("./common-types").Collection<{
+        processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
+        publish(): Promise<import("./entities/asset").Asset>;
+        archive(): Promise<import("./entities/asset").Asset>;
+        delete(): Promise<void>;
+        unarchive(): Promise<import("./entities/asset").Asset>;
+        unpublish(): Promise<import("./entities/asset").Asset>;
+        update(): Promise<import("./entities/asset").Asset>;
+        isPublished(): boolean;
+        isUpdated(): boolean;
+        isDraft(): boolean;
+        isArchived(): boolean;
+    } & AssetProps & {
+        toPlainObject(): AssetProps;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<AssetProps>;
     }>;
     createAsset: (data: Omit<AssetProps, 'sys'>) => Promise<{
         processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
@@ -372,34 +280,13 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & LocaleProps & {
         toPlainObject(): LocaleProps;
     }>;
-    getLocales: () => Promise<{
-        items: ({
-            update: () => Promise<import("./entities/locale").Locale>;
-            delete: () => Promise<void>;
-        } & LocaleProps & {
-            toPlainObject(): LocaleProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                update: () => Promise<import("./entities/locale").Locale>;
-                delete: () => Promise<void>;
-            } & LocaleProps & {
-                toPlainObject(): LocaleProps;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getLocales: () => Promise<import("./common-types").Collection<{
+        update: () => Promise<import("./entities/locale").Locale>;
+        delete: () => Promise<void>;
+    } & LocaleProps & {
+        toPlainObject(): LocaleProps;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<LocaleProps>;
     }>;
     createLocale: (data: Omit<LocaleProps, 'sys'>) => Promise<{
         update: () => Promise<import("./entities/locale").Locale>;
@@ -407,53 +294,12 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & LocaleProps & {
         toPlainObject(): LocaleProps;
     }>;
-    getUiExtension: (id: string) => Promise<{
-        update: () => Promise<import("./entities/ui-extension").UIExtension>;
-        delete: () => Promise<void>;
-    } & UIExtensionProps & {
-        toPlainObject(): UIExtensionProps;
+    getUiExtension: (id: string) => Promise<import("./entities/ui-extension").UIExtension>;
+    getUiExtensions: () => Promise<import("./common-types").Collection<import("./entities/ui-extension").UIExtension> & {
+        toPlainObject(): import("./common-types").CollectionProp<UIExtensionProps>;
     }>;
-    getUiExtensions: () => Promise<{
-        items: ({
-            update: () => Promise<import("./entities/ui-extension").UIExtension>;
-            delete: () => Promise<void>;
-        } & UIExtensionProps & {
-            toPlainObject(): UIExtensionProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                update: () => Promise<import("./entities/ui-extension").UIExtension>;
-                delete: () => Promise<void>;
-            } & UIExtensionProps & {
-                toPlainObject(): UIExtensionProps;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
-    }>;
-    createUiExtension: (data: Omit<UIExtensionProps, 'sys'>) => Promise<{
-        update: () => Promise<import("./entities/ui-extension").UIExtension>;
-        delete: () => Promise<void>;
-    } & UIExtensionProps & {
-        toPlainObject(): UIExtensionProps;
-    }>;
-    createUiExtensionWithId: (id: string, data: Omit<UIExtensionProps, 'sys'>) => Promise<{
-        update: () => Promise<import("./entities/ui-extension").UIExtension>;
-        delete: () => Promise<void>;
-    } & UIExtensionProps & {
-        toPlainObject(): UIExtensionProps;
-    }>;
+    createUiExtension: (data: Omit<UIExtensionProps, 'sys'>) => Promise<import("./entities/ui-extension").UIExtension>;
+    createUiExtensionWithId: (id: string, data: Omit<UIExtensionProps, 'sys'>) => Promise<import("./entities/ui-extension").UIExtension>;
     createAppInstallation: (appDefinitionId: string, data: Omit<AppInstallationProps, 'sys'>) => Promise<{
         update: () => Promise<any & AppInstallationProps & {
             toPlainObject(): AppInstallationProps;
@@ -470,83 +316,24 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
     } & AppInstallationProps & {
         toPlainObject(): AppInstallationProps;
     }>;
-    getAppInstallations: () => Promise<{
-        items: ({
-            update: () => Promise<any & AppInstallationProps & {
-                toPlainObject(): AppInstallationProps;
-            }>;
-            delete: () => Promise<void>;
-        } & AppInstallationProps & {
+    getAppInstallations: () => Promise<import("./common-types").Collection<{
+        update: () => Promise<any & AppInstallationProps & {
             toPlainObject(): AppInstallationProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: ({
-                update: () => Promise<any & AppInstallationProps & {
-                    toPlainObject(): AppInstallationProps;
-                }>;
-                delete: () => Promise<void>;
-            } & AppInstallationProps & {
-                toPlainObject(): AppInstallationProps;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+        }>;
+        delete: () => Promise<void>;
+    } & AppInstallationProps & {
+        toPlainObject(): AppInstallationProps;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<AppInstallationProps>;
     }>;
-    getEntrySnapshots: (entryId: string, query?: QueryOptions) => Promise<{
-        items: (import("./entities/snapshot").SnapshotProps<unknown> & {
-            toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: (import("./entities/snapshot").SnapshotProps<unknown> & {
-                toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getEntrySnapshots: (entryId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<unknown> & {
+        toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
     }>;
-    getContentTypeSnapshots: (contentTypeId: string, query?: QueryOptions) => Promise<{
-        items: (import("./entities/snapshot").SnapshotProps<unknown> & {
-            toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    } & {
-        toPlainObject(): {
-            items: (import("./entities/snapshot").SnapshotProps<unknown> & {
-                toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-            })[];
-            sys: {
-                type: "Array";
-            };
-            total: number;
-            skip: number;
-            limit: number;
-        };
+    getContentTypeSnapshots: (contentTypeId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<unknown> & {
+        toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
+    }> & {
+        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
     }>;
 };

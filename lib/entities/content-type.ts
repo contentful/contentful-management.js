@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -16,7 +17,7 @@ import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements, Collection } from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
 
@@ -292,19 +293,5 @@ export function wrapContentType(http: AxiosInstance, data: ContentTypeProps) {
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw content type collection data
- * @return Wrapped content type collection data
  */
-export function wrapContentTypeCollection(
-  http: AxiosInstance,
-  data: CollectionProp<ContentTypeProps>
-) {
-  const contentTypes = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...contentTypes,
-      items: contentTypes.items.map((entity) => wrapContentType(http, entity)),
-    })
-  )
-}
+export const wrapContentTypeCollection = wrapCollection(wrapContentType)

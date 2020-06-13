@@ -1,4 +1,4 @@
-import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types';
+import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types';
 import { AxiosInstance } from 'axios';
 export declare type EnvironmentAliasProps = {
     /**
@@ -39,7 +39,7 @@ export interface EnvironmentAlias extends EnvironmentAliasProps, DefaultElements
  * @return Wrapped environment alias data
  */
 export declare function wrapEnvironmentAlias(http: AxiosInstance, data: EnvironmentAliasProps): {
-    update: () => Promise<unknown>;
+    update: () => Promise<EnvironmentAlias>;
 } & EnvironmentAliasProps & {
     toPlainObject(): EnvironmentAliasProps;
 };
@@ -49,30 +49,10 @@ export declare function wrapEnvironmentAlias(http: AxiosInstance, data: Environm
  * @param data - Raw environment alias collection data
  * @return Wrapped environment alias collection data
  */
-export declare function wrapEnvironmentAliasCollection(http: AxiosInstance, data: CollectionProp<EnvironmentAliasProps>): {
-    items: ({
-        update: () => Promise<unknown>;
-    } & EnvironmentAliasProps & {
-        toPlainObject(): EnvironmentAliasProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<unknown>;
-        } & EnvironmentAliasProps & {
-            toPlainObject(): EnvironmentAliasProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapEnvironmentAliasCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<EnvironmentAliasProps>) => import("../common-types").Collection<{
+    update: () => Promise<EnvironmentAlias>;
+} & EnvironmentAliasProps & {
+    toPlainObject(): EnvironmentAliasProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<EnvironmentAliasProps>;
 };

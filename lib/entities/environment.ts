@@ -2,7 +2,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi from '../create-environment-api'
-import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
 type SdkHttpClient = AxiosInstance & {
@@ -64,19 +65,5 @@ export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps) {
  * This method wraps each environment in a collection with the environment API. See wrapEnvironment
  * above for more details.
  * @private
- * @param http - HTTP client instance
- * @param data - API response for a Environment collection
- * @return
  */
-export function wrapEnvironmentCollection(
-  http: AxiosInstance,
-  data: CollectionProp<EnvironmentProps>
-) {
-  const environments = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...environments,
-      items: environments.items.map((entity) => wrapEnvironment(http, entity)),
-    })
-  )
-}
+export const wrapEnvironmentCollection = wrapCollection(wrapEnvironment)

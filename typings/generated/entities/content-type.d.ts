@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { ContentFields } from './content-type-fields';
-import { MetaSysProps, DefaultElements, Collection, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements, Collection } from '../common-types';
 import { EditorInterface } from './editor-interface';
 import { SnapshotProps } from './snapshot';
 export declare type ContentTypeProps = {
@@ -179,31 +179,10 @@ export declare function wrapContentType(http: AxiosInstance, data: ContentTypePr
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw content type collection data
- * @return Wrapped content type collection data
  */
-export declare function wrapContentTypeCollection(http: AxiosInstance, data: CollectionProp<ContentTypeProps>): {
-    items: (ContentTypeApi & ContentTypeProps & {
-        toPlainObject(): ContentTypeProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: (ContentTypeApi & ContentTypeProps & {
-            toPlainObject(): ContentTypeProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapContentTypeCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ContentTypeProps>) => Collection<ContentTypeApi & ContentTypeProps & {
+    toPlainObject(): ContentTypeProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<ContentTypeProps>;
 };
 export {};

@@ -2,7 +2,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity } from '../instance-actions'
-import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
 export type EnvironmentAliasProps = {
@@ -43,7 +44,7 @@ export interface EnvironmentAlias
 
 function createEnvironmentAliasApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity({
+    update: createUpdateEntity<EnvironmentAlias>({
       http: http,
       entityPath: 'environment_aliases',
       wrapperMethod: wrapEnvironmentAlias,
@@ -69,15 +70,4 @@ export function wrapEnvironmentAlias(http: AxiosInstance, data: EnvironmentAlias
  * @param data - Raw environment alias collection data
  * @return Wrapped environment alias collection data
  */
-export function wrapEnvironmentAliasCollection(
-  http: AxiosInstance,
-  data: CollectionProp<EnvironmentAliasProps>
-) {
-  const aliases = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...aliases,
-      items: aliases.items.map((entity) => wrapEnvironmentAlias(http, entity)),
-    })
-  )
-}
+export const wrapEnvironmentAliasCollection = wrapCollection(wrapEnvironmentAlias)

@@ -1,9 +1,10 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { DefaultElements, MetaSysProps, CollectionProp, MetaLinkProps } from '../common-types'
-import { AxiosInstance } from 'axios'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps, MetaLinkProps } from '../common-types'
 
 export type TeamMembershipProps = {
   /**
@@ -94,7 +95,7 @@ function createTeamMembershipApi(http: AxiosInstance) {
  * @param data - Raw team membership data
  * @return Wrapped team membership data
  */
-export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps) {
+export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps): TeamMembership {
   const teamMembership = toPlainObject(cloneDeep(data))
   const teamMembershipWithMethods = enhanceWithMethods(
     teamMembership,
@@ -105,19 +106,5 @@ export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProp
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw team membership collection data
- * @return Wrapped team membership collection data
  */
-export function wrapTeamMembershipCollection(
-  http: AxiosInstance,
-  data: CollectionProp<TeamMembershipProps>
-) {
-  const teamMemberships = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...teamMemberships,
-      items: teamMemberships.items.map((entity) => wrapTeamMembership(http, entity)),
-    })
-  )
-}
+export const wrapTeamMembershipCollection = wrapCollection(wrapTeamMembership)

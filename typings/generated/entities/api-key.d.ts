@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSys, MetaLinkProps, MetaSysProps, CollectionProp, DefaultElements } from '../common-types';
+import { MetaSys, MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types';
 export declare type ApiKeyProps = {
     sys: MetaSysProps;
     name: string;
@@ -64,22 +64,6 @@ export declare function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiK
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */
-export declare function wrapApiKeyCollection(http: AxiosInstance, data: CollectionProp<ApiKeyProps>): {
-    items: ApiKey[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ApiKey[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ApiKeyProps>) => import("../common-types").Collection<ApiKey> & {
+    toPlainObject(): import("../common-types").CollectionProp<ApiKeyProps>;
 };

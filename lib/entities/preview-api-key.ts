@@ -2,7 +2,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type PreviewApiKeyProps = {
   sys: MetaSysProps
@@ -30,19 +31,5 @@ export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw api key collection data
- * @return Wrapped api key collection data
  */
-export function wrapPreviewApiKeyCollection(
-  http: AxiosInstance,
-  data: CollectionProp<PreviewApiKeyProps>
-) {
-  const previewApiKeys = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...previewApiKeys,
-      items: previewApiKeys.items.map((entity) => wrapPreviewApiKey(http, entity)),
-    })
-  )
-}
+export const wrapPreviewApiKeyCollection = wrapCollection(wrapPreviewApiKey)

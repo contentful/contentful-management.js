@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { DefaultElements, MetaSysProps } from '../common-types';
 export declare type WebhookProps = {
     /**
      * System metadata
@@ -142,53 +142,10 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
  * @param data - Raw webhook data
  * @return Wrapped webhook data
  */
-export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): {
-    update: () => Promise<WebHooks>;
-    delete: () => Promise<void>;
-    getCalls: () => Promise<Record<string, unknown>>;
-    getCall: (id: string) => Promise<Record<string, unknown>>;
-    getHealth: () => Promise<Record<string, unknown>>;
-} & WebhookProps & {
-    toPlainObject(): WebhookProps;
-};
+export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): WebHooks;
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw webhook collection data
- * @return Wrapped webhook collection data
  */
-export declare function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>): {
-    items: ({
-        update: () => Promise<WebHooks>;
-        delete: () => Promise<void>;
-        getCalls: () => Promise<Record<string, unknown>>;
-        getCall: (id: string) => Promise<Record<string, unknown>>;
-        getHealth: () => Promise<Record<string, unknown>>;
-    } & WebhookProps & {
-        toPlainObject(): WebhookProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<WebHooks>;
-            delete: () => Promise<void>;
-            getCalls: () => Promise<Record<string, unknown>>;
-            getCall: (id: string) => Promise<Record<string, unknown>>;
-            getHealth: () => Promise<Record<string, unknown>>;
-        } & WebhookProps & {
-            toPlainObject(): WebhookProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapWebhookCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<WebhookProps>) => import("../common-types").Collection<WebHooks> & {
+    toPlainObject(): import("../common-types").CollectionProp<WebhookProps>;
 };

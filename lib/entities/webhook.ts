@@ -1,10 +1,11 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { AxiosInstance } from 'axios'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps } from '../common-types'
 
 const entityPath = 'webhook_definitions'
 
@@ -196,7 +197,7 @@ function createWebhookApi(http: AxiosInstance) {
  * @param data - Raw webhook data
  * @return Wrapped webhook data
  */
-export function wrapWebhook(http: AxiosInstance, data: WebhookProps) {
+export function wrapWebhook(http: AxiosInstance, data: WebhookProps): WebHooks {
   const webhook = toPlainObject(cloneDeep(data))
   const webhookWithMethods = enhanceWithMethods(webhook, createWebhookApi(http))
   return freezeSys(webhookWithMethods)
@@ -204,16 +205,5 @@ export function wrapWebhook(http: AxiosInstance, data: WebhookProps) {
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw webhook collection data
- * @return Wrapped webhook collection data
  */
-export function wrapWebhookCollection(http: AxiosInstance, data: CollectionProp<WebhookProps>) {
-  const webhooks = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...webhooks,
-      items: webhooks.items.map((entity) => wrapWebhook(http, entity)),
-    })
-  )
-}
+export const wrapWebhookCollection = wrapCollection(wrapWebhook)

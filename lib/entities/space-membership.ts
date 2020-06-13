@@ -2,8 +2,9 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 
 export type SpaceMembershipProps = {
   sys: MetaSysProps
@@ -90,19 +91,5 @@ export function wrapSpaceMembership(http: AxiosInstance, data: SpaceMembershipPr
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw space membership collection data
- * @return Wrapped space membership collection data
  */
-export function wrapSpaceMembershipCollection(
-  http: AxiosInstance,
-  data: CollectionProp<SpaceMembershipProps>
-) {
-  const spaceMemberships = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...spaceMemberships,
-      items: spaceMemberships.items.map((entity) => wrapSpaceMembership(http, entity)),
-    })
-  )
-}
+export const wrapSpaceMembershipCollection = wrapCollection(wrapSpaceMembership)

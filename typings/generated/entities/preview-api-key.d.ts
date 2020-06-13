@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type PreviewApiKeyProps = {
     sys: MetaSysProps;
     name: string;
@@ -18,30 +18,9 @@ export declare function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApi
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw api key collection data
- * @return Wrapped api key collection data
  */
-export declare function wrapPreviewApiKeyCollection(http: AxiosInstance, data: CollectionProp<PreviewApiKeyProps>): {
-    items: (PreviewApiKeyProps & {
-        toPlainObject(): PreviewApiKeyProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: (PreviewApiKeyProps & {
-            toPlainObject(): PreviewApiKeyProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapPreviewApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PreviewApiKeyProps>) => import("../common-types").Collection<PreviewApiKeyProps & {
+    toPlainObject(): PreviewApiKeyProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<PreviewApiKeyProps>;
 };

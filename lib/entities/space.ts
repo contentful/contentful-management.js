@@ -2,8 +2,9 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import createSpaceApi from '../create-space-api'
-import { MetaSysProps, CollectionProp, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 type SdkHttpClient = AxiosInstance & {
   httpClientParams: Record<string, any>
@@ -29,7 +30,7 @@ export interface Space extends SpaceProps, DefaultElements<SpaceProps>, Contentf
  * @param data - API response for a Space
  * @return {Space}
  */
-export function wrapSpace(http: AxiosInstance, data: SpaceProps) {
+export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
   const sdkHttp = (http as unknown) as SdkHttpClient
 
   const space = toPlainObject(cloneDeep(data))
@@ -53,15 +54,5 @@ export function wrapSpace(http: AxiosInstance, data: SpaceProps) {
  * This method wraps each space in a collection with the space API. See wrapSpace
  * above for more details.
  * @private
- * @param  http - HTTP client instance
- * @param  data - API response for a Space collection
  */
-export function wrapSpaceCollection(http: AxiosInstance, data: CollectionProp<SpaceProps>) {
-  const spaces = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...spaces,
-      items: spaces.items.map((entity) => wrapSpace(http, entity)),
-    })
-  )
-}
+export const wrapSpaceCollection = wrapCollection(wrapSpace)

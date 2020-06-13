@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types';
 export declare type AppInstallationProps = {
     sys: MetaSysProps & {
         appDefinition: {
@@ -70,40 +70,14 @@ export declare function wrapAppInstallation(http: AxiosInstance, data: AppInstal
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw App installation collection data
- * @return Wrapped App installation collection data
  */
-export declare function wrapAppInstallationCollection(http: AxiosInstance, data: CollectionProp<AppInstallationProps>): {
-    items: ({
-        update: () => Promise<any & AppInstallationProps & {
-            toPlainObject(): AppInstallationProps;
-        }>;
-        delete: () => Promise<void>;
-    } & AppInstallationProps & {
+export declare const wrapAppInstallationCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<AppInstallationProps>) => import("../common-types").Collection<{
+    update: () => Promise<any & AppInstallationProps & {
         toPlainObject(): AppInstallationProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<any & AppInstallationProps & {
-                toPlainObject(): AppInstallationProps;
-            }>;
-            delete: () => Promise<void>;
-        } & AppInstallationProps & {
-            toPlainObject(): AppInstallationProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+    }>;
+    delete: () => Promise<void>;
+} & AppInstallationProps & {
+    toPlainObject(): AppInstallationProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<AppInstallationProps>;
 };

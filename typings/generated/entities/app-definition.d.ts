@@ -1,4 +1,4 @@
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 import { AxiosInstance } from 'axios';
 declare type Field = 'Symbol' | 'Text' | 'RichText' | 'Integer' | 'Number' | 'Date' | 'Location' | 'Boolean' | 'Object';
 declare type LinkType = 'Asset' | 'Entry';
@@ -100,33 +100,12 @@ export declare function wrapAppDefinition(http: AxiosInstance, data: AppDefiniti
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */
-export declare function wrapAppDefinitionCollection(http: AxiosInstance, data: CollectionProp<AppDefinitionProps>): {
-    items: ({
-        update: () => Promise<AppDefinition>;
-        delete: () => Promise<void>;
-    } & AppDefinitionProps & {
-        toPlainObject(): AppDefinitionProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<AppDefinition>;
-            delete: () => Promise<void>;
-        } & AppDefinitionProps & {
-            toPlainObject(): AppDefinitionProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapAppDefinitionCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<AppDefinitionProps>) => import("../common-types").Collection<{
+    update: () => Promise<AppDefinition>;
+    delete: () => Promise<void>;
+} & AppDefinitionProps & {
+    toPlainObject(): AppDefinitionProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<AppDefinitionProps>;
 };
 export {};

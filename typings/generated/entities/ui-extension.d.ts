@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 import { EntryFields } from './entry-fields';
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types';
+import { DefaultElements, MetaSysProps } from '../common-types';
 export declare type UIExtensionProps = {
     sys: MetaSysProps;
     extension: {
@@ -73,44 +73,10 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
  * @param data - Raw UI Extension data
  * @return Wrapped UI Extension data
  */
-export declare function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): {
-    update: () => Promise<UIExtension>;
-    delete: () => Promise<void>;
-} & UIExtensionProps & {
-    toPlainObject(): UIExtensionProps;
-};
+export declare function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): UIExtension;
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw UI Extension collection data
- * @return Wrapped UI Extension collection data
  */
-export declare function wrapUiExtensionCollection(http: AxiosInstance, data: CollectionProp<UIExtensionProps>): {
-    items: ({
-        update: () => Promise<UIExtension>;
-        delete: () => Promise<void>;
-    } & UIExtensionProps & {
-        toPlainObject(): UIExtensionProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<UIExtension>;
-            delete: () => Promise<void>;
-        } & UIExtensionProps & {
-            toPlainObject(): UIExtensionProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapUiExtensionCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UIExtensionProps>) => import("../common-types").Collection<UIExtension> & {
+    toPlainObject(): import("../common-types").CollectionProp<UIExtensionProps>;
 };

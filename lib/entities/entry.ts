@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -16,13 +17,7 @@ import {
 } from '../instance-actions'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps } from './snapshot'
-import {
-  MetaSysProps,
-  MetaLinkProps,
-  DefaultElements,
-  Collection,
-  CollectionProp,
-} from '../common-types'
+import { MetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types'
 
 export interface EntrySys extends MetaSysProps {
   contentType: { sys: MetaLinkProps }
@@ -284,13 +279,5 @@ export function wrapEntry(http: AxiosInstance, data: EntryProp) {
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
  * @private
- * @param http - HTTP client instance
- * @param data - Raw entry collection data
- * @return Wrapped entry collection data
  */
-export function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>) {
-  const entries = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({ ...entries, items: entries.items.map((entity) => wrapEntry(http, entity)) })
-  )
-}
+export const wrapEntryCollection = wrapCollection(wrapEntry)

@@ -2,7 +2,8 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type SnapshotProps<T> = {
   sys: MetaSysProps & {
@@ -37,15 +38,4 @@ export function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProps<T>) {
  * @param data - Raw snapshot collection data
  * @return Wrapped snapshot collection data
  */
-export function wrapSnapshotCollection<T>(
-  http: AxiosInstance,
-  data: CollectionProp<SnapshotProps<T>>
-) {
-  const snapshots = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({
-      ...snapshots,
-      items: snapshots.items.map((entity) => wrapSnapshot(http, entity)),
-    })
-  )
-}
+export const wrapSnapshotCollection = wrapCollection(wrapSnapshot)

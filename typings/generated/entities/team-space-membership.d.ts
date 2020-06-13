@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp } from '../common-types';
 import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types';
 export interface Options {
     teamId?: string;
@@ -73,50 +72,10 @@ export interface TeamSpaceMembership extends TeamSpaceMembershipProps, DefaultEl
  * @param data - Raw space membership data
  * @return Wrapped team space membership data
  */
-export declare function wrapTeamSpaceMembership(http: AxiosInstance, data: TeamSpaceMembershipProps): {
-    update: () => Promise<any & TeamSpaceMembershipProps & {
-        toPlainObject(): TeamSpaceMembershipProps;
-    }>;
-    delete: () => Promise<void>;
-} & TeamSpaceMembershipProps & {
-    toPlainObject(): TeamSpaceMembershipProps;
-};
+export declare function wrapTeamSpaceMembership(http: AxiosInstance, data: TeamSpaceMembershipProps): TeamSpaceMembership;
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw space membership collection data
- * @return Wrapped team space membership collection data
  */
-export declare function wrapTeamSpaceMembershipCollection(http: AxiosInstance, data: CollectionProp<TeamSpaceMembershipProps>): {
-    items: ({
-        update: () => Promise<any & TeamSpaceMembershipProps & {
-            toPlainObject(): TeamSpaceMembershipProps;
-        }>;
-        delete: () => Promise<void>;
-    } & TeamSpaceMembershipProps & {
-        toPlainObject(): TeamSpaceMembershipProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: ({
-            update: () => Promise<any & TeamSpaceMembershipProps & {
-                toPlainObject(): TeamSpaceMembershipProps;
-            }>;
-            delete: () => Promise<void>;
-        } & TeamSpaceMembershipProps & {
-            toPlainObject(): TeamSpaceMembershipProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapTeamSpaceMembershipCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<TeamSpaceMembershipProps>) => import("../common-types").Collection<TeamSpaceMembership> & {
+    toPlainObject(): import("../common-types").CollectionProp<TeamSpaceMembershipProps>;
 };

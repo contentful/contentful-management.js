@@ -1,8 +1,9 @@
-import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import cloneDeep from 'lodash/cloneDeep'
+import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps } from '../common-types'
 
 export type UserProps = {
   /**
@@ -54,7 +55,7 @@ export interface User extends UserProps, DefaultElements<UserProps> {}
  * @param data - Raw data
  * @return Normalized user
  */
-export function wrapUser(http: AxiosInstance, data: UserProps) {
+export function wrapUser(http: AxiosInstance, data: UserProps): User {
   const user = toPlainObject(cloneDeep(data))
   const userWithMethods = enhanceWithMethods(user, {})
   return freezeSys(userWithMethods)
@@ -66,9 +67,4 @@ export function wrapUser(http: AxiosInstance, data: UserProps) {
  * @param data - Raw data collection
  * @return Normalized user collection
  */
-export function wrapUserCollection(http: AxiosInstance, data: CollectionProp<UserProps>) {
-  const users = cloneDeep(data)
-  return freezeSys(
-    toPlainObject({ ...users, items: users.items.map((entity) => wrapUser(http, entity)) })
-  )
-}
+export const wrapUserCollection = wrapCollection(wrapUser)

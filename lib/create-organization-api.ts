@@ -6,16 +6,8 @@ import entities from './entities'
 import { TeamMembershipProps } from './entities/team-membership'
 import { TeamProps } from './entities/team'
 import { OrganizationInvitationProps } from './entities/organization-invitation'
-import { QueryOptions, DefaultElements } from './common-types'
-import { OrganizationProp } from './entities/organization'
+import { QueryOptions } from './common-types'
 import { AppDefinitionProps } from './entities/app-definition'
-
-type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
-
-export interface Organization
-  extends DefaultElements<OrganizationProp>,
-    OrganizationProp,
-    ContentfulOrganizationAPI {}
 
 /**
  * Creates API object with methods to access the Organization API

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { Stream } from 'stream';
 import { AxiosInstance } from 'axios';
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types';
+import { MetaSysProps, DefaultElements } from '../common-types';
 export declare type AssetProps = {
     sys: {
         /** If present, indicates the locale which this asset uses */
@@ -267,31 +267,10 @@ export declare function wrapAsset(http: AxiosInstance, data: AssetProps): AssetA
 };
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw asset collection data
- * @return Wrapped asset collection data
  */
-export declare function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>): {
-    items: (AssetApi & AssetProps & {
-        toPlainObject(): AssetProps;
-    })[];
-    sys: {
-        type: "Array";
-    };
-    total: number;
-    skip: number;
-    limit: number;
-} & {
-    toPlainObject(): {
-        items: (AssetApi & AssetProps & {
-            toPlainObject(): AssetProps;
-        })[];
-        sys: {
-            type: "Array";
-        };
-        total: number;
-        skip: number;
-        limit: number;
-    };
+export declare const wrapAssetCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<AssetProps>) => import("../common-types").Collection<AssetApi & AssetProps & {
+    toPlainObject(): AssetProps;
+}> & {
+    toPlainObject(): import("../common-types").CollectionProp<AssetProps>;
 };
 export {};
