@@ -1,8 +1,3 @@
-/**
- * Contentful Management API Client. Contains methods which allow access to
- * any operations that can be performed with a management token.
- */
-
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
@@ -11,15 +6,8 @@ import { CollectionProp, QueryOptions } from './common-types'
 import { OrganizationProp } from './entities/organization'
 import { SpaceProps } from './entities/space'
 import { PersonalAccessTokenProp } from './entities/personal-access-token'
+import { UsageQuery, UsageProps } from './entities/usage'
 
-export type ClientAPI = ReturnType<typeof createClientApi>
-
-/**
- * Creates API object with methods to access functionality from Contentful's
- * Management API
- * @param {Object} params - API initialization params
- * @prop {Object} http - HTTP client instance
- */
 export default function createClientApi({ http }: { http: AxiosInstance }) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
@@ -59,14 +47,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       }, errorHandler)
   }
 
-  function getSpaces(query: QueryOptions = {}) {
+  function createPersonalAccessToken(data: Omit<PersonalAccessTokenProp, 'sys'>) {
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
     return http
-      .get('', createRequestConfig({ query: query }))
-      .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
-  }
-
-  function getSpace(id: string) {
-    return http.get(id).then((response) => wrapSpace(http, response.data), errorHandler)
+      .post('', data, {
+        baseURL,
+      })
+      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
   }
 
   function createSpace(data: Omit<SpaceProps, 'sys'>, organizationId: string) {
@@ -81,16 +68,6 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     const baseURL = http.defaults?.baseURL?.replace(
       '/spaces/',
       `/organizations/${organizationId}/organization_periodic_usages`
-    )
-    return http
-      .get('', { baseURL, params: query })
-      .then((response) => wrapUsageCollection(http, response.data), errorHandler)
-  }
-
-  function getSpaceUsage(organizationId: string, query: QueryOptions = {}) {
-    const baseURL = http.defaults?.baseURL?.replace(
-      '/spaces/',
-      `/organizations/${organizationId}/space_periodic_usages`
     )
     return http
       .get('', { baseURL, params: query })
@@ -124,16 +101,114 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
   }
 
-  function rawRequest(opts: AxiosRequestConfig) {
-    return http(opts).then((response) => response.data, errorHandler)
-  }
-
   return {
-    getSpaces: getSpaces,
-    getSpace: getSpace,
+    /**
+     * Gets all spaces
+     * @return Promise for a collection of Spaces
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpaces()
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaces: function getSpaces(query: QueryOptions = {}) {
+      return http
+        .get('', createRequestConfig({ query: query }))
+        .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a space
+     * @param id - Space ID
+     * @return Promise for a Space
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => console.log(space))
+     * .catch(console.error)
+     * ```
+     */
+    getSpace: function getSpace(id: string) {
+      return http.get(id).then((response) => wrapSpace(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a space
+     * @param data - Object representation of the Space to be created
+     * @param organizationId - Organization ID, if the associated token can manage more than one organization.
+     * @return Promise for the newly created Space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.createSpace({
+     *   name: 'Name of new space'
+     * })
+     * .then((space) => console.log(space))
+     * .catch(console.error)
+     * ```
+     */
     createSpace: createSpace,
+    /**
+     * Gets an organization
+     * @param  id - Organization ID
+     * @return Promise for a Organization
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => console.log(org))
+     * .catch(console.error)
+     * ```
+     */
     getOrganization: getOrganization,
+    /**
+     * Gets a collection of Organizations
+     * @return Promise for a collection of Organizations
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganizations()
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
     getOrganizations: getOrganizations,
+    /**
+     * Gets the authenticated user
+     * @return Promise for a User
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getCurrentUser()
+     * .then(user => console.log(user.firstName))
+     * .catch(console.error)
+     * ```
+     */
     getCurrentUser: getCurrentUser,
     /**
      * Creates a personal access token
@@ -158,20 +233,120 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createPersonalAccessToken: function createPersonalAccessToken(
-      data: Omit<PersonalAccessTokenProp, 'sys'>
-    ) {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-      return http
-        .post('', data, {
-          baseURL,
-        })
-        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-    },
+    createPersonalAccessToken: createPersonalAccessToken,
+    /**
+     * Gets a personal access token
+     * @param data - personal access token config
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getPersonalAccessToken(tokenId)
+     * .then(token => console.log(token.token))
+     * .catch(console.error)
+     * ```
+     */
     getPersonalAccessToken: getPersonalAccessToken,
+    /**
+     * Gets all personal access tokens
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getPersonalAccessTokens()
+     * .then(response => console.log(reponse.items))
+     * .catch(console.error)
+     * ```
+     */
     getPersonalAccessTokens: getPersonalAccessTokens,
-    rawRequest: rawRequest,
+    /**
+     * Get organization usage grouped by {@link UsageMetricEnum metric}
+     *
+     * @param organizationId - Id of an organization
+     * @param query - Query parameters
+     * @return Promise of a collection of usages
+     * @example ```javascript
+     *
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganizationUsage('<organizationId>', {
+     *    'metric[in]': 'cma,gql',
+     *    'dateRange.startAt': '2019-10-22',
+     *    'dateRange.endAt': '2019-11-10'
+     *    }
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
     getOrganizationUsage: getOrganizationUsage,
-    getSpaceUsage: getSpaceUsage,
+    /**
+     * Get organization usage grouped by space and metric
+     *
+     * @param organizationId - Id of an organization
+     * @param query - Query parameters
+     * @return Promise of a collection of usages
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpaceUsage('<organizationId>', {
+     *    skip: 0,
+     *    limit: 10,
+     *    'metric[in]': 'cda,cpa,gql',
+     *    'dateRange.startAt': '2019-10-22',
+     *    'dateRange.endAt': '2020-11-30'
+     *    }
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceUsage: function getSpaceUsage(organizationId: string, query: UsageQuery = {}) {
+      const baseURL = http.defaults?.baseURL?.replace(
+        '/spaces/',
+        `/organizations/${organizationId}/space_periodic_usages`
+      )
+      return http
+        .get<CollectionProp<UsageProps>>('', { baseURL, params: query })
+        .then((response) => wrapUsageCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Make a custom request to the Contentful management API's /spaces endpoint
+     * @param opts - axios request options (https://github.com/mzabriskie/axios)
+     * @return Promise for the response data
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.rawRequest({
+     *   method: 'GET',
+     *   url: '/custom/path'
+     * })
+     * .then((responseData) => console.log(responseData))
+     * .catch(console.error)
+     * ```
+     */
+    rawRequest: function rawRequest(opts: AxiosRequestConfig) {
+      return http(opts).then((response) => response.data, errorHandler)
+    },
   }
 }

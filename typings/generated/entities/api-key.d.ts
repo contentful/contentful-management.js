@@ -1,11 +1,15 @@
 import { AxiosInstance } from 'axios';
-import { MetaSys, MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types';
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types';
 export declare type ApiKeyProps = {
     sys: MetaSysProps;
     name: string;
     accessToken: string;
-    environments: MetaSys<MetaLinkProps>[];
-    preview_api_key: MetaSys<MetaLinkProps>;
+    environments: {
+        sys: MetaLinkProps;
+    }[];
+    preview_api_key: {
+        sys: MetaLinkProps;
+    };
     description?: string;
     policies?: {
         effect: string;
@@ -13,7 +17,7 @@ export declare type ApiKeyProps = {
     }[];
 };
 export declare type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'description'>;
-declare type ApiKeyApi = {
+export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
     /**
      * Deletes this object on the server.
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
@@ -51,8 +55,7 @@ declare type ApiKeyApi = {
      * ```
      */
     update(): Promise<ApiKey>;
-};
-export declare type ApiKey = ApiKeyProps & DefaultElements<ApiKeyProps> & ApiKeyApi;
+}
 /**
  * @private
  * @param http - HTTP client instance
@@ -68,4 +71,3 @@ export declare function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiK
 export declare const wrapApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ApiKeyProps>) => import("../common-types").Collection<ApiKey> & {
     toPlainObject(): import("../common-types").CollectionProp<ApiKeyProps>;
 };
-export {};

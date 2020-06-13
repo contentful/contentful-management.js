@@ -17,15 +17,13 @@ export interface UsageQuery extends QueryOptions {
   'dateRange.endAt'?: string
 }
 
-interface UsageSysProps extends MetaSysProps {
-  organization?: { sys: MetaLinkProps }
-}
-
 export type UsageProps = {
   /**
    * System metadata
    */
-  sys: UsageSysProps
+  sys: MetaSysProps & {
+    organization?: { sys: MetaLinkProps }
+  }
 
   /**
    * Type of usage
@@ -66,7 +64,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @param data - Raw usage data collection
  * @return Normalized usage collection
  */
-export function wrapUsageCollection(http: AxiosInstance, data: CollectionProp<UsageProps>) {
+export function wrapUsageCollection(_http: AxiosInstance, data: CollectionProp<UsageProps>) {
   const usage = toPlainObject(cloneDeep(data))
   return freezeSys(usage)
 }

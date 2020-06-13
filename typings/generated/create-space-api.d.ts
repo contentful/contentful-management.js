@@ -30,7 +30,7 @@ export default function createSpaceApi({ http, httpUpload, }: {
     httpUpload: AxiosInstance;
 }): {
     delete: () => Promise<void>;
-    update: () => Promise<import("./entities/space").Space>;
+    update: () => Promise<import("./types").Space>;
     getEnvironment: (id: string) => Promise<{
         getEntryFromData: (entryData: EntryProp) => {
             update(): Promise<import("./entities/entry").Entry>;

@@ -4,7 +4,7 @@
   "description": "Client for Contentful's Content Management API",
   "homepage": "https://www.contentful.com/developers/documentation/content-management-api/",
   "main": "./dist/contentful-management.node.js",
-  "types": "./typings/generated/index.d.ts",
+  "types": "./typings/generated/contentful-management.d.ts",
   "module": "./dist/es-modules/contentful-management.js",
   "engines": {
     "node": ">=6"
@@ -23,7 +23,7 @@
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
     "build:types": "rimraf typings/generated && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
-    "build:docs": "typedoc lib",
+    "build:docs": "typedoc",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
@@ -118,7 +118,7 @@
     "sinon": "^9.0.1",
     "tap-spec": "^5.0.0",
     "trevor": "^2.2.0",
-    "typedoc": "^0.17.7",
+    "typedoc": "next",
     "typescript": "^3.9.3",
     "webpack": "^4.23.1",
     "webpack-bundle-analyzer": "^3.3.2",

@@ -16,12 +16,6 @@ export interface MetaSysProps {
   archivedVersion?: number
 }
 
-export interface MetaSys<
-  TType extends MetaSysProps | MetaLinkProps = MetaSysProps | MetaLinkProps
-> {
-  sys: TType
-}
-
 export interface MetaLinkProps {
   type: string
   linkType: string

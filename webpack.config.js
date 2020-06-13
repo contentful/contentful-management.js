@@ -36,7 +36,7 @@ const baseFileName = `contentful-management`
 const baseBundleConfig = {
   mode: PROD ? 'production' : 'development',
   context: path.join(__dirname, 'lib'),
-  entry: ['./index.ts'],
+  entry: ['./contentful-management.ts'],
   output: {
     path: path.join(__dirname, 'dist'),
     libraryTarget: 'umd',
