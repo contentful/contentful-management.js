@@ -1,13 +1,9 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { AxiosInstance } from 'axios'
-import {
-  CollectionProp,
-  DefaultElements,
-  MetaLinkProps,
-  MetaSysProps,
-  QueryOptions,
-} from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types'
 
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 
@@ -61,10 +57,16 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
 /**
  * @private
  * @param http - HTTP client instance
- * @param data - Raw usage data collection
- * @return Normalized usage collection
+ * @param data - Raw data
+ * @return Normalized usage
  */
-export function wrapUsageCollection(_http: AxiosInstance, data: CollectionProp<UsageProps>) {
+export function wrapUsage(http: AxiosInstance, data: UsageProps): Usage {
   const usage = toPlainObject(cloneDeep(data))
-  return freezeSys(usage)
+  const usageWithMethods = enhanceWithMethods(usage, {})
+  return freezeSys(usageWithMethods)
 }
+
+/**
+ * @private
+ */
+export const wrapUsageCollection = wrapCollection(wrapUsage)

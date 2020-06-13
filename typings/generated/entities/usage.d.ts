@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { CollectionProp, DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types';
+import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types';
 export declare type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql';
 export interface UsageQuery extends QueryOptions {
     'metric[in]'?: string;
@@ -46,9 +46,13 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {
 /**
  * @private
  * @param http - HTTP client instance
- * @param data - Raw usage data collection
- * @return Normalized usage collection
+ * @param data - Raw data
+ * @return Normalized usage
  */
-export declare function wrapUsageCollection(_http: AxiosInstance, data: CollectionProp<UsageProps>): CollectionProp<UsageProps> & {
-    toPlainObject(): CollectionProp<UsageProps>;
+export declare function wrapUsage(http: AxiosInstance, data: UsageProps): Usage;
+/**
+ * @private
+ */
+export declare const wrapUsageCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UsageProps>) => import("../common-types").Collection<Usage> & {
+    toPlainObject(): import("../common-types").CollectionProp<UsageProps>;
 };

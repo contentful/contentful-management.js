@@ -25,9 +25,9 @@ export default function createOrganizationApi({ http }: {
     }> & {
         toPlainObject(): import("./common-types").CollectionProp<AppDefinitionProps>;
     }>;
-    getUser: (id: string) => Promise<import("./entities/user").User>;
-    getUsers: (query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/user").User> & {
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/user").UserProps>;
+    getUser: (id: string) => Promise<import("./types").User>;
+    getUsers: (query?: QueryOptions) => Promise<import("./common-types").Collection<import("./types").User> & {
+        toPlainObject(): import("./common-types").CollectionProp<import("./types").UserProps>;
     }>;
     createAppDefinition: (data: Omit<AppDefinitionProps, 'sys'>) => Promise<{
         update: () => Promise<import("./entities/app-definition").AppDefinition>;

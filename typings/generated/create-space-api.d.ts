@@ -1608,9 +1608,9 @@ export default function createSpaceApi({ http, httpUpload, }: {
     } & RoleProps & {
         toPlainObject(): RoleProps;
     }>;
-    getSpaceUser: (id: string) => Promise<import("./entities/user").User>;
-    getSpaceUsers: (query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/user").User> & {
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/user").UserProps>;
+    getSpaceUser: (id: string) => Promise<import("./types").User>;
+    getSpaceUsers: (query?: QueryOptions) => Promise<import("./common-types").Collection<import("./types").User> & {
+        toPlainObject(): import("./common-types").CollectionProp<import("./types").UserProps>;
     }>;
     getSpaceMember: (id: string) => Promise<import("./entities/space-member").SpaceMemberProps & {
         toPlainObject(): import("./entities/space-member").SpaceMemberProps;

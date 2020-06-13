@@ -18,89 +18,6 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
   const { wrapUsageCollection } = entities.usage
 
-  function getOrganizations() {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
-    return http
-      .get('', { baseURL })
-      .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
-  }
-
-  function getOrganization(id: string) {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
-    return http
-      .get<CollectionProp<OrganizationProp>>('', { baseURL })
-      .then((response) => {
-        const org = response.data.items.find((org) => org.sys.id === id)
-        if (!org) {
-          const error = new Error(
-            `No organization was found with the ID ${id} instead got ${JSON.stringify(response)}`
-          )
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
-          error.status = 404
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
-          error.statusText = 'Not Found'
-          return Promise.reject(error)
-        }
-        return wrapOrganization(http, org)
-      }, errorHandler)
-  }
-
-  function createPersonalAccessToken(data: Omit<PersonalAccessTokenProp, 'sys'>) {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-    return http
-      .post('', data, {
-        baseURL,
-      })
-      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-  }
-
-  function createSpace(data: Omit<SpaceProps, 'sys'>, organizationId: string) {
-    return http
-      .post('', data, {
-        headers: organizationId ? { 'X-Contentful-Organization': organizationId } : {},
-      })
-      .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  function getOrganizationUsage(organizationId: string, query: QueryOptions = {}) {
-    const baseURL = http.defaults?.baseURL?.replace(
-      '/spaces/',
-      `/organizations/${organizationId}/organization_periodic_usages`
-    )
-    return http
-      .get('', { baseURL, params: query })
-      .then((response) => wrapUsageCollection(http, response.data), errorHandler)
-  }
-
-  function getCurrentUser() {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/')
-    return http
-      .get('', {
-        baseURL,
-      })
-      .then((response) => wrapUser(http, response.data), errorHandler)
-  }
-
-  function getPersonalAccessToken(tokenId: string) {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-    return http
-      .get(tokenId, {
-        baseURL,
-      })
-      .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
-  }
-
-  function getPersonalAccessTokens() {
-    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-    return http
-      .get('', {
-        baseURL,
-      })
-      .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
-  }
-
   return {
     /**
      * Gets all spaces
@@ -160,7 +77,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createSpace: createSpace,
+    createSpace: function createSpace(data: Omit<SpaceProps, 'sys'>, organizationId: string) {
+      return http
+        .post('', data, {
+          headers: organizationId ? { 'X-Contentful-Organization': organizationId } : {},
+        })
+        .then((response) => wrapSpace(http, response.data), errorHandler)
+    },
     /**
      * Gets an organization
      * @param  id - Organization ID
@@ -177,7 +100,27 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getOrganization: getOrganization,
+    getOrganization: function getOrganization(id: string) {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
+      return http
+        .get<CollectionProp<OrganizationProp>>('', { baseURL })
+        .then((response) => {
+          const org = response.data.items.find((org) => org.sys.id === id)
+          if (!org) {
+            const error = new Error(
+              `No organization was found with the ID ${id} instead got ${JSON.stringify(response)}`
+            )
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            error.status = 404
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            error.statusText = 'Not Found'
+            return Promise.reject(error)
+          }
+          return wrapOrganization(http, org)
+        }, errorHandler)
+    },
     /**
      * Gets a collection of Organizations
      * @return Promise for a collection of Organizations
@@ -193,7 +136,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getOrganizations: getOrganizations,
+    getOrganizations: function getOrganizations() {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
+      return http
+        .get('', { baseURL })
+        .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
+    },
     /**
      * Gets the authenticated user
      * @return Promise for a User
@@ -209,7 +157,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: getCurrentUser,
+    getCurrentUser: function getCurrentUser() {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/')
+      return http
+        .get('', {
+          baseURL,
+        })
+        .then((response) => wrapUser(http, response.data), errorHandler)
+    },
     /**
      * Creates a personal access token
      * @param data - personal access token config
@@ -233,7 +188,16 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createPersonalAccessToken: createPersonalAccessToken,
+    createPersonalAccessToken: function createPersonalAccessToken(
+      data: Omit<PersonalAccessTokenProp, 'sys'>
+    ) {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
+      return http
+        .post('', data, {
+          baseURL,
+        })
+        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+    },
     /**
      * Gets a personal access token
      * @param data - personal access token config
@@ -250,7 +214,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getPersonalAccessToken: getPersonalAccessToken,
+    getPersonalAccessToken: function getPersonalAccessToken(tokenId: string) {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
+      return http
+        .get(tokenId, {
+          baseURL,
+        })
+        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+    },
     /**
      * Gets all personal access tokens
      * @return Promise for a Token
@@ -266,7 +237,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getPersonalAccessTokens: getPersonalAccessTokens,
+    getPersonalAccessTokens: function getPersonalAccessTokens() {
+      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
+      return http
+        .get('', {
+          baseURL,
+        })
+        .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
+    },
     /**
      * Get organization usage grouped by {@link UsageMetricEnum metric}
      *
@@ -291,7 +269,18 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getOrganizationUsage: getOrganizationUsage,
+    getOrganizationUsage: function getOrganizationUsage(
+      organizationId: string,
+      query: QueryOptions = {}
+    ) {
+      const baseURL = http.defaults?.baseURL?.replace(
+        '/spaces/',
+        `/organizations/${organizationId}/organization_periodic_usages`
+      )
+      return http
+        .get('', { baseURL, params: query })
+        .then((response) => wrapUsageCollection(http, response.data), errorHandler)
+    },
     /**
      * Get organization usage grouped by space and metric
      *

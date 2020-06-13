@@ -112,7 +112,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: () => Promise<import("./entities/user").User>;
+    getCurrentUser: () => Promise<import("./types").User>;
     /**
      * Creates a personal access token
      * @param data - personal access token config
@@ -196,7 +196,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getOrganizationUsage: (organizationId: string, query?: QueryOptions) => Promise<CollectionProp<UsageProps> & {
+    getOrganizationUsage: (organizationId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/usage").Usage> & {
         toPlainObject(): CollectionProp<UsageProps>;
     }>;
     /**
@@ -224,7 +224,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getSpaceUsage: (organizationId: string, query?: UsageQuery) => Promise<CollectionProp<UsageProps> & {
+    getSpaceUsage: (organizationId: string, query?: UsageQuery) => Promise<import("./common-types").Collection<import("./entities/usage").Usage> & {
         toPlainObject(): CollectionProp<UsageProps>;
     }>;
     /**
