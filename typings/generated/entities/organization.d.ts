@@ -1,9 +1,7 @@
 import { AxiosInstance } from 'axios';
-import createOrganizationApi from '../create-organization-api';
+import { ContentfulOrganizationAPI } from '../create-organization-api';
 import { MetaSysProps, DefaultElements } from '../common-types';
-declare type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>;
-export interface Organization extends DefaultElements<OrganizationProp>, OrganizationProp, ContentfulOrganizationAPI {
-}
+export declare type Organization = DefaultElements<OrganizationProp> & OrganizationProp & ContentfulOrganizationAPI;
 export declare type OrganizationProp = {
     /**
      * System metadata
@@ -29,7 +27,4 @@ export declare function wrapOrganization(http: AxiosInstance, data: Organization
  * This method normalizes each organization in a collection.
  * @private
  */
-export declare const wrapOrganizationCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<OrganizationProp>) => import("../common-types").Collection<Organization> & {
-    toPlainObject(): import("../common-types").CollectionProp<OrganizationProp>;
-};
-export {};
+export declare const wrapOrganizationCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<OrganizationProp>) => import("../common-types").Collection<Organization, OrganizationProp>;

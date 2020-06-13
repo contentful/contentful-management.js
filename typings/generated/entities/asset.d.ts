@@ -270,7 +270,5 @@ export declare function wrapAsset(http: AxiosInstance, data: AssetProps): AssetA
  */
 export declare const wrapAssetCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<AssetProps>) => import("../common-types").Collection<AssetApi & AssetProps & {
     toPlainObject(): AssetProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<AssetProps>;
-};
+}, AssetProps>;
 export {};

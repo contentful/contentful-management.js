@@ -69,6 +69,4 @@ export declare const wrapSpaceMembershipCollection: (http: AxiosInstance, data: 
     delete: () => Promise<void>;
 } & SpaceMembershipProps & {
     toPlainObject(): SpaceMembershipProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<SpaceMembershipProps>;
-};
+}, SpaceMembershipProps>;

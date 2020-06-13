@@ -77,6 +77,4 @@ export declare const wrapOrganizationMembershipCollection: (http: AxiosInstance,
     delete: () => Promise<void>;
 } & OrganizationMembershipProps & {
     toPlainObject(): OrganizationMembershipProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<OrganizationMembershipProps>;
-};
+}, OrganizationMembershipProps>;

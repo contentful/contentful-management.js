@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { Snapshot } from './snapshot';
 import { ContentFields } from './content-type-fields';
 import { MetaSysProps, DefaultElements, Collection } from '../common-types';
 import { EditorInterface } from './editor-interface';
@@ -164,7 +165,7 @@ declare type ContentTypeApi = {
      * .catch(console.error)
      * ```
      */
-    getSnapshots(): Promise<Collection<SnapshotProps<ContentTypeProps>>>;
+    getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>;
 };
 export interface ContentType extends ContentTypeProps, DefaultElements<ContentTypeProps>, ContentTypeApi {
 }
@@ -182,7 +183,5 @@ export declare function wrapContentType(http: AxiosInstance, data: ContentTypePr
  */
 export declare const wrapContentTypeCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ContentTypeProps>) => Collection<ContentTypeApi & ContentTypeProps & {
     toPlainObject(): ContentTypeProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<ContentTypeProps>;
-};
+}, ContentTypeProps>;
 export {};

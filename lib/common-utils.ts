@@ -8,7 +8,7 @@ import { CollectionProp, Collection } from './common-types'
 export const wrapCollection = <R, T>(fn: (http: AxiosInstance, entity: T) => R) => (
   http: AxiosInstance,
   data: CollectionProp<T>
-): Collection<R> & { toPlainObject(): CollectionProp<T> } => {
+): Collection<R, T> => {
   const collectionData = toPlainObject(cloneDeep(data))
   // @ts-ignore
   collectionData.items = collectionData.items.map((entity) => fn(http, entity))

@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios';
-import { SnapshotProps } from './snapshot';
+import { SnapshotProps, Snapshot } from './snapshot';
 import { MetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types';
 export interface EntrySys extends MetaSysProps {
     contentType: {
@@ -149,7 +149,7 @@ declare type EntryApi = {
      * .catch(console.error)
      * ```
      */
-    getSnapshot(id: string): Promise<SnapshotProps<EntryProp>>;
+    getSnapshot(id: string): Promise<Snapshot<EntryProp>>;
     /**
      * Gets all snapshots of an entry
      * @example ```javascript
@@ -166,7 +166,7 @@ declare type EntryApi = {
      * .catch(console.error)
      * ```
      */
-    getSnapshots(): Promise<Collection<SnapshotProps<EntryProp>>>;
+    getSnapshots(): Promise<Collection<Snapshot<EntryProp>, SnapshotProps<EntryProp>>>;
     /**
      * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
      */
@@ -201,7 +201,5 @@ export declare function wrapEntry(http: AxiosInstance, data: EntryProp): EntryAp
  */
 export declare const wrapEntryCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<EntryProp>) => Collection<EntryApi & EntryProp & {
     toPlainObject(): EntryProp;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<EntryProp>;
-};
+}, EntryProp>;
 export {};

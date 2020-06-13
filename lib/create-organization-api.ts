@@ -9,9 +9,10 @@ import { OrganizationInvitationProps } from './entities/organization-invitation'
 import { QueryOptions } from './common-types'
 import { AppDefinitionProps } from './entities/app-definition'
 
+export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
+
 /**
  * Creates API object with methods to access the Organization API
- * @private
  */
 export default function createOrganizationApi({ http }: { http: AxiosInstance }) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition

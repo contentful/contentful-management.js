@@ -68,6 +68,4 @@ export declare function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiK
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */
-export declare const wrapApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ApiKeyProps>) => import("../common-types").Collection<ApiKey> & {
-    toPlainObject(): import("../common-types").CollectionProp<ApiKeyProps>;
-};
+export declare const wrapApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<ApiKeyProps>) => import("../common-types").Collection<ApiKey, ApiKeyProps>;

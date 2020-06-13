@@ -78,6 +78,4 @@ export declare const wrapAppInstallationCollection: (http: AxiosInstance, data: 
     delete: () => Promise<void>;
 } & AppInstallationProps & {
     toPlainObject(): AppInstallationProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<AppInstallationProps>;
-};
+}, AppInstallationProps>;

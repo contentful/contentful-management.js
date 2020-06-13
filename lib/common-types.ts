@@ -32,9 +32,9 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
-export interface Collection<TObj>
-  extends CollectionProp<TObj>,
-    DefaultElements<CollectionProp<TObj>> {}
+export interface Collection<T, TPlain>
+  extends CollectionProp<T>,
+    DefaultElements<CollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions {

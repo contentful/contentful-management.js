@@ -49,6 +49,4 @@ export declare function wrapUser(http: AxiosInstance, data: UserProps): User;
  * @param data - Raw data collection
  * @return Normalized user collection
  */
-export declare const wrapUserCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UserProps>) => import("../common-types").Collection<User> & {
-    toPlainObject(): import("../common-types").CollectionProp<UserProps>;
-};
+export declare const wrapUserCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UserProps>) => import("../common-types").Collection<User, UserProps>;

@@ -1,8 +1,7 @@
 /// <reference types="node" />
-import createEnvironmentApi from '../create-environment-api';
+import { ContentfulEnvironmentAPI } from '../create-environment-api';
 import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types';
 import { AxiosInstance } from 'axios';
-export declare type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>;
 export declare type EnvironmentProps = {
     /**
      * System metadata
@@ -17,8 +16,7 @@ export declare type EnvironmentProps = {
      */
     name: string;
 };
-export interface Environment extends ContentfulEnvironmentAPI, EnvironmentProps, DefaultElements<EnvironmentProps> {
-}
+export declare type Environment = ContentfulEnvironmentAPI & EnvironmentProps & DefaultElements<EnvironmentProps>;
 /**
  * This method creates the API for the given environment with all the methods for
  * reading and creating other entities. It also passes down a clone of the
@@ -37,8 +35,8 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -77,7 +75,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -92,12 +90,10 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./content-type").ContentTypeProps>;
-    }>;
+    }, import("./content-type").ContentTypeProps>>;
     createContentType: (data: Pick<import("./content-type").ContentTypeProps, "description" | "name" | "displayField" | "fields">) => Promise<{
         update(): Promise<import("./content-type").ContentType>;
         delete(): Promise<void>;
@@ -109,7 +105,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -124,7 +120,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -136,8 +132,8 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -152,17 +148,15 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
     } & import("./entry").EntryProp & {
         toPlainObject(): import("./entry").EntryProp;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./entry").EntryProp>;
-    }>;
+    }, import("./entry").EntryProp>>;
     createEntry: (contentTypeId: string, data: Pick<import("./entry").EntryProp, "fields">) => Promise<{
         update(): Promise<import("./entry").Entry>;
         archive(): Promise<import("./entry").Entry>;
@@ -170,8 +164,8 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -186,8 +180,8 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -226,9 +220,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         isArchived(): boolean;
     } & import("./asset").AssetProps & {
         toPlainObject(): import("./asset").AssetProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./asset").AssetProps>;
-    }>;
+    }, import("./asset").AssetProps>>;
     createAsset: (data: Pick<import("./asset").AssetProps, "fields">) => Promise<{
         processForAllLocales(options?: import("./asset").AssetProcessingForLocale | undefined): Promise<import("./asset").Asset>;
         processForLocale(locale: string, Options?: import("./asset").AssetProcessingForLocale | undefined): Promise<import("./asset").Asset>;
@@ -300,9 +292,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         delete: () => Promise<void>;
     } & import("./locale").LocaleProps & {
         toPlainObject(): import("./locale").LocaleProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./locale").LocaleProps>;
-    }>;
+    }, import("./locale").LocaleProps>>;
     createLocale: (data: Pick<import("./locale").LocaleProps, "optional" | "default" | "code" | "name" | "fallbackCode" | "contentDeliveryApi" | "contentManagementApi">) => Promise<{
         update: () => Promise<import("./locale").Locale>;
         delete: () => Promise<void>;
@@ -310,9 +300,7 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         toPlainObject(): import("./locale").LocaleProps;
     }>;
     getUiExtension: (id: string) => Promise<import("./ui-extension").UIExtension>;
-    getUiExtensions: () => Promise<import("../common-types").Collection<import("./ui-extension").UIExtension> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./ui-extension").UIExtensionProps>;
-    }>;
+    getUiExtensions: () => Promise<import("../common-types").Collection<import("./ui-extension").UIExtension, import("./ui-extension").UIExtensionProps>>;
     createUiExtension: (data: Pick<import("./ui-extension").UIExtensionProps, "extension">) => Promise<import("./ui-extension").UIExtension>;
     createUiExtensionWithId: (id: string, data: Pick<import("./ui-extension").UIExtensionProps, "extension">) => Promise<import("./ui-extension").UIExtension>;
     createAppInstallation: (appDefinitionId: string, data: Pick<import("./app-installation").AppInstallationProps, "parameters">) => Promise<{
@@ -338,19 +326,13 @@ export declare function wrapEnvironment(http: AxiosInstance, data: EnvironmentPr
         delete: () => Promise<void>;
     } & import("./app-installation").AppInstallationProps & {
         toPlainObject(): import("./app-installation").AppInstallationProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./app-installation").AppInstallationProps>;
-    }>;
+    }, import("./app-installation").AppInstallationProps>>;
     getEntrySnapshots: (entryId: string, query?: import("../common-types").QueryOptions) => Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./snapshot").SnapshotProps<unknown>>>;
     getContentTypeSnapshots: (contentTypeId: string, query?: import("../common-types").QueryOptions) => Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./snapshot").SnapshotProps<unknown>>>;
 } & EnvironmentProps & {
     toPlainObject(): EnvironmentProps;
 };
@@ -367,8 +349,8 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -407,7 +389,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -422,12 +404,10 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./content-type").ContentTypeProps>;
-    }>;
+    }, import("./content-type").ContentTypeProps>>;
     createContentType: (data: Pick<import("./content-type").ContentTypeProps, "description" | "name" | "displayField" | "fields">) => Promise<{
         update(): Promise<import("./content-type").ContentType>;
         delete(): Promise<void>;
@@ -439,7 +419,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -454,7 +434,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./content-type").ContentTypeProps>, import("./snapshot").SnapshotProps<import("./content-type").ContentTypeProps>>>;
     } & import("./content-type").ContentTypeProps & {
         toPlainObject(): import("./content-type").ContentTypeProps;
     }>;
@@ -466,8 +446,8 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -482,17 +462,15 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
     } & import("./entry").EntryProp & {
         toPlainObject(): import("./entry").EntryProp;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./entry").EntryProp>;
-    }>;
+    }, import("./entry").EntryProp>>;
     createEntry: (contentTypeId: string, data: Pick<import("./entry").EntryProp, "fields">) => Promise<{
         update(): Promise<import("./entry").Entry>;
         archive(): Promise<import("./entry").Entry>;
@@ -500,8 +478,8 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -516,8 +494,8 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         publish(): Promise<import("./entry").Entry>;
         unarchive(): Promise<import("./entry").Entry>;
         unpublish(): Promise<import("./entry").Entry>;
-        getSnapshot(id: string): Promise<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>;
-        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./snapshot").Snapshot<import("./entry").EntryProp>>;
+        getSnapshots(): Promise<import("../common-types").Collection<import("./snapshot").Snapshot<import("./entry").EntryProp>, import("./snapshot").SnapshotProps<import("./entry").EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -556,9 +534,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         isArchived(): boolean;
     } & import("./asset").AssetProps & {
         toPlainObject(): import("./asset").AssetProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./asset").AssetProps>;
-    }>;
+    }, import("./asset").AssetProps>>;
     createAsset: (data: Pick<import("./asset").AssetProps, "fields">) => Promise<{
         processForAllLocales(options?: import("./asset").AssetProcessingForLocale | undefined): Promise<import("./asset").Asset>;
         processForLocale(locale: string, Options?: import("./asset").AssetProcessingForLocale | undefined): Promise<import("./asset").Asset>;
@@ -630,9 +606,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         delete: () => Promise<void>;
     } & import("./locale").LocaleProps & {
         toPlainObject(): import("./locale").LocaleProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./locale").LocaleProps>;
-    }>;
+    }, import("./locale").LocaleProps>>;
     createLocale: (data: Pick<import("./locale").LocaleProps, "optional" | "default" | "code" | "name" | "fallbackCode" | "contentDeliveryApi" | "contentManagementApi">) => Promise<{
         update: () => Promise<import("./locale").Locale>;
         delete: () => Promise<void>;
@@ -640,9 +614,7 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         toPlainObject(): import("./locale").LocaleProps;
     }>;
     getUiExtension: (id: string) => Promise<import("./ui-extension").UIExtension>;
-    getUiExtensions: () => Promise<import("../common-types").Collection<import("./ui-extension").UIExtension> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./ui-extension").UIExtensionProps>;
-    }>;
+    getUiExtensions: () => Promise<import("../common-types").Collection<import("./ui-extension").UIExtension, import("./ui-extension").UIExtensionProps>>;
     createUiExtension: (data: Pick<import("./ui-extension").UIExtensionProps, "extension">) => Promise<import("./ui-extension").UIExtension>;
     createUiExtensionWithId: (id: string, data: Pick<import("./ui-extension").UIExtensionProps, "extension">) => Promise<import("./ui-extension").UIExtension>;
     createAppInstallation: (appDefinitionId: string, data: Pick<import("./app-installation").AppInstallationProps, "parameters">) => Promise<{
@@ -668,21 +640,13 @@ export declare const wrapEnvironmentCollection: (http: AxiosInstance, data: impo
         delete: () => Promise<void>;
     } & import("./app-installation").AppInstallationProps & {
         toPlainObject(): import("./app-installation").AppInstallationProps;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./app-installation").AppInstallationProps>;
-    }>;
+    }, import("./app-installation").AppInstallationProps>>;
     getEntrySnapshots: (entryId: string, query?: import("../common-types").QueryOptions) => Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./snapshot").SnapshotProps<unknown>>>;
     getContentTypeSnapshots: (contentTypeId: string, query?: import("../common-types").QueryOptions) => Promise<import("../common-types").Collection<import("./snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("../common-types").CollectionProp<import("./snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./snapshot").SnapshotProps<unknown>>>;
 } & EnvironmentProps & {
     toPlainObject(): EnvironmentProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<EnvironmentProps>;
-};
+}, EnvironmentProps>;

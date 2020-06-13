@@ -21,6 +21,4 @@ export declare function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApi
  */
 export declare const wrapPreviewApiKeyCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PreviewApiKeyProps>) => import("../common-types").Collection<PreviewApiKeyProps & {
     toPlainObject(): PreviewApiKeyProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<PreviewApiKeyProps>;
-};
+}, PreviewApiKeyProps>;

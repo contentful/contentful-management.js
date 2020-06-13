@@ -1,9 +1,10 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { CollectionProp, QueryOptions } from './common-types';
-import { OrganizationProp } from './entities/organization';
-import { SpaceProps } from './entities/space';
+import { Collection, QueryOptions } from './common-types';
+import { OrganizationProp, Organization } from './entities/organization';
+import { SpaceProps, Space } from './entities/space';
 import { PersonalAccessTokenProp } from './entities/personal-access-token';
 import { UsageQuery, UsageProps } from './entities/usage';
+export declare type ClientAPI = ReturnType<typeof createClientApi>;
 export default function createClientApi({ http }: {
     http: AxiosInstance;
 }): {
@@ -22,9 +23,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getSpaces: (query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/space").Space> & {
-        toPlainObject(): CollectionProp<SpaceProps>;
-    }>;
+    getSpaces: (query?: QueryOptions) => Promise<Collection<Space, SpaceProps>>;
     /**
      * Gets a space
      * @param id - Space ID
@@ -41,7 +40,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getSpace: (id: string) => Promise<import("./entities/space").Space>;
+    getSpace: (id: string) => Promise<Space>;
     /**
      * Creates a space
      * @param data - Object representation of the Space to be created
@@ -61,7 +60,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    createSpace: (data: Omit<SpaceProps, 'sys'>, organizationId: string) => Promise<import("./entities/space").Space>;
+    createSpace: (data: Omit<SpaceProps, 'sys'>, organizationId: string) => Promise<Space>;
     /**
      * Gets an organization
      * @param  id - Organization ID
@@ -78,7 +77,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getOrganization: (id: string) => Promise<import("./entities/organization").Organization>;
+    getOrganization: (id: string) => Promise<Organization>;
     /**
      * Gets a collection of Organizations
      * @return Promise for a collection of Organizations
@@ -94,9 +93,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getOrganizations: () => Promise<import("./common-types").Collection<import("./entities/organization").Organization> & {
-        toPlainObject(): CollectionProp<OrganizationProp>;
-    }>;
+    getOrganizations: () => Promise<Collection<Organization, OrganizationProp>>;
     /**
      * Gets the authenticated user
      * @return Promise for a User
@@ -112,7 +109,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: () => Promise<import("./types").User>;
+    getCurrentUser: () => Promise<import("./entities/user").User>;
     /**
      * Creates a personal access token
      * @param data - personal access token config
@@ -169,9 +166,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getPersonalAccessTokens: () => Promise<import("./common-types").Collection<import("./entities/personal-access-token").PersonalAccessToken> & {
-        toPlainObject(): CollectionProp<PersonalAccessTokenProp>;
-    }>;
+    getPersonalAccessTokens: () => Promise<Collection<import("./entities/personal-access-token").PersonalAccessToken, PersonalAccessTokenProp>>;
     /**
      * Get organization usage grouped by {@link UsageMetricEnum metric}
      *
@@ -196,9 +191,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getOrganizationUsage: (organizationId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/usage").Usage> & {
-        toPlainObject(): CollectionProp<UsageProps>;
-    }>;
+    getOrganizationUsage: (organizationId: string, query?: QueryOptions) => Promise<Collection<import("./entities/usage").Usage, UsageProps>>;
     /**
      * Get organization usage grouped by space and metric
      *
@@ -224,9 +217,7 @@ export default function createClientApi({ http }: {
      * .catch(console.error)
      * ```
      */
-    getSpaceUsage: (organizationId: string, query?: UsageQuery) => Promise<import("./common-types").Collection<import("./entities/usage").Usage> & {
-        toPlainObject(): CollectionProp<UsageProps>;
-    }>;
+    getSpaceUsage: (organizationId: string, query?: UsageQuery) => Promise<Collection<import("./entities/usage").Usage, UsageProps>>;
     /**
      * Make a custom request to the Contentful management API's /spaces endpoint
      * @param opts - axios request options (https://github.com/mzabriskie/axios)

@@ -14,7 +14,7 @@ import {
 } from '../instance-actions'
 import { wrapEditorInterface } from './editor-interface'
 import errorHandler from '../error-handler'
-import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 
 import { ContentFields } from './content-type-fields'
 import { MetaSysProps, DefaultElements, Collection } from '../common-types'
@@ -186,7 +186,7 @@ type ContentTypeApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshots(): Promise<Collection<SnapshotProps<ContentTypeProps>>>
+  getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
 export interface ContentType

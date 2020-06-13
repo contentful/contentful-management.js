@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi from '../create-environment-api'
+import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
@@ -10,8 +10,6 @@ type SdkHttpClient = AxiosInstance & {
   httpClientParams: Record<string, any>
   cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
 }
-
-export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
 export type EnvironmentProps = {
   /**
@@ -26,10 +24,9 @@ export type EnvironmentProps = {
   name: string
 }
 
-export interface Environment
-  extends ContentfulEnvironmentAPI,
-    EnvironmentProps,
-    DefaultElements<EnvironmentProps> {}
+export type Environment = ContentfulEnvironmentAPI &
+  EnvironmentProps &
+  DefaultElements<EnvironmentProps>
 
 /**
  * This method creates the API for the given environment with all the methods for

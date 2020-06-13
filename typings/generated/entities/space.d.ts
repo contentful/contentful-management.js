@@ -1,13 +1,11 @@
 import { AxiosInstance } from 'axios';
-import createSpaceApi from '../create-space-api';
+import { ContentfulSpaceAPI } from '../create-space-api';
 import { MetaSysProps, DefaultElements } from '../common-types';
-export declare type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>;
 export declare type SpaceProps = {
     sys: MetaSysProps;
     name: string;
 };
-export interface Space extends SpaceProps, DefaultElements<SpaceProps>, ContentfulSpaceAPI {
-}
+export declare type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI;
 /**
  * This method creates the API for the given space with all the methods for
  * reading and creating other entities. It also passes down a clone of the
@@ -24,6 +22,4 @@ export declare function wrapSpace(http: AxiosInstance, data: SpaceProps): Space;
  * above for more details.
  * @private
  */
-export declare const wrapSpaceCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<SpaceProps>) => import("../common-types").Collection<Space> & {
-    toPlainObject(): import("../common-types").CollectionProp<SpaceProps>;
-};
+export declare const wrapSpaceCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<SpaceProps>) => import("../common-types").Collection<Space, SpaceProps>;

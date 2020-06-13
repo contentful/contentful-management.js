@@ -27,6 +27,4 @@ export declare function wrapSpaceMember(http: AxiosInstance, data: SpaceMemberPr
  */
 export declare const wrapSpaceMemberCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<SpaceMemberProps>) => import("../common-types").Collection<SpaceMemberProps & {
     toPlainObject(): SpaceMemberProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<SpaceMemberProps>;
-};
+}, SpaceMemberProps>;

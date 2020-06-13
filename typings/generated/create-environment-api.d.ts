@@ -7,9 +7,9 @@ import type { UIExtensionProps } from './entities/ui-extension';
 import type { AppInstallationProps } from './entities/app-installation';
 import { Stream } from 'stream';
 import { AxiosInstance } from 'axios';
+export declare type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>;
 /**
  * Creates API object with methods to access the Environment API
- * @private
  */
 export default function createEnvironmentApi({ http, httpUpload, }: {
     http: AxiosInstance;
@@ -22,8 +22,8 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         publish(): Promise<import("./entities/entry").Entry>;
         unarchive(): Promise<import("./entities/entry").Entry>;
         unpublish(): Promise<import("./entities/entry").Entry>;
-        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").Snapshot<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<EntryProp>, import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -62,7 +62,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<ContentTypeProps>, import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
     } & ContentTypeProps & {
         toPlainObject(): ContentTypeProps;
     }>;
@@ -77,12 +77,10 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<ContentTypeProps>, import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
     } & ContentTypeProps & {
         toPlainObject(): ContentTypeProps;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<ContentTypeProps>;
-    }>;
+    }, ContentTypeProps>>;
     createContentType: (data: Omit<ContentTypeProps, 'sys'>) => Promise<{
         update(): Promise<import("./entities/content-type").ContentType>;
         delete(): Promise<void>;
@@ -94,7 +92,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<ContentTypeProps>, import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
     } & ContentTypeProps & {
         toPlainObject(): ContentTypeProps;
     }>;
@@ -109,7 +107,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         isUpdated(): boolean;
         omitAndDeleteField(id: string): Promise<import("./entities/content-type").ContentType>;
         getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<ContentTypeProps>, import("./entities/snapshot").SnapshotProps<ContentTypeProps>>>;
     } & ContentTypeProps & {
         toPlainObject(): ContentTypeProps;
     }>;
@@ -121,8 +119,8 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         publish(): Promise<import("./entities/entry").Entry>;
         unarchive(): Promise<import("./entities/entry").Entry>;
         unpublish(): Promise<import("./entities/entry").Entry>;
-        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").Snapshot<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<EntryProp>, import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -137,17 +135,15 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         publish(): Promise<import("./entities/entry").Entry>;
         unarchive(): Promise<import("./entities/entry").Entry>;
         unpublish(): Promise<import("./entities/entry").Entry>;
-        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").Snapshot<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<EntryProp>, import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
         isUpdated(): boolean;
     } & EntryProp & {
         toPlainObject(): EntryProp;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<EntryProp>;
-    }>;
+    }, EntryProp>>;
     createEntry: (contentTypeId: string, data: Omit<EntryProp, 'sys'>) => Promise<{
         update(): Promise<import("./entities/entry").Entry>;
         archive(): Promise<import("./entities/entry").Entry>;
@@ -155,8 +151,8 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         publish(): Promise<import("./entities/entry").Entry>;
         unarchive(): Promise<import("./entities/entry").Entry>;
         unpublish(): Promise<import("./entities/entry").Entry>;
-        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").Snapshot<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<EntryProp>, import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -171,8 +167,8 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         publish(): Promise<import("./entities/entry").Entry>;
         unarchive(): Promise<import("./entities/entry").Entry>;
         unpublish(): Promise<import("./entities/entry").Entry>;
-        getSnapshot(id: string): Promise<import("./entities/snapshot").SnapshotProps<EntryProp>>;
-        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<EntryProp>>>;
+        getSnapshot(id: string): Promise<import("./entities/snapshot").Snapshot<EntryProp>>;
+        getSnapshots(): Promise<import("./common-types").Collection<import("./entities/snapshot").Snapshot<EntryProp>, import("./entities/snapshot").SnapshotProps<EntryProp>>>;
         isArchived(): boolean;
         isDraft(): boolean;
         isPublished(): boolean;
@@ -211,9 +207,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         isArchived(): boolean;
     } & AssetProps & {
         toPlainObject(): AssetProps;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<AssetProps>;
-    }>;
+    }, AssetProps>>;
     createAsset: (data: Omit<AssetProps, 'sys'>) => Promise<{
         processForAllLocales(options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
         processForLocale(locale: string, Options?: import("./entities/asset").AssetProcessingForLocale | undefined): Promise<import("./entities/asset").Asset>;
@@ -285,9 +279,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         delete: () => Promise<void>;
     } & LocaleProps & {
         toPlainObject(): LocaleProps;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<LocaleProps>;
-    }>;
+    }, LocaleProps>>;
     createLocale: (data: Omit<LocaleProps, 'sys'>) => Promise<{
         update: () => Promise<import("./entities/locale").Locale>;
         delete: () => Promise<void>;
@@ -295,9 +287,7 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         toPlainObject(): LocaleProps;
     }>;
     getUiExtension: (id: string) => Promise<import("./entities/ui-extension").UIExtension>;
-    getUiExtensions: () => Promise<import("./common-types").Collection<import("./entities/ui-extension").UIExtension> & {
-        toPlainObject(): import("./common-types").CollectionProp<UIExtensionProps>;
-    }>;
+    getUiExtensions: () => Promise<import("./common-types").Collection<import("./entities/ui-extension").UIExtension, UIExtensionProps>>;
     createUiExtension: (data: Omit<UIExtensionProps, 'sys'>) => Promise<import("./entities/ui-extension").UIExtension>;
     createUiExtensionWithId: (id: string, data: Omit<UIExtensionProps, 'sys'>) => Promise<import("./entities/ui-extension").UIExtension>;
     createAppInstallation: (appDefinitionId: string, data: Omit<AppInstallationProps, 'sys'>) => Promise<{
@@ -323,17 +313,11 @@ export default function createEnvironmentApi({ http, httpUpload, }: {
         delete: () => Promise<void>;
     } & AppInstallationProps & {
         toPlainObject(): AppInstallationProps;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<AppInstallationProps>;
-    }>;
+    }, AppInstallationProps>>;
     getEntrySnapshots: (entryId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./entities/snapshot").SnapshotProps<unknown>>>;
     getContentTypeSnapshots: (contentTypeId: string, query?: QueryOptions) => Promise<import("./common-types").Collection<import("./entities/snapshot").SnapshotProps<unknown> & {
         toPlainObject(): import("./entities/snapshot").SnapshotProps<unknown>;
-    }> & {
-        toPlainObject(): import("./common-types").CollectionProp<import("./entities/snapshot").SnapshotProps<unknown>>;
-    }>;
+    }, import("./entities/snapshot").SnapshotProps<unknown>>>;
 };

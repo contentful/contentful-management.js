@@ -146,6 +146,4 @@ export declare function wrapWebhook(http: AxiosInstance, data: WebhookProps): We
 /**
  * @private
  */
-export declare const wrapWebhookCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<WebhookProps>) => import("../common-types").Collection<WebHooks> & {
-    toPlainObject(): import("../common-types").CollectionProp<WebhookProps>;
-};
+export declare const wrapWebhookCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<WebhookProps>) => import("../common-types").Collection<WebHooks, WebhookProps>;

@@ -36,7 +36,7 @@ export interface CollectionProp<TObj> {
     limit: number;
     items: TObj[];
 }
-export interface Collection<TObj> extends CollectionProp<TObj>, DefaultElements<CollectionProp<TObj>> {
+export interface Collection<T, TPlain> extends CollectionProp<T>, DefaultElements<CollectionProp<TPlain>> {
 }
 export interface QueryOptions {
     skip?: number;

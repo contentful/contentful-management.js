@@ -68,6 +68,9 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
 
 const entityPath = 'teams'
 
+/**
+ * @private
+ */
 function createTeamApi(http: AxiosInstance) {
   return {
     update: createUpdateEntity<Team>({

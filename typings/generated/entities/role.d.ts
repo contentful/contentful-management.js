@@ -80,6 +80,4 @@ export declare const wrapRoleCollection: (http: AxiosInstance, data: import("../
     delete: () => Promise<void>;
 } & RoleProps & {
     toPlainObject(): RoleProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<RoleProps>;
-};
+}, RoleProps>;

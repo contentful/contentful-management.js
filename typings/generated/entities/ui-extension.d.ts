@@ -77,6 +77,4 @@ export declare function wrapUiExtension(http: AxiosInstance, data: UIExtensionPr
 /**
  * @private
  */
-export declare const wrapUiExtensionCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UIExtensionProps>) => import("../common-types").Collection<UIExtension> & {
-    toPlainObject(): import("../common-types").CollectionProp<UIExtensionProps>;
-};
+export declare const wrapUiExtensionCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UIExtensionProps>) => import("../common-types").Collection<UIExtension, UIExtensionProps>;

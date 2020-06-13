@@ -53,6 +53,4 @@ export declare const wrapEnvironmentAliasCollection: (http: AxiosInstance, data:
     update: () => Promise<EnvironmentAlias>;
 } & EnvironmentAliasProps & {
     toPlainObject(): EnvironmentAliasProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<EnvironmentAliasProps>;
-};
+}, EnvironmentAliasProps>;

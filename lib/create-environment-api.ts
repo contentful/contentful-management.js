@@ -13,9 +13,10 @@ import type { AppInstallationProps } from './entities/app-installation'
 import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 
+export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
+
 /**
  * Creates API object with methods to access the Environment API
- * @private
  */
 export default function createEnvironmentApi({
   http,

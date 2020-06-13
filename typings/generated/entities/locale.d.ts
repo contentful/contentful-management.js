@@ -94,6 +94,4 @@ export declare const wrapLocaleCollection: (http: AxiosInstance, data: Collectio
     delete: () => Promise<void>;
 } & LocaleProps & {
     toPlainObject(): LocaleProps;
-}> & {
-    toPlainObject(): CollectionProp<LocaleProps>;
-};
+}, LocaleProps>;

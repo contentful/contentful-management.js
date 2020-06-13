@@ -2,11 +2,13 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
-import { CollectionProp, QueryOptions } from './common-types'
-import { OrganizationProp } from './entities/organization'
-import { SpaceProps } from './entities/space'
+import { CollectionProp, Collection, QueryOptions } from './common-types'
+import { OrganizationProp, Organization } from './entities/organization'
+import { SpaceProps, Space } from './entities/space'
 import { PersonalAccessTokenProp } from './entities/personal-access-token'
 import { UsageQuery, UsageProps } from './entities/usage'
+
+export type ClientAPI = ReturnType<typeof createClientApi>
 
 export default function createClientApi({ http }: { http: AxiosInstance }) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
@@ -34,7 +36,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getSpaces: function getSpaces(query: QueryOptions = {}) {
+    getSpaces: function getSpaces(
+      query: QueryOptions = {}
+    ): Promise<Collection<Space, SpaceProps>> {
       return http
         .get('', createRequestConfig({ query: query }))
         .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
@@ -55,7 +59,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getSpace: function getSpace(id: string) {
+    getSpace: function getSpace(id: string): Promise<Space> {
       return http.get(id).then((response) => wrapSpace(http, response.data), errorHandler)
     },
     /**
@@ -77,7 +81,10 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createSpace: function createSpace(data: Omit<SpaceProps, 'sys'>, organizationId: string) {
+    createSpace: function createSpace(
+      data: Omit<SpaceProps, 'sys'>,
+      organizationId: string
+    ): Promise<Space> {
       return http
         .post('', data, {
           headers: organizationId ? { 'X-Contentful-Organization': organizationId } : {},
@@ -100,7 +107,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getOrganization: function getOrganization(id: string) {
+    getOrganization: function getOrganization(id: string): Promise<Organization> {
       const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
       return http
         .get<CollectionProp<OrganizationProp>>('', { baseURL })
@@ -136,7 +143,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getOrganizations: function getOrganizations() {
+    getOrganizations: function getOrganizations(): Promise<
+      Collection<Organization, OrganizationProp>
+    > {
       const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
       return http
         .get('', { baseURL })

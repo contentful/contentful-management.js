@@ -40,6 +40,4 @@ export declare function wrapPersonalAccessToken(http: AxiosInstance, data: Perso
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */
-export declare const wrapPersonalAccessTokenCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PersonalAccessTokenProp>) => import("../common-types").Collection<PersonalAccessToken> & {
-    toPlainObject(): import("../common-types").CollectionProp<PersonalAccessTokenProp>;
-};
+export declare const wrapPersonalAccessTokenCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<PersonalAccessTokenProp>) => import("../common-types").Collection<PersonalAccessToken, PersonalAccessTokenProp>;

@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import createSpaceApi from '../create-space-api'
+import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
 import { MetaSysProps, DefaultElements } from '../common-types'
 
 type SdkHttpClient = AxiosInstance & {
@@ -11,14 +11,12 @@ type SdkHttpClient = AxiosInstance & {
   cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
 }
 
-export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
-
 export type SpaceProps = {
   sys: MetaSysProps
   name: string
 }
 
-export interface Space extends SpaceProps, DefaultElements<SpaceProps>, ContentfulSpaceAPI {}
+export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 
 /**
  * This method creates the API for the given space with all the methods for

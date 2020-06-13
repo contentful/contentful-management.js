@@ -13,8 +13,7 @@
   },
   "include": ["lib", "global-types"],
   "typedocOptions": {
-    "mode": "library",
-    "inputFiles": ["./lib/contentful-management.ts", "./lib/types.ts"],
+    "mode": "file",
     "out": "./out",
     "readme": "README.md",
     "name": "contentful-management.js",
@@ -23,6 +22,37 @@
     "excludePrivate": true,
     "excludeNotExported": true,
     "ignoreCompilerErrors": true,
-    "categorizeByGroup": true
+    "categorizeByGroup": true,
+    "toc": [
+      "createClient",
+      "ClientParams",
+
+      "ContentType",
+      "Entry",
+      "Asset",
+      "ApiKey",
+      "AppDefinition",
+      "AppInstalation",
+      "EditorInterface",
+      "Environment",
+      "EnvironmentAlias",
+      "Organization",
+      "OrganizationInvitation",
+      "OrganizationMembership",
+      "PersonalAccessToken",
+      "PreviewApiKey",
+      "Role",
+      "Snapshot",
+      "Space",
+      "SpaceMember",
+      "SpaceMembership",
+      "Team",
+      "TeamSpaceMembership",
+      "UIExtension",
+      "Upload",
+      "Usage",
+      "User",
+      "Webhooks"
+    ]
   }
 }

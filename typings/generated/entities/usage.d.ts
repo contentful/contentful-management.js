@@ -53,6 +53,4 @@ export declare function wrapUsage(http: AxiosInstance, data: UsageProps): Usage;
 /**
  * @private
  */
-export declare const wrapUsageCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UsageProps>) => import("../common-types").Collection<Usage> & {
-    toPlainObject(): import("../common-types").CollectionProp<UsageProps>;
-};
+export declare const wrapUsageCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<UsageProps>) => import("../common-types").Collection<Usage, UsageProps>;

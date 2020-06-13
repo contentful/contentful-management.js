@@ -2,16 +2,13 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createOrganizationApi from '../create-organization-api'
+import createOrganizationApi, { ContentfulOrganizationAPI } from '../create-organization-api'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, DefaultElements } from '../common-types'
 
-type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
-
-export interface Organization
-  extends DefaultElements<OrganizationProp>,
-    OrganizationProp,
-    ContentfulOrganizationAPI {}
+export type Organization = DefaultElements<OrganizationProp> &
+  OrganizationProp &
+  ContentfulOrganizationAPI
 
 export type OrganizationProp = {
   /**

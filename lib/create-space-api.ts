@@ -40,9 +40,10 @@ function spaceMembershipDeprecationWarning() {
   )
 }
 
+export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
+
 /**
  * Creates API object with methods to access the Space API
- * @private
  * @param {object} params - API initialization params
  * @prop {object} http - HTTP client instance
  * @prop {object} entities - Object with wrapper methods for each kind of entity
@@ -1458,41 +1459,6 @@ export default function createSpaceApi({
   }
 
   /**
-   * Creates a Api Key
-   * @param data - Object representation of the Api Key to be created
-   * @return Promise for the newly created Api Key
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createApiKey({
-   *   name: 'API Key name',
-   *   environments:[
-   *    {
-   *     sys: {
-   *      type: 'Link'
-   *      linkType: 'Environment',
-   *      id:'<environment_id>'
-   *     }
-   *    }
-   *   ]
-   *   }
-   * }))
-   * .then((apiKey) => console.log(apiKey))
-   * .catch(console.error)
-   * ```
-   */
-  function createApiKey(data: CreateApiKeyProps) {
-    return http
-      .post('api_keys', data)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
    * Creates a Api Key with a custom ID
    * @param id - Api Key ID
    * @param data - Object representation of the Api Key to be created
@@ -1551,206 +1517,6 @@ export default function createSpaceApi({
     return http
       .get('extensions/' + id)
       .then((response) => wrapUiExtension(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of UI Extension
-   * @deprecated since version 5.0
-   * @return Promise for a collection of UI Extensions
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getUiExtensions()
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getUiExtensions() {
-    raiseDeprecationWarning('getUiExtensions')
-    return http
-      .get('extensions')
-      .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a UI Extension
-   * @deprecated since version 5.0
-   * @param data - Object representation of the UI Extension to be created
-   * @return Promise for the newly created UI Extension
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createUiExtension({
-   *   extension: {
-   *     name: 'My awesome extension',
-   *     src: 'https://example.com/my',
-   *     fieldTypes: [
-   *       {
-   *         type: 'Symbol'
-   *       },
-   *       {
-   *         type: 'Text'
-   *       }
-   *     ],
-   *     sidebar: false
-   *   }
-   * }))
-   * .then((uiExtension) => console.log(uiExtension))
-   * .catch(console.error)
-   * ```
-   */
-  function createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
-    raiseDeprecationWarning('createUiExtension')
-    return http
-      .post('extensions', data)
-      .then((response) => wrapUiExtension(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a UI Extension with a custom ID
-   * @deprecated since version 5.0
-   * @param id - UI Extension ID
-   * @param data - Object representation of the UI Extension to be created
-   * @return Promise for the newly created UI Extension
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createUiExtensionWithId('<extension_id>', {
-   *   extension: {
-   *     name: 'My awesome extension',
-   *     src: 'https://example.com/my',
-   *     fieldTypes: [
-   *       {
-   *         type: 'Symbol'
-   *       },
-   *       {
-   *         type: 'Text'
-   *       }
-   *     ],
-   *     sidebar: false
-   *   }
-   * }))
-   * .then((uiExtension) => console.log(uiExtension))
-   * .catch(console.error)
-   * ```
-   */
-  function createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
-    raiseDeprecationWarning('createUiExtensionWithId')
-    return http
-      .put('extensions/' + id, data)
-      .then((response) => wrapUiExtension(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets all snapshots of an entry
-   * @deprecated since version 5.0
-   * @param entryId - Entry ID
-   * @param query - additional query paramaters
-   * @return Promise for a collection of Entry Snapshots
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEntrySnapshots('<entry_id>'))
-   * .then((snapshots) => console.log(snapshots.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
-    raiseDeprecationWarning('getEntrySnapshots')
-    return http
-      .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
-      .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets all snapshots of a contentType
-   * @deprecated since version 5.0
-   * @param contentTypeId - Content Type ID
-   * @param query - additional query paramaters
-   * @return Promise for a collection of Content Type Snapshots
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getContentTypeSnapshots('<contentTypeId>'))
-   * .then((snapshots) => console.log(snapshots.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
-    raiseDeprecationWarning('getContentTypeSnapshots')
-    return http
-      .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
-      .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an Environment Alias
-   * @param Environment Alias ID
-   * @return Promise for an Environment Alias
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEnvironmentAlias('<alias-id>'))
-   * .then((alias) => console.log(alias))
-   * .catch(console.error)
-   * ```
-   */
-  function getEnvironmentAlias(id: string) {
-    return http
-      .get('environment_aliases/' + id)
-      .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Environment Aliases
-   * @return Promise for a collection of Environment Aliases
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEnvironmentAliases()
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getEnvironmentAliases() {
-    return http
-      .get('environment_aliases')
-      .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
   }
 
   /*
@@ -1814,15 +1580,235 @@ export default function createSpaceApi({
     getApiKeys,
     getPreviewApiKeys,
     getPreviewApiKey,
-    createApiKey,
+    /**
+     * Creates a Api Key
+     * @param data - Object representation of the Api Key to be created
+     * @return Promise for the newly created Api Key
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createApiKey({
+     *   name: 'API Key name',
+     *   environments:[
+     *    {
+     *     sys: {
+     *      type: 'Link'
+     *      linkType: 'Environment',
+     *      id:'<environment_id>'
+     *     }
+     *    }
+     *   ]
+     *   }
+     * }))
+     * .then((apiKey) => console.log(apiKey))
+     * .catch(console.error)
+     * ```
+     */
+    createApiKey: function createApiKey(data: CreateApiKeyProps) {
+      return http
+        .post('api_keys', data)
+        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    },
     createApiKeyWithId,
     getUiExtension,
-    getUiExtensions,
-    createUiExtension,
-    createUiExtensionWithId,
-    getEntrySnapshots,
-    getContentTypeSnapshots,
-    getEnvironmentAlias,
-    getEnvironmentAliases,
+    /**
+     * Gets a collection of UI Extension
+     * @deprecated since version 5.0
+     * @return Promise for a collection of UI Extensions
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getUiExtensions()
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUiExtensions() {
+      raiseDeprecationWarning('getUiExtensions')
+      return http
+        .get('extensions')
+        .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a UI Extension
+     * @deprecated since version 5.0
+     * @param data - Object representation of the UI Extension to be created
+     * @return Promise for the newly created UI Extension
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createUiExtension({
+     *   extension: {
+     *     name: 'My awesome extension',
+     *     src: 'https://example.com/my',
+     *     fieldTypes: [
+     *       {
+     *         type: 'Symbol'
+     *       },
+     *       {
+     *         type: 'Text'
+     *       }
+     *     ],
+     *     sidebar: false
+     *   }
+     * }))
+     * .then((uiExtension) => console.log(uiExtension))
+     * .catch(console.error)
+     * ```
+     */
+    createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
+      raiseDeprecationWarning('createUiExtension')
+      return http
+        .post('extensions', data)
+        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a UI Extension with a custom ID
+     * @deprecated since version 5.0
+     * @param id - UI Extension ID
+     * @param data - Object representation of the UI Extension to be created
+     * @return Promise for the newly created UI Extension
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createUiExtensionWithId('<extension_id>', {
+     *   extension: {
+     *     name: 'My awesome extension',
+     *     src: 'https://example.com/my',
+     *     fieldTypes: [
+     *       {
+     *         type: 'Symbol'
+     *       },
+     *       {
+     *         type: 'Text'
+     *       }
+     *     ],
+     *     sidebar: false
+     *   }
+     * }))
+     * .then((uiExtension) => console.log(uiExtension))
+     * .catch(console.error)
+     * ```
+     */
+    createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
+      raiseDeprecationWarning('createUiExtensionWithId')
+      return http
+        .put('extensions/' + id, data)
+        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    },
+
+    /**
+     * Gets all snapshots of an entry
+     * @deprecated since version 5.0
+     * @param entryId - Entry ID
+     * @param query - additional query paramaters
+     * @return Promise for a collection of Entry Snapshots
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEntrySnapshots('<entry_id>'))
+     * .then((snapshots) => console.log(snapshots.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
+      raiseDeprecationWarning('getEntrySnapshots')
+      return http
+        .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
+        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets all snapshots of a contentType
+     * @deprecated since version 5.0
+     * @param contentTypeId - Content Type ID
+     * @param query - additional query paramaters
+     * @return Promise for a collection of Content Type Snapshots
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getContentTypeSnapshots('<contentTypeId>'))
+     * .then((snapshots) => console.log(snapshots.items))
+     * .catch(console.error)
+     * ```
+     */
+    getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
+      raiseDeprecationWarning('getContentTypeSnapshots')
+      return http
+        .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
+        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets an Environment Alias
+     * @param Environment Alias ID
+     * @return Promise for an Environment Alias
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironmentAlias('<alias-id>'))
+     * .then((alias) => console.log(alias))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironmentAlias(id: string) {
+      return http
+        .get('environment_aliases/' + id)
+        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Environment Aliases
+     * @return Promise for a collection of Environment Aliases
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironmentAliases()
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironmentAliases() {
+      return http
+        .get('environment_aliases')
+        .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
+    },
   }
 }

@@ -26,6 +26,4 @@ export declare function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProp
  */
 export declare const wrapSnapshotCollection: <T>(http: AxiosInstance, data: import("../common-types").CollectionProp<SnapshotProps<T>>) => import("../common-types").Collection<SnapshotProps<T> & {
     toPlainObject(): SnapshotProps<T>;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<SnapshotProps<T>>;
-};
+}, SnapshotProps<T>>;

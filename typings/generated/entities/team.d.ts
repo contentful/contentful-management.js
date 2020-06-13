@@ -65,6 +65,4 @@ export declare function wrapTeam(http: AxiosInstance, data: TeamProps): Team;
 /**
  * @private
  */
-export declare const wrapTeamCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<TeamProps>) => import("../common-types").Collection<Team> & {
-    toPlainObject(): import("../common-types").CollectionProp<TeamProps>;
-};
+export declare const wrapTeamCollection: (http: AxiosInstance, data: import("../common-types").CollectionProp<TeamProps>) => import("../common-types").Collection<Team, TeamProps>;

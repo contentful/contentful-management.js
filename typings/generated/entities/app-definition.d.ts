@@ -105,7 +105,5 @@ export declare const wrapAppDefinitionCollection: (http: AxiosInstance, data: im
     delete: () => Promise<void>;
 } & AppDefinitionProps & {
     toPlainObject(): AppDefinitionProps;
-}> & {
-    toPlainObject(): import("../common-types").CollectionProp<AppDefinitionProps>;
-};
+}, AppDefinitionProps>;
 export {};
