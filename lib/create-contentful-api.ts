@@ -1,47 +1,26 @@
 /**
  * Contentful Management API Client. Contains methods which allow access to
  * any operations that can be performed with a management token.
- * @packageDocumentation
  */
 
-/**
- * Types for meta information found across the different entities in Contentful
- * @namespace Meta
- */
-
-/**
- * System metadata. See <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/introduction/common-resource-attributes">Common Resource Attributes</a> for more details.
- * @memberof Meta
- * @typedef Sys
- * @prop {string} type
- * @prop {string} id
- * @prop {Meta.Link} space
- * @prop {string} createdAt
- * @prop {string} updatedAt
- * @prop {number} revision
- */
-
-/**
- * Link to another entity. See <a href="https://www.contentful.com/developers/docs/concepts/links/">Links</a> for more details.
- * @memberof Meta
- * @typedef Link
- * @prop {string} type - type of this entity. Always link.
- * @prop {string} id
- * @prop {string} linkType - type of this link. If defined, either Entry or Asset
- */
-
+import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
+import { CollectionProp, QueryOptions } from './common-types'
+import { OrganizationProp } from './entities/organization'
+import { SpaceProps } from './entities/space'
+import { PersonalAccessTokenProp } from './entities/personal-access-token'
+
+export type ClientAPI = ReturnType<typeof createClientApi>
 
 /**
  * Creates API object with methods to access functionality from Contentful's
  * Management API
  * @param {Object} params - API initialization params
  * @prop {Object} http - HTTP client instance
- * @prop {Function} shouldLinksResolve - Link resolver preconfigured with global setting
  */
-export default function createClientApi({ http }) {
+export default function createClientApi({ http }: { http: AxiosInstance }) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
   const {
@@ -52,39 +31,45 @@ export default function createClientApi({ http }) {
   const { wrapUsageCollection } = entities.usage
 
   function getOrganizations() {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/organizations/')
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
     return http
       .get('', { baseURL })
       .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
   }
 
-  function getOrganization(id) {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/organizations/')
-    return http.get('', { baseURL }).then((response) => {
-      const org = response.data.items.find((org) => org.sys.id === id)
-      if (!org) {
-        const error = new Error(
-          `No organization was found with the ID ${id} instead got ${JSON.stringify(response)}`
-        )
-        error.status = 404
-        error.statusText = 'Not Found'
-        return Promise.reject(error)
-      }
-      return wrapOrganization(http, org)
-    }, errorHandler)
+  function getOrganization(id: string) {
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
+    return http
+      .get<CollectionProp<OrganizationProp>>('', { baseURL })
+      .then((response) => {
+        const org = response.data.items.find((org) => org.sys.id === id)
+        if (!org) {
+          const error = new Error(
+            `No organization was found with the ID ${id} instead got ${JSON.stringify(response)}`
+          )
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
+          error.status = 404
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
+          error.statusText = 'Not Found'
+          return Promise.reject(error)
+        }
+        return wrapOrganization(http, org)
+      }, errorHandler)
   }
 
-  function getSpaces(query = {}) {
+  function getSpaces(query: QueryOptions = {}) {
     return http
       .get('', createRequestConfig({ query: query }))
       .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
   }
 
-  function getSpace(id) {
+  function getSpace(id: string) {
     return http.get(id).then((response) => wrapSpace(http, response.data), errorHandler)
   }
 
-  function createSpace(data, organizationId) {
+  function createSpace(data: Omit<SpaceProps, 'sys'>, organizationId: string) {
     return http
       .post('', data, {
         headers: organizationId ? { 'X-Contentful-Organization': organizationId } : {},
@@ -92,8 +77,8 @@ export default function createClientApi({ http }) {
       .then((response) => wrapSpace(http, response.data), errorHandler)
   }
 
-  function getOrganizationUsage(organizationId, query = {}) {
-    const baseURL = http.defaults.baseURL.replace(
+  function getOrganizationUsage(organizationId: string, query: QueryOptions = {}) {
+    const baseURL = http.defaults?.baseURL?.replace(
       '/spaces/',
       `/organizations/${organizationId}/organization_periodic_usages`
     )
@@ -102,8 +87,8 @@ export default function createClientApi({ http }) {
       .then((response) => wrapUsageCollection(http, response.data), errorHandler)
   }
 
-  function getSpaceUsage(organizationId, query = {}) {
-    const baseURL = http.defaults.baseURL.replace(
+  function getSpaceUsage(organizationId: string, query: QueryOptions = {}) {
+    const baseURL = http.defaults?.baseURL?.replace(
       '/spaces/',
       `/organizations/${organizationId}/space_periodic_usages`
     )
@@ -113,7 +98,7 @@ export default function createClientApi({ http }) {
   }
 
   function getCurrentUser() {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/')
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/')
     return http
       .get('', {
         baseURL,
@@ -121,8 +106,8 @@ export default function createClientApi({ http }) {
       .then((response) => wrapUser(http, response.data), errorHandler)
   }
 
-  function createPersonalAccessToken(data) {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+  function createPersonalAccessToken(data: Omit<PersonalAccessTokenProp, 'sys'>) {
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
     return http
       .post('', data, {
         baseURL,
@@ -130,8 +115,8 @@ export default function createClientApi({ http }) {
       .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
   }
 
-  function getPersonalAccessToken(tokenId) {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+  function getPersonalAccessToken(tokenId: string) {
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
     return http
       .get(tokenId, {
         baseURL,
@@ -140,7 +125,7 @@ export default function createClientApi({ http }) {
   }
 
   function getPersonalAccessTokens() {
-    const baseURL = http.defaults.baseURL.replace('/spaces/', '/users/me/access_tokens')
+    const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
     return http
       .get('', {
         baseURL,
@@ -148,7 +133,7 @@ export default function createClientApi({ http }) {
       .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
   }
 
-  function rawRequest(opts) {
+  function rawRequest(opts: AxiosRequestConfig) {
     return http(opts).then((response) => response.data, errorHandler)
   }
 
