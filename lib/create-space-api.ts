@@ -543,34 +543,6 @@ export default function createSpaceApi({
   }
 
   /**
-   * Gets a collection of Assets
-   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-   * from your entry in the backend
-   * @deprecated since version 5.0
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise for a collection of Assets
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getAssets())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getAssets(query: QueryOptions = {}) {
-    raiseDeprecationWarning('getAssets')
-    normalizeSelect(query)
-    return http
-      .get('assets', createRequestConfig({ query: query }))
-      .then((response) => wrapAssetCollection(http, response.data), errorHandler)
-  }
-
-  /**
    * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
    * @deprecated since version 5.0
    * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
@@ -608,110 +580,6 @@ export default function createSpaceApi({
   }
 
   /**
-   * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @param id - Asset ID
-   * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @return Promise for the newly created Asset
-   * @example ```javascript
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * // Create asset
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createAssetWithId('<asset_id>', {
-   *   title: {
-   *     'en-US': 'Playsam Streamliner'
-   *   },
-   *   file: {
-   *     'en-US': {
-   *       contentType: 'image/jpeg',
-   *       fileName: 'example.jpeg',
-   *       upload: 'https://example.com/example.jpg'
-   *     }
-   *   }
-   * }))
-   * .then((asset) => asset.process())
-   * .then((asset) => console.log(asset))
-   * .catch(console.error)
-   * ```
-   */
-  function createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
-    raiseDeprecationWarning('createAssetWithId')
-    return http
-      .put('assets/' + id, data)
-      .then((response) => wrapAsset(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
-   * @return Promise for the newly created Asset
-   * @example ```javascript
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createAssetFromFiles({
-   *   fields: {
-   *     file: {
-   *       'en-US': {
-   *          contentType: 'image/jpeg',
-   *          fileName: 'filename_english.jpg',
-   *          file: createReadStream('path/to/filename_english.jpg')
-   *       },
-   *       'de-DE': {
-   *          contentType: 'image/svg+xml',
-   *          fileName: 'filename_german.svg',
-   *          file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
-   *       }
-   *     }
-   *   }
-   * }))
-   * .then((asset) => console.log(asset))
-   * .catch(console.error)
-   * ```
-   */
-  function createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
-    raiseDeprecationWarning('createAssetFromFiles')
-    const { file } = data.fields
-    return Promise.all(
-      Object.keys(file).map((locale) => {
-        const { contentType, fileName } = file[locale]
-        return createUpload(file[locale]).then((upload) => {
-          return {
-            [locale]: {
-              contentType,
-              fileName,
-              uploadFrom: {
-                sys: {
-                  type: 'Link',
-                  linkType: 'Upload',
-                  id: upload.sys.id,
-                },
-              },
-            },
-          }
-        })
-      })
-    )
-      .then((uploads) => {
-        // @ts-expect-error
-        data.fields.file = uploads.reduce((fieldsData, upload) => {
-          return {
-            ...fieldsData,
-            ...upload,
-          }
-        }, {})
-        return createAsset(data)
-      })
-      .catch(errorHandler)
-  }
-
-  /**
    * Creates a Upload.
    * @deprecated since version 5.0
    * @param data - Object with file information.
@@ -746,329 +614,739 @@ export default function createSpaceApi({
       .catch(errorHandler)
   }
 
-  /**
-   * Gets an Upload
-   * @deprecated since version 5.0
-   * @param id - Upload ID
-   * @return Promise for an Upload
-   * @example ```javascript
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   * const uploadStream = createReadStream('path/to/filename_english.jpg')
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getUpload('<upload-id>')
-   * .then((upload) => console.log(upload))
-   * .catch(console.error)
-   * ```
+  /*
+   * @private
+   * sdk relies heavily on sys metadata
+   * so we cannot omit the sys property on sdk level
+   *
    */
-  function getUpload(id: string) {
-    raiseDeprecationWarning('getUpload')
-    return httpUpload
-      .get('uploads/' + id)
-      .then((response) => wrapUpload(http, response.data))
-      .catch(errorHandler)
+  function normalizeSelect(query: QueryOptions) {
+    if (query.select && !/sys/i.test(query.select)) {
+      query.select += ',sys'
+    }
   }
 
-  /**
-   * Gets a Locale
-   * @deprecated since version 5.0
-   * @param id - Locale ID
-   * @return Promise for an Locale
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getLocale('<locale_id>'))
-   * .then((locale) => console.log(locale))
-   * .catch(console.error)
-   * ```
-   */
-  function getLocale(id: string) {
-    raiseDeprecationWarning('getLocale')
-    return http
-      .get('locales/' + id)
-      .then((response) => wrapLocale(http, response.data), errorHandler)
-  }
+  return {
+    createUpload,
+    delete: deleteSpace,
+    update: updateSpace,
+    getEnvironment,
+    getEnvironments,
+    createEnvironment,
+    createEnvironmentWithId,
+    getContentType,
+    getContentTypes,
+    createContentType,
+    createContentTypeWithId,
+    getEditorInterfaceForContentType,
+    getEntry,
+    getEntries,
+    createEntry,
+    createEntryWithId,
+    getAsset,
+    /**
+     * Gets a collection of Assets
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @deprecated since version 5.0
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of Assets
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getAssets())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getAssets(query: QueryOptions = {}) {
+      raiseDeprecationWarning('getAssets')
+      normalizeSelect(query)
+      return http
+        .get('assets', createRequestConfig({ query: query }))
+        .then((response) => wrapAssetCollection(http, response.data), errorHandler)
+    },
+    createAsset,
+    /**
+     * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+     * @deprecated since version 5.0
+     * @param id - Asset ID
+     * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+     * @return Promise for the newly created Asset
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Create asset
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createAssetWithId('<asset_id>', {
+     *   title: {
+     *     'en-US': 'Playsam Streamliner'
+     *   },
+     *   file: {
+     *     'en-US': {
+     *       contentType: 'image/jpeg',
+     *       fileName: 'example.jpeg',
+     *       upload: 'https://example.com/example.jpg'
+     *     }
+     *   }
+     * }))
+     * .then((asset) => asset.process())
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     * ```
+     */
+    createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
+      raiseDeprecationWarning('createAssetWithId')
+      return http
+        .put('assets/' + id, data)
+        .then((response) => wrapAsset(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+     * @deprecated since version 5.0
+     * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
+     * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
+     * @return Promise for the newly created Asset
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createAssetFromFiles({
+     *   fields: {
+     *     file: {
+     *       'en-US': {
+     *          contentType: 'image/jpeg',
+     *          fileName: 'filename_english.jpg',
+     *          file: createReadStream('path/to/filename_english.jpg')
+     *       },
+     *       'de-DE': {
+     *          contentType: 'image/svg+xml',
+     *          fileName: 'filename_german.svg',
+     *          file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
+     *       }
+     *     }
+     *   }
+     * }))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     * ```
+     */
+    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
+      raiseDeprecationWarning('createAssetFromFiles')
+      const { file } = data.fields
+      return Promise.all(
+        Object.keys(file).map((locale) => {
+          const { contentType, fileName } = file[locale]
+          return createUpload(file[locale]).then((upload) => {
+            return {
+              [locale]: {
+                contentType,
+                fileName,
+                uploadFrom: {
+                  sys: {
+                    type: 'Link',
+                    linkType: 'Upload',
+                    id: upload.sys.id,
+                  },
+                },
+              },
+            }
+          })
+        })
+      )
+        .then((uploads) => {
+          // @ts-expect-error
+          data.fields.file = uploads.reduce((fieldsData, upload) => {
+            return {
+              ...fieldsData,
+              ...upload,
+            }
+          }, {})
+          return createAsset(data)
+        })
+        .catch(errorHandler)
+    },
+    /**
+     * Gets an Upload
+     * @deprecated since version 5.0
+     * @param id - Upload ID
+     * @return Promise for an Upload
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const uploadStream = createReadStream('path/to/filename_english.jpg')
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getUpload('<upload-id>')
+     * .then((upload) => console.log(upload))
+     * .catch(console.error)
+     * ```
+     */
+    getUpload(id: string) {
+      raiseDeprecationWarning('getUpload')
+      return httpUpload
+        .get('uploads/' + id)
+        .then((response) => wrapUpload(http, response.data))
+        .catch(errorHandler)
+    },
+    /**
+     * Gets a Locale
+     * @deprecated since version 5.0
+     * @param id - Locale ID
+     * @return Promise for an Locale
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getLocale('<locale_id>'))
+     * .then((locale) => console.log(locale))
+     * .catch(console.error)
+     * ```
+     */
+    getLocale(id: string) {
+      raiseDeprecationWarning('getLocale')
+      return http
+        .get('locales/' + id)
+        .then((response) => wrapLocale(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a collection of Locales
-   * @deprecated since version 5.0
-   * @return Promise for a collection of Locales
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getLocales())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getLocales() {
-    raiseDeprecationWarning('getLocales')
-    return http
-      .get('locales')
-      .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
-  }
+    /**
+     * Gets a collection of Locales
+     * @deprecated since version 5.0
+     * @return Promise for a collection of Locales
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getLocales())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getLocales() {
+      raiseDeprecationWarning('getLocales')
+      return http
+        .get('locales')
+        .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
+    },
 
-  /**
-   * Creates a Locale
-   * @deprecated since version 5.0
-   * @param data - Object representation of the Locale to be created
-   * @return Promise for the newly created Locale
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * // Create locale
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createLocale({
-   *   name: 'German (Austria)',
-   *   code: 'de-AT',
-   *   fallbackCode: 'de-DE',
-   *   optional: true
-   * }))
-   * .then((locale) => console.log(locale))
-   * .catch(console.error)
-   * ```
-   */
-  function createLocale(data: Omit<LocaleProps, 'sys'>) {
-    raiseDeprecationWarning('createLocale')
-    return http
-      .post('locales', data)
-      .then((response) => wrapLocale(http, response.data), errorHandler)
-  }
+    /**
+     * Creates a Locale
+     * @deprecated since version 5.0
+     * @param data - Object representation of the Locale to be created
+     * @return Promise for the newly created Locale
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Create locale
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createLocale({
+     *   name: 'German (Austria)',
+     *   code: 'de-AT',
+     *   fallbackCode: 'de-DE',
+     *   optional: true
+     * }))
+     * .then((locale) => console.log(locale))
+     * .catch(console.error)
+     * ```
+     */
+    createLocale(data: Omit<LocaleProps, 'sys'>) {
+      raiseDeprecationWarning('createLocale')
+      return http
+        .post('locales', data)
+        .then((response) => wrapLocale(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Webhook
+     * @param id - Webhook ID
+     * @return Promise for a Webhook
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getWebhook('<webhook_id>'))
+     * .then((webhook) => console.log(webhook))
+     * .catch(console.error)
+     * ```
+     */
+    getWebhook(id: string) {
+      return http
+        .get('webhook_definitions/' + id)
+        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a Webhook
-   * @param id - Webhook ID
-   * @return Promise for a Webhook
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getWebhook('<webhook_id>'))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-   * ```
-   */
-  function getWebhook(id: string) {
-    return http
-      .get('webhook_definitions/' + id)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
+    /**
+     * Gets a collection of Webhooks
+     * @return Promise for a collection of Webhooks
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getWebhooks())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getWebhooks() {
+      return http
+        .get('webhook_definitions')
+        .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a collection of Webhooks
-   * @return Promise for a collection of Webhooks
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getWebhooks())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getWebhooks() {
-    return http
-      .get('webhook_definitions')
-      .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
-  }
+    /**
+     * Creates a Webhook
+     * @param data - Object representation of the Webhook to be created
+     * @return Promise for the newly created Webhook
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createWebhook({
+     *   'name': 'My webhook',
+     *   'url': 'https://www.example.com/test',
+     *   'topics': [
+     *     'Entry.create',
+     *     'ContentType.create',
+     *     '*.publish',
+     *     'Asset.*'
+     *   ]
+     * }))
+     * .then((webhook) => console.log(webhook))
+     * .catch(console.error)
+     * ```
+     */
+    createWebhook(data: Omit<WebhookProps, 'sys'>) {
+      return http
+        .post('webhook_definitions', data)
+        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    },
 
-  /**
-   * Creates a Webhook
-   * @param data - Object representation of the Webhook to be created
-   * @return Promise for the newly created Webhook
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createWebhook({
-   *   'name': 'My webhook',
-   *   'url': 'https://www.example.com/test',
-   *   'topics': [
-   *     'Entry.create',
-   *     'ContentType.create',
-   *     '*.publish',
-   *     'Asset.*'
-   *   ]
-   * }))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-   * ```
-   */
-  function createWebhook(data: Omit<WebhookProps, 'sys'>) {
-    return http
-      .post('webhook_definitions', data)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
+    /**
+     * Creates a Webhook with a custom ID
+     * @param id - Webhook ID
+     * @param  data - Object representation of the Webhook to be created
+     * @return Promise for the newly created Webhook
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createWebhookWithId('<webhook_id>', {
+     *   'name': 'My webhook',
+     *   'url': 'https://www.example.com/test',
+     *   'topics': [
+     *     'Entry.create',
+     *     'ContentType.create',
+     *     '*.publish',
+     *     'Asset.*'
+     *   ]
+     * }))
+     * .then((webhook) => console.log(webhook))
+     * .catch(console.error)
+     * ```
+     */
+    createWebhookWithId(id: string, data: Omit<WebhookProps, 'sys'>) {
+      return http
+        .put('webhook_definitions/' + id, data)
+        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Role
+     * @param id - Role ID
+     * @return Promise for a Role
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createRole({
+     *   fields: {
+     *     title: {
+     *       'en-US': 'Role title'
+     *     }
+     *   }
+     * }))
+     * .then((role) => console.log(role))
+     * .catch(console.error)
+     * ```
+     */
+    getRole(id: string) {
+      return http.get('roles/' + id).then((response) => wrapRole(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Roles
+     * @return Promise for a collection of Roles
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getRoles())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getRoles() {
+      return http
+        .get('roles')
+        .then((response) => wrapRoleCollection(http, response.data), errorHandler)
+    },
 
-  /**
-   * Creates a Webhook with a custom ID
-   * @param id - Webhook ID
-   * @param  data - Object representation of the Webhook to be created
-   * @return Promise for the newly created Webhook
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createWebhookWithId('<webhook_id>', {
-   *   'name': 'My webhook',
-   *   'url': 'https://www.example.com/test',
-   *   'topics': [
-   *     'Entry.create',
-   *     'ContentType.create',
-   *     '*.publish',
-   *     'Asset.*'
-   *   ]
-   * }))
-   * .then((webhook) => console.log(webhook))
-   * .catch(console.error)
-   * ```
-   */
-  function createWebhookWithId(id: string, data: Omit<WebhookProps, 'sys'>) {
-    return http
-      .put('webhook_definitions/' + id, data)
-      .then((response) => wrapWebhook(http, response.data), errorHandler)
-  }
+    /**
+     * Creates a Role
+     * @param data - Object representation of the Role to be created
+     * @return  Promise for the newly created Role
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createRole({
+     *   name: 'My Role',
+     *   description: 'foobar role',
+     *   permissions: {
+     *     ContentDelivery: 'all',
+     *     ContentModel: ['read'],
+     *     Settings: []
+     *   },
+     *   policies: [
+     *     {
+     *       effect: 'allow',
+     *       actions: 'all',
+     *       constraint: {
+     *         and: [
+     *           {
+     *             equals: [
+     *               { doc: 'sys.type' },
+     *               'Entry'
+     *             ]
+     *           },
+     *           {
+     *             equals: [
+     *               { doc: 'sys.type' },
+     *               'Asset'
+     *             ]
+     *           }
+     *         ]
+     *       }
+     *     }
+     *   ]
+     * }))
+     * .then((role) => console.log(role))
+     * .catch(console.error)
+     * ```
+     */
+    createRole(data: Omit<RoleProps, 'sys'>) {
+      return http
+        .post('roles', data)
+        .then((response) => wrapRole(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Role with a custom ID
+     * @param id - Role ID
+     * @param data - Object representation of the Role to be created
+     * @return Promise for the newly created Role
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createRoleWithId('<role-id>', {
+     *   name: 'My Role',
+     *   description: 'foobar role',
+     *   permissions: {
+     *     ContentDelivery: 'all',
+     *     ContentModel: ['read'],
+     *     Settings: []
+     *   },
+     *   policies: [
+     *     {
+     *       effect: 'allow',
+     *       actions: 'all',
+     *       constraint: {
+     *         and: [
+     *           {
+     *             equals: [
+     *               { doc: 'sys.type' },
+     *               'Entry'
+     *             ]
+     *           },
+     *           {
+     *             equals: [
+     *               { doc: 'sys.type' },
+     *               'Asset'
+     *             ]
+     *           }
+     *         ]
+     *       }
+     *     }
+     *   ]
+     * }))
+     * .then((role) => console.log(role))
+     * .catch(console.error)
+     * ```
+     */
+    createRoleWithId(id: string, data: Omit<RoleProps, 'sys'>) {
+      return http
+        .put('roles/' + id, data)
+        .then((response) => wrapRole(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a User
+     * @param id - User ID
+     * @return Promise for a User
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceUser('id'))
+     * .then((user) => console.log(user))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceUser(id: string) {
+      return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Users in a space
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise a collection of Users in a space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceUsers(query))
+     * .then((data) => console.log(data))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceUsers(query: QueryOptions = {}) {
+      return http
+        .get('users/', createRequestConfig({ query: query }))
+        .then((response) => wrapUserCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Space Member
+     * @param id Get Space Member by user_id
+     * @return Promise for a Space Member
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceMember(id))
+     * .then((spaceMember) => console.log(spaceMember))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceMember(id: string) {
+      return http
+        .get('space_members/' + id)
+        .then((response) => wrapSpaceMember(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Space Members
+     * @param query
+     * @return Promise for a collection of Space Members
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceMembers({'limit': 100}))
+     * .then((spaceMemberCollection) => console.log(spaceMemberCollection))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceMembers(query: QueryOptions = {}) {
+      return http
+        .get('space_members', createRequestConfig({ query: query }))
+        .then((response) => wrapSpaceMemberCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Space Membership
+     * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
+     * @param id - Space Membership ID
+     * @return Promise for a Space Membership
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceMembership('id'))
+     * .then((spaceMembership) => console.log(spaceMembership))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceMembership(id: string) {
+      spaceMembershipDeprecationWarning()
+      return http
+        .get('space_memberships/' + id)
+        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Space Memberships
+     * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of Space Memberships
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceMemberships(query: QueryOptions = {}) {
+      spaceMembershipDeprecationWarning()
+      return http
+        .get('space_memberships', createRequestConfig({ query: query }))
+        .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a User
-   * @param id - User ID
-   * @return Promise for a User
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceUser('id'))
-   * .then((user) => console.log(user))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceUser(id: string) {
-    return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
-  }
+    /**
+     * Creates a Space Membership
+     * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
+     * @param  data - Object representation of the Space Membership to be created
+     * @return Promise for the newly created Space Membership
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createSpaceMembership({
+     *   admin: false,
+     *   roles: [
+     *     {
+     *       type: 'Link',
+     *       linkType: 'Role',
+     *       id: '<role_id>'
+     *     }
+     *   ],
+     *   email: 'foo@example.com'
+     * }))
+     * .then((spaceMembership) => console.log(spaceMembership))
+     * .catch(console.error)
+     * ```
+     */
+    createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>) {
+      spaceMembershipDeprecationWarning()
+      return http
+        .post('space_memberships', data)
+        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Space Membership with a custom ID
+     * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
+     * @param id - Space Membership ID
+     * @param data - Object representation of the Space Membership to be created
+     * @return Promise for the newly created Space Membership
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createSpaceMembershipWithId('<space-membership-id>', {
+     *   admin: false,
+     *   roles: [
+     *     {
+     *       type: 'Link',
+     *       linkType: 'Role',
+     *       id: '<role_id>'
+     *     }
+     *   ],
+     *   email: 'foo@example.com'
+     * }))
+     * .then((spaceMembership) => console.log(spaceMembership))
+     * .catch(console.error)
+     * ```
+     */
+    createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>) {
+      spaceMembershipDeprecationWarning()
+      return http
+        .put('space_memberships/' + id, data)
+        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a collection of Users in a space
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise a collection of Users in a space
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceUsers(query))
-   * .then((data) => console.log(data))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceUsers(query: QueryOptions = {}) {
-    return http
-      .get('users/', createRequestConfig({ query: query }))
-      .then((response) => wrapUserCollection(http, response.data), errorHandler)
-  }
+    /**
+     * Gets a Team Space Membership
+     * @param id - Team Space Membership ID
+     * @return Promise for a Team Space Membership
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getTeamSpaceMembership('team_space_membership_id'))
+     * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
+     * .catch(console.error)
+     * ```
+     */
+    getTeamSpaceMembership(teamSpaceMembershipId: string) {
+      return http
+        .get('team_space_memberships/' + teamSpaceMembershipId)
+        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+    },
 
-  /**
-   * Gets a Space Member
-   * @param id Get Space Member by user_id
-   * @return Promise for a Space Member
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceMember(id))
-   * .then((spaceMember) => console.log(spaceMember))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceMember(id: string) {
-    return http
-      .get('space_members/' + id)
-      .then((response) => wrapSpaceMember(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Space Members
-   * @param query
-   * @return Promise for a collection of Space Members
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceMembers({'limit': 100}))
-   * .then((spaceMemberCollection) => console.log(spaceMemberCollection))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceMembers(query: QueryOptions = {}) {
-    return http
-      .get('space_members', createRequestConfig({ query: query }))
-      .then((response) => wrapSpaceMemberCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Space Membership
-   * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
-   * @param id - Space Membership ID
-   * @return Promise for a Space Membership
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceMembership('id'))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceMembership(id: string) {
-    spaceMembershipDeprecationWarning()
-    return http
-      .get('space_memberships/' + id)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Space Memberships
-   * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise for a collection of Space Memberships
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getSpaceMemberships({'limit': 100})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getSpaceMemberships(query: QueryOptions = {}) {
-    spaceMembershipDeprecationWarning()
-    return http
-      .get('space_memberships', createRequestConfig({ query: query }))
-      .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
-  }
-
-  /**
+    /**
+     * Gets a collection of Team Space Memberships
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of Team Space Memberships
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getTeamSpaceMemberships())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getTeamSpaceMemberships(query: QueryOptions = {}) {
+      return http
+        .get('team_space_memberships', createRequestConfig({ query: query }))
+        .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
+    },
+    /**
    * Creates a Team Space Membership
    * @param id - Team ID
    * @param data - Object representation of the Team Space Membership to be created
@@ -1097,489 +1375,101 @@ export default function createSpaceApi({
    * .catch(console.error)
    * ```
    */
-  function createTeamSpaceMembership(teamId: string, data: Omit<TeamSpaceMembershipProps, 'sys'>) {
-    return http
-      .post('team_space_memberships', data, {
-        headers: {
-          'x-contentful-team': teamId,
-        },
-      })
-      .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Team Space Membership
-   * @param id - Team Space Membership ID
-   * @return Promise for a Team Space Membership
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getTeamSpaceMembership('team_space_membership_id'))
-   * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
-   * .catch(console.error)
-   * ```
-   */
-  function getTeamSpaceMembership(teamSpaceMembershipId: string) {
-    return http
-      .get('team_space_memberships/' + teamSpaceMembershipId)
-      .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Team Space Memberships
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise for a collection of Team Space Memberships
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getTeamSpaceMemberships())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getTeamSpaceMemberships(query: QueryOptions = {}) {
-    return http
-      .get('team_space_memberships', createRequestConfig({ query: query }))
-      .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Space Membership
-   * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
-   * @param  data - Object representation of the Space Membership to be created
-   * @return Promise for the newly created Space Membership
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createSpaceMembership({
-   *   admin: false,
-   *   roles: [
-   *     {
-   *       type: 'Link',
-   *       linkType: 'Role',
-   *       id: '<role_id>'
-   *     }
-   *   ],
-   *   email: 'foo@example.com'
-   * }))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   * ```
-   */
-  function createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>) {
-    spaceMembershipDeprecationWarning()
-    return http
-      .post('space_memberships', data)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Space Membership with a custom ID
-   * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
-   * @param id - Space Membership ID
-   * @param data - Object representation of the Space Membership to be created
-   * @return Promise for the newly created Space Membership
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createSpaceMembershipWithId('<space-membership-id>', {
-   *   admin: false,
-   *   roles: [
-   *     {
-   *       type: 'Link',
-   *       linkType: 'Role',
-   *       id: '<role_id>'
-   *     }
-   *   ],
-   *   email: 'foo@example.com'
-   * }))
-   * .then((spaceMembership) => console.log(spaceMembership))
-   * .catch(console.error)
-   * ```
-   */
-  function createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>) {
-    spaceMembershipDeprecationWarning()
-    return http
-      .put('space_memberships/' + id, data)
-      .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Role
-   * @param id - Role ID
-   * @return Promise for a Role
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createRole({
-   *   fields: {
-   *     title: {
-   *       'en-US': 'Role title'
-   *     }
-   *   }
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-   * ```
-   */
-  function getRole(id: string) {
-    return http.get('roles/' + id).then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Roles
-   * @return Promise for a collection of Roles
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getRoles())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getRoles() {
-    return http
-      .get('roles')
-      .then((response) => wrapRoleCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Role
-   * @param data - Object representation of the Role to be created
-   * @return  Promise for the newly created Role
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createRole({
-   *   name: 'My Role',
-   *   description: 'foobar role',
-   *   permissions: {
-   *     ContentDelivery: 'all',
-   *     ContentModel: ['read'],
-   *     Settings: []
-   *   },
-   *   policies: [
-   *     {
-   *       effect: 'allow',
-   *       actions: 'all',
-   *       constraint: {
-   *         and: [
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Entry'
-   *             ]
-   *           },
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Asset'
-   *             ]
-   *           }
-   *         ]
-   *       }
-   *     }
-   *   ]
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-   * ```
-   */
-  function createRole(data: Omit<RoleProps, 'sys'>) {
-    return http.post('roles', data).then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Role with a custom ID
-   * @param id - Role ID
-   * @param data - Object representation of the Role to be created
-   * @return Promise for the newly created Role
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createRoleWithId('<role-id>', {
-   *   name: 'My Role',
-   *   description: 'foobar role',
-   *   permissions: {
-   *     ContentDelivery: 'all',
-   *     ContentModel: ['read'],
-   *     Settings: []
-   *   },
-   *   policies: [
-   *     {
-   *       effect: 'allow',
-   *       actions: 'all',
-   *       constraint: {
-   *         and: [
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Entry'
-   *             ]
-   *           },
-   *           {
-   *             equals: [
-   *               { doc: 'sys.type' },
-   *               'Asset'
-   *             ]
-   *           }
-   *         ]
-   *       }
-   *     }
-   *   ]
-   * }))
-   * .then((role) => console.log(role))
-   * .catch(console.error)
-   * ```
-   */
-  function createRoleWithId(id: string, data: Omit<RoleProps, 'sys'>) {
-    return http
-      .put('roles/' + id, data)
-      .then((response) => wrapRole(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Api Key
-   * @param id - API Key ID
-   * @return  Promise for a Api Key
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getApiKey('<apikey-id>'))
-   * .then((apikey) => console.log(apikey))
-   * .catch(console.error)
-   * ```
-   */
-  function getApiKey(id: string) {
-    return http
-      .get('api_keys/' + id)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Api Keys
-   * @return Promise for a collection of Api Keys
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getApiKeys())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getApiKeys() {
-    return http
-      .get('api_keys')
-      .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a preview Api Key
-   * @param id - Preview API Key ID
-   * @return  Promise for a Preview Api Key
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getPreviewApiKey('<preview-apikey-id>'))
-   * .then((previewApikey) => console.log(previewApikey))
-   * .catch(console.error)
-   * ```
-   */
-  function getPreviewApiKey(id: string) {
-    return http
-      .get('preview_api_keys/' + id)
-      .then((response) => wrapPreviewApiKey(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of preview Api Keys
-   * @return Promise for a collection of Preview Api Keys
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getPreviewApiKeys())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getPreviewApiKeys() {
-    return http
-      .get('preview_api_keys')
-      .then((response) => wrapPreviewApiKeyCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Api Key with a custom ID
-   * @param id - Api Key ID
-   * @param data - Object representation of the Api Key to be created
-   * @return Promise for the newly created Api Key
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createApiKeyWithId('<api-key-id>', {
-   *   name: 'API Key name'
-   *   environments:[
-   *    {
-   *     sys: {
-   *      type: 'Link'
-   *      linkType: 'Environment',
-   *      id:'<environment_id>'
-   *     }
-   *    }
-   *   ]
-   *   }
-   * }))
-   * .then((apiKey) => console.log(apiKey))
-   * .catch(console.error)
-   * ```
-   */
-  function createApiKeyWithId(id: string, data: CreateApiKeyProps) {
-    return http
-      .put('api_keys/' + id, data)
-      .then((response) => wrapApiKey(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an UI Extension
-   * @deprecated since version 5.0
-   * @param id - UI Extension ID
-   * @return Promise for an UI Extension
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getUiExtension('<extension-id>'))
-   * .then((uiExtension) => console.log(uiExtension))
-   * .catch(console.error)
-   * ```
-   */
-  function getUiExtension(id: string) {
-    raiseDeprecationWarning('getUiExtension')
-    return http
-      .get('extensions/' + id)
-      .then((response) => wrapUiExtension(http, response.data), errorHandler)
-  }
-
-  /*
-   * @private
-   * sdk relies heavily on sys metadata
-   * so we cannot omit the sys property on sdk level
-   *
-   */
-  function normalizeSelect(query: QueryOptions) {
-    if (query.select && !/sys/i.test(query.select)) {
-      query.select += ',sys'
-    }
-  }
-
-  return {
-    delete: deleteSpace,
-    update: updateSpace,
-    getEnvironment,
-    getEnvironments,
-    createEnvironment,
-    createEnvironmentWithId,
-    getContentType,
-    getContentTypes,
-    createContentType,
-    createContentTypeWithId,
-    getEditorInterfaceForContentType,
-    getEntry,
-    getEntries,
-    createEntry,
-    createEntryWithId,
-    getAsset,
-    getAssets,
-    createAsset,
-    createAssetWithId,
-    createAssetFromFiles,
-    getUpload,
-    createUpload,
-    getLocale,
-    getLocales,
-    createLocale,
-    getWebhook,
-    getWebhooks,
-    createWebhook,
-    createWebhookWithId,
-    getRole,
-    getRoles,
-    createRole,
-    createRoleWithId,
-    getSpaceUser,
-    getSpaceUsers,
-    getSpaceMember,
-    getSpaceMembers,
-    getSpaceMembership,
-    getSpaceMemberships,
-    createSpaceMembership,
-    createSpaceMembershipWithId,
-    getTeamSpaceMembership,
-    getTeamSpaceMemberships,
-    createTeamSpaceMembership,
-    getApiKey,
-    getApiKeys,
-    getPreviewApiKeys,
-    getPreviewApiKey,
+    createTeamSpaceMembership(teamId: string, data: Omit<TeamSpaceMembershipProps, 'sys'>) {
+      return http
+        .post('team_space_memberships', data, {
+          headers: {
+            'x-contentful-team': teamId,
+          },
+        })
+        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Api Key
+     * @param id - API Key ID
+     * @return  Promise for a Api Key
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getApiKey('<apikey-id>'))
+     * .then((apikey) => console.log(apikey))
+     * .catch(console.error)
+     * ```
+     */
+    getApiKey(id: string) {
+      return http
+        .get('api_keys/' + id)
+        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Api Keys
+     * @return Promise for a collection of Api Keys
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getApiKeys())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getApiKeys() {
+      return http
+        .get('api_keys')
+        .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of preview Api Keys
+     * @return Promise for a collection of Preview Api Keys
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getPreviewApiKeys())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPreviewApiKeys() {
+      return http
+        .get('preview_api_keys')
+        .then((response) => wrapPreviewApiKeyCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a preview Api Key
+     * @param id - Preview API Key ID
+     * @return  Promise for a Preview Api Key
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getPreviewApiKey('<preview-apikey-id>'))
+     * .then((previewApikey) => console.log(previewApikey))
+     * .catch(console.error)
+     * ```
+     */
+    getPreviewApiKey(id: string) {
+      return http
+        .get('preview_api_keys/' + id)
+        .then((response) => wrapPreviewApiKey(http, response.data), errorHandler)
+    },
     /**
      * Creates a Api Key
      * @param data - Object representation of the Api Key to be created
@@ -1614,8 +1504,65 @@ export default function createSpaceApi({
         .post('api_keys', data)
         .then((response) => wrapApiKey(http, response.data), errorHandler)
     },
-    createApiKeyWithId,
-    getUiExtension,
+    /**
+     * Creates a Api Key with a custom ID
+     * @param id - Api Key ID
+     * @param data - Object representation of the Api Key to be created
+     * @return Promise for the newly created Api Key
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createApiKeyWithId('<api-key-id>', {
+     *   name: 'API Key name'
+     *   environments:[
+     *    {
+     *     sys: {
+     *      type: 'Link'
+     *      linkType: 'Environment',
+     *      id:'<environment_id>'
+     *     }
+     *    }
+     *   ]
+     *   }
+     * }))
+     * .then((apiKey) => console.log(apiKey))
+     * .catch(console.error)
+     * ```
+     */
+    createApiKeyWithId(id: string, data: CreateApiKeyProps) {
+      return http
+        .put('api_keys/' + id, data)
+        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    },
+    /**
+     * Gets an UI Extension
+     * @deprecated since version 5.0
+     * @param id - UI Extension ID
+     * @return Promise for an UI Extension
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getUiExtension('<extension-id>'))
+     * .then((uiExtension) => console.log(uiExtension))
+     * .catch(console.error)
+     * ```
+     */
+    getUiExtension(id: string) {
+      raiseDeprecationWarning('getUiExtension')
+      return http
+        .get('extensions/' + id)
+        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    },
     /**
      * Gets a collection of UI Extension
      * @deprecated since version 5.0
