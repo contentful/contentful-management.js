@@ -70,7 +70,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
 
 function createRoleApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity<Role>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'roles',
       wrapperMethod: wrapRole,

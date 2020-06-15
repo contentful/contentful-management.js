@@ -61,7 +61,7 @@ export interface SpaceMembership
 
 function createSpaceMembershipApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity<SpaceMembership>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'space_memberships',
       wrapperMethod: wrapSpaceMembership,
@@ -80,7 +80,10 @@ function createSpaceMembershipApi(http: AxiosInstance) {
  * @param data - Raw space membership data
  * @return Wrapped space membership data
  */
-export function wrapSpaceMembership(http: AxiosInstance, data: SpaceMembershipProps) {
+export function wrapSpaceMembership(
+  http: AxiosInstance,
+  data: SpaceMembershipProps
+): SpaceMembership {
   const spaceMembership = toPlainObject(cloneDeep(data))
   const spaceMembershipWithMethods = enhanceWithMethods(
     spaceMembership,

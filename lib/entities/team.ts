@@ -73,7 +73,7 @@ const entityPath = 'teams'
  */
 function createTeamApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity<Team>({
+    update: createUpdateEntity({
       http,
       entityPath,
       wrapperMethod: wrapTeam,

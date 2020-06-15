@@ -115,7 +115,7 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
 
 function createAppDefinitionApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity<AppDefinition>({
+    update: createUpdateEntity({
       http,
       entityPath,
       wrapperMethod: wrapAppDefinition,

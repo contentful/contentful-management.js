@@ -91,7 +91,7 @@ function createLocaleApi(http: AxiosInstance) {
     update: function () {
       const self = this as Locale
       delete self.default // we should not send this back
-      return createUpdateEntity<Locale>({
+      return createUpdateEntity({
         http: http,
         entityPath: 'locales',
         wrapperMethod: wrapLocale,

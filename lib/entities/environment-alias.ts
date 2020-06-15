@@ -44,7 +44,7 @@ export interface EnvironmentAlias
 
 function createEnvironmentAliasApi(http: AxiosInstance) {
   return {
-    update: createUpdateEntity<EnvironmentAlias>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'environment_aliases',
       wrapperMethod: wrapEnvironmentAlias,

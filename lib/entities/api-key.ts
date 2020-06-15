@@ -73,7 +73,7 @@ function createApiKeyApi(http: AxiosInstance) {
       if ('policies' in self) {
         delete self.policies
       }
-      const update = createUpdateEntity<ApiKey>({
+      const update = createUpdateEntity({
         http: http,
         entityPath: 'api_keys',
         wrapperMethod: wrapApiKey,

@@ -17,7 +17,7 @@ import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection } from '../common-types'
+import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
 
@@ -196,7 +196,7 @@ export interface ContentType
 
 function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
   return {
-    update: createUpdateEntity<ContentType>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,
@@ -207,13 +207,13 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
       entityPath: 'content_types',
     }),
 
-    publish: createPublishEntity<ContentType>({
+    publish: createPublishEntity({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,
     }),
 
-    unpublish: createUnpublishEntity<ContentType>({
+    unpublish: createUnpublishEntity({
       http: http,
       entityPath: 'content_types',
       wrapperMethod: wrapContentType,
@@ -225,7 +225,7 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
         .then((response) => wrapEditorInterface(http, response.data), errorHandler)
     },
 
-    getSnapshots: function (query = {}) {
+    getSnapshots: function (query: QueryOptions = {}) {
       return http
         .get(`content_types/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
         .then(

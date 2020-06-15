@@ -366,7 +366,7 @@ function createAssetApi(http: AxiosInstance): AssetApi {
   }
 
   return {
-    update: createUpdateEntity<Asset>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
@@ -377,25 +377,25 @@ function createAssetApi(http: AxiosInstance): AssetApi {
       entityPath: 'assets',
     }),
 
-    publish: createPublishEntity<Asset>({
+    publish: createPublishEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    unpublish: createUnpublishEntity<Asset>({
+    unpublish: createUnpublishEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    archive: createArchiveEntity<Asset>({
+    archive: createArchiveEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    unarchive: createUnarchiveEntity<Asset>({
+    unarchive: createUnarchiveEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
