@@ -8,8 +8,14 @@ import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
 
 /**
- * Creates API object with methods to access functionality from Contentful's
- * Management API
+ * Create a client instance
+ * @param params - Client initialization parameters
+ *
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *  accessToken: 'myAccessToken'
+ * })
+ * ```
  */
 export function createClient(params: ClientParams): ClientAPI {
   const http = createCMAHttpClient(params)
