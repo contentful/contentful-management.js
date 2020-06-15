@@ -4,7 +4,7 @@
   "description": "Client for Contentful's Content Management API",
   "homepage": "https://www.contentful.com/developers/documentation/content-management-api/",
   "main": "./dist/contentful-management.node.js",
-  "types": "./typings/generated/contentful-management.d.ts",
+  "types": "./dist/typings/contentful-management.d.ts",
   "module": "./dist/es-modules/contentful-management.js",
   "engines": {
     "node": ">=6"
@@ -22,7 +22,7 @@
     "build:modules": "BABEL_ENV=modules babel --extensions \".ts\" --extensions \".js\" lib -d dist/es-modules/",
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
-    "build:types": "rimraf typings/generated && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
+    "build:types": "rimraf dist/typings && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
     "build:docs": "typedoc",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
@@ -53,8 +53,7 @@
   },
   "files": [
     "dist",
-    "tonic-example.js",
-    "typings"
+    "tonic-example.js"
   ],
   "dependencies": {
     "axios": "^0.19.0",

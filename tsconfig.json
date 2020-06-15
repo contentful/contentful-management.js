@@ -4,7 +4,7 @@
     "moduleResolution": "node",
     "allowJs": true,
     "noEmit": true,
-    "outDir": "./typings/generated",
+    "outDir": "./dist/typings",
     "strict": true,
     "isolatedModules": true,
     "esModuleInterop": true,

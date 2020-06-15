@@ -79,523 +79,12 @@ export default function createSpaceApi({
   const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
 
-  /**
-   * Deletes the space
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   *   .then((space) => space.delete())
-   *   .then(() => console.log('Space deleted.'))
-   *   .catch(console.error)
-   * ```
-   */
-  function deleteSpace() {
-    return http.delete('').then(() => {
-      // do nothing
-    }, errorHandler)
-  }
-
-  /**
-   * Updates the space
-   * @return Promise for the updated space.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => {
-   *   space.name = 'New name'
-   *   return space.update()
-   * })
-   * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
-   * .catch(console.error)
-   * ```
-   */
-  function updateSpace() {
-    const raw = this.toPlainObject()
-    const data = cloneDeep(raw)
-    delete data.sys
-    return http
-      .put('', data, {
-        headers: {
-          'X-Contentful-Version': raw.sys.version,
-        },
-      })
-      .then((response) => wrapSpace(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an environment
-   * @param id - Environment ID
-   * @return Promise for an Environment
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEnvironment('<environement_id>'))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   * ```
-   */
-  function getEnvironment(id: string) {
-    return http
-      .get('environments/' + id)
-      .then((response) => wrapEnvironment(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Environments
-   * @return Promise for a collection of Environment
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEnvironments())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getEnvironments() {
-    return http
-      .get('environments')
-      .then((response) => wrapEnvironmentCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates an Environement
-   * @param data - Object representation of the Environment to be created
-   * @return Promise for the newly created Environment
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createEnvironment({ name: 'Staging' }))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   * ```
-   */
-  function createEnvironment(data = {}) {
-    return http
-      .post('environments', data)
-      .then((response) => wrapEnvironment(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates an Environment with a custom ID
-   * @param id - Environment ID
-   * @param data - Object representation of the Environment to be created
-   * @param sourceEnvironmentId - ID of the source environment that will be copied to create the new environment. Default is "master"
-   * @return Promise for the newly created Environment
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createEnvironmentWithId('<environment-id>', { name: 'Staging'}, 'master'))
-   * .then((environment) => console.log(environment))
-   * .catch(console.error)
-   * ```
-   */
-  function createEnvironmentWithId(
-    id: string,
-    data: Omit<EnvironmentProps, 'sys'>,
-    sourceEnvironmentId?: string
-  ) {
-    return http
-      .put('environments/' + id, data, {
-        headers: sourceEnvironmentId
-          ? { 'X-Contentful-Source-Environment': sourceEnvironmentId }
-          : {},
-      })
-      .then((response) => wrapEnvironment(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a Content Type
-   * @deprecated since version 5.0
-   * @param id - Content Type ID
-   * @return Promise for a Content Type
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<content_type_id>'))
-   * .then((contentType) => console.log(contentType))
-   * .catch(console.error)
-   * ```
-   */
-  function getContentType(id: string) {
-    raiseDeprecationWarning('getContentType')
-    return http
-      .get('content_types/' + id)
-      .then((response) => wrapContentType(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an EditorInterface for a ContentType
-   * @deprecated since version 5.0
-   * @param contentTypeId - Content Type ID
-   * @return Promise for an EditorInterface
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEditorInterfaceForContentType('<content_type_id>'))
-   * .then((EditorInterface) => console.log(EditorInterface))
-   * .catch(console.error)
-   * ```
-   */
-  function getEditorInterfaceForContentType(contentTypeId: string) {
-    raiseDeprecationWarning('getEditorInterfaceForContentType')
-    return http
-      .get('content_types/' + contentTypeId + '/editor_interface')
-      .then((response) => wrapEditorInterface(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Content Types
-   * @deprecated since version 5.0
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise for a collection of Content Types
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getContentTypes())
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getContentTypes(query: QueryOptions = {}) {
-    raiseDeprecationWarning('getContentTypes')
-    return http
-      .get('content_types', createRequestConfig({ query: query }))
-      .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Content Type
-   * @deprecated since version 5.0
-   * @param data - Object representation of the Content Type to be created
-   * @return Promise for the newly created Content Type
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createContentType({
-   *   name: 'Blog Post',
-   *   fields: [
-   *     {
-   *       id: 'title',
-   *       name: 'Title',
-   *       required: true,
-   *       localized: false,
-   *       type: 'Text'
-   *     }
-   *   ]
-   * }))
-   * .then((contentType) => console.log(contentType))
-   * .catch(console.error)
-   * ```
-   */
-  function createContentType(data: Omit<ContentTypeProps, 'sys'>) {
-    raiseDeprecationWarning('createContentType')
-    return http
-      .post('content_types', data)
-      .then((response) => wrapContentType(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Content Type with a custom ID
-   * @deprecated since version 5.0
-   * @param id - Content Type ID
-   * @param data - Object representation of the Content Type to be created
-   * @return Promise for the newly created Content Type
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createContentTypeWithId('<content-type-id>', {
-   *   name: 'Blog Post',
-   *   fields: [
-   *     {
-   *       id: 'title',
-   *       name: 'Title',
-   *       required: true,
-   *       localized: false,
-   *       type: 'Text'
-   *     }
-   *   ]
-   * }))
-   * .then((contentType) => console.log(contentType))
-   * .catch(console.error)
-   * ```
-   */
-  function createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
-    raiseDeprecationWarning('createContentTypeWithId')
-    return http
-      .put('content_types/' + id, data)
-      .then((response) => wrapContentType(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an Entry
-   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-   * from your entry in the backend
-   * @deprecated since version 5.0
-   * @param id - Entry ID
-   * @param query - Object with search parameters. In this method it's only useful for `locale`.
-   * @return Promise for an Entry
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry-id>'))
-   * .then((entry) => console.log(entry))
-   * .catch(console.error)
-   * ```
-   */
-  function getEntry(id: string, query: QueryOptions = {}) {
-    raiseDeprecationWarning('getEntry')
-    normalizeSelect(query)
-    return http
-      .get('entries/' + id, createRequestConfig({ query: query }))
-      .then((response) => wrapEntry(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets a collection of Entries
-   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-   * from your entry in the backend
-   * @deprecated since version 5.0
-   * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-   * @return Promise for a collection of Entries
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
-   * .then((response) => console.log(response.items))
-   * .catch(console.error)
-   * ```
-   */
-  function getEntries(query: QueryOptions = {}) {
-    raiseDeprecationWarning('getEntries')
-    normalizeSelect(query)
-    return http
-      .get('entries', createRequestConfig({ query: query }))
-      .then((response) => wrapEntryCollection(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Entry
-   * @deprecated since version 5.0
-   * @param contentTypeId - The Content Type which this Entry is based on
-   * @param data - Object representation of the Entry to be created
-   * @return Promise for the newly created Entry
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createEntry('<content_type_id>', {
-   *   fields: {
-   *     title: {
-   *       'en-US': 'Entry title'
-   *     }
-   *   }
-   * }))
-   * .then((entry) => console.log(entry))
-   * .catch(console.error)
-   * ```
-   */
-  function createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
-    raiseDeprecationWarning('createEntry')
-    return http
-      .post('entries', data, {
-        headers: {
-          'X-Contentful-Content-Type': contentTypeId,
-        },
-      })
-      .then((response) => wrapEntry(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Entry with a custom ID
-   * @deprecated since version 5.0
-   * @param contentTypeId - The Content Type which this Entry is based on
-   * @param id - Entry ID
-   * @param data - Object representation of the Entry to be created
-   * @return Promise for the newly created Entry
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * // Create entry
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createEntryWithId('<content_type_id>', '<entry_id>', {
-   *   fields: {
-   *     title: {
-   *       'en-US': 'Entry title'
-   *     }
-   *   }
-   * }))
-   * .then((entry) => console.log(entry))
-   * .catch(console.error)
-   * ```
-   */
-  function createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
-    raiseDeprecationWarning('createEntryWithId')
-    return http
-      .put('entries/' + id, data, {
-        headers: {
-          'X-Contentful-Content-Type': contentTypeId,
-        },
-      })
-      .then((response) => wrapEntry(http, response.data), errorHandler)
-  }
-
-  /**
-   * Gets an Asset
-   * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-   * from your entry in the backend
-   * @deprecated since version 5.0
-   * @param id - Asset ID
-   * @param query - Object with search parameters. In this method it's only useful for `locale`.
-   * @return Promise for an Asset
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
-   * .then((asset) => console.log(asset))
-   * .catch(console.error)
-   * ```
-   */
-  function getAsset(id: string, query: QueryOptions = {}) {
-    raiseDeprecationWarning('getAsset')
-    normalizeSelect(query)
-    return http
-      .get('assets/' + id, createRequestConfig({ query: query }))
-      .then((response) => wrapAsset(http, response.data), errorHandler)
-  }
-
-  /**
-   * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-   * @deprecated since version 5.0
-   * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-   * @return Promise for the newly created Asset
-   * @example ```javascript
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * // Create asset
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createAsset({
-   *   fields: {
-   *     title: {
-   *       'en-US': 'Playsam Streamliner'
-   *    },
-   *    file: {
-   *       'en-US': {
-   *         contentType: 'image/jpeg',
-   *        fileName: 'example.jpeg',
-   *        upload: 'https://example.com/example.jpg'
-   *      }
-   *    }
-   *   }
-   * }))
-   * .then((asset) => asset.processForLocale("en-US")) // OR asset.processForAllLocales()
-   * .then((asset) => console.log(asset))
-   * .catch(console.error)
-   * ```
-   */
   function createAsset(data: Omit<AssetProps, 'sys'>) {
     return http
       .post('assets', data)
       .then((response) => wrapAsset(http, response.data), errorHandler)
   }
 
-  /**
-   * Creates a Upload.
-   * @deprecated since version 5.0
-   * @param data - Object with file information.
-   * @param data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
-   * @return Upload object containing information about the uploaded file.
-   * @example ```javascript
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   * const uploadStream = createReadStream('path/to/filename_english.jpg')
-   * client.getSpace('<space_id>')
-   * .then((space) => space.createUpload({file: uploadStream, 'image/png'})
-   * .then((upload) => console.log(upload))
-   * .catch(console.error)
-   * ```
-   */
   function createUpload(data: { file: string | ArrayBuffer | Stream }) {
     raiseDeprecationWarning('createUpload')
     const { file } = data
@@ -627,23 +116,508 @@ export default function createSpaceApi({
   }
 
   return {
+    /**
+     * Deletes the space
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.delete())
+     *   .then(() => console.log('Space deleted.'))
+     *   .catch(console.error)
+     * ```
+     */
+    delete: function deleteSpace() {
+      return http.delete('').then(() => {
+        // do nothing
+      }, errorHandler)
+    },
+    /**
+     * Updates the space
+     * @return Promise for the updated space.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => {
+     *   space.name = 'New name'
+     *   return space.update()
+     * })
+     * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
+     * .catch(console.error)
+     * ```
+     */
+    update: function updateSpace() {
+      const raw = this.toPlainObject()
+      const data = cloneDeep(raw)
+      delete data.sys
+      return http
+        .put('', data, {
+          headers: {
+            'X-Contentful-Version': raw.sys.version,
+          },
+        })
+        .then((response) => wrapSpace(http, response.data), errorHandler)
+    },
+    /**
+     * Gets an environment
+     * @param id - Environment ID
+     * @return Promise for an Environment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environement_id>'))
+     * .then((environment) => console.log(environment))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironment(id: string) {
+      return http
+        .get('environments/' + id)
+        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    },
+
+    /**
+     * Gets a collection of Environments
+     * @return Promise for a collection of Environment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironments())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironments() {
+      return http
+        .get('environments')
+        .then((response) => wrapEnvironmentCollection(http, response.data), errorHandler)
+    },
+
+    /**
+     * Creates an Environement
+     * @param data - Object representation of the Environment to be created
+     * @return Promise for the newly created Environment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEnvironment({ name: 'Staging' }))
+     * .then((environment) => console.log(environment))
+     * .catch(console.error)
+     * ```
+     */
+    createEnvironment(data = {}) {
+      return http
+        .post('environments', data)
+        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    },
+
+    /**
+     * Creates an Environment with a custom ID
+     * @param id - Environment ID
+     * @param data - Object representation of the Environment to be created
+     * @param sourceEnvironmentId - ID of the source environment that will be copied to create the new environment. Default is "master"
+     * @return Promise for the newly created Environment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEnvironmentWithId('<environment-id>', { name: 'Staging'}, 'master'))
+     * .then((environment) => console.log(environment))
+     * .catch(console.error)
+     * ```
+     */
+    createEnvironmentWithId(
+      id: string,
+      data: Omit<EnvironmentProps, 'sys'>,
+      sourceEnvironmentId?: string
+    ) {
+      return http
+        .put('environments/' + id, data, {
+          headers: sourceEnvironmentId
+            ? { 'X-Contentful-Source-Environment': sourceEnvironmentId }
+            : {},
+        })
+        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a Content Type
+     * @deprecated since version 5.0
+     * @param id - Content Type ID
+     * @return Promise for a Content Type
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getContentType('<content_type_id>'))
+     * .then((contentType) => console.log(contentType))
+     * .catch(console.error)
+     * ```
+     */
+    getContentType(id: string) {
+      raiseDeprecationWarning('getContentType')
+      return http
+        .get('content_types/' + id)
+        .then((response) => wrapContentType(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Content Types
+     * @deprecated since version 5.0
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of Content Types
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getContentTypes())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getContentTypes(query: QueryOptions = {}) {
+      raiseDeprecationWarning('getContentTypes')
+      return http
+        .get('content_types', createRequestConfig({ query: query }))
+        .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
+    },
+
+    /**
+     * Creates a Content Type
+     * @deprecated since version 5.0
+     * @param data - Object representation of the Content Type to be created
+     * @return Promise for the newly created Content Type
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createContentType({
+     *   name: 'Blog Post',
+     *   fields: [
+     *     {
+     *       id: 'title',
+     *       name: 'Title',
+     *       required: true,
+     *       localized: false,
+     *       type: 'Text'
+     *     }
+     *   ]
+     * }))
+     * .then((contentType) => console.log(contentType))
+     * .catch(console.error)
+     * ```
+     */
+    createContentType(data: Omit<ContentTypeProps, 'sys'>) {
+      raiseDeprecationWarning('createContentType')
+      return http
+        .post('content_types', data)
+        .then((response) => wrapContentType(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Content Type with a custom ID
+     * @deprecated since version 5.0
+     * @param id - Content Type ID
+     * @param data - Object representation of the Content Type to be created
+     * @return Promise for the newly created Content Type
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createContentTypeWithId('<content-type-id>', {
+     *   name: 'Blog Post',
+     *   fields: [
+     *     {
+     *       id: 'title',
+     *       name: 'Title',
+     *       required: true,
+     *       localized: false,
+     *       type: 'Text'
+     *     }
+     *   ]
+     * }))
+     * .then((contentType) => console.log(contentType))
+     * .catch(console.error)
+     * ```
+     */
+    createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
+      raiseDeprecationWarning('createContentTypeWithId')
+      return http
+        .put('content_types/' + id, data)
+        .then((response) => wrapContentType(http, response.data), errorHandler)
+    },
+
+    /**
+     * Gets an EditorInterface for a ContentType
+     * @deprecated since version 5.0
+     * @param contentTypeId - Content Type ID
+     * @return Promise for an EditorInterface
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEditorInterfaceForContentType('<content_type_id>'))
+     * .then((EditorInterface) => console.log(EditorInterface))
+     * .catch(console.error)
+     * ```
+     */
+    getEditorInterfaceForContentType(contentTypeId: string) {
+      raiseDeprecationWarning('getEditorInterfaceForContentType')
+      return http
+        .get('content_types/' + contentTypeId + '/editor_interface')
+        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
+    },
+    /**
+     * Gets an Entry
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @deprecated since version 5.0
+     * @param id - Entry ID
+     * @param query - Object with search parameters. In this method it's only useful for `locale`.
+     * @return Promise for an Entry
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEntry('<entry-id>'))
+     * .then((entry) => console.log(entry))
+     * .catch(console.error)
+     * ```
+     */
+    getEntry(id: string, query: QueryOptions = {}) {
+      raiseDeprecationWarning('getEntry')
+      normalizeSelect(query)
+      return http
+        .get('entries/' + id, createRequestConfig({ query: query }))
+        .then((response) => wrapEntry(http, response.data), errorHandler)
+    },
+    /**
+     * Gets a collection of Entries
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @deprecated since version 5.0
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEntries(query: QueryOptions = {}) {
+      raiseDeprecationWarning('getEntries')
+      normalizeSelect(query)
+      return http
+        .get('entries', createRequestConfig({ query: query }))
+        .then((response) => wrapEntryCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Entry
+     * @deprecated since version 5.0
+     * @param contentTypeId - The Content Type which this Entry is based on
+     * @param data - Object representation of the Entry to be created
+     * @return Promise for the newly created Entry
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEntry('<content_type_id>', {
+     *   fields: {
+     *     title: {
+     *       'en-US': 'Entry title'
+     *     }
+     *   }
+     * }))
+     * .then((entry) => console.log(entry))
+     * .catch(console.error)
+     * ```
+     */
+    createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
+      raiseDeprecationWarning('createEntry')
+      return http
+        .post('entries', data, {
+          headers: {
+            'X-Contentful-Content-Type': contentTypeId,
+          },
+        })
+        .then((response) => wrapEntry(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Entry with a custom ID
+     * @deprecated since version 5.0
+     * @param contentTypeId - The Content Type which this Entry is based on
+     * @param id - Entry ID
+     * @param data - Object representation of the Entry to be created
+     * @return Promise for the newly created Entry
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Create entry
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEntryWithId('<content_type_id>', '<entry_id>', {
+     *   fields: {
+     *     title: {
+     *       'en-US': 'Entry title'
+     *     }
+     *   }
+     * }))
+     * .then((entry) => console.log(entry))
+     * .catch(console.error)
+     * ```
+     */
+    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
+      raiseDeprecationWarning('createEntryWithId')
+      return http
+        .put('entries/' + id, data, {
+          headers: {
+            'X-Contentful-Content-Type': contentTypeId,
+          },
+        })
+        .then((response) => wrapEntry(http, response.data), errorHandler)
+    },
+    /**
+     * Creates a Upload.
+     * @deprecated since version 5.0
+     * @param data - Object with file information.
+     * @param data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
+     * @return Upload object containing information about the uploaded file.
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const uploadStream = createReadStream('path/to/filename_english.jpg')
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createUpload({file: uploadStream, 'image/png'})
+     * .then((upload) => console.log(upload))
+     * .catch(console.error)
+     * ```
+     */
     createUpload,
-    delete: deleteSpace,
-    update: updateSpace,
-    getEnvironment,
-    getEnvironments,
-    createEnvironment,
-    createEnvironmentWithId,
-    getContentType,
-    getContentTypes,
-    createContentType,
-    createContentTypeWithId,
-    getEditorInterfaceForContentType,
-    getEntry,
-    getEntries,
-    createEntry,
-    createEntryWithId,
-    getAsset,
+    /**
+     * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
+     * @deprecated since version 5.0
+     * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
+     * @return Promise for the newly created Asset
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Create asset
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createAsset({
+     *   fields: {
+     *     title: {
+     *       'en-US': 'Playsam Streamliner'
+     *    },
+     *    file: {
+     *       'en-US': {
+     *         contentType: 'image/jpeg',
+     *        fileName: 'example.jpeg',
+     *        upload: 'https://example.com/example.jpg'
+     *      }
+     *    }
+     *   }
+     * }))
+     * .then((asset) => asset.processForLocale("en-US")) // OR asset.processForAllLocales()
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     * ```
+     */
+    createAsset,
+    /**
+     * Gets an Asset
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @deprecated since version 5.0
+     * @param id - Asset ID
+     * @param query - Object with search parameters. In this method it's only useful for `locale`.
+     * @return Promise for an Asset
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getAsset('<asset_id>'))
+     * .then((asset) => console.log(asset))
+     * .catch(console.error)
+     * ```
+     */
+    getAsset(id: string, query: QueryOptions = {}) {
+      raiseDeprecationWarning('getAsset')
+      normalizeSelect(query)
+      return http
+        .get('assets/' + id, createRequestConfig({ query: query }))
+        .then((response) => wrapAsset(http, response.data), errorHandler)
+    },
     /**
      * Gets a collection of Assets
      * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
@@ -671,7 +645,6 @@ export default function createSpaceApi({
         .get('assets', createRequestConfig({ query: query }))
         .then((response) => wrapAssetCollection(http, response.data), errorHandler)
     },
-    createAsset,
     /**
      * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @deprecated since version 5.0
