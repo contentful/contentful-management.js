@@ -23,7 +23,7 @@ function createPreviewApiKeyApi() {
  * @param data - Raw api key data
  * @return Wrapped preview api key data
  */
-export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps) {
+export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps): PreviewApiKey {
   const previewApiKey = toPlainObject(cloneDeep(data))
   const previewApiKeyWithMethods = enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())
   return freezeSys(previewApiKeyWithMethods)

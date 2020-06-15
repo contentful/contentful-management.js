@@ -111,7 +111,7 @@ function createLocaleApi(http: AxiosInstance) {
  * @param data - Raw locale data
  * @return Wrapped locale data
  */
-export function wrapLocale(http: AxiosInstance, data: LocaleProps) {
+export function wrapLocale(http: AxiosInstance, data: LocaleProps): Locale {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete data.internal_code

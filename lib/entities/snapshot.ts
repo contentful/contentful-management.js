@@ -26,7 +26,7 @@ function createSnapshotApi() {
  * @param data - Raw snapshot data
  * @return Wrapped snapshot data
  */
-export function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProps<T>) {
+export function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProps<T>): Snapshot<T> {
   const snapshot = toPlainObject(cloneDeep(data))
   const snapshotWithMethods = enhanceWithMethods(snapshot, createSnapshotApi())
   return freezeSys(snapshotWithMethods)

@@ -38,7 +38,7 @@ export type Environment = ContentfulEnvironmentAPI &
  * @param data - API response for a Environment
  * @return
  */
-export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps) {
+export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): Environment {
   // do not pollute generated typings
   const sdkHttp = http as SdkHttpClient
   const environment = toPlainObject(cloneDeep(data))

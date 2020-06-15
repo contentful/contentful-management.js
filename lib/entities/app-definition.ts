@@ -134,7 +134,7 @@ function createAppDefinitionApi(http: AxiosInstance) {
  * @param data - Raw App Definition data
  * @return Wrapped App Definition data
  */
-export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps) {
+export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps): AppDefinition {
   const appDefinition = toPlainObject(cloneDeep(data))
   const appDefinitionWithMethods = enhanceWithMethods(appDefinition, createAppDefinitionApi(http))
   return freezeSys(appDefinitionWithMethods)

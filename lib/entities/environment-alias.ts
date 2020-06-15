@@ -58,7 +58,10 @@ function createEnvironmentAliasApi(http: AxiosInstance) {
  * @param data - Raw environment alias data
  * @return Wrapped environment alias data
  */
-export function wrapEnvironmentAlias(http: AxiosInstance, data: EnvironmentAliasProps) {
+export function wrapEnvironmentAlias(
+  http: AxiosInstance,
+  data: EnvironmentAliasProps
+): EnvironmentAlias {
   const alias = toPlainObject(cloneDeep(data))
   const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(http))
   return freezeSys(enhancedAlias)

@@ -100,7 +100,10 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
  * @param {Object} data - Raw organization membership data
  * @return {OrganizationMembership} Wrapped organization membership data
  */
-export function wrapOrganizationMembership(http: AxiosInstance, data: OrganizationMembershipProps) {
+export function wrapOrganizationMembership(
+  http: AxiosInstance,
+  data: OrganizationMembershipProps
+): OrganizationMembership {
   const organizationMembership = toPlainObject(cloneDeep(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,

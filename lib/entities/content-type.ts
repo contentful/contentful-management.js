@@ -285,7 +285,7 @@ const findAndUpdateField = function (
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(http: AxiosInstance, data: ContentTypeProps) {
+export function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(cloneDeep(data))
   const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
   return freezeSys(contentTypeWithMethods)

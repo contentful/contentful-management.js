@@ -421,7 +421,7 @@ function createAssetApi(http: AxiosInstance): AssetApi {
  * @param data - Raw asset data
  * @return Wrapped asset data
  */
-export function wrapAsset(http: AxiosInstance, data: AssetProps) {
+export function wrapAsset(http: AxiosInstance, data: AssetProps): Asset {
   const asset = toPlainObject(cloneDeep(data))
   const assetWithMethods = enhanceWithMethods(asset, createAssetApi(http))
   return freezeSys(assetWithMethods)

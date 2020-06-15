@@ -270,7 +270,7 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(http: AxiosInstance, data: EntryProp) {
+export function wrapEntry(http: AxiosInstance, data: EntryProp): Entry {
   const entry = toPlainObject(cloneDeep(data))
   const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
   return freezeSys(entryWithMethods)

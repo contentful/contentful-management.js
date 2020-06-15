@@ -89,7 +89,7 @@ function createRoleApi(http: AxiosInstance) {
  * @param data - Raw role data
  * @return Wrapped role data
  */
-export function wrapRole(http: AxiosInstance, data: RoleProps) {
+export function wrapRole(http: AxiosInstance, data: RoleProps): Role {
   const role = toPlainObject(cloneDeep(data))
   const roleWithMethods = enhanceWithMethods(role, createRoleApi(http))
   return freezeSys(roleWithMethods)

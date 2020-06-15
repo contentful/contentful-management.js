@@ -88,7 +88,10 @@ function createAppInstallationApi(http: AxiosInstance) {
  * @param data - Raw App Installation data
  * @return Wrapped App installation data
  */
-export function wrapAppInstallation(http: AxiosInstance, data: AppInstallationProps) {
+export function wrapAppInstallation(
+  http: AxiosInstance,
+  data: AppInstallationProps
+): AppInstallation {
   const appInstallation = toPlainObject(cloneDeep(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
