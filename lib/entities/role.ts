@@ -13,13 +13,15 @@ export type RoleProps = {
    * Permissions for application sections
    */
   permissions: {
-    ContentDelivery: string
+    ContentDelivery: string[] | string
     ContentModel: string[]
-    Settings: any[]
+    EnvironmentAliases: string[] | string
+    Environment: string
+    Settings: any[] | string
   }
   policies: {
     effect: string
-    actions: string
+    actions: string[] | string
     constraint: any
   }[]
 }
