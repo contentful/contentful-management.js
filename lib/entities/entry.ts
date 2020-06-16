@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -15,14 +16,8 @@ import {
   createArchivedChecker,
 } from '../instance-actions'
 import errorHandler from '../error-handler'
-import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps } from './snapshot'
-import {
-  MetaSysProps,
-  MetaLinkProps,
-  DefaultElements,
-  Collection,
-  CollectionProp,
-} from '../common-types'
+import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
+import { MetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types'
 
 export interface EntrySys extends MetaSysProps {
   contentType: { sys: MetaLinkProps }
@@ -171,7 +166,7 @@ type EntryApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<SnapshotProps<EntryProp>>
+  getSnapshot(id: string): Promise<Snapshot<EntryProp>>
   /**
    * Gets all snapshots of an entry
    * @example ```javascript
@@ -188,7 +183,7 @@ type EntryApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshots(): Promise<Collection<SnapshotProps<EntryProp>>>
+  getSnapshots(): Promise<Collection<Snapshot<EntryProp>, SnapshotProps<EntryProp>>>
   /**
    * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
    */
@@ -275,21 +270,14 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(http: AxiosInstance, data: EntryProp) {
+export function wrapEntry(http: AxiosInstance, data: EntryProp): Entry {
   const entry = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(entry, createEntryApi(http))
-  return freezeSys(entry)
+  const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
+  return freezeSys(entryWithMethods)
 }
 
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
  * @private
- * @param http - HTTP client instance
- * @param data - Raw entry collection data
- * @return Wrapped entry collection data
  */
-export function wrapEntryCollection(http: AxiosInstance, data: CollectionProp<EntryProp>) {
-  const entries = toPlainObject(cloneDeep(data))
-  entries.items = entries.items.map((entity) => wrapEntry(http, entity))
-  return freezeSys(entries)
-}
+export const wrapEntryCollection = wrapCollection(wrapEntry)

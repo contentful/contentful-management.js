@@ -4,7 +4,8 @@ import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements } from '../common-types'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -365,7 +366,7 @@ function createAssetApi(http: AxiosInstance): AssetApi {
   }
 
   return {
-    update: createUpdateEntity<Asset>({
+    update: createUpdateEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
@@ -376,25 +377,25 @@ function createAssetApi(http: AxiosInstance): AssetApi {
       entityPath: 'assets',
     }),
 
-    publish: createPublishEntity<Asset>({
+    publish: createPublishEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    unpublish: createUnpublishEntity<Asset>({
+    unpublish: createUnpublishEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    archive: createArchiveEntity<Asset>({
+    archive: createArchiveEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
     }),
 
-    unarchive: createUnarchiveEntity<Asset>({
+    unarchive: createUnarchiveEntity({
       http: http,
       entityPath: 'assets',
       wrapperMethod: wrapAsset,
@@ -420,20 +421,13 @@ function createAssetApi(http: AxiosInstance): AssetApi {
  * @param data - Raw asset data
  * @return Wrapped asset data
  */
-export function wrapAsset(http: AxiosInstance, data: AssetProps) {
+export function wrapAsset(http: AxiosInstance, data: AssetProps): Asset {
   const asset = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(asset, createAssetApi(http))
-  return freezeSys(asset)
+  const assetWithMethods = enhanceWithMethods(asset, createAssetApi(http))
+  return freezeSys(assetWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw asset collection data
- * @return Wrapped asset collection data
  */
-export function wrapAssetCollection(http: AxiosInstance, data: CollectionProp<AssetProps>) {
-  const assets = toPlainObject(cloneDeep(data))
-  assets.items = assets.items.map((entity) => wrapAsset(http, entity))
-  return freezeSys(assets)
-}
+export const wrapAssetCollection = wrapCollection(wrapAsset)

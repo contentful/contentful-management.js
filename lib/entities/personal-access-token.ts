@@ -1,9 +1,10 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { AxiosInstance } from 'axios'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type PersonalAccessTokenProp = {
   sys: MetaSysProps
@@ -55,10 +56,16 @@ function createPersonalAccessToken(http: AxiosInstance) {
  * @param data - Raw  personal access token data
  * @return Wrapped personal access token
  */
-export function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAccessTokenProp) {
+export function wrapPersonalAccessToken(
+  http: AxiosInstance,
+  data: PersonalAccessTokenProp
+): PersonalAccessToken {
   const personalAccessToken = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(personalAccessToken, createPersonalAccessToken(http))
-  return freezeSys(personalAccessToken)
+  const personalAccessTokenWithMethods = enhanceWithMethods(
+    personalAccessToken,
+    createPersonalAccessToken(http)
+  )
+  return freezeSys(personalAccessTokenWithMethods)
 }
 
 /**
@@ -67,13 +74,4 @@ export function wrapPersonalAccessToken(http: AxiosInstance, data: PersonalAcces
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */
-export function wrapPersonalAccessTokenCollection(
-  http: AxiosInstance,
-  data: CollectionProp<PersonalAccessTokenProp>
-) {
-  const personalAccessTokens = toPlainObject(cloneDeep(data))
-  personalAccessTokens.items = personalAccessTokens.items.map((entity) =>
-    wrapPersonalAccessToken(http, entity)
-  )
-  return freezeSys(personalAccessTokens)
-}
+export const wrapPersonalAccessTokenCollection = wrapCollection(wrapPersonalAccessToken)

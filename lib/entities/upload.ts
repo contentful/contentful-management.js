@@ -49,6 +49,6 @@ function createUploadApi(http: AxiosInstance) {
  */
 export function wrapUpload(http: AxiosInstance, data: UploadProps) {
   const upload = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(upload, createUploadApi(http))
-  return freezeSys(upload)
+  const uploadWithMethods = enhanceWithMethods(upload, createUploadApi(http))
+  return freezeSys(uploadWithMethods)
 }

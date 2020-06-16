@@ -1,11 +1,14 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-// eslint-disable-next-line
-// @ts-ignore
-import createOrganizationApi from '../create-organization-api'
-import { AxiosInstance } from 'axios'
-import { MetaSysProps, CollectionProp } from '../common-types'
+import createOrganizationApi, { ContentfulOrganizationAPI } from '../create-organization-api'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
+
+export type Organization = DefaultElements<OrganizationProp> &
+  OrganizationProp &
+  ContentfulOrganizationAPI
 
 export type OrganizationProp = {
   /**
@@ -28,7 +31,7 @@ export type OrganizationProp = {
  * @param data - API response for an Organization
  * @return {Organization}
  */
-export function wrapOrganization(http: AxiosInstance, data: OrganizationProp) {
+export function wrapOrganization(http: AxiosInstance, data: OrganizationProp): Organization {
   const org = toPlainObject(cloneDeep(data))
   const baseURL =
     (http.defaults.baseURL || '').replace('/spaces/', '/organizations/') + org.sys.id + '/'
@@ -45,15 +48,5 @@ export function wrapOrganization(http: AxiosInstance, data: OrganizationProp) {
 /**
  * This method normalizes each organization in a collection.
  * @private
- * @param http - HTTP client instance
- * @param data - Raw organization collection data
- * @return {OrganizationCollection} Normalized organization collection data
  */
-export function wrapOrganizationCollection(
-  http: AxiosInstance,
-  data: CollectionProp<OrganizationProp>
-) {
-  const organizations = toPlainObject(cloneDeep(data))
-  organizations.items = organizations.items.map((entity) => wrapOrganization(http, entity))
-  return freezeSys(organizations)
-}
+export const wrapOrganizationCollection = wrapCollection(wrapOrganization)

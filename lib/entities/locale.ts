@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
 
@@ -110,23 +111,16 @@ function createLocaleApi(http: AxiosInstance) {
  * @param data - Raw locale data
  * @return Wrapped locale data
  */
-export function wrapLocale(http: AxiosInstance, data: LocaleProps) {
+export function wrapLocale(http: AxiosInstance, data: LocaleProps): Locale {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete data.internal_code
   const locale = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(locale, createLocaleApi(http))
-  return freezeSys(locale)
+  const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(http))
+  return freezeSys(localeWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw locale collection data
- * @return Wrapped locale collection data
  */
-export function wrapLocaleCollection(http: AxiosInstance, data: CollectionProp<LocaleProps>) {
-  const locales = toPlainObject(cloneDeep(data))
-  locales.items = locales.items.map((entity) => wrapLocale(http, entity))
-  return freezeSys(locales)
-}
+export const wrapLocaleCollection = wrapCollection(wrapLocale)

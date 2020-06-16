@@ -1,10 +1,11 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createDeleteEntity } from '../instance-actions'
-import { AxiosInstance } from 'axios'
-import { MetaSysProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, DefaultElements } from '../common-types'
 
 export type OrganizationMembershipProps = {
   /**
@@ -99,25 +100,19 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
  * @param {Object} data - Raw organization membership data
  * @return {OrganizationMembership} Wrapped organization membership data
  */
-export function wrapOrganizationMembership(http: AxiosInstance, data: OrganizationMembershipProps) {
+export function wrapOrganizationMembership(
+  http: AxiosInstance,
+  data: OrganizationMembershipProps
+): OrganizationMembership {
   const organizationMembership = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(organizationMembership, createOrganizationMembershipApi(http))
-  return freezeSys(organizationMembership)
+  const organizationMembershipWithMethods = enhanceWithMethods(
+    organizationMembership,
+    createOrganizationMembershipApi(http)
+  )
+  return freezeSys(organizationMembershipWithMethods)
 }
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw organization membership collection data
- * @return {OrganizationMembershipCollection} Wrapped organization membership collection data
  */
-export function wrapOrganizationMembershipCollection(
-  http: AxiosInstance,
-  data: CollectionProp<OrganizationMembershipProps>
-) {
-  const organizationMemberships = toPlainObject(cloneDeep(data))
-  organizationMemberships.items = organizationMemberships.items.map((entity) =>
-    wrapOrganizationMembership(http, entity)
-  )
-  return freezeSys(organizationMemberships)
-}
+export const wrapOrganizationMembershipCollection = wrapCollection(wrapOrganizationMembership)

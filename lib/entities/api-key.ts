@@ -3,20 +3,17 @@ import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import {
-  MetaSys,
-  MetaLinkProps,
-  MetaSysProps,
-  CollectionProp,
-  DefaultElements,
-} from '../common-types'
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
+import { wrapCollection } from '../common-utils'
 
 export type ApiKeyProps = {
   sys: MetaSysProps
   name: string
   accessToken: string
-  environments: MetaSys<MetaLinkProps>[]
-  preview_api_key: MetaSys<MetaLinkProps>
+  environments: {
+    sys: MetaLinkProps
+  }[]
+  preview_api_key: { sys: MetaLinkProps }
   description?: string
   policies?: { effect: string; action: string }[]
 }
@@ -76,7 +73,7 @@ function createApiKeyApi(http: AxiosInstance) {
       if ('policies' in self) {
         delete self.policies
       }
-      const update = createUpdateEntity<ApiKey>({
+      const update = createUpdateEntity({
         http: http,
         entityPath: 'api_keys',
         wrapperMethod: wrapApiKey,
@@ -108,8 +105,4 @@ export function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiKey {
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */
-export function wrapApiKeyCollection(http: AxiosInstance, data: CollectionProp<ApiKeyProps>) {
-  const apiKeys = toPlainObject(cloneDeep(data))
-  apiKeys.items = apiKeys.items.map((entity) => wrapApiKey(http, entity))
-  return freezeSys(apiKeys)
-}
+export const wrapApiKeyCollection = wrapCollection(wrapApiKey)

@@ -26,7 +26,10 @@ export interface OrganizationInvitation
  * @param data - Raw invitation data
  * @return {OrganizationInvitation} Wrapped Inviation data
  */
-export function wrapOrganizationInvitation(http: AxiosInstance, data: OrganizationInvitationProps) {
+export function wrapOrganizationInvitation(
+  http: AxiosInstance,
+  data: OrganizationInvitationProps
+): OrganizationInvitation {
   const invitation = toPlainObject(cloneDeep(data))
   return freezeSys(invitation)
 }
