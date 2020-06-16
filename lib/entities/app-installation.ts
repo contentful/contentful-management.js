@@ -4,7 +4,8 @@ import cloneDeep from 'lodash/cloneDeep'
 import errorHandler from '../error-handler'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, MetaLinkProps, DefaultElements, CollectionProp } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 
 export type AppInstallationProps = {
   sys: MetaSysProps & {
@@ -87,7 +88,10 @@ function createAppInstallationApi(http: AxiosInstance) {
  * @param data - Raw App Installation data
  * @return Wrapped App installation data
  */
-export function wrapAppInstallation(http: AxiosInstance, data: AppInstallationProps) {
+export function wrapAppInstallation(
+  http: AxiosInstance,
+  data: AppInstallationProps
+): AppInstallation {
   const appInstallation = toPlainObject(cloneDeep(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
@@ -98,17 +102,5 @@ export function wrapAppInstallation(http: AxiosInstance, data: AppInstallationPr
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw App installation collection data
- * @return Wrapped App installation collection data
  */
-export function wrapAppInstallationCollection(
-  http: AxiosInstance,
-  data: CollectionProp<AppInstallationProps>
-) {
-  const appInstallations = toPlainObject(cloneDeep(data))
-  appInstallations.items = appInstallations.items.map((appInstallationEntity) =>
-    wrapAppInstallation(http, appInstallationEntity)
-  )
-  return freezeSys(appInstallations)
-}
+export const wrapAppInstallationCollection = wrapCollection(wrapAppInstallation)

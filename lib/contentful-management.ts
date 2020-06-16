@@ -4,8 +4,8 @@
  * @packageDocumentation
  */
 
-import createContentfulApi from './create-contentful-api'
-import { createCMAHttpClient } from './create-cma-http-client'
+import createContentfulApi, { ClientAPI } from './create-contentful-api'
+import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
 
 /**
  * Create a client instance
@@ -17,7 +17,7 @@ import { createCMAHttpClient } from './create-cma-http-client'
  * })
  * ```
  */
-export function createClient(params) {
+export function createClient(params: ClientParams): ClientAPI {
   const http = createCMAHttpClient(params)
   const api = createContentfulApi({
     http: http,

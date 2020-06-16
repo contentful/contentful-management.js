@@ -5,11 +5,12 @@ import type { MetaSysProps, DefaultElements } from './common-types'
 import errorHandler from './error-handler'
 
 type ThisContext = { sys: MetaSysProps } & DefaultElements<{ sys: MetaSysProps }>
+type WrapperMethod<E, A extends AxiosInstance = AxiosInstance> = (http: A, data: any) => E
 
 /**
  * @private
  */
-export function createUpdateEntity<T = unknown>({
+export function createUpdateEntity<T>({
   http,
   entityPath,
   wrapperMethod,
@@ -17,7 +18,7 @@ export function createUpdateEntity<T = unknown>({
 }: {
   http: AxiosInstance
   entityPath: string
-  wrapperMethod: Function
+  wrapperMethod: WrapperMethod<T>
   headers?: Record<string, unknown>
 }): () => Promise<T> {
   return function () {
@@ -57,14 +58,14 @@ export function createDeleteEntity({
 /**
  * @private
  */
-export function createPublishEntity<T = unknown>({
+export function createPublishEntity<T>({
   http,
   entityPath,
   wrapperMethod,
 }: {
   http: AxiosInstance
   entityPath: string
-  wrapperMethod: Function
+  wrapperMethod: WrapperMethod<T>
 }) {
   return function () {
     const self = this as ThisContext
@@ -81,14 +82,14 @@ export function createPublishEntity<T = unknown>({
 /**
  * @private
  */
-export function createUnpublishEntity<T = unknown>({
+export function createUnpublishEntity<T>({
   http,
   entityPath,
   wrapperMethod,
 }: {
   http: AxiosInstance
   entityPath: string
-  wrapperMethod: Function
+  wrapperMethod: WrapperMethod<T>
 }) {
   return function () {
     const self = this as ThisContext
@@ -101,14 +102,14 @@ export function createUnpublishEntity<T = unknown>({
 /**
  * @private
  */
-export function createArchiveEntity<T = unknown>({
+export function createArchiveEntity<T>({
   http,
   entityPath,
   wrapperMethod,
 }: {
   http: AxiosInstance
   entityPath: string
-  wrapperMethod: Function
+  wrapperMethod: WrapperMethod<T>
 }) {
   return function () {
     const self = this as ThisContext
@@ -121,14 +122,14 @@ export function createArchiveEntity<T = unknown>({
 /**
  * @private
  */
-export function createUnarchiveEntity<T = unknown>({
+export function createUnarchiveEntity<T>({
   http,
   entityPath,
   wrapperMethod,
 }: {
   http: AxiosInstance
   entityPath: string
-  wrapperMethod: Function
+  wrapperMethod: WrapperMethod<T>
 }) {
   return function () {
     const self = this

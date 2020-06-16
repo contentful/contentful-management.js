@@ -2,6 +2,7 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
   createDeleteEntity,
@@ -13,10 +14,10 @@ import {
 } from '../instance-actions'
 import { wrapEditorInterface } from './editor-interface'
 import errorHandler from '../error-handler'
-import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection, CollectionProp } from '../common-types'
+import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
 
@@ -185,7 +186,7 @@ type ContentTypeApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshots(): Promise<Collection<SnapshotProps<ContentTypeProps>>>
+  getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
 export interface ContentType
@@ -224,7 +225,7 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
         .then((response) => wrapEditorInterface(http, response.data), errorHandler)
     },
 
-    getSnapshots: function (query = {}) {
+    getSnapshots: function (query: QueryOptions = {}) {
       return http
         .get(`content_types/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
         .then(
@@ -284,23 +285,13 @@ const findAndUpdateField = function (
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(http: AxiosInstance, data: ContentTypeProps) {
+export function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(contentType, createContentTypeApi(http))
-  return freezeSys(contentType)
+  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
+  return freezeSys(contentTypeWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw content type collection data
- * @return Wrapped content type collection data
  */
-export function wrapContentTypeCollection(
-  http: AxiosInstance,
-  data: CollectionProp<ContentTypeProps>
-) {
-  const contentTypes = toPlainObject(cloneDeep(data))
-  contentTypes.items = contentTypes.items.map((entity) => wrapContentType(http, entity))
-  return freezeSys(contentTypes)
-}
+export const wrapContentTypeCollection = wrapCollection(wrapContentType)

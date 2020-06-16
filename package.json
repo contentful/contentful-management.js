@@ -4,7 +4,7 @@
   "description": "Client for Contentful's Content Management API",
   "homepage": "https://www.contentful.com/developers/documentation/content-management-api/",
   "main": "./dist/contentful-management.node.js",
-  "types": "./typings/index.d.ts",
+  "types": "./dist/typings/contentful-management.d.ts",
   "module": "./dist/es-modules/contentful-management.js",
   "engines": {
     "node": ">=6"
@@ -22,8 +22,8 @@
     "build:modules": "BABEL_ENV=modules babel --extensions \".ts\" --extensions \".js\" lib -d dist/es-modules/",
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
-    "build:types": "rimraf typings/generated && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
-    "build:docs": "typedoc typings",
+    "build:types": "rimraf dist/typings && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
+    "build:docs": "typedoc",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
@@ -32,8 +32,8 @@
     "pretest": "rimraf coverage && npm run lint",
     "test": "npm run test:cover && npm run test:integration && npm run test:browser-local && npm run test:size",
     "test:ci": "./node_modules/contentful-sdk-core/bin/test-ci.sh",
-    "test:cover": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\" ./node_modules/istanbul/lib/cli.js cover ./test/runner.js | tap-dot",
-    "test:unit": "BABEL_ENV=test babel-node --extensions \".ts\" --extensions \".js\" ./test/runner.js | tap-dot",
+    "test:cover": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\" ./node_modules/istanbul/lib/cli.js cover ./test/runner.js | tap-spec",
+    "test:unit": "BABEL_ENV=test babel-node --extensions \".ts\" --extensions \".js\" ./test/runner.js | tap-spec",
     "test:debug": "BABEL_ENV=test babel-node debug  --extensions \".ts\" --extensions \".js\"  ./test/runner.js",
     "test:integration": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\"  ./test/integration/integration-tests.js",
     "test:browser-local": "BABEL_ENV=test karma start karma.conf.local.js",
@@ -53,8 +53,7 @@
   },
   "files": [
     "dist",
-    "tonic-example.js",
-    "typings"
+    "tonic-example.js"
   ],
   "dependencies": {
     "axios": "^0.19.0",
@@ -116,7 +115,7 @@
     "selenium-webdriver": "^3.5.0",
     "semantic-release": "^17.0.4",
     "sinon": "^9.0.1",
-    "tap-dot": "^2.0.0",
+    "tap-spec": "^5.0.0",
     "trevor": "^2.2.0",
     "typedoc": "^0.17.7",
     "typescript": "^3.9.3",

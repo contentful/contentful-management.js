@@ -1,8 +1,9 @@
+import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AxiosInstance } from 'axios'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps } from '../common-types'
 import { createDeleteEntity, createUpdateEntity } from '../instance-actions'
 
 export type TeamProps = {
@@ -67,6 +68,9 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
 
 const entityPath = 'teams'
 
+/**
+ * @private
+ */
 function createTeamApi(http: AxiosInstance) {
   return {
     update: createUpdateEntity({
@@ -88,20 +92,13 @@ function createTeamApi(http: AxiosInstance) {
  * @param data - Raw team data
  * @return Wrapped team data
  */
-export function wrapTeam(http: AxiosInstance, data: TeamProps) {
+export function wrapTeam(http: AxiosInstance, data: TeamProps): Team {
   const team = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(team, createTeamApi(http))
-  return freezeSys(team)
+  const teamWithMethods = enhanceWithMethods(team, createTeamApi(http))
+  return freezeSys(teamWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw team collection data
- * @return Wrapped team collection data
  */
-export function wrapTeamCollection(http: AxiosInstance, data: CollectionProp<TeamProps>) {
-  const teams = toPlainObject(cloneDeep(data))
-  teams.items = teams.items.map((entity) => wrapTeam(http, entity))
-  return freezeSys(teams)
-}
+export const wrapTeamCollection = wrapCollection(wrapTeam)

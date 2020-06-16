@@ -4,7 +4,8 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
-import { CollectionProp, DefaultElements, MetaSysProps } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps } from '../common-types'
 
 export type UIExtensionProps = {
   sys: MetaSysProps
@@ -94,23 +95,13 @@ function createUiExtensionApi(http: AxiosInstance) {
  * @param data - Raw UI Extension data
  * @return Wrapped UI Extension data
  */
-export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps) {
+export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): UIExtension {
   const uiExtension = toPlainObject(cloneDeep(data))
-  enhanceWithMethods(uiExtension, createUiExtensionApi(http))
-  return freezeSys(uiExtension)
+  const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(http))
+  return freezeSys(uiExtensionWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
- * @param data - Raw UI Extension collection data
- * @return Wrapped UI Extension collection data
  */
-export function wrapUiExtensionCollection(
-  http: AxiosInstance,
-  data: CollectionProp<UIExtensionProps>
-) {
-  const uiExtensions = toPlainObject(cloneDeep(data))
-  uiExtensions.items = uiExtensions.items.map((entity) => wrapUiExtension(http, entity))
-  return freezeSys(uiExtensions)
-}
+export const wrapUiExtensionCollection = wrapCollection(wrapUiExtension)
