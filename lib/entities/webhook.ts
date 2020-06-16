@@ -5,7 +5,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, MetaLinkProps } from '../common-types'
 
 const entityPath = 'webhook_definitions'
 
@@ -13,7 +13,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: { sys: MetaLinkProps } }
 
   /**
    * Webhook name

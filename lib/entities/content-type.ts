@@ -17,12 +17,24 @@ import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
+import {
+  BasicMetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  Collection,
+  QueryOptions,
+} from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
 
 export type ContentTypeProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & {
+    space: MetaLinkProps
+    environment: MetaLinkProps
+    firstPublishedAt?: string
+    publishedCounter?: number
+    publishedVersion?: number
+  }
   name: string
   description: string
   /** Field used as the main display field for Entries */

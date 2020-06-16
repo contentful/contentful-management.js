@@ -1,8 +1,7 @@
-import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
-
+import * as endpoints from './plain'
 import type { ContentTypeProps, ContentType } from './entities/content-type'
 import type { QueryOptions } from './common-types'
 import { EntryProp, Entry } from './entities/entry'
@@ -115,15 +114,11 @@ export default function createEnvironmentApi({
      */
     update: function updateEnvironment() {
       const raw = this.toPlainObject()
-      const data = cloneDeep(raw)
-      delete data.sys
-      return http
-        .put('', data, {
-          headers: {
-            'X-Contentful-Version': raw.sys.version,
-          },
+      return endpoints.environment
+        .update(http, { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id }, raw)
+        .then((data) => {
+          return wrapEnvironment(http, data)
         })
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
     },
 
     /**
@@ -236,9 +231,14 @@ export default function createEnvironmentApi({
      * ```
      */
     getContentTypes(query: QueryOptions = {}) {
-      return http
-        .get('content_types', createRequestConfig({ query: query }))
-        .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.contentType
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapContentTypeCollection(http, data))
     },
     /**
      * Creates a Content Type
@@ -383,10 +383,14 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntries(query: QueryOptions = {}) {
-      normalizeSelect(query)
-      return http
-        .get('entries', createRequestConfig({ query: query }))
-        .then((response) => wrapEntryCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.entry
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapEntryCollection(http, data))
     },
 
     /**

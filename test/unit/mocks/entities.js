@@ -11,7 +11,7 @@ const linkMock = {
 const sysMock = {
   type: 'Type',
   id: 'id',
-  space: cloneDeep(linkMock),
+  space: { sys: cloneDeep(linkMock) },
   createdAt: 'createdatdate',
   updatedAt: 'updatedatdate',
 }

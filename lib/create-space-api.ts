@@ -5,7 +5,6 @@
 
 import { AxiosInstance } from 'axios'
 import { Stream } from 'stream'
-import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
@@ -21,6 +20,7 @@ import { WebhookProps } from './entities/webhook'
 import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
 import { CreateApiKeyProps } from './entities/api-key'
+import * as endpoints from './plain'
 
 function raiseDeprecationWarning(method: string) {
   console.warn(
@@ -133,9 +133,8 @@ export default function createSpaceApi({
      * ```
      */
     delete: function deleteSpace() {
-      return http.delete('').then(() => {
-        // do nothing
-      }, errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.space.delete(http, { spaceId: raw.sys.id })
     },
     /**
      * Updates the space
@@ -158,15 +157,9 @@ export default function createSpaceApi({
      */
     update: function updateSpace() {
       const raw = this.toPlainObject()
-      const data = cloneDeep(raw)
-      delete data.sys
-      return http
-        .put('', data, {
-          headers: {
-            'X-Contentful-Version': raw.sys.version,
-          },
-        })
-        .then((response) => wrapSpace(http, response.data), errorHandler)
+      return endpoints.space
+        .update(http, { spaceId: raw.sys.id }, raw)
+        .then((data) => wrapSpace(http, data))
     },
     /**
      * Gets an environment
@@ -185,10 +178,14 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getEnvironment(id: string) {
-      return http
-        .get('environments/' + id)
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    getEnvironment(environmentId: string) {
+      const raw = this.toPlainObject()
+      return endpoints.environment
+        .get(http, {
+          spaceId: raw.sys.id,
+          environmentId,
+        })
+        .then((data) => wrapEnvironment(http, data))
     },
 
     /**
@@ -1131,9 +1128,13 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceUsers(query: QueryOptions = {}) {
-      return http
-        .get('users/', createRequestConfig({ query: query }))
-        .then((response) => wrapUserCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.user
+        .getManyForSpace(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapUserCollection(http, data))
     },
     /**
      * Gets a Space Member
