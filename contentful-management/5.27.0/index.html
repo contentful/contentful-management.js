@@ -1,0 +1,459 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>contentful-management.js - v5.27.0</title>
+	<meta name="description" content="Documentation for contentful-management.js - v5.27.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">contentful-management.js - v5.27.0</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>contentful-management.js - v5.27.0</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#contentful-managementjs" id="contentful-managementjs" style="color: inherit; text-decoration: none;">
+					<h1>contentful-management.js</h1>
+				</a>
+				<blockquote>
+					<p>JavaScript SDK for <a href="https://www.contentful.com">Contentful&#39;s</a> Content Management API.</p>
+				</blockquote>
+				<p><a href="https://www.npmjs.com/package/contentful-management"><img src="https://img.shields.io/npm/v/contentful-management.svg" alt="npm"></a>
+					<a href="https://travis-ci.org/contentful/contentful-management.js"><img src="https://travis-ci.org/contentful/contentful-management.js.svg?branch=master" alt="Build Status"></a>
+					<a href="https://codecov.io/gh/contentful/contentful-management.js"><img src="https://codecov.io/gh/contentful/contentful-management.js/branch/master/graph/badge.svg" alt="codecov"></a>
+					<a href="https://david-dm.org/contentful/contentful-management.js"><img src="https://david-dm.org/contentful/contentful-management.js.svg" alt="Dependency Status"></a>
+				<a href="https://david-dm.org/contentful/contentful-management.js#info=devDependencies"><img src="https://david-dm.org/contentful/contentful-management.js/dev-status.svg" alt="devDependency Status"></a></p>
+				<p><a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
+					<a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="js-standard-style"></a>
+					<a href="http://npm-stat.com/charts.html?package=contentful-management"><img src="https://img.shields.io/npm/dm/contentful-management.svg" alt="npm downloads"></a>
+				<a href="https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js"><img src="http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip" alt="gzip bundle size"></a></p>
+				<p><a href="https://www.contentful.com">Contentful</a> provides a content infrastructure for digital teams to power content in websites, apps, and devices. Unlike a CMS, Contentful was built to integrate with the modern software stack. It offers a central hub for structured content, powerful management and delivery APIs, and a customizable web app that enable developers and content creators to ship digital products faster.</p>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
+				<ul>
+					<li>Content management and retrieval through Contentful&#39;s <a href="https://www.contentful.com/developers/docs/references/content-management-api/">Content Management API</a>.</li>
+					<li>Built in rate limiting with recovery procedures</li>
+					<li>Asset processing helpers</li>
+				</ul>
+				<a href="#supported-environments" id="supported-environments" style="color: inherit; text-decoration: none;">
+					<h2>Supported environments</h2>
+				</a>
+				<p>Browsers and Node.js:</p>
+				<ul>
+					<li>Chrome</li>
+					<li>Firefox</li>
+					<li>Edge</li>
+					<li>Safari</li>
+					<li>node.js (LTS)</li>
+					<li>IE11 (with <a href="#legacy-browsers">legacy version</a> of the library)</li>
+				</ul>
+				<p>Other browsers should also work, but at the moment we&#39;re only running automated tests on the browsers and Node.js versions specified above.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h1>Getting started</h1>
+				</a>
+				<p>To get started with the Contentful Management JS SDK you&#39;ll need to install it, and then get credentials which will allow you to access your content in Contentful.</p>
+				<ul>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#authentication">Authentication</a></li>
+					<li><a href="#using-es6-import">Using ES6 import</a></li>
+					<li><a href="#your-first-request">Your first request</a></li>
+					<li><a href="#troubleshooting">Troubleshooting</a></li>
+					<li><a href="#documentationreferences">Documentation/References</a></li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<a href="#node" id="node" style="color: inherit; text-decoration: none;">
+					<h3>Node:</h3>
+				</a>
+				<p>Using <a href="http://npmjs.org">npm</a>:</p>
+				<pre><code class="language-sh">npm install contentful-management</code></pre>
+				<p>Using <a href="https://yarnpkg.com/lang/en/">yarn</a>:</p>
+				<pre><code class="language-sh">yarn add contentful-management</code></pre>
+				<a href="#browser" id="browser" style="color: inherit; text-decoration: none;">
+					<h3>Browser:</h3>
+				</a>
+				<p>For browsers, we recommend to download the SDK via npm or yarn to ensure 100% availability.</p>
+				<p>If you&#39;d like to use a standalone built file you can use the following script tag or download it from <a href="https://www.jsdelivr.com/package/npm/contentful-management">jsDelivr</a>, under the <code>dist</code> directory:</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<p><strong>It&#39;s not recommended to use the above URL for production.</strong></p>
+				<p>Using <code>contentful@latest</code> will always get you the latest version, but you can also specify a specific version number:</p>
+				<pre><code class="language-html"><span class="hljs-comment">&lt;!-- Avoid using the following url for production. You can not rely on its availability. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/npm/contentful-management@4.0.1/dist/contentful-management.browser.min.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<p>The Contentful Management SDK will be accessible via the <code>contentfulManagement</code> global variable.</p>
+				<p>Check the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page to know which versions are available.</p>
+				<a href="#typings" id="typings" style="color: inherit; text-decoration: none;">
+					<h3>Typings</h3>
+				</a>
+				<p>This library also comes with typings to use with typescript.</p>
+				<a href="#legacy-browsers" id="legacy-browsers" style="color: inherit; text-decoration: none;">
+					<h3>Legacy browsers:</h3>
+				</a>
+				<p>This library also comes with a legacy version to support Internet Explorer 11 and other older browsers. It already contains a polyfill for Promises.</p>
+				<p>To support legacy browsers in your application, use <code>contentful-management.legacy.min.js</code> instead of <code>contentful-management.browser.min.js</code></p>
+				<a href="#authentication" id="authentication" style="color: inherit; text-decoration: none;">
+					<h2>Authentication</h2>
+				</a>
+				<p>To get content from Contentful, an app should authenticate with an OAuth bearer token.</p>
+				<p>If you want to use this SDK for a simple tool or a local app that you won&#39;t redistribute or make available to other users, you can get an API key for the Management API at our <a href="https://www.contentful.com/developers/docs/references/authentication/">Authentication page</a>.</p>
+				<p>If you&#39;d like to create an app which would make use of this SDK but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about <a href="https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application">Creating an OAuth Application</a></p>
+				<a href="#using-es6-import" id="using-es6-import" style="color: inherit; text-decoration: none;">
+					<h2>Using ES6 import</h2>
+				</a>
+				<p>You can use the es6 import with the SDK as follow</p>
+				<pre><code class="language-js"><span class="hljs-comment">// import createClient directly</span>
+<span class="hljs-keyword">import</span> {createClient} <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;contentful-management&#x27;</span>
+<span class="hljs-keyword">var</span> client = createClient({
+  <span class="hljs-comment">// This is the access token for this space. Normally you get the token in the Contentful web app</span>
+  <span class="hljs-attr">accessToken</span>: <span class="hljs-string">&#x27;YOUR_ACCESS_TOKEN&#x27;</span>
+})
+<span class="hljs-comment">//....</span></code></pre>
+				<p>OR</p>
+				<pre><code class="language-js"><span class="hljs-comment">// import everything from contentful</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> contentful <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;contentful-management&#x27;</span>
+<span class="hljs-keyword">var</span> client = contentful.createClient({
+  <span class="hljs-comment">// This is the access token for this space. Normally you get the token in the Contentful web app</span>
+  <span class="hljs-attr">accessToken</span>: <span class="hljs-string">&#x27;YOUR_ACCESS_TOKEN&#x27;</span>
+})
+<span class="hljs-comment">// ....</span></code></pre>
+				<a href="#your-first-request" id="your-first-request" style="color: inherit; text-decoration: none;">
+					<h2>Your first request</h2>
+				</a>
+				<p>The following code snippet is the most basic one you can use to get content from Contentful with this SDK:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">var</span> contentful = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;contentful-management&#x27;</span>)
+<span class="hljs-keyword">var</span> client = contentful.createClient({
+  <span class="hljs-comment">// This is the access token for this space. Normally you get the token in the Contentful web app</span>
+  <span class="hljs-attr">accessToken</span>: <span class="hljs-string">&#x27;YOUR_ACCESS_TOKEN&#x27;</span>
+})
+
+<span class="hljs-comment">// This API call will request a space with the specified ID</span>
+client.getSpace(<span class="hljs-string">&#x27;spaceId&#x27;</span>)
+.then(<span class="hljs-function">(<span class="hljs-params">space</span>) =&gt;</span> {
+  <span class="hljs-comment">// Now that we have a space, we can get entries from that space</span>
+  space.getEntries()
+  .then(<span class="hljs-function">(<span class="hljs-params">entries</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(entries.items)
+  })
+
+  <span class="hljs-comment">// let&#x27;s get a content type</span>
+  space.getContentType(<span class="hljs-string">&#x27;product&#x27;</span>)
+  .then(<span class="hljs-function">(<span class="hljs-params">contentType</span>) =&gt;</span> {
+    <span class="hljs-comment">// and now let&#x27;s update its name</span>
+    contentType.name = <span class="hljs-string">&#x27;New Product&#x27;</span>
+    contentType.update()
+    .then(<span class="hljs-function">(<span class="hljs-params">updatedContentType</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Update was successful&#x27;</span>)
+    })
+  })
+})</code></pre>
+				<p>You can try and change the above example at <a href="https://tonicdev.com/npm/contentful-management">Tonic</a>.</p>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<ul>
+					<li><strong>I can&#39;t Install the package via npm</strong><ul>
+							<li>Check your internet connection</li>
+							<li>It is called <code>contentful-management</code> and not <code>contenful-management</code> ¯\_(ツ)_/¯<ul>
+									<li><strong>Can I use the SDK in react native projects</strong></li>
+									<li>Yes it is possible</li>
+									<li><strong>I get the error: Unable to resolve module <code>http</code></strong></li>
+									<li>Our SDK is supplied as node and browser version. Most non-node environments, like React Native, act like a browser. To force using of the browser version, you can require it via: <code>const { createClient } = require(&#39;contentful-management/dist/contentful-management.browser.min.js&#39;)</code></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><strong>Can I use it with typescript?</strong><ul>
+							<li>Yes, type definition file coming soon</li>
+						</ul>
+					</li>
+					<li><strong>I am not sure what payload to send when creating and entity (Asset/Entity/ContentType etc...)</strong><ul>
+							<li>Check the Content Management API <a href="https://www.contentful.com/developers/docs/references/content-management-api/">docs</a> or the examples in the reference <a href="https://contentful.github.io/contentful-management.js">docs</a></li>
+							<li>Feel free to open an issue if you didn&#39;t find what you need in the above links</li>
+						</ul>
+					</li>
+					<li>😱 <strong>something is wrong what should I do</strong><ul>
+							<li>If it is a bug related to the code create a GitHub issue and make sure to remove any credential for your code before sharing it.</li>
+							<li>If you need to share your credentials, for example you have an issue with your space, please create a support ticket.</li>
+							<li>Please <strong>do not</strong> share your management token in a GitHub issue</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#documentationreferences" id="documentationreferences" style="color: inherit; text-decoration: none;">
+					<h2>Documentation/References</h2>
+				</a>
+				<p>To help you get the most out of this SDK, we&#39;ve prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.</p>
+				<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
+					<h3>Configuration</h3>
+				</a>
+				<p>The <code>createClient</code> method supports several options you may set to achieve the expected behavior:</p>
+				<pre><code class="language-js">contentful.createClient({
+  ... your config here ...
+})</code></pre>
+				<a href="#accesstoken-required" id="accesstoken-required" style="color: inherit; text-decoration: none;">
+					<h4>accessToken (required)</h4>
+				</a>
+				<p>Your CMA access token.</p>
+				<a href="#host-default-39apicontentfulcom39" id="host-default-39apicontentfulcom39" style="color: inherit; text-decoration: none;">
+					<h4>host (default: <code>&#39;api.contentful.com&#39;</code>)</h4>
+				</a>
+				<p>Set the host used to build the request URI&#39;s.</p>
+				<a href="#hostupload-default-39uploadcontentfulcom39" id="hostupload-default-39uploadcontentfulcom39" style="color: inherit; text-decoration: none;">
+					<h4>hostUpload (default: <code>&#39;upload.contentful.com&#39;</code>)</h4>
+				</a>
+				<p>Set the host used to build the upload related request uri&#39;s.</p>
+				<a href="#basepath-default-" id="basepath-default-" style="color: inherit; text-decoration: none;">
+					<h4>basePath (default: ``)</h4>
+				</a>
+				<p>This path gets appended to the host to allow request urls like <code>https://gateway.example.com/contentful/</code> for custom gateways/proxies.</p>
+				<a href="#httpagent-default-undefined" id="httpagent-default-undefined" style="color: inherit; text-decoration: none;">
+					<h4>httpAgent (default: <code>undefined</code>)</h4>
+				</a>
+				<p>Custom agent to perform HTTP requests. Find further information in the <a href="https://github.com/mzabriskie/axios#request-config">axios request config documentation</a>.</p>
+				<a href="#httpsagent-default-undefined" id="httpsagent-default-undefined" style="color: inherit; text-decoration: none;">
+					<h4>httpsAgent (default: <code>undefined</code>)</h4>
+				</a>
+				<p>Custom agent to perform HTTPS requests. Find further information in the <a href="https://github.com/mzabriskie/axios#request-config">axios request config documentation</a>.</p>
+				<a href="#headers-default-" id="headers-default-" style="color: inherit; text-decoration: none;">
+					<h4>headers (default: <code>{}</code>)</h4>
+				</a>
+				<p>Additional headers to attach to the requests. We add/overwrite the following headers:</p>
+				<ul>
+					<li>Content-Type: <code>application/vnd.contentful.management.v1+json</code></li>
+					<li>X-Contentful-User-Agent: <code>sdk contentful-management.js/1.2.3; platform node.js/1.2.3; os macOS/1.2.3</code>
+					(Automatically generated)</li>
+				</ul>
+				<a href="#proxy-default-undefined" id="proxy-default-undefined" style="color: inherit; text-decoration: none;">
+					<h4>proxy (default: <code>undefined</code>)</h4>
+				</a>
+				<p>Axios proxy configuration. See the <a href="https://github.com/mzabriskie/axios#request-config">axios request config documentation</a> for further information about the supported values.</p>
+				<a href="#retryonerror-default-true" id="retryonerror-default-true" style="color: inherit; text-decoration: none;">
+					<h4>retryOnError (default: <code>true</code>)</h4>
+				</a>
+				<p>By default, this SDK is retrying requests which resulted in a 500 server error and 429 rate limit response. Set this to <code>false</code> to disable this behavior.</p>
+				<a href="#loghandler-default-function-level-data-" id="loghandler-default-function-level-data-" style="color: inherit; text-decoration: none;">
+					<h4>logHandler (default: <code>function (level, data) {}</code>)</h4>
+				</a>
+				<p>Errors and warnings will be logged by default to the node or browser console. Pass your own log handler to intercept here and handle errors, warnings and info on your own.</p>
+				<a href="#requestlogger-default-function-config-" id="requestlogger-default-function-config-" style="color: inherit; text-decoration: none;">
+					<h4>requestLogger (default: <code>function (config) {}</code>)</h4>
+				</a>
+				<p>Interceptor called on every request. Takes Axios request config as an arg. Default does nothing. Pass your own function to log any desired data.</p>
+				<a href="#responselogger-default-function-response-" id="responselogger-default-function-response-" style="color: inherit; text-decoration: none;">
+					<h4>responseLogger (default: <code>function (response) {}</code>)</h4>
+				</a>
+				<p>Interceptor called on every response. Takes Axios response object as an arg. Default does nothing. Pass your own function to log any desired data.</p>
+				<a href="#reference-documentation" id="reference-documentation" style="color: inherit; text-decoration: none;">
+					<h3>Reference documentation</h3>
+				</a>
+				<p>The <a href="https://contentful.github.io/contentful-management.js">Contentful&#39;s JS SDK reference</a> documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.</p>
+				<p>Most methods also have examples which show you how to use them.</p>
+				<p>You can start by looking at the top level <code>contentfulManagement</code> namespace.</p>
+				<p>The <code>ContentfulClientAPI</code> namespace defines the methods at the Client level which allow you to create and get spaces.</p>
+				<p>The <code>ContentfulSpaceAPI</code> namespace defines the methods at the Space level which allow you to create and get entries, assets, content types and other possible entities.</p>
+				<p>The <code>Entry</code>, <code>Asset</code> and <code>ContentType</code> namespaces show you the instance methods you can use on each of these entities, once you retrieve them from the server.</p>
+				<blockquote>
+					<p>From version 1.0.0 onwards, you can access documentation for a specific version by visiting <code>https://contentful.github.io/contentful-management.js/contentful-management/&lt;VERSION&gt;</code></p>
+				</blockquote>
+				<a href="#contentful-javascript-resources" id="contentful-javascript-resources" style="color: inherit; text-decoration: none;">
+					<h3>Contentful JavaScript resources</h3>
+				</a>
+				<p>Read the <a href="https://www.contentful.com/developers/docs/javascript/">Contentful for JavaScript</a> page for Tutorials, Demo Apps, and more information on other ways of using JavaScript with Contentful</p>
+				<a href="#rest-api-reference" id="rest-api-reference" style="color: inherit; text-decoration: none;">
+					<h3>REST API reference</h3>
+				</a>
+				<p>This library is a wrapper around our Contentful Management REST API. Some more specific details such as search parameters and pagination are better explained on the <a href="https://www.contentful.com/developers/docs/references/content-management-api/">REST API reference</a>, and you can also get a better understanding of how the requests look under the hood.</p>
+				<a href="#legacy-contentful-managementjs" id="legacy-contentful-managementjs" style="color: inherit; text-decoration: none;">
+					<h3>Legacy contentful-management.js</h3>
+				</a>
+				<p>For versions prior to 1.0.0, you can access documentation at <a href="https://github.com/contentful/contentful.js/tree/legacy">https://github.com/contentful/contentful-management.js/tree/legacy</a></p>
+				<a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
+					<h2>Versioning</h2>
+				</a>
+				<p>This project strictly follows <a href="http://semver.org/">Semantic Versioning</a> by use of <a href="https://github.com/semantic-release/semantic-release">semantic-release</a>.</p>
+				<p>This means that new versions are released automatically as fixes, features or breaking changes are released.</p>
+				<p>You can check the changelog on the <a href="https://github.com/contentful/contentful-management.js/releases">releases</a> page.</p>
+				<a href="#migration-from-contentful-managementjs-3x" id="migration-from-contentful-managementjs-3x" style="color: inherit; text-decoration: none;">
+					<h2>Migration from contentful-management.js 3.x</h2>
+				</a>
+				<p>The bundle for browsers is now called <code>contentful-management.browser.min.js</code> to mark it clearly as browser only bundle. If you need to support IE 11 or other old browsers, you may use the <code>contentful-management.legacy.min.js</code>. Node will automatically use the <code>contentful-management.node.min.js</code> while bundlers like Webpack will resolve to the new ES-modules version of the library.</p>
+				<p>No changes to the API of the library were made.</p>
+				<a href="#migration-from-contentful-managementjs-1x-and-older" id="migration-from-contentful-managementjs-1x-and-older" style="color: inherit; text-decoration: none;">
+					<h2>Migration from contentful-management.js 1.x and older</h2>
+				</a>
+				<p>contentful.js 1.x was a major rewrite, with some API changes. While the base functionality remains the same, some method names have changed, as well as some internal behaviors.</p>
+				<p>See the <a href="MIGRATION.md">migration guide</a> for more information.</p>
+				<a href="#support" id="support" style="color: inherit; text-decoration: none;">
+					<h2>Support</h2>
+				</a>
+				<p>If you have a problem with this library, please file an <a href="https://github.com/contentful/contentful-management.js/issues/new">issue</a> here on GitHub.</p>
+				<p>If you have other problems with Contentful not related to this library, you can contact <a href="https://support.contentful.com">Customer Support</a>.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>See <a href="CONTRIBUTING.md">CONTRIBUTING.md</a></p>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>MIT</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apikey.html" class="tsd-kind-icon">Api<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appdefinition.html" class="tsd-kind-icon">App<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/asset.html" class="tsd-kind-icon">Asset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contenttype.html" class="tsd-kind-icon">Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/editorinterface.html" class="tsd-kind-icon">Editor<wbr>Interface</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entry.html" class="tsd-kind-icon">Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentalias.html" class="tsd-kind-icon">Environment<wbr>Alias</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/organizationinvitation.html" class="tsd-kind-icon">Organization<wbr>Invitation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/organizationmembership.html" class="tsd-kind-icon">Organization<wbr>Membership</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/personalaccesstoken.html" class="tsd-kind-icon">Personal<wbr>Access<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/previewapikey.html" class="tsd-kind-icon">Preview<wbr>Api<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/role.html" class="tsd-kind-icon">Role</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/snapshot.html" class="tsd-kind-icon">Snapshot</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/spacemember.html" class="tsd-kind-icon">Space<wbr>Member</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/spacemembership.html" class="tsd-kind-icon">Space<wbr>Membership</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/team.html" class="tsd-kind-icon">Team</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/teamspacemembership.html" class="tsd-kind-icon">Team<wbr>Space<wbr>Membership</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/uiextension.html" class="tsd-kind-icon">UIExtension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/upload.html" class="tsd-kind-icon">Upload</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usage.html" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/user.html" class="tsd-kind-icon">User</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clientparams" class="tsd-kind-icon">Client<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environment" class="tsd-kind-icon">Environment</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#organization" class="tsd-kind-icon">Organization</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#space" class="tsd-kind-icon">Space</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createclient" class="tsd-kind-icon">create<wbr>Client</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
