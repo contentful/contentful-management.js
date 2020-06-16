@@ -5,6 +5,7 @@ import createSpaceApi, {
   __RewireAPI__ as createSpaceApiRewireApi,
 } from '../../lib/create-space-api'
 import {
+  spaceMock,
   contentTypeMock,
   editorInterfaceMock,
   assetMock,
@@ -39,6 +40,7 @@ function setup(promise) {
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
   const api = createSpaceApi({ http: httpMock, httpUpload: httpUploadMock })
+  api.toPlainObject = () => spaceMock
   return {
     api,
     httpMock,
@@ -53,7 +55,16 @@ function teardown() {
 
 test('API call space delete', (t) => {
   t.plan(1)
-  const { api } = setup(Promise.resolve({}))
+
+  const data = { sys: { id: 'spaceId' } }
+
+  const { api } = setup(
+    Promise.resolve({
+      data: data,
+    })
+  )
+
+  api.toPlainObject = () => data
 
   return api.delete().then(() => {
     t.pass('space was deleted')
@@ -65,6 +76,8 @@ test('API call space delete fails', (t) => {
   t.plan(1)
   const error = cloneMock('error')
   const { api } = setup(Promise.reject(error))
+
+  api.toPlainObject = () => ({ sys: { id: 'spaceId' } })
 
   return api.delete().catch((r) => {
     t.equals(r.name, '404 Not Found')

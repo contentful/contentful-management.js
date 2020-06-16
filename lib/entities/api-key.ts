@@ -3,8 +3,8 @@ import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
 
 export type ApiKeyProps = {
   sys: MetaSysProps

@@ -18,12 +18,24 @@ import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 import { Except, SetOptional } from 'type-fest'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
+import {
+  BasicMetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  Collection,
+  QueryOptions,
+} from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
 
 export type ContentTypeProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & {
+    space: MetaLinkProps
+    environment: MetaLinkProps
+    firstPublishedAt?: string
+    publishedCounter?: number
+    publishedVersion?: number
+  }
   name: string
   description: string
   /** Field used as the main display field for Entries */

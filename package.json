@@ -35,7 +35,7 @@
     "test:cover": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\" ./node_modules/istanbul/lib/cli.js cover ./test/runner.js | tap-spec",
     "test:unit": "BABEL_ENV=test babel-node --extensions \".ts\" --extensions \".js\" ./test/runner.js | tap-spec",
     "test:debug": "BABEL_ENV=test babel-node debug  --extensions \".ts\" --extensions \".js\"  ./test/runner.js",
-    "test:integration": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\"  ./test/integration/integration-tests.js",
+    "test:integration": "BABEL_ENV=test babel-node  --extensions \".ts\" --extensions \".js\"  ./test/integration/integration-tests.js | tap-spec",
     "test:browser-local": "BABEL_ENV=test karma start karma.conf.local.js",
     "test:browser-remote": "BABEL_ENV=test karma start karma.conf.saucelabs.js",
     "test:e2e": "node test/e2e/index.js",
@@ -58,9 +58,9 @@
   ],
   "dependencies": {
     "axios": "^0.19.0",
-    "contentful-sdk-core": "^6.4.0",
     "lodash": "^4.17.11",
-    "type-fest": "0.15.1"
+    "type-fest": "0.15.1",
+    "contentful-sdk-core": "^6.4.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.0",

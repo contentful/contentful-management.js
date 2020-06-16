@@ -4,16 +4,29 @@ export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
 
-export interface MetaSysProps {
+export interface QueryOptions {
+  skip?: number
+  limit?: number
+  order?: string
+  content_type?: string
+  include?: number
+  select?: string
+  [key: string]: any
+}
+
+export interface BasicMetaSysProps {
   type: string
   id: string
-  space?: { sys: MetaLinkProps }
-  status?: { sys: MetaLinkProps }
   version: number
   createdBy?: { sys: MetaLinkProps }
   createdAt: string
   updatedBy?: { sys: MetaLinkProps }
   updatedAt: string
+}
+
+export interface MetaSysProps extends BasicMetaSysProps {
+  space?: { sys: MetaLinkProps }
+  status?: { sys: MetaLinkProps }
   publishedVersion?: number
   archivedVersion?: number
 }
@@ -46,12 +59,11 @@ export interface Collection<T, TPlain>
 export interface QueryOptions extends BasicQueryOptions {
   content_type?: string
   include?: number
+  select?: string
 }
 
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
-  order?: string
-
   [key: string]: any
 }
