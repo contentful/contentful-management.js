@@ -6,6 +6,21 @@ import { wrapCollection } from '../common-utils'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { MetaSysProps, DefaultElements } from '../common-types'
 
+export type ActionType =
+  | 'read'
+  | 'create'
+  | 'update'
+  | 'delete'
+  | 'publish'
+  | 'unpublish'
+  | 'archive'
+  | 'unarchive'
+
+type ConditionType = 'and' | 'or' | 'not' | 'equals'
+export type ConstraintType = {
+  [key in ConditionType]: ConstraintType[] | any
+}
+
 export type RoleProps = {
   sys: MetaSysProps
   name: string
@@ -16,13 +31,13 @@ export type RoleProps = {
     ContentDelivery: string[] | string
     ContentModel: string[]
     EnvironmentAliases: string[] | string
-    Environment: string
-    Settings: any[] | string
+    Environments: string[] | string
+    Settings: string[] | string
   }
   policies: {
     effect: string
-    actions: string[] | string
-    constraint: any
+    actions: ActionType[] | 'all'
+    constraint: ConstraintType
   }[]
 }
 
