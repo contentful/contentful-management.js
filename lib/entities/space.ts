@@ -4,7 +4,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { BasicMetaSysProps, DefaultElements } from '../common-types'
 
 type SdkHttpClient = AxiosInstance & {
   httpClientParams: Record<string, any>
@@ -12,7 +12,7 @@ type SdkHttpClient = AxiosInstance & {
 }
 
 export type SpaceProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps
   name: string
 }
 

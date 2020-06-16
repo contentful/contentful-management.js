@@ -3,13 +3,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps } from '../common-types'
+import { DefaultElements, BasicMetaSysProps } from '../common-types'
 
 export type UserProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: BasicMetaSysProps
 
   /**
    * First name of the user
@@ -45,6 +45,9 @@ export type UserProps = {
    * User confirmation flag
    */
   confirmed: boolean
+
+  '2faEnabled': boolean
+  cookieConsentData: string
 }
 
 export interface User extends UserProps, DefaultElements<UserProps> {}

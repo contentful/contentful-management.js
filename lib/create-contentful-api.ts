@@ -7,6 +7,7 @@ import { OrganizationProp, Organization } from './entities/organization'
 import { SpaceProps, Space } from './entities/space'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import { UsageQuery, UsageProps } from './entities/usage'
+import * as endpoints from './plain'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
@@ -60,7 +61,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpace: function getSpace(id: string): Promise<Space> {
-      return http.get(id).then((response) => wrapSpace(http, response.data), errorHandler)
+      return endpoints.space.get(http, { spaceId: id }).then((data) => wrapSpace(http, data))
     },
     /**
      * Creates a space
