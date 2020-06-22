@@ -1,7 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
-import * as endpoints from './plain'
+import * as endpoints from './plain/endpoints'
+import { locale } from './plain/endpoints'
 import type { ContentTypeProps, ContentType } from './entities/content-type'
 import type { QueryOptions } from './common-types'
 import { EntryProps, Entry } from './entities/entry'
@@ -754,7 +755,7 @@ export default function createEnvironmentApi({
      */
     getLocales() {
       const raw = this.toPlainObject()
-      return endpoints.locale
+      return locale
         .getMany(http, {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
