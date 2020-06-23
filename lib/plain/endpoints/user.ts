@@ -11,11 +11,3 @@ export const getManyForSpace = (http: AxiosInstance, params: GetManyUsersParams)
     params: params.query,
   })
 }
-//
-// export const user = {
-//   getManyForSpace(http: AxiosInstance, params: GetManyUsersParams) {
-//     return get<CollectionProp<UserProps>>(http, `/spaces/${params.spaceId}/users`, {
-//       params: params.query,
-//     })
-//   },
-// }

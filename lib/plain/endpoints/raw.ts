@@ -5,7 +5,7 @@ function getBaseUrl(http: AxiosInstance) {
   return http.defaults.baseURL?.split('/spaces')[0]
 }
 
-function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
+export function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
     .get<T>(url, {
       baseURL: getBaseUrl(http),
@@ -14,7 +14,7 @@ function get<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
     .then((response) => response.data, errorHandler)
 }
 
-function post<T = any>(
+export function post<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
@@ -28,7 +28,7 @@ function post<T = any>(
     .then((response) => response.data, errorHandler)
 }
 
-function put<T = any>(
+export function put<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
@@ -42,7 +42,7 @@ function put<T = any>(
     .then((response) => response.data, errorHandler)
 }
 
-function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
+export function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http
     .delete<T>(url, {
       baseURL: getBaseUrl(http),
@@ -50,5 +50,3 @@ function del<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestCon
     })
     .then((response) => response.data, errorHandler)
 }
-
-export { get, post, put, del }

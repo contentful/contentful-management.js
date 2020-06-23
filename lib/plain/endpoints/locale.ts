@@ -6,7 +6,7 @@ import { get } from './raw'
 import { GetEnvironmentParams } from './environment'
 import { QueryParams } from './common-types'
 
-const getMany = (http: AxiosInstance, params: GetEnvironmentParams & QueryParams) => {
+export const getMany = (http: AxiosInstance, params: GetEnvironmentParams & QueryParams) => {
   return get<CollectionProp<LocaleProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
@@ -15,5 +15,3 @@ const getMany = (http: AxiosInstance, params: GetEnvironmentParams & QueryParams
     }
   )
 }
-
-export { getMany }
