@@ -20,7 +20,7 @@ import { WebhookProps } from './entities/webhook'
 import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
 import { CreateApiKeyProps } from './entities/api-key'
-import * as endpoints from './plain'
+import * as endpoints from './plain/endpoints'
 
 function raiseDeprecationWarning(method: string) {
   console.warn(
@@ -134,7 +134,7 @@ export default function createSpaceApi({
      */
     delete: function deleteSpace() {
       const raw = this.toPlainObject()
-      return endpoints.space.delete(http, { spaceId: raw.sys.id })
+      return endpoints.space.del(http, { spaceId: raw.sys.id })
     },
     /**
      * Updates the space

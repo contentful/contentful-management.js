@@ -1,5 +1,4 @@
-import { CollectionProp } from '../common-types'
-import { QueryParams } from './index'
+import { QueryParams, CollectionProp } from './endpoints/common-types'
 import cloneDeep from 'lodash/cloneDeep'
 import merge from 'lodash/merge'
 

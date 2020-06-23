@@ -7,7 +7,7 @@ import { OrganizationProp, Organization } from './entities/organization'
 import { SpaceProps, Space } from './entities/space'
 import { PersonalAccessTokenProp } from './entities/personal-access-token'
 import { UsageQuery, UsageProps } from './entities/usage'
-import * as endpoints from './plain'
+import * as endpoints from './plain/endpoints'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
