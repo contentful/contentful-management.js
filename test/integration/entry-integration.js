@@ -1,9 +1,9 @@
 import generateRandomId from './generate-random-id'
 
-export function entryReadOnlyTests(t, space) {
+export function entryReadOnlyTests(t, environment) {
   t.test('Gets entry', (t) => {
     t.plan(2)
-    return space.getEntry('5ETMRzkl9KM4omyMwKAOki').then((response) => {
+    return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((response) => {
       t.ok(response.sys, 'sys')
       t.ok(response.fields, 'fields')
     })
@@ -11,7 +11,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets Entry snapshots', (t) => {
     t.plan(2)
-    return space.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
+    return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
       return entry.getSnapshots().then((response) => {
         t.ok(response, 'entry snapshots')
         t.ok(response.items, 'entry snapshots items')
@@ -21,14 +21,14 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries', (t) => {
     t.plan(1)
-    return space.getEntries().then((response) => {
+    return environment.getEntries().then((response) => {
       t.ok(response.items, 'items')
     })
   })
 
   t.test('Gets entries with a limit parameter', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         limit: 2,
       })
@@ -40,7 +40,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with a skip parameter', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         skip: 2,
       })
@@ -52,7 +52,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with content type query param', (t) => {
     t.plan(2)
-    return space.getEntries({ content_type: 'cat' }).then((response) => {
+    return environment.getEntries({ content_type: 'cat' }).then((response) => {
       t.equal(response.total, 3)
       t.looseEqual(
         response.items.map((item) => item.sys.contentType.sys.id),
@@ -63,7 +63,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with equality query', (t) => {
     t.plan(2)
-    return space.getEntries({ 'sys.id': 'nyancat' }).then((response) => {
+    return environment.getEntries({ 'sys.id': 'nyancat' }).then((response) => {
       t.equal(response.total, 1)
       t.equal(response.items[0].sys.id, 'nyancat')
     })
@@ -71,7 +71,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with inequality query', (t) => {
     t.plan(2)
-    return space.getEntries({ 'sys.id[ne]': 'nyancat' }).then((response) => {
+    return environment.getEntries({ 'sys.id[ne]': 'nyancat' }).then((response) => {
       t.ok(response.total > 0)
       t.equal(response.items.filter((item) => item.sys.id === 'nyancat').length, 0)
     })
@@ -79,7 +79,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with array equality query', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.likes': 'lasagna',
@@ -92,7 +92,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with array inequality query', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.likes[ne]': 'lasagna',
@@ -105,7 +105,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with inclusion query', (t) => {
     t.plan(3)
-    return space.getEntries({ 'sys.id[in]': 'finn,jake' }).then((response) => {
+    return environment.getEntries({ 'sys.id[in]': 'finn,jake' }).then((response) => {
       t.equal(response.total, 2)
       t.equal(response.items.filter((item) => item.sys.id === 'finn').length, 1)
       t.equal(response.items.filter((item) => item.sys.id === 'jake').length, 1)
@@ -114,7 +114,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with exclusion query', (t) => {
     t.plan(3)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.likes[nin]': 'rainbows,lasagna',
@@ -128,7 +128,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with exists query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.likes[exists]': 'true',
@@ -140,7 +140,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with inverse exists query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.likes[exists]': 'false',
@@ -152,7 +152,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with field link query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         content_type: 'cat',
         'fields.bestFriend.sys.id': 'happycat',
@@ -168,7 +168,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with gte range query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         'sys.updatedAt[gte]': '2013-01-01T00:00:00Z',
       })
@@ -179,7 +179,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with lte range query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         'sys.updatedAt[lte]': '2013-01-01T00:00:00Z',
       })
@@ -190,7 +190,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with full text search query', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         query: 'bacon',
       })
@@ -201,7 +201,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with full text search query on field', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         content_type: 'dog',
         'fields.description[match]': 'bacon pancakes',
@@ -213,7 +213,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with location proximity search', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         content_type: '1t9IbcfdCk6m04uISSsaIK',
         'fields.center[near]': '38,-122',
@@ -226,7 +226,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries with location in bounding object', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         content_type: '1t9IbcfdCk6m04uISSsaIK',
         'fields.center[within]': '40,-124,36,-120',
@@ -239,7 +239,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries by creation order', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         order: 'sys.createdAt',
       })
@@ -250,7 +250,7 @@ export function entryReadOnlyTests(t, space) {
 
   t.test('Gets entries by inverse creation order', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getEntries({
         order: '-sys.createdAt',
       })
@@ -270,7 +270,7 @@ export function entryReadOnlyTests(t, space) {
    */
   t.test('Gets entries by creation order and id order', (t) => {
     t.plan(2)
-    return space
+    return environment
       .getEntries({
         order: 'sys.contentType.sys.id,sys.id',
       })
@@ -287,9 +287,9 @@ export function entryReadOnlyTests(t, space) {
   })
 }
 
-export function entryWriteTests(t, space) {
+export function entryWriteTests(t, environment) {
   function prepareContentTypeForEntryTest() {
-    return space
+    return environment
       .createContentTypeWithId(generateRandomId('testcontenttype'), {
         name: 'testCT',
         fields: [{ id: 'title', name: 'Title', type: 'Text' }],
@@ -315,7 +315,7 @@ export function entryWriteTests(t, space) {
     t.plan(9)
 
     return prepareContentTypeForEntryTest().then((contentType) => {
-      return space
+      return environment
         .createEntry(contentType.sys.id, { fields: { title: { 'en-US': 'this is the title' } } })
         .then((entry) => {
           t.ok(entry.isDraft(), 'entry is in draft')
@@ -349,7 +349,7 @@ export function entryWriteTests(t, space) {
     t.plan(1)
 
     return prepareContentTypeForEntryTest().then((contentType) => {
-      return space
+      return environment
         .createEntryWithId(contentType.sys.id, 'entryid', {
           fields: { title: { 'en-US': 'this is the title' } },
         })
