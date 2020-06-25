@@ -38,9 +38,16 @@ export type WebhookHeader = { key: string; value: string; secret?: boolean }
 export type WebhookFilter = EqualityConstraint | InConstraint | RegexpConstraint | NotConstraint
 
 export type WebhookTransformation = {
-  method?: string
-  contentType?: string
-  includeContentLength?: boolean
+  method?: null | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
+  contentType?:
+    | null
+    | 'application/vnd.contentful.management.v1+json'
+    | 'application/vnd.contentful.management.v1+json; charset=utf-8'
+    | 'application/json'
+    | 'application/json; charset=utf-8'
+    | 'application/x-www-form-urlencoded'
+    | 'application/x-www-form-urlencoded; charset=utf-8'
+  includeContentLength?: boolean | null
   body?: JsonValue
 }
 
