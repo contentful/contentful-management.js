@@ -16,7 +16,8 @@ export const get = (http: AxiosInstance, params: GetEnvironmentParams) => {
 export const update = (
   http: AxiosInstance,
   params: GetEnvironmentParams,
-  rawData: EnvironmentProps
+  rawData: EnvironmentProps,
+  headers?: Record<string, unknown>
 ) => {
   const data = cloneDeep(rawData)
   delete data.sys
@@ -28,6 +29,7 @@ export const update = (
     {
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
+        ...headers,
       },
     }
   )

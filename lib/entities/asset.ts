@@ -47,6 +47,8 @@ export type AssetProps = {
   metadata?: MetadataProps
 }
 
+export type CreateAssetProps = Omit<AssetProps, 'sys'>
+
 export interface AssetFileProp {
   sys: MetaSysProps
   fields: {
