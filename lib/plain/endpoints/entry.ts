@@ -37,7 +37,8 @@ export const getMany = <T extends KeyValueMap = KeyValueMap>(
 export const update = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetEnvironmentParams & { entryId: string },
-  rawData: EntryProps<T>
+  rawData: EntryProps<T>,
+  headers?: Record<string, unknown>
 ) => {
   const data = cloneDeep(rawData)
   delete data.sys
@@ -48,6 +49,7 @@ export const update = <T extends KeyValueMap = KeyValueMap>(
     {
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
+        ...headers,
       },
     }
   )
