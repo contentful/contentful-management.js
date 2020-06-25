@@ -5,7 +5,7 @@ import * as endpoints from './plain/endpoints'
 import type { ContentTypeProps, ContentType } from './entities/content-type'
 import type { QueryOptions } from './common-types'
 import { EntryProps, Entry } from './entities/entry'
-import type { AssetFileProp, AssetProps } from './entities/asset'
+import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { LocaleProps } from './entities/locale'
 import type { UIExtensionProps } from './entities/ui-extension'
 import type { AppInstallationProps } from './entities/app-installation'
@@ -35,12 +35,6 @@ export default function createEnvironmentApi({
   const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
 
-  function createAsset(data: Omit<AssetProps, 'sys'>) {
-    return http
-      .post('assets', data)
-      .then((response) => wrapAsset(http, response.data), errorHandler)
-  }
-
   function createUpload(data: { file: string | ArrayBuffer | Stream }) {
     const { file } = data
     if (!file) {
@@ -56,17 +50,6 @@ export default function createEnvironmentApi({
         return wrapUpload(httpUpload, uploadResponse.data)
       })
       .catch(errorHandler)
-  }
-
-  /**
-   * @private
-   * sdk relies heavily on sys metadata
-   * so we cannot omit the sys property on sdk level
-   */
-  function normalizeSelect(query: QueryOptions) {
-    if (query.select && !/sys/i.test(query.select)) {
-      query.select += ',sys'
-    }
   }
 
   return {
@@ -503,10 +486,15 @@ export default function createEnvironmentApi({
      * ```
      */
     getAsset(id: string, query: QueryOptions = {}) {
-      normalizeSelect(query)
-      return http
-        .get('assets/' + id, createRequestConfig({ query: query }))
-        .then((response) => wrapAsset(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.asset
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          assetId: id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapAsset(http, data))
     },
 
     /**
@@ -530,10 +518,14 @@ export default function createEnvironmentApi({
      * ```
      */
     getAssets(query: QueryOptions = {}) {
-      normalizeSelect(query)
-      return http
-        .get('assets', createRequestConfig({ query: query }))
-        .then((response) => wrapAssetCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject()
+      return endpoints.asset
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapAssetCollection(http, data))
     },
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
@@ -566,7 +558,19 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createAsset: createAsset,
+    createAsset(data: CreateAssetProps) {
+      const raw = this.toPlainObject()
+      return endpoints.asset
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapAsset(http, data))
+    },
     /**
      * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param id - Asset ID
@@ -597,10 +601,19 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
-      return http
-        .put('assets/' + id, data)
-        .then((response) => wrapAsset(http, response.data), errorHandler)
+    createAssetWithId(id: string, data: CreateAssetProps) {
+      const raw = this.toPlainObject()
+      return endpoints.asset
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            assetId: id,
+          },
+          data
+        )
+        .then((data) => wrapAsset(http, data))
     },
     /**
      * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
@@ -665,7 +678,7 @@ export default function createEnvironmentApi({
               file,
             },
           }
-          return createAsset(asset)
+          return this.createAsset(asset)
         })
         .catch(errorHandler)
     },

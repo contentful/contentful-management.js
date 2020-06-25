@@ -12,7 +12,7 @@ type SdkHttpClient = AxiosInstance & {
 }
 
 export type SpaceProps = {
-  sys: BasicMetaSysProps
+  sys: BasicMetaSysProps & { organisation: { sys: { id: string } } }
   name: string
 }
 

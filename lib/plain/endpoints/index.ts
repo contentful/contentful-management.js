@@ -1,5 +1,6 @@
 export * as contentType from './content-type'
 export * as entry from './entry'
+export * as asset from './asset'
 export * as environment from './environment'
 export * as locale from './locale'
 export * as raw from './raw'
