@@ -189,11 +189,14 @@ test('Creates, updates and deletes a space', (t) => {
 })
 
 test('Gets space for read only tests', (t) => {
-  return client.getSpace('ezs1swce23xe').then((space) => {
-    contentTypeReadOnlyTests(t, space)
-    entryReadOnlyTests(t, space)
-    assetReadOnlyTests(t, space)
-  })
+  return client
+    .getSpace('ezs1swce23xe')
+    .then((space) => space.getEnvironment('master'))
+    .then((environment) => {
+      contentTypeReadOnlyTests(t, environment)
+      entryReadOnlyTests(t, environment)
+      assetReadOnlyTests(t, environment)
+    })
 })
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68').then((space) => {
@@ -252,45 +255,22 @@ test('Create space for tests of space membership', (t) => {
 })
 
 test('Create space for tests which create, change and delete data', (t) => {
-  return (
-    client
-      .createSpace(
-        {
-          name: 'CMA JS SDK tests',
-        },
-        organization
-      )
-      // When running these tests locally, create a specific space, uncomment and
-      // use the line below to avoid running into the 10 space per hour creation limit.
-      // Also comment the test.onFinish line below to avoid removing the space.
-      // The below line also uses double quotes on purpose so it breaks the linter
-      // in case someone forgets to comment this line again.
-      // client.getSpace('a3f19zbn5ldg')
-      .then((space) => {
-        return space
-          .createLocale({
-            name: 'German (Germany)',
-            code: 'de-DE',
-          })
-          .then(() => {
-            return space
-          })
-      })
-      .then((space) => {
-        test.onFinish(() => space.delete())
-        return Promise.all([
-          localeTests(t, space),
-          contentTypeWriteTests(t, space),
-          entryWriteTests(t, space),
-          assetWriteTests(t, space),
-          webhookTests(t, space),
-          roleTests(t, space),
-          apiKeyTests(t, space),
-          uiExtensionTests(t, space),
-          environmentTests(t, space, waitForEnvironmentToBeReady),
-        ])
-      })
-  )
+  return client
+    .createSpace(
+      {
+        name: 'CMA JS SDK tests',
+      },
+      organization
+    )
+    .then((space) => {
+      test.onFinish(() => space.delete())
+      return Promise.all([
+        webhookTests(t, space),
+        roleTests(t, space),
+        apiKeyTests(t, space),
+        environmentTests(t, space),
+      ])
+    })
 })
 
 function waitForEnvironmentToBeReady(space, environment) {
@@ -320,14 +300,8 @@ test('Create space with an environment for tests which create, change and delete
       // client.getSpace('gauywn1xskhq')
       .then((space) => {
         return space
-          .createLocale({
-            name: 'German (Germany)',
-            code: 'de-DE',
-          })
-          .then(() => {
-            return space.createEnvironment({
-              name: 'Testing Environment',
-            })
+          .createEnvironment({
+            name: 'Testing Environment',
           })
           .then((environment) => {
             return waitForEnvironmentToBeReady(space, environment)
