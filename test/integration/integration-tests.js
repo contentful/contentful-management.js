@@ -188,11 +188,14 @@ test('Creates, updates and deletes a space', (t) => {
 })
 
 test('Gets space for read only tests', (t) => {
-  return client.getSpace('ezs1swce23xe').then((space) => {
-    contentTypeReadOnlyTests(t, space)
-    entryReadOnlyTests(t, space)
-    assetReadOnlyTests(t, space)
-  })
+  return client
+    .getSpace('ezs1swce23xe')
+    .then((space) => space.getEnvironment('master'))
+    .then((environment) => {
+      contentTypeReadOnlyTests(t, environment)
+      entryReadOnlyTests(t, environment)
+      assetReadOnlyTests(t, environment)
+    })
 })
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68').then((space) => {
@@ -264,7 +267,7 @@ test('Create space for tests which create, change and delete data', (t) => {
         webhookTests(t, space),
         roleTests(t, space),
         apiKeyTests(t, space),
-        environmentTests(t, space, waitForEnvironmentToBeReady),
+        environmentTests(t, space),
       ])
     })
 })
@@ -296,14 +299,8 @@ test('Create space with an environment for tests which create, change and delete
       // client.getSpace('gauywn1xskhq')
       .then((space) => {
         return space
-          .createLocale({
-            name: 'German (Germany)',
-            code: 'de-DE',
-          })
-          .then(() => {
-            return space.createEnvironment({
-              name: 'Testing Environment',
-            })
+          .createEnvironment({
+            name: 'Testing Environment',
           })
           .then((environment) => {
             return waitForEnvironmentToBeReady(space, environment)
