@@ -15,6 +15,7 @@ import {
 import { wrapEditorInterface } from './editor-interface'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
+import { Except, SetOptional } from 'type-fest'
 
 import { ContentFields } from './content-type-fields'
 import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
@@ -30,6 +31,11 @@ export type ContentTypeProps = {
   /** All the fields contained in this Content Type */
   fields: ContentFields[]
 }
+
+export type CreateContentTypeProps = SetOptional<
+  Except<ContentTypeProps, 'sys'>,
+  'description' | 'displayField'
+>
 
 type ContentTypeApi = {
   /**
