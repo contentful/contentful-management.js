@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { JsonValue } from 'type-fest'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -8,6 +9,40 @@ import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaSysProps } from '../common-types'
 
 const entityPath = 'webhook_definitions'
+
+interface EqualityConstraint {
+  equals: [Doc, string]
+}
+interface Doc {
+  doc: 'sys.id' | 'sys.contentType.sys.id' | 'sys.environment.sys.id'
+}
+
+interface InConstraint {
+  in: [Doc, [string, ...string[]]]
+}
+
+interface RegexpConstraint {
+  regexp: [Doc, Pattern]
+}
+
+interface Pattern {
+  pattern: string
+}
+
+interface NotConstraint {
+  not: EqualityConstraint | InConstraint | RegexpConstraint
+}
+
+export type WebhookHeader = { key: string; value: string; secret?: boolean }
+
+export type WebhookFilter = EqualityConstraint | InConstraint | RegexpConstraint | NotConstraint
+
+export type WebhookTransformation = {
+  method?: string
+  contentType?: string
+  includeContentLength?: boolean
+  body?: JsonValue
+}
 
 export type WebhookProps = {
   /**
@@ -26,36 +61,34 @@ export type WebhookProps = {
   url: string
 
   /**
-   * Username for basic http auth
-   */
-  httpBasicUsername: string
-
-  /**
-   * Password for basic http auth
-   */
-  httpBasicPassword: string
-
-  /**
-   * Headers that should be appended to the webhook request
-   */
-  headers: {
-    [key: string]: string
-  }
-
-  /**
    * Topics the webhook wants to subscribe to
    */
   topics: string[]
 
   /**
+   * Username for basic http auth
+   */
+  httpBasicUsername?: string
+
+  /**
+   * Password for basic http auth
+   */
+  httpBasicPassword?: string
+
+  /**
+   * Headers that should be appended to the webhook request
+   */
+  headers: Array<WebhookHeader>
+
+  /**
+   * Webhook filters
+   */
+  filters?: WebhookFilter[]
+
+  /**
    * Transformation to apply
    */
-  transformation?: {
-    method?: string
-    contentType?: string
-    includeContentLength?: boolean
-    body?: object
-  }
+  transformation?: WebhookTransformation
 }
 
 export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
