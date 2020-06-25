@@ -278,14 +278,9 @@ test('Create space for tests which create, change and delete data', (t) => {
       .then((space) => {
         test.onFinish(() => space.delete())
         return Promise.all([
-          localeTests(t, space),
-          contentTypeWriteTests(t, space),
-          entryWriteTests(t, space),
-          assetWriteTests(t, space),
           webhookTests(t, space),
           roleTests(t, space),
           apiKeyTests(t, space),
-          uiExtensionTests(t, space),
           environmentTests(t, space, waitForEnvironmentToBeReady),
         ])
       })

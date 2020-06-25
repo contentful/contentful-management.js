@@ -32,17 +32,11 @@ export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
   const sdkHttp = (http as unknown) as SdkHttpClient
 
   const space = toPlainObject(cloneDeep(data))
-  const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
   const spaceScopedHttpClient = sdkHttp.cloneWithNewParams({
     space: space.sys.id,
   })
-  const spaceScopedUploadClient = sdkHttp.cloneWithNewParams({
-    space: space.sys.id,
-    host: hostUpload || defaultHostnameUpload,
-  })
   const spaceApi = createSpaceApi({
     http: spaceScopedHttpClient,
-    httpUpload: spaceScopedUploadClient,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)
