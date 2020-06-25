@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { GetEnvironmentParams } from './environment'
 import { QueryParams, CollectionProp } from './common-types'
 
-export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
+export type GetManyAssetsParams = GetEnvironmentParams & QueryParams
 
 export const get = (
   http: AxiosInstance,
@@ -21,10 +21,10 @@ export const get = (
   )
 }
 
-export const getMany = (http: AxiosInstance, params: GetManyEntriesParams) => {
+export const getMany = (http: AxiosInstance, params: GetManyAssetsParams) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
     {
       params: normalizeSelect(params.query),
     }
