@@ -1,17 +1,18 @@
-import cloneDeep from 'lodash/cloneDeep'
-import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
-import entities from './entities'
-
-import type { CreateContentTypeProps, ContentType } from './entities/content-type'
-import type { QueryOptions } from './common-types'
-import { EntryProp, Entry } from './entities/entry'
-import type { AssetFileProp, AssetProps } from './entities/asset'
-import type { CreateLocaleProps } from './entities/locale'
-import type { UIExtensionProps } from './entities/ui-extension'
-import type { AppInstallationProps } from './entities/app-installation'
-import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
+import { createRequestConfig } from 'contentful-sdk-core'
+import cloneDeep from 'lodash/cloneDeep'
+import { Stream } from 'stream'
+import { QueryOptions } from './common-types'
+import entities from './entities'
+import { AppInstallationProps } from './entities/app-installation'
+import { AssetFileProp, AssetProps } from './entities/asset'
+
+import { ContentType, CreateContentTypeProps } from './entities/content-type'
+import { Entry, EntryProp } from './entities/entry'
+import { CreateLocaleProps } from './entities/locale'
+import { wrapTag, wrapTagCollection } from './entities/tag'
+import { UIExtensionProps } from './entities/ui-extension'
+import errorHandler from './error-handler'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -1009,6 +1010,25 @@ export default function createEnvironmentApi({
       return http
         .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
         .then((response) => wrapSnapshotCollection<ContentType>(http, response.data), errorHandler)
+    },
+
+    createTag(id: string, name: string) {
+      return http
+        .put(`tags/${id}`, {
+          name,
+          sys: {
+            id,
+          },
+        })
+        .then((response) => wrapTag(http, response.data), errorHandler)
+    },
+    getTags(skip?: number, limit?: number) {
+      return http
+        .get('tags', { params: { skip, limit } })
+        .then((response) => wrapTagCollection(http, response.data), errorHandler)
+    },
+    getTag(id: string) {
+      return http.get('tags/' + id).then((response) => wrapTag(http, response.data), errorHandler)
     },
   }
 }

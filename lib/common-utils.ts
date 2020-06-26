@@ -15,3 +15,9 @@ export const wrapCollection = <R, T>(fn: (http: AxiosInstance, entity: T) => R) 
   // @ts-ignore
   return collectionData
 }
+
+export const VersionHeader = (version?: number) => ({
+  headers: {
+    'X-Contentful-Version': Number.isInteger(version) ? version : 0,
+  },
+})
