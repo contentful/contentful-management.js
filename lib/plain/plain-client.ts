@@ -1,6 +1,6 @@
 import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './endpoints'
-import { wrap, DefaultParams } from './wrappers/wrap'
+import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
@@ -9,6 +9,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   const wrapParams = { http, defaults }
 
   return {
+    organization: {
+      getAll: wrapHttp(http, endpoints.organization.getAll),
+    },
     space: {
       get: wrap(wrapParams, endpoints.space.get),
       update: wrap(wrapParams, endpoints.space.update),
@@ -23,6 +26,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     user: {
       getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
+      getCurrent: wrapHttp(http, endpoints.user.getCurrent),
     },
     entry: {
       getMany: wrap(wrapParams, endpoints.entry.getMany),

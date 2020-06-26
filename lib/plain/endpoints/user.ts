@@ -11,3 +11,5 @@ export const getManyForSpace = (http: AxiosInstance, params: GetManyUsersParams)
     params: params.query,
   })
 }
+
+export const getCurrent = (http: AxiosInstance) => raw.get<UserProps>(http, `/users/me`)

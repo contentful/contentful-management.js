@@ -47,3 +47,7 @@ export const wrap = <T extends any[], P extends {}, R>(
 ) => {
   return withDefaults(defaults, withHttp(http, fn))
 }
+
+type EndpointWithHttp<R> = (http: AxiosInstance) => R
+
+export const wrapHttp = <R>(http: AxiosInstance, fn: EndpointWithHttp<R>) => () => fn(http)
