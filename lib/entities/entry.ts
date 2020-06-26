@@ -18,15 +18,15 @@ import {
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import {
-  BasicMetaSysProps,
   MetaLinkProps,
   DefaultElements,
   Collection,
   KeyValueMap,
+  MetaSysProps,
 } from '../common-types'
 
 export type EntryProps<T = KeyValueMap> = {
-  sys: BasicMetaSysProps & {
+  sys: MetaSysProps & {
     space: { sys: MetaLinkProps }
     contentType: { sys: MetaLinkProps }
     environment: { sys: MetaLinkProps }

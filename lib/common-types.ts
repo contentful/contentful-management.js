@@ -27,6 +27,11 @@ export interface MetaSysProps extends BasicMetaSysProps {
   status?: { sys: MetaLinkProps }
   publishedVersion?: number
   archivedVersion?: number
+  archivedBy?: { sys: MetaLinkProps }
+  archivedAt?: string
+  deletedVersion?: number
+  deletedBy?: { sys: MetaLinkProps }
+  deletedAt?: string
 }
 
 export interface MetaLinkProps {
