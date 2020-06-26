@@ -212,7 +212,11 @@ const teamSpaceMembershipMock = {
   sys: Object.assign(cloneDeep(membershipMock), {
     type: 'TeamSpaceMembership',
     space: {
-      sys: { id: 'space_id', type: 'Link', linkType: 'Space' },
+      sys: {
+        id: 'space_id',
+        type: 'Link',
+        linkType: 'Space',
+      },
     },
   }),
   roles: [{ sys: Object.assign(cloneDeep(linkMock), { linkType: 'Role' }) }],
@@ -309,6 +313,27 @@ const errorMock = {
   },
 }
 
+export const tagMock = {
+  name: 'My tag',
+  sys: {
+    id: 'my-tag',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    version: 1,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'Tag',
+    environment: {
+      sys: {
+        id: 'environment-id',
+        type: 'Link',
+        linkType: 'Environment',
+      },
+    },
+  },
+}
+
 const mocks = {
   link: linkMock,
   sys: sysMock,
@@ -338,6 +363,7 @@ const mocks = {
   personalAccessToken: personalAccessTokenMock,
   usage: usageMock,
   environmentAlias: environmentAliasMock,
+  tag: tagMock,
 }
 
 function cloneMock(name) {

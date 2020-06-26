@@ -5,36 +5,41 @@ import createEnvironmentApi, {
   __RewireAPI__ as createEnvironmentApiRewireApi,
 } from '../../lib/create-environment-api'
 import {
-  contentTypeMock,
-  editorInterfaceMock,
+  appInstallationMock,
   assetMock,
   assetWithFilesMock,
-  uploadMock,
+  cloneMock,
+  contentTypeMock,
+  editorInterfaceMock,
   entryMock,
   localeMock,
+  mockCollection,
   setupEntitiesMock,
-  cloneMock,
-  uiExtensionMock,
-  appInstallationMock,
   snapShotMock,
+  uiExtensionMock,
+  uploadMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import {
-  makeGetEntityTest,
-  makeGetCollectionTest,
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
   makeEntityMethodFailingTest,
+  makeGetCollectionTest,
+  makeGetEntityTest,
   testGettingEntrySDKObject,
 } from './test-creators/static-entity-methods'
 import { wrapEntry } from '../../lib/entities/entry'
 import { wrapAsset } from '../../lib/entities/asset'
+import { wrapTagCollection } from '../../lib/entities/tag'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
-  const api = createEnvironmentApi({ http: httpMock, httpUpload: httpUploadMock })
+  const api = createEnvironmentApi({
+    http: httpMock,
+    httpUpload: httpUploadMock,
+  })
   return {
     api,
     httpMock,
@@ -71,14 +76,21 @@ test('API call environment delete fails', (t) => {
 test('API call environment update', (t) => {
   t.plan(3)
   const responseData = {
-    sys: { id: 'id', type: 'Environment' },
+    sys: {
+      id: 'id',
+      type: 'Environment',
+    },
     name: 'updatedname',
   }
   let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
   entitiesMock.environment.wrapEnvironment.returns(responseData)
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = { id: 'id', type: 'Environment', version: 2 }
+  api.sys = {
+    id: 'id',
+    type: 'Environment',
+    version: 2,
+  }
   api = toPlainObject(api)
 
   api.name = 'updatedname'
@@ -96,7 +108,11 @@ test('API call environment update fails', (t) => {
   let { api } = setup(Promise.reject(error))
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = { id: 'id', type: 'Space', version: 2 }
+  api.sys = {
+    id: 'id',
+    type: 'Space',
+    version: 2,
+  }
   api = toPlainObject(api)
 
   return api.update().catch((r) => {
@@ -659,5 +675,33 @@ test('API call getAppInstallations', (t) => {
 test('API call getAppInstallations fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getAppInstallations',
+  })
+})
+
+test('API call getTag', (t) => {
+  t.plan(1)
+  const tag = cloneMock('tag')
+  const { api } = setup(Promise.resolve({ data: cloneMock('tag') }))
+  api.getTag(tag.id).then((r) => {
+    t.looseEqual(r, tag)
+  })
+})
+
+test('API call getTags', (t) => {
+  t.plan(1)
+  const tagCollection = mockCollection(cloneMock('tag'))
+  const { api, httpMock } = setup(Promise.resolve({ data: tagCollection }))
+  const wrappedCollection = wrapTagCollection(httpMock, tagCollection)
+  api.getTags(0, 1).then((r) => {
+    t.looseEqual(r, wrappedCollection)
+  })
+})
+
+test('API call createTag', (t) => {
+  t.plan(1)
+  const tag = cloneMock('tag')
+  const { api } = setup(Promise.resolve({ data: cloneMock('tag') }))
+  api.createTag('my-tag', 'My tag').then((r) => {
+    t.looseEqual(r, tag)
   })
 })
