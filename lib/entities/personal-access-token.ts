@@ -14,6 +14,8 @@ export type PersonalAccessTokenProp = {
   token?: string
 }
 
+export type CreatePersonalAccessTokenProps = Pick<PersonalAccessToken, 'name' | 'scopes'>
+
 export interface PersonalAccessToken
   extends PersonalAccessTokenProp,
     DefaultElements<PersonalAccessTokenProp> {

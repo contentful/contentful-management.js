@@ -5,7 +5,7 @@ import entities from './entities'
 import { CollectionProp, Collection, QueryOptions } from './common-types'
 import { OrganizationProp, Organization } from './entities/organization'
 import { SpaceProps, Space } from './entities/space'
-import { PersonalAccessTokenProp } from './entities/personal-access-token'
+import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import { UsageQuery, UsageProps } from './entities/usage'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
@@ -198,7 +198,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     createPersonalAccessToken: function createPersonalAccessToken(
-      data: Omit<PersonalAccessTokenProp, 'sys'>
+      data: CreatePersonalAccessTokenProps
     ) {
       const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
       return http

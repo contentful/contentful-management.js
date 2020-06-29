@@ -3,11 +3,11 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
 
-import type { ContentTypeProps, ContentType } from './entities/content-type'
+import type { CreateContentTypeProps, ContentType } from './entities/content-type'
 import type { QueryOptions } from './common-types'
 import { EntryProp, Entry } from './entities/entry'
 import type { AssetFileProp, AssetProps } from './entities/asset'
-import type { LocaleProps } from './entities/locale'
+import type { CreateLocaleProps } from './entities/locale'
 import type { UIExtensionProps } from './entities/ui-extension'
 import type { AppInstallationProps } from './entities/app-installation'
 import { Stream } from 'stream'
@@ -269,7 +269,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createContentType(data: Omit<ContentTypeProps, 'sys'>) {
+    createContentType(data: CreateContentTypeProps) {
       return http
         .post('content_types', data)
         .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -304,7 +304,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
+    createContentTypeWithId(id: string, data: CreateContentTypeProps) {
       return http
         .put('content_types/' + id, data)
         .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -761,7 +761,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createLocale(data: Omit<LocaleProps, 'sys'>) {
+    createLocale(data: CreateLocaleProps) {
       return http
         .post('locales', data)
         .then((response) => wrapLocale(http, response.data), errorHandler)

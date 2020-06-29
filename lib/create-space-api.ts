@@ -10,13 +10,13 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
 import { EnvironmentProps } from './entities/environment'
-import { ContentTypeProps } from './entities/content-type'
+import { CreateContentTypeProps } from './entities/content-type'
 import { EntryProp } from './entities/entry'
 import { AssetProps, AssetFileProp } from './entities/asset'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
 import { RoleProps } from './entities/role'
-import { LocaleProps } from './entities/locale'
+import { CreateLocaleProps } from './entities/locale'
 import { WebhookProps } from './entities/webhook'
 import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
@@ -346,7 +346,7 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createContentType(data: Omit<ContentTypeProps, 'sys'>) {
+    createContentType(data: CreateContentTypeProps) {
       raiseDeprecationWarning('createContentType')
       return http
         .post('content_types', data)
@@ -382,7 +382,7 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
+    createContentTypeWithId(id: string, data: CreateContentTypeProps) {
       raiseDeprecationWarning('createContentTypeWithId')
       return http
         .put('content_types/' + id, data)
@@ -843,7 +843,7 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createLocale(data: Omit<LocaleProps, 'sys'>) {
+    createLocale(data: CreateLocaleProps) {
       raiseDeprecationWarning('createLocale')
       return http
         .post('locales', data)
