@@ -9,6 +9,10 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   const wrapParams = { http, defaults }
 
   return {
+    editorInterface: {
+      get: wrap(wrapParams, endpoints.editorInterface.get),
+      update: wrap(wrapParams, endpoints.editorInterface.update),
+    },
     organization: {
       getAll: wrapHttp(http, endpoints.organization.getAll),
     },
