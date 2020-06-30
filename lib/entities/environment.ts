@@ -22,6 +22,10 @@ export type EnvironmentProps = {
   name: string
 }
 
+export type CreateEnvironmentProps = {
+  name?: string
+}
+
 export type Environment = ContentfulEnvironmentAPI &
   EnvironmentProps &
   DefaultElements<EnvironmentProps>

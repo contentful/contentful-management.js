@@ -23,7 +23,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     environment: {
       get: wrap(wrapParams, endpoints.environment.get),
+      getAll: wrap(wrapParams, endpoints.environment.getAll),
+      create: wrap(wrapParams, endpoints.environment.create),
+      createWithId: wrap(wrapParams, endpoints.environment.createWithId),
       update: wrap(wrapParams, endpoints.environment.update),
+      delete: wrap(wrapParams, endpoints.environment.del),
     },
     contentType: {
       getMany: wrap(wrapParams, endpoints.contentType.getMany),
