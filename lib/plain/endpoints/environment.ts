@@ -64,7 +64,7 @@ export const createWithId = (
 ) => {
   const { spaceId, environmentId } = params
   return create(http, { spaceId }, rawData, {
-    ...(headers || {}),
+    ...headers,
     'X-Contentful-Source-Environment': environmentId,
   })
 }

@@ -22,9 +22,7 @@ export type EnvironmentProps = {
   name: string
 }
 
-export type CreateEnvironmentProps = {
-  name?: string
-}
+export type CreateEnvironmentProps = Partial<Omit<EnvironmentProps, 'sys'>>
 
 export type Environment = ContentfulEnvironmentAPI &
   EnvironmentProps &
