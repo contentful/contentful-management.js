@@ -4,7 +4,7 @@ import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements, MetadataProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
@@ -44,6 +44,7 @@ export type AssetProps = {
       }
     }
   }
+  metadata?: MetadataProps
 }
 
 export interface AssetFileProp {
