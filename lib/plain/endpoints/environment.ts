@@ -3,7 +3,7 @@ import * as raw from './raw'
 import { EnvironmentProps, CreateEnvironmentProps } from '../../entities/environment'
 import cloneDeep from 'lodash/cloneDeep'
 import { GetSpaceParams } from './space'
-import { CollectionProp } from './common-types'
+import { CollectionProp, PaginationQueryParams } from './common-types'
 
 export type GetEnvironmentParams = GetSpaceParams & { environmentId: string }
 
@@ -14,8 +14,10 @@ export const get = (http: AxiosInstance, params: GetEnvironmentParams) => {
   )
 }
 
-export const getAll = (http: AxiosInstance, params: GetSpaceParams) => {
-  return raw.get<CollectionProp<EnvironmentProps>>(http, `/spaces/${params.spaceId}/environments`)
+export const getMany = (http: AxiosInstance, params: GetSpaceParams & PaginationQueryParams) => {
+  return raw.get<CollectionProp<EnvironmentProps>>(http, `/spaces/${params.spaceId}/environments`, {
+    params: params.query,
+  })
 }
 
 export const update = (

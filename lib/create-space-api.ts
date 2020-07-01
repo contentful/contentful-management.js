@@ -12,7 +12,7 @@ import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
 import { RoleProps } from './entities/role'
 import { WebhookProps } from './entities/webhook'
-import { QueryOptions } from './common-types'
+import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
@@ -137,11 +137,12 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getEnvironments() {
+    getEnvironments(query: PaginationQueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
       return endpoints.environment
-        .getAll(http, {
+        .getMany(http, {
           spaceId: raw.sys.id,
+          query,
         })
         .then((data) => wrapEnvironmentCollection(http, data))
     },
