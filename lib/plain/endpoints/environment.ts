@@ -33,8 +33,8 @@ export const update = (
     data,
     {
       headers: {
-        'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
+        'X-Contentful-Version': rawData.sys.version ?? 0,
       },
     }
   )
@@ -58,13 +58,24 @@ export const create = (
 
 export const createWithId = (
   http: AxiosInstance,
-  params: GetEnvironmentParams,
+  params: GetEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
-  const { spaceId, environmentId } = params
-  return create(http, { spaceId }, rawData, {
-    ...headers,
-    'X-Contentful-Source-Environment': environmentId,
-  })
+  const data = cloneDeep(rawData)
+  return raw.put<EnvironmentProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}`,
+    data,
+    {
+      headers: {
+        ...headers,
+        ...(params.sourceEnvironmentId
+          ? {
+              'X-Contentful-Source-Environment': params.sourceEnvironmentId,
+            }
+          : {}),
+      },
+    }
+  )
 }

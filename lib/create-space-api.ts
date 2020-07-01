@@ -195,14 +195,19 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createEnvironmentWithId(id: string, data: CreateEnvironmentProps, sourceEnvironmentId: string) {
+    createEnvironmentWithId(
+      id: string,
+      data: CreateEnvironmentProps,
+      sourceEnvironmentId?: string
+    ) {
       const raw = this.toPlainObject() as SpaceProps
       return endpoints.environment
         .createWithId(
           http,
           {
             spaceId: raw.sys.id,
-            environmentId: sourceEnvironmentId,
+            environmentId: id,
+            sourceEnvironmentId,
           },
           data
         )
