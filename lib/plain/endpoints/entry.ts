@@ -6,8 +6,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import { GetEnvironmentParams } from './environment'
 import { QueryParams, CollectionProp, KeyValueMap } from './common-types'
 
-export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
-
 export const get = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetEnvironmentParams & { entryId: string } & QueryParams
@@ -20,6 +18,8 @@ export const get = <T extends KeyValueMap = KeyValueMap>(
     }
   )
 }
+
+export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
 
 export const getMany = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
