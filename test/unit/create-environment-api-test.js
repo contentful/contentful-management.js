@@ -1,7 +1,9 @@
 import test from 'blue-tape'
 
 import { toPlainObject } from 'contentful-sdk-core'
-import createEnvironmentApi, { __RewireAPI__ as createEnvironmentApiRewireApi, } from '../../lib/create-environment-api'
+import createEnvironmentApi, {
+  __RewireAPI__ as createEnvironmentApiRewireApi,
+} from '../../lib/create-environment-api'
 import {
   appInstallationMock,
   assetMock,
