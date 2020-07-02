@@ -13,6 +13,7 @@ import type { AppInstallationProps } from './entities/app-installation'
 import { wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import errorHandler from './error-handler'
+import { EnvironmentProps } from './entities/environment'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -73,9 +74,12 @@ export default function createEnvironmentApi({
      * ```
      */
     delete: function deleteEnvironment() {
-      return http.delete('').then(() => {
-        // noop
-      }, errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.environment
+        .del(http, { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id })
+        .then(() => {
+          // noop
+        })
     },
     /**
      * Updates the environment
@@ -98,7 +102,7 @@ export default function createEnvironmentApi({
      * ```
      */
     update: function updateEnvironment() {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.environment
         .update(http, { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id }, raw)
         .then((data) => {
@@ -216,7 +220,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getContentTypes(query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.contentType
         .getMany(http, {
           spaceId: raw.sys.space.sys.id,
@@ -341,7 +345,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntry(id: string, query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.entry
         .get(http, {
           spaceId: raw.sys.space.sys.id,
@@ -373,7 +377,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntries(query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.entry
         .getMany(http, {
           spaceId: raw.sys.space.sys.id,
@@ -409,7 +413,7 @@ export default function createEnvironmentApi({
      * ```
      */
     createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.entry
         .create(
           http,
@@ -451,7 +455,7 @@ export default function createEnvironmentApi({
      * ```
      */
     createEntryWithId(contentTypeId: string, id: string, data: CreateEntryProps) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.entry
         .createWithId(
           http,
@@ -488,7 +492,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getAsset(id: string, query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.asset
         .get(http, {
           spaceId: raw.sys.space.sys.id,
@@ -520,7 +524,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getAssets(query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.asset
         .getMany(http, {
           spaceId: raw.sys.space.sys.id,
@@ -561,7 +565,7 @@ export default function createEnvironmentApi({
      * ```
      */
     createAsset(data: CreateAssetProps) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.asset
         .create(
           http,
@@ -604,7 +608,7 @@ export default function createEnvironmentApi({
      * ```
      */
     createAssetWithId(id: string, data: CreateAssetProps) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.asset
         .createWithId(
           http,
@@ -768,7 +772,7 @@ export default function createEnvironmentApi({
      * ```
      */
     getLocales() {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.locale
         .getMany(http, {
           spaceId: raw.sys.space.sys.id,
