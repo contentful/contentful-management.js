@@ -7,14 +7,15 @@ import { AxiosInstance } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
-import { EnvironmentProps } from './entities/environment'
+import { CreateEnvironmentProps } from './entities/environment'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
 import { RoleProps } from './entities/role'
 import { WebhookProps } from './entities/webhook'
-import { QueryOptions } from './common-types'
+import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
+import { SpaceProps } from './entities/space'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -65,7 +66,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     delete: function deleteSpace() {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as SpaceProps
       return endpoints.space.del(http, { spaceId: raw.sys.id })
     },
     /**
@@ -88,7 +89,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     update: function updateSpace() {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as SpaceProps
       return endpoints.space
         .update(http, { spaceId: raw.sys.id }, raw)
         .then((data) => wrapSpace(http, data))
@@ -111,7 +112,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getEnvironment(environmentId: string) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as SpaceProps
       return endpoints.environment
         .get(http, {
           spaceId: raw.sys.id,
@@ -136,10 +137,14 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getEnvironments() {
-      return http
-        .get('environments')
-        .then((response) => wrapEnvironmentCollection(http, response.data), errorHandler)
+    getEnvironments(query: PaginationQueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query,
+        })
+        .then((data) => wrapEnvironmentCollection(http, data))
     },
 
     /**
@@ -159,10 +164,17 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createEnvironment(data = {}) {
-      return http
-        .post('environments', data)
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    createEnvironment(data: CreateEnvironmentProps = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+          },
+          data
+        )
+        .then((response) => wrapEnvironment(http, response))
     },
 
     /**
@@ -186,16 +198,21 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      */
     createEnvironmentWithId(
       id: string,
-      data: Omit<EnvironmentProps, 'sys'>,
+      data: CreateEnvironmentProps,
       sourceEnvironmentId?: string
     ) {
-      return http
-        .put('environments/' + id, data, {
-          headers: sourceEnvironmentId
-            ? { 'X-Contentful-Source-Environment': sourceEnvironmentId }
-            : {},
-        })
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.id,
+            environmentId: id,
+            sourceEnvironmentId,
+          },
+          data
+        )
+        .then((response) => wrapEnvironment(http, response))
     },
 
     /**
@@ -480,7 +497,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceUsers(query: QueryOptions = {}) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as SpaceProps
       return endpoints.user
         .getManyForSpace(http, {
           spaceId: raw.sys.id,

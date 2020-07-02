@@ -4,10 +4,13 @@ export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
 
-export interface QueryOptions {
+export interface PaginationQueryOptions {
   skip?: number
   limit?: number
   order?: string
+}
+
+export interface QueryOptions extends PaginationQueryOptions {
   content_type?: string
   include?: number
   select?: string
