@@ -731,7 +731,7 @@ export default function createEnvironmentApi({
     createUpload: createUpload,
     /**
      * Gets a Locale
-     * @param id - Locale ID
+     * @param localeId - Locale ID
      * @return Promise for an Locale
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -747,10 +747,15 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    getLocale(id: string) {
-      return http
-        .get('locales/' + id)
-        .then((response) => wrapLocale(http, response.data), errorHandler)
+    getLocale(localeId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.locale
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          localeId,
+        })
+        .then((data) => wrapLocale(http, data))
     },
 
     /**
@@ -804,9 +809,17 @@ export default function createEnvironmentApi({
      * ```
      */
     createLocale(data: CreateLocaleProps) {
-      return http
-        .post('locales', data)
-        .then((response) => wrapLocale(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.locale
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapLocale(http, data))
     },
     /**
      * Gets an UI Extension
