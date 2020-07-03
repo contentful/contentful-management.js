@@ -309,15 +309,7 @@ export default function createEnvironmentApi({
      */
     createContentTypeWithId(contentTypeId: string, data: CreateContentTypeProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      console.log(
-        'createContentTypeWithId',
-        {
-          spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
-          contentTypeId,
-        },
-        contentTypeId
-      )
+
       return endpoints.contentType
         .createWithId(
           http,
