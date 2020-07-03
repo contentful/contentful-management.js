@@ -178,7 +178,7 @@ export default function createEnvironmentApi({
 
     /**
      * Gets a Content Type
-     * @param id - Content Type ID
+     * @param contentTypeId - Content Type ID
      * @return Promise for a Content Type
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -194,10 +194,16 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    getContentType(id: string) {
-      return http
-        .get('content_types/' + id)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
+    getContentType(contentTypeId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+
+      return endpoints.contentType
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          contentTypeId,
+        })
+        .then((data) => wrapContentType(http, data))
     },
 
     /**
@@ -258,13 +264,22 @@ export default function createEnvironmentApi({
      * ```
      */
     createContentType(data: CreateContentTypeProps) {
-      return http
-        .post('content_types', data)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+
+      return endpoints.contentType
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapContentType(http, data))
     },
     /**
      * Creates a Content Type with a custom ID
-     * @param id - Content Type ID
+     * @param contentTypeId - Content Type ID
      * @param data - Object representation of the Content Type to be created
      * @return Promise for the newly created Content Type
      * @example ```javascript
@@ -292,10 +307,20 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createContentTypeWithId(id: string, data: CreateContentTypeProps) {
-      return http
-        .put('content_types/' + id, data)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
+    createContentTypeWithId(contentTypeId: string, data: CreateContentTypeProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+
+      return endpoints.contentType
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            contentTypeId,
+          },
+          data
+        )
+        .then((data) => wrapContentType(http, data))
     },
 
     /**

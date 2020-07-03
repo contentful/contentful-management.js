@@ -19,21 +19,21 @@ export interface BasicMetaSysProps {
   type: string
   id: string
   version: number
-  createdBy?: { sys: MetaLinkProps }
+  createdBy?: SysLink
   createdAt: string
-  updatedBy?: { sys: MetaLinkProps }
+  updatedBy?: SysLink
   updatedAt: string
 }
 
 export interface MetaSysProps extends BasicMetaSysProps {
-  space?: { sys: MetaLinkProps }
-  status?: { sys: MetaLinkProps }
+  space?: SysLink
+  status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: { sys: MetaLinkProps }
+  archivedBy?: SysLink
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: { sys: MetaLinkProps }
+  deletedBy?: SysLink
   deletedAt?: string
 }
 
@@ -41,6 +41,10 @@ export interface MetaLinkProps {
   type: string
   linkType: string
   id: string
+}
+
+export interface SysLink {
+  sys: MetaLinkProps
 }
 
 export interface CollectionProp<TObj> {
