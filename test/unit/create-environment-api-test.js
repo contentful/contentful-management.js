@@ -156,7 +156,7 @@ test('API call createContentTypeWithId', (t) => {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
     methodToTest: 'createContentTypeWithId',
-    entityPath: 'content_types',
+    entityPath: '/spaces/id/environments/id/content_types',
   })
 })
 
