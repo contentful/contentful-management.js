@@ -4,11 +4,11 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { BasicMetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type LocaleProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: { sys: MetaLinkProps }; environment: { sys: MetaLinkProps } }
   /**
    * Locale name
    */
@@ -87,21 +87,26 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
 }
 
 function createLocaleApi(http: AxiosInstance) {
+  const getParams = (locale: LocaleProps) => ({
+    spaceId: locale.sys.space.sys.id,
+    environmentId: locale.sys.environment.sys.id,
+    localeId: locale.sys.id,
+  })
+
   return {
     update: function () {
-      const self = this as Locale
-      delete self.default // we should not send this back
-      return createUpdateEntity({
-        http: http,
-        entityPath: 'locales',
-        wrapperMethod: wrapLocale,
-      }).call(self)
+      const raw = this.toPlainObject() as LocaleProps
+      return endpoints.locale
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapLocale(http, data))
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'locales',
-    }),
+    delete: function () {
+      const raw = this.toPlainObject() as LocaleProps
+      return endpoints.locale.del(http, getParams(raw)).then(() => {
+        // noop
+      })
+    },
   }
 }
 

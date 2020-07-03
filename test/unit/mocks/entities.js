@@ -205,6 +205,9 @@ const uploadMock = {
 
 const localeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     type: 'Locale',
   }),
   name: 'English',
