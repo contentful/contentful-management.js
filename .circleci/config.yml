@@ -58,3 +58,10 @@ workflows:
           requires:
             - unit
             - integration
+          filters:
+            branches:
+              only:
+                - master
+                - next
+                - next-major
+                - experimental
