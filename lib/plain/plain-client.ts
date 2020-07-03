@@ -30,7 +30,13 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       delete: wrap(wrapParams, endpoints.environment.del),
     },
     contentType: {
+      get: wrap(wrapParams, endpoints.contentType.get),
       getMany: wrap(wrapParams, endpoints.contentType.getMany),
+      update: wrap(wrapParams, endpoints.contentType.update),
+      delete: wrap(wrapParams, endpoints.contentType.del),
+      publish: wrap(wrapParams, endpoints.contentType.publish),
+      unpublish: wrap(wrapParams, endpoints.contentType.unpublish),
+      omitAndDeleteField: wrap(wrapParams, endpoints.contentType.omitAndDeleteField),
     },
     user: {
       getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),

@@ -74,6 +74,12 @@ const appDefinitionMock = {
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
   name: 'name',
   description: 'desc',

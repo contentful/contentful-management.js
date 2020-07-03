@@ -9,6 +9,7 @@ import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
 
 export { createPlainClient } from './plain/plain-client'
 export { asIterator } from './plain/as-iterator'
+export { isDraft, isPublished, isUpdated } from './plain/checks'
 
 /**
  * Create a client instance

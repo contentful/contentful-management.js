@@ -3,35 +3,28 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-} from '../instance-actions'
 import { wrapEditorInterface } from './editor-interface'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 import { Except, SetOptional } from 'type-fest'
+import { isUpdated, isPublished, isDraft } from '../plain/checks'
 
 import { ContentFields } from './content-type-fields'
 import {
   BasicMetaSysProps,
-  MetaLinkProps,
   DefaultElements,
   Collection,
   QueryOptions,
+  SysLink,
 } from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
+import * as endpoints from '../plain/endpoints'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
-    space: MetaLinkProps
-    environment: MetaLinkProps
+    space: SysLink
+    environment: SysLink
     firstPublishedAt?: string
     publishedCounter?: number
     publishedVersion?: number
@@ -213,29 +206,44 @@ export interface ContentType
     ContentTypeApi {}
 
 function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
+  const getParams = (contentType: ContentTypeProps) => ({
+    spaceId: contentType.sys.space.sys.id,
+    environmentId: contentType.sys.environment.sys.id,
+    contentTypeId: contentType.sys.id,
+  })
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+    update: function () {
+      const raw = this.toPlainObject() as ContentTypeProps
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'content_types',
-    }),
+      return endpoints.contentType
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapContentType(http, data))
+    },
 
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+    delete: function () {
+      const raw = this.toPlainObject() as ContentTypeProps
 
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+      return endpoints.contentType.del(http, getParams(raw)).then(() => {
+        // noop
+      })
+    },
+
+    publish: function () {
+      const raw = this.toPlainObject() as ContentTypeProps
+
+      return endpoints.contentType
+        .publish(http, getParams(raw), raw)
+        .then((data) => wrapContentType(http, data))
+    },
+
+    unpublish: function () {
+      const raw = this.toPlainObject() as ContentTypeProps
+
+      return endpoints.contentType
+        .unpublish(http, getParams(raw))
+        .then((data) => wrapContentType(http, data))
+    },
 
     getEditorInterface: function () {
       return http
@@ -258,43 +266,26 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
         .then((response) => wrapSnapshot<ContentTypeProps>(http, response.data), errorHandler)
     },
 
-    isPublished: createPublishedChecker(),
+    isPublished: function () {
+      return isPublished(this)
+    },
 
-    isUpdated: createUpdatedChecker(),
+    isUpdated: function () {
+      return isUpdated(this)
+    },
 
-    isDraft: createDraftChecker(),
+    isDraft: function () {
+      return isDraft(this)
+    },
 
     omitAndDeleteField: function (id: string) {
-      return findAndUpdateField(this as ContentType, id, 'omitted', true)
-        .then((newContentType) => findAndUpdateField(newContentType, id, 'deleted', true))
-        .catch(errorHandler)
+      const raw = this.toPlainObject() as ContentTypeProps
+
+      return endpoints.contentType
+        .omitAndDeleteField(http, getParams(raw), raw, id)
+        .then((data) => wrapContentType(http, data))
     },
   }
-}
-
-/**
- * @private
- * @param id - unique ID of the field
- * @param key - the attribute on the field to change
- * @param value - the value to set the attribute to
- */
-const findAndUpdateField = function (
-  contentType: ContentType,
-  id: string,
-  key: string,
-  value: any
-) {
-  const field = contentType.fields.find((field) => field.id === id)
-  if (!field) {
-    return Promise.reject(
-      new Error(
-        `Tried to omitAndDeleteField on a nonexistent field, ${id}, on the content type ${contentType.name}.`
-      )
-    )
-  }
-  // @ts-expect-error
-  field[key] = value
-  return contentType.update()
 }
 
 /**
