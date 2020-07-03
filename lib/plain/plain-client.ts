@@ -61,7 +61,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       createWithId: wrap(wrapParams, endpoints.asset.createWithId),
     },
     locale: {
+      get: wrap(wrapParams, endpoints.locale.get),
       getMany: wrap(wrapParams, endpoints.locale.getMany),
+      delete: wrap(wrapParams, endpoints.locale.del),
+      update: wrap(wrapParams, endpoints.locale.update),
+      create: wrap(wrapParams, endpoints.locale.create),
     },
     raw: {
       getDefaultParams: () => defaults,
