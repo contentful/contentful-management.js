@@ -469,7 +469,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     },
     /**
      * Gets a User
-     * @param id - User ID
+     * @param userId - User ID
      * @return Promise for a User
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -480,8 +480,14 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getSpaceUser(id: string) {
-      return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
+    getSpaceUser(userId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.user
+        .getForSpace(http, {
+          spaceId: raw.sys.id,
+          userId,
+        })
+        .then((data) => wrapUser(http, data))
     },
     /**
      * Gets a collection of Users in a space
