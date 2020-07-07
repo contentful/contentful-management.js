@@ -293,7 +293,6 @@ test('Create space for tests which create, change and delete data', (t) => {
           apiKeyTests(t, space),
           uiExtensionTests(t, space),
           environmentTests(t, space, waitForEnvironmentToBeReady),
-          tagTests(t, space, waitForEnvironmentToBeReady),
         ])
       })
   )
