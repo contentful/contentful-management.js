@@ -103,7 +103,7 @@ const findAndUpdateField = (
   return contentType
 }
 
-export const omitAndDeleteField = async (
+export const omitAndDeleteField = (
   http: AxiosInstance,
   params: GetContentTypeParams,
   contentType: ContentTypeProps,
