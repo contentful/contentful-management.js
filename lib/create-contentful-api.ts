@@ -40,13 +40,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getSpaces: function getSpaces(
       query: QueryOptions = {}
     ): Promise<Collection<Space, SpaceProps>> {
-      return http
-        .get('', createRequestConfig({ query: query }))
-        .then((response) => wrapSpaceCollection(http, response.data), errorHandler)
+      return endpoints.space
+        .getMany(http, createRequestConfig({ query: query }))
+        .then((data) => wrapSpaceCollection(http, data))
     },
     /**
      * Gets a space
-     * @param id - Space ID
+     * @param spaceId - Space ID
      * @return Promise for a Space
      * ```javascript
      * const contentful = require('contentful-management')
@@ -60,12 +60,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getSpace: function getSpace(id: string): Promise<Space> {
-      return endpoints.space.get(http, { spaceId: id }).then((data) => wrapSpace(http, data))
+    getSpace: function getSpace(spaceId: string): Promise<Space> {
+      return endpoints.space.get(http, { spaceId }).then((data) => wrapSpace(http, data))
     },
     /**
      * Creates a space
-     * @param data - Object representation of the Space to be created
+     * @param spaceData - Object representation of the Space to be created
      * @param organizationId - Organization ID, if the associated token can manage more than one organization.
      * @return Promise for the newly created Space
      * @example ```javascript
@@ -83,14 +83,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     createSpace: function createSpace(
-      data: Omit<SpaceProps, 'sys'>,
+      spaceData: Omit<SpaceProps, 'sys'>,
       organizationId: string
     ): Promise<Space> {
-      return http
-        .post('', data, {
-          headers: organizationId ? { 'X-Contentful-Organization': organizationId } : {},
-        })
-        .then((response) => wrapSpace(http, response.data), errorHandler)
+      return endpoints.space.create(http, { organizationId }, spaceData).then((data) => {
+        return wrapSpace(http, data)
+      })
     },
     /**
      * Gets an organization
@@ -168,12 +166,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getCurrentUser: function getCurrentUser() {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/')
-      return http
-        .get('', {
-          baseURL,
-        })
-        .then((response) => wrapUser(http, response.data), errorHandler)
+      return endpoints.user.getCurrent(http).then((data) => wrapUser(http, data))
     },
     /**
      * Creates a personal access token

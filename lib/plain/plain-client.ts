@@ -18,8 +18,10 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     space: {
       get: wrap(wrapParams, endpoints.space.get),
+      getMany: wrap(wrapParams, endpoints.space.getMany),
       update: wrap(wrapParams, endpoints.space.update),
       delete: wrap(wrapParams, endpoints.space.del),
+      create: wrap(wrapParams, endpoints.space.create),
     },
     environment: {
       get: wrap(wrapParams, endpoints.environment.get),
