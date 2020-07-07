@@ -1,6 +1,6 @@
-export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) {
+export default function uiExtensionTests(t, spaceOrEnvironment) {
   t.test('Create, update, get, get all and delete UI Extension', (t) => {
-    return space
+    return spaceOrEnvironment
       .createUiExtension({
         extension: {
           name: 'My awesome extension',
@@ -18,11 +18,11 @@ export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) 
       .then((uiExtension) => {
         t.equals(uiExtension.extension.name, 'New name', 'name')
 
-        return space.getUiExtension(uiExtension.sys.id).then((uiExtension) => {
+        return spaceOrEnvironment.getUiExtension(uiExtension.sys.id).then((uiExtension) => {
           t.equals(uiExtension.sys.id, uiExtension.sys.id, 'id')
           t.equals(uiExtension.extension.name, 'New name', 'name')
 
-          return space
+          return spaceOrEnvironment
             .getUiExtensions()
             .then((result) => {
               t.equals(result.items.length, result.total, 'returns the just created ui extensions')
@@ -33,7 +33,7 @@ export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) 
   })
 
   t.test('Create and delete UI Extension hosted by Contentful', (t) => {
-    return space
+    return spaceOrEnvironment
       .createUiExtension({
         extension: {
           name: 'My awesome extension hosted at Contentful',
@@ -56,7 +56,7 @@ export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) 
   })
 
   t.test('Create UI extension with ID', () => {
-    return space
+    return spaceOrEnvironment
       .createUiExtensionWithId('awesome-extension', {
         extension: {
           name: 'Awesome extension!',
@@ -70,12 +70,10 @@ export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) 
         t.equals(uiExtension.extension.src, 'https://awesome.extension', 'src')
       })
   })
+}
 
-  t.test('Filter UI extensions by ID', async (t) => {
-    const environment = await space.createEnvironmentWithId('newEnv', { name: 'newEnv' })
-
-    await waitForEnvironmentToBeReady(space, environment)
-
+export function uiExtensionTestsForEnvironmentOnly(t, environment) {
+  t.test('GetUiExtensions can filter UI extensions by ID', async (t) => {
     const idOne = 'idOne'
     const idTwo = 'idTwo'
 
@@ -98,9 +96,26 @@ export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) 
     const extensions = await environment.getUiExtensions({ 'sys.id[in]': idTwo })
 
     t.equals(extensions.items.length, 1)
-    t.equals(extensions.items.name, 'Another awesome extension!', 'name')
+    t.equals(extensions.items[0].extension.name, 'Another awesome extension!', 'name')
 
     await extensionOne.delete()
     await extensionTwo.delete()
+  })
+
+  t.test('GetUiExtensions can strip srcdoc with query parameter', async (t) => {
+    const extension = await environment.createUiExtension({
+      extension: {
+        name: 'Awesome extension!',
+        srcdoc: '<html>source doc source doc source doc</html>',
+        fieldTypes: [{ type: 'Symbol' }],
+      },
+    })
+
+    const extensions = await environment.getUiExtensions({ skipSrcdoc: true })
+
+    t.equals(extensions.items.length, 1)
+    t.equals(extensions.items[0].name, 'Another awesome extension!', 'name')
+
+    await extension.delete()
   })
 }

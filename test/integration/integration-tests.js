@@ -19,7 +19,7 @@ import roleTests from './role-integration'
 import spaceUserTests from './space-user-integration'
 import userTests from './user-integration'
 import apiKeyTests from './api-key-integration'
-import uiExtensionTests from './ui-extension-integration'
+import uiExtensionTests, { uiExtensionTestsForEnvironmentOnly } from './ui-extension-integration'
 import generateRandomId from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
@@ -285,7 +285,7 @@ test('Create space for tests which create, change and delete data', (t) => {
           webhookTests(t, space),
           roleTests(t, space),
           apiKeyTests(t, space),
-          uiExtensionTests(t, space, waitForEnvironmentToBeReady),
+          uiExtensionTests(t, space),
           environmentTests(t, space, waitForEnvironmentToBeReady),
         ])
       })
@@ -346,6 +346,7 @@ test('Create space with an environment for tests which create, change and delete
         entryWriteTests(t, environment)
         assetWriteTests(t, environment)
         uiExtensionTests(t, environment)
+        uiExtensionTestsForEnvironmentOnly(t, environment)
         // test.onFinish(() => environment.delete())
         test.onFinish(() => space.delete())
       })
