@@ -43,6 +43,24 @@ test('Entry update', (t) => {
   })
 })
 
+test('Entry update with tags works', (t) => {
+  t.plan(3)
+  const { httpMock } = setup()
+  const entityMock = cloneMock('entryWithTags')
+  entityMock.sys.version = 2
+  const entity = wrapEntry(httpMock, entityMock)
+  entity.metadata.tags[0] = {
+    name: 'newname',
+    sys: entityMock.metadata.tags[0].sys,
+  }
+  return entity.update().then((response) => {
+    t.ok(response.toPlainObject, 'response is wrapped')
+    t.equals(httpMock.put.args[0][1].metadata.tags[0].name, 'newname', 'metadata is sent')
+    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
+    return { httpMock, entityMock, response }
+  })
+})
+
 test('Entry update fails', (t) => {
   return failingVersionActionTest(t, setup, {
     wrapperMethod: wrapEntry,

@@ -375,7 +375,7 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-test('gets V2 space for entity tag tests', async (t) => {
+test('gets V2 space for tag tests', async (t) => {
   const space = await v2Client.getSpace('w6xueg32zr68')
   try {
     await tagTests(t, space)

@@ -106,6 +106,21 @@ const entryMock = {
     field1: 'str',
   },
 }
+
+const entryMockWithTags = {
+  ...entryMock,
+  metadata: {
+    tags: [
+      {
+        name: 'entrytag',
+        sys: {
+          type: 'Tag',
+          id: 'entrytag',
+        },
+      },
+    ],
+  },
+}
 const editorInterfaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
@@ -126,6 +141,21 @@ const assetMock = {
   }),
   fields: {
     field1: 'str',
+  },
+}
+
+const assetMockWithTags = {
+  ...assetMock,
+  metadata: {
+    tags: [
+      {
+        name: 'tagname',
+        sys: {
+          type: 'Tag',
+          id: 'tagname',
+        },
+      },
+    ],
   },
 }
 
@@ -340,8 +370,10 @@ const mocks = {
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
+  entryWithTags: entryMockWithTags,
   snapshot: snapShotMock,
   asset: assetMock,
+  assetWithTags: assetMockWithTags,
   locale: localeMock,
   webhook: webhookMock,
   spaceMember: spaceMemberMock,
