@@ -4,7 +4,7 @@ import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements, EntityMetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import {
   createUpdateEntity,
@@ -20,10 +20,7 @@ import {
 } from '../instance-actions'
 
 export type AssetProps = {
-  sys: {
-    /** If present, indicates the locale which this asset uses */
-    locale: string
-  } & MetaSysProps
+  sys: EntityMetaSysProps
   fields: {
     /** Title for this asset */
     title: { [key: string]: string }

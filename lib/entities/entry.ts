@@ -17,25 +17,10 @@ import {
 } from '../instance-actions'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
-import {
-  MetaLinkProps,
-  DefaultElements,
-  Collection,
-  KeyValueMap,
-  MetaSysProps,
-} from '../common-types'
+import { DefaultElements, Collection, KeyValueMap, EntityMetaSysProps } from '../common-types'
 
 export type EntryProps<T = KeyValueMap> = {
-  sys: MetaSysProps & {
-    space: { sys: MetaLinkProps }
-    contentType: { sys: MetaLinkProps }
-    environment: { sys: MetaLinkProps }
-    publishedBy?: { sys: MetaLinkProps }
-    publishedVersion?: number
-    publishedAt?: string
-    firstPublishedAt?: string
-    publishedCounter?: number
-  }
+  sys: EntityMetaSysProps
   fields: T
 }
 
