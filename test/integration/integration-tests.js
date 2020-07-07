@@ -387,7 +387,6 @@ test('gets V2 space for entity tag tests', async (t) => {
 async function deleteAllTags(space, environmentName) {
   const environment = await space.getEnvironment(environmentName)
   const tags = await environment.getTags(0, 1000)
-  console.debug(`delete ${tags.total} test tags`)
   for (let index = 0; index < tags.total; index++) {
     await tags.items[index]['delete']()
   }
