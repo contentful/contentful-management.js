@@ -39,6 +39,16 @@ export interface MetaSysProps extends BasicMetaSysProps {
   deletedAt?: string
 }
 
+export interface EntityMetaSysProps extends MetaSysProps {
+  space: SysLink
+  contentType: SysLink
+  environment: SysLink
+  publishedBy?: SysLink
+  publishedAt?: string
+  firstPublishedAt?: string
+  publishedCounter?: number
+}
+
 export interface MetaLinkProps {
   type: string
   linkType: string
