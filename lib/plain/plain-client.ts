@@ -15,6 +15,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     organization: {
       getAll: wrapHttp(http, endpoints.organization.getAll),
+      get: wrap(wrapParams, endpoints.organization.get),
     },
     space: {
       get: wrap(wrapParams, endpoints.space.get),

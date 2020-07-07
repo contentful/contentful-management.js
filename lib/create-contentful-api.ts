@@ -107,25 +107,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getOrganization: function getOrganization(id: string): Promise<Organization> {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
-      return http
-        .get<CollectionProp<OrganizationProp>>('', { baseURL })
-        .then((response) => {
-          const org = response.data.items.find((org) => org.sys.id === id)
-          if (!org) {
-            const error = new Error(
-              `No organization was found with the ID ${id} instead got ${JSON.stringify(response)}`
-            )
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore
-            error.status = 404
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore
-            error.statusText = 'Not Found'
-            return Promise.reject(error)
-          }
-          return wrapOrganization(http, org)
-        }, errorHandler)
+      return endpoints.organization.get(http, { organizationId: id }).then((data) => {
+        return wrapOrganization(http, data)
+      })
     },
     /**
      * Gets a collection of Organizations
@@ -145,10 +129,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getOrganizations: function getOrganizations(): Promise<
       Collection<Organization, OrganizationProp>
     > {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/organizations/')
-      return http
-        .get('', { baseURL })
-        .then((response) => wrapOrganizationCollection(http, response.data), errorHandler)
+      return endpoints.organization
+        .getAll(http)
+        .then((data) => wrapOrganizationCollection(http, data))
     },
     /**
      * Gets the authenticated user
