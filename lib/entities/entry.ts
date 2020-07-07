@@ -18,27 +18,18 @@ import {
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import {
-  MetaLinkProps,
   DefaultElements,
   Collection,
-  MetadataProps,
   KeyValueMap,
-  MetaSysProps,
+  EntityMetaSysProps,
+  MetadataProps,
 } from '../common-types'
 
-export type EntryProps<TFields = KeyValueMap> = {
-  sys: MetaSysProps & {
-    space: { sys: MetaLinkProps }
-    contentType: { sys: MetaLinkProps }
-    environment: { sys: MetaLinkProps }
-    publishedBy?: { sys: MetaLinkProps }
-    publishedVersion?: number
-    publishedAt?: string
-    firstPublishedAt?: string
-    publishedCounter?: number
-  }
+export type EntryProps<T = KeyValueMap> = {
+  sys: EntityMetaSysProps
   metadata?: MetadataProps
-  fields: TFields
+
+  fields: T
 }
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
