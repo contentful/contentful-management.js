@@ -109,12 +109,9 @@ export const omitAndDeleteField = async (
   contentType: ContentTypeProps,
   fieldId: string
 ) => {
-  const withOmitted = await update(
+  return update(
     http,
     params,
     findAndUpdateField(contentType, fieldId, 'omitted')
-  )
-  const withDeleted = update(http, params, findAndUpdateField(withOmitted, fieldId, 'deleted'))
-
-  return withDeleted
+  ).then((withOmitted) => update(http, params, findAndUpdateField(withOmitted, fieldId, 'deleted')))
 }
