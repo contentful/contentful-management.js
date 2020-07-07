@@ -113,9 +113,10 @@ export function uiExtensionTestsForEnvironmentOnly(t, environment) {
 
     const extensions = await environment.getUiExtensions({ skipSrcdoc: true })
 
+    console.log(extensions)
     t.equals(extensions.items.length, 1)
-    t.equals(extensions.items[0].extensions.name, 'Awesome extension!', 'name')
-    t.equals(extensions.items[0].extensions.srcdoc, undefined, 'srcdoc')
+    t.equals(extensions.items[0].extension.name, 'Awesome extension!', 'name')
+    t.equals(extensions.items[0].extension.srcdoc, undefined, 'srcdoc')
 
     await extension.delete()
   })
