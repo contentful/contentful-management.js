@@ -85,22 +85,30 @@ export const unpublish = (http: AxiosInstance, params: GetContentTypeParams) => 
 }
 
 type OmitOrDelete = 'omitted' | 'deleted'
-const findAndUpdateField = (
+
+/**
+ * @private
+ * @param id - unique ID of the field
+ * @param key - the attribute on the field to change
+ * @param value - the value to set the attribute to
+ */
+const findAndUpdateField = function (
   contentType: ContentTypeProps,
   fieldId: string,
   omitOrDelete: OmitOrDelete
-) => {
+) {
   const field = contentType.fields.find((field) => field.id === fieldId)
   if (!field) {
-    throw new Error(
-      `Tried to omitAndDeleteField on a nonexistent field, ${fieldId}, on the content type ${contentType.name}.`
+    return Promise.reject(
+      new Error(
+        `Tried to omitAndDeleteField on a nonexistent field, ${fieldId}, on the content type ${contentType.name}.`
+      )
     )
   }
-
   // @ts-expect-error
   field[omitOrDelete] = true
 
-  return contentType
+  return Promise.resolve(contentType)
 }
 
 export const omitAndDeleteField = (
@@ -109,9 +117,14 @@ export const omitAndDeleteField = (
   contentType: ContentTypeProps,
   fieldId: string
 ) => {
-  return update(
-    http,
-    params,
-    findAndUpdateField(contentType, fieldId, 'omitted')
-  ).then((withOmitted) => update(http, params, findAndUpdateField(withOmitted, fieldId, 'deleted')))
+  return findAndUpdateField(contentType, fieldId, 'omitted')
+    .then((newContentType) => {
+      return update(http, params, newContentType)
+    })
+    .then((newContentType) => {
+      return findAndUpdateField(newContentType, fieldId, 'deleted')
+    })
+    .then((newContentType) => {
+      return update(http, params, newContentType)
+    })
 }
