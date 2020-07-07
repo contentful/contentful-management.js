@@ -285,7 +285,7 @@ test('Create space for tests which create, change and delete data', (t) => {
           webhookTests(t, space),
           roleTests(t, space),
           apiKeyTests(t, space),
-          uiExtensionTests(t, space),
+          uiExtensionTests(t, space, waitForEnvironmentToBeReady),
           environmentTests(t, space, waitForEnvironmentToBeReady),
         ])
       })

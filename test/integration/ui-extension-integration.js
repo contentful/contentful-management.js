@@ -1,4 +1,4 @@
-export default function uiExtensionTests(t, space) {
+export default function uiExtensionTests(t, space, waitForEnvironmentToBeReady) {
   t.test('Create, update, get, get all and delete UI Extension', (t) => {
     return space
       .createUiExtension({
@@ -69,5 +69,38 @@ export default function uiExtensionTests(t, space) {
         t.equals(uiExtension.extension.name, 'Awesome extension!', 'name')
         t.equals(uiExtension.extension.src, 'https://awesome.extension', 'src')
       })
+  })
+
+  t.test('Filter UI extensions by ID', async (t) => {
+    const environment = await space.createEnvironmentWithId('newEnv', { name: 'newEnv' })
+
+    await waitForEnvironmentToBeReady(space, environment)
+
+    const idOne = 'idOne'
+    const idTwo = 'idTwo'
+
+    const extensionOne = await environment.createUiExtensionWithId(idOne, {
+      extension: {
+        name: 'Awesome extension!',
+        src: 'https://awesome.extension',
+        fieldTypes: [{ type: 'Symbol' }],
+      },
+    })
+
+    const extensionTwo = await environment.createUiExtensionWithId(idTwo, {
+      extension: {
+        name: 'Another awesome extension!',
+        src: 'https://anotherawesome.extension',
+        fieldTypes: [{ type: 'Text' }],
+      },
+    })
+
+    const extensions = await environment.getUiExtensions({ 'sys.id[in]': idTwo })
+
+    t.equals(extensions.items.length, 1)
+    t.equals(extensions.items.name, 'Another awesome extension!', 'name')
+
+    await extensionOne.delete()
+    await extensionTwo.delete()
   })
 }
