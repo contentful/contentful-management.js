@@ -25,7 +25,6 @@ import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
 import { environmentAliasReadOnlyTests } from './environment-alias-integration'
 import { tagTests } from './tag-integration'
-import { entityTagTests } from './entity-tag-integration'
 
 const params = {
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
@@ -203,10 +202,6 @@ test('Gets v2 space for read only tests', (t) => {
   })
 })
 
-test('gets V2 space for entity tag tests', (t) => {
-  return v2Client.getSpace('w6xueg32zr68').then((space) => entityTagTests(t, space))
-})
-
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68').then((space) => {
     test.onFinish(() => {
@@ -380,7 +375,7 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-test('gets V2 space for entity tag tests', async (t) => {
+test('gets V2 space for tag tests', async (t) => {
   const space = await v2Client.getSpace('w6xueg32zr68')
   try {
     await tagTests(t, space)
