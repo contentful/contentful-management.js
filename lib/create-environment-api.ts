@@ -8,7 +8,7 @@ import type { QueryOptions } from './common-types'
 import { EntryProp, Entry } from './entities/entry'
 import type { AssetFileProp, AssetProps } from './entities/asset'
 import type { CreateLocaleProps } from './entities/locale'
-import type { UIExtensionProps } from './entities/ui-extension'
+import type { UIExtensionProps, GetUiExtensionsQuery } from './entities/ui-extension'
 import type { AppInstallationProps } from './entities/app-installation'
 import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
@@ -791,7 +791,7 @@ export default function createEnvironmentApi({
     },
     /**
      * Gets a collection of UI Extension
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @param query - Object with search parameters.
      * @return Promise for a collection of UI Extensions
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -807,7 +807,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    getUiExtensions(query: QueryOptions = {}) {
+    getUiExtensions(query: GetUiExtensionsQuery = {}) {
       return http
         .get('extensions', createRequestConfig({ query: query }))
         .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
