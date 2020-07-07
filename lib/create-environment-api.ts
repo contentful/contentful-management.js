@@ -791,6 +791,7 @@ export default function createEnvironmentApi({
     },
     /**
      * Gets a collection of UI Extension
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @return Promise for a collection of UI Extensions
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -806,9 +807,9 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    getUiExtensions() {
+    getUiExtensions(query: QueryOptions = {}) {
       return http
-        .get('extensions')
+        .get('extensions', createRequestConfig({ query: query }))
         .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
     },
     /**
