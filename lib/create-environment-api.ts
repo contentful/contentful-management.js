@@ -791,7 +791,7 @@ export default function createEnvironmentApi({
     },
     /**
      * Gets a collection of UI Extension
-     * @param query - Object with search parameters.
+     * @param GetUiExtensionsQuery - Object with query parameters.
      * @return Promise for a collection of UI Extensions
      * @example ```javascript
      * const contentful = require('contentful-management')

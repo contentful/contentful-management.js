@@ -5,14 +5,19 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps, QueryOptions } from '../common-types'
+import { DefaultElements, MetaSysProps } from '../common-types'
 
-export interface GetUiExtensionsQuery extends QueryOptions {
+export interface GetUiExtensionsQuery {
   /**
    * Whether to exclude srcdoc from the response. This can significantly reduce
    * the response size.
    */
   skipSrcdoc?: boolean
+  /**
+   * A comma seperated list of extension IDs. Only extensions with IDs that are
+   * in the list will be fetched.
+   */
+  'sys.id[in]'?: string
 }
 
 export type UIExtensionProps = {
