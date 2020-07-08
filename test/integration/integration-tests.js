@@ -375,17 +375,17 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-test('gets V2 space for tag tests', async (t) => {
-  const space = await v2Client.getSpace('w6xueg32zr68')
-  try {
-    await tagTests(t, space)
-  } finally {
-    // await deleteAllTags(space, 'master')
-  }
+test.only('gets V2 space for tag tests', (t) => {
+  console.debug('1')
+  v2Client.getSpace('w6xueg32zr68').then((space) => {
+    tagTests(t, space)
+    test.onFinish(() => deleteAllTags(space, 'master'))
+  })
 })
 
-/*
 async function deleteAllTags(space, environmentName) {
+  console.debug('6')
+
   console.log('delete all test tags')
   const environment = await space.getEnvironment(environmentName)
   const tags = await environment.getTags(0, 1000)
@@ -393,4 +393,3 @@ async function deleteAllTags(space, environmentName) {
     await tags.items[index]['delete']()
   }
 }
- */
