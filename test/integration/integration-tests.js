@@ -380,14 +380,17 @@ test('gets V2 space for tag tests', async (t) => {
   try {
     await tagTests(t, space)
   } finally {
-    await deleteAllTags(space, 'master')
+    // await deleteAllTags(space, 'master')
   }
 })
 
+/*
 async function deleteAllTags(space, environmentName) {
+  console.log('delete all test tags')
   const environment = await space.getEnvironment(environmentName)
   const tags = await environment.getTags(0, 1000)
   for (let index = 0; index < tags.total; index++) {
     await tags.items[index]['delete']()
   }
 }
+ */

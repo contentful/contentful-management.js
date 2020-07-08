@@ -60,7 +60,7 @@ export async function tagTests(t, space) {
       let asset = await env.getAsset('1YK5kwroV6UEGS64mQs0Eo')
       await writeEntityTagsTest(t, asset, env)
     } finally {
-      entry.delete()
+      await entry.delete()
     }
   })
 }
