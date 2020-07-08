@@ -1,4 +1,4 @@
-# contentful-management.js
+    # contentful-management.js
 
 > JavaScript SDK for [Contentful's](https://www.contentful.com) Content Management API.
 

@@ -24,6 +24,7 @@ import generateRandomId from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
 import { environmentAliasReadOnlyTests } from './environment-alias-integration'
+import { tagTests } from './tag-integration'
 
 const params = {
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
@@ -373,3 +374,22 @@ test('Logs request and response with custom loggers', (t) => {
     )
   })
 })
+
+test.only('gets V2 space for tag tests', (t) => {
+  console.debug('1')
+  v2Client.getSpace('w6xueg32zr68').then((space) => {
+    tagTests(t, space)
+    test.onFinish(() => deleteAllTags(space, 'master'))
+  })
+})
+
+async function deleteAllTags(space, environmentName) {
+  console.debug('6')
+
+  console.log('delete all test tags')
+  const environment = await space.getEnvironment(environmentName)
+  const tags = await environment.getTags(0, 1000)
+  for (let index = 0; index < tags.total; index++) {
+    await tags.items[index]['delete']()
+  }
+}

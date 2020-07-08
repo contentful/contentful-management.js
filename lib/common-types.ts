@@ -1,3 +1,5 @@
+import { TagProps } from './entities/tag'
+
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -22,6 +24,10 @@ export interface MetaLinkProps {
   id: string
 }
 
+export interface MetadataProps {
+  tags: TagProps[]
+}
+
 export interface CollectionProp<TObj> {
   sys: {
     type: 'Array'
@@ -43,5 +49,6 @@ export interface QueryOptions {
   order?: string
   content_type?: string
   include?: number
+
   [key: string]: any
 }
