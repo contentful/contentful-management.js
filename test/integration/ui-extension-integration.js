@@ -72,6 +72,14 @@ export default function uiExtensionTests(t, spaceOrEnvironment) {
   })
 }
 
+function deleteExtensions(extensions) {
+  return new Promise((resolve, reject) =>
+    setTimeout(() => {
+      Promise.all(extensions.map((e) => e.delete())).then(resolve, reject)
+    }, 2000)
+  )
+}
+
 export function uiExtensionTestsForEnvironmentOnly(t, environment) {
   t.test('GetUiExtensions can filter UI extensions by ID', async (t) => {
     const idOne = 'idOne'
@@ -98,14 +106,13 @@ export function uiExtensionTestsForEnvironmentOnly(t, environment) {
     t.equals(extensions.items.length, 1)
     t.equals(extensions.items[0].extension.name, 'Another awesome extension!', 'name')
 
-    await extensionOne.delete()
-    await extensionTwo.delete()
+    return deleteExtensions([extensionOne, extensionTwo])
   })
 
   t.test('GetUiExtensions can strip srcdoc with query parameter', async (t) => {
     const extension = await environment.createUiExtension({
       extension: {
-        name: 'Awesome extension!',
+        name: 'fun extension!',
         srcdoc: '<html>source doc source doc source doc</html>',
         fieldTypes: [{ type: 'Symbol' }],
       },
@@ -115,7 +122,7 @@ export function uiExtensionTestsForEnvironmentOnly(t, environment) {
 
     console.log(extensions)
     t.equals(extensions.items.length, 1)
-    t.equals(extensions.items[0].extension.name, 'Awesome extension!', 'name')
+    t.equals(extensions.items[0].extension.name, 'fun extension!', 'name')
     t.equals(extensions.items[0].extension.srcdoc, undefined, 'srcdoc')
 
     await extension.delete()
