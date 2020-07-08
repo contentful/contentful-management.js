@@ -7,7 +7,7 @@ export function environmentTests(t, space, waitForEnvironmentToBeReady) {
     })
   })
 
-  t.test('creates an enviroment with an id', (t) => {
+  t.test('creates an environment with an id', (t) => {
     t.plan(2)
     return space.createEnvironmentWithId('myId', { name: 'myId' }).then((response) => {
       t.equals(response.name, 'myId', 'env was created with correct name')

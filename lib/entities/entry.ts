@@ -17,7 +17,13 @@ import {
 } from '../instance-actions'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
-import { MetaSysProps, MetaLinkProps, DefaultElements, Collection } from '../common-types'
+import {
+  MetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  Collection,
+  MetadataProps,
+} from '../common-types'
 
 export interface EntrySys extends MetaSysProps {
   contentType: { sys: MetaLinkProps }
@@ -32,6 +38,7 @@ export interface EntrySys extends MetaSysProps {
 export type EntryProp = {
   sys: EntrySys
   fields: Record<string, any>
+  metadata?: MetadataProps
 }
 
 type EntryApi = {

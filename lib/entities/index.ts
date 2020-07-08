@@ -26,6 +26,7 @@ import * as usage from './usage'
 import * as environmentAlias from './environment-alias'
 import * as team from './team'
 import * as teamMembership from './team-membership'
+import * as tag from './tag'
 
 export default {
   appDefinition,
@@ -56,4 +57,5 @@ export default {
   environmentAlias,
   team,
   teamMembership,
+  tag,
 }

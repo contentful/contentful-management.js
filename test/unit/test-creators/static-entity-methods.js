@@ -1,9 +1,5 @@
 import { cloneMock } from '../mocks/entities'
-import cloneDeep from 'lodash/cloneDeep'
-
-function upperFirst(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1)
-}
+import { cloneDeep, upperFirst } from 'lodash'
 
 export function makeGetEntityTest(
   t,
