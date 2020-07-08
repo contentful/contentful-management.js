@@ -15,11 +15,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     organization: {
       getAll: wrapHttp(http, endpoints.organization.getAll),
+      get: wrap(wrapParams, endpoints.organization.get),
     },
     space: {
       get: wrap(wrapParams, endpoints.space.get),
+      getMany: wrap(wrapParams, endpoints.space.getMany),
       update: wrap(wrapParams, endpoints.space.update),
       delete: wrap(wrapParams, endpoints.space.del),
+      create: wrap(wrapParams, endpoints.space.create),
     },
     environment: {
       get: wrap(wrapParams, endpoints.environment.get),
@@ -40,6 +43,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     user: {
       getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
+      getForSpace: wrap(wrapParams, endpoints.user.getForSpace),
       getCurrent: wrapHttp(http, endpoints.user.getCurrent),
     },
     entry: {
