@@ -43,12 +43,15 @@ export interface Collection<T, TPlain>
     DefaultElements<CollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface QueryOptions {
+export interface QueryOptions extends BasicQueryOptions {
+  content_type?: string
+  include?: number
+}
+
+export interface BasicQueryOptions {
   skip?: number
   limit?: number
   order?: string
-  content_type?: string
-  include?: number
 
   [key: string]: any
 }
