@@ -30,7 +30,7 @@ async function createReadTagTest(t, space) {
 }
 
 async function createReadTagsTest(t, space) {
-  t.plan(1)
+  t.plan(2)
   const tagId = randomTagId()
   const tagName = 'Tag ' + tagId
   const environment = await space.getEnvironment('master')
@@ -41,6 +41,8 @@ async function createReadTagsTest(t, space) {
 
   const result = await environment.getTags()
   t.equals(result.total >= 10, true, 'should return a minimum of created tags')
+  const filteredResult = await environment.getTags({ limit: 2 })
+  t.equals(filteredResult.items.length, 2, 'limit param should work')
 }
 
 async function writeEntityTagsTest(t, entity, environment) {

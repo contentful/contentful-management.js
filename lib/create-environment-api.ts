@@ -1023,9 +1023,9 @@ export default function createEnvironmentApi({
         })
         .then((response) => wrapTag(http, response.data), errorHandler)
     },
-    getTags(skip?: number, limit?: number) {
+    getTags(query: QueryOptions = {}) {
       return http
-        .get('tags', { params: { skip, limit } })
+        .get('tags', createRequestConfig({ query }))
         .then((response) => wrapTagCollection(http, response.data), errorHandler)
     },
     getTag(id: string) {
