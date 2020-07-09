@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 import { Stream } from 'stream'
-import { QueryOptions } from './common-types'
+import { BasicQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { AppInstallationProps } from './entities/app-installation'
 import { AssetFileProp, AssetProps } from './entities/asset'
@@ -1023,7 +1023,7 @@ export default function createEnvironmentApi({
         })
         .then((response) => wrapTag(http, response.data), errorHandler)
     },
-    getTags(query: QueryOptions = {}) {
+    getTags(query: BasicQueryOptions = {}) {
       return http
         .get('tags', createRequestConfig({ query }))
         .then((response) => wrapTagCollection(http, response.data), errorHandler)
