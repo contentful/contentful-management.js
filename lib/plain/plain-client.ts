@@ -85,6 +85,10 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       },
       revoke: wrap(wrapParams, endpoints.personalAccessToken.revoke),
     },
+    usage: {
+      getSpaceUsage: wrap(wrapParams, endpoints.usage.getSpaceUsage),
+      getOrganizationUsage: wrap(wrapParams, endpoints.usage.getOrganizationUsage),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
