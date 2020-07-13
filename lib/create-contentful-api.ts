@@ -177,12 +177,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     createPersonalAccessToken: function createPersonalAccessToken(
       data: CreatePersonalAccessTokenProps
     ) {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-      return http
-        .post('', data, {
-          baseURL,
-        })
-        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+      return endpoints.personalAccessToken
+        .create(http, data)
+        .then((response) => wrapPersonalAccessToken(http, response))
     },
     /**
      * Gets a personal access token
@@ -201,12 +198,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPersonalAccessToken: function getPersonalAccessToken(tokenId: string) {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-      return http
-        .get(tokenId, {
-          baseURL,
-        })
-        .then((response) => wrapPersonalAccessToken(http, response.data), errorHandler)
+      return endpoints.personalAccessToken
+        .get(http, { tokenId })
+        .then((data) => wrapPersonalAccessToken(http, data))
     },
     /**
      * Gets all personal access tokens
@@ -224,12 +218,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPersonalAccessTokens: function getPersonalAccessTokens() {
-      const baseURL = http.defaults?.baseURL?.replace('/spaces/', '/users/me/access_tokens')
-      return http
-        .get('', {
-          baseURL,
-        })
-        .then((response) => wrapPersonalAccessTokenCollection(http, response.data), errorHandler)
+      return endpoints.personalAccessToken
+        .getMany(http, {})
+        .then((data) => wrapPersonalAccessTokenCollection(http, data))
     },
     /**
      * Get organization usage grouped by {@link UsageMetricEnum metric}

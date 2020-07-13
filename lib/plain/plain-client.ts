@@ -77,6 +77,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.locale.update),
       create: wrap(wrapParams, endpoints.locale.create),
     },
+    personalAccessToken: {
+      get: wrap(wrapParams, endpoints.personalAccessToken.get),
+      getMany: wrap(wrapParams, endpoints.personalAccessToken.getMany),
+      create: (...args: RestParamsType<typeof endpoints.personalAccessToken.create>) => {
+        return endpoints.personalAccessToken.create(http, ...args)
+      },
+      revoke: wrap(wrapParams, endpoints.personalAccessToken.revoke),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),

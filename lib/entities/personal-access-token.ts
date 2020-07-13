@@ -2,9 +2,9 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type PersonalAccessTokenProp = {
   sys: MetaSysProps
@@ -39,19 +39,6 @@ export interface PersonalAccessToken
   revoke(): Promise<PersonalAccessToken>
 }
 
-function createPersonalAccessToken(http: AxiosInstance) {
-  return {
-    revoke: function () {
-      const baseURL = (http.defaults.baseURL || '').replace('/spaces/', '/users/me/access_tokens')
-      return http
-        .put(`${this.sys.id}/revoked`, null, {
-          baseURL,
-        })
-        .then((response) => response.data, errorHandler)
-    },
-  }
-}
-
 /**
  * @private
  * @param http - HTTP client instance
@@ -63,10 +50,13 @@ export function wrapPersonalAccessToken(
   data: PersonalAccessTokenProp
 ): PersonalAccessToken {
   const personalAccessToken = toPlainObject(cloneDeep(data))
-  const personalAccessTokenWithMethods = enhanceWithMethods(
-    personalAccessToken,
-    createPersonalAccessToken(http)
-  )
+  const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {
+    revoke: function () {
+      return endpoints.personalAccessToken
+        .revoke(http, { tokenId: data.sys.id })
+        .then((data) => wrapPersonalAccessToken(http, data))
+    },
+  })
   return freezeSys(personalAccessTokenWithMethods)
 }
 
