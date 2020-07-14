@@ -4,17 +4,22 @@ import { CollectionProp } from '../../common-types'
 import { LocaleProps, CreateLocaleProps } from '../../entities/locale'
 import { normalizeSelect } from './utils'
 import * as raw from './raw'
-import { GetEnvironmentParams } from './environment'
-import { QueryParams } from './common-types'
+import { QueryParams, GetEnvironmentParams, GetSpaceParams } from './common-types'
 
-export const get = (http: AxiosInstance, params: GetEnvironmentParams & { localeId: string }) => {
+export const get = (
+  http: AxiosInstance,
+  params: GetSpaceParams & GetEnvironmentParams & { localeId: string }
+) => {
   return raw.get<LocaleProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`
   )
 }
 
-export const getMany = (http: AxiosInstance, params: GetEnvironmentParams & QueryParams) => {
+export const getMany = (
+  http: AxiosInstance,
+  params: GetSpaceParams & GetEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<LocaleProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
@@ -26,7 +31,7 @@ export const getMany = (http: AxiosInstance, params: GetEnvironmentParams & Quer
 
 export const create = (
   http: AxiosInstance,
-  params: GetEnvironmentParams,
+  params: GetSpaceParams & GetEnvironmentParams,
   data: CreateLocaleProps,
   headers?: Record<string, unknown>
 ) => {
@@ -42,7 +47,7 @@ export const create = (
 
 export const update = (
   http: AxiosInstance,
-  params: GetEnvironmentParams & { localeId: string },
+  params: GetSpaceParams & GetEnvironmentParams & { localeId: string },
   rawData: LocaleProps,
   headers?: Record<string, unknown>
 ) => {
@@ -62,7 +67,10 @@ export const update = (
   )
 }
 
-export const del = (http: AxiosInstance, params: GetEnvironmentParams & { localeId: string }) => {
+export const del = (
+  http: AxiosInstance,
+  params: GetSpaceParams & GetEnvironmentParams & { localeId: string }
+) => {
   return raw.del(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`

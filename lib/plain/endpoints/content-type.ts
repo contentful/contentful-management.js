@@ -1,14 +1,14 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { ContentTypeProps, CreateContentTypeProps } from '../../entities/content-type'
-import { GetEnvironmentParams } from './environment'
-import { CollectionProp, QueryParams } from './common-types'
+
+import { CollectionProp, QueryParams, GetSpaceParams, GetEnvironmentParams } from './common-types'
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
 
-export type GetContentTypeParams = GetEnvironmentParams & { contentTypeId: string }
+type GetContentTypeParams = GetSpaceParams & GetEnvironmentParams & { contentTypeId: string }
 
-const getBaseUrl = (params: GetEnvironmentParams) =>
+const getBaseUrl = (params: GetSpaceParams & GetEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types`
 
 const getContentTypeUrl = (params: GetContentTypeParams) =>
@@ -20,9 +20,10 @@ export const get = (http: AxiosInstance, params: GetContentTypeParams & QueryPar
   })
 }
 
-export type GetManyContentTypesParams = GetEnvironmentParams & QueryParams
-
-export const getMany = (http: AxiosInstance, params: GetManyContentTypesParams) => {
+export const getMany = (
+  http: AxiosInstance,
+  params: GetSpaceParams & GetEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<ContentTypeProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
@@ -30,7 +31,7 @@ export const getMany = (http: AxiosInstance, params: GetManyContentTypesParams) 
 
 export const create = (
   http: AxiosInstance,
-  params: GetEnvironmentParams,
+  params: GetSpaceParams & GetEnvironmentParams,
   rawData: CreateContentTypeProps
 ) => {
   const data = cloneDeep(rawData)
