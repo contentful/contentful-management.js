@@ -45,6 +45,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
       getForSpace: wrap(wrapParams, endpoints.user.getForSpace),
       getCurrent: wrapHttp(http, endpoints.user.getCurrent),
+      getForOrganization: wrap(wrapParams, endpoints.user.getForOrganization),
+      getManyForOrganization: wrap(wrapParams, endpoints.user.getManyForOrganization),
     },
     entry: {
       getMany: wrap(wrapParams, endpoints.entry.getMany),

@@ -19,5 +19,14 @@ export const getForOrganization = (
   http: AxiosInstance,
   params: GetOrganizationParams & { userId: string }
 ) => {
-  return null
+  return raw.get<UserProps>(http, `/organizations/${params.organizationId}/users/${params.userId}`)
+}
+
+export const getManyForOrganization = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) => {
+  return raw.get<CollectionProp<UserProps>>(http, `/organizations/${params.organizationId}/users`, {
+    params: params.query,
+  })
 }
