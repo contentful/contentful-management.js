@@ -18,6 +18,17 @@ async function createTagTest(t, space) {
   t.equals(newTag.name, tagName, 'tag name should be equal')
 }
 
+async function createUpdateTagTest(t, space) {
+  t.plan(2)
+  const tagId = randomTagId()
+  const tagName = 'Tag ' + tagId
+  const environment = await space.getEnvironment('master')
+  const tag = await environment.createTag(tagId, tagName)
+  tag.name = 'new tag name'
+  const result = await tag.update()
+  t.equals(result.name, 'new tag name', 'tag name should be updated')
+  t.equals(result.sys.id, tagId, 'tag id should be equal')
+}
 async function createReadTagTest(t, space) {
   t.plan(2)
   const tagId = randomTagId()
@@ -82,6 +93,10 @@ export function tagTests(suite, space) {
 
   suite.test('read tag', (t) => {
     return createReadTagTest(t, space)
+  })
+
+  suite.test('update tag', (t) => {
+    return createUpdateTagTest(t, space)
   })
 
   suite.test('read tags', async (t) => {
