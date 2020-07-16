@@ -64,7 +64,7 @@ export function createUpdateTag(http: AxiosInstance): () => Promise<Tag> {
     const self = this as ThisContext
     return http
       .put(
-        'tags',
+        'tags/' + self.sys.id,
         {
           name: self.name,
           sys: {
