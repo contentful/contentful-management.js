@@ -28,7 +28,7 @@ export type AssetProps = {
     /** Title for this asset */
     title: { [key: string]: string }
     /** Description for this asset */
-    description: { [key: string]: string }
+    description?: { [key: string]: string }
     /** File object for this asset */
     file: {
       [key: string]: {
