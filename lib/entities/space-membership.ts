@@ -13,7 +13,7 @@ export type SpaceMembershipProps = {
    * User is an admin
    */
   admin: boolean
-  roles: MetaLinkProps[]
+  roles: { sys: MetaLinkProps }[]
 }
 
 export interface SpaceMembership

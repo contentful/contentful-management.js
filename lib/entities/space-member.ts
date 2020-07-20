@@ -13,7 +13,7 @@ export type SpaceMemberProps = {
   /**
    * Array of Role Links
    */
-  roles: MetaLinkProps[]
+  roles: { sys: MetaLinkProps }[]
 }
 
 export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemberProps> {}
