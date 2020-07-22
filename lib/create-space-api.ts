@@ -21,6 +21,11 @@ import { WebhookProps } from './entities/webhook'
 import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
 import { CreateApiKeyProps } from './entities/api-key'
+import {
+  ScheduledActionQueryOptions,
+  toScheduledActionQueryParams,
+  ScheduledActionProps,
+} from './entities/scheduled-action'
 
 function raiseDeprecationWarning(method: string) {
   console.warn(
@@ -72,12 +77,13 @@ export default function createSpaceApi({
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
-  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
-  const { wrapSnapshotCollection } = entities.snapshot
   const { wrapEditorInterface } = entities.editorInterface
-  const { wrapUpload } = entities.upload
-  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
+  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
+  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
+  const { wrapSnapshotCollection } = entities.snapshot
+  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
+  const { wrapUpload } = entities.upload
 
   function createAsset(data: Omit<AssetProps, 'sys'>) {
     return http
@@ -1100,6 +1106,24 @@ export default function createSpaceApi({
       return http
         .put('roles/' + id, data)
         .then((response) => wrapRole(http, response.data), errorHandler)
+    },
+    getScheduledActions(query: ScheduledActionQueryOptions = {}) {
+      // TODO convert query to data
+      const params = toScheduledActionQueryParams(query)
+
+      return http
+        .get('scheduled_actions', { params })
+        .then((response) => wrapScheduledActionCollection(http, response.data), errorHandler)
+    },
+    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
+      return http
+        .post('scheduled_actions', data)
+        .then((response) => wrapScheduledAction(http, response.data), errorHandler)
+    },
+    deleteScheduledAction(id: string) {
+      return http
+        .delete('scheduled_actions/' + id)
+        .then((response) => wrapScheduledAction(http, response.data), errorHandler)
     },
     /**
      * Gets a User
