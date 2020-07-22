@@ -92,7 +92,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
         endpoints.raw.post(http, ...args),
       put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
       delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
-        endpoints.raw.get(http, ...args),
+        endpoints.raw.del(http, ...args),
     },
   }
 }
