@@ -4,11 +4,11 @@ import { CollectionProp } from '../../common-types'
 import { LocaleProps, CreateLocaleProps } from '../../entities/locale'
 import { normalizeSelect } from './utils'
 import * as raw from './raw'
-import { QueryParams, GetEnvironmentParams, GetSpaceParams } from './common-types'
+import { QueryParams, GetSpaceEnvironmentParams } from './common-types'
 
 export const get = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { localeId: string }
+  params: GetSpaceEnvironmentParams & { localeId: string }
 ) => {
   return raw.get<LocaleProps>(
     http,
@@ -16,10 +16,7 @@ export const get = (
   )
 }
 
-export const getMany = (
-  http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & QueryParams
-) => {
+export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
   return raw.get<CollectionProp<LocaleProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
@@ -31,7 +28,7 @@ export const getMany = (
 
 export const create = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams,
+  params: GetSpaceEnvironmentParams,
   data: CreateLocaleProps,
   headers?: Record<string, unknown>
 ) => {
@@ -47,7 +44,7 @@ export const create = (
 
 export const update = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { localeId: string },
+  params: GetSpaceEnvironmentParams & { localeId: string },
   rawData: LocaleProps,
   headers?: Record<string, unknown>
 ) => {
@@ -69,7 +66,7 @@ export const update = (
 
 export const del = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { localeId: string }
+  params: GetSpaceEnvironmentParams & { localeId: string }
 ) => {
   return raw.del(
     http,

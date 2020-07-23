@@ -4,11 +4,11 @@ import { CreateAssetProps, AssetProps } from '../../entities/asset'
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
 
-import { QueryParams, CollectionProp, GetSpaceParams, GetEnvironmentParams } from './common-types'
+import { QueryParams, CollectionProp, GetSpaceEnvironmentParams } from './common-types'
 
 export const get = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
 ) => {
   return raw.get<AssetProps>(
     http,
@@ -19,10 +19,7 @@ export const get = (
   )
 }
 
-export const getMany = (
-  http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & QueryParams
-) => {
+export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
@@ -34,7 +31,7 @@ export const getMany = (
 
 export const update = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps,
   headers?: Record<string, unknown>
 ) => {
@@ -55,7 +52,7 @@ export const update = (
 
 export const del = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
   return raw.del(
     http,
@@ -65,7 +62,7 @@ export const del = (
 
 export const publish = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps
 ) => {
   return raw.put<AssetProps>(
@@ -82,7 +79,7 @@ export const publish = (
 
 export const unpublish = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
   return raw.del<AssetProps>(
     http,
@@ -92,7 +89,7 @@ export const unpublish = (
 
 export const archive = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
   return raw.put<AssetProps>(
     http,
@@ -102,7 +99,7 @@ export const archive = (
 
 export const unarchive = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
   return raw.del<AssetProps>(
     http,
@@ -112,7 +109,7 @@ export const unarchive = (
 
 export const create = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams,
+  params: GetSpaceEnvironmentParams,
   rawData: CreateAssetProps
 ) => {
   const data = cloneDeep(rawData)
@@ -126,7 +123,7 @@ export const create = (
 
 export const createWithId = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: CreateAssetProps
 ) => {
   const data = cloneDeep(rawData)

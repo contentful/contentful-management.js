@@ -88,8 +88,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       revoke: wrap(wrapParams, endpoints.personalAccessToken.revoke),
     },
     usage: {
-      getSpaceUsage: wrap(wrapParams, endpoints.usage.getSpaceUsage),
-      getOrganizationUsage: wrap(wrapParams, endpoints.usage.getOrganizationUsage),
+      getForSpace: wrap(wrapParams, endpoints.usage.getForSpace),
+      getForOrganization: wrap(wrapParams, endpoints.usage.getForOrganization),
     },
     raw: {
       getDefaultParams: () => defaults,

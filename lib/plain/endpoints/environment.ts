@@ -6,10 +6,10 @@ import {
   CollectionProp,
   PaginationQueryParams,
   GetSpaceParams,
-  GetEnvironmentParams,
+  GetSpaceEnvironmentParams,
 } from './common-types'
 
-export const get = (http: AxiosInstance, params: GetSpaceParams & GetEnvironmentParams) => {
+export const get = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
   return raw.get<EnvironmentProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}`
@@ -24,7 +24,7 @@ export const getMany = (http: AxiosInstance, params: GetSpaceParams & Pagination
 
 export const update = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams,
+  params: GetSpaceEnvironmentParams,
   rawData: EnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
@@ -44,7 +44,7 @@ export const update = (
   )
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceParams & GetEnvironmentParams) => {
+export const del = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
   return raw.del(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`)
 }
 
@@ -62,7 +62,7 @@ export const create = (
 
 export const createWithId = (
   http: AxiosInstance,
-  params: GetSpaceParams & GetEnvironmentParams & { sourceEnvironmentId?: string },
+  params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,
   headers?: Record<string, unknown>
 ) => {

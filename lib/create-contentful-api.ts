@@ -251,7 +251,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       query: QueryOptions = {}
     ) {
       return endpoints.usage
-        .getOrganizationUsage(http, { organizationId, query })
+        .getForOrganization(http, { organizationId, query })
         .then((data) => wrapUsageCollection(http, data))
     },
     /**
@@ -281,7 +281,7 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      */
     getSpaceUsage: function getSpaceUsage(organizationId: string, query: UsageQuery = {}) {
       return endpoints.usage
-        .getSpaceUsage(http, {
+        .getForSpace(http, {
           organizationId,
           query,
         })
