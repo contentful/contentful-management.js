@@ -2,9 +2,7 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { SpaceProps } from '../../entities/space'
 import cloneDeep from 'lodash/cloneDeep'
-import { CollectionProp, QueryParams } from './common-types'
-
-export type GetSpaceParams = { spaceId: string }
+import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams) =>
   raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)

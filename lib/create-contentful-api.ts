@@ -2,11 +2,11 @@ import { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
-import { CollectionProp, Collection, QueryOptions } from './common-types'
+import { Collection, QueryOptions } from './common-types'
 import { OrganizationProp, Organization } from './entities/organization'
 import { SpaceProps, Space } from './entities/space'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import { UsageQuery, UsageProps } from './entities/usage'
+import { UsageQuery } from './entities/usage'
 import * as endpoints from './plain/endpoints'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
@@ -250,13 +250,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       organizationId: string,
       query: QueryOptions = {}
     ) {
-      const baseURL = http.defaults?.baseURL?.replace(
-        '/spaces/',
-        `/organizations/${organizationId}/organization_periodic_usages`
-      )
-      return http
-        .get('', { baseURL, params: query })
-        .then((response) => wrapUsageCollection(http, response.data), errorHandler)
+      return endpoints.usage
+        .getForOrganization(http, { organizationId, query })
+        .then((data) => wrapUsageCollection(http, data))
     },
     /**
      * Get organization usage grouped by space and metric
@@ -284,13 +280,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceUsage: function getSpaceUsage(organizationId: string, query: UsageQuery = {}) {
-      const baseURL = http.defaults?.baseURL?.replace(
-        '/spaces/',
-        `/organizations/${organizationId}/space_periodic_usages`
-      )
-      return http
-        .get<CollectionProp<UsageProps>>('', { baseURL, params: query })
-        .then((response) => wrapUsageCollection(http, response.data), errorHandler)
+      return endpoints.usage
+        .getForSpace(http, {
+          organizationId,
+          query,
+        })
+        .then((data) => wrapUsageCollection(http, data))
     },
     /**
      * Make a custom request to the Contentful management API's /spaces endpoint

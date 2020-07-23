@@ -352,7 +352,7 @@ test('API call createAssetWithId', (t) => {
     entityType: 'asset',
     mockToReturn: assetMock,
     methodToTest: 'createAssetWithId',
-    entityPath: 'assets',
+    entityPath: '/spaces/id/environments/id/assets',
   })
 })
 

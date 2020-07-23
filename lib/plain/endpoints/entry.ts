@@ -3,12 +3,11 @@ import * as raw from './raw'
 import { CreateEntryProps, EntryProps } from '../../entities/entry'
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
-import { GetEnvironmentParams } from './environment'
-import { QueryParams, CollectionProp, KeyValueMap } from './common-types'
+import { QueryParams, CollectionProp, KeyValueMap, GetSpaceEnvironmentParams } from './common-types'
 
 export const get = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
 ) => {
   return raw.get<EntryProps<T>>(
     http,
@@ -19,11 +18,9 @@ export const get = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export type GetManyEntriesParams = GetEnvironmentParams & QueryParams
-
 export const getMany = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetManyEntriesParams
+  params: GetSpaceEnvironmentParams & QueryParams
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
@@ -36,7 +33,7 @@ export const getMany = <T extends KeyValueMap = KeyValueMap>(
 
 export const update = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string },
+  params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>,
   headers?: Record<string, unknown>
 ) => {
@@ -55,7 +52,10 @@ export const update = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const del = (http: AxiosInstance, params: GetEnvironmentParams & { entryId: string }) => {
+export const del = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { entryId: string }
+) => {
   return raw.del(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`
@@ -64,7 +64,7 @@ export const del = (http: AxiosInstance, params: GetEnvironmentParams & { entryI
 
 export const publish = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string },
+  params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>
 ) => {
   return raw.put<EntryProps<T>>(
@@ -81,7 +81,7 @@ export const publish = <T extends KeyValueMap = KeyValueMap>(
 
 export const unpublish = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
   return raw.del<EntryProps<T>>(
     http,
@@ -91,7 +91,7 @@ export const unpublish = <T extends KeyValueMap = KeyValueMap>(
 
 export const archive = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
   return raw.put<EntryProps<T>>(
     http,
@@ -101,7 +101,7 @@ export const archive = <T extends KeyValueMap = KeyValueMap>(
 
 export const unarchive = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
   return raw.del<EntryProps<T>>(
     http,
@@ -111,7 +111,7 @@ export const unarchive = <T extends KeyValueMap = KeyValueMap>(
 
 export const create = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { contentTypeId: string },
+  params: GetSpaceEnvironmentParams & { contentTypeId: string },
   rawData: CreateEntryProps<T>
 ) => {
   const data = cloneDeep(rawData)
@@ -130,7 +130,7 @@ export const create = <T extends KeyValueMap = KeyValueMap>(
 
 export const createWithId = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEnvironmentParams & { entryId: string; contentTypeId: string },
+  params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
   rawData: CreateEntryProps<T>
 ) => {
   const data = cloneDeep(rawData)

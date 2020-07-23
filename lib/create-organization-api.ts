@@ -3,11 +3,13 @@ import { get } from 'lodash'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
+import * as endpoints from './plain/endpoints'
 import { TeamMembershipProps } from './entities/team-membership'
 import { TeamProps } from './entities/team'
 import { OrganizationInvitationProps } from './entities/organization-invitation'
 import { QueryOptions } from './common-types'
 import { AppDefinitionProps } from './entities/app-definition'
+import { OrganizationProp } from './entities/organization'
 
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
@@ -49,7 +51,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getUser(id: string) {
-      return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.user
+        .getForOrganization(http, { organizationId: raw.sys.id, userId: id })
+        .then((data) => wrapUser(http, data))
     },
     /**
      * Gets a collection of Users in organization
@@ -68,9 +73,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getUsers(query: QueryOptions = {}) {
-      return http
-        .get('users', createRequestConfig({ query }))
-        .then((response) => wrapUserCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.user
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapUserCollection(http, data))
     },
     /**
      * Gets an Organization Membership

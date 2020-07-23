@@ -2,12 +2,14 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { EnvironmentProps, CreateEnvironmentProps } from '../../entities/environment'
 import cloneDeep from 'lodash/cloneDeep'
-import { GetSpaceParams } from './space'
-import { CollectionProp, PaginationQueryParams } from './common-types'
+import {
+  CollectionProp,
+  PaginationQueryParams,
+  GetSpaceParams,
+  GetSpaceEnvironmentParams,
+} from './common-types'
 
-export type GetEnvironmentParams = GetSpaceParams & { environmentId: string }
-
-export const get = (http: AxiosInstance, params: GetEnvironmentParams) => {
+export const get = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
   return raw.get<EnvironmentProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}`
@@ -22,7 +24,7 @@ export const getMany = (http: AxiosInstance, params: GetSpaceParams & Pagination
 
 export const update = (
   http: AxiosInstance,
-  params: GetEnvironmentParams,
+  params: GetSpaceEnvironmentParams,
   rawData: EnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
@@ -42,7 +44,7 @@ export const update = (
   )
 }
 
-export const del = (http: AxiosInstance, params: GetEnvironmentParams) => {
+export const del = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
   return raw.del(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`)
 }
 
@@ -60,7 +62,7 @@ export const create = (
 
 export const createWithId = (
   http: AxiosInstance,
-  params: GetEnvironmentParams & { sourceEnvironmentId?: string },
+  params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,
   headers?: Record<string, unknown>
 ) => {

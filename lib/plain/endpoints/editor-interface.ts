@@ -3,9 +3,9 @@ import * as raw from './raw'
 import { EnvironmentProps } from '../../entities/environment'
 import cloneDeep from 'lodash/cloneDeep'
 import { EditorInterfaceProps } from '../../entities/editor-interface'
-import { GetContentTypeParams } from './content-type'
+import { GetSpaceEnvironmentParams } from './common-types'
 
-export type GetEditorInterfaceParams = GetContentTypeParams
+type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`
