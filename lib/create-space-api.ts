@@ -21,11 +21,7 @@ import { WebhookProps } from './entities/webhook'
 import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
 import { CreateApiKeyProps } from './entities/api-key'
-import {
-  ScheduledActionQueryOptions,
-  toScheduledActionQueryParams,
-  ScheduledActionProps,
-} from './entities/scheduled-action'
+import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
 
 function raiseDeprecationWarning(method: string) {
   console.warn(
@@ -1107,22 +1103,24 @@ export default function createSpaceApi({
         .put('roles/' + id, data)
         .then((response) => wrapRole(http, response.data), errorHandler)
     },
-    getScheduledActions(query: ScheduledActionQueryOptions = {}) {
-      // TODO convert query to data
-      const params = toScheduledActionQueryParams(query)
-
+    /**
+     * Query for scheduled actions in space.
+     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
+     * @return Promise for the scheduled actions query
+     */
+    getScheduledActions(query: ScheduledActionQueryOptions) {
       return http
-        .get('scheduled_actions', { params })
+        .get('scheduled_actions', createRequestConfig({ query: query }))
         .then((response) => wrapScheduledActionCollection(http, response.data), errorHandler)
     },
+    /**
+     * Creates a scheduled action
+     * @param data - Object representation of the scheduled action to be created
+     * @return Promise for the newly created scheduled actions
+     */
     createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
       return http
         .post('scheduled_actions', data)
-        .then((response) => wrapScheduledAction(http, response.data), errorHandler)
-    },
-    deleteScheduledAction(id: string) {
-      return http
-        .delete('scheduled_actions/' + id)
         .then((response) => wrapScheduledAction(http, response.data), errorHandler)
     },
     /**

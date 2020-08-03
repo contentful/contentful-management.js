@@ -69,3 +69,8 @@ export interface BasicQueryOptions {
 
   [key: string]: any
 }
+
+export interface BasicCursorPaginationOptions {
+  prev?: string
+  next?: string
+}

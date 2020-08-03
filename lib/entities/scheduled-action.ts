@@ -1,7 +1,13 @@
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { cloneDeep } from 'lodash'
-import { DefaultElements, MetaSysProps, Link, ISO8601Timestamp } from '../common-types'
+import {
+  DefaultElements,
+  MetaSysProps,
+  Link,
+  ISO8601Timestamp,
+  BasicCursorPaginationOptions,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
@@ -22,7 +28,7 @@ enum ScheduledActionStatus {
   canceled = 'canceled',
 }
 
-type SchedulableEntityType = 'Entry' | 'Release'
+type SchedulableEntityType = 'Entry'
 type SchedulableActionType = 'publish' | 'unpublish'
 
 export type ScheduledActionSysProps = Pick<
@@ -64,42 +70,15 @@ export interface ScheduledActionCollection {
   items: ScheduledActionProps[]
 }
 
-export interface ScheduledActionQueryOptions {
-  sys?: {
-    status?: ScheduledActionStatus | ScheduledActionStatus[]
-  }
-  environment?: {
-    sys: {
-      id: string
-    }
-  }
-  entity?: {
-    sys: {
-      id: string
-    }
-  }
-  scheduledFor?: {
-    datetime:
-      | ISO8601Timestamp
-      | {
-          lt?: ISO8601Timestamp
-          lte?: ISO8601Timestamp
-          gt?: ISO8601Timestamp
-          gte?: ISO8601Timestamp
-        }
-  }
-}
-
-export function toScheduledActionQueryParams(_query: ScheduledActionQuery) {
-  // TODO convert shape above into query params
-  // See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection
-  return {}
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface ScheduledActionQueryOptions extends BasicCursorPaginationOptions {
+  'environment.sys.id': string
+  [key: string]: any
 }
 
 type ThisContext = ScheduledActionProps & DefaultElements<ScheduledActionProps>
 
 type ScheduledActionApi = {
-  create(): Promise<ScheduledAction>
   delete(): Promise<ScheduledAction>
 }
 
@@ -107,20 +86,6 @@ export interface ScheduledAction
   extends ScheduledActionProps,
     DefaultElements<ScheduledActionProps>,
     ScheduledActionApi {}
-
-export function createCreateScheduledAction(http: AxiosInstance): () => Promise<ScheduledAction> {
-  return function (): Promise<ScheduledAction> {
-    const self = this as ThisContext
-    return http
-      .put('scheduled_actions', {
-        action: self.action,
-        entity: self.entity,
-        environment: self.environment,
-        scheduledFor: self.scheduledFor,
-      })
-      .then((response) => wrapScheduledAction(http, response.data), errorHandler)
-  }
-}
 
 export function createDeleteScheduledAction(http: AxiosInstance): () => Promise<ScheduledAction> {
   return function (): Promise<ScheduledAction> {
@@ -133,7 +98,6 @@ export function createDeleteScheduledAction(http: AxiosInstance): () => Promise<
 
 export default function createScheduledActionApi(http: AxiosInstance): ScheduledActionApi {
   return {
-    create: createCreateScheduledAction(http),
     delete: createDeleteScheduledAction(http),
   }
 }
