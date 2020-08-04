@@ -91,6 +91,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       getForSpace: wrap(wrapParams, endpoints.usage.getForSpace),
       getForOrganization: wrap(wrapParams, endpoints.usage.getForOrganization),
     },
+    role: {
+      get: wrap(wrapParams, endpoints.role.get),
+      getMany: wrap(wrapParams, endpoints.role.getMany),
+      create: wrap(wrapParams, endpoints.role.create),
+      createWithId: wrap(wrapParams, endpoints.role.createWithId),
+      update: wrap(wrapParams, endpoints.role.update),
+      delete: wrap(wrapParams, endpoints.role.del),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
