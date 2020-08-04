@@ -11,7 +11,7 @@ export type EnvironmentAliasProps = {
    * System meta data
    */
   sys: MetaSysProps
-  environment: MetaLinkProps
+  environment: { sys: MetaLinkProps }
 }
 
 export interface EnvironmentAlias
@@ -39,7 +39,7 @@ export interface EnvironmentAlias
    * .catch(console.error)
    * ```
    */
-  update(data: Omit<EnvironmentAliasProps, 'sys'>): Promise<EnvironmentAlias>
+  update(): Promise<EnvironmentAlias>
 }
 
 function createEnvironmentAliasApi(http: AxiosInstance) {
