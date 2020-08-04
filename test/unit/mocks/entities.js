@@ -364,6 +364,34 @@ export const tagMock = {
   },
 }
 
+export const scheduledActionMock = {
+  sys: {
+    id: 'my-scheduled-action',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    createdAt: 'createdAt',
+    createdBy: 'createdBy',
+    type: 'ScheduledAction',
+    status: 'scheduled',
+  },
+  action: 'publish',
+  entity: { sys: cloneDeep(linkMock) },
+  environment: { sys: cloneDeep(linkMock) },
+  scheduledFor: {
+    datetime: 'scheduledFor',
+  },
+}
+
+export const scheduledActionCollectionMock = {
+  sys: {
+    type: 'Array',
+  },
+  pages: {},
+  limit: 1,
+  items: [cloneDeep(scheduledActionMock)],
+}
+
 const mocks = {
   link: linkMock,
   sys: sysMock,
@@ -396,6 +424,7 @@ const mocks = {
   usage: usageMock,
   environmentAlias: environmentAliasMock,
   tag: tagMock,
+  scheduledAction: scheduledActionMock,
 }
 
 function cloneMock(name) {
@@ -520,6 +549,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     environmentAlias: {
       wrapEnvironmentAlias: sinon.stub(),
       wrapEnvironmentAliasCollection: sinon.stub(),
+    },
+    scheduledAction: {
+      wrapScheduledAction: sinon.stub(),
+      wrapScheduledActionCollection: sinon.stub(),
     },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
