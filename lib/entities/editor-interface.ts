@@ -15,6 +15,7 @@ export interface Control {
    */
   widgetId: string
   widgetNamespace: string
+  settings?: Record<string, any>
 }
 
 export type EditorInterfaceProps = {
