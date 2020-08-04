@@ -7,8 +7,10 @@ import {
   wrapScheduledActionCollection,
 } from '../../../lib/entities/scheduled-action'
 import {
+  entityDeleteTest,
   entityWrappedTest,
   entityCollectionWrappedTest,
+  failingActionTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -30,15 +32,15 @@ test('Scheduled action collection is wrapped', (t) => {
   })
 })
 
-// test('Environment alias update', (t) => {
-//   return entityUpdateTest(t, setup, {
-//     wrapperMethod: wrapEnvironmentAlias,
-//   })
-// })
+test('Scheduled actions delete', (t) => {
+  return entityDeleteTest(t, setup, {
+    wrapperMethod: wrapScheduledAction,
+  })
+})
 
-// test('Environment alias update fails', (t) => {
-//   return failingVersionActionTest(t, setup, {
-//     wrapperMethod: wrapEnvironmentAlias,
-//     actionMethod: 'update',
-//   })
-// })
+test('Schedule action delete fails', (t) => {
+  return failingActionTest(t, setup, {
+    wrapperMethod: wrapScheduledAction,
+    actionMethod: 'delete',
+  })
+})
