@@ -10,7 +10,7 @@ import entities from './entities'
 import { CreateEnvironmentProps } from './entities/environment'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
-import { RoleProps } from './entities/role'
+import { RoleProps, CreateRoleProps } from './entities/role'
 import { WebhookProps } from './entities/webhook'
 import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
@@ -340,7 +340,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getRole(id: string) {
-      return http.get('roles/' + id).then((response) => wrapRole(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .get(http, { spaceId: raw.sys.id, roleId: id })
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Gets a collection of Roles
@@ -359,9 +362,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getRoles() {
-      return http
-        .get('roles')
-        .then((response) => wrapRoleCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role.getMany(http, { spaceId: raw.sys.id }).then((data) => {
+        return wrapRoleCollection(http, data)
+      })
     },
 
     /**
@@ -410,10 +414,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createRole(data: Omit<RoleProps, 'sys'>) {
-      return http
-        .post('roles', data)
-        .then((response) => wrapRole(http, response.data), errorHandler)
+    createRole(data: CreateRoleProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Creates a Role with a custom ID
@@ -462,10 +467,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createRoleWithId(id: string, data: Omit<RoleProps, 'sys'>) {
-      return http
-        .put('roles/' + id, data)
-        .then((response) => wrapRole(http, response.data), errorHandler)
+    createRoleWithId(id: string, roleData: Omit<RoleProps, 'sys'>) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .createWithId(http, { spaceId: raw.sys.id, roleId: id }, roleData)
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Gets a User

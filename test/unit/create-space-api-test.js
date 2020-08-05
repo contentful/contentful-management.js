@@ -347,7 +347,7 @@ test('API call createRoleWithId', (t) => {
     entityType: 'role',
     mockToReturn: roleMock,
     methodToTest: 'createRoleWithId',
-    entityPath: 'roles',
+    entityPath: '/spaces/id/roles',
   })
 })
 
