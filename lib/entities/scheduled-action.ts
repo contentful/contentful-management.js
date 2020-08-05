@@ -4,9 +4,10 @@ import { cloneDeep } from 'lodash'
 import {
   DefaultElements,
   MetaSysProps,
-  Link,
   ISO8601Timestamp,
   BasicCursorPaginationOptions,
+  MetaLinkProps,
+  Link,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -31,26 +32,23 @@ enum ScheduledActionStatus {
 type SchedulableEntityType = 'Entry'
 type SchedulableActionType = 'publish' | 'unpublish'
 
-export type ScheduledActionSysProps = Pick<
-  MetaSysProps,
-  'id' | 'space' | 'createdAt' | 'createdBy'
-> & {
-  type: 'ScheduledAction'
+export type ScheduledActionSysProps = {
   id: string
-  space: Link<'Space'>
+  type: 'ScheduledAction'
+  space: { sys: MetaLinkProps }
   status: ScheduledActionStatus
-
   createdAt: ISO8601Timestamp
+  createdBy: { sys: MetaLinkProps }
   /** an ISO8601 date string representing when an action was moved to canceled */
   canceledAt?: ISO8601Timestamp
-  canceledBy?: Link<'User'>
+  canceledBy?: { sys: MetaLinkProps }
 }
 
 export type ScheduledActionProps = {
   sys: ScheduledActionSysProps
   action: SchedulableActionType
   entity: Link<SchedulableEntityType>
-  environment?: Link<'Environment'>
+  environment?: { sys: MetaLinkProps }
   scheduledFor: {
     datetime: ISO8601Timestamp
   }
@@ -60,12 +58,7 @@ export interface ScheduledActionCollection {
   sys: {
     type: 'Array'
   }
-  pages: {
-    /** URL path for the previous page of actions. Will not be present on the first request */
-    prev?: string
-    /** URL path for the next page of actions. Will not be present if there are no remaining items */
-    next?: string
-  }
+  pages: BasicCursorPaginationOptions
   limit: number
   items: ScheduledActionProps[]
 }
