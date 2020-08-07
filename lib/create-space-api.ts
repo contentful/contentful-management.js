@@ -759,9 +759,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getApiKey(id: string) {
-      return http
-        .get('api_keys/' + id)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .get(http, {
+          spaceId: raw.sys.id,
+          apiKeyId: id,
+        })
+        .then((data) => wrapApiKey(http, data))
     },
     /**
      * Gets a collection of Api Keys
@@ -780,9 +784,12 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getApiKeys() {
-      return http
-        .get('api_keys')
-        .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapApiKeyCollection(http, data))
     },
     /**
      * Gets a collection of preview Api Keys
@@ -836,7 +843,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     },
     /**
      * Creates a Api Key
-     * @param data - Object representation of the Api Key to be created
+     * @param payload - Object representation of the Api Key to be created
      * @return Promise for the newly created Api Key
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -863,15 +870,16 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createApiKey: function createApiKey(data: CreateApiKeyProps) {
-      return http
-        .post('api_keys', data)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    createApiKey: function createApiKey(payload: CreateApiKeyProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .create(http, { spaceId: raw.sys.id }, payload)
+        .then((data) => wrapApiKey(http, data))
     },
     /**
      * Creates a Api Key with a custom ID
      * @param id - Api Key ID
-     * @param data - Object representation of the Api Key to be created
+     * @param payload - Object representation of the Api Key to be created
      * @return Promise for the newly created Api Key
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -898,10 +906,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createApiKeyWithId(id: string, data: CreateApiKeyProps) {
-      return http
-        .put('api_keys/' + id, data)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    createApiKeyWithId(id: string, payload: CreateApiKeyProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .createWithId(http, { spaceId: raw.sys.id, apiKeyId: id }, payload)
+        .then((data) => wrapApiKey(http, data))
     },
 
     /**

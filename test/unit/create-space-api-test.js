@@ -406,7 +406,7 @@ test('API call createApiKeyWithId', (t) => {
     entityType: 'apiKey',
     mockToReturn: apiKeyMock,
     methodToTest: 'createApiKeyWithId',
-    entityPath: 'api_keys',
+    entityPath: '/spaces/id/api_keys',
   })
 })
 

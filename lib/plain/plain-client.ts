@@ -108,6 +108,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       get: wrap(wrapParams, endpoints.previewApiKey.get),
       getMany: wrap(wrapParams, endpoints.previewApiKey.getMany),
     },
+    apiKey: {
+      get: wrap(wrapParams, endpoints.apiKey.get),
+      getMany: wrap(wrapParams, endpoints.apiKey.getMany),
+      create: wrap(wrapParams, endpoints.apiKey.create),
+      createWithId: wrap(wrapParams, endpoints.apiKey.createWithId),
+      update: wrap(wrapParams, endpoints.apiKey.update),
+      delete: wrap(wrapParams, endpoints.apiKey.del),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
