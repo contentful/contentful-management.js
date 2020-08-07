@@ -1,61 +1,63 @@
+import * as apiKey from './api-key'
 import * as appDefinition from './app-definition'
-import * as space from './space'
-import * as environment from './environment'
-import * as entry from './entry'
+import * as appInstallation from './app-installation'
 import * as asset from './asset'
 import * as contentType from './content-type'
 import * as editorInterface from './editor-interface'
+import * as entry from './entry'
+import * as environment from './environment'
+import * as environmentAlias from './environment-alias'
 import * as locale from './locale'
-import * as webhook from './webhook'
+import * as organization from './organization'
+import * as organizationInvitation from './organization-invitation'
+import * as organizationMembership from './organization-membership'
+import * as personalAccessToken from './personal-access-token'
+import * as previewApiKey from './preview-api-key'
+import * as role from './role'
+import * as scheduledAction from './scheduled-action'
+import * as snapshot from './snapshot'
+import * as space from './space'
 import * as spaceMember from './space-member'
 import * as spaceMembership from './space-membership'
-import * as teamSpaceMembership from './team-space-membership'
-import * as organizationMembership from './organization-membership'
-import * as organizationInvitation from './organization-invitation'
-import * as role from './role'
-import * as apiKey from './api-key'
-import * as previewApiKey from './preview-api-key'
-import * as upload from './upload'
-import * as organization from './organization'
-import * as uiExtension from './ui-extension'
-import * as appInstallation from './app-installation'
-import * as snapshot from './snapshot'
-import * as user from './user'
-import * as personalAccessToken from './personal-access-token'
-import * as usage from './usage'
-import * as environmentAlias from './environment-alias'
+import * as tag from './tag'
 import * as team from './team'
 import * as teamMembership from './team-membership'
-import * as tag from './tag'
+import * as teamSpaceMembership from './team-space-membership'
+import * as uiExtension from './ui-extension'
+import * as upload from './upload'
+import * as usage from './usage'
+import * as user from './user'
+import * as webhook from './webhook'
 
 export default {
+  apiKey,
   appDefinition,
-  space,
-  environment,
-  entry,
+  appInstallation,
   asset,
   contentType,
   editorInterface,
+  entry,
+  environment,
+  environmentAlias,
   locale,
-  webhook,
+  organization,
+  organizationInvitation,
+  organizationMembership,
+  personalAccessToken,
+  previewApiKey,
+  role,
+  scheduledAction,
+  snapshot,
+  space,
   spaceMember,
   spaceMembership,
-  teamSpaceMembership,
-  organizationMembership,
-  organizationInvitation,
-  role,
-  apiKey,
-  previewApiKey,
-  upload,
-  organization,
-  uiExtension,
-  appInstallation,
-  snapshot,
-  user,
-  personalAccessToken,
-  usage,
-  environmentAlias,
+  tag,
   team,
   teamMembership,
-  tag,
+  teamSpaceMembership,
+  uiExtension,
+  upload,
+  usage,
+  user,
+  webhook,
 }
