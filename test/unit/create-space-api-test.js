@@ -16,6 +16,8 @@ import {
   setupEntitiesMock,
   cloneMock,
   environmentAliasMock,
+  scheduledActionMock,
+  scheduledActionCollectionMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import {
@@ -439,5 +441,33 @@ test('API call getEnvironmentAliases', (t) => {
 test('API call getEnvironmentAliases fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'getEnvironmentAliases',
+  })
+})
+
+test('API call getScheduledActions', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'scheduledAction',
+    mockToReturn: scheduledActionCollectionMock,
+    methodToTest: 'getScheduledActions',
+  })
+})
+
+test('API call getScheduledActions fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getScheduledActions',
+  })
+})
+
+test('API call createScheduledAction', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'scheduledAction',
+    mockToReturn: scheduledActionMock,
+    methodToTest: 'createScheduledAction',
+  })
+})
+
+test('API call createScheduledAction fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'createScheduledAction',
   })
 })

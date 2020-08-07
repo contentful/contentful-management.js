@@ -27,6 +27,7 @@ import * as environmentAlias from './environment-alias'
 import * as team from './team'
 import * as teamMembership from './team-membership'
 import * as tag from './tag'
+import * as scheduledAction from './scheduled-action'
 
 export default {
   appDefinition,
@@ -58,4 +59,5 @@ export default {
   team,
   teamMembership,
   tag,
+  scheduledAction,
 }

@@ -16,6 +16,7 @@ import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
+import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -47,6 +48,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
+  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
 
   return {
     /**
@@ -937,6 +939,29 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
       return http
         .get('environment_aliases')
         .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
+    },
+
+    /**
+     * Query for scheduled actions in space.
+     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
+     * @return Promise for the scheduled actions query
+     */
+    getScheduledActions(query: ScheduledActionQueryOptions) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.scheduledAction
+        .query(http, { spaceId: raw.sys.id, query })
+        .then((response) => wrapScheduledActionCollection(http, response))
+    },
+    /**
+     * Creates a scheduled action
+     * @param data - Object representation of the scheduled action to be created
+     * @return Promise for the newly created scheduled actions
+     */
+    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.scheduledAction
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((response) => wrapScheduledAction(http, response))
     },
   }
 }
