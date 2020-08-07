@@ -801,9 +801,12 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPreviewApiKeys() {
-      return http
-        .get('preview_api_keys')
-        .then((response) => wrapPreviewApiKeyCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.previewApiKey
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapPreviewApiKeyCollection(http, data))
     },
     /**
      * Gets a preview Api Key
@@ -823,9 +826,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPreviewApiKey(id: string) {
-      return http
-        .get('preview_api_keys/' + id)
-        .then((response) => wrapPreviewApiKey(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.previewApiKey
+        .get(http, {
+          spaceId: raw.sys.id,
+          previewApiKeyId: id,
+        })
+        .then((data) => wrapPreviewApiKey(http, data))
     },
     /**
      * Creates a Api Key

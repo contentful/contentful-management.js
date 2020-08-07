@@ -104,6 +104,10 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       create: wrap(wrapParams, endpoints.scheduledAction.create),
       delete: wrap(wrapParams, endpoints.scheduledAction.del),
     },
+    previewApiKey: {
+      get: wrap(wrapParams, endpoints.previewApiKey.get),
+      getMany: wrap(wrapParams, endpoints.previewApiKey.getMany),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
