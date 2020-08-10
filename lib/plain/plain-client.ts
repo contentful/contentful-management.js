@@ -99,6 +99,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.role.update),
       delete: wrap(wrapParams, endpoints.role.del),
     },
+    scheduledActons: {
+      query: wrap(wrapParams, endpoints.scheduledAction.query),
+      create: wrap(wrapParams, endpoints.scheduledAction.create),
+      delete: wrap(wrapParams, endpoints.scheduledAction.del),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),

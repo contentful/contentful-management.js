@@ -4,6 +4,20 @@ export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
 
+/**
+ * Link is a reference object to another entity that can be resolved using tools such as contentful-resolve
+ */
+export interface Link<T extends string> {
+  sys: {
+    type: 'Link'
+    linkType: T
+    id: string
+  }
+}
+
+/** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
+export type ISO8601Timestamp = string
+
 export interface PaginationQueryOptions {
   skip?: number
   limit?: number
@@ -88,6 +102,11 @@ export interface BasicQueryOptions {
   skip?: number
   limit?: number
   [key: string]: any
+}
+
+export interface BasicCursorPaginationOptions {
+  prev?: string
+  next?: string
 }
 
 export type KeyValueMap = Record<string, any>
