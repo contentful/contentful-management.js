@@ -26,7 +26,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * Roles
    */
-  roles: MetaLinkProps[]
+  roles: { sys: MetaLinkProps }[]
 }
 
 export interface TeamSpaceMembership

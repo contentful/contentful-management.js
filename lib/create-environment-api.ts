@@ -1,17 +1,18 @@
-import cloneDeep from 'lodash/cloneDeep'
-import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
-import entities from './entities'
-
-import type { ContentTypeProps, ContentType } from './entities/content-type'
-import type { QueryOptions } from './common-types'
-import { EntryProp, Entry } from './entities/entry'
-import type { AssetFileProp, AssetProps } from './entities/asset'
-import type { LocaleProps } from './entities/locale'
-import type { UIExtensionProps } from './entities/ui-extension'
-import type { AppInstallationProps } from './entities/app-installation'
-import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
+import { createRequestConfig } from 'contentful-sdk-core'
+import cloneDeep from 'lodash/cloneDeep'
+import { Stream } from 'stream'
+import { BasicQueryOptions, QueryOptions } from './common-types'
+import entities from './entities'
+import { AppInstallationProps } from './entities/app-installation'
+import { AssetFileProp, AssetProps } from './entities/asset'
+
+import { ContentType, CreateContentTypeProps } from './entities/content-type'
+import { Entry, EntryProp } from './entities/entry'
+import { CreateLocaleProps } from './entities/locale'
+import { wrapTag, wrapTagCollection } from './entities/tag'
+import { UIExtensionProps } from './entities/ui-extension'
+import errorHandler from './error-handler'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -269,7 +270,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createContentType(data: Omit<ContentTypeProps, 'sys'>) {
+    createContentType(data: CreateContentTypeProps) {
       return http
         .post('content_types', data)
         .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -304,7 +305,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createContentTypeWithId(id: string, data: Omit<ContentTypeProps, 'sys'>) {
+    createContentTypeWithId(id: string, data: CreateContentTypeProps) {
       return http
         .put('content_types/' + id, data)
         .then((response) => wrapContentType(http, response.data), errorHandler)
@@ -761,7 +762,7 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createLocale(data: Omit<LocaleProps, 'sys'>) {
+    createLocale(data: CreateLocaleProps) {
       return http
         .post('locales', data)
         .then((response) => wrapLocale(http, response.data), errorHandler)
@@ -1009,6 +1010,26 @@ export default function createEnvironmentApi({
       return http
         .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
         .then((response) => wrapSnapshotCollection<ContentType>(http, response.data), errorHandler)
+    },
+
+    createTag(id: string, name: string) {
+      return http
+        .put(`tags/${id}`, {
+          name,
+          sys: {
+            type: 'Tag',
+            id,
+          },
+        })
+        .then((response) => wrapTag(http, response.data), errorHandler)
+    },
+    getTags(query: BasicQueryOptions = {}) {
+      return http
+        .get('tags', createRequestConfig({ query }))
+        .then((response) => wrapTagCollection(http, response.data), errorHandler)
+    },
+    getTag(id: string) {
+      return http.get('tags/' + id).then((response) => wrapTag(http, response.data), errorHandler)
     },
   }
 }
