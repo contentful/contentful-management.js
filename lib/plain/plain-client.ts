@@ -99,8 +99,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.role.update),
       delete: wrap(wrapParams, endpoints.role.del),
     },
-    scheduledActons: {
-      query: wrap(wrapParams, endpoints.scheduledAction.query),
+    scheduledActions: {
+      getMany: wrap(wrapParams, endpoints.scheduledAction.getMany),
       create: wrap(wrapParams, endpoints.scheduledAction.create),
       delete: wrap(wrapParams, endpoints.scheduledAction.del),
     },

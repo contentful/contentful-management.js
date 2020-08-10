@@ -5,7 +5,7 @@ import { ScheduledActionProps, ScheduledAction } from '../../entities/scheduled-
 import { QueryParams, GetSpaceParams } from './common-types'
 import { CollectionProp } from '../../common-types'
 
-export const query = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
+export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
   return raw.get<CollectionProp<ScheduledAction>>(
     http,
     `/spaces/${params.spaceId}/scheduled_actions`,
