@@ -965,7 +965,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     getScheduledActions(query: ScheduledActionQueryOptions) {
       const raw = this.toPlainObject() as SpaceProps
       return endpoints.scheduledAction
-        .query(http, { spaceId: raw.sys.id, query })
+        .getMany(http, { spaceId: raw.sys.id, query })
         .then((response) => wrapScheduledActionCollection(http, response))
     },
     /**
