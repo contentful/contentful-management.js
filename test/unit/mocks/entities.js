@@ -135,7 +135,8 @@ const editorInterfaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
     contentType: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }) },
-    space: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }),
+    space: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }) },
+    environment: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'Environment' }) },
   }),
   controls: [
     {
@@ -528,6 +529,7 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     editorInterface: {
       wrapEditorInterface: sinon.stub(),
+      wrapEditorInterfaceCollection: sinon.stub(),
     },
     upload: {
       wrapUpload: sinon.stub(),

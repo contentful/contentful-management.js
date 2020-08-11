@@ -11,6 +11,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   return {
     editorInterface: {
       get: wrap(wrapParams, endpoints.editorInterface.get),
+      getMany: wrap(wrapParams, endpoints.editorInterface.getMany),
       update: wrap(wrapParams, endpoints.editorInterface.update),
     },
     organization: {

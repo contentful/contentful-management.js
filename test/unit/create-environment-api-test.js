@@ -166,6 +166,20 @@ test('API call createContentTypeWithId fails', (t) => {
   })
 })
 
+test('API call getEditorInterfaces', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'editorInterface',
+    mockToReturn: editorInterfaceMock,
+    methodToTest: 'getEditorInterfaces',
+  })
+})
+
+test('API call getEditorInterfaces fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getEditorInterfaces',
+  })
+})
+
 test('API call getEditorInterfaceForContentType', (t) => {
   makeGetEntityTest(t, setup, teardown, {
     entityType: 'editorInterface',

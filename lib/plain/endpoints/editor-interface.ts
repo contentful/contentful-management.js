@@ -1,9 +1,8 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
-import { EnvironmentProps } from '../../entities/environment'
 import cloneDeep from 'lodash/cloneDeep'
 import { EditorInterfaceProps } from '../../entities/editor-interface'
-import { GetSpaceEnvironmentParams } from './common-types'
+import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from './common-types'
 
 type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
@@ -12,6 +11,13 @@ const getBaseUrl = (params: GetEditorInterfaceParams) =>
 
 export const get = (http: AxiosInstance, params: GetEditorInterfaceParams) => {
   return raw.get<EditorInterfaceProps>(http, getBaseUrl(params))
+}
+
+export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+  return raw.get<CollectionProp<EditorInterfaceProps>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/editor_interfaces`
+  )
 }
 
 export const update = (
@@ -23,7 +29,7 @@ export const update = (
   const data = cloneDeep(rawData)
   delete data.sys
 
-  return raw.put<EnvironmentProps>(http, getBaseUrl(params), data, {
+  return raw.put<EditorInterfaceProps>(http, getBaseUrl(params), data, {
     headers: {
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,

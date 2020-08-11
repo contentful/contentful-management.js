@@ -33,7 +33,7 @@ export default function createEnvironmentApi({
   const { wrapAsset, wrapAssetCollection } = entities.asset
   const { wrapLocale, wrapLocaleCollection } = entities.locale
   const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapEditorInterface } = entities.editorInterface
+  const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
   const { wrapUpload } = entities.upload
   const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
@@ -343,9 +343,41 @@ export default function createEnvironmentApi({
      * ```
      */
     getEditorInterfaceForContentType(contentTypeId: string) {
-      return http
-        .get('content_types/' + contentTypeId + '/editor_interface')
-        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.editorInterface
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          contentTypeId,
+        })
+        .then((response) => wrapEditorInterface(http, response))
+    },
+
+    /**
+     * Gets all EditorInterfaces
+     * @return Promise for a collection of EditorInterface
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEditorInterfaces())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEditorInterfaces() {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.editorInterface
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        })
+        .then((response) => wrapEditorInterfaceCollection(http, response))
     },
 
     /**
