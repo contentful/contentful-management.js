@@ -97,7 +97,7 @@
 | Gets an asset by :id                 | ✅                        |
 | Gets many assets                     | ✅                        |
 | Creates a new asset                  | ✅                        |
-| Creates a new asset with existing id | ✅                        |
+| Creates a new asset with specific id | ✅                        |
 | Creates assets from files            | 🍎                        |
 | Updates an existing asset            | ✅ ⚠️                     |
 | Deletes an existing asset            | ✅ ⚠️                     |
@@ -118,33 +118,83 @@
 | Gets many users from a space      | ✅                        |
 | Gets many users from an org       | ✅                        |
 
+### Content types - ✅
+
+| Function                                      | Exposed to a plain client |
+| --------------------------------------------- | ------------------------- |
+| Gets content type by :id                      | ✅                        |
+| Gets many content types                       | ✅                        |
+| Creates a new content type                    | ✅                        |
+| Creates a new content type with a specific id | ✅                        |
+| Updates an existing content type              | ✅                        |
+| Deletes an existing content type              | ✅                        |
+
+### Organizations - ✅
+
+| Function                   | Exposed to a plain client |
+| -------------------------- | ------------------------- |
+| Gets an organization by id | ✅                        |
+| Gets many organizations    | ✅                        |
+
 ### Entries
 
 TBD
 
-### Content types
-
-TBD
-
-### Organizations
-
-TBD
-
-### Editor interfaces
-
-TDB
-
-### App definitions
-
-### App installations
-
-### Environment aliases
-
-### Organization invitations
-
-### Organization memberships
-
 ### Snapshots
+
+TBD
+
+### Editor interfaces - ✅
+
+| Function                                          | Exposed to a plain client |
+| ------------------------------------------------- | ------------------------- |
+| Gets an editor interface by id                    | ✅                        |
+| Gets many editor interfaces                       | ✅                        |
+| Updates editor interface for a given content type | ✅                        |
+
+### App definitions - 🍎
+
+| Function                           | Exposed to a plain client |
+| ---------------------------------- | ------------------------- |
+| Gets an app definition by id       | 🍎                        |
+| Gets many app definitions          | 🍎                        |
+| Creates a new app definition       | 🍎                        |
+| Updates an existing app definition | 🍎                        |
+| Deletes an existing app definition | 🍎                        |
+
+### App installations - 🍎
+
+| Function                             | Exposed to a plain client |
+| ------------------------------------ | ------------------------- |
+| Gets an app installation by id       | 🍎                        |
+| Gets many app installations          | 🍎                        |
+| Creates a new app installation       | 🍎                        |
+| Updates an existing app installation | 🍎                        |
+| Deletes an existing app installation | 🍎                        |
+
+### Environment aliases - 🍎
+
+| Function                              | Exposed to a plain client |
+| ------------------------------------- | ------------------------- |
+| Gets an environment alias by id       | 🍎                        |
+| Gets many environment aliases         | 🍎                        |
+| Updates an existing environment alias | 🍎                        |
+
+### Organization invitations - 🍎
+
+| Function                      | Exposed to a plain client |
+| ----------------------------- | ------------------------- |
+| Gets an org invitation by id  | 🍎                        |
+| Creates an new org invitation | 🍎                        |
+
+### Organization memberships - 🍎
+
+| Function                           | Exposed to a plain client |
+| ---------------------------------- | ------------------------- |
+| Gets an org membership by id       | 🍎                        |
+| Gets many org memberships          | 🍎                        |
+| Updates an existing org membership | 🍎                        |
+| Deletes an existing org membership | 🍎                        |
 
 ### Space members
 
