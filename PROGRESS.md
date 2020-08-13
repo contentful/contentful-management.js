@@ -138,11 +138,38 @@
 
 ### Entries
 
-TBD
+| Function                               | Exposed to a plain client |
+| -------------------------------------- | ------------------------- |
+| Gets an entry by id                    | ✅                        |
+| Gets many entries                      | ✅                        |
+| Creates a new entry                    | ✅                        |
+| Creates a new entry with a specific id | ✅                        |
+| Creates a new entry with a specific id | ✅                        |
+| Updates an existing entry              | ✅ ⚠️                     |
+| Deletes an existing entry              | ✅ ⚠️                     |
+| Publishes an entry                     | ✅ ⚠️                     |
+| Unpublishes an entry                   | ✅ ⚠️                     |
+| Archives an entry                      | ✅ ⚠️                     |
+| Unarchives an entry                    | ✅ ⚠️                     |
 
 ### Snapshots
 
-TBD
+| Function                                           | Exposed to a plain client |
+| -------------------------------------------------- | ------------------------- |
+| Gets a snapshot for an entry by snapshot id        | 🍎                        |
+| Gets a snapshot for an content type by snapshot id | 🍎                        |
+| Gets many snapshots for an entry                   | 🍎                        |
+| Gets many snapshots for an content type            | 🍎                        |
+
+### Tags - 🍎
+
+| Function                | Exposed to a plain client |
+| ----------------------- | ------------------------- |
+| Gets a tag by id        | 🍎                        |
+| Gets many tags          | 🍎                        |
+| Creates a new tag       | 🍎                        |
+| Updates an existing tag | 🍎                        |
+| Deletes an exising tag  | 🍎                        |
 
 ### Editor interfaces - ✅
 
@@ -198,18 +225,81 @@ TBD
 
 ### Space members
 
-### Space memberships
+| Function                  | Exposed to a plain client |
+| ------------------------- | ------------------------- |
+| Gets a space member by id | 🍎                        |
+| Gets many space members   | 🍎                        |
 
-### Tags
+### Space memberships - 🍎
+
+| Function                               | Exposed to a plain client |
+| -------------------------------------- | ------------------------- |
+| Gets a space membership by id          | 🍎                        |
+| Gets many space memberships            | 🍎                        |
+| Creates a new space membership         | 🍎                        |
+| Creates a new space membership with id | 🍎                        |
+| Updates an existing space membership   | 🍎                        |
+| Deletes an exising space membership    | 🍎                        |
 
 ### Teams
 
+| Function                 | Exposed to a plain client |
+| ------------------------ | ------------------------- |
+| Gets a team by id        | 🍎                        |
+| Gets many teams          | 🍎                        |
+| Creates a new team       | 🍎                        |
+| Updates an existing team | 🍎                        |
+| Deletes an exising team  | 🍎                        |
+
 ### Teams memberships
+
+| Function                            | Exposed to a plain client |
+| ----------------------------------- | ------------------------- |
+| Gets a team membership by id        | 🍎                        |
+| Gets many team memberships          | 🍎                        |
+| Creates a new team membership       | 🍎                        |
+| Updates an existing team membership | 🍎                        |
+| Deletes an exising team membership  | 🍎                        |
 
 ### Team space memberships
 
+| Function                                  | Exposed to a plain client |
+| ----------------------------------------- | ------------------------- |
+| Gets a team space membership by id        | 🍎                        |
+| Gets many team space memberships          | 🍎                        |
+| Creates a new team space membership       | 🍎                        |
+| Updates an existing team space membership | 🍎                        |
+| Deletes an exising team space membership  | 🍎                        |
+
 ### UI Extensions
+
+| Function                                   | Exposed to a plain client |
+| ------------------------------------------ | ------------------------- |
+| Gets a extension by id                     | 🍎                        |
+| Gets many extensions                       | 🍎                        |
+| Creates a new extension                    | 🍎                        |
+| Creates a new extension with a specific id | 🍎                        |
+| Updates an existing extension              | 🍎                        |
+| Deletes an exising extension               | 🍎                        |
 
 ### Uploads
 
+| Function                | Exposed to a plain client |
+| ----------------------- | ------------------------- |
+| Creates an upload       | 🍎                        |
+| Gets an upload by id    | 🍎                        |
+| Deletes an upload by id | 🍎                        |
+
 ### Webhooks
+
+| Function                                       | Exposed to a plain client |
+| ---------------------------------------------- | ------------------------- |
+| Gets a webhook by id                           | 🍎                        |
+| Gets many webhooks                             | 🍎                        |
+| Creates a new webhook                          | 🍎                        |
+| Creates a new webhook with a specific id       | 🍎                        |
+| Updates an existing webhook                    | 🍎                        |
+| Deletes an exising webhook                     | 🍎                        |
+| Gets many webhook calls for a specific webhook | 🍎                        |
+| Get webhook call by id for a specific webhook  | 🍎                        |
+| Gets health for a specific webhook             |
