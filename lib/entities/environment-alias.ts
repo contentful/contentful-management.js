@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createUpdateEntity } from '../instance-actions'
+import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
@@ -40,6 +40,29 @@ export interface EnvironmentAlias
    * ```
    */
   update(): Promise<EnvironmentAlias>
+
+  /**
+   * Deletes this object on the server.
+   * @memberof EnvironmentAlias
+   * @func delete
+   * @return {Promise<void>} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   *
+   * client.getSpace('<space_id>')
+   * .then((space) => space.getEnvironmentAlias('<environment_alias_id>'))
+   * .then((alias) => {
+   *   return alias.delete()
+   * })
+   * .then(() => console.log(`Alias deleted.`))
+   * .catch(console.error)
+   * ```
+   */
+  delete(): Promise<void>
 }
 
 function createEnvironmentAliasApi(http: AxiosInstance) {
@@ -48,6 +71,10 @@ function createEnvironmentAliasApi(http: AxiosInstance) {
       http: http,
       entityPath: 'environment_aliases',
       wrapperMethod: wrapEnvironmentAlias,
+    }),
+    delete: createDeleteEntity({
+      http: http,
+      entityPath: 'environment_aliases',
     }),
   }
 }
