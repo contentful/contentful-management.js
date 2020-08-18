@@ -30,7 +30,7 @@ function raiseDeprecationWarning(method: string) {
       `Deprecated: Space.${method}() will be removed in future major versions.`,
       null,
       `Please migrate your code to use Environment.${method}():`,
-      `https://contentful.github.io/contentful-management.js/contentful-management/latest/ContentfulEnvironmentAPI.html#.${method}`,
+      'https://contentful.github.io/contentful-management.js/contentful-management/latest/globals.html#createenvironmentapi',
       null,
     ].join('\n')
   )
