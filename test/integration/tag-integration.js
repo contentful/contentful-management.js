@@ -1,7 +1,6 @@
 async function createRandomTag(environment) {
   const tagId = randomTagId()
   const tagName = 'Tag ' + tagId
-  console.log(`create random tag ${tagName}:${tagId}`)
   return environment.createTag(tagId, tagName)
 }
 
@@ -24,15 +23,16 @@ async function createUpdateTagTest(t, space) {
   const tagName = 'Tag ' + tagId
   const environment = await space.getEnvironment('master')
   const tag = await environment.createTag(tagId, tagName)
-  tag.name = 'new tag name'
+  const newTagId = 'createUpdateTagTest-' + randomTagId()
+  tag.name = newTagId
   const result = await tag.update()
-  t.equals(result.name, 'new tag name', 'tag name should be updated')
+  t.equals(result.name, newTagId, 'tag name should be updated')
   t.equals(result.sys.id, tagId, 'tag id should be equal')
 }
 async function createReadTagTest(t, space) {
   t.plan(2)
   const tagId = randomTagId()
-  const tagName = 'Tag ' + tagId
+  const tagName = 'createReadTagTest-' + tagId
   const environment = await space.getEnvironment('master')
   await environment.createTag(tagId, tagName)
   const result = await environment.getTag(tagId)
@@ -43,7 +43,7 @@ async function createReadTagTest(t, space) {
 async function createReadTagsTest(t, space) {
   t.plan(2)
   const tagId = randomTagId()
-  const tagName = 'Tag ' + tagId
+  const tagName = 'createReadTagsTest-' + tagId
   const environment = await space.getEnvironment('master')
 
   for (let index = 0; index < 10; index++) {
@@ -67,11 +67,9 @@ async function writeEntityTagsTest(t, entity, environment) {
     },
   }
   entity.metadata.tags.push(tagLink)
-  console.log(`entity update`)
   const updatedEntity = await entity.update()
   t.deepEqual(updatedEntity.metadata.tags[0], tagLink, 'tag created on entity')
   updatedEntity.metadata.tags = []
-  console.log(`entity update`)
   const noTagsEntity = await updatedEntity.update()
   t.deepEqual(noTagsEntity.metadata.tags, [], 'tag removed from entity')
 }
