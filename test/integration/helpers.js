@@ -1,20 +1,17 @@
-import { createClient } from "../../";
+import { createClient } from '../../lib/contentful-management'
 
-const params = {
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
-};
+const params = {}
 
-//const organization = process.env.CONTENTFUL_ORGANIZATION
-// const v2Organization = process.env.CONTENTFUL_V2_ORGANIZATION
-const v2AccessToken = process.env.CONTENTFUL_V2_ACCESS_TOKEN;
+const env = process.env.CONTENTFUL_ACCESS_TOKEN !== undefined ? process.env : window.__env__
 
-if (process.env.API_INTEGRATION_TESTS) {
-  params.host = "127.0.0.1:5000";
-  params.insecure = true;
-}
+export const client = () =>
+  createClient({
+    accessToken: env.CONTENTFUL_ACCESS_TOKEN,
+    ...params,
+  })
 
-export const client = () => createClient(params);
-
-export const v2Client = () => createClient({
-  accessToken: v2AccessToken
-});
+export const v2Client = () =>
+  createClient({
+    accessToken: env.CONTENTFUL_V2_ACCESS_TOKEN,
+    ...params,
+  })
