@@ -1,107 +1,93 @@
-async function createRandomTag(environment) {
-  const tagId = randomTagId()
-  const tagName = 'Tag ' + tagId
-  return environment.createTag(tagId, tagName)
+import { expect } from "chai";
+import { describe, it, afterEach, beforeEach } from "mocha";
+import { v2Client } from "./helpers";
+
+function randomTagId () {
+  return "test-" + Date.now();
 }
 
-function randomTagId() {
-  return 'test-' + Date.now()
+async function createRandomTag (environment) {
+  const tagId = randomTagId();
+  const tagName = "Tag " + tagId;
+  return environment.createTag(tagId, tagName);
 }
 
-async function createTagTest(t, space) {
-  t.plan(1)
-  const tagId = randomTagId()
-  const tagName = 'Tag ' + tagId
-  const environment = await space.getEnvironment('master')
-  const newTag = await environment.createTag(tagId, tagName)
-  t.equals(newTag.name, tagName, 'tag name should be equal')
-}
+describe("Tags api", () => {
 
-async function createUpdateTagTest(t, space) {
-  t.plan(2)
-  const tagId = randomTagId()
-  const tagName = 'Tag ' + tagId
-  const environment = await space.getEnvironment('master')
-  const tag = await environment.createTag(tagId, tagName)
-  const newTagId = 'createUpdateTagTest-' + randomTagId()
-  tag.name = newTagId
-  const result = await tag.update()
-  t.equals(result.name, newTagId, 'tag name should be updated')
-  t.equals(result.sys.id, tagId, 'tag id should be equal')
-}
-async function createReadTagTest(t, space) {
-  t.plan(2)
-  const tagId = randomTagId()
-  const tagName = 'createReadTagTest-' + tagId
-  const environment = await space.getEnvironment('master')
-  await environment.createTag(tagId, tagName)
-  const result = await environment.getTag(tagId)
-  t.equals(result.name, tagName, 'tag name should be equal')
-  t.equals(result.sys.id, tagId, 'tag id should be equal')
-}
+  let environment;
 
-async function createReadTagsTest(t, space) {
-  t.plan(2)
-  const tagId = randomTagId()
-  const tagName = 'createReadTagsTest-' + tagId
-  const environment = await space.getEnvironment('master')
+  beforeEach(async () => {
+    const space = await v2Client().getSpace("w6xueg32zr68");
+    environment = await space.getEnvironment("master");
+  });
 
-  for (let index = 0; index < 10; index++) {
-    await environment.createTag(`${tagId}-${index}`, `${tagName} ${index}`)
-  }
+  afterEach(async () => {
+    const tags = await environment.getTags(0, 1000);
+    for (let index = 0; index < tags.total; index++) {
+      await tags.items[index]["delete"]();
+    }
+  });
 
-  const result = await environment.getTags()
-  t.equals(result.total >= 10, true, 'should return a minimum of created tags')
-  const filteredResult = await environment.getTags({ limit: 2 })
-  t.equals(filteredResult.items.length, 2, 'limit param should work')
-}
+  it("can create a tag", async () => {
+    const tagId = randomTagId();
+    const tagName = "Tag " + tagId;
+    const newTag = await environment.createTag(tagId, tagName);
+    expect(newTag.name).to.eq(tagName);
+  });
 
-async function writeEntityTagsTest(t, entity, environment) {
-  t.equal(entity.metadata.tags.length, 0, 'entity starts with no tags')
-  const tag = await createRandomTag(environment)
-  const tagLink = {
-    sys: {
-      type: 'Link',
-      linkType: 'Tag',
-      id: tag.sys.id,
-    },
-  }
-  entity.metadata.tags.push(tagLink)
-  const updatedEntity = await entity.update()
-  t.deepEqual(updatedEntity.metadata.tags[0], tagLink, 'tag created on entity')
-  updatedEntity.metadata.tags = []
-  const noTagsEntity = await updatedEntity.update()
-  t.deepEqual(noTagsEntity.metadata.tags, [], 'tag removed from entity')
-}
+  it("can read a tag", async () => {
+    const tagId = randomTagId();
+    const tagName = "createReadTagTest-" + tagId;
+    await environment.createTag(tagId, tagName);
+    const result = await environment.getTag(tagId);
+    expect(result.name).to.eq(tagName);
+    expect(result.sys.id).to.eq(tagId);
+  });
 
-async function createManipulateEntitiesTest(t, space) {
-  t.plan(6)
-  let entry
-  const env = await space.getEnvironment('master')
-  entry = await env.createEntry('layout', { fields: {} })
-  await writeEntityTagsTest(t, entry, env)
-  let asset = await env.getAsset('1YK5kwroV6UEGS64mQs0Eo')
-  await writeEntityTagsTest(t, asset, env)
-}
+  it("can read multiple tags", async () => {
+    const tagId = randomTagId();
+    const tagName = "createReadTagsTest-" + tagId;
 
-export function tagTests(suite, space) {
-  suite.test('create tag', (t) => {
-    return createTagTest(t, space)
-  })
+    for (let index = 0; index < 10; index++) {
+      await environment.createTag(`${tagId}-${index}`, `${tagName} ${index}`);
+    }
 
-  suite.test('read tag', (t) => {
-    return createReadTagTest(t, space)
-  })
+    const result = await environment.getTags();
+    expect(result.items).to.have.lengthOf(10);
+    const filteredResult = await environment.getTags({ limit: 2 });
+    expect(filteredResult.items).to.have.lengthOf(2);
+  });
 
-  suite.test('update tag', (t) => {
-    return createUpdateTagTest(t, space)
-  })
+  it("can update a tag", async () => {
+    const tagId = randomTagId();
+    const tagName = "Tag " + tagId;
+    const tag = await environment.createTag(tagId, tagName);
+    const newTagName = "createUpdateTagTest-" + randomTagId();
+    tag.name = newTagName;
+    const result = await tag.update();
+    expect(result.name).to.eq(newTagName);
+    expect(result.sys.id).to.eq(tagId);
+  });
 
-  suite.test('read tags', async (t) => {
-    return createReadTagsTest(t, space)
-  })
+  it("append a tag to an entity", async () => {
+    const entity = await environment.createEntry("layout", { fields: {} });
+    expect(entity.metadata.tags).to.have.lengthOf(0);
+    const tag = await createRandomTag(environment);
+    const tagLink = {
+      sys: {
+        type: "Link",
+        linkType: "Tag",
+        id: tag.sys.id
+      }
+    };
+    entity.metadata.tags.push(tagLink);
+    const updatedEntity = await entity.update();
+    expect(updatedEntity.metadata.tags).to.have.lengthOf(1);
+    expect(updatedEntity.metadata.tags[0]).to.eql(tagLink);
+    updatedEntity.metadata.tags = [];
+    const noTagsEntity = await updatedEntity.update();
+    expect(noTagsEntity.metadata.tags).to.have.lengthOf(0);
+  });
 
-  suite.test('Creates, edits, deletes tags on entity', (t) => {
-    return createManipulateEntitiesTest(t, space)
-  })
-}
+});
+
