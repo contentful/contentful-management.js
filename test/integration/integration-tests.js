@@ -375,8 +375,7 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-test.only('gets V2 space for tag tests', (t) => {
-  console.debug('1')
+test('gets V2 space for tag tests', (t) => {
   v2Client.getSpace('w6xueg32zr68').then((space) => {
     tagTests(t, space)
     test.onFinish(() => deleteAllTags(space, 'master'))
@@ -384,9 +383,6 @@ test.only('gets V2 space for tag tests', (t) => {
 })
 
 async function deleteAllTags(space, environmentName) {
-  console.debug('6')
-
-  console.log('delete all test tags')
   const environment = await space.getEnvironment(environmentName)
   const tags = await environment.getTags(0, 1000)
   for (let index = 0; index < tags.total; index++) {
