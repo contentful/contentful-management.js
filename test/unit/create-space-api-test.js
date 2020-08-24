@@ -471,3 +471,31 @@ test('API call createScheduledAction fails', (t) => {
     methodToTest: 'createScheduledAction',
   })
 })
+
+test('API call getScheduledActions', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'scheduledAction',
+    mockToReturn: scheduledActionCollectionMock,
+    methodToTest: 'getScheduledActions',
+  })
+})
+
+test('API call getScheduledActions fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getScheduledActions',
+  })
+})
+
+test('API call createScheduledAction', (t) => {
+  makeGetEntityTest(t, setup, teardown, {
+    entityType: 'scheduledAction',
+    mockToReturn: scheduledActionMock,
+    methodToTest: 'createScheduledAction',
+  })
+})
+
+test('API call createScheduledAction fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'createScheduledAction',
+  })
+})

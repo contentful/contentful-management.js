@@ -17,6 +17,7 @@ import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
+import { EnvironmentAliasProps } from './entities/environment-alias'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -46,8 +47,8 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
-  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
+  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
   const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
 
   return {
@@ -914,6 +915,34 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     },
 
     /**
+     * Creates an EnvironmentAlias with a custom ID
+     * @param id - EnvironmentAlias ID
+     * @param data - Object representation of the EnvironmentAlias to be created
+     * @return Promise for the newly created EnvironmentAlias
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEnvironmentAliasWithId('<environment-alias-id>', {
+     *   environment: {
+     *     sys: { type: 'Link', linkType: 'Environment', id: 'targetEnvironment' }
+     *   }
+     * }))
+     * .then((environmentAlias) => console.log(environmentAlias))
+     * .catch(console.error)
+     * ```
+     */
+    createEnvironmentAliasWithId(id: string, data: Omit<EnvironmentAliasProps, 'sys'>) {
+      return http
+        .put('environment_aliases/' + id, data)
+        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    },
+
+    /**
      * Gets an Environment Alias
      * @param Environment Alias ID
      * @return Promise for an Environment Alias
@@ -956,7 +985,6 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
         .get('environment_aliases')
         .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
     },
-
     /**
      * Query for scheduled actions in space.
      * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
