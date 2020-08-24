@@ -22,6 +22,7 @@ import { QueryOptions } from './common-types'
 import { UIExtensionProps } from './entities/ui-extension'
 import { CreateApiKeyProps } from './entities/api-key'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
+import { EnvironmentAliasProps } from './entities/environment-alias'
 
 function raiseDeprecationWarning(method: string) {
   console.warn(
@@ -29,7 +30,7 @@ function raiseDeprecationWarning(method: string) {
       `Deprecated: Space.${method}() will be removed in future major versions.`,
       null,
       `Please migrate your code to use Environment.${method}():`,
-      `https://contentful.github.io/contentful-management.js/contentful-management/latest/ContentfulEnvironmentAPI.html#.${method}`,
+      'https://contentful.github.io/contentful-management.js/contentful-management/latest/globals.html#createenvironmentapi',
       null,
     ].join('\n')
   )
@@ -1708,6 +1709,33 @@ export default function createSpaceApi({
       return http
         .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
         .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
+    },
+    /**
+     * Creates an EnvironmentAlias with a custom ID
+     * @param id - EnvironmentAlias ID
+     * @param data - Object representation of the EnvironmentAlias to be created
+     * @return Promise for the newly created EnvironmentAlias
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.createEnvironmentAliasWithId('<environment-alias-id>', {
+     *   environment: {
+     *     sys: { type: 'Link', linkType: 'Environment', id: 'targetEnvironment' }
+     *   }
+     * }))
+     * .then((environmentAlias) => console.log(environmentAlias))
+     * .catch(console.error)
+     * ```
+     */
+    createEnvironmentAliasWithId(id: string, data: Omit<EnvironmentAliasProps, 'sys'>) {
+      return http
+        .put('environment_aliases/' + id, data)
+        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
     },
     /**
      * Gets an Environment Alias
