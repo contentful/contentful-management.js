@@ -6,18 +6,8 @@ import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
 import { MetaSysProps, DefaultElements, EntityMetaSysProps, MetadataProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createArchiveEntity,
-  createUnarchiveEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-  createArchivedChecker,
-} from '../instance-actions'
+import * as endpoints from '../plain/endpoints'
+import * as checks from '../plain/checks'
 
 export type AssetProps = {
   sys: EntityMetaSysProps
@@ -343,6 +333,14 @@ function createAssetApi(http: AxiosInstance): AssetApi {
       }, errorHandler)
   }
 
+  const getParams = (raw: AssetProps) => {
+    return {
+      spaceId: raw.sys.space.sys.id,
+      environmentId: raw.sys.environment.sys.id,
+      assetId: raw.sys.id,
+    }
+  }
+
   function processForAllLocales(options: AssetProcessingForLocale = {}): Promise<Asset> {
     const self = this as Asset
     const locales = Object.keys(this.fields.file || {})
@@ -366,52 +364,61 @@ function createAssetApi(http: AxiosInstance): AssetApi {
   }
 
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'assets',
-      wrapperMethod: wrapAsset,
-    }),
-
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'assets',
-    }),
-
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'assets',
-      wrapperMethod: wrapAsset,
-    }),
-
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'assets',
-      wrapperMethod: wrapAsset,
-    }),
-
-    archive: createArchiveEntity({
-      http: http,
-      entityPath: 'assets',
-      wrapperMethod: wrapAsset,
-    }),
-
-    unarchive: createUnarchiveEntity({
-      http: http,
-      entityPath: 'assets',
-      wrapperMethod: wrapAsset,
-    }),
-
     processForLocale: processForLocale,
 
     processForAllLocales: processForAllLocales,
 
-    isPublished: createPublishedChecker(),
+    update: function update() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset.update(http, getParams(raw), raw).then((data) => wrapAsset(http, data))
+    },
 
-    isUpdated: createUpdatedChecker(),
+    delete: function del() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset.del(http, getParams(raw))
+    },
 
-    isDraft: createDraftChecker(),
+    publish: function publish() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset
+        .publish(http, getParams(raw), raw)
+        .then((data) => wrapAsset(http, data))
+    },
 
-    isArchived: createArchivedChecker(),
+    unpublish: function unpublish() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset.unpublish(http, getParams(raw)).then((data) => wrapAsset(http, data))
+    },
+
+    archive: function archive() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset.archive(http, getParams(raw)).then((data) => wrapAsset(http, data))
+    },
+
+    unarchive: function unarchive() {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset.unarchive(http, getParams(raw)).then((data) => wrapAsset(http, data))
+    },
+
+    isPublished: function isPublished() {
+      const raw = this.toPlainObject() as AssetProps
+      return checks.isPublished(raw)
+    },
+
+    isUpdated: function isUpdated() {
+      const raw = this.toPlainObject() as AssetProps
+      return checks.isUpdated(raw)
+    },
+
+    isDraft: function isDraft() {
+      const raw = this.toPlainObject() as AssetProps
+      return checks.isDraft(raw)
+    },
+
+    isArchived: function isArchived() {
+      const raw = this.toPlainObject() as AssetProps
+      return checks.isArchived(raw)
+    },
   }
 }
 

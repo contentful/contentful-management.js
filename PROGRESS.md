@@ -99,10 +99,10 @@
 | Creates a new asset                  | ✅                        |
 | Creates a new asset with specific id | ✅                        |
 | Creates assets from files            | 🍎                        |
-| Updates an existing asset            | ✅ ⚠️                     |
-| Deletes an existing asset            | ✅ ⚠️                     |
-| Publishes an asset                   | ✅ ⚠️                     |
-| Unpublishes an asset                 | ✅ ⚠️                     |
+| Updates an existing asset            | ✅                        |
+| Deletes an existing asset            | ✅                        |
+| Publishes an asset                   | ✅                        |
+| Unpublishes an asset                 | ✅                        |
 | Archives an asset                    | ✅                        |
 | Unarchives an asset                  | ✅                        |
 | Process asset for a locale           | 🍎                        |
