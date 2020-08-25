@@ -284,13 +284,13 @@
 | Updates an existing extension              | 🍎                        |
 | Deletes an exising extension               | 🍎                        |
 
-### Uploads
+### Uploads - ✅
 
 | Function                | Exposed to a plain client |
 | ----------------------- | ------------------------- |
-| Creates an upload       | 🍎                        |
-| Gets an upload by id    | 🍎                        |
-| Deletes an upload by id | 🍎                        |
+| Creates an upload       | ✅                        |
+| Gets an upload by id    | ✅                        |
+| Deletes an upload by id | ✅                        |
 
 ### Webhooks
 

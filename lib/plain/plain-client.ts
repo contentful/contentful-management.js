@@ -1,4 +1,4 @@
-import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
+import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../create-cma-http-client'
 import * as endpoints from './endpoints'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
@@ -6,6 +6,11 @@ type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST 
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params)
+  const httpUpload = createCMAHttpClient({
+    ...params,
+    host: params.hostUpload || defaultHostParameters.defaultHostnameUpload,
+  })
+
   const wrapParams = { http, defaults }
 
   return {
@@ -72,6 +77,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       unarchive: wrap(wrapParams, endpoints.asset.unarchive),
       create: wrap(wrapParams, endpoints.asset.create),
       createWithId: wrap(wrapParams, endpoints.asset.createWithId),
+    },
+    upload: {
+      get: wrap({ http: httpUpload, defaults }, endpoints.upload.get),
+      create: wrap({ http: httpUpload, defaults }, endpoints.upload.create),
+      delete: wrap({ http: httpUpload, defaults }, endpoints.upload.del),
     },
     locale: {
       get: wrap(wrapParams, endpoints.locale.get),
