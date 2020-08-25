@@ -149,6 +149,12 @@ const assetMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
     locale: 'locale',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
   fields: {
     field1: 'str',
@@ -207,6 +213,12 @@ const uploadMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Upload',
     id: 'some_random_id',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
 }
 
