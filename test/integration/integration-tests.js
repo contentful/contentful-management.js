@@ -23,7 +23,7 @@ import uiExtensionTests from './ui-extension-integration'
 import generateRandomId from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
-import { environmentAliasReadOnlyTests } from './environment-alias-integration'
+import { environmentAliasTests } from './environment-alias-integration'
 import { tagTests } from './tag-integration'
 
 const params = {
@@ -205,7 +205,7 @@ test('Gets v2 space for read only tests', (t) => {
   })
 })
 
-test('Gets v2 space for read only tests', (t) => {
+test('Gets v2 space for alias tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68').then((space) => {
     test.onFinish(() => {
       // clean up and re-point alias to starting env
@@ -213,8 +213,17 @@ test('Gets v2 space for read only tests', (t) => {
         alias.environment.sys.id = 'previously-master'
         return alias.update()
       })
+
+      // In case something went wrong with deleting the new alias
+      // try to fetch and delete it again to clean up
+      space
+        .getEnvironmentAlias('new-alias')
+        .then((alias) => {
+          return alias.delete()
+        })
+        .catch(() => undefined)
     })
-    environmentAliasReadOnlyTests(t, space) // v2 space with alias feature enabled and opted-in
+    environmentAliasTests(t, space) // v2 space with alias feature enabled and opted-in
   })
 })
 
@@ -349,8 +358,7 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-test.only('gets V2 space for tag tests', (t) => {
-  console.debug('1')
+test('gets V2 space for tag tests', (t) => {
   v2Client.getSpace('w6xueg32zr68').then((space) => {
     tagTests(t, space)
     test.onFinish(() => deleteAllTags(space, 'master'))
@@ -358,9 +366,6 @@ test.only('gets V2 space for tag tests', (t) => {
 })
 
 async function deleteAllTags(space, environmentName) {
-  console.debug('6')
-
-  console.log('delete all test tags')
   const environment = await space.getEnvironment(environmentName)
   const tags = await environment.getTags(0, 1000)
   for (let index = 0; index < tags.total; index++) {

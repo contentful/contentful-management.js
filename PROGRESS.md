@@ -203,9 +203,11 @@
 
 | Function                              | Exposed to a plain client |
 | ------------------------------------- | ------------------------- |
+| Creates an environment alias with id  | 🍎                        |
 | Gets an environment alias by id       | 🍎                        |
 | Gets many environment aliases         | 🍎                        |
 | Updates an existing environment alias | 🍎                        |
+| Deletes an existing environment alias | 🍎                        |
 
 ### Organization invitations - 🍎
 
