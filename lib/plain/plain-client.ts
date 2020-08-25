@@ -77,6 +77,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       unarchive: wrap(wrapParams, endpoints.asset.unarchive),
       create: wrap(wrapParams, endpoints.asset.create),
       createWithId: wrap(wrapParams, endpoints.asset.createWithId),
+      createFromFiles: wrap(wrapParams, endpoints.asset.createFromFiles(httpUpload)),
     },
     upload: {
       get: wrap({ http: httpUpload, defaults }, endpoints.upload.get),

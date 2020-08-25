@@ -1,8 +1,10 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
-import { CreateAssetProps, AssetProps } from '../../entities/asset'
+import errorHandler from '../../error-handler'
+import { CreateAssetProps, AssetProps, AssetFileProp } from '../../entities/asset'
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
+import { create as createUpload } from './upload'
 
 import { QueryParams, CollectionProp, GetSpaceEnvironmentParams } from './common-types'
 
@@ -133,4 +135,45 @@ export const createWithId = (
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
     data
   )
+}
+
+export const createFromFiles = (httpUpload: AxiosInstance) => (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  data: Omit<AssetFileProp, 'sys'>
+) => {
+  const { file } = data.fields
+  return Promise.all(
+    Object.keys(file).map((locale) => {
+      const { contentType, fileName } = file[locale]
+
+      return createUpload(httpUpload, params, file[locale]).then((upload) => {
+        return {
+          [locale]: {
+            contentType,
+            fileName,
+            uploadFrom: {
+              sys: {
+                type: 'Link',
+                linkType: 'Upload',
+                id: upload.sys.id,
+              },
+            },
+          },
+        }
+      })
+    })
+  )
+    .then((uploads) => {
+      const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
+      const asset = {
+        ...data,
+        fields: {
+          ...data.fields,
+          file,
+        },
+      }
+      return create(http, params, asset)
+    })
+    .catch(errorHandler)
 }

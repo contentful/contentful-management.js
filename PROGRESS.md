@@ -90,7 +90,7 @@
 | Updates an existing locale | ✅                        |
 | Deletes an existing locale | ✅                        |
 
-### Assets - ⚠️
+### Assets - ✅
 
 | Function                             | Exposed to a plain client |
 | ------------------------------------ | ------------------------- |
@@ -98,7 +98,7 @@
 | Gets many assets                     | ✅                        |
 | Creates a new asset                  | ✅                        |
 | Creates a new asset with specific id | ✅                        |
-| Creates assets from files            | 🍎                        |
+| Creates assets from files            | ✅                        |
 | Updates an existing asset            | ✅                        |
 | Deletes an existing asset            | ✅                        |
 | Publishes an asset                   | ✅                        |

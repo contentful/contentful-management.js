@@ -14,7 +14,6 @@ import { wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import errorHandler from './error-handler'
 import { EnvironmentProps } from './entities/environment'
-import { UploadProps } from './entities/upload'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -695,39 +694,19 @@ export default function createEnvironmentApi({
      * ```
      */
     createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
-      const { file } = data.fields
-      return Promise.all(
-        Object.keys(file).map((locale) => {
-          const { contentType, fileName } = file[locale]
-          return this.createUpload(file[locale]).then((upload: UploadProps) => {
-            return {
-              [locale]: {
-                contentType,
-                fileName,
-                uploadFrom: {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Upload',
-                    id: upload.sys.id,
-                  },
-                },
-              },
-            }
-          })
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.asset
+        .createFromFiles(httpUpload)(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => {
+          return wrapAsset(http, data)
         })
-      )
-        .then((uploads) => {
-          const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
-          const asset = {
-            ...data,
-            fields: {
-              ...data.fields,
-              file,
-            },
-          }
-          return this.createAsset(asset)
-        })
-        .catch(errorHandler)
     },
     /**
      * Gets an Upload
