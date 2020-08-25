@@ -103,8 +103,8 @@
 | Deletes an existing asset            | ✅ ⚠️                     |
 | Publishes an asset                   | ✅ ⚠️                     |
 | Unpublishes an asset                 | ✅ ⚠️                     |
-| Archives an asset                    | ✅ ⚠️                     |
-| Unarchives an asset                  | ✅ ⚠️                     |
+| Archives an asset                    | ✅                        |
+| Unarchives an asset                  | ✅                        |
 | Process asset for a locale           | 🍎                        |
 | Process asset for all locales        | 🍎                        |
 
@@ -136,7 +136,7 @@
 | Gets an organization by id | ✅                        |
 | Gets many organizations    | ✅                        |
 
-### Entries
+### Entries - ✅
 
 | Function                               | Exposed to a plain client |
 | -------------------------------------- | ------------------------- |
@@ -145,12 +145,12 @@
 | Creates a new entry                    | ✅                        |
 | Creates a new entry with a specific id | ✅                        |
 | Creates a new entry with a specific id | ✅                        |
-| Updates an existing entry              | ✅ ⚠️                     |
-| Deletes an existing entry              | ✅ ⚠️                     |
-| Publishes an entry                     | ✅ ⚠️                     |
-| Unpublishes an entry                   | ✅ ⚠️                     |
-| Archives an entry                      | ✅ ⚠️                     |
-| Unarchives an entry                    | ✅ ⚠️                     |
+| Updates an existing entry              | ✅                        |
+| Deletes an existing entry              | ✅                        |
+| Publishes an entry                     | ✅                        |
+| Unpublishes an entry                   | ✅                        |
+| Archives an entry                      | ✅                        |
+| Unarchives an entry                    | ✅                        |
 
 ### Snapshots
 

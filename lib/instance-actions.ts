@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios'
 import type { MetaSysProps, DefaultElements } from './common-types'
 
 import errorHandler from './error-handler'
+import * as checks from './plain/checks'
 
 type ThisContext = { sys: MetaSysProps } & DefaultElements<{ sys: MetaSysProps }>
 type WrapperMethod<E, A extends AxiosInstance = AxiosInstance> = (http: A, data: any) => E
@@ -145,7 +146,7 @@ export function createUnarchiveEntity<T>({
 export function createPublishedChecker() {
   return function () {
     const self = this as ThisContext
-    return !!self.sys.publishedVersion
+    return checks.isPublished({ sys: self.sys })
   }
 }
 
@@ -155,9 +156,7 @@ export function createPublishedChecker() {
 export function createUpdatedChecker() {
   return function () {
     const self = this as ThisContext
-    // The act of publishing an entity increases its version by 1, so any entry which has
-    // 2 versions higher or more than the publishedVersion has unpublished changes.
-    return !!(self.sys.publishedVersion && self.sys.version > self.sys.publishedVersion + 1)
+    return checks.isUpdated({ sys: self.sys })
   }
 }
 
@@ -167,7 +166,7 @@ export function createUpdatedChecker() {
 export function createDraftChecker() {
   return function () {
     const self = this as ThisContext
-    return !self.sys.publishedVersion
+    return checks.isDraft({ sys: self.sys })
   }
 }
 
@@ -177,6 +176,6 @@ export function createDraftChecker() {
 export function createArchivedChecker() {
   return function () {
     const self = this as ThisContext
-    return !!self.sys.archivedVersion
+    return checks.isArchived({ sys: self.sys })
   }
 }
