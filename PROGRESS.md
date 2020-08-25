@@ -105,8 +105,8 @@
 | Unpublishes an asset                 | ✅                        |
 | Archives an asset                    | ✅                        |
 | Unarchives an asset                  | ✅                        |
-| Process asset for a locale           | 🍎                        |
-| Process asset for all locales        | 🍎                        |
+| Process asset for a locale           | ✅                        |
+| Process asset for all locales        | ✅                        |
 
 ### Users - ✅
 
@@ -304,4 +304,4 @@
 | Deletes an exising webhook                     | 🍎                        |
 | Gets many webhook calls for a specific webhook | 🍎                        |
 | Get webhook call by id for a specific webhook  | 🍎                        |
-| Gets health for a specific webhook             |
+| Gets health for a specific webhook             | 🍎                        |

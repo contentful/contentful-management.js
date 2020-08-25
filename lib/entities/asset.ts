@@ -3,7 +3,6 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Stream } from 'stream'
 import { AxiosInstance } from 'axios'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import { MetaSysProps, DefaultElements, EntityMetaSysProps, MetadataProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
@@ -259,80 +258,7 @@ type AssetApi = {
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
-const ASSET_PROCESSING_CHECK_WAIT = 3000
-const ASSET_PROCESSING_CHECK_RETRIES = 10
-
 function createAssetApi(http: AxiosInstance): AssetApi {
-  function checkIfAssetHasUrl({
-    resolve,
-    reject,
-    id,
-    locale,
-    processingCheckWait = ASSET_PROCESSING_CHECK_WAIT,
-    processingCheckRetries = ASSET_PROCESSING_CHECK_RETRIES,
-    checkCount = 0,
-  }: {
-    resolve: Function
-    reject: Function
-    id: string
-    locale: string
-    checkCount?: number
-  } & AssetProcessingForLocale) {
-    http
-      .get('assets/' + id)
-      .then((response) => wrapAsset(http, response.data), errorHandler)
-      .then((asset) => {
-        if (asset.fields.file[locale].url) {
-          resolve(asset)
-        } else if (checkCount === processingCheckRetries) {
-          const error = new Error()
-          error.name = 'AssetProcessingTimeout'
-          error.message = 'Asset is taking longer then expected to process.'
-          reject(error)
-        } else {
-          checkCount++
-          setTimeout(
-            () =>
-              checkIfAssetHasUrl({
-                resolve: resolve,
-                reject: reject,
-                id: id,
-                locale: locale,
-                checkCount: checkCount,
-                processingCheckWait,
-                processingCheckRetries,
-              }),
-            processingCheckWait
-          )
-        }
-      })
-  }
-
-  function processForLocale(
-    locale: string,
-    { processingCheckWait, processingCheckRetries }: AssetProcessingForLocale = {}
-  ): Promise<Asset> {
-    const assetId = this.sys.id
-    return http
-      .put('assets/' + this.sys.id + '/files/' + locale + '/process', null, {
-        headers: {
-          'X-Contentful-Version': this.sys.version,
-        },
-      })
-      .then(() => {
-        return new Promise((resolve, reject) =>
-          checkIfAssetHasUrl({
-            resolve: resolve,
-            reject: reject,
-            id: assetId,
-            locale: locale,
-            processingCheckWait: processingCheckWait,
-            processingCheckRetries: processingCheckRetries,
-          })
-        )
-      }, errorHandler)
-  }
-
   const getParams = (raw: AssetProps) => {
     return {
       spaceId: raw.sys.space.sys.id,
@@ -341,32 +267,23 @@ function createAssetApi(http: AxiosInstance): AssetApi {
     }
   }
 
-  function processForAllLocales(options: AssetProcessingForLocale = {}): Promise<Asset> {
-    const self = this as Asset
-    const locales = Object.keys(this.fields.file || {})
-
-    let mostUpToDateAssetVersion: Asset | undefined = undefined
-
-    // Let all the locales process
-    // Since they all resolve at different times,
-    // we need to pick the last resolved value
-    // to reflect the most recent state
-    const allProcessingLocales = locales.map((locale) =>
-      processForLocale.call(self, locale, options).then((result) => {
-        // Side effect of always setting the most up to date asset version
-        // The last one to call this will be the last one that finished
-        // and thus the most up to date
-        mostUpToDateAssetVersion = result
-      })
-    )
-
-    return Promise.all(allProcessingLocales).then(() => mostUpToDateAssetVersion as Asset)
-  }
-
   return {
-    processForLocale: processForLocale,
+    processForLocale: function processForLocale(
+      locale: string,
+      options?: AssetProcessingForLocale
+    ) {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset
+        .processForLocale(http, getParams(raw), raw, locale, options)
+        .then((data) => wrapAsset(http, data))
+    },
 
-    processForAllLocales: processForAllLocales,
+    processForAllLocales: function processForAllLocales(options?: AssetProcessingForLocale) {
+      const raw = this.toPlainObject() as AssetProps
+      return endpoints.asset
+        .processForAllLocales(http, getParams(raw), raw, options)
+        .then((data) => wrapAsset(http, data))
+    },
 
     update: function update() {
       const raw = this.toPlainObject() as AssetProps

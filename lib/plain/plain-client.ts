@@ -78,6 +78,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       create: wrap(wrapParams, endpoints.asset.create),
       createWithId: wrap(wrapParams, endpoints.asset.createWithId),
       createFromFiles: wrap(wrapParams, endpoints.asset.createFromFiles(httpUpload)),
+      processForAllLocales: wrap(wrapParams, endpoints.asset.processForAllLocales),
+      processForLocale: wrap(wrapParams, endpoints.asset.processForLocale),
     },
     upload: {
       get: wrap({ http: httpUpload, defaults }, endpoints.upload.get),
