@@ -1,28 +1,19 @@
 import { cloneMock } from '../mocks/entities'
 import { cloneDeep, upperFirst } from 'lodash'
+import { expect } from 'chai'
 
-export function makeGetEntityTest(
-  t,
+export async function makeGetEntityTest(
   setup,
-  teardown,
   { entityType, mockToReturn, methodToTest, wrapperSuffix = '' }
 ) {
-  t.plan(1)
   const { api, entitiesMock } = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}${wrapperSuffix}`].returns(mockToReturn)
-  return api[methodToTest]('eid').then((r) => {
-    t.looseEqual(r, mockToReturn)
-    teardown()
-  })
+  const result = await api[methodToTest]('eid')
+  expect(result).to.eq(mockToReturn)
 }
 
-export function makeGetCollectionTest(
-  t,
-  setup,
-  teardown,
-  { entityType, mockToReturn, methodToTest }
-) {
-  makeGetEntityTest(t, setup, teardown, {
+export async function makeGetCollectionTest(setup, { entityType, mockToReturn, methodToTest }) {
+  await makeGetEntityTest(setup, {
     entityType: entityType,
     mockToReturn: {
       total: 100,
@@ -35,58 +26,42 @@ export function makeGetCollectionTest(
   })
 }
 
-export function makeEntityMethodFailingTest(t, setup, teardown, { methodToTest }) {
-  t.plan(1)
+export async function makeEntityMethodFailingTest(setup, { methodToTest }) {
   const error = cloneMock('error')
   const { api } = setup(Promise.reject(error))
 
-  return api[methodToTest]('eid').then(
-    () => {},
-    (r) => {
-      t.equals(r.name, '404 Not Found')
-      teardown()
-    }
-  )
+  try {
+    await api[methodToTest]('eid')
+  } catch (e) {
+    expect(e.name).to.eq('404 Not Found')
+  }
 }
 
-export function makeCreateEntityTest(
-  t,
-  setup,
-  teardown,
-  { entityType, mockToReturn, methodToTest }
-) {
-  t.plan(2)
+export async function makeCreateEntityTest(setup, { entityType, mockToReturn, methodToTest }) {
   const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
-
   return api[methodToTest](mockToReturn).then((r) => {
-    t.looseEqual(r, mockToReturn)
-    t.looseEqual(httpMock.post.args[0][1], mockToReturn, 'data is sent')
-    teardown()
+    expect(r).eql(mockToReturn)
+    expect(httpMock.post.args[0][1]).equals(mockToReturn)
   })
 }
 
-export function makeCreateEntityWithIdTest(
-  t,
+export async function makeCreateEntityWithIdTest(
   setup,
-  teardown,
   { entityType, entityPath, mockToReturn, methodToTest }
 ) {
-  t.plan(3)
   const id = 'entityId'
   const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
 
   return api[methodToTest](id, mockToReturn).then((r) => {
-    t.looseEqual(r, mockToReturn)
-    t.equals(httpMock.put.args[0][0], entityPath + '/' + id, 'specified id is sent')
-    t.looseEqual(httpMock.put.args[0][1], mockToReturn, 'data is sent')
-    teardown()
+    expect(r).eql(mockToReturn)
+    expect(httpMock.put.args[0][0]).eql(entityPath + '/' + id)
+    expect(httpMock.put.args[0][1]).eql(mockToReturn, 'data is sent')
   })
 }
 
 export function testGettingEntrySDKObject(
-  t,
   setup,
   {
     type,
@@ -102,14 +77,12 @@ export function testGettingEntrySDKObject(
   entitiesMock[type][wrapFunctionName].returns(wrapFunction(httpMock, resourceData))
 
   expectedFunctions.forEach((funcName) => {
-    t.notEqual(typeof resourceData[funcName], 'function')
+    expect(typeof resourceData[funcName]).not.equals('function')
   })
 
   const sdkEntry = api[getResourceFromDataFunctionName](resourceData)
-
-  t.ok(sdkEntry)
+  //expect(sdkEntry);
   expectedFunctions.forEach((funcName) => {
-    t.equal(typeof sdkEntry[funcName], 'function')
+    expect(typeof sdkEntry[funcName]).equals('function')
   })
-  t.end()
 }

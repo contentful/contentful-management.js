@@ -9,6 +9,16 @@ import {
 
 import sinon from 'sinon'
 
+const rewireCreateCMAHttpClient = () => {
+  createCMAHttpClientRewireApi.__Rewire__('axios', { create: sinon.stub() })
+}
+
+const resetRewireCreateCMAHttpClient = () => {
+  createCMAHttpClientRewireApi.__ResetDependency__('axios')
+  createCMAHttpClientRewireApi.__ResetDependency__('createHttpClient')
+  createCMAHttpClientRewireApi.__ResetDependency__('wrapHttpClient')
+}
+
 const setupClient = (params = {}) => {
   const createHttpClientStub = sinon.stub()
   createCMAHttpClientRewireApi.__Rewire__('createHttpClient', createHttpClientStub)
@@ -16,15 +26,9 @@ const setupClient = (params = {}) => {
   return createHttpClientStub
 }
 
-describe('A createCMAHttpClient function', () => {
-  beforeEach(() => {
-    createCMAHttpClientRewireApi.__Rewire__('axios', { create: sinon.stub() })
-  })
-
-  afterEach(() => {
-    createCMAHttpClientRewireApi.__ResetDependency__('createHttpClient')
-    createCMAHttpClientRewireApi.__ResetDependency__('wrapHttpClient')
-  })
+describe('A createCMAHttpClient', () => {
+  beforeEach(rewireCreateCMAHttpClient)
+  afterEach(resetRewireCreateCMAHttpClient)
 
   it('throws if no accessToken is defined', () => {
     const createHttpClientStub = sinon.stub()
@@ -34,11 +38,11 @@ describe('A createCMAHttpClient function', () => {
 
   it('passes along HTTP client parameters', () => {
     /*
-    t.ok(createHttpClientStub.args[0][1].headers['Content-Type'], 'sets the content type')
-    createCMAHttpClientRewireApi.__ResetDependency__('createHttpClient')
-    createCMAHttpClientRewireApi.__ResetDependency__('wrapHttpClient')
-    t.end()
-     */
+    I don't understand wht this test it doing?
+
+    const client = setupClient()
+    t.ok(client.args[0][1].headers['Content-Type'], 'sets the content type')
+    */
   })
 
   it('generates the correct default User Agent Header', () => {
@@ -60,8 +64,7 @@ describe('A createCMAHttpClient function', () => {
     })
 
     const headerParts = client.args[0][1].headers['X-Contentful-User-Agent'].split('; ')
-
-    //expect(headerParts).to.have.length(6);
+    expect(headerParts).to.have.lengthOf(6)
     expect(headerParts[0]).to.eq('app myApplication/1.1.1')
     expect(headerParts[1]).to.eq('integration myIntegration/1.0.0')
     expect(headerParts[2]).to.eq('feature some-feature')

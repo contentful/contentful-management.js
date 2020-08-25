@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUiExtension, wrapUiExtensionCollection } from '../../../lib/entities/ui-extension'
@@ -18,40 +18,42 @@ function setup(promise) {
   }
 }
 
-test('UiExtension is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapUiExtension,
+describe('Entity UiExtension', () => {
+  test('UiExtension is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapUiExtension,
+    })
   })
-})
 
-test('UiExtension collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapUiExtensionCollection,
+  test('UiExtension collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapUiExtensionCollection,
+    })
   })
-})
 
-test('UiExtension update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapUiExtension,
+  test('UiExtension update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapUiExtension,
+    })
   })
-})
 
-test('UiExtension update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapUiExtension,
-    actionMethod: 'update',
+  test('UiExtension update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapUiExtension,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('UiExtension delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapUiExtension,
+  test('UiExtension delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapUiExtension,
+    })
   })
-})
 
-test('UiExtension delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapUiExtension,
-    actionMethod: 'delete',
+  test('UiExtension delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapUiExtension,
+      actionMethod: 'delete',
+    })
   })
 })

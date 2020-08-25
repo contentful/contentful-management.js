@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
@@ -6,8 +6,8 @@ import {
   wrapPreviewApiKeyCollection,
 } from '../../../lib/entities/preview-api-key'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
+  entityWrappedTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -17,14 +17,16 @@ function setup(promise) {
   }
 }
 
-test('PreviewApiKey is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapPreviewApiKey,
+describe('PreviewApiKey', () => {
+  test('PreviewApiKey is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapPreviewApiKey,
+    })
   })
-})
 
-test('PreviewApiKey collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapPreviewApiKeyCollection,
+  test('PreviewApiKey collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapPreviewApiKeyCollection,
+    })
   })
 })

@@ -2,8 +2,12 @@ import { expect } from 'chai'
 import { describe, it, afterEach, beforeEach } from 'mocha'
 import { v2Client } from './helpers'
 
+const suiteTags = []
+
 function randomTagId() {
-  return 'test-' + Date.now()
+  const id = 'test-' + Date.now()
+  suiteTags.push(id)
+  return id
 }
 
 async function createRandomTag(environment) {
@@ -24,9 +28,10 @@ describe('Tags api', function () {
 
   afterEach(async () => {
     const tags = await environment.getTags(0, 1000)
-    for (let index = 0; index < tags.total; index++) {
-      await tags.items[index]['delete']()
-    }
+    const deleting = tags.items
+      .filter((tag) => suiteTags.includes(tag.sys.id))
+      .map((tag) => tag.delete())
+    await Promise.all(deleting)
   })
 
   it('can create a tag', async () => {
@@ -50,7 +55,9 @@ describe('Tags api', function () {
     const tagName = 'createReadTagsTest-' + tagId
 
     for (let index = 0; index < 10; index++) {
-      await environment.createTag(`${tagId}-${index}`, `${tagName} ${index}`)
+      const id = `${tagId}-${index}`
+      suiteTags.push(id)
+      await environment.createTag(id, `${tagName} ${index}`)
     }
 
     const result = await environment.getTags()

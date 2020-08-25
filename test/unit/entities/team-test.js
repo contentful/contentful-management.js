@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapTeam, wrapTeamCollection } from '../../../lib/entities/team'
@@ -7,6 +7,7 @@ import {
   entityCollectionWrappedTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
+import { expect } from 'chai'
 
 function setup(promise) {
   return {
@@ -15,62 +16,64 @@ function setup(promise) {
   }
 }
 
-test('Team is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapTeam,
+describe('Entity TeamSpaceMembership', () => {
+  test('Team is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapTeam,
+    })
   })
-})
 
-test('Team collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapTeamCollection,
+  test('Team collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapTeamCollection,
+    })
   })
-})
 
-test('Team update', (t) => {
-  t.plan(3)
-  const { httpMock, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapTeam(httpMock, entityMock)
-  entity.description = 'new description'
-  return entity.update().then((response) => {
-    t.ok(response.toPlainObject, 'response is wrapped')
-    t.equals(
-      httpMock.put.args[0][0],
-      `/organizations/org-id/teams/${entityMock.sys.id}`,
-      'url is correct'
-    )
-    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
-    return { httpMock, entityMock, response }
+  test('Team update', async () => {
+    const { httpMock, entityMock } = setup()
+    entityMock.sys.version = 2
+    const entity = wrapTeam(httpMock, entityMock)
+    entity.description = 'new description'
+    return entity.update().then((response) => {
+      expect(response.toPlainObject, 'response is wrapped').to.be.ok
+      expect(httpMock.put.args[0][0]).equals(`teams/${entityMock.sys.id}`, 'url is correct')
+      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
+        2,
+        'version header is sent'
+      )
+      return {
+        httpMock,
+        entityMock,
+        response,
+      }
+    })
   })
-})
 
-test('Team update fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeam,
-    actionMethod: 'update',
+  test('Team update fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTeam,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('Team delete', (t) => {
-  t.plan(2)
-  const { httpMock, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapTeam(httpMock, entityMock)
-  return entity.delete().then((response) => {
-    t.pass('entity was deleted')
-    t.equals(
-      httpMock.delete.args[0][0],
-      `/organizations/org-id/teams/${entityMock.sys.id}`,
-      'url is correct'
-    )
-    return { httpMock, entityMock, response }
+  test('Team delete', async () => {
+    const { httpMock, entityMock } = setup()
+    entityMock.sys.version = 2
+    const entity = wrapTeam(httpMock, entityMock)
+    return entity.delete().then((response) => {
+      expect(httpMock.delete.args[0][0]).equals(`teams/${entityMock.sys.id}`, 'url is correct')
+      return {
+        httpMock,
+        entityMock,
+        response,
+      }
+    })
   })
-})
 
-test('Team delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTeam,
-    actionMethod: 'delete',
+  test('Team delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTeam,
+      actionMethod: 'delete',
+    })
   })
 })

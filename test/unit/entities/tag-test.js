@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { wrapTag } from '../../../lib/entities/tag'
 import setupHttpMock from '../mocks/http'
 import { cloneMock } from '../mocks/entities'
@@ -15,28 +15,30 @@ function setup(promise) {
   }
 }
 
-test('Tag update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapTag,
+describe('Entity Tag', () => {
+  test('Tag update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapTag,
+    })
   })
-})
 
-test('Tag update fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTag,
-    actionMethod: 'update',
+  test('Tag update fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTag,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('Tag delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapTag,
+  test('Tag delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapTag,
+    })
   })
-})
 
-test('Tag delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapTag,
-    actionMethod: 'delete',
+  test('Tag delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTag,
+      actionMethod: 'delete',
+    })
   })
 })

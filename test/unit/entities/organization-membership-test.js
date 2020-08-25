@@ -1,4 +1,3 @@
-import test from 'blue-tape'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
@@ -6,10 +5,12 @@ import {
   wrapOrganizationMembershipCollection,
 } from '../../../lib/entities/organization-membership'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
+  entityWrappedTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
+import { describe, test } from 'mocha'
+import { expect } from 'chai'
 
 function setup(promise) {
   return {
@@ -18,63 +19,71 @@ function setup(promise) {
   }
 }
 
-test('OrganizationMembership is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapOrganizationMembership,
+describe('Entity OrganizationMembership', () => {
+  test('OrganizationMembership is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapOrganizationMembership,
+    })
   })
-})
 
-test('OrganizationMembership collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapOrganizationMembershipCollection,
+  test('OrganizationMembership collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapOrganizationMembershipCollection,
+    })
   })
-})
 
-test('OrganizationMembership update', (t) => {
-  t.plan(4)
-  const { httpMock, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
-  entity.role = 'member'
-  return entity.update().then((response) => {
-    t.ok(response.toPlainObject, 'response is wrapped')
-    t.equals(
-      httpMock.put.args[0][0],
-      `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-      'url is correct'
-    )
-    t.looseEquals(httpMock.put.args[0][1], { role: 'member' }, 'data is sent')
-    t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
-    return { httpMock, entityMock, response }
+  test('OrganizationMembership update', async () => {
+    const { httpMock, entityMock } = setup()
+    entityMock.sys.version = 2
+    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
+    entity.role = 'member'
+    return entity.update().then((response) => {
+      expect(response.toPlainObject, 'response is wrapped').to.be.ok
+      expect(httpMock.put.args[0][0]).equals(
+        `organization_memberships/${entityMock.sys.id}`,
+        'url is correct'
+      )
+      expect(httpMock.put.args[0][1]).eql({ role: 'member' }, 'data is sent')
+      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
+        2,
+        'version header is sent'
+      )
+      return {
+        httpMock,
+        entityMock,
+        response,
+      }
+    })
   })
-})
 
-test('OrganizationMembership update fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapOrganizationMembership,
-    actionMethod: 'update',
+  test('OrganizationMembership update fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapOrganizationMembership,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('OrganizationMembership delete', (t) => {
-  t.plan(2)
-  const { httpMock, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
-  return entity.delete().then((response) => {
-    t.pass('entity was deleted')
-    t.equals(
-      httpMock.delete.args[0][0],
-      `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-      'url is correct'
-    )
-    return { httpMock, entityMock, response }
+  test('OrganizationMembership delete', async () => {
+    const { httpMock, entityMock } = setup()
+    entityMock.sys.version = 2
+    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
+    return entity.delete().then((response) => {
+      expect(httpMock.delete.args[0][0]).equals(
+        `organization_memberships/${entityMock.sys.id}`,
+        'url is correct'
+      )
+      return {
+        httpMock,
+        entityMock,
+        response,
+      }
+    })
   })
-})
 
-test('OrganizationMembership delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapOrganizationMembership,
-    actionMethod: 'delete',
+  test('OrganizationMembership delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapOrganizationMembership,
+      actionMethod: 'delete',
+    })
   })
 })

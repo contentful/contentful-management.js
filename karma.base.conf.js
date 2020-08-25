@@ -4,8 +4,8 @@ delete webpackConfig.entry
 delete webpackConfig.output
 webpackConfig.devtool = 'inline-source-map'
 
-//files: ['test/unit/**/*.js'],
-const unitTestsPattern = 'test/unit/create-cma-http-client-test.js'
+//files: ['test/unit/**/*.test.js'],
+const unitTestsPattern = ['test/unit/**/*-test.js']
 const integrationTestsPattern = 'test/integration/tag-integration.js'
 
 webpackConfig.node = {
