@@ -5,6 +5,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
 import { wrapCollection } from '../common-utils'
+import { SetOptional } from 'type-fest'
 
 const entityPath = 'app_definitions'
 
@@ -70,6 +71,8 @@ export type AppDefinitionProps = {
    */
   locations: LocationDefinition[]
 }
+
+export type CreateAppDefinitionProps = SetOptional<'sys'>
 
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
   /**
