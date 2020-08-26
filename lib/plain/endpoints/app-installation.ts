@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { GetSpaceEnvironmentParams, CollectionProp, PaginationQueryParams } from './common-types'
 import { normalizeSelect } from './utils'
-import { AppInstallationProps } from '../../../dist/typings/entities/app-installation'
+import { AppInstallationProps } from '../../entities/app-installation'
 
 type GetAppInstallationParams = GetSpaceEnvironmentParams & { appInstallationId: string }
 
