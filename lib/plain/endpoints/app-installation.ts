@@ -4,13 +4,13 @@ import { GetSpaceEnvironmentParams, CollectionProp, PaginationQueryParams } from
 import { normalizeSelect } from './utils'
 import { AppInstallationProps } from '../../entities/app-installation'
 
-type GetAppInstallationParams = GetSpaceEnvironmentParams & { appInstallationId: string }
+type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`
 
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
-  getBaseUrl(params) + `/${params.appInstallationId}`
+  getBaseUrl(params) + `/${params.appDefinitionId}`
 
 export const get = (
   http: AxiosInstance,
@@ -23,7 +23,7 @@ export const get = (
 
 export const getMany = (
   http: AxiosInstance,
-  params: GetAppInstallationParams & PaginationQueryParams
+  params: GetSpaceEnvironmentParams & PaginationQueryParams
 ) => {
   return raw.get<CollectionProp<AppInstallationProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
