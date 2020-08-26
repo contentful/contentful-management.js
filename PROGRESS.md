@@ -90,7 +90,7 @@
 | Updates an existing locale | ✅                        |
 | Deletes an existing locale | ✅                        |
 
-### Assets - ⚠️
+### Assets - ✅
 
 | Function                             | Exposed to a plain client |
 | ------------------------------------ | ------------------------- |
@@ -98,15 +98,15 @@
 | Gets many assets                     | ✅                        |
 | Creates a new asset                  | ✅                        |
 | Creates a new asset with specific id | ✅                        |
-| Creates assets from files            | 🍎                        |
-| Updates an existing asset            | ✅ ⚠️                     |
-| Deletes an existing asset            | ✅ ⚠️                     |
-| Publishes an asset                   | ✅ ⚠️                     |
-| Unpublishes an asset                 | ✅ ⚠️                     |
-| Archives an asset                    | ✅ ⚠️                     |
-| Unarchives an asset                  | ✅ ⚠️                     |
-| Process asset for a locale           | 🍎                        |
-| Process asset for all locales        | 🍎                        |
+| Creates assets from files            | ✅                        |
+| Updates an existing asset            | ✅                        |
+| Deletes an existing asset            | ✅                        |
+| Publishes an asset                   | ✅                        |
+| Unpublishes an asset                 | ✅                        |
+| Archives an asset                    | ✅                        |
+| Unarchives an asset                  | ✅                        |
+| Process asset for a locale           | ✅                        |
+| Process asset for all locales        | ✅                        |
 
 ### Users - ✅
 
@@ -136,7 +136,7 @@
 | Gets an organization by id | ✅                        |
 | Gets many organizations    | ✅                        |
 
-### Entries
+### Entries - ✅
 
 | Function                               | Exposed to a plain client |
 | -------------------------------------- | ------------------------- |
@@ -145,12 +145,12 @@
 | Creates a new entry                    | ✅                        |
 | Creates a new entry with a specific id | ✅                        |
 | Creates a new entry with a specific id | ✅                        |
-| Updates an existing entry              | ✅ ⚠️                     |
-| Deletes an existing entry              | ✅ ⚠️                     |
-| Publishes an entry                     | ✅ ⚠️                     |
-| Unpublishes an entry                   | ✅ ⚠️                     |
-| Archives an entry                      | ✅ ⚠️                     |
-| Unarchives an entry                    | ✅ ⚠️                     |
+| Updates an existing entry              | ✅                        |
+| Deletes an existing entry              | ✅                        |
+| Publishes an entry                     | ✅                        |
+| Unpublishes an entry                   | ✅                        |
+| Archives an entry                      | ✅                        |
+| Unarchives an entry                    | ✅                        |
 
 ### Snapshots
 
@@ -284,13 +284,13 @@
 | Updates an existing extension              | 🍎                        |
 | Deletes an exising extension               | 🍎                        |
 
-### Uploads
+### Uploads - ✅
 
 | Function                | Exposed to a plain client |
 | ----------------------- | ------------------------- |
-| Creates an upload       | 🍎                        |
-| Gets an upload by id    | 🍎                        |
-| Deletes an upload by id | 🍎                        |
+| Creates an upload       | ✅                        |
+| Gets an upload by id    | ✅                        |
+| Deletes an upload by id | ✅                        |
 
 ### Webhooks
 
@@ -304,4 +304,4 @@
 | Deletes an exising webhook                     | 🍎                        |
 | Gets many webhook calls for a specific webhook | 🍎                        |
 | Get webhook call by id for a specific webhook  | 🍎                        |
-| Gets health for a specific webhook             |
+| Gets health for a specific webhook             | 🍎                        |

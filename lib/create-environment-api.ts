@@ -38,23 +38,6 @@ export default function createEnvironmentApi({
   const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
 
-  function createUpload(data: { file: string | ArrayBuffer | Stream }) {
-    const { file } = data
-    if (!file) {
-      return Promise.reject(new Error('Unable to locate a file to upload.'))
-    }
-    return httpUpload
-      .post('uploads', file, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-      })
-      .then((uploadResponse) => {
-        return wrapUpload(httpUpload, uploadResponse.data)
-      })
-      .catch(errorHandler)
-  }
-
   return {
     /**
      * Deletes the environment
@@ -711,39 +694,19 @@ export default function createEnvironmentApi({
      * ```
      */
     createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
-      const { file } = data.fields
-      return Promise.all(
-        Object.keys(file).map((locale) => {
-          const { contentType, fileName } = file[locale]
-          return createUpload(file[locale]).then((upload) => {
-            return {
-              [locale]: {
-                contentType,
-                fileName,
-                uploadFrom: {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Upload',
-                    id: upload.sys.id,
-                  },
-                },
-              },
-            }
-          })
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.asset
+        .createFromFiles(httpUpload)(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => {
+          return wrapAsset(http, data)
         })
-      )
-        .then((uploads) => {
-          const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
-          const asset = {
-            ...data,
-            fields: {
-              ...data.fields,
-              file,
-            },
-          }
-          return this.createAsset(asset)
-        })
-        .catch(errorHandler)
     },
     /**
      * Gets an Upload
@@ -762,10 +725,14 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      */
     getUpload(id: string) {
-      return httpUpload
-        .get('uploads/' + id)
-        .then((response) => wrapUpload(http, response.data))
-        .catch(errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.upload
+        .get(httpUpload, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          uploadId: id,
+        })
+        .then((data) => wrapUpload(httpUpload, data))
     },
 
     /**
@@ -786,7 +753,19 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createUpload: createUpload,
+    createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.upload
+        .create(
+          httpUpload,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapUpload(httpUpload, data))
+    },
     /**
      * Gets a Locale
      * @param localeId - Locale ID

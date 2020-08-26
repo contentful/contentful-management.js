@@ -50,14 +50,14 @@ workflows:
     jobs:
       - lint
       - unit
-      - integration:
-          requires:
-            - unit
-            - lint
+      # - integration:
+      #     requires:
+      #       - unit
+      #       - lint
       - release:
           requires:
             - unit
-            - integration
+            # - integration
           filters:
             branches:
               only:

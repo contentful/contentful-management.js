@@ -3,18 +3,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createArchiveEntity,
-  createUnarchiveEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-  createArchivedChecker,
-} from '../instance-actions'
 import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import {
@@ -24,6 +12,8 @@ import {
   EntityMetaSysProps,
   MetadataProps,
 } from '../common-types'
+import * as endpoints from '../plain/endpoints'
+import * as checks from '../plain/checks'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -206,41 +196,46 @@ type EntryApi = {
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
 function createEntryApi(http: AxiosInstance): EntryApi {
+  const getParams = (raw: EntryProps) => {
+    return {
+      spaceId: raw.sys.space.sys.id,
+      environmentId: raw.sys.environment.sys.id,
+      entryId: raw.sys.id,
+    }
+  }
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    update: function update() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry.update(http, getParams(raw), raw).then((data) => wrapEntry(http, data))
+    },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'entries',
-    }),
+    delete: function del() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry.del(http, getParams(raw))
+    },
 
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    publish: function publish() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry
+        .publish(http, getParams(raw), raw)
+        .then((data) => wrapEntry(http, data))
+    },
 
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    unpublish: function unpublish() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry.unpublish(http, getParams(raw)).then((data) => wrapEntry(http, data))
+    },
 
-    archive: createArchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    archive: function archive() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry.archive(http, getParams(raw)).then((data) => wrapEntry(http, data))
+    },
 
-    unarchive: createUnarchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    unarchive: function unarchive() {
+      const raw = this.toPlainObject() as EntryProps
+      return endpoints.entry.unarchive(http, getParams(raw)).then((data) => wrapEntry(http, data))
+    },
 
     getSnapshots: function (query = {}) {
       return http
@@ -254,13 +249,25 @@ function createEntryApi(http: AxiosInstance): EntryApi {
         .then((response) => wrapSnapshot<EntryProps>(http, response.data), errorHandler)
     },
 
-    isPublished: createPublishedChecker(),
+    isPublished: function isPublished() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isPublished(raw)
+    },
 
-    isUpdated: createUpdatedChecker(),
+    isUpdated: function isUpdated() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isUpdated(raw)
+    },
 
-    isDraft: createDraftChecker(),
+    isDraft: function isDraft() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isDraft(raw)
+    },
 
-    isArchived: createArchivedChecker(),
+    isArchived: function isArchived() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isArchived(raw)
+    },
   }
 }
 

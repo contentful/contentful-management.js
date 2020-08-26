@@ -1,15 +1,15 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
-import { DefaultElements, MetaSysProps } from '../common-types'
+import { DefaultElements, MetaSysProps, SysLink } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type UploadProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { space: SysLink; environment: SysLink }
 }
 
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {
@@ -34,10 +34,14 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
 
 function createUploadApi(http: AxiosInstance) {
   return {
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'uploads',
-    }),
+    delete: function del() {
+      const raw = this.toPlainObject() as UploadProps
+      return endpoints.upload.del(http, {
+        spaceId: raw.sys.space.sys.id,
+        environmentId: raw.sys.environment.sys.id,
+        uploadId: raw.sys.id,
+      })
+    },
   }
 }
 
