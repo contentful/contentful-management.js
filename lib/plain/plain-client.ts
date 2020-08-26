@@ -137,6 +137,10 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.appDefinition.update),
       delete: wrap(wrapParams, endpoints.appDefinition.del),
     },
+    appInstallation: {
+      get: wrap(wrapParams, endpoints.appInstallation.get),
+      getMany: wrap(wrapParams, endpoints.appInstallation.getMany),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
