@@ -28,7 +28,7 @@ export const getMany = (http: AxiosInstance, params: GetOrganizationParams & Que
 
 export const create = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams,
+  params: GetOrganizationParams,
   rawData: CreateAppDefinitionProps
 ) => {
   const data = cloneDeep(rawData)

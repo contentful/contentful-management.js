@@ -61,7 +61,7 @@ interface PageLocationDefinition {
   navigationItem?: NavigationItem
 }
 
-type LocationDefinition =
+export type LocationDefinition =
   | SingleLocationDefinition
   | EntryFieldLocationDefinition
   | PageLocationDefinition
@@ -85,7 +85,10 @@ export type AppDefinitionProps = {
   locations: LocationDefinition[]
 }
 
-export type CreateAppDefinitionProps = Except<AppDefinitionProps, 'sys'>
+export type CreateAppDefinitionProps = SetOptional<
+  Except<AppDefinitionProps, 'sys'>,
+  'src' | 'locations'
+>
 
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
   /**
