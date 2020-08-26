@@ -133,6 +133,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     appDefinition: {
       get: wrap(wrapParams, endpoints.appDefinition.get),
       getMany: wrap(wrapParams, endpoints.appDefinition.getMany),
+      create: wrap(wrapParams, endpoints.appDefinition.create),
+      update: wrap(wrapParams, endpoints.appDefinition.update),
+      delete: wrap(wrapParams, endpoints.appDefinition.del),
     },
     raw: {
       getDefaultParams: () => defaults,

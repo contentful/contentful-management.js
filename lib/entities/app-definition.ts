@@ -5,7 +5,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
 import { wrapCollection } from '../common-utils'
-import { SetOptional } from 'type-fest'
+import { SetOptional, Except } from 'type-fest'
 
 const entityPath = 'app_definitions'
 
@@ -37,6 +37,11 @@ interface ArrayFieldType {
   items: SingleFieldType | LinkFieldType
 }
 
+interface NavigationItem {
+  name: string
+  path: string
+}
+
 type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
 
 // Locations
@@ -51,7 +56,15 @@ interface EntryFieldLocationDefinition {
   fieldTypes: FieldType[]
 }
 
-type LocationDefinition = SingleLocationDefinition | EntryFieldLocationDefinition
+interface PageLocationDefinition {
+  location: 'page'
+  navigationItem?: NavigationItem
+}
+
+type LocationDefinition =
+  | SingleLocationDefinition
+  | EntryFieldLocationDefinition
+  | PageLocationDefinition
 
 export type AppDefinitionProps = {
   /**
@@ -72,7 +85,7 @@ export type AppDefinitionProps = {
   locations: LocationDefinition[]
 }
 
-export type CreateAppDefinitionProps = SetOptional<'sys'>
+export type CreateAppDefinitionProps = Except<AppDefinitionProps, 'sys'>
 
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
   /**

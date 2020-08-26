@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import cloneDeep from 'lodash/cloneDeep'
 import { GetOrganizationParams, QueryParams } from './common-types'
-import { AppDefinitionProps } from '../../entities/app-definition'
+import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
 import { CollectionProp } from '../../common-types'
 
@@ -26,8 +26,34 @@ export const getMany = (http: AxiosInstance, params: GetOrganizationParams & Que
   })
 }
 
-export const create = (http: AxiosInstance, params: GetAppDefinitionParams, rawData: ) => {
+export const create = (
+  http: AxiosInstance,
+  params: GetAppDefinitionParams,
+  rawData: CreateAppDefinitionProps
+) => {
   const data = cloneDeep(rawData)
 
   return raw.post<AppDefinitionProps>(http, getBaseUrl(params), data)
+}
+
+export const update = (
+  http: AxiosInstance,
+  params: GetAppDefinitionParams,
+  rawData: AppDefinitionProps,
+  headers?: Record<string, unknown>
+) => {
+  const data = cloneDeep(rawData)
+
+  delete data.sys
+
+  return raw.put<AppDefinitionProps>(http, getAppDefinitionUrl(params), data, {
+    headers: {
+      'X-Contentful-Version': rawData.sys.version ?? 0,
+      ...headers,
+    },
+  })
+}
+
+export const del = (http: AxiosInstance, params: GetAppDefinitionParams) => {
+  return raw.del(http, getAppDefinitionUrl(params))
 }
