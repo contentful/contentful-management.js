@@ -5,8 +5,11 @@ import { AppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
 import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
 import { cloneDeep } from 'lodash'
+import { SetOptional } from 'type-fest'
 
 type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+
+type CreateUiExtensionParams = SetOptional<GetUiExtensionParams, 'extensionId'>
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/extensions`
@@ -28,12 +31,15 @@ export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams &
 
 export const create = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: CreateUiExtensionParams,
   rawData: CreateUIExtensionProps
 ) => {
   const data = cloneDeep(rawData)
+  const { extensionId } = params
 
-  return raw.post<UIExtensionProps>(http, getBaseUrl(params), data)
+  return extensionId
+    ? raw.put<UIExtensionProps>(http, getUIExtensionUrl(params as GetUiExtensionParams), data)
+    : raw.post<UIExtensionProps>(http, getBaseUrl(params as GetSpaceEnvironmentParams), data)
 }
 
 export const update = (
