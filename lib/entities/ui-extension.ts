@@ -6,6 +6,7 @@ import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaSysProps } from '../common-types'
+import { Except } from 'type-fest'
 
 export type UIExtensionProps = {
   sys: MetaSysProps
@@ -32,6 +33,8 @@ export type UIExtensionProps = {
     sidebar: boolean
   }
 }
+
+export type CreateUIExtensionProps = Except<UIExtensionProps, 'sys'>
 
 export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensionProps> {
   /**

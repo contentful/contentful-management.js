@@ -140,6 +140,15 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     appInstallation: {
       get: wrap(wrapParams, endpoints.appInstallation.get),
       getMany: wrap(wrapParams, endpoints.appInstallation.getMany),
+      upsert: wrap(wrapParams, endpoints.appInstallation.upsert),
+      delete: wrap(wrapParams, endpoints.appInstallation.del),
+    },
+    extension: {
+      get: wrap(wrapParams, endpoints.uiExtension.get),
+      getMany: wrap(wrapParams, endpoints.uiExtension.getMany),
+      create: wrap(wrapParams, endpoints.uiExtension.create),
+      update: wrap(wrapParams, endpoints.uiExtension.update),
+      delete: wrap(wrapParams, endpoints.uiExtension.del),
     },
     raw: {
       getDefaultParams: () => defaults,
