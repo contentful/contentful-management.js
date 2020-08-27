@@ -6,6 +6,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import { Except } from 'type-fest'
 
 export type AppInstallationProps = {
   sys: MetaSysProps & {
@@ -16,6 +17,8 @@ export type AppInstallationProps = {
     [key: string]: string
   }
 }
+
+export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
 export interface AppInstallation
   extends AppInstallationProps,
