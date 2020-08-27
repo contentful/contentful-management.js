@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios'
-import { JsonValue } from 'type-fest'
+import { JsonValue, Except, SetOptional } from 'type-fest'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -50,6 +50,8 @@ export type WebhookTransformation = {
   includeContentLength?: boolean | null
   body?: JsonValue
 }
+
+export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
 
 export type WebhookProps = {
   /**

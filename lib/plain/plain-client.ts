@@ -152,6 +152,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     },
     webhook: {
       get: wrap(wrapParams, endpoints.webhook.get),
+      getMany: wrap(wrapParams, endpoints.webhook.getMany),
+      create: wrap(wrapParams, endpoints.webhook.create),
     },
     raw: {
       getDefaultParams: () => defaults,
