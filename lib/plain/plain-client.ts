@@ -150,6 +150,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.uiExtension.update),
       delete: wrap(wrapParams, endpoints.uiExtension.del),
     },
+    webhook: {
+      get: wrap(wrapParams, endpoints.webhook.get),
+    },
     raw: {
       getDefaultParams: () => defaults,
       get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
