@@ -1,42 +1,50 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
-import { QueryParams, GetSpaceParams, CollectionProp } from './common-types'
+import { QueryParams, GetSpaceParams, CollectionProp, PaginationQueryParams } from './common-types'
 import { normalizeSelect } from './utils'
-import { WebhookProps, CreateWebhooksProps, WebhookHealthProps } from '../../entities/webhook'
+import {
+  WebhookProps,
+  CreateWebhooksProps,
+  WebhookHealthProps,
+  WebhookCallDetailsProps,
+  WebhookCallOverviewProps,
+} from '../../entities/webhook'
 import { SetOptional } from 'type-fest'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
-type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
-
 type CreateWebHookParams = SetOptional<GetWebhookParams, 'webhookDefinitionId'>
 
+type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
+
+const getWebhookCallBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhooks`
 
 const getWebhookUrl = (params: GetWebhookParams) =>
   `${getBaseUrl(params)}/${params.webhookDefinitionId}`
 
-const getWebhooCallUrl = (params: GetWebhookParams) => `${getWebhookUrl(params)}/calls`
+const getWebhookCallUrl = (params: GetWebhookParams) =>
+  `${getWebhookCallBaseUrl(params)}/${params.webhookDefinitionId}/calls`
 
-const getWebhooCallDetailsUrl = (params: GetWebhookCallDetailsUrl) =>
-  `${getWebhookUrl(params)}/calls/${params.callId}`
+const getWebhookCallDetailsUrl = (params: GetWebhookCallDetailsUrl) =>
+  `${getWebhookCallBaseUrl(params)}/${params.webhookDefinitionId}/calls/${params.callId}`
 
-const getWebhookHealthUrl = (params: GetWebhookParams) => `${getWebhookUrl(params)}/health`
+const getWebhookHealthUrl = (params: GetWebhookParams) =>
+  `${getWebhookCallBaseUrl(params)}/${params.webhookDefinitionId}/health`
 
-export const get = (http: AxiosInstance, params: GetWebhookParams & QueryParams) => {
-  return raw.get<CollectionProp<WebhookProps>>(http, getWebhookUrl(params), {
-    params: normalizeSelect(params.query),
-  })
+export const get = (http: AxiosInstance, params: GetWebhookParams) => {
+  return raw.get<CollectionProp<WebhookProps>>(http, getWebhookUrl(params))
 }
 
 export const getManyCallDetails = (http: AxiosInstance, params: GetWebhookParams & QueryParams) => {
-  return raw.get(http, getWebhooCallUrl(params), {
+  return raw.get<CollectionProp<WebhookCallOverviewProps>>(http, getWebhookCallUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
 export const getCallDetails = (http: AxiosInstance, params: GetWebhookCallDetailsUrl) => {
-  return raw.get(http, getWebhooCallDetailsUrl(params))
+  return raw.get<WebhookCallDetailsProps>(http, getWebhookCallDetailsUrl(params))
 }
 
 export const getHealthStatus = (http: AxiosInstance, params: GetWebhookParams) => {

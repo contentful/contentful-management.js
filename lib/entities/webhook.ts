@@ -35,10 +35,23 @@ interface NotConstraint {
 
 export type WebhookCalls = { total: number; healthy: number }
 
+export type WebhookCallRequest = {
+  url: string
+  method: string
+  headers: {
+    [key: string]: string
+  }
+  body: string
+}
+
+export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
+
 export type WebhookHealthSys = Except<
   BasicMetaSysProps,
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
+
+export type WebhookCallDetailsSys = Except<BasicMetaSysProps, 'version' | 'updatedAt' | 'updatedBy'>
 
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
@@ -59,6 +72,50 @@ export type WebhookTransformation = {
 }
 
 export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
+
+export type WebhookCallDetailsProps = {
+  /**
+   * System metadata
+   */
+  sys: WebhookCallDetailsSys
+
+  /**
+   * Request object
+   */
+  request: WebhookCallRequest
+
+  /**
+   * Request object
+   */
+  response: WebhookCallResponse
+
+  /**
+   * Status code of the request
+   */
+  statusCode: number
+  /**
+   * Errors
+   */
+  errors: any[]
+  /**
+   * Type of the webhook
+   */
+  eventType: string
+  /**
+   * Url of the request
+   */
+  url: string
+  /**
+   * Timestamp of the request
+   */
+  requestAt: string
+  /**
+   * Timestamp of the response
+   */
+  responseAt: string
+}
+
+export type WebhookCallOverviewProps = Except<WebhookCallDetailsProps, 'request' | 'response'>
 
 export type WebhookHealthProps = {
   /**
