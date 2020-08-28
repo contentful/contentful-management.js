@@ -153,7 +153,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     webhook: {
       get: wrap(wrapParams, endpoints.webhook.get),
       getMany: wrap(wrapParams, endpoints.webhook.getMany),
+      getHealthStatus: wrap(wrapParams, endpoints.webhook.getHealthStatus),
+      getCallDetails: wrap(wrapParams, endpoints.webhook.getCallDetails),
+      getManyCallDetails: wrap(wrapParams, endpoints.webhook.getManyCallDetails),
       create: wrap(wrapParams, endpoints.webhook.create),
+      update: wrap(wrapParams, endpoints.webhook.update),
       delete: wrap(wrapParams, endpoints.webhook.del),
     },
     raw: {

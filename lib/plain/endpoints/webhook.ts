@@ -7,17 +7,40 @@ import { SetOptional } from 'type-fest'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
+type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+
 type CreateWebHookParams = SetOptional<GetWebhookParams, 'webhookDefinitionId'>
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
 
 const getWebhookUrl = (params: GetWebhookParams) =>
-  `/spaces/${params.spaceId}/webhook_definitions/${params.webhookDefinitionId}`
+  `${getBaseUrl(params)}/${params.webhookDefinitionId}`
+
+const getWebhooCallUrl = (params: GetWebhookParams) => `${getWebhookUrl(params)}/calls`
+
+const getWebhooCallDetailsUrl = (params: GetWebhookCallDetailsUrl) =>
+  `${getWebhookUrl(params)}/calls/${params.callId}`
+
+const getWebhookHealthUrl = (params: GetWebhookParams) => `${getWebhookUrl(params)}/health`
 
 export const get = (http: AxiosInstance, params: GetWebhookParams & QueryParams) => {
   return raw.get<CollectionProp<WebhookProps>>(http, getWebhookUrl(params), {
     params: normalizeSelect(params.query),
   })
+}
+
+export const getManyCallDetails = (http: AxiosInstance, params: GetWebhookParams & QueryParams) => {
+  return raw.get(http, getWebhooCallUrl(params), {
+    params: normalizeSelect(params.query),
+  })
+}
+
+export const getCallDetails = (http: AxiosInstance, params: GetWebhookCallDetailsUrl) => {
+  return raw.get(http, getWebhooCallDetailsUrl(params))
+}
+
+export const getHealth = (http: AxiosInstance, params: GetWebhookParams) => {
+  return raw.get(http, getWebhookHealthUrl(params))
 }
 
 export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
@@ -36,6 +59,14 @@ export const create = (
   return webhookDefinitionId
     ? raw.put<WebhookProps>(http, getWebhookUrl(params as GetWebhookParams), rawData)
     : raw.post<WebhookProps>(http, getBaseUrl(params), rawData)
+}
+
+export const update = (
+  http: AxiosInstance,
+  params: GetWebhookParams,
+  rawData: CreateWebhooksProps
+) => {
+  return raw.put<WebhookProps>(http, getWebhookUrl(params), rawData)
 }
 
 export const del = (http: AxiosInstance, params: GetWebhookParams) => {
