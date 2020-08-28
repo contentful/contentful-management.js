@@ -33,6 +33,13 @@ interface NotConstraint {
   not: EqualityConstraint | InConstraint | RegexpConstraint
 }
 
+export type WebhookCalls = { total: number; healthy: number }
+
+export type WebhookHealthSys = Except<
+  BasicMetaSysProps,
+  'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
+>
+
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
 export type WebhookFilter = EqualityConstraint | InConstraint | RegexpConstraint | NotConstraint
@@ -52,6 +59,18 @@ export type WebhookTransformation = {
 }
 
 export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
+
+export type WebhookHealthProps = {
+  /**
+   * System metadata
+   */
+  sys: WebhookHealthSys & { space: { sys: MetaLinkProps } }
+
+  /**
+   * Webhook call statistics
+   */
+  calls: WebhookCalls
+}
 
 export type WebhookProps = {
   /**

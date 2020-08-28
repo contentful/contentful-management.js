@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { QueryParams, GetSpaceParams, CollectionProp } from './common-types'
 import { normalizeSelect } from './utils'
-import { WebhookProps, CreateWebhooksProps } from '../../entities/webhook'
+import { WebhookProps, CreateWebhooksProps, WebhookHealthProps } from '../../entities/webhook'
 import { SetOptional } from 'type-fest'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
@@ -39,8 +39,8 @@ export const getCallDetails = (http: AxiosInstance, params: GetWebhookCallDetail
   return raw.get(http, getWebhooCallDetailsUrl(params))
 }
 
-export const getHealth = (http: AxiosInstance, params: GetWebhookParams) => {
-  return raw.get(http, getWebhookHealthUrl(params))
+export const getHealthStatus = (http: AxiosInstance, params: GetWebhookParams) => {
+  return raw.get<WebhookHealthProps>(http, getWebhookHealthUrl(params))
 }
 
 export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
