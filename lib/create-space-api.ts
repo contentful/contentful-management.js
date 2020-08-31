@@ -11,7 +11,7 @@ import { CreateEnvironmentProps } from './entities/environment'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
 import { SpaceMembershipProps } from './entities/space-membership'
 import { RoleProps, CreateRoleProps } from './entities/role'
-import { WebhookProps } from './entities/webhook'
+import { CreateWebhooksProps } from './entities/webhook'
 import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
@@ -236,9 +236,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getWebhook(id: string) {
-      return http
-        .get('webhook_definitions/' + id)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .get(http, { spaceId: raw.sys.id, webhookDefinitionId: id })
+        .then((data) => wrapWebhook(http, data))
     },
 
     /**
@@ -258,9 +259,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getWebhooks() {
-      return http
-        .get('webhook_definitions')
-        .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .getMany(http, { spaceId: raw.sys.id })
+        .then((data) => wrapWebhookCollection(http, data))
     },
 
     /**
@@ -285,10 +287,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createWebhook(data: Omit<WebhookProps, 'sys'>) {
-      return http
-        .post('webhook_definitions', data)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    createWebhook(data: CreateWebhooksProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((data) => wrapWebhook(http, data))
     },
 
     /**
@@ -314,10 +317,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createWebhookWithId(id: string, data: Omit<WebhookProps, 'sys'>) {
-      return http
-        .put('webhook_definitions/' + id, data)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    createWebhookWithId(id: string, data: CreateWebhooksProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .create(http, { spaceId: raw.sys.id, webhookDefinitionId: id }, data)
+        .then((data) => wrapWebhook(http, data))
     },
     /**
      * Gets a Role
