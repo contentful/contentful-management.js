@@ -6,7 +6,7 @@ import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaSysProps } from '../common-types'
-import { Except } from 'type-fest'
+import { SetRequired, RequireExactlyOne, SetOptional } from 'type-fest'
 
 export type UIExtensionProps = {
   sys: MetaSysProps
@@ -34,7 +34,15 @@ export type UIExtensionProps = {
   }
 }
 
-export type CreateUIExtensionProps = Except<UIExtensionProps, 'sys'>
+export type UpdateUIExtenionProps = SetOptional<
+  UIExtensionProps['extension'],
+  'name' | 'fieldTypes' | 'sidebar'
+>
+
+export type CreateUIExtensionProps = RequireExactlyOne<
+  SetRequired<UIExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
+  'src' | 'srcdoc'
+>
 
 export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensionProps> {
   /**

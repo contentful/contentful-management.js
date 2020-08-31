@@ -3,7 +3,11 @@ import * as raw from './raw'
 import { QueryParams, GetSpaceEnvironmentParams, CollectionProp } from './common-types'
 import { AppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
-import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
+import {
+  UIExtensionProps,
+  CreateUIExtensionProps,
+  UpdateUIExtenionProps,
+} from '../../entities/ui-extension'
 import { cloneDeep } from 'lodash'
 import { SetOptional } from 'type-fest'
 
@@ -34,27 +38,42 @@ export const create = (
   params: CreateUiExtensionParams,
   rawData: CreateUIExtensionProps
 ) => {
-  const data = cloneDeep(rawData)
   const { extensionId } = params
 
   return extensionId
-    ? raw.put<UIExtensionProps>(http, getUIExtensionUrl(params as GetUiExtensionParams), data)
-    : raw.post<UIExtensionProps>(http, getBaseUrl(params as GetSpaceEnvironmentParams), data)
+    ? raw.put<UIExtensionProps>(http, getUIExtensionUrl(params as GetUiExtensionParams), {
+        extension: {
+          ...rawData,
+        },
+      })
+    : raw.post<UIExtensionProps>(http, getBaseUrl(params as GetSpaceEnvironmentParams), {
+        extension: {
+          ...rawData,
+        },
+      })
 }
 
-export const update = (
+export const update = async (
   http: AxiosInstance,
   params: GetUiExtensionParams,
-  rawData: UIExtensionProps,
+  rawData: UpdateUIExtenionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const extenstionToUpdate = await raw.get<UIExtensionProps>(http, getUIExtensionUrl(params))
+  const { sys } = extenstionToUpdate
 
-  delete data.sys
+  delete extenstionToUpdate.sys
+
+  const data = {
+    extension: {
+      ...extenstionToUpdate.extension,
+      ...rawData,
+    },
+  }
 
   return raw.put<UIExtensionProps>(http, getUIExtensionUrl(params), data, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      'X-Contentful-Version': sys.version ?? 0,
       ...headers,
     },
   })
