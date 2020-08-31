@@ -2,7 +2,11 @@ import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import cloneDeep from 'lodash/cloneDeep'
 import { GetOrganizationParams, QueryParams } from './common-types'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app-definition'
+import {
+  AppDefinitionProps,
+  CreateAppDefinitionProps,
+  UpdateAppDefinitionProps,
+} from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
 import { CollectionProp } from '../../common-types'
 
@@ -36,19 +40,26 @@ export const create = (
   return raw.post<AppDefinitionProps>(http, getBaseUrl(params), data)
 }
 
-export const update = (
+export const update = async (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  rawData: AppDefinitionProps,
+  rawData: UpdateAppDefinitionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const appDefinitionToUpdate = await raw.get<AppDefinitionProps>(http, getAppDefinitionUrl(params))
 
-  delete data.sys
+  const { sys } = appDefinitionToUpdate
+
+  delete appDefinitionToUpdate.sys
+
+  const data = {
+    ...appDefinitionToUpdate,
+    ...rawData,
+  }
 
   return raw.put<AppDefinitionProps>(http, getAppDefinitionUrl(params), data, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      'X-Contentful-Version': sys.version ?? 0,
       ...headers,
     },
   })

@@ -90,6 +90,11 @@ export type CreateAppDefinitionProps = SetOptional<
   'src' | 'locations'
 >
 
+export type UpdateAppDefinitionProps = SetOptional<
+  Except<AppDefinitionProps, 'sys'>,
+  'name' | 'src' | 'locations'
+>
+
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
   /**
    * Deletes this object on the server.
