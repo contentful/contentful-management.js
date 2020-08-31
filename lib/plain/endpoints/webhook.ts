@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
-import { QueryParams, GetSpaceParams, CollectionProp, PaginationQueryParams } from './common-types'
+import { QueryParams, GetSpaceParams, CollectionProp } from './common-types'
 import { normalizeSelect } from './utils'
 import {
   WebhookProps,
@@ -8,8 +8,10 @@ import {
   WebhookHealthProps,
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
+  UpdateWebhookProps,
 } from '../../entities/webhook'
 import { SetOptional } from 'type-fest'
+import { cloneDeep, clone } from 'lodash'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
@@ -34,7 +36,7 @@ const getWebhookHealthUrl = (params: GetWebhookParams) =>
   `${getWebhookCallBaseUrl(params)}/${params.webhookDefinitionId}/health`
 
 export const get = (http: AxiosInstance, params: GetWebhookParams) => {
-  return raw.get<CollectionProp<WebhookProps>>(http, getWebhookUrl(params))
+  return raw.get<WebhookProps>(http, getWebhookUrl(params))
 }
 
 export const getManyCallDetails = (http: AxiosInstance, params: GetWebhookParams & QueryParams) => {
@@ -69,12 +71,29 @@ export const create = (
     : raw.post<WebhookProps>(http, getBaseUrl(params), rawData)
 }
 
-export const update = (
+export const update = async (
   http: AxiosInstance,
   params: GetWebhookParams,
-  rawData: CreateWebhooksProps
+  rawData: UpdateWebhookProps,
+  headers?: Record<string, unknown>
 ) => {
-  return raw.put<WebhookProps>(http, getWebhookUrl(params), rawData)
+  const webhookToUpdate = await raw.get<WebhookProps>(http, getWebhookUrl(params))
+
+  const { sys } = webhookToUpdate
+
+  delete webhookToUpdate.sys
+
+  const data = {
+    ...webhookToUpdate,
+    ...rawData,
+  }
+
+  return raw.put<WebhookProps>(http, getWebhookUrl(params), data, {
+    headers: {
+      'X-Contentful-Version': sys.version ?? 0,
+      ...headers,
+    },
+  })
 }
 
 export const del = (http: AxiosInstance, params: GetWebhookParams) => {

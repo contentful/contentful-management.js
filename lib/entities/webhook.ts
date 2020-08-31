@@ -73,6 +73,11 @@ export type WebhookTransformation = {
 
 export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
 
+export type UpdateWebhookProps = SetOptional<
+  Except<WebhookProps, 'sys'>,
+  'headers' | 'name' | 'topics' | 'url'
+>
+
 export type WebhookCallDetailsProps = {
   /**
    * System metadata
