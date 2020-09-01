@@ -4,9 +4,15 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import errorHandler from '../error-handler'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
+import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, BasicMetaSysProps, MetaLinkProps } from '../common-types'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  MetaLinkProps,
+  SysLink,
+  CollectionProp,
+} from '../common-types'
 
 const entityPath = 'webhook_definitions'
 
@@ -138,7 +144,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { space: { sys: MetaLinkProps } }
+  sys: BasicMetaSysProps & { space: SysLink }
 
   /**
    * Webhook name
@@ -240,7 +246,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getCalls(): Promise<Record<string, unknown>>
+  getCalls(): Promise<CollectionProp<WebhookCallOverviewProps>>
 
   /**
    * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
@@ -259,7 +265,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getCall(id: string): Promise<Record<string, unknown>>
+  getCall(id: string): Promise<WebhookCallDetailsProps>
 
   /**
    * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
@@ -278,38 +284,38 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getHealth(): Promise<Record<string, unknown>>
+  getHealth(): Promise<WebhookHealthProps>
 }
 
 function createWebhookApi(http: AxiosInstance) {
+  const getParams = (data: WebhookProps) => ({
+    spaceId: data.sys.space.sys.id,
+    webhookDefinitionId: data.sys.id,
+  })
+
   return {
-    update: createUpdateEntity({
-      http,
-      entityPath,
-      wrapperMethod: wrapWebhook,
-    }),
+    update: function update() {
+      const data = this.toPlainObject() as WebhookProps
 
-    delete: createDeleteEntity({
-      http,
-      entityPath,
-    }),
-
-    getCalls: function (): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/calls')
-        .then((response) => response.data, errorHandler)
+      return endpoints.webhook
+        .update(http, getParams(data), data)
+        .then((data) => wrapWebhook(http, data))
     },
-
-    getCall: function (id: string): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/calls/' + id)
-        .then((response) => response.data, errorHandler)
+    delete: function del() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.del(http, getParams(data))
     },
-
-    getHealth: function (): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/health')
-        .then((response) => response.data, errorHandler)
+    getCalls: function getCalls() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.getManyCallDetails(http, getParams(data))
+    },
+    getCall: function getCall(id: string) {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.getCallDetails(http, { ...getParams(data), callId: id })
+    },
+    getHealth: function getHealth() {
+      const data = this.toPlainObject as WebhookProps
+      return endpoints.webhook.getHealthStatus(http, getParams(data))
     },
   }
 }

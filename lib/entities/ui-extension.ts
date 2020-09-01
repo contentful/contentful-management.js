@@ -2,11 +2,10 @@ import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
 import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps, BasicMetaSysProps, SysLink } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import { SetRequired, RequireExactlyOne, SetOptional } from 'type-fest'
 
 export type UIExtensionProps = {
