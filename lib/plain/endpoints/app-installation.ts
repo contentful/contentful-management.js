@@ -17,7 +17,7 @@ export const get = (
   http: AxiosInstance,
   params: GetAppInstallationParams & PaginationQueryParams
 ) => {
-  return raw.get<CollectionProp<AppInstallationProps>>(http, getAppInstallationUrl(params), {
+  return raw.get<AppInstallationProps>(http, getAppInstallationUrl(params), {
     params: normalizeSelect(params.query),
   })
 }

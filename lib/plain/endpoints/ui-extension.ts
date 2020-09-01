@@ -28,7 +28,7 @@ export const get = (http: AxiosInstance, params: GetUiExtensionParams & QueryPar
 }
 
 export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
-  return raw.get<CollectionProp<AppDefinitionProps>>(http, getBaseUrl(params), {
+  return raw.get<CollectionProp<UIExtensionProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
