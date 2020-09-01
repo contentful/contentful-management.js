@@ -646,7 +646,7 @@ test('API call createUiExtensionWithId', (t) => {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
     methodToTest: 'createUiExtensionWithId',
-    entityPath: 'extensions',
+    entityPath: '/spaces/id/environments/id/extensions',
   })
 })
 

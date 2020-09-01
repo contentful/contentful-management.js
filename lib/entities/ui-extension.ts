@@ -4,12 +4,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { EntryFields } from './entry-fields'
+import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps } from '../common-types'
+import { DefaultElements, MetaSysProps, BasicMetaSysProps, SysLink } from '../common-types'
 import { SetRequired, RequireExactlyOne, SetOptional } from 'type-fest'
 
 export type UIExtensionProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
   extension: {
     /**
      * Extension name
@@ -87,16 +88,24 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
 }
 
 function createUiExtensionApi(http: AxiosInstance) {
+  const getParams = (data: UIExtensionProps) => ({
+    spaceId: data.sys.space.sys.id,
+    environmentId: data.sys.environment.sys.id,
+    extensionId: data.sys.id,
+  })
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'extensions',
-      wrapperMethod: wrapUiExtension,
-    }),
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'extensions',
-    }),
+    update: function update() {
+      const data = this.toPlainObject() as UIExtensionProps
+      const { extension } = data
+      return endpoints.uiExtension
+        .update(http, getParams(data), extension)
+        .then((data) => wrapUiExtension(http, data))
+    },
+    delete: function del() {
+      const data = this.toPlainObject() as UIExtensionProps
+      return endpoints.uiExtension.del(http, getParams(data))
+    },
   }
 }
 

@@ -160,7 +160,7 @@ test('API call createWebhookWithId', (t) => {
     entityType: 'webhook',
     mockToReturn: webhookMock,
     methodToTest: 'createWebhookWithId',
-    entityPath: 'webhook_definitions',
+    entityPath: '/spaces/id/webhook_definitions',
   })
 })
 
