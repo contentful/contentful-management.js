@@ -296,7 +296,6 @@ function createWebhookApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as WebhookProps
-
       return endpoints.webhook
         .update(http, getParams(data), data)
         .then((data) => wrapWebhook(http, data))
@@ -314,7 +313,7 @@ function createWebhookApi(http: AxiosInstance) {
       return endpoints.webhook.getCallDetails(http, { ...getParams(data), callId: id })
     },
     getHealth: function getHealth() {
-      const data = this.toPlainObject as WebhookProps
+      const data = this.toPlainObject() as WebhookProps
       return endpoints.webhook.getHealthStatus(http, getParams(data))
     },
   }

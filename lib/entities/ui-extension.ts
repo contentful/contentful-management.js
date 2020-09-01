@@ -91,7 +91,6 @@ function createUiExtensionApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as UIExtensionProps
-      console.log(data, 'DATA')
       return endpoints.uiExtension
         .update(http, getParams(data), data)
         .then((data) => wrapUiExtension(http, data))
