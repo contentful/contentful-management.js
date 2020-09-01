@@ -320,7 +320,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
     createWebhookWithId(id: string, data: CreateWebhooksProps) {
       const raw = this.toPlainObject() as SpaceProps
       return endpoints.webhook
-        .create(http, { spaceId: raw.sys.id, webhookDefinitionId: id }, data)
+        .createWithId(http, { spaceId: raw.sys.id, webhookDefinitionId: id }, data)
         .then((data) => wrapWebhook(http, data))
     },
     /**

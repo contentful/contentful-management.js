@@ -336,7 +336,14 @@ const usageMock = {
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
+  name: 'Some Extension',
 }
 
 const appInstallationMock = {

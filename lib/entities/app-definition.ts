@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { MetaSysProps, DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { AxiosInstance } from 'axios'
 import { wrapCollection } from '../common-utils'
@@ -86,11 +86,6 @@ export type AppDefinitionProps = {
 export type CreateAppDefinitionProps = SetOptional<
   Except<AppDefinitionProps, 'sys'>,
   'src' | 'locations'
->
-
-export type UpdateAppDefinitionProps = SetOptional<
-  Except<AppDefinitionProps, 'sys'>,
-  'name' | 'src' | 'locations'
 >
 
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {

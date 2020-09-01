@@ -993,7 +993,7 @@ export default function createEnvironmentApi({
     createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.uiExtension
-        .create(
+        .createWithId(
           http,
           {
             spaceId: raw.sys.space.sys.id,

@@ -6,7 +6,7 @@ import { EntryFields } from './entry-fields'
 import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
-import { SetRequired, RequireExactlyOne, SetOptional } from 'type-fest'
+import { SetRequired, RequireExactlyOne } from 'type-fest'
 
 export type UIExtensionProps = {
   sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
@@ -33,11 +33,6 @@ export type UIExtensionProps = {
     sidebar: boolean
   }
 }
-
-export type UpdateUIExtenionProps = SetOptional<
-  UIExtensionProps['extension'],
-  'name' | 'fieldTypes' | 'sidebar'
->
 
 export type CreateUIExtensionProps = RequireExactlyOne<
   SetRequired<UIExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
@@ -96,9 +91,9 @@ function createUiExtensionApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as UIExtensionProps
-      const { extension } = data
+      console.log(data, 'DATA')
       return endpoints.uiExtension
-        .update(http, getParams(data), extension)
+        .update(http, getParams(data), data)
         .then((data) => wrapUiExtension(http, data))
     },
     delete: function del() {

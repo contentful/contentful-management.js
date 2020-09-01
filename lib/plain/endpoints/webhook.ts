@@ -15,8 +15,6 @@ import { cloneDeep, clone } from 'lodash'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
-type CreateWebHookParams = SetOptional<GetWebhookParams, 'webhookDefinitionId'>
-
 type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
@@ -61,36 +59,39 @@ export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParam
 
 export const create = (
   http: AxiosInstance,
-  params: CreateWebHookParams,
-  rawData: CreateWebhooksProps
+  params: GetSpaceParams,
+  rawData: CreateWebhooksProps,
+  headers?: Record<string, unknown>
 ) => {
-  const { webhookDefinitionId } = params
+  const data = cloneDeep(rawData)
 
-  return webhookDefinitionId
-    ? raw.put<WebhookProps>(http, getWebhookUrl(params as GetWebhookParams), rawData)
-    : raw.post<WebhookProps>(http, getBaseUrl(params), rawData)
+  return raw.post<WebhookProps>(http, getBaseUrl(params), data, { headers })
+}
+
+export const createWithId = (
+  http: AxiosInstance,
+  params: GetWebhookParams,
+  rawData: CreateWebhooksProps,
+  headers?: Record<string, unknown>
+) => {
+  const data = cloneDeep(rawData)
+
+  return raw.put<WebhookProps>(http, getWebhookUrl(params), data, { headers })
 }
 
 export const update = async (
   http: AxiosInstance,
   params: GetWebhookParams,
-  rawData: UpdateWebhookProps,
+  rawData: WebhookProps,
   headers?: Record<string, unknown>
 ) => {
-  const webhookToUpdate = await raw.get<WebhookProps>(http, getWebhookUrl(params))
+  const data = cloneDeep(rawData)
 
-  const { sys } = webhookToUpdate
-
-  delete webhookToUpdate.sys
-
-  const data = {
-    ...webhookToUpdate,
-    ...rawData,
-  }
+  delete data.sys
 
   return raw.put<WebhookProps>(http, getWebhookUrl(params), data, {
     headers: {
-      'X-Contentful-Version': sys.version ?? 0,
+      'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
   })

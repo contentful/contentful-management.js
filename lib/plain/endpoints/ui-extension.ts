@@ -1,19 +1,11 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { QueryParams, GetSpaceEnvironmentParams, CollectionProp } from './common-types'
-import { AppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
-import {
-  UIExtensionProps,
-  CreateUIExtensionProps,
-  UpdateUIExtenionProps,
-} from '../../entities/ui-extension'
+import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
 import { cloneDeep } from 'lodash'
-import { SetOptional } from 'type-fest'
 
 type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
-
-type CreateUiExtensionParams = SetOptional<GetUiExtensionParams, 'extensionId'>
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/extensions`
@@ -35,45 +27,46 @@ export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams &
 
 export const create = (
   http: AxiosInstance,
-  params: CreateUiExtensionParams,
-  rawData: CreateUIExtensionProps
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateUIExtensionProps,
+  headers?: Record<string, unknown>
 ) => {
-  const { extensionId } = params
+  return raw.post<UIExtensionProps>(
+    http,
+    getBaseUrl(params as GetSpaceEnvironmentParams),
+    {
+      extension: {
+        ...rawData,
+      },
+    },
+    { headers }
+  )
+}
 
-  return extensionId
-    ? raw.put<UIExtensionProps>(http, getUIExtensionUrl(params as GetUiExtensionParams), {
-        extension: {
-          ...rawData,
-        },
-      })
-    : raw.post<UIExtensionProps>(http, getBaseUrl(params as GetSpaceEnvironmentParams), {
-        extension: {
-          ...rawData,
-        },
-      })
+export const createWithId = (
+  http: AxiosInstance,
+  params: GetUiExtensionParams,
+  rawData: CreateUIExtensionProps,
+  headers?: Record<string, unknown>
+) => {
+  const data = cloneDeep(rawData)
+
+  return raw.put<UIExtensionProps>(http, getUIExtensionUrl(params), data, { headers })
 }
 
 export const update = async (
   http: AxiosInstance,
   params: GetUiExtensionParams,
-  rawData: UpdateUIExtenionProps,
+  rawData: UIExtensionProps,
   headers?: Record<string, unknown>
 ) => {
-  const extenstionToUpdate = await raw.get<UIExtensionProps>(http, getUIExtensionUrl(params))
-  const { sys } = extenstionToUpdate
+  const data = cloneDeep(rawData)
 
-  delete extenstionToUpdate.sys
-
-  const data = {
-    extension: {
-      ...extenstionToUpdate.extension,
-      ...rawData,
-    },
-  }
+  delete data.sys
 
   return raw.put<UIExtensionProps>(http, getUIExtensionUrl(params), data, {
     headers: {
-      'X-Contentful-Version': sys.version ?? 0,
+      'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
   })
