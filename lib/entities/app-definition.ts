@@ -44,7 +44,7 @@ type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
 
 type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
-interface AppLocation {
+interface SimpleLocation {
   location: LocationType
 }
 
@@ -58,7 +58,7 @@ interface PageLocation {
   navigationItem?: NavigationItem
 }
 
-export type Location = AppLocation | EntryFieldLocation | PageLocation
+export type AppLocation = SimpleLocation | EntryFieldLocation | PageLocation
 
 export type AppDefinitionProps = {
   /**
@@ -76,7 +76,7 @@ export type AppDefinitionProps = {
   /**
    * Locations where the app can be installed
    */
-  locations: Location[]
+  locations: AppLocation[]
 }
 
 export type CreateAppDefinitionProps = SetOptional<
