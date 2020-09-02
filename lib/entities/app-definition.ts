@@ -42,27 +42,23 @@ interface NavigationItem {
 
 type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
 
-// Locations
-type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
+type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
-interface SingleLocationDefinition {
-  location: AppLocation
+interface AppLocation {
+  location: LocationType
 }
 
-interface EntryFieldLocationDefinition {
+interface EntryFieldLocation {
   location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
-interface PageLocationDefinition {
+interface PageLocation {
   location: 'page'
   navigationItem?: NavigationItem
 }
 
-export type LocationDefinition =
-  | SingleLocationDefinition
-  | EntryFieldLocationDefinition
-  | PageLocationDefinition
+export type Location = AppLocation | EntryFieldLocation | PageLocation
 
 export type AppDefinitionProps = {
   /**
@@ -80,7 +76,7 @@ export type AppDefinitionProps = {
   /**
    * Locations where the app can be installed
    */
-  locations: LocationDefinition[]
+  locations: Location[]
 }
 
 export type CreateAppDefinitionProps = SetOptional<
