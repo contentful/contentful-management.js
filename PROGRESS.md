@@ -179,7 +179,7 @@
 | Gets many editor interfaces                       | ✅                        |
 | Updates editor interface for a given content type | ✅                        |
 
-### App definitions - 🍎
+### App definitions - ✅
 
 | Function                           | Exposed to a plain client |
 | ---------------------------------- | ------------------------- |
@@ -189,7 +189,7 @@
 | Updates an existing app definition | ✅                        |
 | Deletes an existing app definition | ✅                        |
 
-### App installations - 🍎
+### App installations - ✅
 
 | Function                             | Exposed to a plain client |
 | ------------------------------------ | ------------------------- |
@@ -273,7 +273,7 @@
 | Updates an existing team space membership | 🍎                        |
 | Deletes an exising team space membership  | 🍎                        |
 
-### UI Extensions
+### UI Extensions - ✅
 
 | Function                                   | Exposed to a plain client |
 | ------------------------------------------ | ------------------------- |
@@ -292,7 +292,7 @@
 | Gets an upload by id    | ✅                        |
 | Deletes an upload by id | ✅                        |
 
-### Webhooks
+### Webhooks - ✅
 
 | Function                                       | Exposed to a plain client |
 | ---------------------------------------------- | ------------------------- |
