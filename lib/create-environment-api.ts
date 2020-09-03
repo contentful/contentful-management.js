@@ -8,8 +8,8 @@ import type { EntryProps, Entry, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateContentTypeProps, ContentType } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
-import type { UIExtensionProps } from './entities/ui-extension'
-import type { AppInstallationProps } from './entities/app-installation'
+import type { CreateUIExtensionProps } from './entities/ui-extension'
+import type { CreateAppInstallationProps } from './entities/app-installation'
 import { wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import errorHandler from './error-handler'
@@ -877,9 +877,14 @@ export default function createEnvironmentApi({
      * ```
      */
     getUiExtension(id: string) {
-      return http
-        .get('extensions/' + id)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.uiExtension
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          extensionId: id,
+        })
+        .then((data) => wrapUiExtension(http, data))
     },
     /**
      * Gets a collection of UI Extension
@@ -899,9 +904,13 @@ export default function createEnvironmentApi({
      * ```
      */
     getUiExtensions() {
-      return http
-        .get('extensions')
-        .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.uiExtension
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        })
+        .then((data) => wrapUiExtensionCollection(http, data))
     },
     /**
      * Creates a UI Extension
@@ -935,10 +944,18 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
-      return http
-        .post('extensions', data)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    createUiExtension(data: CreateUIExtensionProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.uiExtension
+        .create(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapUiExtension(http, data))
     },
     /**
      * Creates a UI Extension with a custom ID
@@ -973,10 +990,19 @@ export default function createEnvironmentApi({
      * .catch(console.error)
      * ```
      */
-    createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
-      return http
-        .put('extensions/' + id, data)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.uiExtension
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            extensionId: id,
+          },
+          data
+        )
+        .then((data) => wrapUiExtension(http, data))
     },
 
     /**
@@ -1002,10 +1028,19 @@ export default function createEnvironmentApi({
      *  .catch(console.error)
      *  ```
      */
-    createAppInstallation(appDefinitionId: string, data: Omit<AppInstallationProps, 'sys'>) {
-      return http
-        .put('app_installations/' + appDefinitionId, data)
-        .then((response) => wrapAppInstallation(http, response.data), errorHandler)
+    createAppInstallation(appDefinitionId: string, data: CreateAppInstallationProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.appInstallation
+        .upsert(
+          http,
+          {
+            spaceId: raw.sys.space.sys.id,
+            environmentId: raw.sys.id,
+            appDefinitionId,
+          },
+          data
+        )
+        .then((data) => wrapAppInstallation(http, data))
     },
     /**
      * Gets an App Installation
@@ -1026,9 +1061,14 @@ export default function createEnvironmentApi({
      *  ```
      */
     getAppInstallation(id: string) {
-      return http
-        .get('app_installations/' + id)
-        .then((response) => wrapAppInstallation(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.appInstallation
+        .get(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId: id,
+        })
+        .then((data) => wrapAppInstallation(http, data))
     },
     /**
      * Gets a collection of App Installation
@@ -1048,9 +1088,13 @@ export default function createEnvironmentApi({
      *  ```
      */
     getAppInstallations() {
-      return http
-        .get('app_installations')
-        .then((response) => wrapAppInstallationCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.appInstallation
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        })
+        .then((data) => wrapAppInstallationCollection(http, data))
     },
     /**
      * Gets all snapshots of an entry

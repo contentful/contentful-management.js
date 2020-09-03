@@ -179,25 +179,25 @@
 | Gets many editor interfaces                       | ✅                        |
 | Updates editor interface for a given content type | ✅                        |
 
-### App definitions - 🍎
+### App definitions - ✅
 
 | Function                           | Exposed to a plain client |
 | ---------------------------------- | ------------------------- |
-| Gets an app definition by id       | 🍎                        |
-| Gets many app definitions          | 🍎                        |
-| Creates a new app definition       | 🍎                        |
-| Updates an existing app definition | 🍎                        |
-| Deletes an existing app definition | 🍎                        |
+| Gets an app definition by id       | ✅                        |
+| Gets many app definitions          | ✅                        |
+| Creates a new app definition       | ✅                        |
+| Updates an existing app definition | ✅                        |
+| Deletes an existing app definition | ✅                        |
 
-### App installations - 🍎
+### App installations - ✅
 
 | Function                             | Exposed to a plain client |
 | ------------------------------------ | ------------------------- |
-| Gets an app installation by id       | 🍎                        |
-| Gets many app installations          | 🍎                        |
-| Creates a new app installation       | 🍎                        |
-| Updates an existing app installation | 🍎                        |
-| Deletes an existing app installation | 🍎                        |
+| Gets an app installation by id       | ✅                        |
+| Gets many app installations          | ✅                        |
+| Creates a new app installation       | ✅                        |
+| Updates an existing app installation | ✅                        |
+| Deletes an existing app installation | ✅                        |
 
 ### Environment aliases - 🍎
 
@@ -273,16 +273,16 @@
 | Updates an existing team space membership | 🍎                        |
 | Deletes an exising team space membership  | 🍎                        |
 
-### UI Extensions
+### UI Extensions - ✅
 
 | Function                                   | Exposed to a plain client |
 | ------------------------------------------ | ------------------------- |
-| Gets a extension by id                     | 🍎                        |
-| Gets many extensions                       | 🍎                        |
-| Creates a new extension                    | 🍎                        |
-| Creates a new extension with a specific id | 🍎                        |
-| Updates an existing extension              | 🍎                        |
-| Deletes an exising extension               | 🍎                        |
+| Gets a extension by id                     | ✅                        |
+| Gets many extensions                       | ✅                        |
+| Creates a new extension                    | ✅                        |
+| Creates a new extension with a specific id | ✅                        |
+| Updates an existing extension              | ✅                        |
+| Deletes an exising extension               | ✅                        |
 
 ### Uploads - ✅
 
@@ -292,16 +292,16 @@
 | Gets an upload by id    | ✅                        |
 | Deletes an upload by id | ✅                        |
 
-### Webhooks
+### Webhooks - ✅
 
 | Function                                       | Exposed to a plain client |
 | ---------------------------------------------- | ------------------------- |
-| Gets a webhook by id                           | 🍎                        |
-| Gets many webhooks                             | 🍎                        |
-| Creates a new webhook                          | 🍎                        |
-| Creates a new webhook with a specific id       | 🍎                        |
-| Updates an existing webhook                    | 🍎                        |
-| Deletes an exising webhook                     | 🍎                        |
-| Gets many webhook calls for a specific webhook | 🍎                        |
-| Get webhook call by id for a specific webhook  | 🍎                        |
-| Gets health for a specific webhook             | 🍎                        |
+| Gets a webhook by id                           | ✅                        |
+| Gets many webhooks                             | ✅                        |
+| Creates a new webhook                          | ✅                        |
+| Creates a new webhook with a specific id       | ✅                        |
+| Updates an existing webhook                    | ✅                        |
+| Deletes an exising webhook                     | ✅                        |
+| Gets many webhook calls for a specific webhook | ✅                        |
+| Get webhook call by id for a specific webhook  | ✅                        |
+| Gets health for a specific webhook             | ✅                        |

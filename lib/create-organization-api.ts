@@ -8,7 +8,7 @@ import { TeamMembershipProps } from './entities/team-membership'
 import { TeamProps } from './entities/team'
 import { OrganizationInvitationProps } from './entities/organization-invitation'
 import { QueryOptions } from './common-types'
-import { AppDefinitionProps } from './entities/app-definition'
+import { CreateAppDefinitionProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
@@ -412,10 +412,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createAppDefinition(data: Omit<AppDefinitionProps, 'sys'>) {
-      return http
-        .post('app_definitions', data)
-        .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+    createAppDefinition(data: CreateAppDefinitionProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .create(http, { organizationId: raw.sys.id }, data)
+        .then((data) => wrapAppDefinition(http, data))
     },
     /**
      * Gets all app definitions
@@ -433,9 +434,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getAppDefinitions(query: QueryOptions = {}) {
-      return http
-        .get('app_definitions', createRequestConfig({ query }))
-        .then((response) => wrapAppDefinitionCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .getMany(http, { organizationId: raw.sys.id, query: query })
+        .then((data) => wrapAppDefinitionCollection(http, data))
     },
 
     /**
@@ -454,9 +456,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getAppDefinition(id: string) {
-      return http
-        .get('app_definitions/' + id)
-        .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .get(http, { organizationId: raw.sys.id, appDefinitionId: id })
+        .then((data) => wrapAppDefinition(http, data))
     },
   }
 }

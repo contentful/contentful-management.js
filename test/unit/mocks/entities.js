@@ -57,6 +57,7 @@ const personalAccessTokenMock = {
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
+    organization: { sys: { id: 'organziation-id' } },
   }),
   name: 'AI Image Tagging',
   src: 'https://ai-image-tagging.app-host.com/frontend/',
@@ -249,6 +250,9 @@ const membershipMock = {
 const webhookMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'WebhookDefinition',
+    space: {
+      sys: { id: 'space-id' },
+    },
   }),
 }
 
@@ -336,12 +340,22 @@ const usageMock = {
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
+  name: 'Some Extension',
 }
 
 const appInstallationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppInstallation',
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     appDefinition: {
       sys: {
         id: '<app_definition_id>',
@@ -444,6 +458,7 @@ const mocks = {
   upload: uploadMock,
   organization: organizationMock,
   uiExtension: uiExtensionMock,
+  appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   user: userMock,
   personalAccessToken: personalAccessTokenMock,
