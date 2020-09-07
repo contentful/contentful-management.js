@@ -1,11 +1,11 @@
 import { expect } from 'chai'
-import { describe, it, afterEach, beforeEach } from 'mocha'
-import { v2Client } from './helpers'
+import { after, afterEach, beforeEach, describe, it } from 'mocha'
+import { client, generateRandomId } from '../helpers'
 
 const suiteTags = []
 
 function randomTagId() {
-  const id = 'test-' + Date.now()
+  const id = generateRandomId('test-tag')
   suiteTags.push(id)
   return id
 }
@@ -17,12 +17,12 @@ async function createRandomTag(environment) {
 }
 
 describe('Tags api', function () {
-  this.timeout(10000)
+  this.timeout(20000)
 
   let environment
 
   beforeEach(async () => {
-    const space = await v2Client().getSpace('w6xueg32zr68')
+    const space = await client(true).getSpace('w6xueg32zr68')
     environment = await space.getEnvironment('master')
   })
 
@@ -32,6 +32,11 @@ describe('Tags api', function () {
       .filter((tag) => suiteTags.includes(tag.sys.id))
       .map((tag) => tag.delete())
     await Promise.all(deleting)
+  })
+
+  after(async () => {
+    const tags = await environment.getTags(0, 1000)
+    await Promise.all(tags.items.map((tag) => tag.delete()))
   })
 
   it('can create a tag', async () => {

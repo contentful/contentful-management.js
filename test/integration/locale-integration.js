@@ -1,31 +1,51 @@
-export function localeTests(t, environment) {
-  t.test('Gets locales', (t) => {
-    t.plan(2)
-    return environment.getLocales().then((response) => {
-      t.ok(response.items[0].name, 'English')
-      t.ok(response.items[0].code, 'en-US')
+import { after, before, describe, test } from 'mocha'
+import { client, createTestSpace } from '../helpers'
+import { expect } from 'chai'
+
+describe('Locale Api', function () {
+  this.timeout(60000)
+
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'Locale')
+  })
+
+  after(async () => {
+    return space.delete()
+  })
+
+  test('Gets locales', async () => {
+    return space.getLocales().then((response) => {
+      expect(response.items[0].name).equals('English (United States)')
+      expect(response.items[0].code).equals('en-US')
     })
   })
 
-  t.test('Creates, gets, updates and deletes a locale', (t) => {
-    t.plan(4)
-    return environment
+  test('Creates, gets, updates and deletes a locale', async () => {
+    return space
       .createLocale({
         name: 'German (Austria)',
         code: 'de-AT',
       })
       .then((response) => {
-        t.equals(response.code, 'de-AT', 'locale code after creation')
+        expect(response.code).equals('de-AT', 'locale code after creation')
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(
-              environment.getLocale(response.sys.id).then((locale) => {
-                t.equals(locale.code, 'de-AT', 'locale code after getting')
+              space.getLocale(response.sys.id).then((locale) => {
+                expect(locale.code).equals('de-AT', 'locale code after getting')
                 locale.name = 'Deutsch (Österreich)'
                 locale.fallbackCode = 'en-US'
                 return locale.update().then((updatedLocale) => {
-                  t.equals(updatedLocale.name, 'Deutsch (Österreich)', 'locale name after update')
-                  t.equals(updatedLocale.fallbackCode, 'en-US', 'locale fallbackCode after update')
+                  expect(updatedLocale.name).equals(
+                    'Deutsch (Österreich)',
+                    'locale name after update'
+                  )
+                  expect(updatedLocale.fallbackCode).equals(
+                    'en-US',
+                    'locale fallbackCode after update'
+                  )
                   return updatedLocale.delete()
                 })
               })
@@ -34,4 +54,4 @@ export function localeTests(t, environment) {
         })
       })
   })
-}
+})

@@ -1,35 +1,106 @@
-// const TEST_IMAGE_SOURCE_URL =
-//   'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
+const TEST_IMAGE_SOURCE_URL =
+  'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
 
-export function assetReadOnlyTests(t, environment) {
-  t.test('Gets assets with only images', (t) => {
-    t.plan(1)
-    return environment
-      .getAssets({
-        mimetype_group: 'image',
-      })
-      .then((response) => {
-        t.ok(response.items[0].fields.file['en-US'].contentType.match(/image/))
-      })
-  })
+import { expect } from 'chai'
+import { before, describe, test } from 'mocha'
+import { client } from '../helpers'
 
-  t.test('Gets asset', (t) => {
-    t.plan(2)
-    return environment.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.fields, 'fields')
+describe.skip('Asset api', function () {
+  let space
+
+  describe('Read', () => {
+    before(async () => {
+      space = await client().getSpace('ezs1swce23xe')
+    })
+
+    test('Gets assets with only images', async () => {
+      return space
+        .getAssets({
+          mimetype_group: 'image',
+        })
+        .then((response) => {
+          expect(response.items[0].fields.file['en-US'].contentType).match(/image/)
+        })
+    })
+
+    test('Gets asset', async () => {
+      return space.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
+        expect(response.sys, 'sys').to.be.ok
+        expect(response.fields, 'fields').to.be.ok
+      })
+    })
+
+    test('Gets assets', async () => {
+      return space.getAssets().then((response) => {
+        expect(response.items, 'items').to.be.ok
+      })
     })
   })
 
-  t.test('Gets assets', (t) => {
-    t.plan(1)
-    return environment.getAssets().then((response) => {
-      t.ok(response.items, 'items')
+  // Write test seems currently broken
+  describe.skip('Write', function () {
+    this.timeout(60 * 1000)
+
+    /*
+    before(async () => {
+      space = await createTestSpace(client());
+
+      await space.createLocale({
+        name: "German (Germany)",
+        code: "de-DE"
+      });
+    });
+     */
+
+    test('Create, process, update, publish, unpublish, archive, unarchive and delete asset', async function () {
+      return space
+        .createAsset({
+          fields: {
+            title: { 'en-US': 'this is the title' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+        })
+        .then((asset) => {
+          expect(asset.fields.title['en-US']).equals('this is the title', 'original title')
+          return asset
+            .processForLocale('en-US', { processingCheckWait: 5000 })
+            .then((processedAsset) => {
+              expect(asset.isDraft(), 'asset is in draft').to.be.true
+              expect(processedAsset.fields.file['en-US'].url, 'file was uploaded').to.be.ok
+              return processedAsset.publish().then((publishedAsset) => {
+                expect(publishedAsset.isPublished(), 'asset is published').to.be.true
+                publishedAsset.fields.title['en-US'] = 'title has changed'
+                return publishedAsset.update().then((updatedAsset) => {
+                  expect(updatedAsset.isUpdated(), 'asset is updated').to.be.true
+                  expect(updatedAsset.fields.title['en-US']).equals(
+                    'title has changed',
+                    'updated title'
+                  )
+                  return updatedAsset.unpublish().then((unpublishedAsset) => {
+                    expect(unpublishedAsset.isDraft(), 'asset is back in draft').to.be.true
+                    return unpublishedAsset.archive().then((archivedAsset) => {
+                      expect(archivedAsset.isArchived(), 'asset is archived').to.be.true
+                      return archivedAsset.unarchive().then((unarchivedAsset) => {
+                        expect(unarchivedAsset.isArchived(), 'asset is not archived anymore').to.be
+                          .true
+                        expect(unarchivedAsset.isDraft(), 'asset is back in draft').to.be.true
+                        return unarchivedAsset.delete()
+                      })
+                    })
+                  })
+                })
+              })
+            })
+        })
     })
   })
-}
-
-export function assetWriteTests() {}
+})
 
 // These tests are temporarily commented out because they rely on a
 // currently flaky external asset processing api.
@@ -37,7 +108,7 @@ export function assetWriteTests() {}
 // export function assetWriteTests(t, space) {
 //   t.test(
 //     'Create, process, update, publish, unpublish, archive, unarchive and delete asset',
-//     (t) => {
+//     async () => {
 //       t.plan(10)
 
 //       return space
@@ -84,7 +155,7 @@ export function assetWriteTests() {}
 //     }
 //   )
 
-//   t.test('Create and process asset with multiple locales', (t) => {
+//   t.test('Create and process asset with multiple locales', async () => {
 //     t.plan(2)
 
 //     return space
@@ -113,7 +184,7 @@ export function assetWriteTests() {}
 //       })
 //   })
 
-//   t.test('Upload and process asset with multiple locales', (t) => {
+//   t.test('Upload and process asset with multiple locales', async () => {
 //     t.plan(2)
 
 //     return space

@@ -1,17 +1,28 @@
-// import { generateRandomId } from './generate-random-id'
+import { after, before, describe, test } from 'mocha'
+import { client, createTestSpace } from '../helpers'
+import { expect } from 'chai'
 
-export function webhookTests(t, space) {
-  t.test('Gets webhooks', (t) => {
-    t.plan(2)
-    return space.getWebhooks().then((webhooks) => {
-      t.ok(webhooks.sys, 'sys')
-      t.ok(webhooks.items, 'fields')
+describe('Webhook Api', () => {
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'Webhook')
+  })
+
+  after(async () => {
+    return space.delete()
+  })
+
+  test('Gets webhooks', async () => {
+    return space.getWebhooks().then((response) => {
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'fields').ok
     })
   })
 
   // does not work in our API ¯\_(ツ)_/¯
   /*
-  t.test('Create webhook with id', (t) => {
+  t.test('Create webhook with id', async () => {
     const id = generateRandomId('webhook')
     return space.createWebhookWithId(id, {
       name: 'testwebhook',
@@ -33,7 +44,7 @@ export function webhookTests(t, space) {
   })
   */
 
-  t.test('Create webhook', (t) => {
+  test('Create webhook', async () => {
     return space
       .createWebhook({
         name: 'testname',
@@ -41,13 +52,13 @@ export function webhookTests(t, space) {
         topics: ['Entry.publish'],
       })
       .then((webhook) => {
-        t.equals(webhook.name, 'testname', 'name')
-        t.ok(webhook.url, 'url')
+        expect(webhook.name).equals('testname', 'name')
+        expect(webhook.url, 'url').ok
         webhook.name = 'updatedname'
         return webhook.update().then((updatedWebhook) => {
-          t.equals(updatedWebhook.name, 'updatedname', 'name')
+          expect(updatedWebhook.name).equals('updatedname', 'name')
           return updatedWebhook.delete()
         })
       })
   })
-}
+})

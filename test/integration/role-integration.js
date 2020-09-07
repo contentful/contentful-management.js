@@ -1,4 +1,6 @@
-import { generateRandomId } from './generate-random-id'
+import { client, createTestSpace, generateRandomId } from '../helpers'
+import { after, before, describe, test } from 'mocha'
+import { expect } from 'chai'
 
 const roleDefinition = {
   name: 'Content Editor',
@@ -15,59 +17,47 @@ const roleDefinition = {
       constraint: { and: [{ equals: [{ doc: 'sys.type' }, 'Entry'] }] },
     },
   ],
-  permissions: { ContentModel: ['read'], Settings: [], ContentDelivery: [] },
+  permissions: {
+    ContentModel: ['read'],
+    Settings: [],
+    ContentDelivery: [],
+  },
 }
 
-export function roleTests(t, space) {
-  t.test('Gets roles', (t) => {
-    t.plan(3)
+describe('Role Api', () => {
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'Role')
+  })
+
+  after(async () => {
+    return space.delete()
+  })
+
+  test('Gets roles', async () => {
     return space.getRoles().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
-      t.equal(response.items.length, 4)
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'fields').ok
     })
   })
 
-  t.test('Gets roles with a limit parameter', (t) => {
-    t.plan(2)
-    return space
-      .getRoles({
-        limit: 2,
-      })
-      .then((response) => {
-        t.ok(response.items, 'items')
-        t.equal(response.items.length, 2)
-      })
-  })
-
-  t.test('Gets roles with skip parameter', (t) => {
-    t.plan(2)
-    return space
-      .getRoles({
-        skip: 2,
-      })
-      .then((response) => {
-        t.ok(response.items, 'items')
-        t.equal(response.skip, 2)
-      })
-  })
-
-  t.test('Create role with id', (t) => {
+  test('Create role with id', async () => {
     const id = generateRandomId('role')
     return space.createRoleWithId(id, roleDefinition).then((role) => {
-      t.equals(role.sys.id, id, 'id')
+      expect(role.sys.id).equals(id, 'id')
       return role.delete()
     })
   })
 
-  t.test('Create role', (t) => {
+  test('Create role', async () => {
     return space.createRole(roleDefinition).then((role) => {
-      t.equals(role.name, 'Content Editor', 'name')
+      expect(role.name).equals('Content Editor', 'name')
       role.name = 'updatedname'
       return role.update().then((updatedRole) => {
-        t.equals(updatedRole.name, 'updatedname', 'name')
+        expect(updatedRole.name).equals('updatedname', 'name')
         return updatedRole.delete()
       })
     })
   })
-}
+})

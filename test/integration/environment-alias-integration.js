@@ -1,60 +1,34 @@
-export function environmentAliasTests(t, space) {
-  t.test('Gets aliases', (t) => {
-    t.plan(2)
-    return space.getEnvironmentAliases().then((response) => {
-      t.equals(response.items[0].sys.id, 'master')
-      t.equals(response.items[0].environment.sys.id, 'previously-master')
+import { before, describe, test } from 'mocha'
+import { client } from '../helpers'
+import { expect } from 'chai'
+
+describe('EnvironmentAlias Api', () => {
+  describe('read', () => {
+    let space
+    before(async () => {
+      space = await client(true).getSpace('w6xueg32zr68')
+    })
+
+    test('Gets aliases', async () => {
+      return space.getEnvironmentAliases().then((response) => {
+        expect(response.items[0].sys.id).equals('master')
+        expect(response.items[0].environment.sys.id).equals('previously-master')
+      })
+    })
+
+    test('Updates alias', async () => {
+      return space
+        .getEnvironmentAlias('master')
+        .then((alias) => {
+          expect(alias.sys.id).equals('master')
+          expect(alias.environment.sys.id).equals('previously-master')
+          alias.environment.sys.id = 'feature-13'
+          return alias.update()
+        })
+        .then((updatedAlias) => {
+          expect(updatedAlias.sys.id).equals('master')
+          expect(updatedAlias.environment.sys.id).equals('feature-13')
+        })
     })
   })
-
-  t.test('Updates master alias', (t) => {
-    t.plan(4)
-    return space
-      .getEnvironmentAlias('master')
-      .then((alias) => {
-        t.equals(alias.sys.id, 'master')
-        t.equals(alias.environment.sys.id, 'previously-master')
-        alias.environment.sys.id = 'feature-13'
-        return alias.update()
-      })
-      .then((updatedAlias) => {
-        t.equals(updatedAlias.sys.id, 'master')
-        t.equals(updatedAlias.environment.sys.id, 'feature-13')
-      })
-  })
-
-  t.test('Creates custom alias', (t) => {
-    t.plan(2)
-    return space
-      .createEnvironmentAliasWithId('new-alias', {
-        environment: {
-          sys: {
-            type: 'Link',
-            linkType: 'Environment',
-            id: 'previously-master',
-          },
-        },
-      })
-      .then((alias) => {
-        t.equals(alias.sys.id, 'new-alias')
-        t.equals(alias.environment.sys.id, 'previously-master')
-      })
-  })
-
-  t.test('Deletes custom alias', (t) => {
-    t.plan(3)
-    return space
-      .getEnvironmentAlias('new-alias')
-      .then((alias) => {
-        t.equals(alias.sys.id, 'new-alias')
-        t.equals(alias.environment.sys.id, 'previously-master')
-        return alias.delete()
-      })
-      .then(() => {
-        return space.getEnvironmentAlias('new-alias')
-      })
-      .catch((err) => {
-        t.equals(err.name, 'NotFound')
-      })
-  })
-}
+})

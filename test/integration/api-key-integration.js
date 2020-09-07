@@ -1,15 +1,26 @@
-import { generateRandomId } from './generate-random-id'
+import { expect } from 'chai'
+import { after, before, describe, test } from 'mocha'
+import { client, createTestSpace, generateRandomId } from '../helpers'
 
-export function apiKeyTests(t, space) {
-  t.test('Gets apiKeys', (t) => {
-    t.plan(2)
+describe('ApiKey api', () => {
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'ApiKey')
+  })
+
+  after(async () => {
+    return space.delete()
+  })
+
+  test('Gets apiKeys', async () => {
     return space.getApiKeys().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys, 'sys').to.be.ok
+      expect(response.items, 'fields').to.be.ok
     })
   })
 
-  t.test('Create apiKey with id', (t) => {
+  test('Create apiKey with id', async () => {
     const id = generateRandomId('apiKey')
     return space
       .createApiKeyWithId(id, {
@@ -17,12 +28,12 @@ export function apiKeyTests(t, space) {
         description: 'test api key',
       })
       .then((apiKey) => {
-        t.equals(apiKey.sys.id, id, 'id')
+        expect(apiKey.sys.id).equals(id, 'id')
         return apiKey.delete()
       })
   })
 
-  t.test('Create and update apiKey', (t) => {
+  test('Create and update apiKey', async () => {
     const name = generateRandomId('name')
     return space
       .createApiKey({
@@ -30,13 +41,13 @@ export function apiKeyTests(t, space) {
         description: 'test api key',
       })
       .then((apiKey) => {
-        t.equals(apiKey.name, name, 'name')
+        expect(apiKey.name).equals(name, 'name')
         const updatedname = generateRandomId('updatedname')
         apiKey.name = updatedname
         return apiKey.update().then((updatedApiKey) => {
-          t.equals(updatedApiKey.name, updatedname, 'name')
+          expect(updatedApiKey.name).equals(updatedname, 'name')
           return updatedApiKey.delete()
         })
       })
   })
-}
+})
