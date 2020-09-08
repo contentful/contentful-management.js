@@ -28,6 +28,7 @@ export interface QueryOptions extends PaginationQueryOptions {
   content_type?: string
   include?: number
   select?: string
+  links_to_entry?: string
   [key: string]: any
 }
 

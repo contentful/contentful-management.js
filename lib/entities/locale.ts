@@ -18,6 +18,10 @@ export type LocaleProps = {
    */
   code: string
   /**
+   * Internal locale code
+   */
+  internal_code: string
+  /**
    * Locale code to fallback to when there is not content for the current locale
    */
   fallbackCode: string
