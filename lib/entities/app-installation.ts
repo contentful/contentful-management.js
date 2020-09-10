@@ -75,10 +75,12 @@ function createAppInstallationApi(http: AxiosInstance) {
         .then((response) => wrapAppInstallation(http, response.data), errorHandler)
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'app_installations',
-    }),
+    delete: function () {
+      const raw = this.toPlainObject() as AppInstallation
+      return http.delete(`app_installations/${raw.sys.appDefinition.sys.id}`).then(() => {
+        // do nothing
+      }, errorHandler)
+    },
   }
 }
 
