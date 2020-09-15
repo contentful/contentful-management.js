@@ -39,7 +39,7 @@ export interface MetaLinkProps {
 }
 
 export interface MetadataProps {
-  tags: TagProps[]
+  tags: Link<'Tag'>
 }
 
 export interface CollectionProp<TObj> {
