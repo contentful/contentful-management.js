@@ -1,5 +1,3 @@
-import { TagProps } from './entities/tag'
-
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -71,7 +69,7 @@ export interface MetaLinkProps {
 }
 
 export interface MetadataProps {
-  tags: TagProps[]
+  tags: Link<'Tag'>[]
 }
 
 export interface SysLink {
