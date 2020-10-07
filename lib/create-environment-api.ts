@@ -1148,23 +1148,28 @@ export default function createEnvironmentApi({
     },
 
     createTag(id: string, name: string) {
-      return http
-        .put(`tags/${id}`, {
-          name,
-          sys: {
-            type: 'Tag',
-            id,
-          },
-        })
-        .then((response) => wrapTag(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
+
+      return endpoints.tag.createWithId(http, params, { name }).then((data) => wrapTag(http, data))
     },
+
     getTags(query: BasicQueryOptions = {}) {
-      return http
-        .get('tags', createRequestConfig({ query }))
-        .then((response) => wrapTagCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.tag
+        .getMany(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapTagCollection(http, data))
     },
+
     getTag(id: string) {
-      return http.get('tags/' + id).then((response) => wrapTag(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
+
+      return endpoints.tag.get(http, params).then((data) => wrapTag(http, data))
     },
   }
 }
