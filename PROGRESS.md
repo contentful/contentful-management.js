@@ -165,11 +165,11 @@
 
 | Function                | Exposed to a plain client |
 | ----------------------- | ------------------------- |
-| Gets a tag by id        | 🍎                        |
-| Gets many tags          | 🍎                        |
-| Creates a new tag       | 🍎                        |
-| Updates an existing tag | 🍎                        |
-| Deletes an exising tag  | 🍎                        |
+| Gets a tag by id        | ✅                        |
+| Gets many tags          | ✅                        |
+| Creates a new tag       | ✅                        |
+| Updates an existing tag | ✅                        |
+| Deletes an exising tag  | ✅                        |
 
 ### Editor interfaces - ✅
 
