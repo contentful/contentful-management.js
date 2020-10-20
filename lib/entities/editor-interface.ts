@@ -1,7 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import { AxiosInstance } from 'axios'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'

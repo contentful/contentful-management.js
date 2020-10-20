@@ -1,18 +1,20 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
+import { DefaultElements, MetaLinkProps, MetaSysProps, SysLink } from '../common-types'
 import { AxiosInstance } from 'axios'
+import * as endpoints from '../plain/endpoints'
 
 export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { space: SysLink }
   environment: { sys: MetaLinkProps }
 }
+
+export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
 
 export interface EnvironmentAlias
   extends EnvironmentAliasProps,
@@ -66,16 +68,25 @@ export interface EnvironmentAlias
 }
 
 function createEnvironmentAliasApi(http: AxiosInstance) {
+  const getParams = (alias: EnvironmentAliasProps) => ({
+    spaceId: alias.sys.space.sys.id,
+    environmentAliasId: alias.sys.id,
+  })
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'environment_aliases',
-      wrapperMethod: wrapEnvironmentAlias,
-    }),
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'environment_aliases',
-    }),
+    update: function () {
+      const raw = this.toPlainObject() as EnvironmentAliasProps
+      return endpoints.environmentAlias
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapEnvironmentAlias(http, data))
+    },
+
+    delete: function () {
+      const raw = this.toPlainObject() as EnvironmentAliasProps
+      return endpoints.environmentAlias.del(http, getParams(raw)).then(() => {
+        // noop
+      })
+    },
   }
 }
 

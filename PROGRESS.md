@@ -199,15 +199,15 @@
 | Updates an existing app installation | ✅                        |
 | Deletes an existing app installation | ✅                        |
 
-### Environment aliases - 🍎
+### Environment aliases - ✅
 
 | Function                              | Exposed to a plain client |
 | ------------------------------------- | ------------------------- |
-| Creates an environment alias with id  | 🍎                        |
-| Gets an environment alias by id       | 🍎                        |
-| Gets many environment aliases         | 🍎                        |
-| Updates an existing environment alias | 🍎                        |
-| Deletes an existing environment alias | 🍎                        |
+| Creates an environment alias with id  | ✅                        |
+| Gets an environment alias by id       | ✅                        |
+| Gets many environment aliases         | ✅                        |
+| Updates an existing environment alias | ✅                        |
+| Deletes an existing environment alias | ✅                        |
 
 ### Organization invitations - 🍎
 
