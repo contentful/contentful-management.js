@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, MetaSysProps, SysLink } from '../common-types'
+import { DefaultElements, MetaLinkProps, BasicMetaSysProps, SysLink } from '../common-types'
 import { AxiosInstance } from 'axios'
 import * as endpoints from '../plain/endpoints'
 
@@ -10,7 +10,7 @@ export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: MetaSysProps & { space: SysLink }
+  sys: BasicMetaSysProps & { space: SysLink }
   environment: { sys: MetaLinkProps }
 }
 
