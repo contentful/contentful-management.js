@@ -9,21 +9,27 @@ import { CollectionProp, PaginationQueryParams, GetSpaceParams } from './common-
 
 type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
 
+/**
+ * Urls
+ */
+
+const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/environment_aliases`
+
+const getEnvironmentAliasUrl = (params: GetSpaceEnvAliasParams) =>
+  getBaseUrl(params) + `/${params.environmentAliasId}`
+
+/**
+ * Endpoints
+ */
+
 export const get = (http: AxiosInstance, params: GetSpaceEnvAliasParams) => {
-  return raw.get<EnvironmentAliasProps>(
-    http,
-    `/spaces/${params.spaceId}/environment_aliases/${params.environmentAliasId}`
-  )
+  return raw.get<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params))
 }
 
 export const getMany = (http: AxiosInstance, params: GetSpaceParams & PaginationQueryParams) => {
-  return raw.get<CollectionProp<EnvironmentAliasProps>>(
-    http,
-    `/spaces/${params.spaceId}/environment_aliases`,
-    {
-      params: params.query,
-    }
-  )
+  return raw.get<CollectionProp<EnvironmentAliasProps>>(http, getBaseUrl(params), {
+    params: params.query,
+  })
 }
 
 export const createWithId = (
@@ -33,14 +39,9 @@ export const createWithId = (
   headers?: Record<string, unknown>
 ) => {
   const data = cloneDeep(rawData)
-  return raw.put<EnvironmentAliasProps>(
-    http,
-    `/spaces/${params.spaceId}/environment_aliases/${params.environmentAliasId}`,
-    data,
-    {
-      headers: headers,
-    }
-  )
+  return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
+    headers: headers,
+  })
 }
 
 export const update = (
@@ -51,19 +52,14 @@ export const update = (
 ) => {
   const data = cloneDeep(rawData)
   delete data.sys
-  return raw.put<EnvironmentAliasProps>(
-    http,
-    `/spaces/${params.spaceId}/environment_aliases/${params.environmentAliasId}`,
-    data,
-    {
-      headers: {
-        ...headers,
-        'X-Contentful-Version': rawData.sys.version ?? 0,
-      },
-    }
-  )
+  return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
+    headers: {
+      ...headers,
+      'X-Contentful-Version': rawData.sys.version ?? 0,
+    },
+  })
 }
 
 export const del = (http: AxiosInstance, params: GetSpaceEnvAliasParams) => {
-  return raw.del(http, `/spaces/${params.spaceId}/environment_aliases/${params.environmentAliasId}`)
+  return raw.del(http, getEnvironmentAliasUrl(params))
 }

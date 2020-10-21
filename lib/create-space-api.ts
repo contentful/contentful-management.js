@@ -17,7 +17,7 @@ import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
-import { EnvironmentAliasProps } from './entities/environment-alias'
+import { EnvironmentAliasProps, CreateEnvironmentAliasProps } from './entities/environment-alias'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -940,10 +940,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createEnvironmentAliasWithId(
-      environmentAliasId: string,
-      data: Omit<EnvironmentAliasProps, 'sys'>
-    ) {
+    createEnvironmentAliasWithId(environmentAliasId: string, data: CreateEnvironmentAliasProps) {
       const raw = this.toPlainObject() as SpaceProps
       return endpoints.environmentAlias
         .createWithId(http, { spaceId: raw.sys.id, environmentAliasId }, data)
