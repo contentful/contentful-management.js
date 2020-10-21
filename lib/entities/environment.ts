@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, BasicMetaSysProps } from '../common-types'
+import { DefaultElements, SysLink, BasicMetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
 type SdkHttpClient = AxiosInstance & {
@@ -11,11 +11,18 @@ type SdkHttpClient = AxiosInstance & {
   cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
 }
 
+type EnvironmentMetaSys = BasicMetaSysProps & {
+  status: SysLink
+  space: SysLink
+  aliases?: Array<SysLink>
+  aliasedEnvironment?: SysLink
+}
+
 export type EnvironmentProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { status: { sys: MetaLinkProps }; space: { sys: MetaLinkProps } }
+  sys: EnvironmentMetaSys
   /**
    * Name of the environmant
    */

@@ -17,7 +17,7 @@ import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
-import { EnvironmentAliasProps } from './entities/environment-alias'
+import { EnvironmentAliasProps, CreateEnvironmentAliasProps } from './entities/environment-alias'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -920,7 +920,7 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
 
     /**
      * Creates an EnvironmentAlias with a custom ID
-     * @param id - EnvironmentAlias ID
+     * @param environmentAliasId - EnvironmentAlias ID
      * @param data - Object representation of the EnvironmentAlias to be created
      * @return Promise for the newly created EnvironmentAlias
      * @example ```javascript
@@ -940,10 +940,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createEnvironmentAliasWithId(id: string, data: Omit<EnvironmentAliasProps, 'sys'>) {
-      return http
-        .put('environment_aliases/' + id, data)
-        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    createEnvironmentAliasWithId(environmentAliasId: string, data: CreateEnvironmentAliasProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .createWithId(http, { spaceId: raw.sys.id, environmentAliasId }, data)
+        .then((data) => wrapEnvironmentAlias(http, data))
     },
 
     /**
@@ -963,10 +964,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getEnvironmentAlias(id: string) {
-      return http
-        .get('environment_aliases/' + id)
-        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    getEnvironmentAlias(environmentAliasId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .get(http, { spaceId: raw.sys.id, environmentAliasId })
+        .then((data) => wrapEnvironmentAlias(http, data))
     },
     /**
      * Gets a collection of Environment Aliases
@@ -985,9 +987,12 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getEnvironmentAliases() {
-      return http
-        .get('environment_aliases')
-        .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapEnvironmentAliasCollection(http, data))
     },
     /**
      * Query for scheduled actions in space.
