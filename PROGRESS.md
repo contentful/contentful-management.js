@@ -161,7 +161,7 @@
 | Gets many snapshots for an entry                   | 🍎                        |
 | Gets many snapshots for an content type            | 🍎                        |
 
-### Tags - 🍎
+### Tags - ✅
 
 | Function                | Exposed to a plain client |
 | ----------------------- | ------------------------- |
@@ -209,12 +209,12 @@
 | Updates an existing environment alias | ✅                        |
 | Deletes an existing environment alias | ✅                        |
 
-### Organization invitations - 🍎
+### Organization invitations - ✅
 
 | Function                      | Exposed to a plain client |
 | ----------------------------- | ------------------------- |
-| Gets an org invitation by id  | 🍎                        |
-| Creates an new org invitation | 🍎                        |
+| Gets an org invitation by id  | ✅                        |
+| Creates an new org invitation | ✅                        |
 
 ### Organization memberships - 🍎
 

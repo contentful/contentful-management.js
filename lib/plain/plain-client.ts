@@ -14,14 +14,19 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   const wrapParams = { http, defaults }
 
   return {
+    raw: {
+      getDefaultParams: () => defaults,
+      get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
+      post: (...args: RestParamsType<typeof endpoints.raw.post>) =>
+        endpoints.raw.post(http, ...args),
+      put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
+      delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
+        endpoints.raw.del(http, ...args),
+    },
     editorInterface: {
       get: wrap(wrapParams, endpoints.editorInterface.get),
       getMany: wrap(wrapParams, endpoints.editorInterface.getMany),
       update: wrap(wrapParams, endpoints.editorInterface.update),
-    },
-    organization: {
-      getAll: wrapHttp(http, endpoints.organization.getAll),
-      get: wrap(wrapParams, endpoints.organization.get),
     },
     space: {
       get: wrap(wrapParams, endpoints.space.get),
@@ -174,14 +179,13 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.tag.update),
       delete: wrap(wrapParams, endpoints.tag.del),
     },
-    raw: {
-      getDefaultParams: () => defaults,
-      get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
-      post: (...args: RestParamsType<typeof endpoints.raw.post>) =>
-        endpoints.raw.post(http, ...args),
-      put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
-      delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
-        endpoints.raw.del(http, ...args),
+    organization: {
+      getAll: wrapHttp(http, endpoints.organization.getAll),
+      get: wrap(wrapParams, endpoints.organization.get),
+    },
+    organizationInvitation: {
+      get: wrap(wrapParams, endpoints.organizationInvitation.get),
+      create: wrap(wrapParams, endpoints.organizationInvitation.create),
     },
   }
 }
