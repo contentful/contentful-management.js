@@ -6,7 +6,10 @@ import entities from './entities'
 import * as endpoints from './plain/endpoints'
 import { TeamMembershipProps } from './entities/team-membership'
 import { TeamProps } from './entities/team'
-import { OrganizationInvitationProps } from './entities/organization-invitation'
+import {
+  OrganizationInvitationProps,
+  CreateOrganizationInvitationProps,
+} from './entities/organization-invitation'
 import { QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
@@ -31,8 +34,6 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
   const { wrapTeam, wrapTeamCollection } = entities.team
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const { wrapOrganizationInvitation } = entities.organizationInvitation
-
-  const headers = { 'x-contentful-enable-alpha-feature': 'organization-user-management-api' }
 
   return {
     /**
@@ -358,11 +359,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationInvitation(invitationId: string) {
-      return http
-        .get('invitations/' + invitationId, {
-          headers,
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationInvitation
+        .get(http, {
+          organizationId: raw.sys.id,
+          invitationId,
         })
-        .then((response) => wrapOrganizationInvitation(http, response.data), errorHandler)
+        .then((data) => wrapOrganizationInvitation(http, data))
     },
     /**
      * Create an Invitation in Organization
@@ -383,14 +386,17 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createOrganizationInvitation(data: Omit<OrganizationInvitationProps, 'sys'>) {
-      const invitationAlphaHeaders = {
-        'x-contentful-enable-alpha-feature': 'pending-org-membership',
-      }
-
-      return http
-        .post('invitations', data, { headers: invitationAlphaHeaders })
-        .then((response) => wrapOrganizationInvitation(http, response.data), errorHandler)
+    createOrganizationInvitation(data: CreateOrganizationInvitationProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationInvitation
+        .create(
+          http,
+          {
+            organizationId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapOrganizationInvitation(http, data))
     },
     /**
      * Creates an app definition
