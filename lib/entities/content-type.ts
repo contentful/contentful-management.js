@@ -180,7 +180,7 @@ type ContentTypeApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<SnapshotProps<ContentTypeProps>>
+  getSnapshot(snapshotId: string): Promise<SnapshotProps<ContentTypeProps>>
   /**
    * Gets all snapshots of a contentType
    * @example ```javascript
@@ -206,64 +206,74 @@ export interface ContentType
     ContentTypeApi {}
 
 function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
-  const getParams = (contentType: ContentTypeProps) => ({
-    spaceId: contentType.sys.space.sys.id,
-    environmentId: contentType.sys.environment.sys.id,
-    contentTypeId: contentType.sys.id,
-  })
+  const getParams = (self: ContentType) => {
+    const contentType = self.toPlainObject() as ContentTypeProps
+
+    return {
+      raw: contentType,
+      params: {
+        spaceId: contentType.sys.space.sys.id,
+        environmentId: contentType.sys.environment.sys.id,
+        contentTypeId: contentType.sys.id,
+      },
+    }
+  }
 
   return {
     update: function () {
-      const raw = this.toPlainObject() as ContentTypeProps
+      const { raw, params } = getParams(this)
 
       return endpoints.contentType
-        .update(http, getParams(raw), raw)
+        .update(http, params, raw)
         .then((data) => wrapContentType(http, data))
     },
 
     delete: function () {
-      const raw = this.toPlainObject() as ContentTypeProps
+      const { params } = getParams(this)
 
-      return endpoints.contentType.del(http, getParams(raw)).then(() => {
+      return endpoints.contentType.del(http, params).then(() => {
         // noop
       })
     },
 
     publish: function () {
-      const raw = this.toPlainObject() as ContentTypeProps
+      const { raw, params } = getParams(this)
 
       return endpoints.contentType
-        .publish(http, getParams(raw), raw)
+        .publish(http, params, raw)
         .then((data) => wrapContentType(http, data))
     },
 
     unpublish: function () {
-      const raw = this.toPlainObject() as ContentTypeProps
+      const { params } = getParams(this)
 
       return endpoints.contentType
-        .unpublish(http, getParams(raw))
+        .unpublish(http, params)
         .then((data) => wrapContentType(http, data))
     },
 
     getEditorInterface: function () {
-      return http
-        .get('content_types/' + this.sys.id + '/editor_interface')
-        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.editorInterface
+        .get(http, params)
+        .then((data) => wrapEditorInterface(http, data))
     },
 
     getSnapshots: function (query: QueryOptions = {}) {
-      return http
-        .get(`content_types/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then(
-          (response) => wrapSnapshotCollection<ContentTypeProps>(http, response.data),
-          errorHandler
-        )
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getManyForContentType(http, { ...params, query })
+        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
     },
 
     getSnapshot: function (snapshotId: string) {
-      return http
-        .get(`content_types/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot<ContentTypeProps>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getForContentType(http, { ...params, snapshotId })
+        .then((data) => wrapSnapshot<ContentTypeProps>(http, data))
     },
 
     isPublished: function () {
@@ -279,10 +289,10 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
     },
 
     omitAndDeleteField: function (id: string) {
-      const raw = this.toPlainObject() as ContentTypeProps
+      const { raw, params } = getParams(this)
 
       return endpoints.contentType
-        .omitAndDeleteField(http, getParams(raw), raw, id)
+        .omitAndDeleteField(http, params, raw, id)
         .then((data) => wrapContentType(http, data))
     },
   }

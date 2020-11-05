@@ -152,14 +152,14 @@
 | Archives an entry                      | ✅                        |
 | Unarchives an entry                    | ✅                        |
 
-### Snapshots
+### Snapshots - ✅
 
 | Function                                           | Exposed to a plain client |
 | -------------------------------------------------- | ------------------------- |
-| Gets a snapshot for an entry by snapshot id        | 🍎                        |
-| Gets a snapshot for an content type by snapshot id | 🍎                        |
-| Gets many snapshots for an entry                   | 🍎                        |
-| Gets many snapshots for an content type            | 🍎                        |
+| Gets a snapshot for an entry by snapshot id        | ✅                        |
+| Gets a snapshot for an content type by snapshot id | ✅                        |
+| Gets many snapshots for an entry                   | ✅                        |
+| Gets many snapshots for an content type            | ✅                        |
 
 ### Tags - ✅
 

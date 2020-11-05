@@ -6,7 +6,7 @@ import * as endpoints from './plain/endpoints'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, Entry, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
-import type { CreateContentTypeProps, ContentType } from './entities/content-type'
+import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
 import type { CreateUIExtensionProps } from './entities/ui-extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -1117,9 +1117,15 @@ export default function createEnvironmentApi({
      * ```
      */
     getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
-      return http
-        .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection<Entry>(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.snapshot
+        .getManyForEntry(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId,
+          query,
+        })
+        .then((data) => wrapSnapshotCollection<EntryProps>(http, data))
     },
     /**
      * Gets all snapshots of a contentType
@@ -1142,9 +1148,15 @@ export default function createEnvironmentApi({
      * ```
      */
     getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
-      return http
-        .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection<ContentType>(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.snapshot
+        .getManyForContentType(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          contentTypeId,
+          query,
+        })
+        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
     },
 
     createTag(id: string, name: string) {

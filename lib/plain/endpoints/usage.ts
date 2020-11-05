@@ -3,7 +3,7 @@ import * as raw from './raw'
 import { UsageProps } from '../../entities/usage'
 import { CollectionProp, QueryParams } from './common-types'
 
-export const getForSpace = (
+export const getManyForSpace = (
   http: AxiosInstance,
   params: { organizationId: string } & QueryParams
 ) => {
@@ -16,7 +16,7 @@ export const getForSpace = (
   )
 }
 
-export const getForOrganization = (
+export const getManyForOrganization = (
   http: AxiosInstance,
   params: { organizationId: string } & QueryParams
 ) => {
