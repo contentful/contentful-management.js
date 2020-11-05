@@ -14,6 +14,7 @@ import {
 } from '../common-types'
 import * as endpoints from '../plain/endpoints'
 import * as checks from '../plain/checks'
+import { ContentTypeProps } from './content-type'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -156,7 +157,7 @@ type EntryApi = {
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<Snapshot<EntryProps>>
+  getSnapshot(snapshotId: string): Promise<Snapshot<EntryProps>>
   /**
    * Gets all snapshots of an entry
    * @example ```javascript
@@ -196,57 +197,70 @@ type EntryApi = {
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
 function createEntryApi(http: AxiosInstance): EntryApi {
-  const getParams = (raw: EntryProps) => {
+  const getParams = (self: Entry) => {
+    const entry = self.toPlainObject() as EntryProps
+
     return {
-      spaceId: raw.sys.space.sys.id,
-      environmentId: raw.sys.environment.sys.id,
-      entryId: raw.sys.id,
+      params: {
+        spaceId: entry.sys.space.sys.id,
+        environmentId: entry.sys.environment.sys.id,
+        entryId: entry.sys.id,
+      },
+      raw: entry,
     }
   }
 
   return {
     update: function update() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry.update(http, getParams(raw), raw).then((data) => wrapEntry(http, data))
+      const { raw, params } = getParams(this)
+
+      return endpoints.entry.update(http, params, raw).then((data) => wrapEntry(http, data))
     },
 
     delete: function del() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry.del(http, getParams(raw))
+      const { params } = getParams(this)
+
+      return endpoints.entry.del(http, params)
     },
 
     publish: function publish() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry
-        .publish(http, getParams(raw), raw)
-        .then((data) => wrapEntry(http, data))
+      const { raw, params } = getParams(this)
+
+      return endpoints.entry.publish(http, params, raw).then((data) => wrapEntry(http, data))
     },
 
     unpublish: function unpublish() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry.unpublish(http, getParams(raw)).then((data) => wrapEntry(http, data))
+      const { params } = getParams(this)
+
+      return endpoints.entry.unpublish(http, params).then((data) => wrapEntry(http, data))
     },
 
     archive: function archive() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry.archive(http, getParams(raw)).then((data) => wrapEntry(http, data))
+      const { params } = getParams(this)
+
+      return endpoints.entry.archive(http, params).then((data) => wrapEntry(http, data))
     },
 
     unarchive: function unarchive() {
-      const raw = this.toPlainObject() as EntryProps
-      return endpoints.entry.unarchive(http, getParams(raw)).then((data) => wrapEntry(http, data))
+      const { params } = getParams(this)
+
+      return endpoints.entry.unarchive(http, params).then((data) => wrapEntry(http, data))
     },
 
     getSnapshots: function (query = {}) {
-      return http
-        .get(`entries/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection<EntryProps>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getManyForEntry(http, { ...params, query })
+        .then((data) => wrapSnapshotCollection<EntryProps>(http, data))
     },
 
     getSnapshot: function (snapshotId: string) {
-      return http
-        .get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot<EntryProps>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getForEntry(http, { ...params, snapshotId })
+        .then((data) => wrapSnapshot<EntryProps>(http, data))
     },
 
     isPublished: function isPublished() {

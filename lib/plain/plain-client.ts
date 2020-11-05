@@ -114,8 +114,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       revoke: wrap(wrapParams, endpoints.personalAccessToken.revoke),
     },
     usage: {
-      getForSpace: wrap(wrapParams, endpoints.usage.getForSpace),
-      getForOrganization: wrap(wrapParams, endpoints.usage.getForOrganization),
+      getManyForSpace: wrap(wrapParams, endpoints.usage.getManyForSpace),
+      getManyForOrganization: wrap(wrapParams, endpoints.usage.getManyForOrganization),
     },
     role: {
       get: wrap(wrapParams, endpoints.role.get),
@@ -171,6 +171,12 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       create: wrap(wrapParams, endpoints.webhook.create),
       update: wrap(wrapParams, endpoints.webhook.update),
       delete: wrap(wrapParams, endpoints.webhook.del),
+    },
+    snapshot: {
+      getManyForEntry: wrap(wrapParams, endpoints.snapshot.getManyForEntry),
+      getForEntry: wrap(wrapParams, endpoints.snapshot.getForEntry),
+      getManyForContentType: wrap(wrapParams, endpoints.snapshot.getManyForContentType),
+      getForContentType: wrap(wrapParams, endpoints.snapshot.getForContentType),
     },
     tag: {
       get: wrap(wrapParams, endpoints.tag.get),
