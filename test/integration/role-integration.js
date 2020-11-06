@@ -20,11 +20,36 @@ const roleDefinition = {
 
 export default function roleTests(t, space) {
   t.test('Gets roles', (t) => {
-    t.plan(2)
+    t.plan(3)
     return space.getRoles().then((response) => {
       t.ok(response.sys, 'sys')
       t.ok(response.items, 'fields')
+      t.equal(response.items.length, 4)
     })
+  })
+
+  t.test('Gets roles with a limit parameter', (t) => {
+    t.plan(2)
+    return space
+      .getRoles({
+        limit: 2,
+      })
+      .then((response) => {
+        t.ok(response.items, 'items')
+        t.equal(response.items.length, 2)
+      })
+  })
+
+  t.test('Gets roles with skip parameter', (t) => {
+    t.plan(2)
+    return space
+      .getRoles({
+        skip: 2,
+      })
+      .then((response) => {
+        t.ok(response.items, 'items')
+        t.equal(response.skip, 2)
+      })
   })
 
   t.test('Create role with id', (t) => {
