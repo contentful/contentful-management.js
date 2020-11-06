@@ -28,7 +28,7 @@ enum ScheduledActionStatus {
   canceled = 'canceled',
 }
 
-type SchedulableEntityType = 'Entry'
+type SchedulableEntityType = 'Entry' | 'Asset' | 'Release'
 type SchedulableActionType = 'publish' | 'unpublish'
 
 export type ScheduledActionSysProps = {
