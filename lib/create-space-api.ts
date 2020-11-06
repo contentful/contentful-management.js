@@ -995,9 +995,10 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getRoles() {
+    getRoles(query: QueryOptions = {}) {
+      normalizeSelect(query)
       return http
-        .get('roles')
+        .get('roles', createRequestConfig({ query }))
         .then((response) => wrapRoleCollection(http, response.data), errorHandler)
     },
 
