@@ -1,5 +1,6 @@
 import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../create-cma-http-client'
 import * as endpoints from './endpoints'
+import noop from 'lodash/noop'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
@@ -34,6 +35,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.space.update),
       delete: wrap(wrapParams, endpoints.space.del),
       create: wrap(wrapParams, endpoints.space.create),
+      getMember: noop,
+      getManyMembers: noop,
+      getMembership: noop,
+      getManyMemberships: noop,
+      createMembership: noop,
+      createMembershipWithId: noop,
+      updateMembership: noop,
+      deleteMembership: noop,
     },
     environment: {
       get: wrap(wrapParams, endpoints.environment.get),
@@ -188,10 +197,32 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     organization: {
       getAll: wrapHttp(http, endpoints.organization.getAll),
       get: wrap(wrapParams, endpoints.organization.get),
+      getMembership: noop,
+      getManyMemberships: noop,
+      updateMembership: noop,
+      deleteMembership: noop,
     },
     organizationInvitation: {
       get: wrap(wrapParams, endpoints.organizationInvitation.get),
       create: wrap(wrapParams, endpoints.organizationInvitation.create),
+    },
+    team: {
+      get: noop,
+      getMany: noop,
+      create: noop,
+      update: noop,
+      delete: noop,
+      getMembership: noop,
+      getManyMemberships: noop,
+      createMembership: noop,
+      updateMembership: noop,
+      deleteMembership: noop,
+      // todo: i'm not sure about the things below
+      getSpaceMembership: noop,
+      getManySpaceMemberships: noop,
+      createSpaceMembership: noop,
+      updateSpaceMembership: noop,
+      deleteSpaceMembership: noop,
     },
   }
 }
