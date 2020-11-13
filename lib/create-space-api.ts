@@ -17,7 +17,7 @@ import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
-import { EnvironmentAliasProps, CreateEnvironmentAliasProps } from './entities/environment-alias'
+import { CreateEnvironmentAliasProps } from './entities/environment-alias'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -538,9 +538,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceMember(id: string) {
-      return http
-        .get('space_members/' + id)
-        .then((response) => wrapSpaceMember(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMember
+        .get(http, { spaceId: raw.sys.id, spaceMemberId: id })
+        .then((data) => wrapSpaceMember(http, data))
     },
     /**
      * Gets a collection of Space Members
@@ -556,9 +557,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceMembers(query: QueryOptions = {}) {
-      return http
-        .get('space_members', createRequestConfig({ query: query }))
-        .then((response) => wrapSpaceMemberCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMember
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMemberCollection(http, data))
     },
     /**
      * Gets a Space Membership

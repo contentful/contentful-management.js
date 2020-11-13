@@ -225,12 +225,12 @@
 | Updates an existing org membership | 🍎                        |
 | Deletes an existing org membership | 🍎                        |
 
-### Space members
+### Space members - ✅
 
 | Function                  | Exposed to a plain client |
 | ------------------------- | ------------------------- |
-| Gets a space member by id | 🍎                        |
-| Gets many space members   | 🍎                        |
+| Gets a space member by id | ✅                        |
+| Gets many space members   | ✅                        |
 
 ### Space memberships - 🍎
 

@@ -193,5 +193,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       get: wrap(wrapParams, endpoints.organizationInvitation.get),
       create: wrap(wrapParams, endpoints.organizationInvitation.create),
     },
+    spaceMember: {
+      get: wrap(wrapParams, endpoints.spaceMember.get),
+      getMany: wrap(wrapParams, endpoints.spaceMember.getMany),
+    },
   }
 }
