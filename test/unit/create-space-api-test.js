@@ -264,7 +264,7 @@ test('API call createSpaceMembershipWithId', (t) => {
     entityType: 'spaceMembership',
     mockToReturn: spaceMembershipMock,
     methodToTest: 'createSpaceMembershipWithId',
-    entityPath: 'space_memberships',
+    entityPath: '/spaces/id/space_memberships',
   })
 })
 
