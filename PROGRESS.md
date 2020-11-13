@@ -232,16 +232,16 @@
 | Gets a space member by id | ✅                        |
 | Gets many space members   | ✅                        |
 
-### Space memberships - 🍎
+### Space memberships - ✅
 
 | Function                               | Exposed to a plain client |
 | -------------------------------------- | ------------------------- |
-| Gets a space membership by id          | 🍎                        |
-| Gets many space memberships            | 🍎                        |
-| Creates a new space membership         | 🍎                        |
-| Creates a new space membership with id | 🍎                        |
-| Updates an existing space membership   | 🍎                        |
-| Deletes an exising space membership    | 🍎                        |
+| Gets a space membership by id          | ✅                        |
+| Gets many space memberships            | ✅                        |
+| Creates a new space membership         | ✅                        |
+| Creates a new space membership with id | ✅                        |
+| Updates an existing space membership   | ✅                        |
+| Deletes an exising space membership    | ✅                        |
 
 ### Teams
 

@@ -9,7 +9,7 @@ import errorHandler from './error-handler'
 import entities from './entities'
 import { CreateEnvironmentProps } from './entities/environment'
 import { TeamSpaceMembershipProps } from './entities/team-space-membership'
-import { SpaceMembershipProps } from './entities/space-membership'
+import { SpaceMembershipProps, CreateSpaceMembershipProps } from './entities/space-membership'
 import { RoleProps, CreateRoleProps } from './entities/role'
 import { CreateWebhooksProps } from './entities/webhook'
 import { QueryOptions, PaginationQueryOptions } from './common-types'
@@ -18,12 +18,6 @@ import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
 import { CreateEnvironmentAliasProps } from './entities/environment-alias'
-
-function spaceMembershipDeprecationWarning() {
-  console.warn(
-    'The user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user)'
-  )
-}
 
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
@@ -580,10 +574,10 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceMembership(id: string) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .get('space_memberships/' + id)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .get(http, { spaceId: raw.sys.id, spaceMembershipId: id })
+        .then((data) => wrapSpaceMembership(http, data))
     },
     /**
      * Gets a collection of Space Memberships
@@ -600,10 +594,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceMemberships(query: QueryOptions = {}) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .get('space_memberships', createRequestConfig({ query: query }))
-        .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMembershipCollection(http, data))
     },
 
     /**
@@ -634,11 +631,17 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .post('space_memberships', data)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    createSpaceMembership(data: CreateSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+          },
+          data
+        )
+        .then((response) => wrapSpaceMembership(http, response))
     },
     /**
      * Creates a Space Membership with a custom ID
@@ -669,11 +672,18 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .put('space_memberships/' + id, data)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    createSpaceMembershipWithId(id: string, data: CreateSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.id,
+            spaceMembershipId: id,
+          },
+          data
+        )
+        .then((response) => wrapSpaceMembership(http, response))
     },
 
     /**

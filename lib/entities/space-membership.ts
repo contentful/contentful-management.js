@@ -3,11 +3,11 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps
+  sys: MetaSysProps & { space: MetaLinkProps }
   name: string
   /**
    * User is an admin
@@ -15,6 +15,8 @@ export type SpaceMembershipProps = {
   admin: boolean
   roles: { sys: MetaLinkProps }[]
 }
+
+export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys'>
 
 export interface SpaceMembership
   extends SpaceMembershipProps,
@@ -60,17 +62,22 @@ export interface SpaceMembership
 }
 
 function createSpaceMembershipApi(http: AxiosInstance) {
-  return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'space_memberships',
-      wrapperMethod: wrapSpaceMembership,
-    }),
+  const getParams = (data: SpaceMembershipProps) => ({
+    spaceId: data.sys.space.sys.id,
+    spaceMembershipId: data.sys.id,
+  })
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'space_memberships',
-    }),
+  return {
+    update: function update() {
+      const data = this.toPlainObject() as SpaceMembershipProps
+      return endpoints.spaceMembership
+        .update(http, getParams(data), data)
+        .then((data) => wrapSpaceMembership(http, data))
+    },
+    delete: function del() {
+      const data = this.toPlainObject() as SpaceMembershipProps
+      return endpoints.spaceMembership.del(http, getParams(data))
+    },
   }
 }
 
