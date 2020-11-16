@@ -66,10 +66,10 @@ export interface OrganizationMembership
   delete(): Promise<void>
 }
 
-function createOrganizationMembershipApi(http: AxiosInstance) {
+function createOrganizationMembershipApi(http: AxiosInstance, organizationId: string) {
   const getParams = (data: OrganizationMembership) => ({
     organizationMembershipId: data.sys.id,
-    organizationId: data.sys.organization.sys.id,
+    organizationId,
   })
 
   return {
@@ -77,7 +77,7 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
       const raw = this.toPlainObject() as OrganizationMembership
       return endpoints.organizationMembership
         .update(http, getParams(raw), raw)
-        .then((data) => wrapOrganizationMembership(http, data))
+        .then((data) => wrapOrganizationMembership(http, data, organizationId))
     },
 
     delete: function del() {
@@ -95,12 +95,13 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
  */
 export function wrapOrganizationMembership(
   http: AxiosInstance,
-  data: OrganizationMembershipProps
+  data: OrganizationMembershipProps,
+  organizationId: string
 ): OrganizationMembership {
   const organizationMembership = toPlainObject(cloneDeep(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
-    createOrganizationMembershipApi(http)
+    createOrganizationMembershipApi(http, organizationId)
   )
   return freezeSys(organizationMembershipWithMethods)
 }

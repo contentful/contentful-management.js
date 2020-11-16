@@ -5,13 +5,13 @@ import { AxiosInstance } from 'axios'
 import { toPlainObject } from 'contentful-sdk-core'
 import { CollectionProp, Collection } from './common-types'
 
-export const wrapCollection = <R, T>(fn: (http: AxiosInstance, entity: T) => R) => (
-  http: AxiosInstance,
-  data: CollectionProp<T>
-): Collection<R, T> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const wrapCollection = <R, T, Rest extends any[]>(
+  fn: (http: AxiosInstance, entity: T, ...rest: Rest) => R
+) => (http: AxiosInstance, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
   const collectionData = toPlainObject(cloneDeep(data))
   // @ts-ignore
-  collectionData.items = collectionData.items.map((entity) => fn(http, entity))
+  collectionData.items = collectionData.items.map((entity) => fn(http, entity, ...rest))
   // @ts-ignore
   return collectionData
 }

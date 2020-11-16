@@ -95,12 +95,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getOrganizationMembership(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
+      const organizationId = raw.sys.id
       return endpoints.organizationMembership
         .get(http, {
-          organizationId: raw.sys.id,
+          organizationId,
           organizationMembershipId: id,
         })
-        .then((data) => wrapOrganizationMembership(http, data))
+        .then((data) => wrapOrganizationMembership(http, data, organizationId))
     },
     /**
      * Gets a collection of Organization Memberships
@@ -120,12 +121,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getOrganizationMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
+      const organizationId = raw.sys.id
       return endpoints.organizationMembership
         .getMany(http, {
-          organizationId: raw.sys.id,
+          organizationId,
           query: createRequestConfig({ query }).params,
         })
-        .then((data) => wrapOrganizationMembershipCollection(http, data))
+        .then((data) => wrapOrganizationMembershipCollection(http, data, organizationId))
     },
     /**
      * Creates a Team
