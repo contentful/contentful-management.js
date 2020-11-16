@@ -74,7 +74,7 @@ export function contentTypeWriteTests(t, environment) {
                           return editorInterface
                             .update() // update editor interface
                             .then(() => {
-                              return updatedContentType
+                              return publishedContentType
                                 .unpublish() // unpublish contentType
                                 .then((unpublishedContentType) => {
                                   t.ok(
