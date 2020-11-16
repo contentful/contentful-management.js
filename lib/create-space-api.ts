@@ -5,11 +5,10 @@
 
 import { AxiosInstance } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
 import entities from './entities'
 import { CreateEnvironmentProps } from './entities/environment'
-import { TeamSpaceMembershipProps } from './entities/team-space-membership'
-import { SpaceMembershipProps, CreateSpaceMembershipProps } from './entities/space-membership'
+import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
+import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { RoleProps, CreateRoleProps } from './entities/role'
 import { CreateWebhooksProps } from './entities/webhook'
 import { QueryOptions, PaginationQueryOptions } from './common-types'
@@ -700,9 +699,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
-      return http
-        .get('team_space_memberships/' + teamSpaceMembershipId)
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .get(http, {
+          spaceId: raw.sys.id,
+          teamSpaceMembershipId,
+        })
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
 
     /**
@@ -719,9 +722,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getTeamSpaceMemberships(query: QueryOptions = {}) {
-      return http
-        .get('team_space_memberships', createRequestConfig({ query: query }))
-        .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
     },
     /**
    * Creates a Team Space Membership
@@ -752,14 +759,18 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
    * .catch(console.error)
    * ```
    */
-    createTeamSpaceMembership(teamId: string, data: Omit<TeamSpaceMembershipProps, 'sys'>) {
-      return http
-        .post('team_space_memberships', data, {
-          headers: {
-            'x-contentful-team': teamId,
+    createTeamSpaceMembership(teamId: string, data: CreateTeamSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+            teamId,
           },
-        })
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
     /**
      * Gets a Api Key

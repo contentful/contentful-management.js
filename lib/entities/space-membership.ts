@@ -7,7 +7,7 @@ import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 import * as endpoints from '../plain/endpoints'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps & { space: MetaLinkProps }
+  sys: MetaSysProps & { space: { sys: MetaLinkProps } }
   name: string
   /**
    * User is an admin

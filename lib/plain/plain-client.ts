@@ -2,6 +2,7 @@ import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../cre
 import * as endpoints from './endpoints'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
@@ -193,6 +194,12 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       get: wrap(wrapParams, endpoints.organizationInvitation.get),
       create: wrap(wrapParams, endpoints.organizationInvitation.create),
     },
+    organizationMembership: {
+      get: wrap(wrapParams, endpoints.organizationMembership.get),
+      getMany: wrap(wrapParams, endpoints.organizationMembership.getMany),
+      update: wrap(wrapParams, endpoints.organizationMembership.update),
+      delete: wrap(wrapParams, endpoints.organizationMembership.del),
+    },
     spaceMember: {
       get: wrap(wrapParams, endpoints.spaceMember.get),
       getMany: wrap(wrapParams, endpoints.spaceMember.getMany),
@@ -200,6 +207,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     spaceMembership: {
       get: wrap(wrapParams, endpoints.spaceMembership.get),
       getMany: wrap(wrapParams, endpoints.spaceMembership.getMany),
+      getForOrganization: wrap(wrapParams, endpoints.spaceMembership.getForOrganization),
+      getManyForOrganization: wrap(wrapParams, endpoints.spaceMembership.getManyForOrganization),
       create: wrap(wrapParams, endpoints.spaceMembership.create),
       createWithId: wrap(wrapParams, endpoints.spaceMembership.createWithId),
       update: wrap(wrapParams, endpoints.spaceMembership.update),
@@ -217,7 +226,20 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       getManyForOrganization: wrap(wrapParams, endpoints.teamMembership.getManyForOrganization),
       getManyForTeam: wrap(wrapParams, endpoints.teamMembership.getManyForTeam),
       create: wrap(wrapParams, endpoints.teamMembership.create),
+      update: wrap(wrapParams, endpoints.teamMembership.update),
       delete: wrap(wrapParams, endpoints.teamMembership.del),
+    },
+    teamSpaceMembership: {
+      get: wrap(wrapParams, endpoints.teamSpaceMembership.get),
+      getMany: wrap(wrapParams, endpoints.teamSpaceMembership.getMany),
+      getForOrganization: wrap(wrapParams, endpoints.teamSpaceMembership.getForOrganization),
+      getManyForOrganization: wrap(
+        wrapParams,
+        endpoints.teamSpaceMembership.getManyForOrganization
+      ),
+      create: wrap(wrapParams, endpoints.teamSpaceMembership.create),
+      update: wrap(wrapParams, endpoints.teamSpaceMembership.update),
+      delete: wrap(wrapParams, endpoints.teamSpaceMembership.del),
     },
   }
 }

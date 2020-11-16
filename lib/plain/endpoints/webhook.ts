@@ -8,10 +8,8 @@ import {
   WebhookHealthProps,
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
-  UpdateWebhookProps,
 } from '../../entities/webhook'
-import { SetOptional } from 'type-fest'
-import { cloneDeep, clone } from 'lodash'
+import { cloneDeep } from 'lodash'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
