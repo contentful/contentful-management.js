@@ -50,15 +50,11 @@ export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): En
   const sdkHttp = http as SdkHttpClient
   const environment = toPlainObject(cloneDeep(data))
   const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
-  const environmentScopedHttpClient = sdkHttp.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
-  })
   const environmentScopedUploadClient = sdkHttp.cloneWithNewParams({
-    space: environment.sys.space.sys.id,
     host: hostUpload || defaultHostnameUpload,
   })
   const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
+    http,
     httpUpload: environmentScopedUploadClient,
   })
   const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)

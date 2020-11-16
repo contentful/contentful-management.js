@@ -29,14 +29,9 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @return {Space}
  */
 export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
-  const sdkHttp = (http as unknown) as SdkHttpClient
-
   const space = toPlainObject(cloneDeep(data))
-  const spaceScopedHttpClient = sdkHttp.cloneWithNewParams({
-    space: space.sys.id,
-  })
   const spaceApi = createSpaceApi({
-    http: spaceScopedHttpClient,
+    http,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)

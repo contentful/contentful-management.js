@@ -27,11 +27,6 @@ test('Organization is wrapped', (t) => {
   setup()
   const wrappedOrg = wrapOrganization(httpMock, organizationMock)
   t.looseEqual(wrappedOrg.toPlainObject(), organizationMock)
-  t.equal(
-    httpMock.cloneWithNewParams.args[0][0].baseURL,
-    'http://foo.bar/organizations/id/',
-    'adjust the baseURL to match organizations'
-  )
   teardown()
   t.end()
 })
