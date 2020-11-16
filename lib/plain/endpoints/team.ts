@@ -4,11 +4,10 @@ import {
   CollectionProp,
   QueryParams,
   GetOrganizationParams,
-  GetTeamParams, GetSpaceParams
+  GetTeamParams
 } from './common-types'
 import { CreateTeamProps, TeamProps } from '../../entities/team'
 import { normalizeSelect } from './utils'
-import { SpaceProps } from '../../entities/space'
 import cloneDeep from 'lodash/cloneDeep'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
