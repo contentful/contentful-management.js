@@ -1,6 +1,5 @@
 import { AxiosInstance } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
 import entities from './entities'
 import * as endpoints from './plain/endpoints'
 import { CreateTeamMembershipProps } from './entities/team-membership'
@@ -95,9 +94,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationMembership(id: string) {
-      return http
-        .get('organization_memberships/' + id)
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationMembership
+        .get(http, {
+          organizationId: raw.sys.id,
+          organizationMembershipId: id,
+        })
+        .then((data) => wrapOrganizationMembership(http, data))
     },
     /**
      * Gets a collection of Organization Memberships
@@ -116,9 +119,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationMemberships(query: QueryOptions = {}) {
-      return http
-        .get('organization_memberships', createRequestConfig({ query }))
-        .then((response) => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationMembership
+        .getMany(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapOrganizationMembershipCollection(http, data))
     },
     /**
      * Creates a Team

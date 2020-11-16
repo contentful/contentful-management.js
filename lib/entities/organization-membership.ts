@@ -2,16 +2,15 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
-import { createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements, MetaLinkProps } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type OrganizationMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { organization: { sys: MetaLinkProps } }
 
   /**
    * Role
@@ -68,29 +67,23 @@ export interface OrganizationMembership
 }
 
 function createOrganizationMembershipApi(http: AxiosInstance) {
+  const getParams = (data: OrganizationMembership) => ({
+    organizationMembershipId: data.sys.id,
+    organizationId: data.sys.organization.sys.id,
+  })
+
   return {
     update: function () {
-      const self = this as OrganizationMembership
-      const raw = self.toPlainObject()
-      const { role } = raw
-
-      return http
-        .put(
-          'organization_memberships' + '/' + self.sys.id,
-          { role },
-          {
-            headers: {
-              'X-Contentful-Version': self.sys.version || 0,
-            },
-          }
-        )
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationMembership
+      return endpoints.organizationMembership
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapOrganizationMembership(http, data))
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'organization_memberships',
-    }),
+    delete: function del() {
+      const raw = this.toPlainObject() as OrganizationMembership
+      return endpoints.organizationMembership.del(http, getParams(raw))
+    },
   }
 }
 
