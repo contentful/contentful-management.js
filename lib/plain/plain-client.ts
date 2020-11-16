@@ -200,6 +200,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     spaceMembership: {
       get: wrap(wrapParams, endpoints.spaceMembership.get),
       getMany: wrap(wrapParams, endpoints.spaceMembership.getMany),
+      getForOrganization: wrap(wrapParams, endpoints.spaceMembership.getForOrganization),
+      getManyForOrganization: wrap(wrapParams, endpoints.spaceMembership.getManyForOrganization),
       create: wrap(wrapParams, endpoints.spaceMembership.create),
       createWithId: wrap(wrapParams, endpoints.spaceMembership.createWithId),
       update: wrap(wrapParams, endpoints.spaceMembership.update),

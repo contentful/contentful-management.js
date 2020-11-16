@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import * as raw from './raw'
 import { SpaceMembershipProps, CreateSpaceMembershipProps } from '../../entities/space-membership'
-import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
+import { CollectionProp, QueryParams, GetSpaceParams, GetOrganizationParams } from './common-types'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
@@ -26,6 +26,29 @@ export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParam
   return raw.get<CollectionProp<SpaceMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
+}
+
+export const getForOrganization = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & { spaceMembershipId: string }
+) => {
+  return raw.get<SpaceMembershipProps>(
+    http,
+    `/organizations/${params.organizationId}/space_memberships/${params.spaceMembershipId}`
+  )
+}
+
+export const getManyForOrganization = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) => {
+  return raw.get<CollectionProp<SpaceMembershipProps>>(
+    http,
+    `/organizations/${params.organizationId}/space_memberships`,
+    {
+      params: params.query,
+    }
+  )
 }
 
 export const create = (

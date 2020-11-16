@@ -340,10 +340,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationSpaceMembership(id: string) {
-      // TODO need to move
-      return http
-        .get('space_memberships/' + id)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.spaceMembership
+        .getForOrganization(http, {
+          organizationId: raw.sys.id,
+          spaceMembershipId: id,
+        })
+        .then((data) => wrapSpaceMembership(http, data))
     },
     /**
      * Gets a collection Space Memberships in organization
@@ -362,10 +365,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationSpaceMemberships(query: QueryOptions = {}) {
-      // TODO need to move
-      return http
-        .get('space_memberships', createRequestConfig({ query }))
-        .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.spaceMembership
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMembershipCollection(http, data))
     },
     /**
      * Gets an Invitation in Organization
