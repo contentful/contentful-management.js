@@ -256,7 +256,7 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
-      const { teamId, query } = opts
+      const { teamId, query = {} } = opts
       const raw = this.toPlainObject() as OrganizationProp
 
       if (teamId) {
