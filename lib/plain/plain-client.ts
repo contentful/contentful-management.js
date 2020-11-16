@@ -219,5 +219,12 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       create: wrap(wrapParams, endpoints.teamMembership.create),
       delete: wrap(wrapParams, endpoints.teamMembership.del),
     },
+    teamSpaceMembership: {
+      get: wrap(wrapParams, endpoints.teamSpaceMembership.get),
+      getMany: wrap(wrapParams, endpoints.teamSpaceMembership.getMany),
+      create: wrap(wrapParams, endpoints.teamSpaceMembership.create),
+      update: wrap(wrapParams, endpoints.teamSpaceMembership.update),
+      delete: wrap(wrapParams, endpoints.teamSpaceMembership.del),
+    },
   }
 }

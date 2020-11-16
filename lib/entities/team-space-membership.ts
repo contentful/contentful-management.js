@@ -2,10 +2,9 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createDeleteEntity } from '../instance-actions'
-import errorHandler from '../error-handler'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export interface Options {
   teamId?: string
@@ -16,7 +15,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { team: { sys: MetaLinkProps }; space: { sys: MetaLinkProps } }
 
   /**
    * Is admin
@@ -28,6 +27,8 @@ export type TeamSpaceMembershipProps = {
    */
   roles: { sys: MetaLinkProps }[]
 }
+
+export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>
 
 export interface TeamSpaceMembership
   extends TeamSpaceMembershipProps,
@@ -82,26 +83,23 @@ export interface TeamSpaceMembership
 }
 
 function createTeamSpaceMembershipApi(http: AxiosInstance) {
+  const getParams = (data: TeamSpaceMembershipProps) => ({
+    teamSpaceMembershipId: data.sys.id,
+    spaceId: data.sys.space.sys.id,
+  })
+
   return {
     update: function () {
       const raw = this.toPlainObject() as TeamSpaceMembershipProps
-      const data = cloneDeep(raw)
-      delete data.sys
-
-      return http
-        .put('team_space_memberships/' + this.sys.id, data, {
-          headers: {
-            'X-Contentful-Version': this.sys.version || 0,
-            'x-contentful-team': this.sys.team.sys.id,
-          },
-        })
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+      return endpoints.teamSpaceMembership
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'team_space_memberships',
-    }),
+    delete: function del() {
+      const data = this.toPlainObject() as TeamSpaceMembershipProps
+      return endpoints.teamSpaceMembership.del(http, getParams(data))
+    },
   }
 }
 

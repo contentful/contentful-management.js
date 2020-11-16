@@ -216,14 +216,14 @@
 | Gets an org invitation by id  | ✅                        |
 | Creates an new org invitation | ✅                        |
 
-### Organization memberships - 🍎
+### Organization memberships - ✅
 
 | Function                           | Exposed to a plain client |
 | ---------------------------------- | ------------------------- |
-| Gets an org membership by id       | 🍎                        |
-| Gets many org memberships          | 🍎                        |
-| Updates an existing org membership | 🍎                        |
-| Deletes an existing org membership | 🍎                        |
+| Gets an org membership by id       | ✅                        |
+| Gets many org memberships          | ✅                        |
+| Updates an existing org membership | ✅                        |
+| Deletes an existing org membership | ✅                        |
 
 ### Space members - ✅
 
@@ -255,22 +255,22 @@
 
 ### Teams memberships - ✅
 
-| Function                            | Exposed to a plain client |
-| ----------------------------------- | ------------------------- |
-| Gets a team membership by id        | ✅                        |
-| Gets many team memberships          | ✅                        |
-| Creates a new team membership       | ✅                        |
-| Deletes an exising team membership  | ✅                        |
+| Function                           | Exposed to a plain client |
+| ---------------------------------- | ------------------------- |
+| Gets a team membership by id       | ✅                        |
+| Gets many team memberships         | ✅                        |
+| Creates a new team membership      | ✅                        |
+| Deletes an exising team membership | ✅                        |
 
-### Team space memberships
+### Team space memberships - ✅
 
 | Function                                  | Exposed to a plain client |
 | ----------------------------------------- | ------------------------- |
-| Gets a team space membership by id        | 🍎                        |
-| Gets many team space memberships          | 🍎                        |
-| Creates a new team space membership       | 🍎                        |
-| Updates an existing team space membership | 🍎                        |
-| Deletes an exising team space membership  | 🍎                        |
+| Gets a team space membership by id        | ✅                        |
+| Gets many team space memberships          | ✅                        |
+| Creates a new team space membership       | ✅                        |
+| Updates an existing team space membership | ✅                        |
+| Deletes an exising team space membership  | ✅                        |
 
 ### UI Extensions - ✅
 
