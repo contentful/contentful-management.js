@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
+import cloneDeep from 'lodash/cloneDeep'
 import { CollectionProp, QueryParams, GetOrganizationParams, GetTeamParams } from './common-types'
 import { normalizeSelect } from './utils'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../../entities/team-membership'
@@ -40,6 +41,23 @@ export const create = (
   headers?: Record<string, unknown>
 ) => {
   return raw.post<TeamMembershipProps>(http, getBaseUrl(params), rawData, { headers })
+}
+
+export const update = (
+  http: AxiosInstance,
+  params: GetTeamMembershipParams,
+  rawData: TeamMembershipProps,
+  headers?: Record<string, unknown>
+) => {
+  const data = cloneDeep(rawData)
+  delete data.sys
+
+  return raw.put<TeamMembershipProps>(http, getEntityUrl(params), data, {
+    headers: {
+      'X-Contentful-Version': rawData.sys.version || 0,
+      ...headers,
+    },
+  })
 }
 
 export const del = (http: AxiosInstance, params: GetTeamMembershipParams) =>

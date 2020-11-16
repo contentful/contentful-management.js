@@ -2,15 +2,19 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaSysProps, MetaLinkProps } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type TeamMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { team: { sys: MetaLinkProps } }
+  sys: MetaSysProps & {
+    team: { sys: MetaLinkProps }
+    organization: { sys: MetaLinkProps }
+    organizationMembership: { sys: MetaLinkProps }
+  }
 
   /**
    * Is admin
@@ -69,25 +73,23 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
 }
 
 function createTeamMembershipApi(http: AxiosInstance) {
+  const getParams = (data: TeamMembershipProps) => ({
+    teamMembershipId: data.sys.id,
+    teamId: data.sys.team.sys.id,
+    organizationId: data.sys.organization.sys.id,
+  })
+
   return {
     update: function () {
       const raw = this.toPlainObject()
-      const teamId = raw.sys.team.sys.id
-      return http
-        .put('teams/' + teamId + '/team_memberships/' + this.sys.id, raw, {
-          headers: {
-            'X-Contentful-Version': this.sys.version || 0,
-          },
-        })
-        .then((response) => wrapTeamMembership(http, response.data), errorHandler)
+      return endpoints.teamMembership
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapTeamMembership(http, data))
     },
 
-    delete: function () {
+    delete: function del() {
       const raw = this.toPlainObject()
-      const teamId = raw.sys.team.sys.id
-      return http.delete('teams/' + teamId + '/team_memberships/' + this.sys.id).then(() => {
-        // do nothing
-      }, errorHandler)
+      return endpoints.teamMembership.del(http, getParams(raw))
     },
   }
 }
