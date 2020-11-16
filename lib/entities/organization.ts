@@ -33,13 +33,8 @@ export type OrganizationProp = {
  */
 export function wrapOrganization(http: AxiosInstance, data: OrganizationProp): Organization {
   const org = toPlainObject(cloneDeep(data))
-  const baseURL =
-    (http.defaults.baseURL || '').replace('/spaces/', '/organizations/') + org.sys.id + '/'
-
-  // @ts-expect-error
-  const orgScopedHttpClient = http.cloneWithNewParams({ baseURL })
   const orgApi = createOrganizationApi({
-    http: orgScopedHttpClient,
+    http: http,
   })
   const enhancedOrganization = enhanceWithMethods(org, orgApi)
   return freezeSys(enhancedOrganization)
