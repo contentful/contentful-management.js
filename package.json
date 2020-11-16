@@ -57,8 +57,8 @@
     "tonic-example.js"
   ],
   "dependencies": {
-    "axios": "^0.19.0",
     "contentful-sdk-core": "^6.4.5",
+    "axios": "^0.21.0",
     "lodash": "^4.17.20",
     "type-fest": "0.16.0"
   },
