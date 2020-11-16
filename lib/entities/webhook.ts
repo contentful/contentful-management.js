@@ -3,7 +3,6 @@ import { JsonValue, Except, SetOptional } from 'type-fest'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
 import {
@@ -13,8 +12,6 @@ import {
   SysLink,
   CollectionProp,
 } from '../common-types'
-
-const entityPath = 'webhook_definitions'
 
 interface EqualityConstraint {
   equals: [Doc, string]
@@ -107,6 +104,7 @@ export type WebhookCallDetailsProps = {
   /**
    * Errors
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors: any[]
   /**
    * Type of the webhook

@@ -1,9 +1,8 @@
 import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import {
   DefaultElements,
@@ -14,7 +13,6 @@ import {
 } from '../common-types'
 import * as endpoints from '../plain/endpoints'
 import * as checks from '../plain/checks'
-import { ContentTypeProps } from './content-type'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
