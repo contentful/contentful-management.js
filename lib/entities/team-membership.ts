@@ -81,14 +81,14 @@ function createTeamMembershipApi(http: AxiosInstance) {
 
   return {
     update: function () {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as TeamMembershipProps
       return endpoints.teamMembership
         .update(http, getParams(raw), raw)
         .then((data) => wrapTeamMembership(http, data))
     },
 
     delete: function del() {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() as TeamMembershipProps
       return endpoints.teamMembership.del(http, getParams(raw))
     },
   }
