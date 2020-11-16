@@ -23,6 +23,8 @@ export type TeamMembershipProps = {
   organizationMembershipId: string
 }
 
+export type CreateTeamMembershipProps = Omit<TeamMembershipProps, 'sys'>
+
 export interface TeamMembership extends TeamMembershipProps, DefaultElements<TeamMembershipProps> {
   /**
    * Deletes this object on the server.
