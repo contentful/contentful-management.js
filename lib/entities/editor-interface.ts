@@ -19,6 +19,16 @@ export interface Control {
   settings?: Record<string, any>
 }
 
+export interface Editor {
+  widgetId: string
+  widgetNamespace: string
+  /**
+   * Widget will be enabled if disabled property is missing
+   */
+  disabled?: boolean
+  settings?: Record<string, any>
+}
+
 export type EditorInterfaceProps = {
   sys: MetaSysProps & {
     space: { sys: MetaLinkProps }
@@ -29,6 +39,14 @@ export type EditorInterfaceProps = {
    * Array of fields and it's associated widgetId
    */
   controls: Control[]
+  /**
+   * Array of editors. Defaults will be used if property is missing.
+   */
+  editors?: Editor[]
+  /**
+   * Array of sidebar widgerts. Defaults will be used if property is missing.
+   */
+  sidebar?: Editor[]
 }
 
 export interface EditorInterface
@@ -70,6 +88,9 @@ export interface EditorInterface
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => {
    *  editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+   *  editorInterface.editors = [
+   *    { "widgetId": "custom-widget", "widgetNamespace": "app" }
+   *  ]
    *  return editorInterface.update()
    * })
    * .catch(console.error)

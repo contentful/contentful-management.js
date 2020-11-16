@@ -361,11 +361,13 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getRoles() {
+    getRoles(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.role.getMany(http, { spaceId: raw.sys.id }).then((data) => {
-        return wrapRoleCollection(http, data)
-      })
+      return endpoints.role
+        .getMany(http, { spaceId: raw.sys.id, query: createRequestConfig({ query }).params })
+        .then((data) => {
+          return wrapRoleCollection(http, data)
+        })
     },
 
     /**
