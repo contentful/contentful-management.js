@@ -35,8 +35,6 @@ export interface TagCollection {
   total: number
 }
 
-type ThisContext = TagProps & DefaultElements<TagProps>
-
 type TagApi = {
   update(): Promise<Tag>
   delete(): Promise<void>
