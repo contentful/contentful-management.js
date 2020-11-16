@@ -10,7 +10,7 @@ export type OrganizationMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { organization: { sys: MetaLinkProps } }
+  sys: MetaSysProps & { user: { sys: MetaLinkProps } }
 
   /**
    * Role
