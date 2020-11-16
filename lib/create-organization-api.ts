@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios'
+import { get } from 'lodash'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
