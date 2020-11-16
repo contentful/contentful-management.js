@@ -184,7 +184,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
       const raw = this.toPlainObject() as OrganizationProp
 
       return endpoints.team
-        .getMany(http, { organizationId: raw.sys.id, query })
+        .getMany(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
         .then((data) => wrapTeamCollection(http, data))
     },
     /**
@@ -257,12 +260,19 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
 
       if (teamId) {
         return endpoints.teamMembership
-          .getManyForTeam(http, { organizationId: raw.sys.id, teamId, query })
+          .getManyForTeam(http, {
+            organizationId: raw.sys.id,
+            teamId,
+            query: createRequestConfig({ query }).params,
+          })
           .then((data) => wrapTeamMembershipCollection(http, data))
       }
 
       return endpoints.teamMembership
-        .getManyForOrganization(http, { organizationId: raw.sys.id, query })
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
         .then((data) => wrapTeamMembershipCollection(http, data))
     },
 

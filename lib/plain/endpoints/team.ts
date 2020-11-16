@@ -1,11 +1,6 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
-import {
-  CollectionProp,
-  QueryParams,
-  GetOrganizationParams,
-  GetTeamParams
-} from './common-types'
+import { CollectionProp, QueryParams, GetOrganizationParams, GetTeamParams } from './common-types'
 import { CreateTeamProps, TeamProps } from '../../entities/team'
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
