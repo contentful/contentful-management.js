@@ -103,10 +103,11 @@ export const defaultHostParameters = {
 /**
  * @private
  */
-export function createCMAHttpClient(params: ClientParams) {
+export function createCMAHttpClient(params: ClientParams, plainClient = false) {
+  const sdkMain = plainClient ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgentHeader = getUserAgentHeader(
     // @ts-expect-error
-    `contentful-management.js/${__VERSION__}`,
+    `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
     params.feature

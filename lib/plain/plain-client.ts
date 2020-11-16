@@ -6,7 +6,7 @@ import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
-  const http = createCMAHttpClient(params)
+  const http = createCMAHttpClient(params, true)
   const httpUpload = createCMAHttpClient({
     ...params,
     host: params.hostUpload || defaultHostParameters.defaultHostnameUpload,
