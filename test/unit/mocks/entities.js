@@ -271,6 +271,13 @@ const spaceMembershipMock = {
 const teamSpaceMembershipMock = {
   sys: Object.assign(cloneDeep(membershipMock), {
     type: 'TeamSpaceMembership',
+    team: {
+      sys: {
+        id: 'team_id',
+        type: 'Link',
+        linkType: 'Space',
+      },
+    },
     space: {
       sys: {
         id: 'space_id',
@@ -285,18 +292,27 @@ const teamSpaceMembershipMock = {
 const organizationMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'OrganizationMembership',
+    organization: {
+      sys: {
+        id: 'org-id',
+      },
+    },
   }),
 }
 
 const teamMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
+    organization: { sys: { id: 'org-id' } },
   }),
 }
 
 const teamMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'TeamMembership',
+    team: { sys: { id: 'team-id' } },
+    organization: { sys: { id: 'org-id' } },
+    organizationMembership: { sys: { id: 'org-membership-id' } },
   }),
 }
 

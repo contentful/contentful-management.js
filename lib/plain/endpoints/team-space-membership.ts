@@ -38,9 +38,7 @@ export const getManyForOrganization = (
 ) => {
   const query = params.query || {}
   if (params.teamId) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    query['sys.team.sys.id'] = opts.teamId
+    query['sys.team.sys.id'] = params.teamId
   }
   return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
     http,

@@ -34,13 +34,13 @@ test('OrganizationMembership update', (t) => {
   t.plan(4)
   const { httpMock, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
+  const entity = wrapOrganizationMembership(httpMock, entityMock)
   entity.role = 'member'
   return entity.update().then((response) => {
     t.ok(response.toPlainObject, 'response is wrapped')
     t.equals(
       httpMock.put.args[0][0],
-      `organization_memberships/${entityMock.sys.id}`,
+      `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
       'url is correct'
     )
     t.looseEquals(httpMock.put.args[0][1], { role: 'member' }, 'data is sent')
@@ -65,7 +65,7 @@ test('OrganizationMembership delete', (t) => {
     t.pass('entity was deleted')
     t.equals(
       httpMock.delete.args[0][0],
-      `organization_memberships/${entityMock.sys.id}`,
+      `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
       'url is correct'
     )
     return { httpMock, entityMock, response }
