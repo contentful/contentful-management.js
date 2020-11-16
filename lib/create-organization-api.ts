@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios'
-import { get } from 'lodash'
 import { createRequestConfig } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
@@ -293,15 +292,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamSpaceMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
-      const query = get(opts, 'query', {})
-      if (opts.teamId) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        query['sys.team.sys.id'] = opts.teamId
-      }
-      return http
-        .get('team_space_memberships', createRequestConfig({ query }))
-        .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.teamSpaceMembership
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query: opts.query || {} }).params,
+          teamId: opts.teamId,
+        })
+        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
     },
     /**
      * Get a Team Space Membership with given teamSpaceMembershipId
@@ -319,9 +317,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
-      return http
-        .get('team_space_memberships/' + teamSpaceMembershipId)
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.teamSpaceMembership
+        .getForOrganization(http, {
+          organizationId: raw.sys.id,
+          teamSpaceMembershipId,
+        })
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
     /**
      * Gets an Space Membership in Organization

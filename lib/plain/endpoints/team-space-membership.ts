@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import * as raw from './raw'
-import { GetSpaceParams, QueryParams, CollectionProp } from './common-types'
+import { GetSpaceParams, QueryParams, CollectionProp, GetOrganizationParams } from './common-types'
 import {
   TeamSpaceMembershipProps,
   CreateTeamSpaceMembershipProps,
@@ -21,6 +21,35 @@ export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParam
   raw.get<CollectionProp<TeamSpaceMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
+
+export const getForOrganization = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & { teamSpaceMembershipId: string }
+) => {
+  return raw.get<TeamSpaceMembershipProps>(
+    http,
+    `/organizations/${params.organizationId}/team_space_memberships/${params.teamSpaceMembershipId}`
+  )
+}
+
+export const getManyForOrganization = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams & { teamId?: string }
+) => {
+  const query = params.query || {}
+  if (params.teamId) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    query['sys.team.sys.id'] = opts.teamId
+  }
+  return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
+    http,
+    `/organizations/${params.organizationId}/team_space_memberships`,
+    {
+      params: params.query,
+    }
+  )
+}
 
 export const create = (
   http: AxiosInstance,
