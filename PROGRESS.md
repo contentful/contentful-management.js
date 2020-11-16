@@ -243,25 +243,24 @@
 | Updates an existing space membership   | ✅                        |
 | Deletes an exising space membership    | ✅                        |
 
-### Teams
+### Teams - ✅
 
 | Function                 | Exposed to a plain client |
 | ------------------------ | ------------------------- |
-| Gets a team by id        | 🍎                        |
-| Gets many teams          | 🍎                        |
-| Creates a new team       | 🍎                        |
-| Updates an existing team | 🍎                        |
-| Deletes an exising team  | 🍎                        |
+| Gets a team by id        | ✅                        |
+| Gets many teams          | ✅                        |
+| Creates a new team       | ✅                        |
+| Updates an existing team | ✅                        |
+| Deletes an exising team  | ✅                        |
 
-### Teams memberships
+### Teams memberships - ✅
 
 | Function                            | Exposed to a plain client |
 | ----------------------------------- | ------------------------- |
-| Gets a team membership by id        | 🍎                        |
-| Gets many team memberships          | 🍎                        |
-| Creates a new team membership       | 🍎                        |
-| Updates an existing team membership | 🍎                        |
-| Deletes an exising team membership  | 🍎                        |
+| Gets a team membership by id        | ✅                        |
+| Gets many team memberships          | ✅                        |
+| Creates a new team membership       | ✅                        |
+| Deletes an exising team membership  | ✅                        |
 
 ### Team space memberships
 

@@ -23,6 +23,8 @@ export type TeamProps = {
   description: string
 }
 
+export type CreateTeamProps = Omit<TeamProps, 'sys'>
+
 export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
    * Deletes this object on the server.
