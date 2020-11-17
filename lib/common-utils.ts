@@ -15,9 +15,3 @@ export const wrapCollection = <R, T, Rest extends any[]>(
   // @ts-ignore
   return collectionData
 }
-
-export const VersionHeader = (version?: number) => ({
-  headers: {
-    'X-Contentful-Version': Number.isInteger(version) ? version : 0,
-  },
-})

@@ -59,7 +59,7 @@ export default function createTagApi(http: AxiosInstance): TagApi {
     delete: function () {
       const raw = this.toPlainObject() as TagProps
 
-      return endpoints.tag.del(http, getParams(raw)).then(() => {
+      return endpoints.tag.del(http, getParams(raw), raw.sys.version).then(() => {
         // noop
       })
     },

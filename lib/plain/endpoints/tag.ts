@@ -46,4 +46,6 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetTagParams) => raw.del(http, getTagUrl(params))
+export const del = (http: AxiosInstance, params: GetTagParams, version: number) => {
+  return raw.del(http, getTagUrl(params), { headers: { 'X-Contentful-Version': version } })
+}
