@@ -1,7 +1,7 @@
 import generateRandomId from './generate-random-id'
 
 // To test creating spaceMemberships user has to exist in the organization. Organization membership is produced also within invitation process.
-export default function spaceMembershipTests(t, organization, space) {
+export function spaceMembershipTests(t, organization, space) {
   t.test('Gets spaceMemberships', (t) => {
     t.plan(2)
     return space.getSpaceMemberships().then((response) => {

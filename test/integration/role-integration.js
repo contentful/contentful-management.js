@@ -18,7 +18,7 @@ const roleDefinition = {
   permissions: { ContentModel: ['read'], Settings: [], ContentDelivery: [] },
 }
 
-export default function roleTests(t, space) {
+export function roleTests(t, space) {
   t.test('Gets roles', (t) => {
     t.plan(3)
     return space.getRoles().then((response) => {

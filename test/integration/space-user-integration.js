@@ -1,4 +1,4 @@
-export default function spaceUserTests(t, space) {
+export function spaceUserTests(t, space) {
   t.test('Gets users', (t) => {
     t.plan(3)
     return space.getSpaceUsers().then((response) => {
