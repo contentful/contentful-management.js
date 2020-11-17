@@ -24,7 +24,7 @@ import { generateRandomId } from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
 import { environmentAliasTests } from './environment-alias-integration'
-// import { tagTests } from './tag-integration'
+import { tagTests } from './tag-integration'
 
 const params = {
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
@@ -357,18 +357,18 @@ test('Logs request and response with custom loggers', (t) => {
   })
 })
 
-// test('gets V2 space for tag tests', (t) => {
-//   v2Client.getSpace('w6xueg32zr68').then((space) => {
-//     tagTests(t, space)
-//     test.onFinish(() => deleteAllTags(space))
-//   })
-// })
+test('gets V2 space for tag tests', (t) => {
+  v2Client.getSpace('w6xueg32zr68').then((space) => {
+    tagTests(t, space)
+    test.onFinish(() => deleteAllTags(space))
+  })
+})
 
-// async function deleteAllTags(space) {
-//   const environmentAsAlias = await space.getEnvironment('master')
-//   const environment = await space.getEnvironment(environmentAsAlias.sys.aliasedEnvironment.sys.id)
-//   const tags = await environment.getTags({ skip: 0, limit: 1000 })
-//   for (let index = 0; index < tags.total; index++) {
-//     await tags.items[index]['delete']()
-//   }
-// }
+async function deleteAllTags(space) {
+  const environmentAsAlias = await space.getEnvironment('master')
+  const environment = await space.getEnvironment(environmentAsAlias.sys.aliasedEnvironment.sys.id)
+  const tags = await environment.getTags({ skip: 0, limit: 1000 })
+  for (let index = 0; index < tags.total; index++) {
+    await tags.items[index]['delete']()
+  }
+}
