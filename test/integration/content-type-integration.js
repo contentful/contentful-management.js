@@ -1,4 +1,4 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
 export function contentTypeReadOnlyTests(t, environment) {
   t.test('Gets content type', (t) => {

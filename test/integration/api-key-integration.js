@@ -1,4 +1,4 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
 export function apiKeyTests(t, space) {
   t.test('Gets apiKeys', (t) => {

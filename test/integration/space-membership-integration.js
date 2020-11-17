@@ -1,4 +1,4 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
 // To test creating spaceMemberships user has to exist in the organization. Organization membership is produced also within invitation process.
 export function spaceMembershipTests(t, organization, space) {
