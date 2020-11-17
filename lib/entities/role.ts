@@ -24,6 +24,7 @@ export type ConstraintType = {
 export type RoleProps = {
   sys: MetaSysProps
   name: string
+  description?: string
   /**
    * Permissions for application sections
    */
