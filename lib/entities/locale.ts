@@ -60,7 +60,8 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getLocale('<locale_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getLocale('<locale_id>'))
    * .then((locale) => locale.delete())
    * .then(() => console.log(`locale deleted.`))
    * .catch(console.error)
@@ -78,7 +79,8 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getLocale('<locale_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getLocale('<locale_id>'))
    * .then((locale) => {
    *   locale.name = 'New locale name'
    *   return locale.update()

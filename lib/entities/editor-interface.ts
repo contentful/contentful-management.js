@@ -63,7 +63,8 @@ export interface EditorInterface
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => {
    *  control = editorInterface.getControlForField('<field-id>')
@@ -84,7 +85,8 @@ export interface EditorInterface
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => {
    *  editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}

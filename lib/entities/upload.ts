@@ -24,7 +24,8 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getUpload('<upload_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getUpload('<upload_id>'))
    * .then((upload) => upload.delete())
    * .then((upload) => console.log(`upload ${upload.sys.id} updated.`))
    * .catch(console.error)

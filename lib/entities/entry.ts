@@ -35,7 +35,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => {
    *   entry.fields.title['en-US'] = 'New entry title'
    *   return entry.update()
@@ -56,7 +57,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.archive())
    * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
    * .catch(console.error)
@@ -75,7 +77,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.delete())
    * .then(() => console.log(`Entry deleted.`))
    * .catch(console.error)
@@ -93,7 +96,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.publish())
    * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
    * .catch(console.error)
@@ -112,7 +116,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.unarchive())
    * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
    * .catch(console.error)
@@ -130,7 +135,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.unpublish())
    * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
    * .catch(console.error)
@@ -149,7 +155,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.getSnapshot('<snapshot_id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
@@ -166,7 +173,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)

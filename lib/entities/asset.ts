@@ -70,7 +70,8 @@ type AssetApi = {
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getSpace('<space_id>')
-   * .then((space) => space.createAssetWithId('<asset_id>', {
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.createAssetWithId('<asset_id>', {
    *   title: {
    *     'en-US': 'Playsam Streamliner',
    *     'de-DE': 'Playsam Streamliner'
@@ -109,7 +110,8 @@ type AssetApi = {
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getSpace('<space_id>')
-   * .then((space) => space.createAssetWithId('<asset_id>', {
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.createAssetWithId('<asset_id>', {
    *   title: {
    *     'en-US': 'Playsam Streamliner',
    *   },
@@ -138,7 +140,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => asset.publish())
    * .then((asset) => console.log(`Asset ${asset.sys.id} published.`)
    * .catch(console.error)
@@ -156,7 +159,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => asset.archive())
    * .then((asset) => console.log(`Asset ${asset.sys.id} archived.`)
    * .catch(console.error)
@@ -174,7 +178,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => asset.delete())
    * .then((asset) => console.log(`Asset deleted.`)
    * .catch(console.error)
@@ -192,7 +197,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => asset.unarchive())
    * .then((asset) => console.log(`Asset ${asset.sys.id} unarchived.`)
    * .catch(console.error)
@@ -210,7 +216,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => asset.unpublish())
    * .then((asset) => console.log(`Asset ${asset.sys.id} unpublished.`)
    * .catch(console.error)
@@ -228,7 +235,8 @@ type AssetApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getAsset('<asset_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getAsset('<asset_id>'))
    * .then((asset) => {
    *   asset.fields.title['en-US'] = 'New asset title'
    *   return asset.update()

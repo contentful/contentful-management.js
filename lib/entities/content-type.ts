@@ -57,7 +57,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => {
    *  contentType.name = 'New name'
    *  return contentType.update()
@@ -79,7 +80,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.delete())
    * .then(() => console.log('contentType deleted'))
    * .catch(console.error)
@@ -97,7 +99,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.publish())
    * .then((contentType) => console.log(`${contentType.sys.id} is published`))
    * .catch(console.error)
@@ -115,7 +118,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.unpublish())
    * .then((contentType) => console.log(`${contentType.sys.id} is unpublished`))
    * .catch(console.error)
@@ -135,7 +139,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => console.log(editorInterface.contorls))
    * .catch(console.error)
@@ -173,7 +178,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<content_type-id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((entry) => entry.getSnapshot('<snapshot-id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
@@ -190,7 +196,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((entry) => entry.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)

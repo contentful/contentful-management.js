@@ -51,7 +51,8 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getUiExtension('<ui_extension_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getUiExtension('<ui_extension_id>'))
    * .then((uiExtension) => {
    *   uiExtension.extension.name = 'New UI Extension name'
    *   return uiExtension.update()
@@ -72,7 +73,8 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getUiExtension('<ui_extension_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getUiExtension('<ui_extension_id>'))
    * .then((uiExtension) => uiExtension.delete())
    * .then(() => console.log(`UI Extension deleted.`))
    * .catch(console.error)
