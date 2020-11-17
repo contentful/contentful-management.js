@@ -6,10 +6,16 @@
 
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
+import type { DefaultParams, PlainClientAPI } from './plain/plain-client'
 
-export { createPlainClient } from './plain/plain-client'
+import { createPlainClient } from './plain/plain-client'
+
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
+export type { PlainClientAPI } from './plain/plain-client'
+export type { ClientAPI } from './create-contentful-api'
+export type { ClientParams } from './create-cma-http-client'
+export type PlainClientDefaultParams = DefaultParams
 
 /**
  * Create a client instance
@@ -21,10 +27,34 @@ export { isDraft, isPublished, isUpdated } from './plain/checks'
  * })
  * ```
  */
-export function createClient(params: ClientParams): ClientAPI {
-  const http = createCMAHttpClient(params)
-  const api = createContentfulApi({
-    http: http,
-  })
-  return api
+
+function createClient(params: ClientParams): ClientAPI
+function createClient(
+  params: ClientParams,
+  opts: {
+    plainClient?: true
+    plainClientDefaults?: DefaultParams
+  }
+): PlainClientAPI
+function createClient(
+  params: ClientParams,
+  opts: {
+    plainClient?: true
+    plainClientDefaults?: DefaultParams
+  } = {}
+): ClientAPI | PlainClientAPI {
+  let client: ClientAPI | PlainClientAPI
+
+  if (opts.plainClient === true) {
+    client = createPlainClient(params, opts.plainClientDefaults)
+  } else {
+    const http = createCMAHttpClient(params)
+    client = createContentfulApi({
+      http: http,
+    }) as ClientAPI
+  }
+
+  return client
 }
+
+export { createClient }

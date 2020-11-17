@@ -2,6 +2,9 @@ import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../cre
 import * as endpoints from './endpoints'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
+export type { DefaultParams } from './wrappers/wrap'
+export type PlainClientAPI = ReturnType<typeof createPlainClient>
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
