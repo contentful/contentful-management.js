@@ -1,4 +1,4 @@
-export default function uiExtensionTests(t, environment) {
+export function uiExtensionTests(t, environment) {
   t.test('Create, update, get, get all and delete UI Extension', (t) => {
     return environment
       .createUiExtension({
@@ -55,7 +55,7 @@ export default function uiExtensionTests(t, environment) {
       })
   })
 
-  t.test('Create UI extension with ID', () => {
+  t.test('Create UI extension with ID', (t) => {
     return environment
       .createUiExtensionWithId('awesome-extension', {
         extension: {
@@ -68,6 +68,7 @@ export default function uiExtensionTests(t, environment) {
         t.equals(uiExtension.sys.id, 'awesome-extension', 'id')
         t.equals(uiExtension.extension.name, 'Awesome extension!', 'name')
         t.equals(uiExtension.extension.src, 'https://awesome.extension', 'src')
+        return uiExtension.delete()
       })
   })
 }

@@ -160,6 +160,7 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       get: wrap(wrapParams, endpoints.uiExtension.get),
       getMany: wrap(wrapParams, endpoints.uiExtension.getMany),
       create: wrap(wrapParams, endpoints.uiExtension.create),
+      createWithId: wrap(wrapParams, endpoints.uiExtension.createWithId),
       update: wrap(wrapParams, endpoints.uiExtension.update),
       delete: wrap(wrapParams, endpoints.uiExtension.del),
     },

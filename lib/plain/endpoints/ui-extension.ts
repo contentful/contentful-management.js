@@ -34,11 +34,7 @@ export const create = (
   return raw.post<UIExtensionProps>(
     http,
     getBaseUrl(params as GetSpaceEnvironmentParams),
-    {
-      extension: {
-        ...rawData,
-      },
-    },
+    rawData,
     { headers }
   )
 }
