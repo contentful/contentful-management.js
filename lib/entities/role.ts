@@ -18,12 +18,13 @@ export type ActionType =
 
 type ConditionType = 'and' | 'or' | 'not' | 'equals'
 export type ConstraintType = {
-  [key in ConditionType]: ConstraintType[] | any
+  [key in ConditionType]?: ConstraintType[] | any
 }
 
 export type RoleProps = {
   sys: BasicMetaSysProps & { space: SysLink }
   name: string
+  description?: string
   /**
    * Permissions for application sections
    */
