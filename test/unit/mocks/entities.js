@@ -292,11 +292,6 @@ const teamSpaceMembershipMock = {
 const organizationMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'OrganizationMembership',
-    organization: {
-      sys: {
-        id: 'org-id',
-      },
-    },
   }),
 }
 

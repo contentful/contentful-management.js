@@ -27,5 +27,9 @@ export const create = (
 }
 
 export const revoke = (http: AxiosInstance, params: { tokenId: string }) => {
-  return raw.put<PersonalAccessTokenProp>(http, `/users/me/access_tokens/${params.tokenId}`, null)
+  return raw.put<PersonalAccessTokenProp>(
+    http,
+    `/users/me/access_tokens/${params.tokenId}/revoked`,
+    null
+  )
 }

@@ -31,16 +31,7 @@ export const create = (
   rawData: CreateUIExtensionProps,
   headers?: Record<string, unknown>
 ) => {
-  return raw.post<UIExtensionProps>(
-    http,
-    getBaseUrl(params as GetSpaceEnvironmentParams),
-    {
-      extension: {
-        ...rawData,
-      },
-    },
-    { headers }
-  )
+  return raw.post<UIExtensionProps>(http, getBaseUrl(params), rawData, { headers })
 }
 
 export const createWithId = (

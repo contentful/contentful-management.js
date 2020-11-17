@@ -73,7 +73,7 @@ export const publish = (
 ) => {
   return raw.put<ContentTypeProps>(http, getContentTypeUrl(params) + '/published', null, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      'X-Contentful-Version': rawData.sys.version,
     },
   })
 }

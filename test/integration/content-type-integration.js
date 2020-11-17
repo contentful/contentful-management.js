@@ -1,4 +1,4 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
 export function contentTypeReadOnlyTests(t, environment) {
   t.test('Gets content type', (t) => {
@@ -74,7 +74,7 @@ export function contentTypeWriteTests(t, environment) {
                           return editorInterface
                             .update() // update editor interface
                             .then(() => {
-                              return updatedContentType
+                              return publishedContentType
                                 .unpublish() // unpublish contentType
                                 .then((unpublishedContentType) => {
                                   t.ok(

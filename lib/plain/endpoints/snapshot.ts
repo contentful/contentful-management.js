@@ -9,7 +9,7 @@ import { ContentTypeProps } from '../../entities/content-type'
 type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 
 const getBaseEntryUrl = (params: GetSnapshotForEntryParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/snaphots`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/snapshots`
 
 const getEntryUrl = (params: GetSnapshotForEntryParams & { snapshotId: string }) =>
   getBaseEntryUrl(params) + `/${params.snapshotId}`
@@ -33,7 +33,7 @@ export const getForEntry = <T extends KeyValueMap = KeyValueMap>(
 type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 const getBaseContentTypeUrl = (params: GetSnapshotForContentTypeParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/snaphots`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/snapshots`
 
 const getContentTypeUrl = (params: GetSnapshotForContentTypeParams & { snapshotId: string }) =>
   getBaseContentTypeUrl(params) + `/${params.snapshotId}`

@@ -1,4 +1,4 @@
-export default function teamSpaceMembershipTests(t, space) {
+export function teamSpaceMembershipTests(t, space) {
   t.test('Create, update and delete teamSpaceMembership', (t) => {
     t.plan(3)
     // create space membership for existing team

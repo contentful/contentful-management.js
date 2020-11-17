@@ -5,22 +5,22 @@ import { localeTests } from './locale-integration'
 import { contentTypeReadOnlyTests, contentTypeWriteTests } from './content-type-integration'
 import { entryReadOnlyTests, entryWriteTests } from './entry-integration'
 import { assetReadOnlyTests, assetWriteTests } from './asset-integration'
-import webhookTests from './webhook-integration'
-import spaceMembersTests from './space-members-integration'
-import spaceMembershipTests from './space-membership-integration'
-import teamSpaceMembershipTests from './team-space-membership-integration'
-import orgTeamSpaceMembershipTests from './org-team-space-membership-integration'
-import teamTests from './team-integration'
-import teamMembershipTests from './team-membership-integration'
-import organizationMembershipTests from './organization-membership-integration'
-import organizationSpaceMembershipTests from './organization-space-membership-integration'
-import organizationInvitationTests from './organization-invitation-test'
-import roleTests from './role-integration'
-import spaceUserTests from './space-user-integration'
-import userTests from './user-integration'
-import apiKeyTests from './api-key-integration'
-import uiExtensionTests from './ui-extension-integration'
-import generateRandomId from './generate-random-id'
+import { webhookTests } from './webhook-integration'
+import { spaceMembersTests } from './space-members-integration'
+import { spaceMembershipTests } from './space-membership-integration'
+import { teamSpaceMembershipTests } from './team-space-membership-integration'
+import { orgTeamSpaceMembershipTests } from './org-team-space-membership-integration'
+import { teamTests } from './team-integration'
+import { teamMembershipTests } from './team-membership-integration'
+import { organizationMembershipTests } from './organization-membership-integration'
+import { organizationSpaceMembershipTests } from './organization-space-membership-integration'
+import { organizationInvitationTests } from './organization-invitation-test'
+import { roleTests } from './role-integration'
+import { spaceUserTests } from './space-user-integration'
+import { userTests } from './user-integration'
+import { apiKeyTests } from './api-key-integration'
+import { uiExtensionTests } from './ui-extension-integration'
+import { generateRandomId } from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
 import { environmentAliasTests } from './environment-alias-integration'
@@ -330,7 +330,6 @@ test('Create space with an environment for tests which create, change and delete
         entryWriteTests(t, environment)
         assetWriteTests(t, environment)
         uiExtensionTests(t, environment)
-        // test.onFinish(() => environment.delete())
         test.onFinish(() => space.delete())
       })
   )
@@ -368,7 +367,7 @@ test('gets V2 space for tag tests', (t) => {
 async function deleteAllTags(space) {
   const environmentAsAlias = await space.getEnvironment('master')
   const environment = await space.getEnvironment(environmentAsAlias.sys.aliasedEnvironment.sys.id)
-  const tags = await environment.getTags(0, 1000)
+  const tags = await environment.getTags({ skip: 0, limit: 1000 })
   for (let index = 0; index < tags.total; index++) {
     await tags.items[index]['delete']()
   }

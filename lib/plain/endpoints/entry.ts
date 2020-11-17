@@ -73,7 +73,7 @@ export const publish = <T extends KeyValueMap = KeyValueMap>(
     null,
     {
       headers: {
-        'X-Contentful-Version': rawData.sys.version ?? 0,
+        'X-Contentful-Version': rawData.sys.version,
       },
     }
   )
