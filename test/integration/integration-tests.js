@@ -330,7 +330,6 @@ test('Create space with an environment for tests which create, change and delete
         entryWriteTests(t, environment)
         assetWriteTests(t, environment)
         uiExtensionTests(t, environment)
-        // test.onFinish(() => environment.delete())
         test.onFinish(() => space.delete())
       })
   )
