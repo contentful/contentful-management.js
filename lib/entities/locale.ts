@@ -20,7 +20,7 @@ export type LocaleProps = {
   /**
    * Locale code to fallback to when there is not content for the current locale
    */
-  fallbackCode: string
+  fallbackCode: string | null
   /**
    *  If the content under this locale should be available on the CDA (for public reading)
    */
