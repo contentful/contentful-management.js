@@ -214,6 +214,14 @@ const entries = await scopedPlainClient.entry.getMany({
 })
 ```
 
+The benefits of using the plain version of SDK are:
+
+- The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
+  - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
+- All returned objects are simple Javascript objects without any wrappers. They can be easily serialized without an additional `toPlainObject` function call.
+- The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
+  - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
+
 ## Troubleshooting
 
 - **I can't Install the package via npm** - Check your internet connection - It is called `contentful-management` and not `contenful-management` ¯\\\_(ツ)\_/¯
