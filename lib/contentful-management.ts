@@ -27,26 +27,25 @@ export type PlainClientDefaultParams = DefaultParams
  * })
  * ```
  */
-
 function createClient(params: ClientParams): ClientAPI
 function createClient(
   params: ClientParams,
   opts: {
-    plainClient?: true
-    plainClientDefaults?: DefaultParams
+    type: 'plain'
+    defaults?: DefaultParams
   }
 ): PlainClientAPI
 function createClient(
   params: ClientParams,
   opts: {
-    plainClient?: true
-    plainClientDefaults?: DefaultParams
+    type?: 'plain'
+    defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {
   let client: ClientAPI | PlainClientAPI
 
-  if (opts.plainClient === true) {
-    client = createPlainClient(params, opts.plainClientDefaults)
+  if (opts.type === 'plain') {
+    client = createPlainClient(params, opts.defaults)
   } else {
     const http = createCMAHttpClient(params)
     client = createContentfulApi({
