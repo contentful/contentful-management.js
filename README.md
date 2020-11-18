@@ -109,7 +109,7 @@ You can use the es6 import with the SDK as follow
 ```js
 // import createClient directly
 import { createClient } from 'contentful-management'
-var client = createClient({
+const client = createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -121,7 +121,7 @@ OR
 ```js
 // import everything from contentful
 import * as contentful from 'contentful-management'
-var client = contentful.createClient({
+const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -133,8 +133,8 @@ var client = contentful.createClient({
 The following code snippet is the most basic one you can use to get content from Contentful with this SDK:
 
 ```js
-var contentful = require('contentful-management')
-var client = contentful.createClient({
+const contentful = require('contentful-management')
+const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -161,6 +161,58 @@ client.getSpace('spaceId').then((space) => {
 ```
 
 You can try and change the above example at [Tonic](https://tonicdev.com/npm/contentful-management).
+
+### Alternative plain API
+
+Starting `contentful-management@7` this library provides an alternative plain SDK which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
+
+```javascript
+const contentful = require('contentful-management')
+const plainClient = contentful.createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'plain' }
+)
+
+const environment = await plainClient.environment.get({
+  spaceId: '<space_id>',
+  environmentId: '<environment_id>',
+})
+
+const entries = await plainClient.entry.getMany({
+  spaceId: '123',
+  environmentId: '',
+  query: {
+    skip: 10,
+    limit: 100,
+  },
+})
+
+// With scoped space and environment
+const scopedPlainClient = contentful.createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  {
+    type: 'plain',
+    defaults: {
+      spaceId: '<space_id>',
+      environmentId: '<environment_id>',
+    },
+  }
+)
+
+// entries from '<space_id>' & '<environment_id>'
+const entries = await scopedPlainClient.entry.getMany({
+  query: {
+    skip: 10,
+    limit: 100,
+  },
+})
+```
 
 ## Troubleshooting
 
