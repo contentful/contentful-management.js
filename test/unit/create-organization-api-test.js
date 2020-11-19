@@ -13,6 +13,7 @@ import {
   organizationInvitationMock,
   teamMock,
   userMock,
+  organizationMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import {
@@ -26,6 +27,7 @@ function setup(promise) {
   const entitiesMock = setupEntitiesMock(createOrganizationApiRewireApi)
   const httpMock = setupHttpMock(promise)
   const api = createOrganizationApi({ http: httpMock })
+  api.toPlainObject = () => organizationMock
   return {
     api,
     httpMock,

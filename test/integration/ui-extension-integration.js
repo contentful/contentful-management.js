@@ -1,6 +1,6 @@
-export default function uiExtensionTests(t, space) {
+export function uiExtensionTests(t, environment) {
   t.test('Create, update, get, get all and delete UI Extension', (t) => {
-    return space
+    return environment
       .createUiExtension({
         extension: {
           name: 'My awesome extension',
@@ -18,11 +18,11 @@ export default function uiExtensionTests(t, space) {
       .then((uiExtension) => {
         t.equals(uiExtension.extension.name, 'New name', 'name')
 
-        return space.getUiExtension(uiExtension.sys.id).then((uiExtension) => {
+        return environment.getUiExtension(uiExtension.sys.id).then((uiExtension) => {
           t.equals(uiExtension.sys.id, uiExtension.sys.id, 'id')
           t.equals(uiExtension.extension.name, 'New name', 'name')
 
-          return space
+          return environment
             .getUiExtensions()
             .then((result) => {
               t.equals(result.items.length, result.total, 'returns the just created ui extensions')
@@ -33,7 +33,7 @@ export default function uiExtensionTests(t, space) {
   })
 
   t.test('Create and delete UI Extension hosted by Contentful', (t) => {
-    return space
+    return environment
       .createUiExtension({
         extension: {
           name: 'My awesome extension hosted at Contentful',
@@ -55,8 +55,8 @@ export default function uiExtensionTests(t, space) {
       })
   })
 
-  t.test('Create UI extension with ID', () => {
-    return space
+  t.test('Create UI extension with ID', (t) => {
+    return environment
       .createUiExtensionWithId('awesome-extension', {
         extension: {
           name: 'Awesome extension!',
@@ -68,6 +68,7 @@ export default function uiExtensionTests(t, space) {
         t.equals(uiExtension.sys.id, 'awesome-extension', 'id')
         t.equals(uiExtension.extension.name, 'Awesome extension!', 'name')
         t.equals(uiExtension.extension.src, 'https://awesome.extension', 'src')
+        return uiExtension.delete()
       })
   })
 }

@@ -16,6 +16,8 @@ export type OrganizationInvitationProps = {
   role: string
 }
 
+export type CreateOrganizationInvitationProps = Omit<OrganizationInvitationProps, 'sys'>
+
 export interface OrganizationInvitation
   extends OrganizationInvitationProps,
     DefaultElements<OrganizationInvitationProps> {}
@@ -27,7 +29,7 @@ export interface OrganizationInvitation
  * @return {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
-  http: AxiosInstance,
+  _http: AxiosInstance,
   data: OrganizationInvitationProps
 ): OrganizationInvitation {
   const invitation = toPlainObject(cloneDeep(data))

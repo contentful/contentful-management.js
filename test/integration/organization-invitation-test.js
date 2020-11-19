@@ -1,4 +1,4 @@
-export default function organizationInvitationTests(t, organization) {
+export function organizationInvitationTests(t, organization) {
   t.test(
     'Creates, gets an invitation in the organization and remove membership after test',
     (t) => {

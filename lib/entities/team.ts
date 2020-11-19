@@ -3,14 +3,14 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps } from '../common-types'
-import { createDeleteEntity, createUpdateEntity } from '../instance-actions'
+import { DefaultElements, MetaSysProps, MetaLinkProps } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type TeamProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { memberCount: number; organization: { sys: MetaLinkProps } }
 
   /**
    * Name of the team
@@ -22,6 +22,8 @@ export type TeamProps = {
    */
   description: string
 }
+
+export type CreateTeamProps = Omit<TeamProps, 'sys'>
 
 export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
@@ -66,23 +68,25 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
   update(): Promise<Team>
 }
 
-const entityPath = 'teams'
-
 /**
  * @private
  */
 function createTeamApi(http: AxiosInstance) {
-  return {
-    update: createUpdateEntity({
-      http,
-      entityPath,
-      wrapperMethod: wrapTeam,
-    }),
+  const getParams = (data: TeamProps) => ({
+    teamId: data.sys.id,
+    organizationId: data.sys.organization.sys.id,
+  })
 
-    delete: createDeleteEntity({
-      http,
-      entityPath,
-    }),
+  return {
+    update: function update() {
+      const raw = this.toPlainObject() as TeamProps
+      return endpoints.team.update(http, getParams(raw), raw).then((data) => wrapTeam(http, data))
+    },
+
+    delete: function del() {
+      const raw = this.toPlainObject() as TeamProps
+      return endpoints.team.del(http, getParams(raw))
+    },
   }
 }
 

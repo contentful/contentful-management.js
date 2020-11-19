@@ -4,7 +4,7 @@ import {
   wrapAppDefinitionCollection,
 } from '../../../lib/entities/app-definition'
 import setupHttpMock from '../mocks/http'
-import { cloneMock } from '../mocks/entities'
+import { appDefinitionMock } from '../mocks/entities'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -17,7 +17,7 @@ import {
 function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('apiKey'),
+    entityMock: appDefinitionMock,
   }
 }
 

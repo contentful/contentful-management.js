@@ -35,7 +35,11 @@ test('Team update', (t) => {
   entity.description = 'new description'
   return entity.update().then((response) => {
     t.ok(response.toPlainObject, 'response is wrapped')
-    t.equals(httpMock.put.args[0][0], `teams/${entityMock.sys.id}`, 'url is correct')
+    t.equals(
+      httpMock.put.args[0][0],
+      `/organizations/org-id/teams/${entityMock.sys.id}`,
+      'url is correct'
+    )
     t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
     return { httpMock, entityMock, response }
   })
@@ -55,7 +59,11 @@ test('Team delete', (t) => {
   const entity = wrapTeam(httpMock, entityMock)
   return entity.delete().then((response) => {
     t.pass('entity was deleted')
-    t.equals(httpMock.delete.args[0][0], `teams/${entityMock.sys.id}`, 'url is correct')
+    t.equals(
+      httpMock.delete.args[0][0],
+      `/organizations/org-id/teams/${entityMock.sys.id}`,
+      'url is correct'
+    )
     return { httpMock, entityMock, response }
   })
 })

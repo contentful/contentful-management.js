@@ -11,7 +11,7 @@ const linkMock = {
 const sysMock = {
   type: 'Type',
   id: 'id',
-  space: cloneDeep(linkMock),
+  space: { sys: cloneDeep(linkMock) },
   createdAt: 'createdatdate',
   updatedAt: 'updatedatdate',
 }
@@ -57,6 +57,7 @@ const personalAccessTokenMock = {
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
+    organization: { sys: { id: 'organziation-id' } },
   }),
   name: 'AI Image Tagging',
   src: 'https://ai-image-tagging.app-host.com/frontend/',
@@ -74,6 +75,12 @@ const appDefinitionMock = {
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
   name: 'name',
   description: 'desc',
@@ -100,6 +107,9 @@ const entryMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Entry',
     contentType: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }),
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     locale: 'locale',
   }),
   fields: {
@@ -121,11 +131,13 @@ const entryMockWithTags = {
     ],
   },
 }
+
 const editorInterfaceMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
     contentType: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'ContentType' }) },
-    space: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }),
+    space: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'Space' }) },
+    environment: { sys: Object.assign(cloneDeep(linkMock), { linkType: 'Environment' }) },
   }),
   controls: [
     {
@@ -138,6 +150,12 @@ const assetMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
     locale: 'locale',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
   fields: {
     field1: 'str',
@@ -196,11 +214,20 @@ const uploadMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Upload',
     id: 'some_random_id',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
 }
 
 const localeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     type: 'Locale',
   }),
   name: 'English',
@@ -223,6 +250,9 @@ const membershipMock = {
 const webhookMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'WebhookDefinition',
+    space: {
+      sys: { id: 'space-id' },
+    },
   }),
 }
 
@@ -241,6 +271,13 @@ const spaceMembershipMock = {
 const teamSpaceMembershipMock = {
   sys: Object.assign(cloneDeep(membershipMock), {
     type: 'TeamSpaceMembership',
+    team: {
+      sys: {
+        id: 'team_id',
+        type: 'Link',
+        linkType: 'Space',
+      },
+    },
     space: {
       sys: {
         id: 'space_id',
@@ -261,12 +298,16 @@ const organizationMembershipMock = {
 const teamMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
+    organization: { sys: { id: 'org-id' } },
   }),
 }
 
 const teamMembershipMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'TeamMembership',
+    team: { sys: { id: 'team-id' } },
+    organization: { sys: { id: 'org-id' } },
+    organizationMembership: { sys: { id: 'org-membership-id' } },
   }),
 }
 
@@ -310,12 +351,22 @@ const usageMock = {
 const uiExtensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
   }),
+  name: 'Some Extension',
 }
 
 const appInstallationMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppInstallation',
+    environment: {
+      sys: { id: 'environment-id' },
+    },
     appDefinition: {
       sys: {
         id: '<app_definition_id>',
@@ -418,6 +469,7 @@ const mocks = {
   upload: uploadMock,
   organization: organizationMock,
   uiExtension: uiExtensionMock,
+  appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   user: userMock,
   personalAccessToken: personalAccessTokenMock,
@@ -515,6 +567,7 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     editorInterface: {
       wrapEditorInterface: sinon.stub(),
+      wrapEditorInterfaceCollection: sinon.stub(),
     },
     upload: {
       wrapUpload: sinon.stub(),

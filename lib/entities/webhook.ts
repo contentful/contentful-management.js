@@ -1,14 +1,17 @@
 import { AxiosInstance } from 'axios'
-import { JsonValue } from 'type-fest'
+import { JsonValue, Except, SetOptional } from 'type-fest'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
+import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps } from '../common-types'
-
-const entityPath = 'webhook_definitions'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  MetaLinkProps,
+  SysLink,
+  CollectionProp,
+} from '../common-types'
 
 interface EqualityConstraint {
   equals: [Doc, string]
@@ -33,6 +36,26 @@ interface NotConstraint {
   not: EqualityConstraint | InConstraint | RegexpConstraint
 }
 
+export type WebhookCalls = { total: number; healthy: number }
+
+export type WebhookCallRequest = {
+  url: string
+  method: string
+  headers: {
+    [key: string]: string
+  }
+  body: string
+}
+
+export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
+
+export type WebhookHealthSys = Except<
+  BasicMetaSysProps,
+  'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
+>
+
+export type WebhookCallDetailsSys = Except<BasicMetaSysProps, 'version' | 'updatedAt' | 'updatedBy'>
+
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
 export type WebhookFilter = EqualityConstraint | InConstraint | RegexpConstraint | NotConstraint
@@ -51,11 +74,75 @@ export type WebhookTransformation = {
   body?: JsonValue
 }
 
+export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
+
+export type UpdateWebhookProps = SetOptional<
+  Except<WebhookProps, 'sys'>,
+  'headers' | 'name' | 'topics' | 'url'
+>
+
+export type WebhookCallDetailsProps = {
+  /**
+   * System metadata
+   */
+  sys: WebhookCallDetailsSys
+
+  /**
+   * Request object
+   */
+  request: WebhookCallRequest
+
+  /**
+   * Request object
+   */
+  response: WebhookCallResponse
+
+  /**
+   * Status code of the request
+   */
+  statusCode: number
+  /**
+   * Errors
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  errors: any[]
+  /**
+   * Type of the webhook
+   */
+  eventType: string
+  /**
+   * Url of the request
+   */
+  url: string
+  /**
+   * Timestamp of the request
+   */
+  requestAt: string
+  /**
+   * Timestamp of the response
+   */
+  responseAt: string
+}
+
+export type WebhookCallOverviewProps = Except<WebhookCallDetailsProps, 'request' | 'response'>
+
+export type WebhookHealthProps = {
+  /**
+   * System metadata
+   */
+  sys: WebhookHealthSys & { space: { sys: MetaLinkProps } }
+
+  /**
+   * Webhook call statistics
+   */
+  calls: WebhookCalls
+}
+
 export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: SysLink }
 
   /**
    * Webhook name
@@ -157,7 +244,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getCalls(): Promise<Record<string, unknown>>
+  getCalls(): Promise<CollectionProp<WebhookCallOverviewProps>>
 
   /**
    * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
@@ -176,7 +263,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getCall(id: string): Promise<Record<string, unknown>>
+  getCall(id: string): Promise<WebhookCallDetailsProps>
 
   /**
    * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
@@ -195,38 +282,37 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * .catch(console.error)
    * ```
    */
-  getHealth(): Promise<Record<string, unknown>>
+  getHealth(): Promise<WebhookHealthProps>
 }
 
 function createWebhookApi(http: AxiosInstance) {
+  const getParams = (data: WebhookProps) => ({
+    spaceId: data.sys.space.sys.id,
+    webhookDefinitionId: data.sys.id,
+  })
+
   return {
-    update: createUpdateEntity({
-      http,
-      entityPath,
-      wrapperMethod: wrapWebhook,
-    }),
-
-    delete: createDeleteEntity({
-      http,
-      entityPath,
-    }),
-
-    getCalls: function (): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/calls')
-        .then((response) => response.data, errorHandler)
+    update: function update() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook
+        .update(http, getParams(data), data)
+        .then((data) => wrapWebhook(http, data))
     },
-
-    getCall: function (id: string): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/calls/' + id)
-        .then((response) => response.data, errorHandler)
+    delete: function del() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.del(http, getParams(data))
     },
-
-    getHealth: function (): Promise<Record<string, unknown>> {
-      return http
-        .get('webhooks/' + this.sys.id + '/health')
-        .then((response) => response.data, errorHandler)
+    getCalls: function getCalls() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.getManyCallDetails(http, getParams(data))
+    },
+    getCall: function getCall(id: string) {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.getCallDetails(http, { ...getParams(data), callId: id })
+    },
+    getHealth: function getHealth() {
+      const data = this.toPlainObject() as WebhookProps
+      return endpoints.webhook.getHealthStatus(http, getParams(data))
     },
   }
 }

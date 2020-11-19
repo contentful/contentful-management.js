@@ -3,7 +3,6 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { cloneDeep } from 'lodash'
 import {
   DefaultElements,
-  MetaSysProps,
   ISO8601Timestamp,
   BasicCursorPaginationOptions,
   MetaLinkProps,
@@ -11,7 +10,7 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import * as endpoints from '../plain/endpoints'
 
 /**
  * Represents that state of the scheduled action
@@ -29,7 +28,7 @@ enum ScheduledActionStatus {
   canceled = 'canceled',
 }
 
-type SchedulableEntityType = 'Entry'
+type SchedulableEntityType = 'Entry' | 'Asset' | 'Release'
 type SchedulableActionType = 'publish' | 'unpublish'
 
 export type ScheduledActionSysProps = {
@@ -82,10 +81,13 @@ export interface ScheduledAction
 
 export function createDeleteScheduledAction(http: AxiosInstance): () => Promise<ScheduledAction> {
   return function (): Promise<ScheduledAction> {
-    const self = this as ThisContext
-    return http
-      .delete('scheduled_actions/' + self.sys.id)
-      .then((response) => wrapScheduledAction(http, response.data), errorHandler)
+    const data = this.toPlainObject() as ScheduledActionProps
+    return endpoints.scheduledAction
+      .del(http, {
+        spaceId: data.sys.space.sys.id,
+        scheduledActionId: data.sys.id,
+      })
+      .then((data) => wrapScheduledAction(http, data))
   }
 }
 

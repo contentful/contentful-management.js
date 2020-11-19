@@ -1,10 +1,10 @@
 // const TEST_IMAGE_SOURCE_URL =
 //   'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
 
-export function assetReadOnlyTests(t, space) {
+export function assetReadOnlyTests(t, environment) {
   t.test('Gets assets with only images', (t) => {
     t.plan(1)
-    return space
+    return environment
       .getAssets({
         mimetype_group: 'image',
       })
@@ -15,7 +15,7 @@ export function assetReadOnlyTests(t, space) {
 
   t.test('Gets asset', (t) => {
     t.plan(2)
-    return space.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
+    return environment.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
       t.ok(response.sys, 'sys')
       t.ok(response.fields, 'fields')
     })
@@ -23,7 +23,7 @@ export function assetReadOnlyTests(t, space) {
 
   t.test('Gets assets', (t) => {
     t.plan(1)
-    return space.getAssets().then((response) => {
+    return environment.getAssets().then((response) => {
       t.ok(response.items, 'items')
     })
   })

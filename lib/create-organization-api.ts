@@ -1,13 +1,13 @@
 import { AxiosInstance } from 'axios'
-import { get } from 'lodash'
 import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
 import entities from './entities'
-import { TeamMembershipProps } from './entities/team-membership'
-import { TeamProps } from './entities/team'
-import { OrganizationInvitationProps } from './entities/organization-invitation'
+import * as endpoints from './plain/endpoints'
+import { CreateTeamMembershipProps } from './entities/team-membership'
+import { CreateTeamProps } from './entities/team'
+import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
 import { QueryOptions } from './common-types'
-import { AppDefinitionProps } from './entities/app-definition'
+import { CreateAppDefinitionProps } from './entities/app-definition'
+import { OrganizationProp } from './entities/organization'
 
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
@@ -30,8 +30,6 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const { wrapOrganizationInvitation } = entities.organizationInvitation
 
-  const headers = { 'x-contentful-enable-alpha-feature': 'organization-user-management-api' }
-
   return {
     /**
      * Gets a User
@@ -49,7 +47,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getUser(id: string) {
-      return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.user
+        .getForOrganization(http, { organizationId: raw.sys.id, userId: id })
+        .then((data) => wrapUser(http, data))
     },
     /**
      * Gets a collection of Users in organization
@@ -68,9 +69,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getUsers(query: QueryOptions = {}) {
-      return http
-        .get('users', createRequestConfig({ query }))
-        .then((response) => wrapUserCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.user
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapUserCollection(http, data))
     },
     /**
      * Gets an Organization Membership
@@ -89,9 +94,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationMembership(id: string) {
-      return http
-        .get('organization_memberships/' + id)
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      const organizationId = raw.sys.id
+      return endpoints.organizationMembership
+        .get(http, {
+          organizationId,
+          organizationMembershipId: id,
+        })
+        .then((data) => wrapOrganizationMembership(http, data, organizationId))
     },
     /**
      * Gets a collection of Organization Memberships
@@ -110,13 +120,18 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationMemberships(query: QueryOptions = {}) {
-      return http
-        .get('organization_memberships', createRequestConfig({ query }))
-        .then((response) => wrapOrganizationMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      const organizationId = raw.sys.id
+      return endpoints.organizationMembership
+        .getMany(http, {
+          organizationId,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapOrganizationMembershipCollection(http, data, organizationId))
     },
     /**
      * Creates a Team
-     * @param Object representation of the Team to be created
+     * @param data representation of the Team to be created
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
@@ -132,10 +147,12 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createTeam(data: Omit<TeamProps, 'sys'>) {
-      return http
-        .post('teams', data)
-        .then((response) => wrapTeam(http, response.data), errorHandler)
+    createTeam(data: CreateTeamProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.team
+        .create(http, { organizationId: raw.sys.id }, data)
+        .then((data) => wrapTeam(http, data))
     },
     /**
      * Gets an Team
@@ -152,9 +169,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeam(teamId: string) {
-      return http
-        .get('teams/' + teamId)
-        .then((response) => wrapTeam(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.team
+        .get(http, { organizationId: raw.sys.id, teamId })
+        .then((data) => wrapTeam(http, data))
     },
     /**
      * Gets all Teams in an organization
@@ -171,12 +190,18 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeams(query: QueryOptions = {}) {
-      return http
-        .get('teams', createRequestConfig({ query }))
-        .then((response) => wrapTeamCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.team
+        .getMany(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapTeamCollection(http, data))
     },
     /**
      * Creates a Team membership
+     * @param teamId - Id of the team the membership will be created in
      * @param data - Object representation of the Team Membership to be created
      * @return Promise for the newly created TeamMembership
      * @example ```javascript
@@ -194,10 +219,12 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createTeamMembership(teamId: string, data: Omit<TeamMembershipProps, 'sys'>) {
-      return http
-        .post('teams/' + teamId + '/team_memberships', data)
-        .then((response) => wrapTeamMembership(http, response.data), errorHandler)
+    createTeamMembership(teamId: string, data: CreateTeamMembershipProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.teamMembership
+        .create(http, { organizationId: raw.sys.id, teamId }, data)
+        .then((data) => wrapTeamMembership(http, data))
     },
     /**
      * Gets an Team Membership from the team with given teamId
@@ -215,9 +242,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamMembership(teamId: string, teamMembershipId: string) {
-      return http
-        .get('teams/' + teamId + '/team_memberships/' + teamMembershipId)
-        .then((response) => wrapTeamMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.teamMembership
+        .get(http, { organizationId: raw.sys.id, teamId, teamMembershipId })
+        .then((data) => wrapTeamMembership(http, data))
     },
     /**
      * Get all Team Memberships. If teamID is provided in the optional config object, it will return all Team Memberships in that team. By default, returns all team memberships for the organization.
@@ -235,16 +264,27 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
-      const query = get(opts, 'query', {})
-      if (opts.teamId) {
-        return http
-          .get('teams/' + opts.teamId + '/team_memberships', createRequestConfig({ query }))
-          .then((response) => wrapTeamMembershipCollection(http, response.data), errorHandler)
+      const { teamId, query = {} } = opts
+      const raw = this.toPlainObject() as OrganizationProp
+
+      if (teamId) {
+        return endpoints.teamMembership
+          .getManyForTeam(http, {
+            organizationId: raw.sys.id,
+            teamId,
+            query: createRequestConfig({ query }).params,
+          })
+          .then((data) => wrapTeamMembershipCollection(http, data))
       }
-      return http
-        .get('team_memberships', createRequestConfig({ query }))
-        .then((response) => wrapTeamMembershipCollection(http, response.data), errorHandler)
+
+      return endpoints.teamMembership
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapTeamMembershipCollection(http, data))
     },
+
     /**
      * Get all Team Space Memberships. If teamID is provided in the optional config object, it will return all Team Space Memberships in that team. By default, returns all team space memberships across all teams in the organization.
      * @return Promise for a Team Space Membership Collection
@@ -261,15 +301,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamSpaceMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
-      const query = get(opts, 'query', {})
-      if (opts.teamId) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        query['sys.team.sys.id'] = opts.teamId
-      }
-      return http
-        .get('team_space_memberships', createRequestConfig({ query }))
-        .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.teamSpaceMembership
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query: opts.query || {} }).params,
+          teamId: opts.teamId,
+        })
+        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
     },
     /**
      * Get a Team Space Membership with given teamSpaceMembershipId
@@ -287,9 +326,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
-      return http
-        .get('team_space_memberships/' + teamSpaceMembershipId)
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return endpoints.teamSpaceMembership
+        .getForOrganization(http, {
+          organizationId: raw.sys.id,
+          teamSpaceMembershipId,
+        })
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
     /**
      * Gets an Space Membership in Organization
@@ -308,9 +352,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationSpaceMembership(id: string) {
-      return http
-        .get('space_memberships/' + id)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.spaceMembership
+        .getForOrganization(http, {
+          organizationId: raw.sys.id,
+          spaceMembershipId: id,
+        })
+        .then((data) => wrapSpaceMembership(http, data))
     },
     /**
      * Gets a collection Space Memberships in organization
@@ -329,9 +377,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationSpaceMemberships(query: QueryOptions = {}) {
-      return http
-        .get('space_memberships', createRequestConfig({ query }))
-        .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.spaceMembership
+        .getManyForOrganization(http, {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMembershipCollection(http, data))
     },
     /**
      * Gets an Invitation in Organization
@@ -349,11 +401,13 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getOrganizationInvitation(invitationId: string) {
-      return http
-        .get('invitations/' + invitationId, {
-          headers,
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationInvitation
+        .get(http, {
+          organizationId: raw.sys.id,
+          invitationId,
         })
-        .then((response) => wrapOrganizationInvitation(http, response.data), errorHandler)
+        .then((data) => wrapOrganizationInvitation(http, data))
     },
     /**
      * Create an Invitation in Organization
@@ -374,14 +428,17 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createOrganizationInvitation(data: Omit<OrganizationInvitationProps, 'sys'>) {
-      const invitationAlphaHeaders = {
-        'x-contentful-enable-alpha-feature': 'pending-org-membership',
-      }
-
-      return http
-        .post('invitations', data, { headers: invitationAlphaHeaders })
-        .then((response) => wrapOrganizationInvitation(http, response.data), errorHandler)
+    createOrganizationInvitation(data: CreateOrganizationInvitationProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.organizationInvitation
+        .create(
+          http,
+          {
+            organizationId: raw.sys.id,
+          },
+          data
+        )
+        .then((data) => wrapOrganizationInvitation(http, data))
     },
     /**
      * Creates an app definition
@@ -403,10 +460,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * .catch(console.error)
      * ```
      */
-    createAppDefinition(data: Omit<AppDefinitionProps, 'sys'>) {
-      return http
-        .post('app_definitions', data)
-        .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+    createAppDefinition(data: CreateAppDefinitionProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .create(http, { organizationId: raw.sys.id }, data)
+        .then((data) => wrapAppDefinition(http, data))
     },
     /**
      * Gets all app definitions
@@ -424,9 +482,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getAppDefinitions(query: QueryOptions = {}) {
-      return http
-        .get('app_definitions', createRequestConfig({ query }))
-        .then((response) => wrapAppDefinitionCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .getMany(http, { organizationId: raw.sys.id, query: query })
+        .then((data) => wrapAppDefinitionCollection(http, data))
     },
 
     /**
@@ -445,9 +504,10 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      * ```
      */
     getAppDefinition(id: string) {
-      return http
-        .get('app_definitions/' + id)
-        .then((response) => wrapAppDefinition(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationProp
+      return endpoints.appDefinition
+        .get(http, { organizationId: raw.sys.id, appDefinitionId: id })
+        .then((data) => wrapAppDefinition(http, data))
     },
   }
 }

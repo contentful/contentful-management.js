@@ -95,18 +95,19 @@ export type ClientParams = {
   feature?: string
 }
 
+export const defaultHostParameters = {
+  defaultHostname: 'api.contentful.com',
+  defaultHostnameUpload: 'upload.contentful.com',
+}
+
 /**
  * @private
  */
-export function createCMAHttpClient(params: ClientParams) {
-  const defaultParameters = {
-    defaultHostname: 'api.contentful.com',
-    defaultHostnameUpload: 'upload.contentful.com',
-  }
-
+export function createCMAHttpClient(params: ClientParams, plainClient = false) {
+  const sdkMain = plainClient ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgentHeader = getUserAgentHeader(
     // @ts-expect-error
-    `contentful-management.js/${__VERSION__}`,
+    `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
     params.feature
@@ -118,7 +119,7 @@ export function createCMAHttpClient(params: ClientParams) {
   }
 
   params = {
-    ...defaultParameters,
+    ...defaultHostParameters,
     ...cloneDeep(params),
   }
 

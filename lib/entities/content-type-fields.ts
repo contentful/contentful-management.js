@@ -46,4 +46,5 @@ export interface ContentFields extends Item {
   disabled?: boolean
   omitted?: boolean
   items?: Item
+  apiName?: string
 }

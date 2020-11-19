@@ -1,21 +1,25 @@
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
-import errorHandler from '../error-handler'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
+import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import { Except } from 'type-fest'
 
 export type AppInstallationProps = {
-  sys: MetaSysProps & {
-    appDefinition: { sys: MetaLinkProps }
+  sys: BasicMetaSysProps & {
+    appDefinition: SysLink
+    environment: SysLink
+    space: SysLink
   }
   /** App Installation specific configuration variables */
   parameters: {
     [key: string]: string
   }
 }
+
+export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
 export interface AppInstallation
   extends AppInstallationProps,
@@ -64,22 +68,23 @@ export interface AppInstallation
 }
 
 function createAppInstallationApi(http: AxiosInstance) {
+  const getParams = (data: AppInstallationProps) => ({
+    spaceId: data.sys.space.sys.id,
+    environmentId: data.sys.environment.sys.id,
+    appDefinitionId: data.sys.appDefinition.sys.id,
+  })
+
   return {
-    update: function () {
-      const self = this as AppInstallation
-      const raw = self.toPlainObject()
-      const data = cloneDeep(raw)
-      delete data.sys
-      return http
-        .put(`app_installations/${self.sys.appDefinition.sys.id}`, data)
-        .then((response) => wrapAppInstallation(http, response.data), errorHandler)
+    update: function update() {
+      const data = this.toPlainObject() as AppInstallationProps
+      return endpoints.appInstallation
+        .upsert(http, getParams(data), data)
+        .then((data) => wrapAppInstallation(http, data))
     },
 
-    delete: function () {
-      const raw = this.toPlainObject() as AppInstallation
-      return http.delete(`app_installations/${raw.sys.appDefinition.sys.id}`).then(() => {
-        // do nothing
-      }, errorHandler)
+    delete: function del() {
+      const data = this.toPlainObject() as AppInstallationProps
+      return endpoints.appInstallation.del(http, getParams(data))
     },
   }
 }

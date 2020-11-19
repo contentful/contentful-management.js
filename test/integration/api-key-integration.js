@@ -1,6 +1,6 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
-export default function apiKeyTests(t, space) {
+export function apiKeyTests(t, space) {
   t.test('Gets apiKeys', (t) => {
     t.plan(2)
     return space.getApiKeys().then((response) => {

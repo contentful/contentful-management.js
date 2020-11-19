@@ -1,12 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
 import { AxiosInstance } from 'axios'
 import { wrapCollection } from '../common-utils'
-
-const entityPath = 'app_definitions'
+import { SetOptional, Except } from 'type-fest'
+import * as endpoints from '../plain/endpoints'
 
 type Field =
   | 'Symbol'
@@ -36,27 +35,36 @@ interface ArrayFieldType {
   items: SingleFieldType | LinkFieldType
 }
 
-type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
-
-// Locations
-type AppLocation = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
-
-interface SingleLocationDefinition {
-  location: AppLocation
+interface NavigationItem {
+  name: string
+  path: string
 }
 
-interface EntryFieldLocationDefinition {
+type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
+
+type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
+
+interface SimpleLocation {
+  location: LocationType
+}
+
+interface EntryFieldLocation {
   location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
-type LocationDefinition = SingleLocationDefinition | EntryFieldLocationDefinition
+interface PageLocation {
+  location: 'page'
+  navigationItem?: NavigationItem
+}
+
+export type AppLocation = SimpleLocation | EntryFieldLocation | PageLocation
 
 export type AppDefinitionProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { organization: SysLink }
   /**
    * App name
    */
@@ -68,8 +76,13 @@ export type AppDefinitionProps = {
   /**
    * Locations where the app can be installed
    */
-  locations: LocationDefinition[]
+  locations: AppLocation[]
 }
+
+export type CreateAppDefinitionProps = SetOptional<
+  Except<AppDefinitionProps, 'sys'>,
+  'src' | 'locations'
+>
 
 export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
   /**
@@ -114,17 +127,23 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
 }
 
 function createAppDefinitionApi(http: AxiosInstance) {
-  return {
-    update: createUpdateEntity({
-      http,
-      entityPath,
-      wrapperMethod: wrapAppDefinition,
-    }),
+  const getParams = (data: AppDefinitionProps) => ({
+    appDefinitionId: data.sys.id,
+    organizationId: data.sys.organization.sys.id,
+  })
 
-    delete: createDeleteEntity({
-      http,
-      entityPath,
-    }),
+  return {
+    update: function update() {
+      const data = this.toPlainObject() as AppDefinitionProps
+      return endpoints.appDefinition
+        .update(http, getParams(data), data)
+        .then((data) => wrapAppDefinition(http, data))
+    },
+
+    delete: function del() {
+      const data = this.toPlainObject() as AppDefinitionProps
+      return endpoints.appDefinition.del(http, getParams(data))
+    },
   }
 }
 
