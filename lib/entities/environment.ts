@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, MetaSysProps } from '../common-types'
+import { DefaultElements, SysLink, BasicMetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
 type SdkHttpClient = AxiosInstance & {
@@ -11,18 +11,25 @@ type SdkHttpClient = AxiosInstance & {
   cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
 }
 
+type EnvironmentMetaSys = BasicMetaSysProps & {
+  status: SysLink
+  space: SysLink
+  aliases?: Array<SysLink>
+  aliasedEnvironment?: SysLink
+}
+
 export type EnvironmentProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & {
-    space: { sys: MetaLinkProps }
-  }
+  sys: EnvironmentMetaSys
   /**
    * Name of the environmant
    */
   name: string
 }
+
+export type CreateEnvironmentProps = Partial<Omit<EnvironmentProps, 'sys'>>
 
 export type Environment = ContentfulEnvironmentAPI &
   EnvironmentProps &
@@ -43,15 +50,11 @@ export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): En
   const sdkHttp = http as SdkHttpClient
   const environment = toPlainObject(cloneDeep(data))
   const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
-  const environmentScopedHttpClient = sdkHttp.cloneWithNewParams({
-    baseURL: http.defaults.baseURL + 'environments/' + environment.sys.id,
-  })
   const environmentScopedUploadClient = sdkHttp.cloneWithNewParams({
-    space: environment.sys.space.sys.id,
     host: hostUpload || defaultHostnameUpload,
   })
   const environmentApi = createEnvironmentApi({
-    http: environmentScopedHttpClient,
+    http,
     httpUpload: environmentScopedUploadClient,
   })
   const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)

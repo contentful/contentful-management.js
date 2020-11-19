@@ -4,7 +4,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { BasicMetaSysProps, DefaultElements } from '../common-types'
 
 type SdkHttpClient = AxiosInstance & {
   httpClientParams: Record<string, any>
@@ -12,7 +12,7 @@ type SdkHttpClient = AxiosInstance & {
 }
 
 export type SpaceProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { organization: { sys: { id: string } } }
   name: string
 }
 
@@ -29,20 +29,9 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @return {Space}
  */
 export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
-  const sdkHttp = (http as unknown) as SdkHttpClient
-
   const space = toPlainObject(cloneDeep(data))
-  const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
-  const spaceScopedHttpClient = sdkHttp.cloneWithNewParams({
-    space: space.sys.id,
-  })
-  const spaceScopedUploadClient = sdkHttp.cloneWithNewParams({
-    space: space.sys.id,
-    host: hostUpload || defaultHostnameUpload,
-  })
   const spaceApi = createSpaceApi({
-    http: spaceScopedHttpClient,
-    httpUpload: spaceScopedUploadClient,
+    http,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)

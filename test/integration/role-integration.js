@@ -1,4 +1,4 @@
-import generateRandomId from './generate-random-id'
+import { generateRandomId } from './generate-random-id'
 
 const roleDefinition = {
   name: 'Content Editor',
@@ -18,7 +18,7 @@ const roleDefinition = {
   permissions: { ContentModel: ['read'], Settings: [], ContentDelivery: [] },
 }
 
-export default function roleTests(t, space) {
+export function roleTests(t, space) {
   t.test('Gets roles', (t) => {
     t.plan(3)
     return space.getRoles().then((response) => {

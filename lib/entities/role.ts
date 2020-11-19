@@ -3,8 +3,8 @@ import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
+import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 
 export type ActionType =
   | 'read'
@@ -22,7 +22,7 @@ export type ConstraintType = {
 }
 
 export type RoleProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & { space: SysLink }
   name: string
   description?: string
   /**
@@ -41,6 +41,8 @@ export type RoleProps = {
     constraint: ConstraintType
   }[]
 }
+
+export type CreateRoleProps = Omit<RoleProps, 'sys'>
 
 export interface Role extends RoleProps, DefaultElements<RoleProps> {
   /**
@@ -87,17 +89,20 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
 }
 
 function createRoleApi(http: AxiosInstance) {
-  return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'roles',
-      wrapperMethod: wrapRole,
-    }),
+  const getParams = (data: RoleProps) => ({
+    spaceId: data.sys.space.sys.id,
+    roleId: data.sys.id,
+  })
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'roles',
-    }),
+  return {
+    update: function update() {
+      const data = this.toPlainObject() as RoleProps
+      return endpoints.role.update(http, getParams(data), data).then((data) => wrapRole(http, data))
+    },
+    delete: function del() {
+      const data = this.toPlainObject() as RoleProps
+      return endpoints.role.del(http, getParams(data))
+    },
   }
 }
 

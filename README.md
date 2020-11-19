@@ -109,7 +109,7 @@ You can use the es6 import with the SDK as follow
 ```js
 // import createClient directly
 import { createClient } from 'contentful-management'
-var client = createClient({
+const client = createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -121,7 +121,7 @@ OR
 ```js
 // import everything from contentful
 import * as contentful from 'contentful-management'
-var client = contentful.createClient({
+const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -133,31 +133,94 @@ var client = contentful.createClient({
 The following code snippet is the most basic one you can use to get content from Contentful with this SDK:
 
 ```js
-var contentful = require('contentful-management')
-var client = contentful.createClient({
+const contentful = require('contentful-management')
+const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
 
 // This API call will request a space with the specified ID
 client.getSpace('spaceId').then((space) => {
-  // Now that we have a space, we can get entries from that space
-  space.getEntries().then((entries) => {
-    console.log(entries.items)
-  })
+  // This API call will request an environment with the specified ID
+  space.getEnvironment('master').then((environment) => {
+    // Now that we have an environment, we can get entries from that space
+    environment.getEntries().then((entries) => {
+      console.log(entries.items)
+    })
 
-  // let's get a content type
-  space.getContentType('product').then((contentType) => {
-    // and now let's update its name
-    contentType.name = 'New Product'
-    contentType.update().then((updatedContentType) => {
-      console.log('Update was successful')
+    // let's get a content type
+    environment.getContentType('product').then((contentType) => {
+      // and now let's update its name
+      contentType.name = 'New Product'
+      contentType.update().then((updatedContentType) => {
+        console.log('Update was successful')
+      })
     })
   })
 })
 ```
 
 You can try and change the above example at [Tonic](https://tonicdev.com/npm/contentful-management).
+
+### Alternative plain API
+
+Starting `contentful-management@7` this library provides an alternative plain SDK which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
+
+```javascript
+const contentful = require('contentful-management')
+const plainClient = contentful.createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'plain' }
+)
+
+const environment = await plainClient.environment.get({
+  spaceId: '<space_id>',
+  environmentId: '<environment_id>',
+})
+
+const entries = await plainClient.entry.getMany({
+  spaceId: '123',
+  environmentId: '',
+  query: {
+    skip: 10,
+    limit: 100,
+  },
+})
+
+// With scoped space and environment
+const scopedPlainClient = contentful.createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  {
+    type: 'plain',
+    defaults: {
+      spaceId: '<space_id>',
+      environmentId: '<environment_id>',
+    },
+  }
+)
+
+// entries from '<space_id>' & '<environment_id>'
+const entries = await scopedPlainClient.entry.getMany({
+  query: {
+    skip: 10,
+    limit: 100,
+  },
+})
+```
+
+The benefits of using the plain version of SDK are:
+
+- The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
+  - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
+- All returned objects are simple Javascript objects without any wrappers. They can be easily serialized without an additional `toPlainObject` function call.
+- The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
+  - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
 ## Troubleshooting
 

@@ -1,29 +1,26 @@
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { cloneDeep } from 'lodash'
-import { DefaultElements, MetaSysProps } from '../common-types'
-import { VersionHeader, wrapCollection } from '../common-utils'
+import { DefaultElements, MetaSysProps, SysLink } from '../common-types'
+import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
+import * as endpoints from '../plain/endpoints'
 
 export type TagSysProps = Pick<
   MetaSysProps,
-  'id' | 'space' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
+  'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Tag'
-  environment: {
-    sys: {
-      id: string
-      type: 'Link'
-      linkType: 'Environment'
-    }
-  }
+  space: SysLink
+  environment: SysLink
 }
 
 export type TagProps = {
   sys: TagSysProps
   name: string
 }
+
+export type CreateTagProps = Omit<TagProps, 'sys'>
 
 export type TagCollectionProps = {
   sys: {
@@ -38,8 +35,6 @@ export interface TagCollection {
   total: number
 }
 
-type ThisContext = TagProps & DefaultElements<TagProps>
-
 type TagApi = {
   update(): Promise<Tag>
   delete(): Promise<void>
@@ -47,40 +42,27 @@ type TagApi = {
 
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
-export function createDeleteTag(http: AxiosInstance): () => Promise<void> {
-  return function (): Promise<void> {
-    const self = this as ThisContext
-    return (
-      http
-        .delete('tags/' + self.sys.id, VersionHeader(self.sys.version))
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .then(() => {}, errorHandler)
-    )
-  }
-}
-
-export function createUpdateTag(http: AxiosInstance): () => Promise<Tag> {
-  return function (): Promise<Tag> {
-    const self = this as ThisContext
-    return http
-      .put(
-        'tags/' + self.sys.id,
-        {
-          name: self.name,
-          sys: {
-            id: self.sys.id,
-          },
-        },
-        VersionHeader(self.sys.version)
-      )
-      .then((response) => wrapTag(http, response.data), errorHandler)
-  }
-}
-
 export default function createTagApi(http: AxiosInstance): TagApi {
+  const getParams = (tag: TagProps) => ({
+    spaceId: tag.sys.space.sys.id,
+    environmentId: tag.sys.environment.sys.id,
+    tagId: tag.sys.id,
+  })
+
   return {
-    update: createUpdateTag(http),
-    delete: createDeleteTag(http),
+    update: function () {
+      const raw = this.toPlainObject() as TagProps
+
+      return endpoints.tag.update(http, getParams(raw), raw).then((data) => wrapTag(http, data))
+    },
+
+    delete: function () {
+      const raw = this.toPlainObject() as TagProps
+
+      return endpoints.tag.del(http, getParams(raw), raw.sys.version).then(() => {
+        // noop
+      })
+    },
   }
 }
 

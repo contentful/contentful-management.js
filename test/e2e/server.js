@@ -52,30 +52,32 @@ app.get('/test.js', function (req, res) {
     .then(function (space) {
       updateStatus('Creating content type')
 
-      return space.createContentType({
-        name: 'testentity',
-        fields: [
-          {
-            id: 'title', name: 'Title', type: 'Text'
-          }
-        ]
+      return space.getEnvironment('master').then(environment => {
+        return environment.createContentType({
+          name: 'testentity',
+          fields: [
+            {
+              id: 'title', name: 'Title', type: 'Text'
+            }
+          ]
+        })
+          .then(function (contentType) {
+            updateStatus('Publishing content type')
+            return contentType.publish()
+          })
+          .then(function (contentType) {
+            updateStatus('Creating test entry')
+            return environment.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
+          })
+          .then(function () {
+            updateStatus('Deleting space')
+            space.delete()
+          })
+          .catch(function (err) {
+            return space.delete()
+              .then(function () { throw err })
+          })
       })
-        .then(function (contentType) {
-          updateStatus('Publishing content type')
-          return contentType.publish()
-        })
-        .then(function (contentType) {
-          updateStatus('Creating test entry')
-          return space.createEntry(contentType.sys.id, {fields: {title: {'en-US': 'this is the title'}}})
-        })
-        .then(function () {
-          updateStatus('Deleting space')
-          space.delete()
-        })
-        .catch(function (err) {
-          return space.delete()
-            .then(function () { throw err })
-        })
     })
     .then(function () {
       updateStatus('Success')

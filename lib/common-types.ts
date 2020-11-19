@@ -1,5 +1,3 @@
-import { TagProps } from './entities/tag'
-
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -18,18 +16,50 @@ export interface Link<T extends string> {
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
 export type ISO8601Timestamp = string
 
-export interface MetaSysProps {
+export interface PaginationQueryOptions {
+  skip?: number
+  limit?: number
+  order?: string
+}
+
+export interface QueryOptions extends PaginationQueryOptions {
+  content_type?: string
+  include?: number
+  select?: string
+  links_to_entry?: string
+  [key: string]: any
+}
+
+export interface BasicMetaSysProps {
   type: string
   id: string
-  space?: { sys: MetaLinkProps }
-  status?: { sys: MetaLinkProps }
   version: number
-  createdBy?: { sys: MetaLinkProps }
+  createdBy?: SysLink
   createdAt: string
-  updatedBy?: { sys: MetaLinkProps }
+  updatedBy?: SysLink
   updatedAt: string
+}
+
+export interface MetaSysProps extends BasicMetaSysProps {
+  space?: SysLink
+  status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
+  archivedBy?: SysLink
+  archivedAt?: string
+  deletedVersion?: number
+  deletedBy?: SysLink
+  deletedAt?: string
+}
+
+export interface EntityMetaSysProps extends MetaSysProps {
+  space: SysLink
+  contentType: SysLink
+  environment: SysLink
+  publishedBy?: SysLink
+  publishedAt?: string
+  firstPublishedAt?: string
+  publishedCounter?: number
 }
 
 export interface MetaLinkProps {
@@ -39,7 +69,11 @@ export interface MetaLinkProps {
 }
 
 export interface MetadataProps {
-  tags: TagProps[]
+  tags: Link<'Tag'>[]
+}
+
+export interface SysLink {
+  sys: MetaLinkProps
 }
 
 export interface CollectionProp<TObj> {
@@ -60,13 +94,12 @@ export interface Collection<T, TPlain>
 export interface QueryOptions extends BasicQueryOptions {
   content_type?: string
   include?: number
+  select?: string
 }
 
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
-  order?: string
-
   [key: string]: any
 }
 
@@ -74,3 +107,5 @@ export interface BasicCursorPaginationOptions {
   prev?: string
   next?: string
 }
+
+export type KeyValueMap = Record<string, any>

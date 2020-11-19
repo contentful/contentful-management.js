@@ -1,4 +1,4 @@
-export default function organizationSpaceMembershipTests(t, organization) {
+export function organizationSpaceMembershipTests(t, organization) {
   t.test('Gets organizationSpaceMemberships', (t) => {
     t.plan(2)
     return organization.getOrganizationSpaceMemberships().then((response) => {
