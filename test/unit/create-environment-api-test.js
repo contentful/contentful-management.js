@@ -8,14 +8,14 @@ import {
   cloneMock,
   contentTypeMock,
   editorInterfaceMock,
-  entryMock,
+  entryMock, environmentMock,
   localeMock,
   mockCollection,
   setupEntitiesMock,
   snapShotMock,
   uiExtensionMock,
-  uploadMock,
-} from './mocks/entities'
+  uploadMock
+} from "./mocks/entities";
 import setupHttpMock from './mocks/http'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
@@ -36,10 +36,8 @@ function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
-  const api = createEnvironmentApi({
-    http: httpMock,
-    httpUpload: httpUploadMock,
-  })
+  const api = createEnvironmentApi({ http: httpMock, httpUpload: httpUploadMock })
+  api.toPlainObject = () => environmentMock
   return {
     api,
     httpMock,
@@ -68,22 +66,16 @@ describe('A createEnvironmentApi', () => {
 
   test('API call environment update', async () => {
     const responseData = {
-      sys: {
-        id: 'id',
-        type: 'Environment',
-      },
+      sys: { id: 'id', type: 'Environment', space: { sys: { id: 'spaceId' } } },
       name: 'updatedname',
     }
     let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
     entitiesMock.environment.wrapEnvironment.returns(responseData)
 
     // mocks data that would exist in a environment object already retrieved from the server
-    api.sys = {
-      id: 'id',
-      type: 'Environment',
-      version: 2,
-    }
+    api.sys = { id: 'id', type: 'Environment', version: 2, space: { sys: { id: 'spaceId' } } }
     api = toPlainObject(api)
+
     api.name = 'updatedname'
 
     return api.update().then((r) => {
@@ -101,11 +93,7 @@ describe('A createEnvironmentApi', () => {
     let { api } = setup(Promise.reject(error))
 
     // mocks data that would exist in a environment object already retrieved from the server
-    api.sys = {
-      id: 'id',
-      type: 'Space',
-      version: 2,
-    }
+    api.sys = { id: 'id', type: 'Space', version: 2, space: { sys: { id: 'spaceId' } } }
     api = toPlainObject(api)
 
     return api.update().catch((r) => {
@@ -159,7 +147,7 @@ describe('A createEnvironmentApi', () => {
       entityType: 'contentType',
       mockToReturn: contentTypeMock,
       methodToTest: 'createContentTypeWithId',
-      entityPath: 'content_types',
+      entityPath: '/spaces/id/environments/id/content_types',
     })
   })
 
@@ -240,9 +228,9 @@ describe('A createEnvironmentApi', () => {
     entitiesMock.entry.wrapEntry.returns(entryMock)
 
     return api.createEntry('contentTypeId', entryMock).then((r) => {
-      expect(r).equals(entryMock)
-      expect(httpMock.post.args[0][1]).equals(entryMock, 'data is sent')
-      expect(httpMock.post.args[0][2].headers['X-Contentful-Content-Type']).equals(
+      expect(r).to.eql(entryMock)
+      expect(httpMock.post.args[0][1]).to.eql(entryMock, 'data is sent')
+      expect(httpMock.post.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
         'contentTypeId',
         'content type is specified'
       )
@@ -260,10 +248,10 @@ describe('A createEnvironmentApi', () => {
     entitiesMock.entry.wrapEntry.returns(entryMock)
 
     return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
-      expect(r).eql(entryMock)
-      expect(httpMock.put.args[0][0]).equals('entries/entryId', 'entry id is sent')
-      expect(httpMock.put.args[0][1]).equals(entryMock, 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).equals(
+      expect(r).to.eql(entryMock)
+      expect(httpMock.put.args[0][0]).to.eql('/spaces/id/environments/id/entries/entryId', 'entry id is sent')
+      expect(httpMock.put.args[0][1]).to.eql(entryMock, 'data is sent')
+      expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
         'contentTypeId',
         'content type is specified'
       )
@@ -344,7 +332,7 @@ describe('A createEnvironmentApi', () => {
       entityType: 'asset',
       mockToReturn: assetMock,
       methodToTest: 'createAssetWithId',
-      entityPath: 'assets',
+      entityPath: '/spaces/id/environments/id/assets',
     })
   })
 
@@ -491,7 +479,7 @@ describe('A createEnvironmentApi', () => {
   })
 
   /*
-  I can't see how this ever passed?
+  TODO: I can't see how this ever passed?
    */
   test.skip('API call createAssetFromFiles with invalid data', async () => {
     const { api } = setup(Promise.resolve({}))
@@ -625,7 +613,7 @@ describe('A createEnvironmentApi', () => {
       entityType: 'uiExtension',
       mockToReturn: uiExtensionMock,
       methodToTest: 'createUiExtensionWithId',
-      entityPath: 'extensions',
+      entityPath: '/spaces/id/environments/id/extensions',
     })
   })
 

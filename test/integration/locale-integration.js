@@ -1,14 +1,17 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
+import { client, createTestEnvironment, createTestSpace } from "../helpers";
 import { expect } from 'chai'
 
+// check
 describe('Locale Api', function () {
   this.timeout(60000)
 
   let space
+  let environment
 
   before(async () => {
     space = await createTestSpace(client(), 'Locale')
+    environment = await createTestEnvironment(space, 'Test')
   })
 
   after(async () => {
@@ -16,14 +19,14 @@ describe('Locale Api', function () {
   })
 
   test('Gets locales', async () => {
-    return space.getLocales().then((response) => {
+    return environment.getLocales().then((response) => {
       expect(response.items[0].name).equals('English (United States)')
       expect(response.items[0].code).equals('en-US')
     })
   })
 
   test('Creates, gets, updates and deletes a locale', async () => {
-    return space
+    return environment
       .createLocale({
         name: 'German (Austria)',
         code: 'de-AT',
@@ -33,7 +36,7 @@ describe('Locale Api', function () {
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(
-              space.getLocale(response.sys.id).then((locale) => {
+              environment.getLocale(response.sys.id).then((locale) => {
                 expect(locale.code).equals('de-AT', 'locale code after getting')
                 locale.name = 'Deutsch (Österreich)'
                 locale.fallbackCode = 'en-US'

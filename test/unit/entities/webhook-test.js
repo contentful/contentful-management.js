@@ -62,7 +62,7 @@ describe('Entity Webhook', () => {
     const { httpMock, entityMock } = setup()
     const entity = wrapWebhook(httpMock, entityMock)
     return entity.getCalls().then(() => {
-      expect(httpMock.get.args[0][0]).equals('webhooks/id/calls', 'id is sent')
+      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/calls', 'id is sent')
     })
   })
 
@@ -70,7 +70,7 @@ describe('Entity Webhook', () => {
     const { httpMock, entityMock } = setup()
     const entity = wrapWebhook(httpMock, entityMock)
     return entity.getCall('callid').then(() => {
-      expect(httpMock.get.args[0][0]).equals('webhooks/id/calls/callid', 'id is sent')
+      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/calls/callid', 'id is sent')
     })
   })
 
@@ -78,7 +78,7 @@ describe('Entity Webhook', () => {
     const { httpMock, entityMock } = setup()
     const entity = wrapWebhook(httpMock, entityMock)
     return entity.getHealth().then(() => {
-      expect(httpMock.get.args[0][0]).equals('webhooks/id/health', 'id is sent')
+      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/health', 'id is sent')
     })
   })
 })

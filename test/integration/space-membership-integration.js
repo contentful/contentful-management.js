@@ -4,7 +4,9 @@ import { client, generateRandomId } from '../helpers'
 import { before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
-describe('SpaceMembers Api', () => {
+describe('SpaceMembers Api', function () {
+  this.timeout(60000);
+
   let space
   let organization
 

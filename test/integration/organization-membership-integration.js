@@ -26,5 +26,3 @@ describe('OrganizationMembership Api', function () {
     })
   })
 })
-
-export default function organizationMembershipTests(t, organization) {}

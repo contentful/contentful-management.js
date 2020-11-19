@@ -1,13 +1,15 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
+import { client, createTestEnvironment, createTestSpace } from "../helpers";
 import { expect } from 'chai'
 
 describe('Extension api', function () {
   this.timeout(60000)
   let space
+  let environment
 
   before(async () => {
     space = await createTestSpace(client(), 'TSM')
+    environment = await createTestEnvironment(space, 'Test')
   })
 
   after(async () => {
@@ -15,7 +17,7 @@ describe('Extension api', function () {
   })
 
   test('Create, update, get, get all and delete UI Extension', async () => {
-    return space
+    return environment
       .createUiExtension({
         extension: {
           name: 'My awesome extension',
@@ -33,11 +35,11 @@ describe('Extension api', function () {
       .then((uiExtension) => {
         expect(uiExtension.extension.name).equals('New name', 'name')
 
-        return space.getUiExtension(uiExtension.sys.id).then((response) => {
+        return environment.getUiExtension(uiExtension.sys.id).then((response) => {
           expect(response.sys.id).equals(uiExtension.sys.id, 'id')
           expect(response.extension.name).equals('New name', 'name')
 
-          return space
+          return environment
             .getUiExtensions()
             .then((result) => {
               expect(result.items.length).equals(
@@ -51,7 +53,7 @@ describe('Extension api', function () {
   })
 
   test('Create and delete UI Extension hosted by Contentful', async () => {
-    return space
+    return environment
       .createUiExtension({
         extension: {
           name: 'My awesome extension hosted at Contentful',
@@ -76,7 +78,7 @@ describe('Extension api', function () {
   })
 
   test('Create UI extension with ID', () => {
-    return space
+    return environment
       .createUiExtensionWithId('awesome-extension', {
         extension: {
           name: 'Awesome extension!',

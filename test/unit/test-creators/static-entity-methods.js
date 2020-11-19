@@ -42,7 +42,7 @@ export async function makeCreateEntityTest(setup, { entityType, mockToReturn, me
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
   return api[methodToTest](mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(httpMock.post.args[0][1]).equals(mockToReturn)
+    expect(httpMock.post.args[0][1]).to.eql(mockToReturn)
   })
 }
 

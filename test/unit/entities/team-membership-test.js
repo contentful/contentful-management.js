@@ -40,7 +40,7 @@ describe('Entity TeamMembership', () => {
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.args[0][0]).equals(
-        `teams/team1/team_memberships/${entityMock.sys.id}`,
+        `/organizations/org-id/teams/team1/team_memberships/${entityMock.sys.id}`,
         'url is correct'
       )
       expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
@@ -73,7 +73,7 @@ describe('Entity TeamMembership', () => {
     const entity = wrapTeamMembership(httpMock, entityMock)
     return entity.delete().then((response) => {
       expect(httpMock.delete.args[0][0]).equals(
-        `teams/team1/team_memberships/${entityMock.sys.id}`,
+        `/organizations/org-id/teams/team1/team_memberships/${entityMock.sys.id}`,
         'url is correct'
       )
       return {

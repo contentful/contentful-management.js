@@ -24,7 +24,9 @@ const roleDefinition = {
   },
 }
 
-describe('Role Api', () => {
+describe('Role Api', function ()  {
+  this.timeout(60000);
+
   let space
 
   before(async () => {

@@ -35,12 +35,12 @@ describe('Entity OrganizationMembership', () => {
   test('OrganizationMembership update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
-    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
+    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
     entity.role = 'member'
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.args[0][0]).equals(
-        `organization_memberships/${entityMock.sys.id}`,
+        `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
         'url is correct'
       )
       expect(httpMock.put.args[0][1]).eql({ role: 'member' }, 'data is sent')
@@ -66,10 +66,10 @@ describe('Entity OrganizationMembership', () => {
   test('OrganizationMembership delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
-    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org1')
+    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
     return entity.delete().then((response) => {
       expect(httpMock.delete.args[0][0]).equals(
-        `organization_memberships/${entityMock.sys.id}`,
+        `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
         'url is correct'
       )
       return {

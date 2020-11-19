@@ -28,14 +28,6 @@ describe('Entity Environment', () => {
   test('Environment is wrapped', async () => {
     const wrappedEnvironment = wrapEnvironment(httpMock, environmentMock)
     expect(wrappedEnvironment.toPlainObject()).eql(environmentMock)
-    expect(httpMock.cloneWithNewParams.args[0][0].baseURL).equals(
-      'http://foo.bar/environments/id',
-      'adjust the baseURL to match environments'
-    )
-    expect(httpMock.cloneWithNewParams.args[1][0].space).equals(
-      'id',
-      'adjust the baseURL to match environments'
-    )
   })
 
   test('Environment collection is wrapped', async () => {
