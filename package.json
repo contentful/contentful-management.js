@@ -54,6 +54,7 @@
   },
   "files": [
     "dist",
+    "types.d.ts",
     "tonic-example.js"
   ],
   "dependencies": {
