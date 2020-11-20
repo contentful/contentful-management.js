@@ -1,19 +1,19 @@
-export interface NumRange {
+interface NumRange {
   min?: number
   max?: number
 }
 
-export interface DateRange {
+interface DateRange {
   min?: string
   max?: string
 }
 
-export interface RegExp {
+interface RegExp {
   pattern: string
   flags: string
 }
 
-export interface Validation {
+export interface ContentFieldValidation {
   linkContentType?: string[]
   in?: string[]
   linkMimetypeGroup?: string[]
@@ -32,10 +32,10 @@ export interface Validation {
   assetFileSize?: NumRange
 }
 
-export interface Item {
+interface Item {
   type: string
   linkType?: string
-  validations?: Validation[]
+  validations?: ContentFieldValidation[]
 }
 
 export interface ContentFields extends Item {
