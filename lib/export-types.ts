@@ -14,7 +14,7 @@ export type {
 } from './entities/app-installation'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-export type { ContentFields, ContentFieldValidation } from './entities/content-type-fields'
+export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
   EditorInterface,
   Editor,
