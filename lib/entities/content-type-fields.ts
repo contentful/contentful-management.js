@@ -13,7 +13,7 @@ interface RegExp {
   flags: string
 }
 
-export interface ContentFieldValidation {
+export interface ContentTypeFieldValidation {
   linkContentType?: string[]
   in?: string[]
   linkMimetypeGroup?: string[]
@@ -35,7 +35,7 @@ export interface ContentFieldValidation {
 interface Item {
   type: string
   linkType?: string
-  validations?: ContentFieldValidation[]
+  validations?: ContentTypeFieldValidation[]
 }
 
 export interface ContentFields extends Item {
