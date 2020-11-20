@@ -17,6 +17,8 @@ export type { ClientAPI } from './create-contentful-api'
 export type { ClientParams } from './create-cma-http-client'
 export type PlainClientDefaultParams = DefaultParams
 
+export * from './entities/entity-types'
+
 /**
  * Create a client instance
  * @param params - Client initialization parameters
