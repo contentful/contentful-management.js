@@ -27,7 +27,7 @@ If it fixes an open issue, please link to the issue here.
 
 When adding a new method:
 
-- [ ] The new method is exported both thought default and plain CMA clients
+- [ ] The new method is exported through the default and plain CMA client
 - [ ] All new public types are exported from `./lib/export-types.ts`
 - [ ] Added a unit for the new method
 - [ ] Added an integration test for the new method
