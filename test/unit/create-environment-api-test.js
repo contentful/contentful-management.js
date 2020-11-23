@@ -6,11 +6,12 @@ import createEnvironmentApi, {
 } from '../../lib/create-environment-api'
 import {
   appInstallationMock,
+  contentTypeMock,
+  environmentMock,
+  editorInterfaceMock,
   assetMock,
   assetWithFilesMock,
   cloneMock,
-  contentTypeMock,
-  editorInterfaceMock,
   entryMock,
   localeMock,
   mockCollection,
@@ -36,10 +37,8 @@ function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
   const httpMock = setupHttpMock(promise)
   const httpUploadMock = setupHttpMock(promise)
-  const api = createEnvironmentApi({
-    http: httpMock,
-    httpUpload: httpUploadMock,
-  })
+  const api = createEnvironmentApi({ http: httpMock, httpUpload: httpUploadMock })
+  api.toPlainObject = () => environmentMock
   return {
     api,
     httpMock,
@@ -76,21 +75,14 @@ test('API call environment delete fails', (t) => {
 test('API call environment update', (t) => {
   t.plan(3)
   const responseData = {
-    sys: {
-      id: 'id',
-      type: 'Environment',
-    },
+    sys: { id: 'id', type: 'Environment', space: { sys: { id: 'spaceId' } } },
     name: 'updatedname',
   }
   let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
   entitiesMock.environment.wrapEnvironment.returns(responseData)
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = {
-    id: 'id',
-    type: 'Environment',
-    version: 2,
-  }
+  api.sys = { id: 'id', type: 'Environment', version: 2, space: { sys: { id: 'spaceId' } } }
   api = toPlainObject(api)
 
   api.name = 'updatedname'
@@ -108,11 +100,7 @@ test('API call environment update fails', (t) => {
   let { api } = setup(Promise.reject(error))
 
   // mocks data that would exist in a environment object already retrieved from the server
-  api.sys = {
-    id: 'id',
-    type: 'Space',
-    version: 2,
-  }
+  api.sys = { id: 'id', type: 'Space', version: 2, space: { sys: { id: 'spaceId' } } }
   api = toPlainObject(api)
 
   return api.update().catch((r) => {
@@ -168,13 +156,27 @@ test('API call createContentTypeWithId', (t) => {
     entityType: 'contentType',
     mockToReturn: contentTypeMock,
     methodToTest: 'createContentTypeWithId',
-    entityPath: 'content_types',
+    entityPath: '/spaces/id/environments/id/content_types',
   })
 })
 
 test('API call createContentTypeWithId fails', (t) => {
   makeEntityMethodFailingTest(t, setup, teardown, {
     methodToTest: 'createContentTypeWithId',
+  })
+})
+
+test('API call getEditorInterfaces', (t) => {
+  makeGetCollectionTest(t, setup, teardown, {
+    entityType: 'editorInterface',
+    mockToReturn: editorInterfaceMock,
+    methodToTest: 'getEditorInterfaces',
+  })
+})
+
+test('API call getEditorInterfaces fails', (t) => {
+  makeEntityMethodFailingTest(t, setup, teardown, {
+    methodToTest: 'getEditorInterfaces',
   })
 })
 
@@ -274,7 +276,11 @@ test('API call createEntryWithId', (t) => {
 
   return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
     t.looseEqual(r, entryMock)
-    t.equals(httpMock.put.args[0][0], 'entries/entryId', 'entry id is sent')
+    t.equals(
+      httpMock.put.args[0][0],
+      '/spaces/id/environments/id/entries/entryId',
+      'entry id is sent'
+    )
     t.looseEqual(httpMock.put.args[0][1], entryMock, 'data is sent')
     t.equals(
       httpMock.put.args[0][2].headers['X-Contentful-Content-Type'],
@@ -360,7 +366,7 @@ test('API call createAssetWithId', (t) => {
     entityType: 'asset',
     mockToReturn: assetMock,
     methodToTest: 'createAssetWithId',
-    entityPath: 'assets',
+    entityPath: '/spaces/id/environments/id/assets',
   })
 })
 
@@ -640,7 +646,7 @@ test('API call createUiExtensionWithId', (t) => {
     entityType: 'uiExtension',
     mockToReturn: uiExtensionMock,
     methodToTest: 'createUiExtensionWithId',
-    entityPath: 'extensions',
+    entityPath: '/spaces/id/environments/id/extensions',
   })
 })
 

@@ -4,43 +4,19 @@
  */
 
 import { AxiosInstance } from 'axios'
-import { Stream } from 'stream'
-import cloneDeep from 'lodash/cloneDeep'
 import { createRequestConfig } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
 import entities from './entities'
-import { EnvironmentProps } from './entities/environment'
-import { CreateContentTypeProps } from './entities/content-type'
-import { EntryProp } from './entities/entry'
-import { AssetProps, AssetFileProp } from './entities/asset'
-import { TeamSpaceMembershipProps } from './entities/team-space-membership'
-import { SpaceMembershipProps } from './entities/space-membership'
-import { RoleProps } from './entities/role'
-import { CreateLocaleProps } from './entities/locale'
-import { WebhookProps } from './entities/webhook'
-import { QueryOptions } from './common-types'
-import { UIExtensionProps } from './entities/ui-extension'
+import { CreateEnvironmentProps } from './entities/environment'
+import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
+import { CreateSpaceMembershipProps } from './entities/space-membership'
+import { RoleProps, CreateRoleProps } from './entities/role'
+import { CreateWebhooksProps } from './entities/webhook'
+import { QueryOptions, PaginationQueryOptions } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
+import * as endpoints from './plain/endpoints'
+import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
-import { EnvironmentAliasProps } from './entities/environment-alias'
-
-function raiseDeprecationWarning(method: string) {
-  console.warn(
-    [
-      `Deprecated: Space.${method}() will be removed in future major versions.`,
-      null,
-      `Please migrate your code to use Environment.${method}():`,
-      'https://contentful.github.io/contentful-management.js/contentful-management/latest/globals.html#createenvironmentapi',
-      null,
-    ].join('\n')
-  )
-}
-
-function spaceMembershipDeprecationWarning() {
-  console.warn(
-    'The user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user)'
-  )
-}
+import { CreateEnvironmentAliasProps } from './entities/environment-alias'
 
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
@@ -51,19 +27,9 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @prop {object} entities - Object with wrapper methods for each kind of entity
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({
-  http,
-  httpUpload,
-}: {
-  http: AxiosInstance
-  httpUpload: AxiosInstance
-}) {
+export default function createSpaceApi({ http }: { http: AxiosInstance }) {
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
-  const { wrapLocale, wrapLocaleCollection } = entities.locale
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook
   const { wrapRole, wrapRoleCollection } = entities.role
   const { wrapUser, wrapUserCollection } = entities.user
@@ -74,49 +40,9 @@ export default function createSpaceApi({
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
-  const { wrapEditorInterface } = entities.editorInterface
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
   const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
-  const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
-  const { wrapUpload } = entities.upload
-
-  function createAsset(data: Omit<AssetProps, 'sys'>) {
-    return http
-      .post('assets', data)
-      .then((response) => wrapAsset(http, response.data), errorHandler)
-  }
-
-  function createUpload(data: { file: string | ArrayBuffer | Stream }) {
-    raiseDeprecationWarning('createUpload')
-    const { file } = data
-    if (!file) {
-      return Promise.reject(new Error('Unable to locate a file to upload.'))
-    }
-    return httpUpload
-      .post('uploads', file, {
-        headers: {
-          'Content-Type': 'application/octet-stream',
-        },
-      })
-      .then((uploadResponse) => {
-        return wrapUpload(httpUpload, uploadResponse.data)
-      })
-      .catch(errorHandler)
-  }
-
-  /*
-   * @private
-   * sdk relies heavily on sys metadata
-   * so we cannot omit the sys property on sdk level
-   *
-   */
-  function normalizeSelect(query: QueryOptions) {
-    if (query.select && !/sys/i.test(query.select)) {
-      query.select += ',sys'
-    }
-  }
 
   return {
     /**
@@ -136,9 +62,8 @@ export default function createSpaceApi({
      * ```
      */
     delete: function deleteSpace() {
-      return http.delete('').then(() => {
-        // do nothing
-      }, errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.space.del(http, { spaceId: raw.sys.id })
     },
     /**
      * Updates the space
@@ -160,16 +85,10 @@ export default function createSpaceApi({
      * ```
      */
     update: function updateSpace() {
-      const raw = this.toPlainObject()
-      const data = cloneDeep(raw)
-      delete data.sys
-      return http
-        .put('', data, {
-          headers: {
-            'X-Contentful-Version': raw.sys.version,
-          },
-        })
-        .then((response) => wrapSpace(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.space
+        .update(http, { spaceId: raw.sys.id }, raw)
+        .then((data) => wrapSpace(http, data))
     },
     /**
      * Gets an environment
@@ -188,10 +107,14 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getEnvironment(id: string) {
-      return http
-        .get('environments/' + id)
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    getEnvironment(environmentId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .get(http, {
+          spaceId: raw.sys.id,
+          environmentId,
+        })
+        .then((data) => wrapEnvironment(http, data))
     },
 
     /**
@@ -210,10 +133,14 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getEnvironments() {
-      return http
-        .get('environments')
-        .then((response) => wrapEnvironmentCollection(http, response.data), errorHandler)
+    getEnvironments(query: PaginationQueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query,
+        })
+        .then((data) => wrapEnvironmentCollection(http, data))
     },
 
     /**
@@ -233,10 +160,17 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createEnvironment(data = {}) {
-      return http
-        .post('environments', data)
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
+    createEnvironment(data: CreateEnvironmentProps = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+          },
+          data
+        )
+        .then((response) => wrapEnvironment(http, response))
     },
 
     /**
@@ -260,598 +194,23 @@ export default function createSpaceApi({
      */
     createEnvironmentWithId(
       id: string,
-      data: Omit<EnvironmentProps, 'sys'>,
+      data: CreateEnvironmentProps,
       sourceEnvironmentId?: string
     ) {
-      return http
-        .put('environments/' + id, data, {
-          headers: sourceEnvironmentId
-            ? { 'X-Contentful-Source-Environment': sourceEnvironmentId }
-            : {},
-        })
-        .then((response) => wrapEnvironment(http, response.data), errorHandler)
-    },
-    /**
-     * Gets a Content Type
-     * @deprecated since version 5.0
-     * @param id - Content Type ID
-     * @return Promise for a Content Type
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getContentType('<content_type_id>'))
-     * .then((contentType) => console.log(contentType))
-     * .catch(console.error)
-     * ```
-     */
-    getContentType(id: string) {
-      raiseDeprecationWarning('getContentType')
-      return http
-        .get('content_types/' + id)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
-    },
-    /**
-     * Gets a collection of Content Types
-     * @deprecated since version 5.0
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Content Types
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getContentTypes())
-     * .then((response) => console.log(response.items))
-     * .catch(console.error)
-     * ```
-     */
-    getContentTypes(query: QueryOptions = {}) {
-      raiseDeprecationWarning('getContentTypes')
-      return http
-        .get('content_types', createRequestConfig({ query: query }))
-        .then((response) => wrapContentTypeCollection(http, response.data), errorHandler)
-    },
-
-    /**
-     * Creates a Content Type
-     * @deprecated since version 5.0
-     * @param data - Object representation of the Content Type to be created
-     * @return Promise for the newly created Content Type
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createContentType({
-     *   name: 'Blog Post',
-     *   fields: [
-     *     {
-     *       id: 'title',
-     *       name: 'Title',
-     *       required: true,
-     *       localized: false,
-     *       type: 'Text'
-     *     }
-     *   ]
-     * }))
-     * .then((contentType) => console.log(contentType))
-     * .catch(console.error)
-     * ```
-     */
-    createContentType(data: CreateContentTypeProps) {
-      raiseDeprecationWarning('createContentType')
-      return http
-        .post('content_types', data)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Content Type with a custom ID
-     * @deprecated since version 5.0
-     * @param id - Content Type ID
-     * @param data - Object representation of the Content Type to be created
-     * @return Promise for the newly created Content Type
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createContentTypeWithId('<content-type-id>', {
-     *   name: 'Blog Post',
-     *   fields: [
-     *     {
-     *       id: 'title',
-     *       name: 'Title',
-     *       required: true,
-     *       localized: false,
-     *       type: 'Text'
-     *     }
-     *   ]
-     * }))
-     * .then((contentType) => console.log(contentType))
-     * .catch(console.error)
-     * ```
-     */
-    createContentTypeWithId(id: string, data: CreateContentTypeProps) {
-      raiseDeprecationWarning('createContentTypeWithId')
-      return http
-        .put('content_types/' + id, data)
-        .then((response) => wrapContentType(http, response.data), errorHandler)
-    },
-
-    /**
-     * Gets an EditorInterface for a ContentType
-     * @deprecated since version 5.0
-     * @param contentTypeId - Content Type ID
-     * @return Promise for an EditorInterface
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEditorInterfaceForContentType('<content_type_id>'))
-     * .then((EditorInterface) => console.log(EditorInterface))
-     * .catch(console.error)
-     * ```
-     */
-    getEditorInterfaceForContentType(contentTypeId: string) {
-      raiseDeprecationWarning('getEditorInterfaceForContentType')
-      return http
-        .get('content_types/' + contentTypeId + '/editor_interface')
-        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
-    },
-    /**
-     * Gets an Entry
-     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-     * from your entry in the backend
-     * @deprecated since version 5.0
-     * @param id - Entry ID
-     * @param query - Object with search parameters. In this method it's only useful for `locale`.
-     * @return Promise for an Entry
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEntry('<entry-id>'))
-     * .then((entry) => console.log(entry))
-     * .catch(console.error)
-     * ```
-     */
-    getEntry(id: string, query: QueryOptions = {}) {
-      raiseDeprecationWarning('getEntry')
-      normalizeSelect(query)
-      return http
-        .get('entries/' + id, createRequestConfig({ query: query }))
-        .then((response) => wrapEntry(http, response.data), errorHandler)
-    },
-    /**
-     * Gets a collection of Entries
-     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-     * from your entry in the backend
-     * @deprecated since version 5.0
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Entries
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
-     * .then((response) => console.log(response.items))
-     * .catch(console.error)
-     * ```
-     */
-    getEntries(query: QueryOptions = {}) {
-      raiseDeprecationWarning('getEntries')
-      normalizeSelect(query)
-      return http
-        .get('entries', createRequestConfig({ query: query }))
-        .then((response) => wrapEntryCollection(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Entry
-     * @deprecated since version 5.0
-     * @param contentTypeId - The Content Type which this Entry is based on
-     * @param data - Object representation of the Entry to be created
-     * @return Promise for the newly created Entry
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createEntry('<content_type_id>', {
-     *   fields: {
-     *     title: {
-     *       'en-US': 'Entry title'
-     *     }
-     *   }
-     * }))
-     * .then((entry) => console.log(entry))
-     * .catch(console.error)
-     * ```
-     */
-    createEntry(contentTypeId: string, data: Omit<EntryProp, 'sys'>) {
-      raiseDeprecationWarning('createEntry')
-      return http
-        .post('entries', data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environment
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.id,
+            environmentId: id,
+            sourceEnvironmentId,
           },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Entry with a custom ID
-     * @deprecated since version 5.0
-     * @param contentTypeId - The Content Type which this Entry is based on
-     * @param id - Entry ID
-     * @param data - Object representation of the Entry to be created
-     * @return Promise for the newly created Entry
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * // Create entry
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createEntryWithId('<content_type_id>', '<entry_id>', {
-     *   fields: {
-     *     title: {
-     *       'en-US': 'Entry title'
-     *     }
-     *   }
-     * }))
-     * .then((entry) => console.log(entry))
-     * .catch(console.error)
-     * ```
-     */
-    createEntryWithId(contentTypeId: string, id: string, data: Omit<EntryProp, 'sys'>) {
-      raiseDeprecationWarning('createEntryWithId')
-      return http
-        .put('entries/' + id, data, {
-          headers: {
-            'X-Contentful-Content-Type': contentTypeId,
-          },
-        })
-        .then((response) => wrapEntry(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Upload.
-     * @deprecated since version 5.0
-     * @param data - Object with file information.
-     * @param data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
-     * @return Upload object containing information about the uploaded file.
-     * @example ```javascript
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     * const uploadStream = createReadStream('path/to/filename_english.jpg')
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createUpload({file: uploadStream, 'image/png'})
-     * .then((upload) => console.log(upload))
-     * .catch(console.error)
-     * ```
-     */
-    createUpload,
-    /**
-     * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-     * @deprecated since version 5.0
-     * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-     * @return Promise for the newly created Asset
-     * @example ```javascript
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * // Create asset
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createAsset({
-     *   fields: {
-     *     title: {
-     *       'en-US': 'Playsam Streamliner'
-     *    },
-     *    file: {
-     *       'en-US': {
-     *         contentType: 'image/jpeg',
-     *        fileName: 'example.jpeg',
-     *        upload: 'https://example.com/example.jpg'
-     *      }
-     *    }
-     *   }
-     * }))
-     * .then((asset) => asset.processForLocale("en-US")) // OR asset.processForAllLocales()
-     * .then((asset) => console.log(asset))
-     * .catch(console.error)
-     * ```
-     */
-    createAsset,
-    /**
-     * Gets an Asset
-     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-     * from your entry in the backend
-     * @deprecated since version 5.0
-     * @param id - Asset ID
-     * @param query - Object with search parameters. In this method it's only useful for `locale`.
-     * @return Promise for an Asset
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getAsset('<asset_id>'))
-     * .then((asset) => console.log(asset))
-     * .catch(console.error)
-     * ```
-     */
-    getAsset(id: string, query: QueryOptions = {}) {
-      raiseDeprecationWarning('getAsset')
-      normalizeSelect(query)
-      return http
-        .get('assets/' + id, createRequestConfig({ query: query }))
-        .then((response) => wrapAsset(http, response.data), errorHandler)
-    },
-    /**
-     * Gets a collection of Assets
-     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-     * from your entry in the backend
-     * @deprecated since version 5.0
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Assets
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getAssets())
-     * .then((response) => console.log(response.items))
-     * .catch(console.error)
-     * ```
-     */
-    getAssets(query: QueryOptions = {}) {
-      raiseDeprecationWarning('getAssets')
-      normalizeSelect(query)
-      return http
-        .get('assets', createRequestConfig({ query: query }))
-        .then((response) => wrapAssetCollection(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-     * @deprecated since version 5.0
-     * @param id - Asset ID
-     * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
-     * @return Promise for the newly created Asset
-     * @example ```javascript
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * // Create asset
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createAssetWithId('<asset_id>', {
-     *   title: {
-     *     'en-US': 'Playsam Streamliner'
-     *   },
-     *   file: {
-     *     'en-US': {
-     *       contentType: 'image/jpeg',
-     *       fileName: 'example.jpeg',
-     *       upload: 'https://example.com/example.jpg'
-     *     }
-     *   }
-     * }))
-     * .then((asset) => asset.process())
-     * .then((asset) => console.log(asset))
-     * .catch(console.error)
-     * ```
-     */
-    createAssetWithId(id: string, data: Omit<AssetProps, 'sys'>) {
-      raiseDeprecationWarning('createAssetWithId')
-      return http
-        .put('assets/' + id, data)
-        .then((response) => wrapAsset(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
-     * @deprecated since version 5.0
-     * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
-     * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
-     * @return Promise for the newly created Asset
-     * @example ```javascript
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createAssetFromFiles({
-     *   fields: {
-     *     file: {
-     *       'en-US': {
-     *          contentType: 'image/jpeg',
-     *          fileName: 'filename_english.jpg',
-     *          file: createReadStream('path/to/filename_english.jpg')
-     *       },
-     *       'de-DE': {
-     *          contentType: 'image/svg+xml',
-     *          fileName: 'filename_german.svg',
-     *          file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>'
-     *       }
-     *     }
-     *   }
-     * }))
-     * .then((asset) => console.log(asset))
-     * .catch(console.error)
-     * ```
-     */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
-      raiseDeprecationWarning('createAssetFromFiles')
-      const { file } = data.fields
-      return Promise.all(
-        Object.keys(file).map((locale) => {
-          const { contentType, fileName } = file[locale]
-          return createUpload(file[locale]).then((upload) => {
-            return {
-              [locale]: {
-                contentType,
-                fileName,
-                uploadFrom: {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Upload',
-                    id: upload.sys.id,
-                  },
-                },
-              },
-            }
-          })
-        })
-      )
-        .then((uploads) => {
-          // @ts-expect-error
-          data.fields.file = uploads.reduce((fieldsData, upload) => {
-            return {
-              ...fieldsData,
-              ...upload,
-            }
-          }, {})
-          return createAsset(data)
-        })
-        .catch(errorHandler)
-    },
-    /**
-     * Gets an Upload
-     * @deprecated since version 5.0
-     * @param id - Upload ID
-     * @return Promise for an Upload
-     * @example ```javascript
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     * const uploadStream = createReadStream('path/to/filename_english.jpg')
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getUpload('<upload-id>')
-     * .then((upload) => console.log(upload))
-     * .catch(console.error)
-     * ```
-     */
-    getUpload(id: string) {
-      raiseDeprecationWarning('getUpload')
-      return httpUpload
-        .get('uploads/' + id)
-        .then((response) => wrapUpload(http, response.data))
-        .catch(errorHandler)
-    },
-    /**
-     * Gets a Locale
-     * @deprecated since version 5.0
-     * @param id - Locale ID
-     * @return Promise for an Locale
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getLocale('<locale_id>'))
-     * .then((locale) => console.log(locale))
-     * .catch(console.error)
-     * ```
-     */
-    getLocale(id: string) {
-      raiseDeprecationWarning('getLocale')
-      return http
-        .get('locales/' + id)
-        .then((response) => wrapLocale(http, response.data), errorHandler)
+          data
+        )
+        .then((response) => wrapEnvironment(http, response))
     },
 
-    /**
-     * Gets a collection of Locales
-     * @deprecated since version 5.0
-     * @return Promise for a collection of Locales
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getLocales())
-     * .then((response) => console.log(response.items))
-     * .catch(console.error)
-     * ```
-     */
-    getLocales() {
-      raiseDeprecationWarning('getLocales')
-      return http
-        .get('locales')
-        .then((response) => wrapLocaleCollection(http, response.data), errorHandler)
-    },
-
-    /**
-     * Creates a Locale
-     * @deprecated since version 5.0
-     * @param data - Object representation of the Locale to be created
-     * @return Promise for the newly created Locale
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * // Create locale
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createLocale({
-     *   name: 'German (Austria)',
-     *   code: 'de-AT',
-     *   fallbackCode: 'de-DE',
-     *   optional: true
-     * }))
-     * .then((locale) => console.log(locale))
-     * .catch(console.error)
-     * ```
-     */
-    createLocale(data: CreateLocaleProps) {
-      raiseDeprecationWarning('createLocale')
-      return http
-        .post('locales', data)
-        .then((response) => wrapLocale(http, response.data), errorHandler)
-    },
     /**
      * Gets a Webhook
      * @param id - Webhook ID
@@ -870,9 +229,10 @@ export default function createSpaceApi({
      * ```
      */
     getWebhook(id: string) {
-      return http
-        .get('webhook_definitions/' + id)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .get(http, { spaceId: raw.sys.id, webhookDefinitionId: id })
+        .then((data) => wrapWebhook(http, data))
     },
 
     /**
@@ -892,9 +252,10 @@ export default function createSpaceApi({
      * ```
      */
     getWebhooks() {
-      return http
-        .get('webhook_definitions')
-        .then((response) => wrapWebhookCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .getMany(http, { spaceId: raw.sys.id })
+        .then((data) => wrapWebhookCollection(http, data))
     },
 
     /**
@@ -919,10 +280,11 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createWebhook(data: Omit<WebhookProps, 'sys'>) {
-      return http
-        .post('webhook_definitions', data)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    createWebhook(data: CreateWebhooksProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((data) => wrapWebhook(http, data))
     },
 
     /**
@@ -948,10 +310,11 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createWebhookWithId(id: string, data: Omit<WebhookProps, 'sys'>) {
-      return http
-        .put('webhook_definitions/' + id, data)
-        .then((response) => wrapWebhook(http, response.data), errorHandler)
+    createWebhookWithId(id: string, data: CreateWebhooksProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.webhook
+        .createWithId(http, { spaceId: raw.sys.id, webhookDefinitionId: id }, data)
+        .then((data) => wrapWebhook(http, data))
     },
     /**
      * Gets a Role
@@ -977,7 +340,10 @@ export default function createSpaceApi({
      * ```
      */
     getRole(id: string) {
-      return http.get('roles/' + id).then((response) => wrapRole(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .get(http, { spaceId: raw.sys.id, roleId: id })
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Gets a collection of Roles
@@ -995,10 +361,13 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getRoles() {
-      return http
-        .get('roles')
-        .then((response) => wrapRoleCollection(http, response.data), errorHandler)
+    getRoles(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .getMany(http, { spaceId: raw.sys.id, query: createRequestConfig({ query }).params })
+        .then((data) => {
+          return wrapRoleCollection(http, data)
+        })
     },
 
     /**
@@ -1047,10 +416,11 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createRole(data: Omit<RoleProps, 'sys'>) {
-      return http
-        .post('roles', data)
-        .then((response) => wrapRole(http, response.data), errorHandler)
+    createRole(data: CreateRoleProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Creates a Role with a custom ID
@@ -1099,34 +469,15 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createRoleWithId(id: string, data: Omit<RoleProps, 'sys'>) {
-      return http
-        .put('roles/' + id, data)
-        .then((response) => wrapRole(http, response.data), errorHandler)
-    },
-    /**
-     * Query for scheduled actions in space.
-     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
-     * @return Promise for the scheduled actions query
-     */
-    getScheduledActions(query: ScheduledActionQueryOptions) {
-      return http
-        .get('scheduled_actions', createRequestConfig({ query: query }))
-        .then((response) => wrapScheduledActionCollection(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a scheduled action
-     * @param data - Object representation of the scheduled action to be created
-     * @return Promise for the newly created scheduled actions
-     */
-    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
-      return http
-        .post('scheduled_actions', data)
-        .then((response) => wrapScheduledAction(http, response.data), errorHandler)
+    createRoleWithId(id: string, roleData: Omit<RoleProps, 'sys'>) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.role
+        .createWithId(http, { spaceId: raw.sys.id, roleId: id }, roleData)
+        .then((data) => wrapRole(http, data))
     },
     /**
      * Gets a User
-     * @param id - User ID
+     * @param userId - User ID
      * @return Promise for a User
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -1137,8 +488,14 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getSpaceUser(id: string) {
-      return http.get('users/' + id).then((response) => wrapUser(http, response.data), errorHandler)
+    getSpaceUser(userId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.user
+        .getForSpace(http, {
+          spaceId: raw.sys.id,
+          userId,
+        })
+        .then((data) => wrapUser(http, data))
     },
     /**
      * Gets a collection of Users in a space
@@ -1154,9 +511,13 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceUsers(query: QueryOptions = {}) {
-      return http
-        .get('users/', createRequestConfig({ query: query }))
-        .then((response) => wrapUserCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.user
+        .getManyForSpace(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapUserCollection(http, data))
     },
     /**
      * Gets a Space Member
@@ -1172,9 +533,10 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceMember(id: string) {
-      return http
-        .get('space_members/' + id)
-        .then((response) => wrapSpaceMember(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMember
+        .get(http, { spaceId: raw.sys.id, spaceMemberId: id })
+        .then((data) => wrapSpaceMember(http, data))
     },
     /**
      * Gets a collection of Space Members
@@ -1190,9 +552,13 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceMembers(query: QueryOptions = {}) {
-      return http
-        .get('space_members', createRequestConfig({ query: query }))
-        .then((response) => wrapSpaceMemberCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMember
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMemberCollection(http, data))
     },
     /**
      * Gets a Space Membership
@@ -1209,10 +575,10 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceMembership(id: string) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .get('space_memberships/' + id)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .get(http, { spaceId: raw.sys.id, spaceMembershipId: id })
+        .then((data) => wrapSpaceMembership(http, data))
     },
     /**
      * Gets a collection of Space Memberships
@@ -1229,10 +595,13 @@ export default function createSpaceApi({
      * ```
      */
     getSpaceMemberships(query: QueryOptions = {}) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .get('space_memberships', createRequestConfig({ query: query }))
-        .then((response) => wrapSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        })
+        .then((data) => wrapSpaceMembershipCollection(http, data))
     },
 
     /**
@@ -1263,11 +632,17 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createSpaceMembership(data: Omit<SpaceMembershipProps, 'sys'>) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .post('space_memberships', data)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    createSpaceMembership(data: CreateSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+          },
+          data
+        )
+        .then((response) => wrapSpaceMembership(http, response))
     },
     /**
      * Creates a Space Membership with a custom ID
@@ -1298,11 +673,18 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createSpaceMembershipWithId(id: string, data: Omit<SpaceMembershipProps, 'sys'>) {
-      spaceMembershipDeprecationWarning()
-      return http
-        .put('space_memberships/' + id, data)
-        .then((response) => wrapSpaceMembership(http, response.data), errorHandler)
+    createSpaceMembershipWithId(id: string, data: CreateSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.spaceMembership
+        .createWithId(
+          http,
+          {
+            spaceId: raw.sys.id,
+            spaceMembershipId: id,
+          },
+          data
+        )
+        .then((response) => wrapSpaceMembership(http, response))
     },
 
     /**
@@ -1319,9 +701,13 @@ export default function createSpaceApi({
      * ```
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
-      return http
-        .get('team_space_memberships/' + teamSpaceMembershipId)
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .get(http, {
+          spaceId: raw.sys.id,
+          teamSpaceMembershipId,
+        })
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
 
     /**
@@ -1338,9 +724,13 @@ export default function createSpaceApi({
      * ```
      */
     getTeamSpaceMemberships(query: QueryOptions = {}) {
-      return http
-        .get('team_space_memberships', createRequestConfig({ query: query }))
-        .then((response) => wrapTeamSpaceMembershipCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .getMany(http, {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        })
+        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
     },
     /**
    * Creates a Team Space Membership
@@ -1371,14 +761,18 @@ export default function createSpaceApi({
    * .catch(console.error)
    * ```
    */
-    createTeamSpaceMembership(teamId: string, data: Omit<TeamSpaceMembershipProps, 'sys'>) {
-      return http
-        .post('team_space_memberships', data, {
-          headers: {
-            'x-contentful-team': teamId,
+    createTeamSpaceMembership(teamId: string, data: CreateTeamSpaceMembershipProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.teamSpaceMembership
+        .create(
+          http,
+          {
+            spaceId: raw.sys.id,
+            teamId,
           },
-        })
-        .then((response) => wrapTeamSpaceMembership(http, response.data), errorHandler)
+          data
+        )
+        .then((data) => wrapTeamSpaceMembership(http, data))
     },
     /**
      * Gets a Api Key
@@ -1398,9 +792,13 @@ export default function createSpaceApi({
      * ```
      */
     getApiKey(id: string) {
-      return http
-        .get('api_keys/' + id)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .get(http, {
+          spaceId: raw.sys.id,
+          apiKeyId: id,
+        })
+        .then((data) => wrapApiKey(http, data))
     },
     /**
      * Gets a collection of Api Keys
@@ -1419,9 +817,12 @@ export default function createSpaceApi({
      * ```
      */
     getApiKeys() {
-      return http
-        .get('api_keys')
-        .then((response) => wrapApiKeyCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapApiKeyCollection(http, data))
     },
     /**
      * Gets a collection of preview Api Keys
@@ -1440,9 +841,12 @@ export default function createSpaceApi({
      * ```
      */
     getPreviewApiKeys() {
-      return http
-        .get('preview_api_keys')
-        .then((response) => wrapPreviewApiKeyCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.previewApiKey
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapPreviewApiKeyCollection(http, data))
     },
     /**
      * Gets a preview Api Key
@@ -1462,13 +866,17 @@ export default function createSpaceApi({
      * ```
      */
     getPreviewApiKey(id: string) {
-      return http
-        .get('preview_api_keys/' + id)
-        .then((response) => wrapPreviewApiKey(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.previewApiKey
+        .get(http, {
+          spaceId: raw.sys.id,
+          previewApiKeyId: id,
+        })
+        .then((data) => wrapPreviewApiKey(http, data))
     },
     /**
      * Creates a Api Key
-     * @param data - Object representation of the Api Key to be created
+     * @param payload - Object representation of the Api Key to be created
      * @return Promise for the newly created Api Key
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -1495,15 +903,16 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createApiKey: function createApiKey(data: CreateApiKeyProps) {
-      return http
-        .post('api_keys', data)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
+    createApiKey: function createApiKey(payload: CreateApiKeyProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .create(http, { spaceId: raw.sys.id }, payload)
+        .then((data) => wrapApiKey(http, data))
     },
     /**
      * Creates a Api Key with a custom ID
      * @param id - Api Key ID
-     * @param data - Object representation of the Api Key to be created
+     * @param payload - Object representation of the Api Key to be created
      * @return Promise for the newly created Api Key
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -1530,189 +939,16 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createApiKeyWithId(id: string, data: CreateApiKeyProps) {
-      return http
-        .put('api_keys/' + id, data)
-        .then((response) => wrapApiKey(http, response.data), errorHandler)
-    },
-    /**
-     * Gets an UI Extension
-     * @deprecated since version 5.0
-     * @param id - UI Extension ID
-     * @return Promise for an UI Extension
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getUiExtension('<extension-id>'))
-     * .then((uiExtension) => console.log(uiExtension))
-     * .catch(console.error)
-     * ```
-     */
-    getUiExtension(id: string) {
-      raiseDeprecationWarning('getUiExtension')
-      return http
-        .get('extensions/' + id)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
-    },
-    /**
-     * Gets a collection of UI Extension
-     * @deprecated since version 5.0
-     * @return Promise for a collection of UI Extensions
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getUiExtensions()
-     * .then((response) => console.log(response.items))
-     * .catch(console.error)
-     * ```
-     */
-    getUiExtensions() {
-      raiseDeprecationWarning('getUiExtensions')
-      return http
-        .get('extensions')
-        .then((response) => wrapUiExtensionCollection(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a UI Extension
-     * @deprecated since version 5.0
-     * @param data - Object representation of the UI Extension to be created
-     * @return Promise for the newly created UI Extension
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createUiExtension({
-     *   extension: {
-     *     name: 'My awesome extension',
-     *     src: 'https://example.com/my',
-     *     fieldTypes: [
-     *       {
-     *         type: 'Symbol'
-     *       },
-     *       {
-     *         type: 'Text'
-     *       }
-     *     ],
-     *     sidebar: false
-     *   }
-     * }))
-     * .then((uiExtension) => console.log(uiExtension))
-     * .catch(console.error)
-     * ```
-     */
-    createUiExtension(data: Omit<UIExtensionProps, 'sys'>) {
-      raiseDeprecationWarning('createUiExtension')
-      return http
-        .post('extensions', data)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
-    },
-    /**
-     * Creates a UI Extension with a custom ID
-     * @deprecated since version 5.0
-     * @param id - UI Extension ID
-     * @param data - Object representation of the UI Extension to be created
-     * @return Promise for the newly created UI Extension
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.createUiExtensionWithId('<extension_id>', {
-     *   extension: {
-     *     name: 'My awesome extension',
-     *     src: 'https://example.com/my',
-     *     fieldTypes: [
-     *       {
-     *         type: 'Symbol'
-     *       },
-     *       {
-     *         type: 'Text'
-     *       }
-     *     ],
-     *     sidebar: false
-     *   }
-     * }))
-     * .then((uiExtension) => console.log(uiExtension))
-     * .catch(console.error)
-     * ```
-     */
-    createUiExtensionWithId(id: string, data: Omit<UIExtensionProps, 'sys'>) {
-      raiseDeprecationWarning('createUiExtensionWithId')
-      return http
-        .put('extensions/' + id, data)
-        .then((response) => wrapUiExtension(http, response.data), errorHandler)
+    createApiKeyWithId(id: string, payload: CreateApiKeyProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.apiKey
+        .createWithId(http, { spaceId: raw.sys.id, apiKeyId: id }, payload)
+        .then((data) => wrapApiKey(http, data))
     },
 
     /**
-     * Gets all snapshots of an entry
-     * @deprecated since version 5.0
-     * @param entryId - Entry ID
-     * @param query - additional query paramaters
-     * @return Promise for a collection of Entry Snapshots
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEntrySnapshots('<entry_id>'))
-     * .then((snapshots) => console.log(snapshots.items))
-     * .catch(console.error)
-     * ```
-     */
-    getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
-      raiseDeprecationWarning('getEntrySnapshots')
-      return http
-        .get(`entries/${entryId}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
-    },
-    /**
-     * Gets all snapshots of a contentType
-     * @deprecated since version 5.0
-     * @param contentTypeId - Content Type ID
-     * @param query - additional query paramaters
-     * @return Promise for a collection of Content Type Snapshots
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getContentTypeSnapshots('<contentTypeId>'))
-     * .then((snapshots) => console.log(snapshots.items))
-     * .catch(console.error)
-     * ```
-     */
-    getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
-      raiseDeprecationWarning('getContentTypeSnapshots')
-      return http
-        .get(`content_types/${contentTypeId}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection(http, response.data), errorHandler)
-    },
-    /**
      * Creates an EnvironmentAlias with a custom ID
-     * @param id - EnvironmentAlias ID
+     * @param environmentAliasId - EnvironmentAlias ID
      * @param data - Object representation of the EnvironmentAlias to be created
      * @return Promise for the newly created EnvironmentAlias
      * @example ```javascript
@@ -1732,11 +968,13 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    createEnvironmentAliasWithId(id: string, data: Omit<EnvironmentAliasProps, 'sys'>) {
-      return http
-        .put('environment_aliases/' + id, data)
-        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    createEnvironmentAliasWithId(environmentAliasId: string, data: CreateEnvironmentAliasProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .createWithId(http, { spaceId: raw.sys.id, environmentAliasId }, data)
+        .then((data) => wrapEnvironmentAlias(http, data))
     },
+
     /**
      * Gets an Environment Alias
      * @param Environment Alias ID
@@ -1754,10 +992,11 @@ export default function createSpaceApi({
      * .catch(console.error)
      * ```
      */
-    getEnvironmentAlias(id: string) {
-      return http
-        .get('environment_aliases/' + id)
-        .then((response) => wrapEnvironmentAlias(http, response.data), errorHandler)
+    getEnvironmentAlias(environmentAliasId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .get(http, { spaceId: raw.sys.id, environmentAliasId })
+        .then((data) => wrapEnvironmentAlias(http, data))
     },
     /**
      * Gets a collection of Environment Aliases
@@ -1776,9 +1015,34 @@ export default function createSpaceApi({
      * ```
      */
     getEnvironmentAliases() {
-      return http
-        .get('environment_aliases')
-        .then((response) => wrapEnvironmentAliasCollection(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.environmentAlias
+        .getMany(http, {
+          spaceId: raw.sys.id,
+        })
+        .then((data) => wrapEnvironmentAliasCollection(http, data))
+    },
+    /**
+     * Query for scheduled actions in space.
+     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
+     * @return Promise for the scheduled actions query
+     */
+    getScheduledActions(query: ScheduledActionQueryOptions) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.scheduledAction
+        .getMany(http, { spaceId: raw.sys.id, query })
+        .then((response) => wrapScheduledActionCollection(http, response))
+    },
+    /**
+     * Creates a scheduled action
+     * @param data - Object representation of the scheduled action to be created
+     * @return Promise for the newly created scheduled actions
+     */
+    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
+      const raw = this.toPlainObject() as SpaceProps
+      return endpoints.scheduledAction
+        .create(http, { spaceId: raw.sys.id }, data)
+        .then((response) => wrapScheduledAction(http, response))
     },
   }
 }

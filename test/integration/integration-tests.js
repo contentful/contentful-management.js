@@ -5,22 +5,22 @@ import { localeTests } from './locale-integration'
 import { contentTypeReadOnlyTests, contentTypeWriteTests } from './content-type-integration'
 import { entryReadOnlyTests, entryWriteTests } from './entry-integration'
 import { assetReadOnlyTests, assetWriteTests } from './asset-integration'
-import webhookTests from './webhook-integration'
-import spaceMembersTests from './space-members-integration'
-import spaceMembershipTests from './space-membership-integration'
-import teamSpaceMembershipTests from './team-space-membership-integration'
-import orgTeamSpaceMembershipTests from './org-team-space-membership-integration'
-import teamTests from './team-integration'
-import teamMembershipTests from './team-membership-integration'
-import organizationMembershipTests from './organization-membership-integration'
-import organizationSpaceMembershipTests from './organization-space-membership-integration'
-import organizationInvitationTests from './organization-invitation-test'
-import roleTests from './role-integration'
-import spaceUserTests from './space-user-integration'
-import userTests from './user-integration'
-import apiKeyTests from './api-key-integration'
-import uiExtensionTests from './ui-extension-integration'
-import generateRandomId from './generate-random-id'
+import { webhookTests } from './webhook-integration'
+import { spaceMembersTests } from './space-members-integration'
+import { spaceMembershipTests } from './space-membership-integration'
+import { teamSpaceMembershipTests } from './team-space-membership-integration'
+import { orgTeamSpaceMembershipTests } from './org-team-space-membership-integration'
+import { teamTests } from './team-integration'
+import { teamMembershipTests } from './team-membership-integration'
+import { organizationMembershipTests } from './organization-membership-integration'
+import { organizationSpaceMembershipTests } from './organization-space-membership-integration'
+import { organizationInvitationTests } from './organization-invitation-test'
+import { roleTests } from './role-integration'
+import { spaceUserTests } from './space-user-integration'
+import { userTests } from './user-integration'
+import { apiKeyTests } from './api-key-integration'
+import { uiExtensionTests } from './ui-extension-integration'
+import { generateRandomId } from './generate-random-id'
 import { createClient } from '../../'
 import { environmentTests } from './environment-integration'
 import { environmentAliasTests } from './environment-alias-integration'
@@ -189,11 +189,14 @@ test('Creates, updates and deletes a space', (t) => {
 })
 
 test('Gets space for read only tests', (t) => {
-  return client.getSpace('ezs1swce23xe').then((space) => {
-    contentTypeReadOnlyTests(t, space)
-    entryReadOnlyTests(t, space)
-    assetReadOnlyTests(t, space)
-  })
+  return client
+    .getSpace('ezs1swce23xe')
+    .then((space) => space.getEnvironment('master'))
+    .then((environment) => {
+      contentTypeReadOnlyTests(t, environment)
+      entryReadOnlyTests(t, environment)
+      assetReadOnlyTests(t, environment)
+    })
 })
 test('Gets v2 space for read only tests', (t) => {
   return v2Client.getSpace('w6xueg32zr68').then((space) => {
@@ -261,45 +264,22 @@ test('Create space for tests of space membership', (t) => {
 })
 
 test('Create space for tests which create, change and delete data', (t) => {
-  return (
-    client
-      .createSpace(
-        {
-          name: 'CMA JS SDK tests',
-        },
-        organization
-      )
-      // When running these tests locally, create a specific space, uncomment and
-      // use the line below to avoid running into the 10 space per hour creation limit.
-      // Also comment the test.onFinish line below to avoid removing the space.
-      // The below line also uses double quotes on purpose so it breaks the linter
-      // in case someone forgets to comment this line again.
-      // client.getSpace('a3f19zbn5ldg')
-      .then((space) => {
-        return space
-          .createLocale({
-            name: 'German (Germany)',
-            code: 'de-DE',
-          })
-          .then(() => {
-            return space
-          })
-      })
-      .then((space) => {
-        test.onFinish(() => space.delete())
-        return Promise.all([
-          localeTests(t, space),
-          contentTypeWriteTests(t, space),
-          entryWriteTests(t, space),
-          assetWriteTests(t, space),
-          webhookTests(t, space),
-          roleTests(t, space),
-          apiKeyTests(t, space),
-          uiExtensionTests(t, space),
-          environmentTests(t, space, waitForEnvironmentToBeReady),
-        ])
-      })
-  )
+  return client
+    .createSpace(
+      {
+        name: 'CMA JS SDK tests',
+      },
+      organization
+    )
+    .then((space) => {
+      test.onFinish(() => space.delete())
+      return Promise.all([
+        webhookTests(t, space),
+        roleTests(t, space),
+        apiKeyTests(t, space),
+        environmentTests(t, space),
+      ])
+    })
 })
 
 function waitForEnvironmentToBeReady(space, environment) {
@@ -329,14 +309,8 @@ test('Create space with an environment for tests which create, change and delete
       // client.getSpace('gauywn1xskhq')
       .then((space) => {
         return space
-          .createLocale({
-            name: 'German (Germany)',
-            code: 'de-DE',
-          })
-          .then(() => {
-            return space.createEnvironment({
-              name: 'Testing Environment',
-            })
+          .createEnvironment({
+            name: 'Testing Environment',
           })
           .then((environment) => {
             return waitForEnvironmentToBeReady(space, environment)
@@ -356,7 +330,6 @@ test('Create space with an environment for tests which create, change and delete
         entryWriteTests(t, environment)
         assetWriteTests(t, environment)
         uiExtensionTests(t, environment)
-        // test.onFinish(() => environment.delete())
         test.onFinish(() => space.delete())
       })
   )
@@ -387,13 +360,14 @@ test('Logs request and response with custom loggers', (t) => {
 test('gets V2 space for tag tests', (t) => {
   v2Client.getSpace('w6xueg32zr68').then((space) => {
     tagTests(t, space)
-    test.onFinish(() => deleteAllTags(space, 'master'))
+    test.onFinish(() => deleteAllTags(space))
   })
 })
 
-async function deleteAllTags(space, environmentName) {
-  const environment = await space.getEnvironment(environmentName)
-  const tags = await environment.getTags(0, 1000)
+async function deleteAllTags(space) {
+  const environmentAsAlias = await space.getEnvironment('master')
+  const environment = await space.getEnvironment(environmentAsAlias.sys.aliasedEnvironment.sys.id)
+  const tags = await environment.getTags({ skip: 0, limit: 1000 })
   for (let index = 0; index < tags.total; index++) {
     await tags.items[index]['delete']()
   }

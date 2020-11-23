@@ -1,4 +1,4 @@
-export default function userTests(t, organization) {
+export function userTests(t, organization) {
   t.test('Gets organization users', (t) => {
     t.plan(3)
     return organization.getUsers().then((response) => {

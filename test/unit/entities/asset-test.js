@@ -162,9 +162,17 @@ test('Asset processing for one locale succeeds', (t) => {
   entityMock.sys.version = 2
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForLocale('en-US').then(() => {
-    t.equals(httpMock.put.args[0][0], 'assets/id/files/en-US/process', 'correct locale is sent')
+    t.equals(
+      httpMock.put.args[0][0],
+      '/spaces/space-id/environments/environment-id/assets/id/files/en-US/process',
+      'correct locale is sent'
+    )
     t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
-    t.equals(httpMock.get.args[0][0], 'assets/id', 'asset was checked after processing')
+    t.equals(
+      httpMock.get.args[0][0],
+      '/spaces/space-id/environments/environment-id/assets/id',
+      'asset was checked after processing'
+    )
   })
 })
 
@@ -202,8 +210,16 @@ test('Asset processing for multiple locales succeeds', (t) => {
   entityMock.sys.version = 2
   const entity = wrapAsset(httpMock, entityMock)
   return entity.processForAllLocales().then(() => {
-    t.equals(httpMock.put.args[0][0], 'assets/id/files/en-US/process', 'en-US locale is sent')
-    t.equals(httpMock.put.args[1][0], 'assets/id/files/de-DE/process', 'de-DE locale is sent')
+    t.equals(
+      httpMock.put.args[0][0],
+      '/spaces/space-id/environments/environment-id/assets/id/files/en-US/process',
+      'en-US locale is sent'
+    )
+    t.equals(
+      httpMock.put.args[1][0],
+      '/spaces/space-id/environments/environment-id/assets/id/files/de-DE/process',
+      'de-DE locale is sent'
+    )
     t.equals(
       httpMock.put.args[0][2].headers['X-Contentful-Version'],
       2,
@@ -216,12 +232,12 @@ test('Asset processing for multiple locales succeeds', (t) => {
     )
     t.equals(
       httpMock.get.args[0][0],
-      'assets/id',
+      '/spaces/space-id/environments/environment-id/assets/id',
       'asset was checked after processing for first locale'
     )
     t.equals(
       httpMock.get.args[1][0],
-      'assets/id',
+      '/spaces/space-id/environments/environment-id/assets/id',
       'asset was checked after processing for second locale'
     )
   })

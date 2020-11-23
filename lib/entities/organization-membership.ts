@@ -2,16 +2,15 @@ import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
-import { createDeleteEntity } from '../instance-actions'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements, MetaLinkProps } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type OrganizationMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps
+  sys: MetaSysProps & { user: { sys: MetaLinkProps } }
 
   /**
    * Role
@@ -67,30 +66,24 @@ export interface OrganizationMembership
   delete(): Promise<void>
 }
 
-function createOrganizationMembershipApi(http: AxiosInstance) {
+function createOrganizationMembershipApi(http: AxiosInstance, organizationId: string) {
+  const getParams = (data: OrganizationMembership) => ({
+    organizationMembershipId: data.sys.id,
+    organizationId,
+  })
+
   return {
     update: function () {
-      const self = this as OrganizationMembership
-      const raw = self.toPlainObject()
-      const { role } = raw
-
-      return http
-        .put(
-          'organization_memberships' + '/' + self.sys.id,
-          { role },
-          {
-            headers: {
-              'X-Contentful-Version': self.sys.version || 0,
-            },
-          }
-        )
-        .then((response) => wrapOrganizationMembership(http, response.data), errorHandler)
+      const raw = this.toPlainObject() as OrganizationMembership
+      return endpoints.organizationMembership
+        .update(http, getParams(raw), raw)
+        .then((data) => wrapOrganizationMembership(http, data, organizationId))
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'organization_memberships',
-    }),
+    delete: function del() {
+      const raw = this.toPlainObject() as OrganizationMembership
+      return endpoints.organizationMembership.del(http, getParams(raw))
+    },
   }
 }
 
@@ -102,12 +95,13 @@ function createOrganizationMembershipApi(http: AxiosInstance) {
  */
 export function wrapOrganizationMembership(
   http: AxiosInstance,
-  data: OrganizationMembershipProps
+  data: OrganizationMembershipProps,
+  organizationId: string
 ): OrganizationMembership {
   const organizationMembership = toPlainObject(cloneDeep(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
-    createOrganizationMembershipApi(http)
+    createOrganizationMembershipApi(http, organizationId)
   )
   return freezeSys(organizationMembershipWithMethods)
 }

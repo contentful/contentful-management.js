@@ -1,45 +1,27 @@
 import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createArchiveEntity,
-  createUnarchiveEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-  createArchivedChecker,
-} from '../instance-actions'
-import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, SnapshotProps, Snapshot } from './snapshot'
 import {
-  MetaSysProps,
-  MetaLinkProps,
   DefaultElements,
   Collection,
+  KeyValueMap,
+  EntityMetaSysProps,
   MetadataProps,
 } from '../common-types'
+import * as endpoints from '../plain/endpoints'
+import * as checks from '../plain/checks'
 
-export interface EntrySys extends MetaSysProps {
-  contentType: { sys: MetaLinkProps }
-  environment: { sys: MetaLinkProps }
-  publishedBy?: { sys: MetaLinkProps }
-  publishedVersion?: number
-  publishedAt?: string
-  firstPublishedAt?: string
-  publishedCounter?: number
-}
-
-export type EntryProp = {
-  sys: EntrySys
-  fields: Record<string, any>
+export type EntryProps<T = KeyValueMap> = {
+  sys: EntityMetaSysProps
   metadata?: MetadataProps
+
+  fields: T
 }
+
+export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
 type EntryApi = {
   /**
@@ -53,7 +35,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => {
    *   entry.fields.title['en-US'] = 'New entry title'
    *   return entry.update()
@@ -74,7 +57,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.archive())
    * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
    * .catch(console.error)
@@ -93,7 +77,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.delete())
    * .then(() => console.log(`Entry deleted.`))
    * .catch(console.error)
@@ -111,7 +96,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.publish())
    * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
    * .catch(console.error)
@@ -130,7 +116,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.unarchive())
    * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
    * .catch(console.error)
@@ -148,7 +135,8 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.unpublish())
    * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
    * .catch(console.error)
@@ -167,13 +155,14 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.getSnapshot('<snapshot_id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<Snapshot<EntryProp>>
+  getSnapshot(snapshotId: string): Promise<Snapshot<EntryProps>>
   /**
    * Gets all snapshots of an entry
    * @example ```javascript
@@ -184,13 +173,14 @@ type EntryApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getEntry('<entry_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
    * .then((entry) => entry.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
    * ```
    */
-  getSnapshots(): Promise<Collection<Snapshot<EntryProp>, SnapshotProps<EntryProp>>>
+  getSnapshots(): Promise<Collection<Snapshot<EntryProps>, SnapshotProps<EntryProps>>>
   /**
    * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
    */
@@ -210,64 +200,94 @@ type EntryApi = {
   isUpdated(): boolean
 }
 
-export interface Entry extends EntryProp, DefaultElements<EntryProp>, EntryApi {}
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
 function createEntryApi(http: AxiosInstance): EntryApi {
+  const getParams = (self: Entry) => {
+    const entry = self.toPlainObject() as EntryProps
+
+    return {
+      params: {
+        spaceId: entry.sys.space.sys.id,
+        environmentId: entry.sys.environment.sys.id,
+        entryId: entry.sys.id,
+      },
+      raw: entry,
+    }
+  }
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    update: function update() {
+      const { raw, params } = getParams(this)
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'entries',
-    }),
+      return endpoints.entry.update(http, params, raw).then((data) => wrapEntry(http, data))
+    },
 
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    delete: function del() {
+      const { params } = getParams(this)
 
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+      return endpoints.entry.del(http, params)
+    },
 
-    archive: createArchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+    publish: function publish() {
+      const { raw, params } = getParams(this)
 
-    unarchive: createUnarchiveEntity({
-      http: http,
-      entityPath: 'entries',
-      wrapperMethod: wrapEntry,
-    }),
+      return endpoints.entry.publish(http, params, raw).then((data) => wrapEntry(http, data))
+    },
+
+    unpublish: function unpublish() {
+      const { params } = getParams(this)
+
+      return endpoints.entry.unpublish(http, params).then((data) => wrapEntry(http, data))
+    },
+
+    archive: function archive() {
+      const { params } = getParams(this)
+
+      return endpoints.entry.archive(http, params).then((data) => wrapEntry(http, data))
+    },
+
+    unarchive: function unarchive() {
+      const { params } = getParams(this)
+
+      return endpoints.entry.unarchive(http, params).then((data) => wrapEntry(http, data))
+    },
 
     getSnapshots: function (query = {}) {
-      return http
-        .get(`entries/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then((response) => wrapSnapshotCollection<EntryProp>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getManyForEntry(http, { ...params, query })
+        .then((data) => wrapSnapshotCollection<EntryProps>(http, data))
     },
 
     getSnapshot: function (snapshotId: string) {
-      return http
-        .get(`entries/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot<EntryProp>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getForEntry(http, { ...params, snapshotId })
+        .then((data) => wrapSnapshot<EntryProps>(http, data))
     },
 
-    isPublished: createPublishedChecker(),
+    isPublished: function isPublished() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isPublished(raw)
+    },
 
-    isUpdated: createUpdatedChecker(),
+    isUpdated: function isUpdated() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isUpdated(raw)
+    },
 
-    isDraft: createDraftChecker(),
+    isDraft: function isDraft() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isDraft(raw)
+    },
 
-    isArchived: createArchivedChecker(),
+    isArchived: function isArchived() {
+      const raw = this.toPlainObject() as EntryProps
+      return checks.isArchived(raw)
+    },
   }
 }
 
@@ -277,7 +297,7 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(http: AxiosInstance, data: EntryProp): Entry {
+export function wrapEntry(http: AxiosInstance, data: EntryProps): Entry {
   const entry = toPlainObject(cloneDeep(data))
   const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
   return freezeSys(entryWithMethods)

@@ -1,9 +1,10 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import errorHandler from '../error-handler'
 import { AxiosInstance } from 'axios'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import * as endpoints from '../plain/endpoints'
 
 export interface Control {
   /**
@@ -18,6 +19,16 @@ export interface Control {
   settings?: Record<string, any>
 }
 
+export interface Editor {
+  widgetId: string
+  widgetNamespace: string
+  /**
+   * Widget will be enabled if disabled property is missing
+   */
+  disabled?: boolean
+  settings?: Record<string, any>
+}
+
 export type EditorInterfaceProps = {
   sys: MetaSysProps & {
     space: { sys: MetaLinkProps }
@@ -28,6 +39,14 @@ export type EditorInterfaceProps = {
    * Array of fields and it's associated widgetId
    */
   controls: Control[]
+  /**
+   * Array of editors. Defaults will be used if property is missing.
+   */
+  editors?: Editor[]
+  /**
+   * Array of sidebar widgerts. Defaults will be used if property is missing.
+   */
+  sidebar?: Editor[]
 }
 
 export interface EditorInterface
@@ -44,7 +63,8 @@ export interface EditorInterface
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => {
    *  control = editorInterface.getControlForField('<field-id>')
@@ -65,10 +85,14 @@ export interface EditorInterface
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => {
    *  editorInterface.controls[0] = { "fieldId": "title", "widgetId": "singleLine"}
+   *  editorInterface.editors = [
+   *    { "widgetId": "custom-widget", "widgetNamespace": "app" }
+   *  ]
    *  return editorInterface.update()
    * })
    * .catch(console.error)
@@ -82,17 +106,17 @@ function createEditorInterfaceApi(http: AxiosInstance) {
     update: function () {
       const self = this as EditorInterface
       const raw = self.toPlainObject()
-      const data = cloneDeep(raw)
-      delete data.sys
-      return http
-        .put<EditorInterfaceProps>(
-          `content_types/${self.sys.contentType.sys.id}/editor_interface`,
-          data,
+      return endpoints.editorInterface
+        .update(
+          http,
           {
-            headers: { 'X-Contentful-Version': self.sys.version },
-          }
+            spaceId: self.sys.space.sys.id,
+            environmentId: self.sys.environment.sys.id,
+            contentTypeId: self.sys.contentType.sys.id,
+          },
+          raw
         )
-        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
+        .then((response) => wrapEditorInterface(http, response))
     },
 
     getControlForField: function (fieldId: string) {
@@ -119,3 +143,8 @@ export function wrapEditorInterface(
   )
   return freezeSys(editorInterfaceWithMethods)
 }
+
+/**
+ * @private
+ */
+export const wrapEditorInterfaceCollection = wrapCollection(wrapEditorInterface)

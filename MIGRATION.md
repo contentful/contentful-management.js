@@ -1,6 +1,6 @@
 # Migration to contentful-management.js 1.x from previous versions
 
-__(May 30th, 2016)__
+**(May 30th, 2016)**
 
 contentful.js 1.x was a major rewrite, with some API changes. While the base functionality remains the same, some method names have changed, as well as some internal behaviors.
 
@@ -22,12 +22,14 @@ The new version, works a bit differently. All the methods in the space object wh
 client.getSpace('spaceid', (space) => {
   space.getEntry('entryid', (entry) => {
     entry.fields.title['en-US'] = 'new value for title field'
-    entry.update()
-    .then((updatedEntry) => {
-      console.log(updatedEntry.fields.title['en-US'])
-    }, (err) => {
-      console.log('oh no! we failed to update!', err)
-    })
+    entry.update().then(
+      (updatedEntry) => {
+        console.log(updatedEntry.fields.title['en-US'])
+      },
+      (err) => {
+        console.log('oh no! we failed to update!', err)
+      }
+    )
   })
 })
 ```
@@ -55,6 +57,7 @@ Also note that Date fields such as `sys.createdAt` are not turned into JavaScrip
 ## New features
 
 Some new features were also added to this version:
+
 - Status methods, such as `isPublished` or `isArchived`
 - Asset processing wait
   - After creating an asset, it's necessary to call processing on this asset's file so that the file gets properly processed on Contentful's backend systems. In order to do this there are now two separate calls, `processForLocale` and `processForAllLocales`.

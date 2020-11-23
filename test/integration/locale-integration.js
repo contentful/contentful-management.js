@@ -1,7 +1,7 @@
-export function localeTests(t, space) {
+export function localeTests(t, environment) {
   t.test('Gets locales', (t) => {
     t.plan(2)
-    return space.getLocales().then((response) => {
+    return environment.getLocales().then((response) => {
       t.ok(response.items[0].name, 'English')
       t.ok(response.items[0].code, 'en-US')
     })
@@ -9,7 +9,7 @@ export function localeTests(t, space) {
 
   t.test('Creates, gets, updates and deletes a locale', (t) => {
     t.plan(4)
-    return space
+    return environment
       .createLocale({
         name: 'German (Austria)',
         code: 'de-AT',
@@ -19,7 +19,7 @@ export function localeTests(t, space) {
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(
-              space.getLocale(response.sys.id).then((locale) => {
+              environment.getLocale(response.sys.id).then((locale) => {
                 t.equals(locale.code, 'de-AT', 'locale code after getting')
                 locale.name = 'Deutsch (Österreich)'
                 locale.fallbackCode = 'en-US'

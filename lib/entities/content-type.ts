@@ -1,29 +1,33 @@
 import { AxiosInstance } from 'axios'
 import cloneDeep from 'lodash/cloneDeep'
-import { freezeSys, toPlainObject, createRequestConfig } from 'contentful-sdk-core'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  createUpdateEntity,
-  createDeleteEntity,
-  createPublishEntity,
-  createUnpublishEntity,
-  createPublishedChecker,
-  createUpdatedChecker,
-  createDraftChecker,
-} from '../instance-actions'
 import { wrapEditorInterface } from './editor-interface'
-import errorHandler from '../error-handler'
 import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
 import { Except, SetOptional } from 'type-fest'
+import { isUpdated, isPublished, isDraft } from '../plain/checks'
 
 import { ContentFields } from './content-type-fields'
-import { MetaSysProps, DefaultElements, Collection, QueryOptions } from '../common-types'
+import {
+  BasicMetaSysProps,
+  DefaultElements,
+  Collection,
+  QueryOptions,
+  SysLink,
+} from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
+import * as endpoints from '../plain/endpoints'
 
 export type ContentTypeProps = {
-  sys: MetaSysProps
+  sys: BasicMetaSysProps & {
+    space: SysLink
+    environment: SysLink
+    firstPublishedAt?: string
+    publishedCounter?: number
+    publishedVersion?: number
+  }
   name: string
   description: string
   /** Field used as the main display field for Entries */
@@ -53,7 +57,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => {
    *  contentType.name = 'New name'
    *  return contentType.update()
@@ -75,7 +80,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.delete())
    * .then(() => console.log('contentType deleted'))
    * .catch(console.error)
@@ -93,7 +99,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.publish())
    * .then((contentType) => console.log(`${contentType.sys.id} is published`))
    * .catch(console.error)
@@ -111,7 +118,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.unpublish())
    * .then((contentType) => console.log(`${contentType.sys.id} is unpublished`))
    * .catch(console.error)
@@ -131,7 +139,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
    * .then((editorInterface) => console.log(editorInterface.contorls))
    * .catch(console.error)
@@ -169,13 +178,14 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<content_type-id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((entry) => entry.getSnapshot('<snapshot-id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
    * ```
    */
-  getSnapshot(id: string): Promise<SnapshotProps<ContentTypeProps>>
+  getSnapshot(snapshotId: string): Promise<SnapshotProps<ContentTypeProps>>
   /**
    * Gets all snapshots of a contentType
    * @example ```javascript
@@ -186,7 +196,8 @@ type ContentTypeApi = {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getContentType('<contentType_id>'))
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((entry) => entry.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
@@ -201,88 +212,96 @@ export interface ContentType
     ContentTypeApi {}
 
 function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
+  const getParams = (self: ContentType) => {
+    const contentType = self.toPlainObject() as ContentTypeProps
+
+    return {
+      raw: contentType,
+      params: {
+        spaceId: contentType.sys.space.sys.id,
+        environmentId: contentType.sys.environment.sys.id,
+        contentTypeId: contentType.sys.id,
+      },
+    }
+  }
+
   return {
-    update: createUpdateEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+    update: function () {
+      const { raw, params } = getParams(this)
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'content_types',
-    }),
+      return endpoints.contentType
+        .update(http, params, raw)
+        .then((data) => wrapContentType(http, data))
+    },
 
-    publish: createPublishEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+    delete: function () {
+      const { params } = getParams(this)
 
-    unpublish: createUnpublishEntity({
-      http: http,
-      entityPath: 'content_types',
-      wrapperMethod: wrapContentType,
-    }),
+      return endpoints.contentType.del(http, params).then(() => {
+        // noop
+      })
+    },
+
+    publish: function () {
+      const { raw, params } = getParams(this)
+
+      return endpoints.contentType
+        .publish(http, params, raw)
+        .then((data) => wrapContentType(http, data))
+    },
+
+    unpublish: function () {
+      const { params } = getParams(this)
+
+      return endpoints.contentType
+        .unpublish(http, params)
+        .then((data) => wrapContentType(http, data))
+    },
 
     getEditorInterface: function () {
-      return http
-        .get('content_types/' + this.sys.id + '/editor_interface')
-        .then((response) => wrapEditorInterface(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.editorInterface
+        .get(http, params)
+        .then((data) => wrapEditorInterface(http, data))
     },
 
     getSnapshots: function (query: QueryOptions = {}) {
-      return http
-        .get(`content_types/${this.sys.id}/snapshots`, createRequestConfig({ query: query }))
-        .then(
-          (response) => wrapSnapshotCollection<ContentTypeProps>(http, response.data),
-          errorHandler
-        )
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getManyForContentType(http, { ...params, query })
+        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
     },
 
     getSnapshot: function (snapshotId: string) {
-      return http
-        .get(`content_types/${this.sys.id}/snapshots/${snapshotId}`)
-        .then((response) => wrapSnapshot<ContentTypeProps>(http, response.data), errorHandler)
+      const { params } = getParams(this)
+
+      return endpoints.snapshot
+        .getForContentType(http, { ...params, snapshotId })
+        .then((data) => wrapSnapshot<ContentTypeProps>(http, data))
     },
 
-    isPublished: createPublishedChecker(),
+    isPublished: function () {
+      return isPublished(this)
+    },
 
-    isUpdated: createUpdatedChecker(),
+    isUpdated: function () {
+      return isUpdated(this)
+    },
 
-    isDraft: createDraftChecker(),
+    isDraft: function () {
+      return isDraft(this)
+    },
 
     omitAndDeleteField: function (id: string) {
-      return findAndUpdateField(this as ContentType, id, 'omitted', true)
-        .then((newContentType) => findAndUpdateField(newContentType, id, 'deleted', true))
-        .catch(errorHandler)
+      const { raw, params } = getParams(this)
+
+      return endpoints.contentType
+        .omitAndDeleteField(http, params, raw, id)
+        .then((data) => wrapContentType(http, data))
     },
   }
-}
-
-/**
- * @private
- * @param id - unique ID of the field
- * @param key - the attribute on the field to change
- * @param value - the value to set the attribute to
- */
-const findAndUpdateField = function (
-  contentType: ContentType,
-  id: string,
-  key: string,
-  value: any
-) {
-  const field = contentType.fields.find((field) => field.id === id)
-  if (!field) {
-    return Promise.reject(
-      new Error(
-        `Tried to omitAndDeleteField on a nonexistent field, ${id}, on the content type ${contentType.name}.`
-      )
-    )
-  }
-  // @ts-expect-error
-  field[key] = value
-  return contentType.update()
 }
 
 /**

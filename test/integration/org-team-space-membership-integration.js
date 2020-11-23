@@ -1,4 +1,4 @@
-export default function orgTeamSpaceMembershipTests(t, organization) {
+export function orgTeamSpaceMembershipTests(t, organization) {
   t.test('Get a single Team Space Membership', (t) => {
     t.plan(3)
     // create space membership for existing team

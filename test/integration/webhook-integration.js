@@ -1,6 +1,6 @@
-// import generateRandomId from './generate-random-id'
+// import { generateRandomId } from './generate-random-id'
 
-export default function webhookTests(t, space) {
+export function webhookTests(t, space) {
   t.test('Gets webhooks', (t) => {
     t.plan(2)
     return space.getWebhooks().then((webhooks) => {

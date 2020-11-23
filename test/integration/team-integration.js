@@ -1,4 +1,4 @@
-export default function teamTests(t, organization) {
+export function teamTests(t, organization) {
   t.test('Gets teams', (t) => {
     t.plan(3)
     return organization.getTeams().then((response) => {

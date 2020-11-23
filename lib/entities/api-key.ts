@@ -2,9 +2,9 @@ import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { createUpdateEntity, createDeleteEntity } from '../instance-actions'
-import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'
+import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
+import * as endpoints from '../plain/endpoints'
 
 export type ApiKeyProps = {
   sys: MetaSysProps
@@ -61,30 +61,23 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
 }
 
 function createApiKeyApi(http: AxiosInstance) {
+  const getParams = (data: ApiKeyProps) => ({
+    spaceId: data.sys.space?.sys.id ?? '',
+    apiKeyId: data.sys.id,
+  })
+
   return {
     update: function update() {
       const self = this as ApiKeyProps
-      if ('accessToken' in self) {
-        delete self.accessToken
-      }
-      if ('preview_api_key' in self) {
-        delete self.preview_api_key
-      }
-      if ('policies' in self) {
-        delete self.policies
-      }
-      const update = createUpdateEntity({
-        http: http,
-        entityPath: 'api_keys',
-        wrapperMethod: wrapApiKey,
-      })
-      return update.call(self)
+      return endpoints.apiKey
+        .update(http, getParams(self), self)
+        .then((data) => wrapApiKey(http, data))
     },
 
-    delete: createDeleteEntity({
-      http: http,
-      entityPath: 'api_keys',
-    }),
+    delete: function del() {
+      const self = this as ApiKeyProps
+      return endpoints.apiKey.del(http, getParams(self))
+    },
   }
 }
 

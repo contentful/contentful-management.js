@@ -38,9 +38,10 @@ test('TeamMembership update', (t) => {
   entity.admin = true
   return entity.update().then((response) => {
     t.ok(response.toPlainObject, 'response is wrapped')
+
     t.equals(
       httpMock.put.args[0][0],
-      `teams/team1/team_memberships/${entityMock.sys.id}`,
+      `/organizations/org-id/teams/team1/team_memberships/${entityMock.sys.id}`,
       'url is correct'
     )
     t.equals(httpMock.put.args[0][2].headers['X-Contentful-Version'], 2, 'version header is sent')
@@ -70,7 +71,7 @@ test('TeamMembership delete', (t) => {
     t.pass('entity was deleted')
     t.equals(
       httpMock.delete.args[0][0],
-      `teams/team1/team_memberships/${entityMock.sys.id}`,
+      `/organizations/org-id/teams/team1/team_memberships/${entityMock.sys.id}`,
       'url is correct'
     )
     return { httpMock, entityMock, response }

@@ -1,4 +1,4 @@
-export default function apiKeyTests(t, space) {
+export function apiKeyTests(t, space) {
   t.test('Gets previewApiKeys', (t) => {
     t.plan(2)
     return space.getPreviewApiKeys().then((response) => {
