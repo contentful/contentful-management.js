@@ -5,6 +5,7 @@ import { AxiosInstance } from 'axios'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
+import { DefinedParameters } from './widget-parameters'
 
 export interface Control {
   /**
@@ -22,7 +23,7 @@ export interface Control {
   /**
    * Instance parameter values
    */
-  settings?: Record<string, any>
+  settings?: DefinedParameters
 }
 
 export interface Editor {
@@ -41,7 +42,7 @@ export interface Editor {
   /**
    * Instance parameter values
    */
-  settings?: Record<string, any>
+  settings?: DefinedParameters
 }
 
 export interface SidebarItem {
@@ -60,7 +61,7 @@ export interface SidebarItem {
   /**
    * Instance parameter values
    */
-  settings?: Record<string, any>
+  settings?: DefinedParameters
 }
 
 export type EditorInterfaceProps = {

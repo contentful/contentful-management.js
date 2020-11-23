@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { FieldType } from './field-type'
+import { DefinedParameters, ParameterDefinition } from './widget-parameters'
 import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
@@ -34,6 +35,13 @@ export type UIExtensionProps = {
      */
     srcdoc?: string
     /**
+     * Parameter definitions
+     */
+    parameters?: {
+      instance?: ParameterDefinition[]
+      installation?: ParameterDefinition[]
+    }
+    /**
      * Controls the location of the extension. If true it will be rendered on the sidebar instead of replacing the field's editing control
      */
     sidebar?: boolean
@@ -41,7 +49,7 @@ export type UIExtensionProps = {
   /**
    * Values for installation parameters
    */
-  parameters?: Record<string, any>
+  parameters?: DefinedParameters
 }
 
 export type CreateUIExtensionProps = RequireExactlyOne<

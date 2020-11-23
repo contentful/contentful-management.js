@@ -23,6 +23,11 @@ export type {
   SidebarItem,
 } from './entities/editor-interface'
 export type { FieldType } from './entities/field-type'
+export type {
+  ParameterDefinition,
+  DefinedParameters,
+  FreeFormParameters,
+} from './entities/widget-parameters'
 export type { Entry, EntryProps, CreateEntryProps } from './entities/entry'
 export type { Environment, EnvironmentProps, CreateEnvironmentProps } from './entities/environment'
 export type {

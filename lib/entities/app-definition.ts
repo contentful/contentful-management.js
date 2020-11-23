@@ -7,6 +7,7 @@ import { wrapCollection } from '../common-utils'
 import { SetOptional, Except } from 'type-fest'
 import * as endpoints from '../plain/endpoints'
 import { FieldType } from './field-type'
+import { ParameterDefinition } from './widget-parameters'
 
 interface NavigationItem {
   name: string
@@ -48,6 +49,12 @@ export type AppDefinitionProps = {
    * Locations where the app can be installed
    */
   locations?: AppLocation[]
+  /**
+   * Instance parameter definitions
+   */
+  parameters?: {
+    instance?: ParameterDefinition[]
+  }
 }
 
 export type CreateAppDefinitionProps = SetOptional<
