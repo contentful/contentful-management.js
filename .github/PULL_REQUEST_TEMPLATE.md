@@ -24,6 +24,7 @@ If it fixes an open issue, please link to the issue here.
 
 - [ ] Both unit and integration tests are passing
 - [ ] There are no breaking changes
+- [ ] Changes are reflected in the documentation
 
 When adding a new method:
 
@@ -31,3 +32,4 @@ When adding a new method:
 - [ ] All new public types are exported from `./lib/export-types.ts`
 - [ ] Added a unit test for the new method
 - [ ] Added an integration test for the new method
+- [ ] The new method is added to the documentation
