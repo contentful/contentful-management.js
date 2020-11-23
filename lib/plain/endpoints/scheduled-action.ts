@@ -1,12 +1,12 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
-import { ScheduledActionProps, ScheduledAction } from '../../entities/scheduled-action'
+import { ScheduledActionProps } from '../../entities/scheduled-action'
 import { QueryParams, GetSpaceParams } from './common-types'
 import { CollectionProp } from '../../common-types'
 
 export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
-  return raw.get<CollectionProp<ScheduledAction>>(
+  return raw.get<CollectionProp<ScheduledActionProps>>(
     http,
     `/spaces/${params.spaceId}/scheduled_actions`,
     {
@@ -20,7 +20,7 @@ export const create = (
   params: GetSpaceParams,
   data: Omit<ScheduledActionProps, 'sys'>
 ) => {
-  return raw.post<ScheduledAction>(http, `/spaces/${params.spaceId}/scheduled_actions`, data)
+  return raw.post<ScheduledActionProps>(http, `/spaces/${params.spaceId}/scheduled_actions`, data)
 }
 
 export const del = (
