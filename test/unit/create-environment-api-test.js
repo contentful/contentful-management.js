@@ -8,14 +8,15 @@ import {
   cloneMock,
   contentTypeMock,
   editorInterfaceMock,
-  entryMock, environmentMock,
+  entryMock,
+  environmentMock,
   localeMock,
   mockCollection,
   setupEntitiesMock,
   snapShotMock,
   uiExtensionMock,
-  uploadMock
-} from "./mocks/entities";
+  uploadMock,
+} from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
@@ -249,7 +250,10 @@ describe('A createEnvironmentApi', () => {
 
     return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
       expect(r).to.eql(entryMock)
-      expect(httpMock.put.args[0][0]).to.eql('/spaces/id/environments/id/entries/entryId', 'entry id is sent')
+      expect(httpMock.put.args[0][0]).to.eql(
+        '/spaces/id/environments/id/entries/entryId',
+        'entry id is sent'
+      )
       expect(httpMock.put.args[0][1]).to.eql(entryMock, 'data is sent')
       expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
         'contentTypeId',

@@ -4,8 +4,6 @@ import { expect } from 'chai'
 
 // check
 describe('Environment Api', function () {
-  this.timeout(60000)
-
   let space
 
   before(async () => {

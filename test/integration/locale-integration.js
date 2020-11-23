@@ -1,11 +1,9 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestEnvironment, createTestSpace } from "../helpers";
+import { client, createTestEnvironment, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
 // check
 describe('Locale Api', function () {
-  this.timeout(60000)
-
   let space
   let environment
 

@@ -6,7 +6,7 @@ describe('PreviewApiKeys Api', () => {
   let space
 
   before(async () => {
-    space = await createTestSpace(client(), 'PreviewApiKeys')
+    space = await createTestSpace(client(), 'PrevApiKeys')
   })
 
   after(async () => {

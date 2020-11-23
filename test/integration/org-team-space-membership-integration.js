@@ -4,8 +4,6 @@ import { expect } from 'chai'
 
 // check
 describe('TeamSpaceMembership Api', function () {
-  this.timeout(60000)
-
   let organization
 
   before(async () => {

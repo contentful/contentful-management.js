@@ -1,19 +1,16 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
-import { client, createTestEnvironment, createTestSpace, generateRandomId } from "../helpers";
+import { client, createTestEnvironment, createTestSpace, generateRandomId } from '../helpers'
 
 // check
-describe('ContentType Api', async function  ()  {
-  this.timeout(60000);
-
-
+describe('ContentType Api', async function () {
   let space
   let environment
   let contentType
 
   before(async () => {
     space = await createTestSpace(client(), 'ContentType')
-    environment = await createTestEnvironment(space, "Testing Environment");
+    environment = await createTestEnvironment(space, 'Testing Environment')
     contentType = await environment.createContentType({ name: 'test-content-type' })
   })
 
@@ -48,8 +45,6 @@ describe('ContentType Api', async function  ()  {
   })
 
   describe('write', function () {
-    this.timeout(60000)
-
     test('Create, update, publish, getEditorInterface, unpublish and delete content type', async () => {
       return environment.createContentType({ name: 'testentity' }).then((contentType) => {
         // create contentType
@@ -119,12 +114,14 @@ describe('ContentType Api', async function  ()  {
 
     test('Create with id and delete content type', async () => {
       const id = generateRandomId('testCT')
-      return environment.createContentTypeWithId(id, { name: 'testentitywithid' }).then((contentType) => {
-        expect(contentType.sys.id).equals(id, 'specified id')
-        expect(contentType.sys.type).equals('ContentType', 'type')
-        expect(contentType.name).equals('testentitywithid', 'name')
-        return contentType.delete()
-      })
+      return environment
+        .createContentTypeWithId(id, { name: 'testentitywithid' })
+        .then((contentType) => {
+          expect(contentType.sys.id).equals(id, 'specified id')
+          expect(contentType.sys.type).equals('ContentType', 'type')
+          expect(contentType.name).equals('testentitywithid', 'name')
+          return contentType.delete()
+        })
     })
   })
 })

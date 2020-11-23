@@ -5,8 +5,6 @@ import { before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
 describe('SpaceMembers Api', function () {
-  this.timeout(60000);
-
   let space
   let organization
 

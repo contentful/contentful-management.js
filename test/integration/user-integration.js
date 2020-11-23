@@ -3,7 +3,6 @@ import { client } from '../helpers'
 import { expect } from 'chai'
 
 describe('User api', function () {
-  this.timeout(60000)
   let organization
 
   before(async () => {

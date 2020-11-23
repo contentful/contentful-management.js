@@ -1,12 +1,11 @@
 'use strict'
 
 module.exports = {
+  require: ['@babel/register'],
   diff: true,
+  recursive: true,
   extension: ['js', 'ts'],
-  package: './package.json',
-  reporter: ['dots'],
-  timeout: 60000,
+  timeout: 60 * 1000,
+  slow: 10 * 1000,
   ui: 'bdd',
-  //  'watch-files': ['lib/**/*.js', 'test/**/*.js'],
-  //  'watch-ignore': ['lib/vendor']
 }

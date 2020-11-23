@@ -36,7 +36,10 @@ describe('Entity TeamSpaceMembership', () => {
     entity.description = 'new description'
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][0]).equals(`/organizations/org-id/teams/${entityMock.sys.id}`, 'url is correct')
+      expect(httpMock.put.args[0][0]).equals(
+        `/organizations/org-id/teams/${entityMock.sys.id}`,
+        'url is correct'
+      )
       expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
         2,
         'version header is sent'
@@ -61,7 +64,10 @@ describe('Entity TeamSpaceMembership', () => {
     entityMock.sys.version = 2
     const entity = wrapTeam(httpMock, entityMock)
     return entity.delete().then((response) => {
-      expect(httpMock.delete.args[0][0]).equals(`/organizations/org-id/teams/${entityMock.sys.id}`, 'url is correct')
+      expect(httpMock.delete.args[0][0]).equals(
+        `/organizations/org-id/teams/${entityMock.sys.id}`,
+        'url is correct'
+      )
       return {
         httpMock,
         entityMock,

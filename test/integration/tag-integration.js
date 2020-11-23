@@ -17,8 +17,6 @@ async function createRandomTag(environment) {
 }
 
 describe('Tags api', function () {
-  this.timeout(20000)
-
   let environment
 
   beforeEach(async () => {

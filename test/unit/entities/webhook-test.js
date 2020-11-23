@@ -70,7 +70,10 @@ describe('Entity Webhook', () => {
     const { httpMock, entityMock } = setup()
     const entity = wrapWebhook(httpMock, entityMock)
     return entity.getCall('callid').then(() => {
-      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/calls/callid', 'id is sent')
+      expect(httpMock.get.args[0][0]).equals(
+        '/spaces/space-id/webhooks/id/calls/callid',
+        'id is sent'
+      )
     })
   })
 

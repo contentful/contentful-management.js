@@ -39,8 +39,6 @@ describe.skip('Asset api', function () {
 
   // Write test seems currently broken
   describe.skip('Write', function () {
-    this.timeout(60 * 1000)
-
     /*
     before(async () => {
       space = await createTestSpace(client());
