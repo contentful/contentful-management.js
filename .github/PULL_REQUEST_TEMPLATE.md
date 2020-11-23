@@ -23,7 +23,7 @@ If it fixes an open issue, please link to the issue here.
 ## Checklist (check all before merging)
 
 - [ ] Both unit and integration tests are passing
-- [ ] There are not breaking changes
+- [ ] There are no breaking changes
 
 When adding a new method:
 
