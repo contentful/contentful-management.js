@@ -13,10 +13,10 @@ export type AppInstallationProps = {
     environment: SysLink
     space: SysLink
   }
-  /** App Installation specific configuration variables */
-  parameters: {
-    [key: string]: string
-  }
+  /**
+   * Free-form installation parameters (API limits stringified length to 16kB)
+   */
+  parameters?: any
 }
 
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>

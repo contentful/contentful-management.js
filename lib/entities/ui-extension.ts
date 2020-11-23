@@ -2,14 +2,20 @@ import cloneDeep from 'lodash/cloneDeep'
 import { AxiosInstance } from 'axios'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { EntryFields } from './entry-fields'
+import { FieldType } from './field-type'
 import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import { SetRequired, RequireExactlyOne } from 'type-fest'
 
+type UIExtensionSysProps = BasicMetaSysProps & {
+  space: SysLink
+  environment: SysLink
+  srcdocSha256?: string
+}
+
 export type UIExtensionProps = {
-  sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
+  sys: UIExtensionSysProps
   extension: {
     /**
      * Extension name
@@ -18,7 +24,7 @@ export type UIExtensionProps = {
     /**
      * Field types where an extension can be used
      */
-    fieldTypes: EntryFields[]
+    fieldTypes: FieldType[]
     /**
      * URL where the root HTML document of the extension can be found
      */
@@ -30,8 +36,12 @@ export type UIExtensionProps = {
     /**
      * Controls the location of the extension. If true it will be rendered on the sidebar instead of replacing the field's editing control
      */
-    sidebar: boolean
+    sidebar?: boolean
   }
+  /**
+   * Values for installation parameters
+   */
+  parameters?: Record<string, any>
 }
 
 export type CreateUIExtensionProps = RequireExactlyOne<

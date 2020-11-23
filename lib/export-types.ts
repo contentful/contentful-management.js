@@ -17,10 +17,12 @@ export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './en
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
   EditorInterface,
-  Editor,
   EditorInterfaceProps,
   Control,
+  Editor,
+  SidebarItem,
 } from './entities/editor-interface'
+export type { FieldType } from './entities/field-type'
 export type { Entry, EntryProps, CreateEntryProps } from './entities/entry'
 export type { Environment, EnvironmentProps, CreateEnvironmentProps } from './entities/environment'
 export type {
