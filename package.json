@@ -150,12 +150,7 @@
     "branches": [
       "master",
       "next",
-      "next-major",
-      {
-        "name": "experimental",
-        "channel": "experimental",
-        "prerelease": true
-      }
+      "next-major"
     ],
     "plugins": [
       [
