@@ -52,3 +52,10 @@ export function del<T = any>(http: AxiosInstance, url: string, config?: AxiosReq
     })
     .then((response) => response.data, errorHandler)
 }
+
+export function http<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
+  return http(url, {
+    baseURL: getBaseUrl(http),
+    ...config,
+  }).then((response) => response.data, errorHandler)
+}

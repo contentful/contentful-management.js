@@ -26,6 +26,8 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
       delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
         endpoints.raw.del(http, ...args),
+      http: (...args: RestParamsType<typeof endpoints.raw.http>) =>
+        endpoints.raw.http(http, ...args),
     },
     editorInterface: {
       get: wrap(wrapParams, endpoints.editorInterface.get),
