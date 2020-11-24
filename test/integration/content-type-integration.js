@@ -1,26 +1,38 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
-import { client, createTestEnvironment, createTestSpace, generateRandomId } from '../helpers'
+import {
+  client,
+  createTestEnvironment,
+  createTestSpace,
+  generateRandomId,
+  getDefaultSpace,
+} from '../helpers'
 
-// check
 describe('ContentType Api', async function () {
-  let space
-  let environment
-  let contentType
+  let readSpace
+  let readEnvironment
+  let readContentType
+  let writeSpace
+  let writeEnvironment
 
   before(async () => {
-    space = await createTestSpace(client(), 'ContentType')
-    environment = await createTestEnvironment(space, 'Testing Environment')
-    contentType = await environment.createContentType({ name: 'test-content-type' })
+    readSpace = await getDefaultSpace()
+    readEnvironment = await readSpace.getEnvironment('master')
+    readContentType = await readEnvironment.createContentType({ name: 'test-content-type' })
+
+    writeSpace = await createTestSpace(client(), 'ContentType')
+    writeEnvironment = await createTestEnvironment(writeSpace, 'Testing Environment')
   })
 
   after(async () => {
-    return space.delete()
+    if (writeSpace) {
+      return writeSpace.delete()
+    }
   })
 
   describe('read', () => {
     test('Gets content type', async () => {
-      return environment.getContentType(contentType.sys.id).then((response) => {
+      return readEnvironment.getContentType(readContentType.sys.id).then((response) => {
         expect(response.sys, 'sys').to.be.ok
         expect(response.name, 'name').to.be.ok
         expect(response.fields, 'fields').to.be.ok
@@ -28,8 +40,8 @@ describe('ContentType Api', async function () {
     })
 
     //TODO: no snapshots available for just created contentType
-    test.skip('Gets ContentType snapshots', async () => {
-      return environment.getContentType(contentType.sys.id).then((contentType) => {
+    test('Gets ContentType snapshots', async () => {
+      return readEnvironment.getContentType(readContentType.sys.id).then((contentType) => {
         return contentType.getSnapshots().then((response) => {
           expect(response, 'contentType snapshots').to.be.ok
           expect(response.items, 'contentType snapshots items').to.be.ok
@@ -38,7 +50,7 @@ describe('ContentType Api', async function () {
     })
 
     test('Gets content types', async () => {
-      return environment.getContentTypes().then((response) => {
+      return readEnvironment.getContentTypes().then((response) => {
         expect(response.items, 'items').to.be.ok
       })
     })
@@ -46,7 +58,7 @@ describe('ContentType Api', async function () {
 
   describe('write', function () {
     test('Create, update, publish, getEditorInterface, unpublish and delete content type', async () => {
-      return environment.createContentType({ name: 'testentity' }).then((contentType) => {
+      return writeEnvironment.createContentType({ name: 'testentity' }).then((contentType) => {
         // create contentType
         expect(contentType.isDraft(), 'contentType is in draft').to.be.ok
         expect(contentType.sys.type).equals('ContentType', 'type')
@@ -114,7 +126,7 @@ describe('ContentType Api', async function () {
 
     test('Create with id and delete content type', async () => {
       const id = generateRandomId('testCT')
-      return environment
+      return writeEnvironment
         .createContentTypeWithId(id, { name: 'testentitywithid' })
         .then((contentType) => {
           expect(contentType.sys.id).equals(id, 'specified id')

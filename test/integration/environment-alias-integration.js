@@ -1,8 +1,8 @@
-import { before, after, describe, test } from 'mocha'
+import { after, before, describe, test } from 'mocha'
 import { client } from '../helpers'
 import { expect } from 'chai'
 
-// check
+// TODO: use dedicated space
 describe('EnvironmentAlias Api', () => {
   describe('read', () => {
     let space

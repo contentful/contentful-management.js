@@ -10,7 +10,9 @@ describe('TeamSpaceMembership api', function () {
   })
 
   after(async () => {
-    return space.delete()
+    if (space) {
+      return space.delete()
+    }
   })
 
   test.skip('Create, update and delete teamSpaceMembership', async () => {

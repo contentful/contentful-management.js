@@ -10,7 +10,9 @@ describe('Webhook Api', function () {
   })
 
   after(async () => {
-    return space.delete()
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('Gets webhooks', async () => {

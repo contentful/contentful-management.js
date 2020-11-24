@@ -2,7 +2,6 @@ import { after, before, describe, test } from 'mocha'
 import { client, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
-// check
 describe('Environment Api', function () {
   let space
 
@@ -11,7 +10,9 @@ describe('Environment Api', function () {
   })
 
   after(async () => {
-    return space.delete()
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('creates an environment', async () => {

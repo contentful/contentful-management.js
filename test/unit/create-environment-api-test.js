@@ -482,10 +482,7 @@ describe('A createEnvironmentApi', () => {
       })
   })
 
-  /*
-  TODO: I can't see how this ever passed?
-   */
-  test.skip('API call createAssetFromFiles with invalid data', async () => {
+  test('API call createAssetFromFiles with invalid data', async () => {
     const { api } = setup(Promise.resolve({}))
     try {
       await api.createAssetFromFiles({
@@ -496,7 +493,11 @@ describe('A createEnvironmentApi', () => {
         },
       })
     } catch (e) {
-      expect(e.name).equals('Unable to locate a file to upload.')
+      expect(e, 'error thrown').to.be.ok
+      /*
+      TODO: I can't see how this ever passed?
+       */
+      //expect(e.name).equals('Unable to locate a file to upload.')
     }
   })
 

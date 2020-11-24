@@ -192,7 +192,7 @@ describe('Entity Asset', () => {
     - Test is failing
     - it also causes a memory leak in watch mode
    */
-  test.skip('Asset processing for one locale fails due to timeout', async () => {
+  test('Asset processing for one locale fails due to timeout', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
       file: { 'en-US': { fileName: 'filename.jpg' } }, // url property never sent in response
@@ -204,7 +204,7 @@ describe('Entity Asset', () => {
       await entity.processForLocale('en-US')
     } catch (error) {
       expect(httpMock.get.callCount > 1, 'asset is checked multiple times').to.be.ok
-      expect(error.name).equals('AssetProcessingTimeoutAssetProcessingTimeout', 'timeout is thrown')
+      expect(error.name).equals('AssetProcessingTimeout', 'timeout is thrown')
     }
   })
 
@@ -265,11 +265,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  /*
-    - Test is failing
-    - it also causes a memory leak in watch mode
-  */
-  test.skip('Asset processing for multiple locales fails due to timeout', async () => {
+  test('Asset processing for multiple locales fails due to timeout', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
       file: {

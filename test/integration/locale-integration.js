@@ -2,7 +2,6 @@ import { after, before, describe, test } from 'mocha'
 import { client, createTestEnvironment, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
-// check
 describe('Locale Api', function () {
   let space
   let environment
@@ -13,7 +12,9 @@ describe('Locale Api', function () {
   })
 
   after(async () => {
-    return space.delete()
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('Gets locales', async () => {

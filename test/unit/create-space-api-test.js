@@ -136,8 +136,7 @@ describe('A createSpaceApi', () => {
     })
   })
 
-  //TODO: equality check fails
-  test.skip('API call createWebhook', async () => {
+  test('API call createWebhook', async () => {
     return makeCreateEntityTest(setup, {
       entityType: 'webhook',
       mockToReturn: webhookMock,

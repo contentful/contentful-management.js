@@ -2,7 +2,6 @@ import { before, describe, test } from 'mocha'
 import { client } from '../helpers'
 import { expect } from 'chai'
 
-// check
 describe('TeamSpaceMembership Api', function () {
   let organization
 

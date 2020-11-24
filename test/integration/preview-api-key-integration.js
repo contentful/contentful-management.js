@@ -1,16 +1,12 @@
 import { expect } from 'chai'
-import { before, after, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
+import { before, describe, test } from 'mocha'
+import { getDefaultSpace } from '../helpers'
 
 describe('PreviewApiKeys Api', () => {
   let space
 
   before(async () => {
-    space = await createTestSpace(client(), 'PrevApiKeys')
-  })
-
-  after(async () => {
-    return space.delete()
+    space = await getDefaultSpace()
   })
 
   test('Gets previewApiKeys', async () => {

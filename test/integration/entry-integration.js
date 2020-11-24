@@ -285,7 +285,9 @@ describe('Entry Api', () => {
     })
 
     after(async () => {
-      return space.delete()
+      if (space) {
+        return space.delete()
+      }
     })
 
     beforeEach(async () => {

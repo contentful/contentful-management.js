@@ -16,6 +16,7 @@ async function createRandomTag(environment) {
   return environment.createTag(tagId, tagName)
 }
 
+// TODO: use dedicated test space (needs to go GA first)
 describe('Tags api', function () {
   let environment
 

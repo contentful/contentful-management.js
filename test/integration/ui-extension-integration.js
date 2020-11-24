@@ -12,7 +12,9 @@ describe('Extension api', function () {
   })
 
   after(async () => {
-    return space.delete()
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('Create, update, get, get all and delete UI Extension', async () => {

@@ -16,7 +16,7 @@ export const client = (isV2 = false) =>
     ...params,
   })
 
-export const createTestSpace = async (client, spacePrefix = '', retries = 6) => {
+export const createTestSpace = async (client, spacePrefix = '') => {
   let space
   let spaceName = 'CMA JS SDK [AUTO]'
   if (spacePrefix.length > 0) {
@@ -30,19 +30,11 @@ export const createTestSpace = async (client, spacePrefix = '', retries = 6) => 
       env.CONTENTFUL_ORGANIZATION
     )
   } catch (e) {
-    if (retries > 0 && e.name === 'RateLimitExceeded') {
-      // What is the rate limit for space creation?
-      console.warn(
-        `Test space "${spacePrefix}" creation failed with rate limit error. next try in 10s`
-      )
-      await delay(10000)
-      return createTestSpace(client, spacePrefix, --retries)
-    }
+    console.error(e)
   }
   if (!space) {
     throw new Error('Test space creation failed for ' + spaceName)
   }
-  //console.log(`Created test space "${spaceName}"`)
   return space
 }
 
@@ -66,4 +58,10 @@ export function waitForEnvironmentToBeReady(space, environment) {
 
 export function generateRandomId(prefix = 'randomId') {
   return prefix + Math.ceil(Math.random() * 1e8)
+}
+
+export const DEFAULT_SPACE_ID = 'ezs1swce23xe'
+
+export async function getDefaultSpace() {
+  return await client().getSpace(DEFAULT_SPACE_ID)
 }

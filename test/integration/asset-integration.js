@@ -3,18 +3,20 @@ const TEST_IMAGE_SOURCE_URL =
 
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getDefaultSpace } from '../helpers'
 
-describe.skip('Asset api', function () {
+describe('Asset api', function () {
   let space
+  let environment
 
   describe('Read', () => {
     before(async () => {
-      space = await client().getSpace('ezs1swce23xe')
+      space = await getDefaultSpace()
+      environment = await space.getEnvironment('master')
     })
 
     test('Gets assets with only images', async () => {
-      return space
+      return environment
         .getAssets({
           mimetype_group: 'image',
         })
@@ -24,14 +26,14 @@ describe.skip('Asset api', function () {
     })
 
     test('Gets asset', async () => {
-      return space.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
+      return environment.getAsset('1x0xpXu4pSGS4OukSyWGUK').then((response) => {
         expect(response.sys, 'sys').to.be.ok
         expect(response.fields, 'fields').to.be.ok
       })
     })
 
     test('Gets assets', async () => {
-      return space.getAssets().then((response) => {
+      return environment.getAssets().then((response) => {
         expect(response.items, 'items').to.be.ok
       })
     })
@@ -51,7 +53,7 @@ describe.skip('Asset api', function () {
      */
 
     test('Create, process, update, publish, unpublish, archive, unarchive and delete asset', async function () {
-      return space
+      return environment
         .createAsset({
           fields: {
             title: { 'en-US': 'this is the title' },
@@ -67,7 +69,7 @@ describe.skip('Asset api', function () {
         .then((asset) => {
           expect(asset.fields.title['en-US']).equals('this is the title', 'original title')
           return asset
-            .processForLocale('en-US', { processingCheckWait: 5000 })
+            .processForLocale('en-US', { processingCheckWait: 10000 })
             .then((processedAsset) => {
               expect(asset.isDraft(), 'asset is in draft').to.be.true
               expect(processedAsset.fields.file['en-US'].url, 'file was uploaded').to.be.ok
