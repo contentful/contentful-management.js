@@ -40,6 +40,7 @@
     "test:browser": "BABEL_ENV=test karma start karma.conf.local.js --log-level info",
     "test:size": "bundlesize",
     "test:prepush": "npm run build && npm run test:unit && npm run test:size",
+    "test:cleanup": "BABEL_ENV=test babel-node --extensions .ts --extensions .js test/cleanupSpaces.js",
     "prettier": "prettier --write '**/*.{jsx,js,ts,tsx}'",
     "prettier:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "presemantic-release": "npm run build",
