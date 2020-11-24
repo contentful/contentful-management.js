@@ -6,41 +6,13 @@ import { AxiosInstance } from 'axios'
 import { wrapCollection } from '../common-utils'
 import { SetOptional, Except } from 'type-fest'
 import * as endpoints from '../plain/endpoints'
-
-type Field =
-  | 'Symbol'
-  | 'Text'
-  | 'RichText'
-  | 'Integer'
-  | 'Number'
-  | 'Date'
-  | 'Location'
-  | 'Boolean'
-  | 'Object'
-
-type LinkType = 'Asset' | 'Entry'
-
-// Fields Types
-interface SingleFieldType {
-  type: Field
-}
-
-interface LinkFieldType {
-  type: 'Link'
-  linkType: LinkType
-}
-
-interface ArrayFieldType {
-  type: 'Array'
-  items: SingleFieldType | LinkFieldType
-}
+import { FieldType } from './field-type'
+import { ParameterDefinition } from './widget-parameters'
 
 interface NavigationItem {
   name: string
   path: string
 }
-
-type FieldType = SingleFieldType | LinkFieldType | ArrayFieldType
 
 type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
@@ -72,11 +44,17 @@ export type AppDefinitionProps = {
   /**
    * URL where the root HTML document of the app can be found
    */
-  src: string
+  src?: string
   /**
    * Locations where the app can be installed
    */
-  locations: AppLocation[]
+  locations?: AppLocation[]
+  /**
+   * Instance parameter definitions
+   */
+  parameters?: {
+    instance?: ParameterDefinition[]
+  }
 }
 
 export type CreateAppDefinitionProps = SetOptional<
@@ -95,8 +73,8 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
    *   accessToken: '<content_management_api_key>'
    * })
    *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getAppDefinition('<ui_extension_id>'))
+   * client.getOrganization('<org_id>')
+   * .then((org) => org.getAppDefinition('<app_def_id>'))
    * .then((appDefinition) => appDefinition.delete())
    * .then(() => console.log(`App Definition deleted.`))
    * .catch(console.error)
@@ -113,10 +91,10 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
    *   accessToken: '<content_management_api_key>'
    * })
    *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getAppDefinition('<ui_extension_id>'))
+   * client.getOrganization('<org_id>')
+   * .then((org) => org.getAppDefinition('<app_def_id>'))
    * .then((appDefinition) => {
-   *   appDefinition.extension.name = 'New App Definition name'
+   *   appDefinition.name = 'New App Definition name'
    *   return appDefinition.update()
    * })
    * .then((appDefinition) => console.log(`App Definition ${appDefinition.sys.id} updated.`))

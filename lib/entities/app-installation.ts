@@ -6,6 +6,7 @@ import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
 import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import { Except } from 'type-fest'
+import { FreeFormParameters } from './widget-parameters'
 
 export type AppInstallationProps = {
   sys: BasicMetaSysProps & {
@@ -13,10 +14,10 @@ export type AppInstallationProps = {
     environment: SysLink
     space: SysLink
   }
-  /** App Installation specific configuration variables */
-  parameters: {
-    [key: string]: string
-  }
+  /**
+   * Free-form installation parameters (API limits stringified length to 16kB)
+   */
+  parameters?: FreeFormParameters
 }
 
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
