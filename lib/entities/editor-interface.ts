@@ -5,28 +5,63 @@ import { AxiosInstance } from 'axios'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
+import { DefinedParameters } from './widget-parameters'
 
 export interface Control {
   /**
-   * the id of the customized field
+   * ID of the customized field
    */
   fieldId: string
   /**
-   * customization associated to the field
+   * Type of the widget used
    */
-  widgetId: string
-  widgetNamespace: string
-  settings?: Record<string, any>
+  widgetNamespace?: string
+  /**
+   * ID of the widget used
+   */
+  widgetId?: string
+  /**
+   * Instance parameter values
+   */
+  settings?: DefinedParameters
 }
 
 export interface Editor {
-  widgetId: string
+  /**
+   * Type of the widget used
+   */
   widgetNamespace: string
+  /**
+   * ID of the widget used
+   */
+  widgetId: string
   /**
    * Widget will be enabled if disabled property is missing
    */
   disabled?: boolean
-  settings?: Record<string, any>
+  /**
+   * Instance parameter values
+   */
+  settings?: DefinedParameters
+}
+
+export interface SidebarItem {
+  /**
+   * Type of the widget used
+   */
+  widgetNamespace: string
+  /**
+   * ID of the widget used
+   */
+  widgetId: string
+  /**
+   * Widget will be enabled if disabled property is missing
+   */
+  disabled?: boolean
+  /**
+   * Instance parameter values
+   */
+  settings?: DefinedParameters
 }
 
 export type EditorInterfaceProps = {
@@ -38,15 +73,19 @@ export type EditorInterfaceProps = {
   /**
    * Array of fields and it's associated widgetId
    */
-  controls: Control[]
+  controls?: Control[]
   /**
    * Array of editors. Defaults will be used if property is missing.
    */
   editors?: Editor[]
   /**
+   * Legacy singular editor override
+   */
+  editor?: Editor
+  /**
    * Array of sidebar widgerts. Defaults will be used if property is missing.
    */
-  sidebar?: Editor[]
+  sidebar?: SidebarItem[]
 }
 
 export interface EditorInterface
@@ -121,7 +160,7 @@ function createEditorInterfaceApi(http: AxiosInstance) {
 
     getControlForField: function (fieldId: string) {
       const self = this as EditorInterface
-      const result = self.controls.filter((control) => {
+      const result = (self.controls || []).filter((control) => {
         return control.fieldId === fieldId
       })
       return result && result.length > 0 ? result[0] : null
