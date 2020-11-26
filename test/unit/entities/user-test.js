@@ -1,10 +1,10 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUser, wrapUserCollection } from '../../../lib/entities/user'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
+  entityWrappedTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -14,14 +14,16 @@ function setup(promise) {
   }
 }
 
-test('User is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapUser,
+describe('Entity TeamSpaceMembership', () => {
+  test('User is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapUser,
+    })
   })
-})
 
-test('User collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapUserCollection,
+  test('User collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapUserCollection,
+    })
   })
 })

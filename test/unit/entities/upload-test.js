@@ -1,10 +1,10 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUpload } from '../../../lib/entities/upload'
 import {
-  entityWrappedTest,
   entityDeleteTest,
+  entityWrappedTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
 
@@ -15,21 +15,23 @@ function setup(promise) {
   }
 }
 
-test('Upload is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapUpload,
+describe('Entity TeamSpaceMembership', () => {
+  test('Upload is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapUpload,
+    })
   })
-})
 
-test('Upload delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapUpload,
+  test('Upload delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapUpload,
+    })
   })
-})
 
-test('Upload delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapUpload,
-    actionMethod: 'delete',
+  test('Upload delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapUpload,
+      actionMethod: 'delete',
+    })
   })
 })

@@ -1,18 +1,19 @@
-import test from 'blue-tape'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
   wrapAppInstallation,
   wrapAppInstallationCollection,
 } from '../../../lib/entities/app-installation'
+import { expect } from 'chai'
 
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
-  failingVersionActionTest,
   entityDeleteTest,
+  entityWrappedTest,
   failingActionTest,
+  failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
+import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
@@ -21,47 +22,52 @@ function setup(promise) {
   }
 }
 
-test('AppInstallation is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapAppInstallation,
+describe('Entity AppInstallation', () => {
+  test('AppInstallation is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapAppInstallation,
+    })
   })
-})
 
-test('AppInstallation collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapAppInstallationCollection,
+  test('AppInstallation collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapAppInstallationCollection,
+    })
   })
-})
 
-test('AppInstallation update', (t) => {
-  t.plan(2)
-  const { httpMock, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapAppInstallation(httpMock, entityMock)
-  entity.name = 'updatedname'
-  return entity.update().then((response) => {
-    t.ok(response.toPlainObject, 'response is wrapped')
-    t.equals(httpMock.put.args[0][1].name, 'updatedname', 'data is sent')
-    return { httpMock, entityMock, response }
+  test('AppInstallation update', async () => {
+    const { httpMock, entityMock } = setup()
+    entityMock.sys.version = 2
+    const entity = wrapAppInstallation(httpMock, entityMock)
+    entity.name = 'updatedname'
+    return entity.update().then((response) => {
+      expect(response.toPlainObject, 'response is wrapped').to.be.ok
+      expect(httpMock.put.args[0][1].name).equals('updatedname', 'data is sent')
+      return {
+        httpMock,
+        entityMock,
+        response,
+      }
+    })
   })
-})
 
-test('AppInstallation update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapAppInstallation,
-    actionMethod: 'update',
+  test('AppInstallation update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapAppInstallation,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('AppInstallation delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapAppInstallation,
+  test('AppInstallation delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapAppInstallation,
+    })
   })
-})
 
-test('AppInstallation delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapAppInstallation,
-    actionMethod: 'delete',
+  test('AppInstallation delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapAppInstallation,
+      actionMethod: 'delete',
+    })
   })
 })

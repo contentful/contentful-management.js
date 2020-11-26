@@ -614,6 +614,7 @@ function setupEntitiesMock(rewiredModuleApi) {
 }
 
 export {
+  appInstallationMock,
   appDefinitionMock,
   linkMock,
   sysMock,

@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 
@@ -7,9 +7,9 @@ import {
   wrapScheduledActionCollection,
 } from '../../../lib/entities/scheduled-action'
 import {
+  entityCollectionWrappedTest,
   entityDeleteTest,
   entityWrappedTest,
-  entityCollectionWrappedTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
 
@@ -20,27 +20,29 @@ function setup(promise) {
   }
 }
 
-test('Scheduled action is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapScheduledAction,
+describe('Entity ScheduledAction', () => {
+  test('Scheduled action is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+    })
   })
-})
 
-test('Scheduled action collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapScheduledActionCollection,
+  test('Scheduled action collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapScheduledActionCollection,
+    })
   })
-})
 
-test('Scheduled actions delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapScheduledAction,
+  test('Scheduled actions delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+    })
   })
-})
 
-test('Schedule action delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapScheduledAction,
-    actionMethod: 'delete',
+  test('Schedule action delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+      actionMethod: 'delete',
+    })
   })
 })

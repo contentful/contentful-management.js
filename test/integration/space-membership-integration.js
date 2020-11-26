@@ -1,16 +1,28 @@
-import { generateRandomId } from './generate-random-id'
-
 // To test creating spaceMemberships user has to exist in the organization. Organization membership is produced also within invitation process.
-export function spaceMembershipTests(t, organization, space) {
-  t.test('Gets spaceMemberships', (t) => {
-    t.plan(2)
+import { client, generateRandomId, getDefaultSpace } from '../helpers'
+
+import { before, describe, test } from 'mocha'
+import { expect } from 'chai'
+
+describe('SpaceMembers Api', function () {
+  let space
+  let organization
+
+  before(async () => {
+    space = await getDefaultSpace()
+    organization = await client()
+      .getOrganizations()
+      .then((response) => response.items[0])
+  })
+
+  test('Gets spaceMemberships', async () => {
     return space.getSpaceMemberships().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'fields').ok
     })
   })
 
-  t.test('Create spaceMembership with id', (t) => {
+  test('Create spaceMembership with id', async () => {
     return organization
       .createOrganizationInvitation({
         email: 'test-spaceMembership-id.user@contentful.com',
@@ -29,10 +41,18 @@ export function spaceMembershipTests(t, organization, space) {
             .createSpaceMembershipWithId(id, {
               admin: false,
               email: 'test-spaceMembership-id.user@contentful.com',
-              roles: [{ sys: { type: 'Link', linkType: 'Role', id: roles.items[0].sys.id } }],
+              roles: [
+                {
+                  sys: {
+                    type: 'Link',
+                    linkType: 'Role',
+                    id: roles.items[0].sys.id,
+                  },
+                },
+              ],
             })
             .then((spaceMembership) => {
-              t.equals(spaceMembership.sys.id, id, 'id')
+              expect(spaceMembership.sys.id).equals(id, 'id')
               return spaceMembership.delete()
             })
             .then(() => {
@@ -43,7 +63,7 @@ export function spaceMembershipTests(t, organization, space) {
       })
   })
 
-  t.test('Create spaceMembership', (t) => {
+  test('Create spaceMembership', async () => {
     return organization
       .createOrganizationInvitation({
         email: 'test-spaceMembership.user@contentful.com',
@@ -61,12 +81,20 @@ export function spaceMembershipTests(t, organization, space) {
             .createSpaceMembership({
               admin: false,
               email: 'test-spaceMembership.user@contentful.com',
-              roles: [{ sys: { type: 'Link', linkType: 'Role', id: roles.items[0].sys.id } }],
+              roles: [
+                {
+                  sys: {
+                    type: 'Link',
+                    linkType: 'Role',
+                    id: roles.items[0].sys.id,
+                  },
+                },
+              ],
             })
             .then((spaceMembership) => {
-              t.ok(spaceMembership.user, 'user')
-              t.notOk(spaceMembership.admin, 'admin')
-              t.equal(spaceMembership.sys.type, 'SpaceMembership', 'type')
+              expect(spaceMembership.user, 'user').ok
+              expect(spaceMembership.admin, 'admin').not.ok
+              expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
               return spaceMembership.delete()
             })
             .then(() => {
@@ -76,4 +104,4 @@ export function spaceMembershipTests(t, organization, space) {
         })
       })
   })
-}
+})

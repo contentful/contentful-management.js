@@ -1,15 +1,15 @@
-import test from 'blue-tape'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapLocale, wrapLocaleCollection } from '../../../lib/entities/locale'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
   entityDeleteTest,
+  entityUpdateTest,
+  entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
+import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
@@ -18,40 +18,42 @@ function setup(promise) {
   }
 }
 
-test('Locale is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapLocale,
+describe('Entity Locale', () => {
+  test('Locale is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapLocale,
+    })
   })
-})
 
-test('Locale collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapLocaleCollection,
+  test('Locale collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapLocaleCollection,
+    })
   })
-})
 
-test('Locale update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapLocale,
+  test('Locale update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapLocale,
+    })
   })
-})
 
-test('Locale update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapLocale,
-    actionMethod: 'update',
+  test('Locale update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapLocale,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('Locale delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapLocale,
+  test('Locale delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapLocale,
+    })
   })
-})
 
-test('Locale delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapLocale,
-    actionMethod: 'delete',
+  test('Locale delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapLocale,
+      actionMethod: 'delete',
+    })
   })
 })

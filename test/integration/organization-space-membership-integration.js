@@ -1,22 +1,32 @@
-export function organizationSpaceMembershipTests(t, organization) {
-  t.test('Gets organizationSpaceMemberships', (t) => {
-    t.plan(2)
+import { before, describe, test } from 'mocha'
+import { client } from '../helpers'
+import { expect } from 'chai'
+
+describe('OrganizationSpaceMembership Api', function () {
+  let organization
+
+  before(async () => {
+    organization = await client()
+      .getOrganizations()
+      .then((response) => response.items[0])
+  })
+
+  test('Gets organizationSpaceMemberships', async () => {
     return organization.getOrganizationSpaceMemberships().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys, 'sys')
+      expect(response.items, 'fields')
     })
   })
 
-  t.test('Gets organizationSpaceMembership', (t) => {
-    t.plan(5)
+  test('Gets organizationSpaceMembership', async () => {
     return organization
       .getOrganizationSpaceMembership('527cW1W5JNlOlJq38lfr1k')
       .then((response) => {
-        t.ok(response.sys, 'sys')
-        t.equal(response.sys.id, '527cW1W5JNlOlJq38lfr1k', 'id')
-        t.equal(response.sys.type, 'SpaceMembership', 'type')
-        t.equal(response.user.sys.linkType, 'User', 'user')
-        t.looseEqual(response.roles, [], 'roles')
+        expect(response.sys, 'sys').ok
+        expect(response.sys.id).equal('527cW1W5JNlOlJq38lfr1k', 'id')
+        expect(response.sys.type).equal('SpaceMembership', 'type')
+        expect(response.user.sys.linkType).equal('User', 'user')
+        expect(response.roles).eql([], 'roles')
       })
   })
-}
+})

@@ -2,45 +2,45 @@
 // Babel 7 introduces .babelrc.js files. The .babelrc file can be removed when Babel 7 is released. (https://github.com/babel/babel/pull/4892)
 
 // Babel 7 will also remove the 'env' option --> https://github.com/babel/babel/issues/4539#issuecomment-284870486
-var env = process.env.BABEL_ENV || process.env.NODE_ENV
+const env = process.env.BABEL_ENV || process.env.NODE_ENV
 
-var defaultBabelPresetEnvConfig = {
+const defaultBabelPresetEnvConfig = {
   // No module transformation, webpack will take care of this if necessary.
   modules: false,
 }
 
 // Latest browsers
-var browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: {
     browsers: ['last 2 versions', 'not ie < 13', 'not android < 50'],
   },
 })
 
 // Legacy browsers
-var legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: {
     browsers: ['last 5 versions', 'not ie < 10'],
   },
 })
 
 // Node
-var nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: {
     node: '6',
   },
 })
 
 // Combined node and browser environment for es6 modules version and tests
-var modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: Object.assign(legacyBabelPresetEnvConfig.targets, nodeBabelPresetEnvConfig.targets),
 })
 
-var testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
+const testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
   // Tests need to transform modules
   modules: 'commonjs',
 })
 
-var plugins = [
+const plugins = [
   '@babel/proposal-class-properties',
   '@babel/plugin-proposal-object-rest-spread',
   '@babel/plugin-proposal-nullish-coalescing-operator',
@@ -56,7 +56,7 @@ var plugins = [
   ],
 ]
 
-var babelConfig = {
+let babelConfig = {
   plugins,
 }
 

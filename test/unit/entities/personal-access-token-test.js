@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
@@ -6,8 +6,8 @@ import {
   wrapPersonalAccessTokenCollection,
 } from '../../../lib/entities/personal-access-token'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
+  entityWrappedTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -17,14 +17,16 @@ function setup(promise) {
   }
 }
 
-test('personalAccessToken is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapPersonalAccessToken,
+describe('Entity PersonalAccessToken', () => {
+  test('personalAccessToken is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapPersonalAccessToken,
+    })
   })
-})
 
-test('personalAccessToken collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapPersonalAccessTokenCollection,
+  test('personalAccessToken collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapPersonalAccessTokenCollection,
+    })
   })
 })

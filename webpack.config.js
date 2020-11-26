@@ -1,5 +1,4 @@
 const path = require('path')
-
 const webpack = require('webpack')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
 const clone = require('lodash/cloneDeep')
@@ -93,6 +92,7 @@ legacyBundle.module.rules = [
     }),
   }),
 ]
+
 // To be replaced with babel-polyfill with babel-preset-env 2.0:
 // https://github.com/babel/babel-preset-env#usebuiltins
 // https://github.com/babel/babel-preset-env/pull/241

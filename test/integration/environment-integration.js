@@ -1,17 +1,31 @@
-export function environmentTests(t, space) {
-  t.test('creates an environment', (t) => {
-    t.plan(2)
+import { after, before, describe, test } from 'mocha'
+import { client, createTestSpace } from '../helpers'
+import { expect } from 'chai'
+
+describe('Environment Api', function () {
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'Environment')
+  })
+
+  after(async () => {
+    if (space) {
+      return space.delete()
+    }
+  })
+
+  test('creates an environment', async () => {
     return space.createEnvironment({ name: 'test-env' }).then((response) => {
-      t.ok(response.sys.type, 'Environment', 'env is created')
-      t.ok(response.name, 'test-env', 'env is created with name')
+      expect(response.sys.type).equals('Environment', 'env is created')
+      expect(response.name).equals('test-env', 'env is created with name')
     })
   })
 
-  t.test('creates an environment with an id', (t) => {
-    t.plan(2)
+  test('creates an environment with an id', async () => {
     return space.createEnvironmentWithId('myId', { name: 'myId' }).then((response) => {
-      t.equals(response.name, 'myId', 'env was created with correct name')
-      t.equals(response.sys.id, 'myId', 'env was created with id')
+      expect(response.name).equals('myId', 'env was created with correct name')
+      expect(response.sys.id).equals('myId', 'env was created with id')
     })
   })
-}
+})

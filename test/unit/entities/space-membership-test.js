@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
@@ -6,10 +6,10 @@ import {
   wrapSpaceMembershipCollection,
 } from '../../../lib/entities/space-membership'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
   entityDeleteTest,
+  entityUpdateTest,
+  entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
@@ -21,40 +21,42 @@ function setup(promise) {
   }
 }
 
-test('SpaceMembership is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapSpaceMembership,
+describe('Entity SpaceMembership', () => {
+  test('SpaceMembership is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapSpaceMembership,
+    })
   })
-})
 
-test('SpaceMembership collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapSpaceMembershipCollection,
+  test('SpaceMembership collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapSpaceMembershipCollection,
+    })
   })
-})
 
-test('SpaceMembership update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapSpaceMembership,
+  test('SpaceMembership update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapSpaceMembership,
+    })
   })
-})
 
-test('SpaceMembership update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapSpaceMembership,
-    actionMethod: 'update',
+  test('SpaceMembership update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapSpaceMembership,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('SpaceMembership delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapSpaceMembership,
+  test('SpaceMembership delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapSpaceMembership,
+    })
   })
-})
 
-test('SpaceMembership delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapSpaceMembership,
-    actionMethod: 'delete',
+  test('SpaceMembership delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapSpaceMembership,
+      actionMethod: 'delete',
+    })
   })
 })

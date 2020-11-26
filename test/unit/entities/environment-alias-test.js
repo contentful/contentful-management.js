@@ -1,4 +1,3 @@
-import test from 'blue-tape'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import {
@@ -6,11 +5,12 @@ import {
   wrapEnvironmentAliasCollection,
 } from '../../../lib/entities/environment-alias'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
   entityUpdateTest,
+  entityWrappedTest,
   failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
+import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
@@ -19,27 +19,29 @@ function setup(promise) {
   }
 }
 
-test('Environment alias is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapEnvironmentAlias,
+describe('Entity EnvironmentAlias', () => {
+  test('Environment alias is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapEnvironmentAlias,
+    })
   })
-})
 
-test('Environment alias collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapEnvironmentAliasCollection,
+  test('Environment alias collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapEnvironmentAliasCollection,
+    })
   })
-})
 
-test('Environment alias update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapEnvironmentAlias,
+  test('Environment alias update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapEnvironmentAlias,
+    })
   })
-})
 
-test('Environment alias update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapEnvironmentAlias,
-    actionMethod: 'update',
+  test('Environment alias update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapEnvironmentAlias,
+      actionMethod: 'update',
+    })
   })
 })

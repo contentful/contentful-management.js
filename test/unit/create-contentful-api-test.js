@@ -1,23 +1,23 @@
-import test from 'blue-tape'
-import sinon from 'sinon'
-
 import {
-  spaceMock,
-  setupEntitiesMock,
   organizationMock,
-  userMock,
   personalAccessTokenMock,
+  setupEntitiesMock,
+  spaceMock,
   usageMock,
+  userMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
 import createContentfulApi, {
   __RewireAPI__ as createContentfulApiRewireApi,
 } from '../../lib/create-contentful-api'
 import {
-  makeGetEntityTest,
-  makeGetCollectionTest,
   makeEntityMethodFailingTest,
+  makeGetCollectionTest,
+  makeGetEntityTest,
 } from './test-creators/static-entity-methods'
+import { afterEach, describe, test } from 'mocha'
+import { expect } from 'chai'
+import sinon from 'sinon'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createContentfulApiRewireApi)
@@ -30,222 +30,208 @@ function setup(promise) {
   }
 }
 
-function teardown() {
-  createContentfulApiRewireApi.__ResetDependency__('entities')
-}
-
-// Space tests
-test('API call getSpaces', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'space',
-    mockToReturn: spaceMock,
-    methodToTest: 'getSpaces',
-  })
-})
-
-test('API call getSpaces fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getSpaces',
-  })
-})
-
-test('API call getSpace', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
-    entityType: 'space',
-    mockToReturn: spaceMock,
-    methodToTest: 'getSpace',
-  })
-})
-
-test('API call getSpace fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getSpace',
-  })
-})
-
-test('API call createSpace', (t) => {
-  t.plan(3)
-  const data = {
-    sys: { id: 'id', type: 'Space' },
-    name: 'name',
-  }
-  const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
-  entitiesMock.space.wrapSpace.returns(data)
-
-  return api.createSpace({ name: 'name' }, 'orgid').then((r) => {
-    t.looseEqual(r, data, 'space is wrapped')
-    t.looseEqual(httpMock.post.args[0][1], { name: 'name' }, 'data is sent')
-    t.equals(
-      httpMock.post.args[0][2].headers['X-Contentful-Organization'],
-      'orgid',
-      'orgid is specified in headers'
-    )
-    teardown()
-  })
-})
-
-test('API call createSpace fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'createSpace',
-  })
-})
-
-// Organization tests
-test('API call getOrganization', (t) => {
-  const organizationMock2 = Object.assign({}, organizationMock, { sys: { id: 'eid' } })
-  const getOrganizationSetup = () =>
-    setup(Promise.resolve({ data: { items: [organizationMock, organizationMock2] } }))
-  makeGetEntityTest(t, getOrganizationSetup, teardown, {
-    entityType: 'organization',
-    mockToReturn: organizationMock2,
-    methodToTest: 'getOrganization',
-  })
-})
-
-test('API call getOrganization fails because org ID was not found in results', (t) => {
-  t.plan(1)
-  const { api, entitiesMock } = setup(Promise.resolve({ data: { items: [organizationMock] } }))
-  entitiesMock.organization.wrapOrganization.returns(organizationMock)
-  return api.getOrganization('non-existent-id').catch((r) => {
-    t.ok(r, "Throws an error when ID doesn't exist")
-    teardown()
-  })
-})
-
-test('API call getOrganization fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getOrganization',
-  })
-})
-
-test('API call getOrganizations', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'organization',
-    mockToReturn: organizationMock,
-    methodToTest: 'getOrganizations',
-  })
-})
-
-test('API call getOrganizations fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getOrganizations',
-  })
-})
-
-// Organization usage tests
-test('API call getOrganizationUsage', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'usage',
-    mockToReturn: usageMock,
-    methodToTest: 'getOrganizationUsage',
-  })
-})
-
-test('API call getOrganizationUsage fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getOrganizationUsage',
-  })
-})
-
-// Space usage tests
-test('API call getSpaceUsage', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'usage',
-    mockToReturn: usageMock,
-    methodToTest: 'getSpaceUsage',
-  })
-})
-
-test('API call getSpaceUsage fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getSpaceUsage',
-  })
-})
-
-// User test
-test('API call getCurrentUser', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
-    entityType: 'user',
-    mockToReturn: userMock,
-    methodToTest: 'getCurrentUser',
-  })
-})
-
-test('API call getCurrentUser fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getCurrentUser',
-  })
-})
-
-// Personal access token tests
-test('API call getPersonalAccessToken fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getPersonalAccessToken',
-  })
-})
-
-test('API call getPersonalAccessToken', (t) => {
-  makeGetEntityTest(t, setup, teardown, {
-    entityType: 'personalAccessToken',
-    mockToReturn: personalAccessTokenMock,
-    methodToTest: 'getPersonalAccessToken',
-  })
-})
-
-test('API call getPersonalAccessTokens fails', (t) => {
-  makeEntityMethodFailingTest(t, setup, teardown, {
-    methodToTest: 'getPersonalAccessTokens',
-  })
-})
-
-test('API call getPersonalAccessTokens', (t) => {
-  makeGetCollectionTest(t, setup, teardown, {
-    entityType: 'personalAccessToken',
-    mockToReturn: personalAccessTokenMock,
-    methodToTest: 'getPersonalAccessTokens',
-  })
-})
-
-test('API call createSpace', (t) => {
-  t.plan(2)
-  const data = {
-    sys: { id: 'id', type: 'AccessToken' },
-    name: 'name',
-  }
-  const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
-  entitiesMock.personalAccessToken.wrapPersonalAccessToken.returns(data)
-
-  return api.createPersonalAccessToken({ name: 'name' }, 'orgid').then((r) => {
-    t.looseEqual(r, data, 'personal access token is wrapped')
-    t.looseEqual(httpMock.post.args[0][1], { name: 'name' }, 'data is sent')
-    teardown()
-  })
-})
-
-// Raw request tests
-test('API call rawRequest', (t) => {
-  const httpMock = sinon.stub().resolves({
-    data: {
-      response: true,
-    },
+describe('A createContentfulApi', () => {
+  afterEach(() => {
+    createContentfulApiRewireApi.__ResetDependency__('entities')
   })
 
-  const api = createContentfulApi({ http: httpMock })
+  describe('with space api', () => {
+    test('API call getSpaces', async () =>
+      makeGetCollectionTest(setup, {
+        entityType: 'space',
+        mockToReturn: spaceMock,
+        methodToTest: 'getSpaces',
+      }))
 
-  return api.rawRequest({ opts: true }).then((response) => {
-    t.looseEqual(
-      response,
-      {
+    test('API call getSpaces fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getSpaces',
+      }))
+
+    test('API call getSpace', async () =>
+      makeGetEntityTest(setup, {
+        entityType: 'space',
+        mockToReturn: spaceMock,
+        methodToTest: 'getSpace',
+      }))
+
+    test('API call getSpace fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getSpace',
+      }))
+
+    test('API call createSpace', async () => {
+      const data = {
+        sys: {
+          id: 'id',
+          type: 'Space',
+        },
+        name: 'name',
+      }
+      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
+      entitiesMock.space.wrapSpace.returns(data)
+
+      const space = await api.createSpace({ name: 'name' }, 'orgid')
+      expect(space).to.eq(data)
+      expect(httpMock.post.args[0][1]).to.eql({ name: 'name' })
+      expect(httpMock.post.args[0][2].headers['X-Contentful-Organization']).to.eq('orgid')
+    })
+
+    test('API call createSpace fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'createSpace',
+      }))
+  })
+
+  describe('with org api', () => {
+    test('API call getOrganization', async () => {
+      const organizationMock2 = Object.assign({}, organizationMock, { sys: { id: 'eid' } })
+      const getOrganizationSetup = () =>
+        setup(Promise.resolve({ data: { items: [organizationMock, organizationMock2] } }))
+      await makeGetEntityTest(getOrganizationSetup, {
+        entityType: 'organization',
+        mockToReturn: organizationMock2,
+        methodToTest: 'getOrganization',
+      })
+    })
+
+    test('API call getOrganization fails because org ID was not found in results', async () => {
+      const { api, entitiesMock } = setup(Promise.resolve({ data: { items: [organizationMock] } }))
+      entitiesMock.organization.wrapOrganization.returns(organizationMock)
+      try {
+        await api.getOrganization('non-existent-id')
+      } catch (e) {
+        expect(e).to.not.be.null
+      }
+    })
+
+    test('API call getOrganization fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getOrganization',
+      }))
+
+    test('API call getOrganizations', async () =>
+      makeGetCollectionTest(setup, {
+        entityType: 'organization',
+        mockToReturn: organizationMock,
+        methodToTest: 'getOrganizations',
+      }))
+
+    test('API call getOrganizations fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getOrganizations',
+      }))
+  })
+
+  describe('with org usage api', () => {
+    test('API call getOrganizationUsage', async () =>
+      makeGetCollectionTest(setup, {
+        entityType: 'usage',
+        mockToReturn: usageMock,
+        methodToTest: 'getOrganizationUsage',
+      }))
+
+    test('API call getOrganizationUsage fails', async () =>
+      makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getOrganizationUsage',
+      }))
+  })
+
+  describe('with space-usage api', () => {
+    test('API call getSpaceUsage', async () => {
+      await makeGetCollectionTest(setup, {
+        entityType: 'usage',
+        mockToReturn: usageMock,
+        methodToTest: 'getSpaceUsage',
+      })
+    })
+
+    test('API call getSpaceUsage fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getSpaceUsage',
+      })
+    })
+  })
+
+  describe('with user api', () => {
+    test('API call getCurrentUser', () => {
+      makeGetEntityTest(setup, {
+        entityType: 'user',
+        mockToReturn: userMock,
+        methodToTest: 'getCurrentUser',
+      })
+    })
+
+    test('API call getCurrentUser fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getCurrentUser',
+      })
+    })
+  })
+
+  describe('with personal-access-token api', () => {
+    test('API call getPersonalAccessToken', async () => {
+      await makeGetEntityTest(setup, {
+        entityType: 'personalAccessToken',
+        mockToReturn: personalAccessTokenMock,
+        methodToTest: 'getPersonalAccessToken',
+      })
+    })
+    test('API call getPersonalAccessToken fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getPersonalAccessToken',
+      })
+    })
+
+    test('API call getPersonalAccessTokens fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getPersonalAccessTokens',
+      })
+    })
+
+    test('API call getPersonalAccessTokens', async () => {
+      await makeGetCollectionTest(setup, {
+        entityType: 'personalAccessToken',
+        mockToReturn: personalAccessTokenMock,
+        methodToTest: 'getPersonalAccessTokens',
+      })
+    })
+
+    test('API call createSpace', async () => {
+      const data = {
+        sys: {
+          id: 'id',
+          type: 'AccessToken',
+        },
+        name: 'name',
+      }
+      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
+      entitiesMock.personalAccessToken.wrapPersonalAccessToken.returns(data)
+
+      const result = await api.createPersonalAccessToken({ name: 'name' }, 'orgid')
+      expect(result).to.eq(data)
+      expect(httpMock.post.args[0][1]).to.eql({ name: 'name' })
+    })
+  })
+
+  describe('with raw api', () => {
+    test('API call rawRequest', async () => {
+      const httpMock = sinon.stub().resolves({
+        data: {
+          response: true,
+        },
+      })
+
+      const api = createContentfulApi({ http: httpMock })
+
+      const result = await api.rawRequest({ opts: true })
+      expect(result).to.eql({
         response: true,
-      },
-      'returns plain response'
-    )
-    t.looseEqual(
-      httpMock.args[0][0],
-      {
+      })
+
+      expect(httpMock.args[0][0]).to.eql({
         opts: true,
-      },
-      'passes opts to http client'
-    )
+      })
+    })
   })
 })

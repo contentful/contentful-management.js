@@ -1,4 +1,3 @@
-import test from 'blue-tape'
 import {
   wrapAppDefinition,
   wrapAppDefinitionCollection,
@@ -6,13 +5,14 @@ import {
 import setupHttpMock from '../mocks/http'
 import { appDefinitionMock } from '../mocks/entities'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
-  failingVersionActionTest,
   entityDeleteTest,
+  entityUpdateTest,
+  entityWrappedTest,
   failingActionTest,
+  failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
+import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
@@ -21,40 +21,42 @@ function setup(promise) {
   }
 }
 
-test('AppDefinition is wrapped', (t) => {
-  entityWrappedTest(t, setup, {
-    wrapperMethod: wrapAppDefinition,
+describe('Entity AppDefinition', () => {
+  test('AppDefinition is wrapped', async () => {
+    return entityWrappedTest(setup, {
+      wrapperMethod: wrapAppDefinition,
+    })
   })
-})
 
-test('AppDefinition collection is wrapped', (t) => {
-  return entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapAppDefinitionCollection,
+  test('AppDefinition collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapAppDefinitionCollection,
+    })
   })
-})
 
-test('AppDefinition update', (t) => {
-  return entityUpdateTest(t, setup, {
-    wrapperMethod: wrapAppDefinition,
+  test('AppDefinition update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapAppDefinition,
+    })
   })
-})
 
-test('AppDefinition update fails', (t) => {
-  return failingVersionActionTest(t, setup, {
-    wrapperMethod: wrapAppDefinition,
-    actionMethod: 'update',
+  test('AppDefinition update fails', async () => {
+    return failingVersionActionTest(setup, {
+      wrapperMethod: wrapAppDefinition,
+      actionMethod: 'update',
+    })
   })
-})
 
-test('AppDefinition delete', (t) => {
-  return entityDeleteTest(t, setup, {
-    wrapperMethod: wrapAppDefinition,
+  test('AppDefinition delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapAppDefinition,
+    })
   })
-})
 
-test('AppDefinition delete fails', (t) => {
-  return failingActionTest(t, setup, {
-    wrapperMethod: wrapAppDefinition,
-    actionMethod: 'delete',
+  test('AppDefinition delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapAppDefinition,
+      actionMethod: 'delete',
+    })
   })
 })

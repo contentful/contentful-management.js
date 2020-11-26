@@ -1,19 +1,28 @@
-export function spaceMembersTests(t, space) {
-  t.test('Gets spaceMembers', (t) => {
-    t.plan(4)
+import { before, describe, test } from 'mocha'
+import { client } from '../helpers'
+import { expect } from 'chai'
+
+describe('SpaceMembers Api', () => {
+  let space
+
+  before(async () => {
+    space = await client(true).getSpace('w6xueg32zr68')
+  })
+
+  test('Gets spaceMembers', async () => {
     return space.getSpaceMembers().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.sys.type, 'Array')
-      t.ok(response.items, 'items')
-      t.ok(response.items[0].sys.type, 'SpaceMember')
+      expect(response.sys, 'sys').ok
+      expect(response.sys.type, 'Array').ok
+      expect(response.items, 'items').ok
+      expect(response.items[0].sys.type).equals('SpaceMember')
     })
   })
-  t.test('Gets spaceMember', (t) => {
-    t.plan(3)
+
+  test('Gets spaceMember', async () => {
     return space.getSpaceMember('0PCYk22mt1xD7gTKZhHycN').then((response) => {
-      t.ok(response.sys, 'sys')
-      t.equal(response.sys.type, 'SpaceMember')
-      t.ok(response.sys.id, 'w6xueg32zr68-0PCYk22mt1xD7gTKZhHycN')
+      expect(response.sys, 'sys').ok
+      expect(response.sys.type).equals('SpaceMember')
+      expect(response.sys.id).equal('w6xueg32zr68-0PCYk22mt1xD7gTKZhHycN')
     })
   })
-}
+})
