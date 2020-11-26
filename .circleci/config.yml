@@ -20,8 +20,8 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm install
       - run: npm run build
-      - run: npm run test:cover
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run: npm run test:cover-unit
+      - run: bash <(curl -s https://codecov.io/bash) -F unittests
       - run:
           name: Build Success
           when: on_success
@@ -35,7 +35,12 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm install
       - run: npm run build
-      - run: npm run test:integration
+      - run: npm run test:cover-integration
+      - run: bash <(curl -s https://codecov.io/bash) -F integrationtests
+      - run:
+          name: Build Success
+          when: on_success
+          command: ./node_modules/.bin/codecov
   release:
     docker:
       - image: circleci/node:12

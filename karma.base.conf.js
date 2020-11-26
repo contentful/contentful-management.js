@@ -1,15 +1,12 @@
-// This file is just a base configuration for karma and not directly usable
-// Use karma.conf.local.js for local tests
-// Use karma.conf.saucelabs.js for saucelabs tests
-
 const cloneDeep = require('lodash/cloneDeep')
 const webpackConfig = cloneDeep(require('./webpack.config.js')[1])
 delete webpackConfig.entry
 delete webpackConfig.output
 webpackConfig.devtool = 'inline-source-map'
 
-// https://webpack.github.io/docs/configuration.html#node
-// https://rmurphey.com/blog/2015/07/20/karma-webpack-tape-code-coverage
+const unitTestsPattern = 'test/unit/**/*-test.js'
+const integrationTestsPattern = 'test/integration/**/*.test.js'
+
 webpackConfig.node = {
   fs: 'empty',
 }
@@ -17,25 +14,46 @@ webpackConfig.node = {
 webpackConfig.module.rules = webpackConfig.module.rules.map((rule) => {
   if (rule.loader === 'babel-loader') {
     rule.options.envName = 'test'
+    rule.options = {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              esmodules: true,
+            },
+          },
+        ],
+        '@babel/typescript',
+      ],
+    }
   }
   return rule
 })
 
-console.log('Karma webpack config:')
-console.log(JSON.stringify(webpackConfig, null, 2))
-
 module.exports = {
-  plugins: [require('karma-tap'), require('karma-webpack')],
-
+  plugins: [require('karma-webpack'), require('karma-mocha'), require('karma-env-preprocessor')],
   basePath: '',
-  frameworks: ['tap'],
-  files: ['test/runner-browser.js'],
-
+  frameworks: ['mocha'],
+  files: [
+    {
+      pattern: unitTestsPattern,
+      watched: false,
+    },
+    {
+      pattern: integrationTestsPattern,
+      watched: false,
+    },
+  ],
+  envPreprocessor: [
+    'API_INTEGRATION_TESTS',
+    'CONTENTFUL_ACCESS_TOKEN',
+    'CONTENTFUL_V2_ACCESS_TOKEN',
+  ],
   preprocessors: {
-    'test/runner-browser.js': ['webpack'],
-    'test/unit/**/*.js': ['webpack'],
+    [unitTestsPattern]: ['webpack', 'env'],
+    [integrationTestsPattern]: ['webpack', 'env'],
   },
-
   webpack: webpackConfig,
   browserDisconnectTolerance: 5,
   browserNoActivityTimeout: 4 * 60 * 1000,

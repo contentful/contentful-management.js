@@ -1,9 +1,18 @@
-export function apiKeyTests(t, space) {
-  t.test('Gets previewApiKeys', (t) => {
-    t.plan(2)
+import { expect } from 'chai'
+import { before, describe, test } from 'mocha'
+import { getDefaultSpace } from '../helpers'
+
+describe('PreviewApiKeys Api', () => {
+  let space
+
+  before(async () => {
+    space = await getDefaultSpace()
+  })
+
+  test('Gets previewApiKeys', async () => {
     return space.getPreviewApiKeys().then((response) => {
-      t.ok(response.sys, 'sys')
-      t.ok(response.items, 'fields')
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'fields').ok
     })
   })
-}
+})

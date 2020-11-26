@@ -1,4 +1,4 @@
-import test from 'blue-tape'
+import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
 import { wrapUsageCollection } from '../../../lib/entities/usage'
@@ -11,8 +11,10 @@ function setup(promise) {
   }
 }
 
-test('Usage period collection is wrapped', (t) => {
-  entityCollectionWrappedTest(t, setup, {
-    wrapperMethod: wrapUsageCollection,
+describe('Entity Usage', () => {
+  test('Usage period collection is wrapped', async () => {
+    return entityCollectionWrappedTest(setup, {
+      wrapperMethod: wrapUsageCollection,
+    })
   })
 })

@@ -1,7 +1,27 @@
-export function teamSpaceMembershipTests(t, space) {
-  t.test('Create, update and delete teamSpaceMembership', (t) => {
-    t.plan(3)
-    // create space membership for existing team
+import { after, before, describe, test } from 'mocha'
+import { client, createTestSpace } from '../helpers'
+import { expect } from 'chai'
+
+// Skipping the while suite for now to not create unused spaces.
+describe.skip('TeamSpaceMembership api', function () {
+  let space
+
+  before(async () => {
+    space = await createTestSpace(client(), 'TSM')
+  })
+
+  after(async () => {
+    if (space) {
+      return space.delete()
+    }
+  })
+
+  /*
+  TODO: To make this test work, we first need to put the space in the required state.
+  - create a team, receive id, and use this id for this test.
+  - pull role id's dynamically from roles.
+   */
+  test.skip('Create, update and delete teamSpaceMembership', async () => {
     return space
       .createTeamSpaceMembership('5vllqmpyrhlgaz0xb2S90C', {
         admin: false,
@@ -30,9 +50,9 @@ export function teamSpaceMembershipTests(t, space) {
         return teamMembership
       })
       .then((teamMembership) => {
-        t.equal(teamMembership.sys.type, 'TeamSpaceMembership', 'type')
-        t.ok(teamMembership.sys.team, 'team')
-        t.ok(teamMembership.roles, 'roles')
+        expect(teamMembership.sys.type).equals('TeamSpaceMembership', 'type')
+        expect(teamMembership.sys.team, 'team').ok
+        expect(teamMembership.roles, 'roles').ok
         return space.getTeamSpaceMembership(teamMembership.sys.id)
       })
       .then((membership) => {
@@ -40,4 +60,4 @@ export function teamSpaceMembershipTests(t, space) {
         membership.delete()
       })
   })
-}
+})
