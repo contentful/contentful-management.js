@@ -41,7 +41,9 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       query: QueryOptions = {}
     ): Promise<Collection<Space, SpaceProps>> {
       return endpoints.space
-        .getMany(http, createRequestConfig({ query: query }))
+        .getMany(http, {
+          query: createRequestConfig({ query: query }).params,
+        })
         .then((data) => wrapSpaceCollection(http, data))
     },
     /**
