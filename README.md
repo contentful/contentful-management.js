@@ -68,6 +68,7 @@ For browsers, we recommend to download the SDK via npm or yarn to ensure 100% av
 If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
 
 ```html
+<script src="https://cdn.jsdelivr.net/npm/regenerator-runtime@latest/runtime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
 ```
 
@@ -77,7 +78,7 @@ Using `contentful@latest` will always get you the latest version, but you can al
 
 ```html
 <!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@4.0.1/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
 ```
 
 The Contentful Management SDK will be accessible via the `contentfulManagement` global variable.
@@ -87,12 +88,6 @@ Check the [releases](https://github.com/contentful/contentful-management.js/rele
 ### Typings
 
 This library also comes with typings to use with typescript.
-
-### Legacy browsers:
-
-This library also comes with a legacy version to support Internet Explorer 11 and other older browsers. It already contains a polyfill for Promises.
-
-To support legacy browsers in your application, use `contentful-management.legacy.min.js` instead of `contentful-management.browser.min.js`
 
 ## Authentication
 
