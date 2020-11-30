@@ -2,6 +2,7 @@
 
 module.exports = {
   require: ['@babel/register'],
+  file: ['./test/mocha-global.js'],
   diff: true,
   recursive: true,
   extension: ['js', 'ts'],
