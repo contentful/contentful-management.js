@@ -67,6 +67,11 @@ export default function errorHandler(errorResponse: AxiosError): never {
   const error = new Error()
   error.name =
     errorName && errorName !== 'Unknown' ? errorName : `${response?.status} ${response?.statusText}`
-  error.message = JSON.stringify(errorData, null, '  ')
+
+  try {
+    error.message = JSON.stringify(errorData, null, '  ')
+  } catch {
+    // do nothing
+  }
   throw error
 }
