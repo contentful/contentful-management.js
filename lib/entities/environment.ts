@@ -6,11 +6,6 @@ import { wrapCollection } from '../common-utils'
 import { DefaultElements, SysLink, BasicMetaSysProps } from '../common-types'
 import { AxiosInstance } from 'axios'
 
-type SdkHttpClient = AxiosInstance & {
-  httpClientParams: Record<string, any>
-  cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
-}
-
 type EnvironmentMetaSys = BasicMetaSysProps & {
   status: SysLink
   space: SysLink
@@ -47,15 +42,9 @@ export type Environment = ContentfulEnvironmentAPI &
  */
 export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): Environment {
   // do not pollute generated typings
-  const sdkHttp = http as SdkHttpClient
   const environment = toPlainObject(cloneDeep(data))
-  const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
-  const environmentScopedUploadClient = sdkHttp.cloneWithNewParams({
-    host: hostUpload || defaultHostnameUpload,
-  })
   const environmentApi = createEnvironmentApi({
     http,
-    httpUpload: environmentScopedUploadClient,
   })
   const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
   return freezeSys(enhancedEnvironment)

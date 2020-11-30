@@ -9,7 +9,7 @@ export type UploadProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { space: SysLink; environment: SysLink }
+  sys: MetaSysProps & { space: SysLink }
 }
 
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {
@@ -39,7 +39,6 @@ function createUploadApi(http: AxiosInstance) {
       const raw = this.toPlainObject() as UploadProps
       return endpoints.upload.del(http, {
         spaceId: raw.sys.space.sys.id,
-        environmentId: raw.sys.environment.sys.id,
         uploadId: raw.sys.id,
       })
     },

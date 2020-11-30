@@ -19,13 +19,7 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 /**
  * Creates API object with methods to access the Environment API
  */
-export default function createEnvironmentApi({
-  http,
-  httpUpload,
-}: {
-  http: AxiosInstance
-  httpUpload: AxiosInstance
-}) {
+export default function createEnvironmentApi({ http }: { http: AxiosInstance }) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry
@@ -695,7 +689,7 @@ export default function createEnvironmentApi({
     createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
       const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.asset
-        .createFromFiles(httpUpload)(
+        .createFromFiles(
           http,
           {
             spaceId: raw.sys.space.sys.id,
@@ -726,12 +720,11 @@ export default function createEnvironmentApi({
     getUpload(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.upload
-        .get(httpUpload, {
+        .get(http, {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
           uploadId: id,
         })
-        .then((data) => wrapUpload(httpUpload, data))
+        .then((data) => wrapUpload(http, data))
     },
 
     /**
@@ -756,14 +749,13 @@ export default function createEnvironmentApi({
       const raw = this.toPlainObject() as EnvironmentProps
       return endpoints.upload
         .create(
-          httpUpload,
+          http,
           {
             spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
           },
           data
         )
-        .then((data) => wrapUpload(httpUpload, data))
+        .then((data) => wrapUpload(http, data))
     },
     /**
      * Gets a Locale

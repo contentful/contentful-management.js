@@ -10,11 +10,6 @@ type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST 
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
   const http = createCMAHttpClient(params, true)
-  const httpUpload = createCMAHttpClient({
-    ...params,
-    host: params.hostUpload || defaultHostParameters.defaultHostnameUpload,
-  })
-
   const wrapParams = { http, defaults }
 
   return {
@@ -95,14 +90,14 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       unarchive: wrap(wrapParams, endpoints.asset.unarchive),
       create: wrap(wrapParams, endpoints.asset.create),
       createWithId: wrap(wrapParams, endpoints.asset.createWithId),
-      createFromFiles: wrap(wrapParams, endpoints.asset.createFromFiles(httpUpload)),
+      createFromFiles: wrap(wrapParams, endpoints.asset.createFromFiles),
       processForAllLocales: wrap(wrapParams, endpoints.asset.processForAllLocales),
       processForLocale: wrap(wrapParams, endpoints.asset.processForLocale),
     },
     upload: {
-      get: wrap({ http: httpUpload, defaults }, endpoints.upload.get),
-      create: wrap({ http: httpUpload, defaults }, endpoints.upload.create),
-      delete: wrap({ http: httpUpload, defaults }, endpoints.upload.del),
+      get: wrap(wrapParams, endpoints.upload.get),
+      create: wrap(wrapParams, endpoints.upload.create),
+      delete: wrap(wrapParams, endpoints.upload.del),
     },
     locale: {
       get: wrap(wrapParams, endpoints.locale.get),
