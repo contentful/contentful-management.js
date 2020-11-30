@@ -1,5 +1,5 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
+import { client, createTestSpace, generateRandomId } from '../helpers'
 import { expect } from 'chai'
 
 describe('Environment Api', function () {
@@ -23,9 +23,10 @@ describe('Environment Api', function () {
   })
 
   test('creates an environment with an id', async () => {
-    return space.createEnvironmentWithId('myId', { name: 'myId' }).then((response) => {
+    const id = generateRandomId('env')
+    return space.createEnvironmentWithId(id, { name: 'myId' }).then((response) => {
       expect(response.name).equals('myId', 'env was created with correct name')
-      expect(response.sys.id).equals('myId', 'env was created with id')
+      expect(response.sys.id).equals(id, 'env was created with id')
     })
   })
 })
