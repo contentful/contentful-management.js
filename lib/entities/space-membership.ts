@@ -3,20 +3,19 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import { SysLink, MetaSysProps, DefaultElements } from '../common-types'
 import * as endpoints from '../plain/endpoints'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps & { space: { sys: MetaLinkProps } }
-  name: string
-  /**
-   * User is an admin
-   */
+  sys: MetaSysProps & { space: SysLink; user: SysLink }
+  user: SysLink
   admin: boolean
-  roles: { sys: MetaLinkProps }[]
+  roles: SysLink[]
 }
 
-export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys'>
+export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'user'> & {
+  email: string
+}
 
 export interface SpaceMembership
   extends SpaceMembershipProps,
