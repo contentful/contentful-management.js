@@ -4,11 +4,11 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { BasicMetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import { BasicMetaSysProps, SysLink, DefaultElements } from '../common-types'
 import * as endpoints from '../plain/endpoints'
 
 export type LocaleProps = {
-  sys: BasicMetaSysProps & { space: { sys: MetaLinkProps }; environment: { sys: MetaLinkProps } }
+  sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
   /**
    * Locale name
    */
@@ -43,9 +43,12 @@ export type LocaleProps = {
   optional: boolean
 }
 
-export type CreateLocaleProps = SetOptional<
-  Except<LocaleProps, 'sys'>,
-  'optional' | 'contentManagementApi' | 'default' | 'contentDeliveryApi'
+export type CreateLocaleProps = Omit<
+  SetOptional<
+    Except<LocaleProps, 'sys'>,
+    'optional' | 'contentManagementApi' | 'default' | 'contentDeliveryApi'
+  >,
+  'internal_code'
 >
 
 export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
