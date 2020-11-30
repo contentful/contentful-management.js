@@ -3,13 +3,13 @@ const client = require('./helpers').client
 function filterDeletableSpaces(spaces, threshold) {
   return spaces.filter((space) => {
     return (
-      space.name.startsWith('CMA JS SDK') &&
+      space.name.startsWith('CMA JS SDK [AUTO]') &&
       Date.parse(space.sys.updatedAt) + threshold < Date.now()
     )
   })
 }
 
-async function cleanupSpaces(threshold = 1000 * 60 * 60, dryRun = false) {
+export async function cleanupSpaces(threshold = 1000 * 60 * 60, dryRun = false) {
   const api = client()
   const spaces = await api
     .getSpaces()
@@ -31,5 +31,3 @@ async function cleanupSpaces(threshold = 1000 * 60 * 60, dryRun = false) {
     await Promise.allSettled(spaces.map((space) => deleteSpace(space.sys.id)))
   }
 }
-
-cleanupSpaces().catch(console.error)
