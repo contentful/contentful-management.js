@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
 import cloneDeep from 'lodash/cloneDeep'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { toPlainObject } from 'contentful-sdk-core'
 import { CollectionProp, Collection } from './common-types'
 

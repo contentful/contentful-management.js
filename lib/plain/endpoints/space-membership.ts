@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 import * as raw from './raw'
 import { SpaceMembershipProps, CreateSpaceMembershipProps } from '../../entities/space-membership'

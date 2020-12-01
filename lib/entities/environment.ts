@@ -4,7 +4,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, SysLink, BasicMetaSysProps } from '../common-types'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 
 type EnvironmentMetaSys = BasicMetaSysProps & {
   status: SysLink

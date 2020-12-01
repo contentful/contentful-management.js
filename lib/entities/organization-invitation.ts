@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
 
 export type OrganizationInvitationProps = {
