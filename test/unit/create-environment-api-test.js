@@ -36,13 +36,11 @@ import { wrapTagCollection } from '../../lib/entities/tag'
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
   const httpMock = setupHttpMock(promise)
-  const httpUploadMock = setupHttpMock(promise)
-  const api = createEnvironmentApi({ http: httpMock, httpUpload: httpUploadMock })
+  const api = createEnvironmentApi({ http: httpMock })
   api.toPlainObject = () => environmentMock
   return {
     api,
     httpMock,
-    httpUploadMock,
     entitiesMock,
   }
 }
@@ -347,10 +345,11 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createAssetFromFiles', async () => {
-    const { api, httpMock, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
+    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
 
     entitiesMock.upload.wrapUpload.returns(Promise.resolve(uploadMock))
-    httpUploadMock.post.returns(
+
+    httpMock.post.onFirstCall().returns(
       Promise.resolve({
         data: {
           sys: {
@@ -359,7 +358,18 @@ describe('A createEnvironmentApi', () => {
         },
       })
     )
-    httpMock.post.returns(
+
+    httpMock.post.onSecondCall().returns(
+      Promise.resolve({
+        data: {
+          sys: {
+            id: 'some_random_id',
+          },
+        },
+      })
+    )
+
+    httpMock.post.onThirdCall().returns(
       Promise.resolve({
         data: assetWithFilesMock,
       })
@@ -385,11 +395,11 @@ describe('A createEnvironmentApi', () => {
         },
       })
       .then(() => {
-        expect(httpUploadMock.post.args[0][1]).equals(
+        expect(httpMock.post.args[0][1]).equals(
           '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file #1 to upload endpoint'
         )
-        expect(httpUploadMock.post.args[1][1]).equals(
+        expect(httpMock.post.args[1][1]).equals(
           '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
           'uploads file #2 to upload endpoint'
         )
@@ -415,13 +425,13 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createUpload', async () => {
-    const { api, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
+    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
     const mockedUpload = {
       sys: {
         id: 'some_random_id',
       },
     }
-    httpUploadMock.post.returns(
+    httpMock.post.returns(
       Promise.resolve({
         data: mockedUpload,
       })
@@ -434,10 +444,9 @@ describe('A createEnvironmentApi', () => {
         file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
       })
       .then(() => {
-        expect(httpUploadMock.post.args[0][2].headers['Content-Type']).equals(
-          'application/octet-stream'
-        )
-        expect(httpUploadMock.post.args[0][1]).equals(
+        expect(httpMock.post.args[0][0]).equals('/spaces/id/uploads')
+        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
+        expect(httpMock.post.args[0][1]).equals(
           '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file to upload endpoint'
         )
@@ -449,13 +458,13 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createUpload defaults the content type to octet-stream', async () => {
-    const { api, httpUploadMock, entitiesMock } = setup(Promise.resolve({}))
+    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
     const mockedUpload = {
       sys: {
         id: 'some_random_id',
       },
     }
-    httpUploadMock.post.returns(
+    httpMock.post.returns(
       Promise.resolve({
         data: mockedUpload,
       })
@@ -468,10 +477,8 @@ describe('A createEnvironmentApi', () => {
         file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
       })
       .then(() => {
-        expect(httpUploadMock.post.args[0][2].headers['Content-Type']).equals(
-          'application/octet-stream'
-        )
-        expect(httpUploadMock.post.args[0][1]).equals(
+        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
+        expect(httpMock.post.args[0][1]).equals(
           '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file to upload endpoint'
         )

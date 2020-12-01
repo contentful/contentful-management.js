@@ -1,45 +1,35 @@
 import { AxiosInstance } from 'axios'
 import * as raw from './raw'
 import { Stream } from 'stream'
-import { GetSpaceEnvironmentParams } from './common-types'
+import { GetSpaceParams } from './common-types'
+import { getUploadHttpClient } from '../../upload-http-client'
 
 export const create = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: GetSpaceParams,
   data: { file: string | ArrayBuffer | Stream }
 ) => {
+  const httpUpload = getUploadHttpClient(http)
+
   const { file } = data
   if (!file) {
     return Promise.reject(new Error('Unable to locate a file to upload.'))
   }
-  return raw.post(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/uploads`,
-    file,
-    {
-      headers: {
-        'Content-Type': 'application/octet-stream',
-      },
-    }
-  )
+  return raw.post(httpUpload, `/spaces/${params.spaceId}/uploads`, file, {
+    headers: {
+      'Content-Type': 'application/octet-stream',
+    },
+  })
 }
 
-export const del = (
-  http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { uploadId: string }
-) => {
-  return raw.del(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/uploads/${params.uploadId}`
-  )
+export const del = (http: AxiosInstance, params: GetSpaceParams & { uploadId: string }) => {
+  const httpUpload = getUploadHttpClient(http)
+
+  return raw.del(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
 }
 
-export const get = (
-  http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { uploadId: string }
-) => {
-  return raw.get(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/uploads/${params.uploadId}`
-  )
+export const get = (http: AxiosInstance, params: GetSpaceParams & { uploadId: string }) => {
+  const httpUpload = getUploadHttpClient(http)
+
+  return raw.get(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
 }
