@@ -58,7 +58,7 @@
     "contentful-sdk-core": "^6.4.5",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
-    "type-fest": "0.19.0"
+    "type-fest": "0.20.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.7",
