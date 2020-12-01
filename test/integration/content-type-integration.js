@@ -18,7 +18,7 @@ describe('ContentType Api', async function () {
   before(async () => {
     readSpace = await getDefaultSpace()
     readEnvironment = await readSpace.getEnvironment('master')
-    readContentType = await readEnvironment.createContentType({ name: 'test-content-type' })
+    readContentType = await readEnvironment.getContentType('vxVZs5JbhI9MwMupax3dm')
 
     writeSpace = await createTestSpace(client(), 'ContentType')
     writeEnvironment = await createTestEnvironment(writeSpace, 'Testing Environment')
