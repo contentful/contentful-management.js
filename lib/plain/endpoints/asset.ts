@@ -10,6 +10,7 @@ import {
 import { normalizeSelect } from './utils'
 import cloneDeep from 'lodash/cloneDeep'
 import { create as createUpload } from './upload'
+import { getUploadHttpClient } from '../../upload-http-client'
 
 import { QueryParams, CollectionProp, GetSpaceEnvironmentParams } from './common-types'
 
@@ -142,11 +143,13 @@ export const createWithId = (
   )
 }
 
-export const createFromFiles = (httpUpload: AxiosInstance) => (
+export const createFromFiles = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   data: Omit<AssetFileProp, 'sys'>
 ) => {
+  const httpUpload = getUploadHttpClient(http)
+
   const { file } = data.fields
   return Promise.all(
     Object.keys(file).map((locale) => {
