@@ -58,7 +58,7 @@
     "contentful-sdk-core": "^6.6.0",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
-    "type-fest": "0.19.0"
+    "type-fest": "0.20.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.7",
@@ -120,7 +120,7 @@
     "typedoc": "^0.18.0",
     "typescript": "^3.9.3",
     "webpack": "^4.23.1",
-    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-bundle-analyzer": "^4.2.0",
     "webpack-cli": "^3.1.2"
   },
   "config": {
