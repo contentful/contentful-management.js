@@ -47,7 +47,7 @@
     "precommit": "npm run lint",
     "postpublish": "if [ \"$(git rev-parse --abbrev-ref HEAD)\" = master ] ; then npm run docs:publish && npm run clean ; else exit 0 ; fi",
     "prepush": "npm run test:prepush",
-    "prepare": "relative-deps && npm run build"
+    "prepare": "npm run build"
   },
   "files": [
     "dist",
@@ -55,7 +55,7 @@
     "tonic-example.js"
   ],
   "dependencies": {
-    "contentful-sdk-core": "^6.5.0",
+    "contentful-sdk-core": "^6.6.0",
     "axios": "^0.21.0",
     "lodash": "^4.17.20",
     "type-fest": "0.19.0"
@@ -114,7 +114,6 @@
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
     "require-all": "^3.0.0",
-    "relative-deps": "1.0.6",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.0.4",
     "sinon": "^9.0.1",
@@ -123,9 +122,6 @@
     "webpack": "^4.23.1",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.2"
-  },
-  "relativeDependencies": {
-    "contentful-sdk-core": "../contentful-sdk-core"
   },
   "config": {
     "commitizen": {
