@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import cloneDeep from 'lodash/cloneDeep'
 import { CollectionProp } from '../../common-types'
 import { LocaleProps, CreateLocaleProps } from '../../entities/locale'

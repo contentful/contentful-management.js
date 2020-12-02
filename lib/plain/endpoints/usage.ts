@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { UsageProps } from '../../entities/usage'
 import { CollectionProp, QueryParams } from './common-types'

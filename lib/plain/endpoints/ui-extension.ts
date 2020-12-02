@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { QueryParams, GetSpaceEnvironmentParams, CollectionProp } from './common-types'
 import { normalizeSelect } from './utils'

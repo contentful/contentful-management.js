@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 
 export type SpaceMemberProps = {
   sys: MetaSysProps

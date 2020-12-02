@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'

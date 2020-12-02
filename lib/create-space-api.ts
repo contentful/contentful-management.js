@@ -3,7 +3,7 @@
  * level, such as creating and reading entities contained in a space.
  */
 
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
 import { CreateEnvironmentProps } from './entities/environment'

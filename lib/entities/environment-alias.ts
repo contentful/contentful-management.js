@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, MetaLinkProps, BasicMetaSysProps, SysLink } from '../common-types'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import * as endpoints from '../plain/endpoints'
 
 export type EnvironmentAliasProps = {
