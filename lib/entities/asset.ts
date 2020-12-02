@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Stream } from 'stream'
 import type { AxiosInstance } from 'contentful-sdk-core'
@@ -354,7 +354,7 @@ function createAssetApi(http: AxiosInstance): AssetApi {
  * @return Wrapped asset data
  */
 export function wrapAsset(http: AxiosInstance, data: AssetProps): Asset {
-  const asset = toPlainObject(cloneDeep(data))
+  const asset = toPlainObject(copy(data))
   const assetWithMethods = enhanceWithMethods(asset, createAssetApi(http))
   return freezeSys(assetWithMethods)
 }

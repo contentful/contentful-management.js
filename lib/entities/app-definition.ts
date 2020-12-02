@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -132,7 +132,7 @@ function createAppDefinitionApi(http: AxiosInstance) {
  * @return Wrapped App Definition data
  */
 export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps): AppDefinition {
-  const appDefinition = toPlainObject(cloneDeep(data))
+  const appDefinition = toPlainObject(copy(data))
   const appDefinitionWithMethods = enhanceWithMethods(appDefinition, createAppDefinitionApi(http))
   return freezeSys(appDefinitionWithMethods)
 }

@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -311,7 +311,7 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
  * @return Wrapped content type data
  */
 export function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentType {
-  const contentType = toPlainObject(cloneDeep(data))
+  const contentType = toPlainObject(copy(data))
   const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
   return freezeSys(contentTypeWithMethods)
 }

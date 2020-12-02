@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import { DefaultElements, BasicMetaSysProps } from '../common-types'
@@ -59,7 +59,7 @@ export interface User extends UserProps, DefaultElements<UserProps> {}
  * @return Normalized user
  */
 export function wrapUser(http: AxiosInstance, data: UserProps): User {
-  const user = toPlainObject(cloneDeep(data))
+  const user = toPlainObject(copy(data))
   const userWithMethods = enhanceWithMethods(user, {})
   return freezeSys(userWithMethods)
 }

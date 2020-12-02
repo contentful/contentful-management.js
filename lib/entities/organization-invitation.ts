@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
@@ -32,6 +32,6 @@ export function wrapOrganizationInvitation(
   _http: AxiosInstance,
   data: OrganizationInvitationProps
 ): OrganizationInvitation {
-  const invitation = toPlainObject(cloneDeep(data))
+  const invitation = toPlainObject(copy(data))
   return freezeSys(invitation)
 }

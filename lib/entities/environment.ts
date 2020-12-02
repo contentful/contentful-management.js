@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
@@ -42,7 +42,7 @@ export type Environment = ContentfulEnvironmentAPI &
  */
 export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): Environment {
   // do not pollute generated typings
-  const environment = toPlainObject(cloneDeep(data))
+  const environment = toPlainObject(copy(data))
   const environmentApi = createEnvironmentApi({
     http,
   })

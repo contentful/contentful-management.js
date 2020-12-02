@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -98,7 +98,7 @@ export function wrapOrganizationMembership(
   data: OrganizationMembershipProps,
   organizationId: string
 ): OrganizationMembership {
-  const organizationMembership = toPlainObject(cloneDeep(data))
+  const organizationMembership = toPlainObject(copy(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
     createOrganizationMembershipApi(http, organizationId)

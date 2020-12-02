@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import {
   EnvironmentAliasProps,
   CreateEnvironmentAliasProps,
@@ -38,7 +38,7 @@ export const createWithId = (
   rawData: CreateEnvironmentAliasProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
     headers: headers,
   })
@@ -50,7 +50,7 @@ export const update = (
   rawData: EnvironmentAliasProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
     headers: {

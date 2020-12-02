@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 import { RoleProps, CreateRoleProps } from '../../entities/role'
@@ -43,7 +43,7 @@ export const update = (
   rawData: RoleProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`, data, {
     headers: {
