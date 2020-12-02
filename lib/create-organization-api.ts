@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
 import * as endpoints from './plain/endpoints'

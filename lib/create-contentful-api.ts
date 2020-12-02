@@ -1,5 +1,5 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { createRequestConfig } from 'contentful-sdk-core'
+import { AxiosRequestConfig } from 'axios'
+import { createRequestConfig, AxiosInstance } from 'contentful-sdk-core'
 import errorHandler from './error-handler'
 import entities from './entities'
 import { Collection, QueryOptions } from './common-types'

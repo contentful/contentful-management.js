@@ -1,14 +1,8 @@
-import { AxiosInstance } from 'axios'
-
-type SdkHttpClient = AxiosInstance & {
-  httpClientParams: Record<string, any>
-  cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
-}
+import type { AxiosInstance } from 'contentful-sdk-core'
 
 export function getUploadHttpClient(http: AxiosInstance): AxiosInstance {
-  const sdkHttp = http as SdkHttpClient
-  const { hostUpload, defaultHostnameUpload } = sdkHttp.httpClientParams
-  const uploadHttp = sdkHttp.cloneWithNewParams({
+  const { hostUpload, defaultHostnameUpload } = http.httpClientParams as Record<string, any>
+  const uploadHttp = http.cloneWithNewParams({
     host: hostUpload || defaultHostnameUpload,
   })
   return uploadHttp

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AxiosInstance } from 'axios'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
