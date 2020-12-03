@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -298,7 +298,7 @@ function createEntryApi(http: AxiosInstance): EntryApi {
  * @return Wrapped entry data
  */
 export function wrapEntry(http: AxiosInstance, data: EntryProps): Entry {
-  const entry = toPlainObject(cloneDeep(data))
+  const entry = toPlainObject(copy(data))
   const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
   return freezeSys(entryWithMethods)
 }

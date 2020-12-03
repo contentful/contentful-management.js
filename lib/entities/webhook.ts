@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { JsonValue, Except, SetOptional } from 'type-fest'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import * as endpoints from '../plain/endpoints'
@@ -324,7 +324,7 @@ function createWebhookApi(http: AxiosInstance) {
  * @return Wrapped webhook data
  */
 export function wrapWebhook(http: AxiosInstance, data: WebhookProps): WebHooks {
-  const webhook = toPlainObject(cloneDeep(data))
+  const webhook = toPlainObject(copy(data))
   const webhookWithMethods = enhanceWithMethods(webhook, createWebhookApi(http))
   return freezeSys(webhookWithMethods)
 }

@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { EnvironmentProps, CreateEnvironmentProps } from '../../entities/environment'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import {
   CollectionProp,
   PaginationQueryParams,
@@ -28,7 +28,7 @@ export const update = (
   rawData: EnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
 
   return raw.put<EnvironmentProps>(
@@ -54,7 +54,7 @@ export const create = (
   rawData: CreateEnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   return raw.post<EnvironmentProps>(http, `/spaces/${params.spaceId}/environments`, data, {
     headers,
   })
@@ -66,7 +66,7 @@ export const createWithId = (
   rawData: CreateEnvironmentProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   return raw.put<EnvironmentProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}`,

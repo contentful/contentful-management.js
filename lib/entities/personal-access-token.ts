@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -49,7 +49,7 @@ export function wrapPersonalAccessToken(
   http: AxiosInstance,
   data: PersonalAccessTokenProp
 ): PersonalAccessToken {
-  const personalAccessToken = toPlainObject(cloneDeep(data))
+  const personalAccessToken = toPlainObject(copy(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {
     revoke: function () {
       return endpoints.personalAccessToken

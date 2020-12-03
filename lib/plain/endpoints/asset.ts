@@ -8,7 +8,7 @@ import {
   AssetProcessingForLocale,
 } from '../../entities/asset'
 import { normalizeSelect } from './utils'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { create as createUpload } from './upload'
 import { getUploadHttpClient } from '../../upload-http-client'
 
@@ -43,7 +43,7 @@ export const update = (
   rawData: AssetProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<AssetProps>(
     http,
@@ -120,7 +120,7 @@ export const create = (
   params: GetSpaceEnvironmentParams,
   rawData: CreateAssetProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.post<AssetProps>(
     http,
@@ -134,7 +134,7 @@ export const createWithId = (
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: CreateAssetProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<AssetProps>(
     http,

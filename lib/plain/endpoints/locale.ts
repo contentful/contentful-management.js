@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { CollectionProp } from '../../common-types'
 import { LocaleProps, CreateLocaleProps } from '../../entities/locale'
 import { normalizeSelect } from './utils'
@@ -48,7 +48,7 @@ export const update = (
   rawData: LocaleProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   delete data.default // we should not send this back
   return raw.put<LocaleProps>(

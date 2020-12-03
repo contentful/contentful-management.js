@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
@@ -25,7 +25,7 @@ export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemb
  * @return Wrapped space member data
  */
 export function wrapSpaceMember(http: AxiosInstance, data: SpaceMemberProps) {
-  const spaceMember = toPlainObject(cloneDeep(data))
+  const spaceMember = toPlainObject(copy(data))
   return freezeSys(spaceMember)
 }
 

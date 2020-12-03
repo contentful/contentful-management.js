@@ -2,7 +2,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { ApiKeyProps, CreateApiKeyProps } from '../../entities/api-key'
 import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams & { apiKeyId: string }) => {
   return raw.get<ApiKeyProps>(http, `/spaces/${params.spaceId}/api_keys/${params.apiKeyId}`)
@@ -40,7 +40,7 @@ export const update = (
   rawData: ApiKeyProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   if ('accessToken' in data) {
     delete data.accessToken
   }

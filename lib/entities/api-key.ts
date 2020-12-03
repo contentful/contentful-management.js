@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -87,7 +87,7 @@ function createApiKeyApi(http: AxiosInstance) {
  * @param data - Raw api key data
  */
 export function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiKey {
-  const apiKey = toPlainObject(cloneDeep(data))
+  const apiKey = toPlainObject(copy(data))
   const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(http))
   return freezeSys(apiKeyWithMethods)
 }

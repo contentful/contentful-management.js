@@ -1,5 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject'
-import get from 'lodash/get'
+import isPlainObject from 'lodash.isplainobject'
 import { AxiosError } from 'axios'
 
 /**
@@ -72,7 +71,7 @@ export default function errorHandler(errorResponse: AxiosError): never {
   try {
     error.message = JSON.stringify(errorData, null, '  ')
   } catch {
-    error.message = get(errorData, ['message'], '')
+    error.message = errorData?.message ?? ''
   }
   throw error
 }

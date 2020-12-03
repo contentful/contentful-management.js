@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import * as raw from './raw'
 import { SpaceMembershipProps, CreateSpaceMembershipProps } from '../../entities/space-membership'
 import { CollectionProp, QueryParams, GetSpaceParams, GetOrganizationParams } from './common-types'
@@ -81,7 +81,7 @@ export const update = (
   rawData: SpaceMembershipProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<SpaceMembershipProps>(http, getEntityUrl(params), data, {
     headers: {

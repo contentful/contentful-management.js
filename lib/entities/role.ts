@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -113,7 +113,7 @@ function createRoleApi(http: AxiosInstance) {
  * @return Wrapped role data
  */
 export function wrapRole(http: AxiosInstance, data: RoleProps): Role {
-  const role = toPlainObject(cloneDeep(data))
+  const role = toPlainObject(copy(data))
   const roleWithMethods = enhanceWithMethods(role, createRoleApi(http))
   return freezeSys(roleWithMethods)
 }
