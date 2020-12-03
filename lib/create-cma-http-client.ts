@@ -6,7 +6,7 @@
 import axios from 'axios'
 import { createHttpClient, getUserAgentHeader } from 'contentful-sdk-core'
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 
 export type ClientParams = CreateHttpClientParams & {
   /**
@@ -61,7 +61,7 @@ export function createCMAHttpClient(params: ClientParams, plainClient = false) {
 
   params = {
     ...defaultHostParameters,
-    ...cloneDeep(params),
+    ...copy(params),
   }
 
   if (!params.accessToken) {

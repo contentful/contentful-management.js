@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -29,7 +29,7 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @return {Space}
  */
 export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
-  const space = toPlainObject(cloneDeep(data))
+  const space = toPlainObject(copy(data))
   const spaceApi = createSpaceApi({
     http,
   })

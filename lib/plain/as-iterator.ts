@@ -1,6 +1,5 @@
 import { QueryParams, CollectionProp } from './endpoints/common-types'
-import cloneDeep from 'lodash/cloneDeep'
-import merge from 'lodash/merge'
+import copy from 'fast-copy'
 
 type IterableFn<P = any, T = any> = (params: P) => Promise<CollectionProp<T>>
 type ParamsType<T extends IterableFn> = T extends (params: infer P) => any ? P : never
@@ -11,8 +10,8 @@ export const asIterator = <P extends QueryParams, T, F extends IterableFn<P, T>>
 ): AsyncIterable<T> => {
   return {
     [Symbol.asyncIterator]() {
-      const options = cloneDeep(params)
-      const get = () => fn(cloneDeep(options))
+      let options = copy(params)
+      const get = () => fn(copy(options))
       let currentResult = get()
 
       return {
@@ -29,7 +28,13 @@ export const asIterator = <P extends QueryParams, T, F extends IterableFn<P, T>>
           const endOfList = this.current === total
 
           if (endOfPage && !endOfList) {
-            merge(options, { query: { skip: skip + limit } })
+            options = {
+              ...options,
+              query: {
+                ...options.query,
+                skip: skip + limit,
+              },
+            }
             currentResult = get()
           }
 

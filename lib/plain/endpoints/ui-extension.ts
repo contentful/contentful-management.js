@@ -3,7 +3,7 @@ import * as raw from './raw'
 import { QueryParams, GetSpaceEnvironmentParams, CollectionProp } from './common-types'
 import { normalizeSelect } from './utils'
 import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
-import { cloneDeep } from 'lodash'
+import copy from 'fast-copy'
 
 type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 
@@ -40,7 +40,7 @@ export const createWithId = (
   rawData: CreateUIExtensionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<UIExtensionProps>(http, getUIExtensionUrl(params), data, { headers })
 }
@@ -51,7 +51,7 @@ export const update = async (
   rawData: UIExtensionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   delete data.sys
 

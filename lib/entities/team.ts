@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -97,7 +97,7 @@ function createTeamApi(http: AxiosInstance) {
  * @return Wrapped team data
  */
 export function wrapTeam(http: AxiosInstance, data: TeamProps): Team {
-  const team = toPlainObject(cloneDeep(data))
+  const team = toPlainObject(copy(data))
   const teamWithMethods = enhanceWithMethods(team, createTeamApi(http))
   return freezeSys(teamWithMethods)
 }

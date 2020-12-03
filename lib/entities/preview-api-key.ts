@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -24,7 +24,7 @@ function createPreviewApiKeyApi() {
  * @return Wrapped preview api key data
  */
 export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps): PreviewApiKey {
-  const previewApiKey = toPlainObject(cloneDeep(data))
+  const previewApiKey = toPlainObject(copy(data))
   const previewApiKeyWithMethods = enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())
   return freezeSys(previewApiKeyWithMethods)
 }

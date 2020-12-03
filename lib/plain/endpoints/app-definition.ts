@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { GetOrganizationParams, QueryParams } from './common-types'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
@@ -31,7 +31,7 @@ export const create = (
   params: GetOrganizationParams,
   rawData: CreateAppDefinitionProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.post<AppDefinitionProps>(http, getBaseUrl(params), data)
 }
@@ -42,7 +42,7 @@ export const update = async (
   rawData: AppDefinitionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   delete data.sys
 

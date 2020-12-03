@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { SpaceProps } from '../../entities/space'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams) =>
@@ -31,7 +31,7 @@ export const update = (
   rawData: SpaceProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
 
   return raw.put<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {

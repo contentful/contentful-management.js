@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -100,7 +100,7 @@ export function wrapEnvironmentAlias(
   http: AxiosInstance,
   data: EnvironmentAliasProps
 ): EnvironmentAlias {
-  const alias = toPlainObject(cloneDeep(data))
+  const alias = toPlainObject(copy(data))
   const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(http))
   return freezeSys(enhancedAlias)
 }

@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { CreateTagProps, TagProps } from '../../entities/tag'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import type { CollectionProp, QueryParams, GetSpaceEnvironmentParams } from './common-types'
 
 type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
@@ -24,7 +24,7 @@ export const createWithId = (
   params: GetTagParams,
   rawData: CreateTagProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<TagProps>(http, getTagUrl(params), data)
 }
@@ -35,7 +35,7 @@ export const update = (
   rawData: TagProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
 
   return raw.put<TagProps>(http, getTagUrl(params), data, {

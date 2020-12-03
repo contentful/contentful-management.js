@@ -3,7 +3,7 @@ import * as raw from './raw'
 import { GetSpaceEnvironmentParams, CollectionProp, PaginationQueryParams } from './common-types'
 import { normalizeSelect } from './utils'
 import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
-import { cloneDeep } from 'lodash'
+import copy from 'fast-copy'
 
 type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 
@@ -37,7 +37,7 @@ export const upsert = (
   rawData: CreateAppInstallationProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<AppInstallationProps>(http, getAppInstallationUrl(params), data, {
     ...headers,

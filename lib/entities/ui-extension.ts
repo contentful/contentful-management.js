@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -129,7 +129,7 @@ function createUiExtensionApi(http: AxiosInstance) {
  * @return Wrapped UI Extension data
  */
 export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): UIExtension {
-  const uiExtension = toPlainObject(cloneDeep(data))
+  const uiExtension = toPlainObject(copy(data))
   const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(http))
   return freezeSys(uiExtensionWithMethods)
 }

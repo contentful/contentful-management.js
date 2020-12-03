@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AxiosInstance } from 'contentful-sdk-core'
@@ -175,7 +175,7 @@ export function wrapEditorInterface(
   http: AxiosInstance,
   data: EditorInterfaceProps
 ): EditorInterface {
-  const editorInterface = toPlainObject(cloneDeep(data))
+  const editorInterface = toPlainObject(copy(data))
   const editorInterfaceWithMethods = enhanceWithMethods(
     editorInterface,
     createEditorInterfaceApi(http)

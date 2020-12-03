@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { cloneDeep } from 'lodash'
+import copy from 'fast-copy'
 import { DefaultElements, MetaSysProps, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -67,7 +67,7 @@ export default function createTagApi(http: AxiosInstance): TagApi {
 }
 
 export function wrapTag(http: AxiosInstance, data: TagProps): Tag {
-  const tag = toPlainObject(cloneDeep(data))
+  const tag = toPlainObject(copy(data))
   const tagWithMethods = enhanceWithMethods(tag, createTagApi(http))
   return freezeSys(tagWithMethods)
 }

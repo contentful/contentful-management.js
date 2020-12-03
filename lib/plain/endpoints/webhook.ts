@@ -9,7 +9,7 @@ import {
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
 } from '../../entities/webhook'
-import { cloneDeep } from 'lodash'
+import copy from 'fast-copy'
 
 type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
@@ -61,7 +61,7 @@ export const create = (
   rawData: CreateWebhooksProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.post<WebhookProps>(http, getBaseUrl(params), data, { headers })
 }
@@ -72,7 +72,7 @@ export const createWithId = (
   rawData: CreateWebhooksProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<WebhookProps>(http, getWebhookUrl(params), data, { headers })
 }
@@ -83,7 +83,7 @@ export const update = async (
   rawData: WebhookProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   delete data.sys
 

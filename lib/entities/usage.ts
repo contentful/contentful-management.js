@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -61,7 +61,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @return Normalized usage
  */
 export function wrapUsage(http: AxiosInstance, data: UsageProps): Usage {
-  const usage = toPlainObject(cloneDeep(data))
+  const usage = toPlainObject(copy(data))
   const usageWithMethods = enhanceWithMethods(usage, {})
   return freezeSys(usageWithMethods)
 }

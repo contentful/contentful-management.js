@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -27,7 +27,7 @@ function createSnapshotApi() {
  * @return Wrapped snapshot data
  */
 export function wrapSnapshot<T>(_http: AxiosInstance, data: SnapshotProps<T>): Snapshot<T> {
-  const snapshot = toPlainObject(cloneDeep(data))
+  const snapshot = toPlainObject(copy(data))
   const snapshotWithMethods = enhanceWithMethods(snapshot, createSnapshotApi())
   return freezeSys(snapshotWithMethods)
 }

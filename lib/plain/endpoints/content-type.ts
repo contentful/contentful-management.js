@@ -4,7 +4,7 @@ import { ContentTypeProps, CreateContentTypeProps } from '../../entities/content
 
 import { CollectionProp, QueryParams, GetSpaceEnvironmentParams } from './common-types'
 import { normalizeSelect } from './utils'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 
 type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
@@ -31,7 +31,7 @@ export const create = (
   params: GetSpaceEnvironmentParams,
   rawData: CreateContentTypeProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.post<ContentTypeProps>(http, getBaseUrl(params), data)
 }
@@ -41,7 +41,7 @@ export const createWithId = (
   params: GetContentTypeParams,
   rawData: CreateContentTypeProps
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<ContentTypeProps>(http, getContentTypeUrl(params), data)
 }
@@ -52,7 +52,7 @@ export const update = (
   rawData: ContentTypeProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<ContentTypeProps>(http, getContentTypeUrl(params), data, {
     headers: {

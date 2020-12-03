@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { CollectionProp, GetOrganizationParams, QueryParams } from './common-types'
 import { OrganizationMembershipProps } from '../../entities/organization-membership'
 
@@ -26,7 +26,7 @@ export const update = (
   rawData: OrganizationMembershipProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
 
   const { role } = data

@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AxiosInstance } from 'contentful-sdk-core'
@@ -52,7 +52,7 @@ function createUploadApi(http: AxiosInstance) {
  * @return {Upload} Wrapped upload data
  */
 export function wrapUpload(http: AxiosInstance, data: UploadProps) {
-  const upload = toPlainObject(cloneDeep(data))
+  const upload = toPlainObject(copy(data))
   const uploadWithMethods = enhanceWithMethods(upload, createUploadApi(http))
   return freezeSys(uploadWithMethods)
 }

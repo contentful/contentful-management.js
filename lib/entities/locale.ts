@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
@@ -129,7 +129,7 @@ export function wrapLocale(http: AxiosInstance, data: LocaleProps): Locale {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete data.internal_code
-  const locale = toPlainObject(cloneDeep(data))
+  const locale = toPlainObject(copy(data))
   const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(http))
   return freezeSys(localeWithMethods)
 }

@@ -2,7 +2,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { CreateEntryProps, EntryProps } from '../../entities/entry'
 import { normalizeSelect } from './utils'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { QueryParams, CollectionProp, KeyValueMap, GetSpaceEnvironmentParams } from './common-types'
 
 export const get = <T extends KeyValueMap = KeyValueMap>(
@@ -37,7 +37,7 @@ export const update = <T extends KeyValueMap = KeyValueMap>(
   rawData: EntryProps<T>,
   headers?: Record<string, unknown>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
   delete data.sys
   return raw.put<EntryProps<T>>(
     http,
@@ -114,7 +114,7 @@ export const create = <T extends KeyValueMap = KeyValueMap>(
   params: GetSpaceEnvironmentParams & { contentTypeId: string },
   rawData: CreateEntryProps<T>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.post<EntryProps<T>>(
     http,
@@ -133,7 +133,7 @@ export const createWithId = <T extends KeyValueMap = KeyValueMap>(
   params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
   rawData: CreateEntryProps<T>
 ) => {
-  const data = cloneDeep(rawData)
+  const data = copy(rawData)
 
   return raw.put<EntryProps<T>>(
     http,

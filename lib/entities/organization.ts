@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createOrganizationApi, { ContentfulOrganizationAPI } from '../create-organization-api'
@@ -32,7 +32,7 @@ export type OrganizationProp = {
  * @return {Organization}
  */
 export function wrapOrganization(http: AxiosInstance, data: OrganizationProp): Organization {
-  const org = toPlainObject(cloneDeep(data))
+  const org = toPlainObject(copy(data))
   const orgApi = createOrganizationApi({
     http: http,
   })

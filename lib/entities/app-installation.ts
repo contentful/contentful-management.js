@@ -1,6 +1,6 @@
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import cloneDeep from 'lodash/cloneDeep'
+import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import * as endpoints from '../plain/endpoints'
@@ -100,7 +100,7 @@ export function wrapAppInstallation(
   http: AxiosInstance,
   data: AppInstallationProps
 ): AppInstallation {
-  const appInstallation = toPlainObject(cloneDeep(data))
+  const appInstallation = toPlainObject(copy(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
     createAppInstallationApi(http)

@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { cloneDeep } from 'lodash'
+import copy from 'fast-copy'
 import {
   DefaultElements,
   ISO8601Timestamp,
@@ -101,7 +101,7 @@ export function wrapScheduledAction(
   http: AxiosInstance,
   data: ScheduledActionProps
 ): ScheduledAction {
-  const scheduledAction = toPlainObject(cloneDeep(data))
+  const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
     createScheduledActionApi(http)
