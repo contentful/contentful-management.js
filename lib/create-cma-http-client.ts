@@ -12,7 +12,7 @@ export type ClientParams = CreateHttpClientParams & {
   /**
    * Contentful CMA Access Token
    */
-  accessToken: string
+  accessToken: CreateHttpClientParams['accessToken']
   /**
    * API host
    * @default api.contentful.com
