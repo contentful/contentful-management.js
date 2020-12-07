@@ -55,7 +55,7 @@
     "tonic-example.js"
   ],
   "dependencies": {
-    "contentful-sdk-core": "^6.6.0",
+    "contentful-sdk-core": "^6.7.0",
     "axios": "^0.21.0",
     "lodash.isplainobject": "^4.0.6",
     "fast-copy": "^2.1.0",
