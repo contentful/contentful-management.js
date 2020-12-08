@@ -1,11 +1,12 @@
-import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../create-cma-http-client'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './endpoints'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 export type PlainClientAPI = ReturnType<typeof createPlainClient>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
 export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
@@ -15,14 +16,18 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   return {
     raw: {
       getDefaultParams: () => defaults,
-      get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
-      post: (...args: RestParamsType<typeof endpoints.raw.post>) =>
-        endpoints.raw.post(http, ...args),
-      put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
-      delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
-        endpoints.raw.del(http, ...args),
-      http: (...args: RestParamsType<typeof endpoints.raw.http>) =>
-        endpoints.raw.http(http, ...args),
+      get: <T = any>(...args: RestParamsType<typeof endpoints.raw.get>) =>
+        endpoints.raw.get<T>(http, ...args),
+      post: <T = any>(...args: RestParamsType<typeof endpoints.raw.post>) =>
+        endpoints.raw.post<T>(http, ...args),
+      put: <T = any>(...args: RestParamsType<typeof endpoints.raw.put>) =>
+        endpoints.raw.put<T>(http, ...args),
+      delete: <T = any>(...args: RestParamsType<typeof endpoints.raw.del>) =>
+        endpoints.raw.del<T>(http, ...args),
+      http: <T = any>(...args: RestParamsType<typeof endpoints.raw.http>) =>
+        endpoints.raw.http<T>(http, ...args),
+      bareRequest: <T = any>(...args: RestParamsType<typeof endpoints.raw.bareRequest>) =>
+        endpoints.raw.bareRequest<T>(http, ...args),
     },
     editorInterface: {
       get: wrap(wrapParams, endpoints.editorInterface.get),

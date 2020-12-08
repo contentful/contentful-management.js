@@ -57,5 +57,12 @@ export function http<T = any>(http: AxiosInstance, url: string, config?: AxiosRe
   return http(url, {
     baseURL: getBaseUrl(http),
     ...config,
-  }).then((response) => response.data, errorHandler)
+  }).then((response) => response.data as T, errorHandler)
+}
+
+export function bareRequest<T = any>(http: AxiosInstance, config: AxiosRequestConfig) {
+  return http.request<T>({
+    baseURL: getBaseUrl(http),
+    ...config,
+  })
 }
