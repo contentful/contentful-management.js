@@ -69,8 +69,8 @@ export function createCMAHttpClient(params: ClientParams, plainClient = false) {
   }
 
   params.headers = {
-    ...params.headers,
     ...requiredHeaders,
+    ...params.headers,
   }
 
   return createHttpClient(axios, params)
