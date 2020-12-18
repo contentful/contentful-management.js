@@ -390,6 +390,36 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
     },
 
     /**
+     * Deletes an Entry of this environement
+     * @param id - Entry ID
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.deleteEntry("4bmLXiuviAZH3jkj5DLRWE"))
+     * .then(() => console.log('Entry deleted.'))
+     * .catch(console.error)
+     * ```
+     */
+    deleteEntry(id: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return endpoints.entry
+        .del(http, {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: id,
+        }).then(() => {
+          // noop
+        })
+    },
+
+    /**
      * Gets a collection of Entries
      * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
      * from your entry in the backend
