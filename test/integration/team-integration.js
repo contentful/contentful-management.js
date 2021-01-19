@@ -19,9 +19,9 @@ describe('Team api', function () {
   })
 
   test('Gets team', async () => {
-    return organization.getTeam('7pIEx2fMx53SSR1jd7C46M').then((response) => {
+    return organization.getTeam('1aBQyG9AVlWLIephQlT0jN').then((response) => {
       expect(response.sys, 'sys').to.be.ok
-      expect(response.sys.id).equal('7pIEx2fMx53SSR1jd7C46M')
+      expect(response.sys.id).equal('1aBQyG9AVlWLIephQlT0jN')
       expect(response.sys.type).equal('Team')
       expect(response.name).equal('SDK test team [DO NOT DELETE]')
     })
