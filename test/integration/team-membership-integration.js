@@ -20,9 +20,9 @@ describe('TeamMemberships api', function () {
   })
 
   test('Gets one teamMembership', async () => {
-    return organization.getTeamMembership(teamId, '1tzDxN5zD2JbUjwzntAlLW').then((response) => {
+    return organization.getTeamMembership(teamId, '1yH0IzZFF816c7uk0dRTNk').then((response) => {
       expect(response.sys, 'sys').ok
-      expect(response.sys.id).equals('1tzDxN5zD2JbUjwzntAlLW')
+      expect(response.sys.id).equals('1yH0IzZFF816c7uk0dRTNk')
       expect(response.sys.type).equals('TeamMembership')
     })
   })
