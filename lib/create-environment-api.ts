@@ -414,7 +414,8 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: id,
-        }).then(() => {
+        })
+        .then(() => {
           // noop
         })
     },
