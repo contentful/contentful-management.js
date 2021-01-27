@@ -687,4 +687,17 @@ describe('A createEnvironmentApi', () => {
       expect(r).eql(tag)
     })
   })
+
+  test('API call deleteEntry', async () => {
+    const { api } = setup(Promise.resolve({}))
+    expect(await api.deleteEntry()).to.not.throw
+  })
+
+  test('API call deleteEntry fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    await api.deleteEntry().catch((r) => {
+      expect(r.name).to.equals('404 Not Found')
+    })
+  })
 })
