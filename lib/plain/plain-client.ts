@@ -1,4 +1,4 @@
-import { createCMAHttpClient, ClientParams, defaultHostParameters } from '../create-cma-http-client'
+import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
 import * as endpoints from './endpoints'
 import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
 
@@ -15,14 +15,16 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
   return {
     raw: {
       getDefaultParams: () => defaults,
-      get: (...args: RestParamsType<typeof endpoints.raw.get>) => endpoints.raw.get(http, ...args),
-      post: (...args: RestParamsType<typeof endpoints.raw.post>) =>
-        endpoints.raw.post(http, ...args),
-      put: (...args: RestParamsType<typeof endpoints.raw.put>) => endpoints.raw.put(http, ...args),
-      delete: (...args: RestParamsType<typeof endpoints.raw.del>) =>
-        endpoints.raw.del(http, ...args),
-      http: (...args: RestParamsType<typeof endpoints.raw.http>) =>
-        endpoints.raw.http(http, ...args),
+      get: <T = unknown>(...args: RestParamsType<typeof endpoints.raw.get>) =>
+        endpoints.raw.get<T>(http, ...args),
+      post: <T = unknown>(...args: RestParamsType<typeof endpoints.raw.post>) =>
+        endpoints.raw.post<T>(http, ...args),
+      put: <T = unknown>(...args: RestParamsType<typeof endpoints.raw.put>) =>
+        endpoints.raw.put<T>(http, ...args),
+      delete: <T = unknown>(...args: RestParamsType<typeof endpoints.raw.del>) =>
+        endpoints.raw.del<T>(http, ...args),
+      http: <T = unknown>(...args: RestParamsType<typeof endpoints.raw.http>) =>
+        endpoints.raw.http<T>(http, ...args),
     },
     editorInterface: {
       get: wrap(wrapParams, endpoints.editorInterface.get),
