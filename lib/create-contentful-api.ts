@@ -6,8 +6,10 @@ import { Collection, QueryOptions } from './common-types'
 import { OrganizationProp, Organization } from './entities/organization'
 import { SpaceProps, Space } from './entities/space'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import { UsageQuery } from './entities/usage'
 import * as endpoints from './plain/endpoints'
+import { QueryParams } from './plain/endpoints/common-types'
+import { UsageQuery } from './entities/usage'
+import { UserProps } from './entities/user'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
@@ -150,8 +152,8 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: function getCurrentUser() {
-      return endpoints.user.getCurrent(http).then((data) => wrapUser(http, data))
+    getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams) {
+      return endpoints.user.getCurrent<T>(http, params).then((data) => wrapUser(http, data))
     },
     /**
      * Creates a personal access token

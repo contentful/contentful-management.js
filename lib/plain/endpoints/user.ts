@@ -7,7 +7,8 @@ export const getForSpace = (http: AxiosInstance, params: GetSpaceParams & { user
   return raw.get<UserProps>(http, `/spaces/${params.spaceId}/users/${params.userId}`)
 }
 
-export const getCurrent = (http: AxiosInstance) => raw.get<UserProps>(http, `/users/me`)
+export const getCurrent = <T = UserProps>(http: AxiosInstance, params?: QueryParams) =>
+  raw.get<T>(http, `/users/me`, { params: params?.query })
 
 export const getManyForSpace = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
   return raw.get<CollectionProp<UserProps>>(http, `/spaces/${params.spaceId}/users`, {

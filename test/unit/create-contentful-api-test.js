@@ -167,6 +167,14 @@ describe('A createContentfulApi', () => {
         methodToTest: 'getCurrentUser',
       })
     })
+
+    test('API call getCurrentUser with extra params', async () => {
+      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: userMock }))
+      entitiesMock.user.wrapUser.returns(userMock)
+
+      await api.getCurrentUser({ query: { foo: 'bar' } })
+      expect(httpMock.get.args[0][1].params).to.eql({ foo: 'bar' })
+    })
   })
 
   describe('with personal-access-token api', () => {
