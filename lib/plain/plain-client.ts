@@ -65,7 +65,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
     user: {
       getManyForSpace: wrap(wrapParams, endpoints.user.getManyForSpace),
       getForSpace: wrap(wrapParams, endpoints.user.getForSpace),
-      getCurrent: wrapHttp(http, endpoints.user.getCurrent),
+      getCurrent: (...args: RestParamsType<typeof endpoints.user.getCurrent>) => {
+        return endpoints.user.getCurrent(http, ...args)
+      },
       getForOrganization: wrap(wrapParams, endpoints.user.getForOrganization),
       getManyForOrganization: wrap(wrapParams, endpoints.user.getManyForOrganization),
     },
