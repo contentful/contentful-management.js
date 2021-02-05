@@ -4,6 +4,7 @@ import { expect } from 'chai'
 
 describe('TeamMemberships api', function () {
   let organization
+  let teamId = '1aBQyG9AVlWLIephQlT0jN'
 
   before(async () => {
     const organizations = await client().getOrganizations()
@@ -11,28 +12,24 @@ describe('TeamMemberships api', function () {
   })
 
   test('Gets teamMemberships for team', async () => {
-    return organization
-      .getTeamMemberships({ teamId: '7pIEx2fMx53SSR1jd7C46M' })
-      .then((response) => {
-        expect(response.sys, 'sys').ok
-        expect(response.items, 'items').ok
-        expect(response.items[0].sys.type).equals('TeamMembership')
-      })
+    return organization.getTeamMemberships({ teamId }).then((response) => {
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'items').ok
+      expect(response.items[0].sys.type).equals('TeamMembership')
+    })
   })
 
   test('Gets one teamMembership', async () => {
-    return organization
-      .getTeamMembership('7pIEx2fMx53SSR1jd7C46M', '1tzDxN5zD2JbUjwzntAlLW')
-      .then((response) => {
-        expect(response.sys, 'sys').ok
-        expect(response.sys.id).equals('1tzDxN5zD2JbUjwzntAlLW')
-        expect(response.sys.type).equals('TeamMembership')
-      })
+    return organization.getTeamMembership(teamId, '1yH0IzZFF816c7uk0dRTNk').then((response) => {
+      expect(response.sys, 'sys').ok
+      expect(response.sys.id).equals('1yH0IzZFF816c7uk0dRTNk')
+      expect(response.sys.type).equals('TeamMembership')
+    })
   })
 
   test('Create, update and delete teamMembership', async () => {
     return organization
-      .createTeamMembership('7pIEx2fMx53SSR1jd7C46M', {
+      .createTeamMembership(teamId, {
         admin: true,
         organizationMembershipId: '5mDCHGHvePI8NOzw0WaY2Z',
       })

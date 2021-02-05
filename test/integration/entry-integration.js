@@ -354,5 +354,15 @@ describe('Entry Api', () => {
           return entry.delete()
         })
     })
+
+    test('Create with id and delete entry with deleteEntry method', async () => {
+      return environment
+        .createEntryWithId(contentType.sys.id, 'entryid', {
+          fields: { title: { 'en-US': 'this is the title' } },
+        })
+        .then(() => {
+          return environment.deleteEntry('entryid')
+        })
+    })
   })
 })
