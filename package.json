@@ -59,7 +59,7 @@
     "axios": "^0.21.0",
     "lodash.isplainobject": "^4.0.6",
     "fast-copy": "^2.1.0",
-    "type-fest": "0.20.2"
+    "type-fest": "0.21.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.7",
