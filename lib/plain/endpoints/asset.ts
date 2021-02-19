@@ -16,13 +16,15 @@ import { QueryParams, CollectionProp, GetSpaceEnvironmentParams } from './common
 
 export const get = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
     {
       params: normalizeSelect(params.query),
+      headers,
     }
   )
 }

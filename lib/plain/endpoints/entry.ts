@@ -7,13 +7,15 @@ import { QueryParams, CollectionProp, KeyValueMap, GetSpaceEnvironmentParams } f
 
 export const get = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
     {
       params: normalizeSelect(params.query),
+      headers,
     }
   )
 }
