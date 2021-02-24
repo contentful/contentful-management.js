@@ -5,16 +5,16 @@
  */
 
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
-import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
-import type { DefaultParams, PlainClientAPI } from './plain/plain-client'
+import { ClientParams, createAdapter } from './create-adapter'
+import type { DefaultParams } from './plain/plain-client'
 
 import { createPlainClient } from './plain/plain-client'
+import { PlainClientAPI } from './plain/endpoints/common-types'
 
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
-export type { PlainClientAPI } from './plain/plain-client'
 export type { ClientAPI } from './create-contentful-api'
-export type { ClientParams } from './create-cma-http-client'
+export type { ClientParams } from './create-adapter'
 export type PlainClientDefaultParams = DefaultParams
 
 /**
@@ -42,18 +42,12 @@ function createClient(
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {
-  let client: ClientAPI | PlainClientAPI
-
+  const adapter = createAdapter(params, opts.type === 'plain')
   if (opts.type === 'plain') {
-    client = createPlainClient(params, opts.defaults)
+    return createPlainClient(adapter, opts.defaults)
   } else {
-    const http = createCMAHttpClient(params)
-    client = createContentfulApi({
-      http: http,
-    }) as ClientAPI
+    return createContentfulApi(adapter) as ClientAPI
   }
-
-  return client
 }
 
 export { createClient }

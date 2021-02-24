@@ -1,15 +1,9 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
+import copy from 'fast-copy'
+import { Adapter, BasicMetaSysProps, DefaultElements } from '../common-types'
+import { wrapCollectionWithAdapter } from '../common-utils'
 import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
-import { BasicMetaSysProps, DefaultElements } from '../common-types'
-
-type SdkHttpClient = AxiosInstance & {
-  httpClientParams: Record<string, any>
-  cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
-}
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type SpaceProps = {
   sys: BasicMetaSysProps & { organization: { sys: { id: string } } }
@@ -28,10 +22,10 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @param data - API response for a Space
  * @return {Space}
  */
-export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
+export function wrapSpace(adapter: Adapter, data: SpaceProps): Space {
   const space = toPlainObject(copy(data))
   const spaceApi = createSpaceApi({
-    http,
+    adapter,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)
@@ -42,4 +36,4 @@ export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
  * above for more details.
  * @private
  */
-export const wrapSpaceCollection = wrapCollection(wrapSpace)
+export const wrapSpaceCollection = wrapCollectionWithAdapter(wrapSpace)

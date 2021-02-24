@@ -1,16 +1,18 @@
-import { createCMAHttpClient, ClientParams } from '../create-cma-http-client'
+import { RestAdapter } from '../adapters/REST/rest-adapter'
+import { Adapter } from '../common-types'
 import * as endpoints from './endpoints'
-import { wrap, wrapHttp, DefaultParams } from './wrappers/wrap'
+import { PlainClientAPI } from './endpoints/common-types'
+import { DefaultParams, wrap, wrapAdapter, wrapHttp } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
-export type PlainClientAPI = ReturnType<typeof createPlainClient>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
-export const createPlainClient = (params: ClientParams, defaults?: DefaultParams) => {
-  const http = createCMAHttpClient(params, true)
+export const createPlainClient = (adapter: Adapter, defaults?: DefaultParams): PlainClientAPI => {
+  const http = (adapter as RestAdapter).http
   const wrapParams = { http, defaults }
+  const adapterWrapParams = { adapter, defaults }
 
   return {
     raw: {
@@ -32,11 +34,11 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       update: wrap(wrapParams, endpoints.editorInterface.update),
     },
     space: {
-      get: wrap(wrapParams, endpoints.space.get),
-      getMany: wrap(wrapParams, endpoints.space.getMany),
-      update: wrap(wrapParams, endpoints.space.update),
-      delete: wrap(wrapParams, endpoints.space.del),
-      create: wrap(wrapParams, endpoints.space.create),
+      get: wrapAdapter(adapterWrapParams, 'Space', 'get'),
+      getMany: wrapAdapter(adapterWrapParams, 'Space', 'getMany'),
+      update: wrapAdapter(adapterWrapParams, 'Space', 'save'),
+      delelete: wrapAdapter(adapterWrapParams, 'Space', 'delete'),
+      create: wrapAdapter(adapterWrapParams, 'Space', 'create'),
     },
     environment: {
       get: wrap(wrapParams, endpoints.environment.get),

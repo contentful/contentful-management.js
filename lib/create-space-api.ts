@@ -3,7 +3,6 @@
  * level, such as creating and reading entities contained in a space.
  */
 
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
 import { CreateEnvironmentProps } from './entities/environment'
@@ -11,12 +10,13 @@ import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership
 import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { RoleProps, CreateRoleProps } from './entities/role'
 import { CreateWebhooksProps } from './entities/webhook'
-import { QueryOptions, PaginationQueryOptions } from './common-types'
+import { QueryOptions, PaginationQueryOptions, Adapter } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
 import * as endpoints from './plain/endpoints'
 import { SpaceProps } from './entities/space'
 import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
 import { CreateEnvironmentAliasProps } from './entities/environment-alias'
+import { RestAdapter } from './adapters/REST/rest-adapter'
 
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
@@ -27,7 +27,8 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @prop {object} entities - Object with wrapper methods for each kind of entity
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({ http }: { http: AxiosInstance }) {
+export default function createSpaceApi({ adapter }: { adapter: Adapter }) {
+  const http = (adapter as RestAdapter).http
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook
@@ -63,7 +64,11 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      */
     delete: function deleteSpace() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.space.del(http, { spaceId: raw.sys.id })
+      return adapter.makeRequest({
+        entityType: 'Space',
+        action: 'delete',
+        params: { spaceId: raw.sys.id },
+      })
     },
     /**
      * Updates the space
@@ -86,9 +91,14 @@ export default function createSpaceApi({ http }: { http: AxiosInstance }) {
      */
     update: function updateSpace() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.space
-        .update(http, { spaceId: raw.sys.id }, raw)
-        .then((data) => wrapSpace(http, data))
+      return adapter
+        .makeRequest({
+          entityType: 'Space',
+          action: 'update',
+          params: { spaceId: raw.sys.id },
+          payload: raw,
+        })
+        .then((data) => wrapSpace(adapter, data))
     },
     /**
      * Gets an environment
