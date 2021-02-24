@@ -90,14 +90,20 @@ export class RestAdapter implements Adapter {
     payload,
     headers,
   }: MakeRequestOptions): Promise<R> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    const endpoint = endpoints[entityType]?.[action]
+    const endpoint: (
+      http: AxiosInstance,
+      params?: Record<string, unknown>,
+      payload?: Record<string, unknown>,
+      headers?: Record<string, unknown>
+    ) => Promise<R> =
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      endpoints[entityType]?.[action]
 
     if (endpoint === undefined) {
       throw new Error('Could not find valid endpoint')
     }
 
-    return await endpoint(params, payload, headers)
+    return await endpoint(this.http, params, payload, headers)
   }
 }
