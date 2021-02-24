@@ -42,7 +42,7 @@ function createClient(
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {
-  const adapter = createAdapter(params, opts.type === 'plain')
+  const adapter = createAdapter(params)
   if (opts.type === 'plain') {
     return createPlainClient(adapter, opts.defaults)
   } else {

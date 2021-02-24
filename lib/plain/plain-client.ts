@@ -12,7 +12,7 @@ type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST 
 export const createPlainClient = (adapter: Adapter, defaults?: DefaultParams): PlainClientAPI => {
   const http = (adapter as RestAdapter).http
   const wrapParams = { http, defaults }
-  const adapterWrapParams = { adapter, defaults }
+  const adapterWrapParams = { adapter, defaults, clientType: 'plain' as const }
 
   return {
     raw: {

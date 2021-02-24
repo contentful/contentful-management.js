@@ -15,7 +15,7 @@ export type ClientParams = RestAdapterParams & AdapterParams
 /**
  * @private
  */
-export function createAdapter(params: ClientParams, _plainClient: boolean): Adapter {
+export function createAdapter(params: ClientParams): Adapter {
   if (params.cmaAdapter) {
     return params.cmaAdapter
   } else {

@@ -45,11 +45,9 @@ export const defaultHostParameters = {
 
 export class RestAdapter implements Adapter {
   public readonly http: AxiosInstance
+  private readonly axiosInstances: { [clientType in 'plain' | 'nested']?: AxiosInstance } = {}
 
   private params: RestAdapterParams
-
-  // TODO
-  private plainClient = false
 
   public constructor(params: RestAdapterParams) {
     if (!params.accessToken) {
@@ -61,26 +59,37 @@ export class RestAdapter implements Adapter {
       ...copy(params),
     }
 
-    const sdkMain = this.plainClient ? 'contentful-management-plain.js' : 'contentful-management.js'
-    const userAgentHeader = getUserAgentHeader(
-      // @ts-expect-error
-      `${sdkMain}/${__VERSION__}`,
-      this.params.application,
-      this.params.integration,
-      this.params.feature
-    )
-    const requiredHeaders = {
-      'Content-Type': 'application/vnd.contentful.management.v1+json',
-      'X-Contentful-User-Agent': userAgentHeader,
+    this.http = this.getAxiosInstance()
+  }
+
+  private getAxiosInstance(clientType: 'plain' | 'nested' = 'nested'): AxiosInstance {
+    if (!this.axiosInstances[clientType]) {
+      const sdkMain =
+        clientType === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+
+      const userAgentHeader = getUserAgentHeader(
+        // @ts-expect-error
+        `${sdkMain}/${__VERSION__}`,
+        this.params.application,
+        this.params.integration,
+        this.params.feature
+      )
+      const requiredHeaders = {
+        'Content-Type': 'application/vnd.contentful.management.v1+json',
+        'X-Contentful-User-Agent': userAgentHeader,
+      }
+
+      this.axiosInstances[clientType] = createHttpClient(axios, {
+        ...this.params,
+        headers: {
+          ...requiredHeaders,
+          ...this.params.headers,
+        },
+      })
     }
 
-    this.http = createHttpClient(axios, {
-      ...this.params,
-      headers: {
-        ...requiredHeaders,
-        ...this.params.headers,
-      },
-    })
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.axiosInstances[clientType]!
   }
 
   public async makeRequest<R>({
@@ -89,6 +98,7 @@ export class RestAdapter implements Adapter {
     params,
     payload,
     headers,
+    clientType,
   }: MakeRequestOptions): Promise<R> {
     const endpoint: (
       http: AxiosInstance,
@@ -104,6 +114,6 @@ export class RestAdapter implements Adapter {
       throw new Error('Could not find valid endpoint')
     }
 
-    return await endpoint(this.http, params, payload, headers)
+    return await endpoint(this.getAxiosInstance(clientType), params, payload, headers)
   }
 }
