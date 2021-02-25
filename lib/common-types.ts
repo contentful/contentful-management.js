@@ -118,13 +118,13 @@ export interface Adapter {
     entityType: 'Space'
     action: 'get'
     params: GetSpaceParams
-    clientType?: 'plain'
+    userAgent: string
   }): Promise<SpaceProps>
   makeRequest(options: {
     entityType: 'Space'
     action: 'getMany'
     params: QueryParams
-    clientType?: 'plain'
+    userAgent: string
   }): Promise<CollectionProp<SpaceProps>>
   makeRequest(options: {
     entityType: 'Space'
@@ -132,7 +132,7 @@ export interface Adapter {
     params: { organizationId?: string }
     payload: Omit<SpaceProps, 'sys'>
     headers?: Record<string, unknown>
-    clientType?: 'plain'
+    userAgent: string
   }): Promise<any>
   makeRequest(options: {
     entityType: 'Space'
@@ -140,13 +140,13 @@ export interface Adapter {
     payload: SpaceProps
     params: GetSpaceParams
     headers?: Record<string, unknown>
-    clientType?: 'plain'
+    userAgent: string
   }): Promise<SpaceProps>
   makeRequest(options: {
     entityType: 'Space'
     action: 'delete'
     params: GetSpaceParams
-    clientType?: 'plain'
+    userAgent: string
   }): Promise<any>
   // makeRequest<R = unknown>(options: MakeRequestOptions): Promise<R>
 }
@@ -159,5 +159,5 @@ export interface MakeRequestOptions {
   params?: Record<string, unknown>
   payload?: Record<string, unknown>
   headers?: Record<string, unknown>
-  clientType?: 'plain'
+  userAgent: string
 }

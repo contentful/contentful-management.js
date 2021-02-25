@@ -14,7 +14,7 @@ import { QueryParams } from './plain/endpoints/common-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
-export default function createClientApi(adapter: Adapter) {
+export default function createClientApi(adapter: Adapter, userAgent: string) {
   const http = (adapter as RestAdapter).http
 
   const { wrapSpace, wrapSpaceCollection } = entities.space
@@ -50,8 +50,9 @@ export default function createClientApi(adapter: Adapter) {
           entityType: 'Space',
           action: 'getMany',
           params: { query: createRequestConfig({ query: query }).params },
+          userAgent,
         })
-        .then((data) => wrapSpaceCollection(adapter, data))
+        .then((data) => wrapSpaceCollection(adapter, data, userAgent))
     },
     /**
      * Gets a space
@@ -75,8 +76,9 @@ export default function createClientApi(adapter: Adapter) {
           entityType: 'Space',
           action: 'get',
           params: { spaceId },
+          userAgent,
         })
-        .then((data) => wrapSpace(adapter, data))
+        .then((data) => wrapSpace(adapter, data, userAgent))
     },
     /**
      * Creates a space
@@ -107,9 +109,10 @@ export default function createClientApi(adapter: Adapter) {
           action: 'create',
           params: { organizationId },
           payload: spaceData,
+          userAgent,
         })
         .then((data) => {
-          return wrapSpace(adapter, data)
+          return wrapSpace(adapter, data, userAgent)
         })
     },
     /**

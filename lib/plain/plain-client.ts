@@ -9,10 +9,14 @@ export type { DefaultParams } from './wrappers/wrap'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
 
-export const createPlainClient = (adapter: Adapter, defaults?: DefaultParams): PlainClientAPI => {
+export const createPlainClient = (
+  adapter: Adapter,
+  defaults: DefaultParams | undefined,
+  userAgent: string
+): PlainClientAPI => {
   const http = (adapter as RestAdapter).http
   const wrapParams = { http, defaults }
-  const adapterWrapParams = { adapter, defaults, clientType: 'plain' as const }
+  const adapterWrapParams = { adapter, defaults, userAgent }
 
   return {
     raw: {

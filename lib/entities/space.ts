@@ -22,10 +22,11 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @param data - API response for a Space
  * @return {Space}
  */
-export function wrapSpace(adapter: Adapter, data: SpaceProps): Space {
+export function wrapSpace(adapter: Adapter, data: SpaceProps, userAgent: string): Space {
   const space = toPlainObject(copy(data))
   const spaceApi = createSpaceApi({
     adapter,
+    userAgent,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)

@@ -6,16 +6,14 @@
 import { Adapter } from './common-types'
 import { RestAdapter, RestAdapterParams } from './adapters/REST/rest-adapter'
 
-type AdapterParams = {
+export type AdapterParams = {
   cmaAdapter: Adapter
 }
-
-export type ClientParams = RestAdapterParams & AdapterParams
 
 /**
  * @private
  */
-export function createAdapter(params: ClientParams): Adapter {
+export function createAdapter(params: RestAdapterParams & AdapterParams): Adapter {
   if (params.cmaAdapter) {
     return params.cmaAdapter
   } else {

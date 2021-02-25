@@ -27,7 +27,13 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @prop {object} entities - Object with wrapper methods for each kind of entity
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({ adapter }: { adapter: Adapter }) {
+export default function createSpaceApi({
+  adapter,
+  userAgent,
+}: {
+  adapter: Adapter
+  userAgent: string
+}) {
   const http = (adapter as RestAdapter).http
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
@@ -68,6 +74,7 @@ export default function createSpaceApi({ adapter }: { adapter: Adapter }) {
         entityType: 'Space',
         action: 'delete',
         params: { spaceId: raw.sys.id },
+        userAgent,
       })
     },
     /**
@@ -97,8 +104,9 @@ export default function createSpaceApi({ adapter }: { adapter: Adapter }) {
           action: 'update',
           params: { spaceId: raw.sys.id },
           payload: raw,
+          userAgent,
         })
-        .then((data) => wrapSpace(adapter, data))
+        .then((data) => wrapSpace(adapter, data, userAgent))
     },
     /**
      * Gets an environment

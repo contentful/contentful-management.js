@@ -55,11 +55,11 @@ export const wrapHttp = <R>(http: AxiosInstance, fn: EndpointWithHttp<R>) => () 
 export type WrapParamsWithAdapter = {
   adapter: Adapter
   defaults?: DefaultParams
-  clientType?: 'plain'
+  userAgent: string
 }
 
 export const wrapAdapter = <Params extends {}, Payload extends {}>(
-  { adapter, defaults, clientType }: WrapParamsWithAdapter,
+  { adapter, defaults, userAgent }: WrapParamsWithAdapter,
   entityType: string,
   action: string
 ) => {
@@ -70,6 +70,6 @@ export const wrapAdapter = <Params extends {}, Payload extends {}>(
       params: { ...defaults, ...params },
       payload,
       headers,
-      clientType,
+      userAgent,
     })
 }
