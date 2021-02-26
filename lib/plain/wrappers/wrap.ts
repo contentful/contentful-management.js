@@ -15,7 +15,7 @@ export type WrapParams = {
   defaults?: DefaultParams
 }
 
-type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
+export type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
   // Pick just the keys that are not optional from the base type.
   Except<BaseType, Keys> &
     // Pick the keys that should be optional from the base type and make them optional.
@@ -64,7 +64,7 @@ export const wrapAdapter = <Params extends {}, Payload extends {}>(
   action: string
 ) => {
   return (params: Params, payload?: Payload, headers?: Record<string, unknown>) =>
-    (adapter.makeRequest as (options: MakeRequestOptions) => Promise<unknown>)({
+    (adapter.makeRequest as (options: MakeRequestOptions) => Promise<any>)({
       entityType,
       action,
       params: { ...defaults, ...params },

@@ -6,7 +6,7 @@ import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app
 import { normalizeSelect } from './utils'
 import { CollectionProp } from '../../common-types'
 
-type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_definitions`

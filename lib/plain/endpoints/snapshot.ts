@@ -6,7 +6,7 @@ import { normalizeSelect } from './utils'
 import { SnapshotProps } from '../../entities/snapshot'
 import { ContentTypeProps } from '../../entities/content-type'
 
-type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 
 const getBaseEntryUrl = (params: GetSnapshotForEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/snapshots`
@@ -30,7 +30,7 @@ export const getForEntry = <T extends KeyValueMap = KeyValueMap>(
   return raw.get<SnapshotProps<EntryProps<T>>>(http, getEntryUrl(params))
 }
 
-type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 const getBaseContentTypeUrl = (params: GetSnapshotForContentTypeParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/snapshots`

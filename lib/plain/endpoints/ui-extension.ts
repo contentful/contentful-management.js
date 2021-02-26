@@ -5,7 +5,7 @@ import { normalizeSelect } from './utils'
 import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
 import copy from 'fast-copy'
 
-type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/extensions`

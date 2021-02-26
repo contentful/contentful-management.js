@@ -4,7 +4,9 @@ import copy from 'fast-copy'
 import { CollectionProp, GetOrganizationParams, QueryParams } from './common-types'
 import { OrganizationMembershipProps } from '../../entities/organization-membership'
 
-type GetOrganizationMembershipProps = GetOrganizationParams & { organizationMembershipId: string }
+export type GetOrganizationMembershipProps = GetOrganizationParams & {
+  organizationMembershipId: string
+}
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/organization_memberships`

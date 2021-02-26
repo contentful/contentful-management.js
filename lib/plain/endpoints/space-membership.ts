@@ -10,7 +10,7 @@ function spaceMembershipDeprecationWarning() {
   )
 }
 
-type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/space_memberships`
 const getEntityUrl = (params: GetSpaceMembershipProps) =>

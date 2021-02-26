@@ -11,9 +11,9 @@ import {
 } from '../../entities/webhook'
 import copy from 'fast-copy'
 
-type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
+export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 
-type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
 
