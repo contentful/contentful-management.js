@@ -115,7 +115,7 @@ export type PlainClientAPI = {
       payload: SpaceProps,
       headers?: Record<string, unknown>
     ): Promise<SpaceProps>
-    delelete(params: GetSpaceParams): Promise<any>
+    delete(params: GetSpaceParams): Promise<any>
   }
   environment: {
     get(
