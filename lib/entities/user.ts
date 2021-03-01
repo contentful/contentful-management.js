@@ -57,7 +57,7 @@ export interface User extends UserProps, DefaultElements<UserProps> {}
  * @param data - Raw data
  * @return Normalized user
  */
-export function wrapUser<T = UserProps>(makeRequest: MakeRequestWithoutUserAgent, data: T) {
+export function wrapUser<T = UserProps>(_makeRequest: MakeRequestWithoutUserAgent, data: T) {
   const user = toPlainObject(copy(data))
   const userWithMethods = enhanceWithMethods(user, {})
   return freezeSys(userWithMethods)

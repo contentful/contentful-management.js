@@ -1,10 +1,13 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaSysProps, MetaLinkProps } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import {
+  DefaultElements,
+  MetaSysProps,
+  MetaLinkProps,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type TeamMembershipProps = {
   /**
@@ -72,7 +75,7 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
   update(): Promise<TeamMembership>
 }
 
-function createTeamMembershipApi(http: AxiosInstance) {
+function createTeamMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: TeamMembershipProps) => ({
     teamMembershipId: data.sys.id,
     teamId: data.sys.team.sys.id,
@@ -82,14 +85,21 @@ function createTeamMembershipApi(http: AxiosInstance) {
   return {
     update: function () {
       const raw = this.toPlainObject() as TeamMembershipProps
-      return endpoints.teamMembership
-        .update(http, getParams(raw), raw)
-        .then((data) => wrapTeamMembership(http, data))
+      return makeRequest({
+        entityType: 'TeamMembership',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapTeamMembership(makeRequest, data))
     },
 
     delete: function del() {
       const raw = this.toPlainObject() as TeamMembershipProps
-      return endpoints.teamMembership.del(http, getParams(raw))
+      return makeRequest({
+        entityType: 'TeamMembership',
+        action: 'delete',
+        params: getParams(raw),
+      })
     },
   }
 }
@@ -99,11 +109,14 @@ function createTeamMembershipApi(http: AxiosInstance) {
  * @param data - Raw team membership data
  * @return Wrapped team membership data
  */
-export function wrapTeamMembership(http: AxiosInstance, data: TeamMembershipProps): TeamMembership {
+export function wrapTeamMembership(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: TeamMembershipProps
+): TeamMembership {
   const teamMembership = toPlainObject(copy(data))
   const teamMembershipWithMethods = enhanceWithMethods(
     teamMembership,
-    createTeamMembershipApi(http)
+    createTeamMembershipApi(makeRequest)
   )
   return freezeSys(teamMembershipWithMethods)
 }

@@ -1,17 +1,16 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { JsonValue, Except, SetOptional } from 'type-fest'
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import * as endpoints from '../plain/endpoints'
-import { wrapCollection } from '../common-utils'
+import copy from 'fast-copy'
+import { Except, JsonValue, SetOptional } from 'type-fest'
 import {
-  DefaultElements,
   BasicMetaSysProps,
+  CollectionProp,
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
   MetaLinkProps,
   SysLink,
-  CollectionProp,
 } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
 
 interface EqualityConstraint {
   equals: [Doc, string]
@@ -285,7 +284,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   getHealth(): Promise<WebhookHealthProps>
 }
 
-function createWebhookApi(http: AxiosInstance) {
+function createWebhookApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: WebhookProps) => ({
     spaceId: data.sys.space.sys.id,
     webhookDefinitionId: data.sys.id,
@@ -294,25 +293,44 @@ function createWebhookApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as WebhookProps
-      return endpoints.webhook
-        .update(http, getParams(data), data)
-        .then((data) => wrapWebhook(http, data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'update',
+        params: getParams(data),
+        payload: data,
+      }).then((data) => wrapWebhook(makeRequest, data))
     },
     delete: function del() {
       const data = this.toPlainObject() as WebhookProps
-      return endpoints.webhook.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
     getCalls: function getCalls() {
       const data = this.toPlainObject() as WebhookProps
-      return endpoints.webhook.getManyCallDetails(http, getParams(data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getManyCallDetails',
+        params: getParams(data),
+      })
     },
     getCall: function getCall(id: string) {
       const data = this.toPlainObject() as WebhookProps
-      return endpoints.webhook.getCallDetails(http, { ...getParams(data), callId: id })
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getCallDetails',
+        params: { ...getParams(data), callId: id },
+      })
     },
     getHealth: function getHealth() {
       const data = this.toPlainObject() as WebhookProps
-      return endpoints.webhook.getHealthStatus(http, getParams(data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getHealthStatus',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -323,9 +341,12 @@ function createWebhookApi(http: AxiosInstance) {
  * @param data - Raw webhook data
  * @return Wrapped webhook data
  */
-export function wrapWebhook(http: AxiosInstance, data: WebhookProps): WebHooks {
+export function wrapWebhook(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: WebhookProps
+): WebHooks {
   const webhook = toPlainObject(copy(data))
-  const webhookWithMethods = enhanceWithMethods(webhook, createWebhookApi(http))
+  const webhookWithMethods = enhanceWithMethods(webhook, createWebhookApi(makeRequest))
   return freezeSys(webhookWithMethods)
 }
 

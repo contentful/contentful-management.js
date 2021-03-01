@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'

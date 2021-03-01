@@ -7,10 +7,8 @@ import {
   MakeRequestWithoutUserAgent,
 } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
 import { SetOptional, Except } from 'type-fest'
-import * as endpoints from '../plain/endpoints'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 

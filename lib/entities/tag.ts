@@ -1,10 +1,13 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { DefaultElements, MetaSysProps, SysLink } from '../common-types'
+import {
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+  MetaSysProps,
+  SysLink,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import * as endpoints from '../plain/endpoints'
 
 export type TagSysProps = Pick<
   MetaSysProps,
@@ -42,7 +45,7 @@ type TagApi = {
 
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
-export default function createTagApi(http: AxiosInstance): TagApi {
+export default function createTagApi(makeRequest: MakeRequestWithoutUserAgent): TagApi {
   const getParams = (tag: TagProps) => ({
     spaceId: tag.sys.space.sys.id,
     environmentId: tag.sys.environment.sys.id,
@@ -53,22 +56,32 @@ export default function createTagApi(http: AxiosInstance): TagApi {
     update: function () {
       const raw = this.toPlainObject() as TagProps
 
-      return endpoints.tag.update(http, getParams(raw), raw).then((data) => wrapTag(http, data))
+      return makeRequest({
+        entityType: 'Tag',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapTag(makeRequest, data))
     },
 
     delete: function () {
       const raw = this.toPlainObject() as TagProps
 
-      return endpoints.tag.del(http, getParams(raw), raw.sys.version).then(() => {
+      return makeRequest({
+        entityType: 'Tag',
+        action: 'delete',
+        params: getParams(raw),
+        payload: raw.sys.version,
+      }).then(() => {
         // noop
       })
     },
   }
 }
 
-export function wrapTag(http: AxiosInstance, data: TagProps): Tag {
+export function wrapTag(makeRequest: MakeRequestWithoutUserAgent, data: TagProps): Tag {
   const tag = toPlainObject(copy(data))
-  const tagWithMethods = enhanceWithMethods(tag, createTagApi(http))
+  const tagWithMethods = enhanceWithMethods(tag, createTagApi(makeRequest))
   return freezeSys(tagWithMethods)
 }
 

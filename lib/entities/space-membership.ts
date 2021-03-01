@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -8,9 +7,7 @@ import {
   MetaSysProps,
   DefaultElements,
   MakeRequestWithoutUserAgent,
-  MakeRequestOptions,
 } from '../common-types'
-import * as endpoints from '../plain/endpoints'
 
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }

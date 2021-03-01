@@ -1,10 +1,13 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
+import {
+  MetaSysProps,
+  MetaLinkProps,
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
-import * as endpoints from '../plain/endpoints'
 import { DefinedParameters } from './widget-parameters'
 
 export interface Control {
@@ -140,22 +143,21 @@ export interface EditorInterface
   update(): Promise<EditorInterface>
 }
 
-function createEditorInterfaceApi(http: AxiosInstance) {
+function createEditorInterfaceApi(makeRequest: MakeRequestWithoutUserAgent) {
   return {
     update: function () {
       const self = this as EditorInterface
       const raw = self.toPlainObject()
-      return endpoints.editorInterface
-        .update(
-          http,
-          {
-            spaceId: self.sys.space.sys.id,
-            environmentId: self.sys.environment.sys.id,
-            contentTypeId: self.sys.contentType.sys.id,
-          },
-          raw
-        )
-        .then((response) => wrapEditorInterface(http, response))
+      return makeRequest({
+        entityType: 'EditorInterface',
+        action: 'update',
+        params: {
+          spaceId: self.sys.space.sys.id,
+          environmentId: self.sys.environment.sys.id,
+          contentTypeId: self.sys.contentType.sys.id,
+        },
+        payload: raw,
+      }).then((response) => wrapEditorInterface(makeRequest, response))
     },
 
     getControlForField: function (fieldId: string) {
@@ -172,13 +174,13 @@ function createEditorInterfaceApi(http: AxiosInstance) {
  * @private
  */
 export function wrapEditorInterface(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: EditorInterfaceProps
 ): EditorInterface {
   const editorInterface = toPlainObject(copy(data))
   const editorInterfaceWithMethods = enhanceWithMethods(
     editorInterface,
-    createEditorInterfaceApi(http)
+    createEditorInterfaceApi(makeRequest)
   )
   return freezeSys(editorInterfaceWithMethods)
 }

@@ -1,10 +1,13 @@
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import * as endpoints from '../plain/endpoints'
-import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 import { Except } from 'type-fest'
 import { FreeFormParameters } from './widget-parameters'
 
@@ -68,7 +71,7 @@ export interface AppInstallation
   delete(): Promise<void>
 }
 
-function createAppInstallationApi(http: AxiosInstance) {
+function createAppInstallationApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: AppInstallationProps) => ({
     spaceId: data.sys.space.sys.id,
     environmentId: data.sys.environment.sys.id,
@@ -78,14 +81,21 @@ function createAppInstallationApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as AppInstallationProps
-      return endpoints.appInstallation
-        .upsert(http, getParams(data), data)
-        .then((data) => wrapAppInstallation(http, data))
+      return makeRequest({
+        entityType: 'AppInstallation',
+        action: 'upsert',
+        params: getParams(data),
+        payload: data,
+      }).then((data) => wrapAppInstallation(makeRequest, data))
     },
 
     delete: function del() {
       const data = this.toPlainObject() as AppInstallationProps
-      return endpoints.appInstallation.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'AppInstallation',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -97,13 +107,13 @@ function createAppInstallationApi(http: AxiosInstance) {
  * @return Wrapped App installation data
  */
 export function wrapAppInstallation(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: AppInstallationProps
 ): AppInstallation {
   const appInstallation = toPlainObject(copy(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
-    createAppInstallationApi(http)
+    createAppInstallationApi(makeRequest)
   )
   return freezeSys(appInstallationWithMethods)
 }

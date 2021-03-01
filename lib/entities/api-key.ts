@@ -72,14 +72,21 @@ function createApiKeyApi(makeRequest: MakeRequestWithoutUserAgent) {
   return {
     update: function update() {
       const self = this as ApiKeyProps
-      return endpoints.apiKey
-        .update(http, getParams(self), self)
-        .then((data) => wrapApiKey(http, data))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'update',
+        params: getParams(self),
+        payload: self,
+      }).then((data) => wrapApiKey(makeRequest, data))
     },
 
     delete: function del() {
       const self = this as ApiKeyProps
-      return endpoints.apiKey.del(http, getParams(self))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'delete',
+        params: getParams(self),
+      })
     },
   }
 }

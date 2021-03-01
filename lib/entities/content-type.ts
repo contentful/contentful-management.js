@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -15,10 +14,11 @@ import {
   Collection,
   QueryOptions,
   SysLink,
+  MakeRequestWithoutUserAgent,
+  MakeRequest,
 } from '../common-types'
 import { EditorInterface } from './editor-interface'
 import { SnapshotProps } from './snapshot'
-import * as endpoints from '../plain/endpoints'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -211,7 +211,7 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
-function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
+function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps
 
@@ -310,9 +310,12 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentType {
+export function wrapContentType(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: ContentTypeProps
+): ContentType {
   const contentType = toPlainObject(copy(data))
-  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
+  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(makeRequest))
   return freezeSys(contentTypeWithMethods)
 }
 

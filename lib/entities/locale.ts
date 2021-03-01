@@ -1,11 +1,14 @@
 import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { BasicMetaSysProps, SysLink, DefaultElements } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import {
+  BasicMetaSysProps,
+  SysLink,
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type LocaleProps = {
   sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
@@ -95,7 +98,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   update(): Promise<Locale>
 }
 
-function createLocaleApi(http: AxiosInstance) {
+function createLocaleApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (locale: LocaleProps) => ({
     spaceId: locale.sys.space.sys.id,
     environmentId: locale.sys.environment.sys.id,
@@ -105,14 +108,21 @@ function createLocaleApi(http: AxiosInstance) {
   return {
     update: function () {
       const raw = this.toPlainObject() as LocaleProps
-      return endpoints.locale
-        .update(http, getParams(raw), raw)
-        .then((data) => wrapLocale(http, data))
+      return makeRequest({
+        entityType: 'Locale',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapLocale(makeRequest, data))
     },
 
     delete: function () {
       const raw = this.toPlainObject() as LocaleProps
-      return endpoints.locale.del(http, getParams(raw)).then(() => {
+      return makeRequest({
+        entityType: 'Locale',
+        action: 'delete',
+        params: getParams(raw),
+      }).then(() => {
         // noop
       })
     },
@@ -125,12 +135,12 @@ function createLocaleApi(http: AxiosInstance) {
  * @param data - Raw locale data
  * @return Wrapped locale data
  */
-export function wrapLocale(http: AxiosInstance, data: LocaleProps): Locale {
+export function wrapLocale(makeRequest: MakeRequestWithoutUserAgent, data: LocaleProps): Locale {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete data.internal_code
   const locale = toPlainObject(copy(data))
-  const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(http))
+  const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(makeRequest))
   return freezeSys(localeWithMethods)
 }
 
