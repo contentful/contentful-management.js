@@ -1,15 +1,14 @@
-import { Adapter } from '../common-types'
-import { PlainClientAPI } from './endpoints/common-types'
+import { MakeRequestWithUserAgent } from '../common-types'
+import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
 export const createPlainClient = (
-  adapter: Adapter,
-  defaults: DefaultParams | undefined,
-  userAgent: string
+  makeRequest: MakeRequestWithUserAgent,
+  defaults: DefaultParams | undefined
 ): PlainClientAPI => {
-  const wrapParams = { adapter, defaults, userAgent }
+  const wrapParams = { makeRequest, defaults }
 
   return {
     raw: {

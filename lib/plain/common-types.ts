@@ -1,84 +1,78 @@
 import { AxiosRequestConfig } from 'axios'
 import { Stream } from 'stream'
-import {
-  CollectionProp,
-  KeyValueMap,
-  PaginationQueryOptions,
-  QueryOptions,
-} from '../../common-types'
-import { ApiKeyProps, CreateApiKeyProps } from '../../entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app-definition'
-import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
+import { CollectionProp, KeyValueMap, PaginationQueryOptions, QueryOptions } from '../common-types'
+import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
+import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
+import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
 import {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
-} from '../../entities/asset'
-import { ContentTypeProps } from '../../entities/content-type'
-import { EditorInterfaceProps } from '../../entities/editor-interface'
-import { CreateEntryProps, EntryProps } from '../../entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment'
-import {
-  CreateEnvironmentAliasProps,
-  EnvironmentAliasProps,
-} from '../../entities/environment-alias'
-import { CreateLocaleProps, LocaleProps } from '../../entities/locale'
-import { OrganizationProp } from '../../entities/organization'
+} from '../entities/asset'
+import { ContentTypeProps } from '../entities/content-type'
+import { EditorInterfaceProps } from '../entities/editor-interface'
+import { CreateEntryProps, EntryProps } from '../entities/entry'
+import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
+import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
+import { CreateLocaleProps, LocaleProps } from '../entities/locale'
+import { OrganizationProp } from '../entities/organization'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
-} from '../../entities/organization-invitation'
-import { OrganizationMembershipProps } from '../../entities/organization-membership'
+} from '../entities/organization-invitation'
+import { OrganizationMembershipProps } from '../entities/organization-membership'
 import {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProp,
-} from '../../entities/personal-access-token'
-import { PreviewApiKeyProps } from '../../entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from '../../entities/role'
-import { ScheduledActionProps } from '../../entities/scheduled-action'
-import { SnapshotProps } from '../../entities/snapshot'
-import { SpaceProps } from '../../entities/space'
-import { SpaceMemberProps } from '../../entities/space-member'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../../entities/space-membership'
-import { CreateTagProps, TagProps } from '../../entities/tag'
-import { CreateTeamProps, TeamProps } from '../../entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from '../../entities/team-membership'
-import { TeamSpaceMembershipProps } from '../../entities/team-space-membership'
-import { CreateUIExtensionProps, UIExtensionProps } from '../../entities/ui-extension'
-import { UsageProps } from '../../entities/usage'
-import { UserProps } from '../../entities/user'
+} from '../entities/personal-access-token'
+import { PreviewApiKeyProps } from '../entities/preview-api-key'
+import { CreateRoleProps, RoleProps } from '../entities/role'
+import { ScheduledActionProps } from '../entities/scheduled-action'
+import { SnapshotProps } from '../entities/snapshot'
+import { SpaceProps } from '../entities/space'
+import { SpaceMemberProps } from '../entities/space-member'
+import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/space-membership'
+import { CreateTagProps, TagProps } from '../entities/tag'
+import { CreateTeamProps, TeamProps } from '../entities/team'
+import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
+import { TeamSpaceMembershipProps } from '../entities/team-space-membership'
+import { CreateUIExtensionProps, UIExtensionProps } from '../entities/ui-extension'
+import { UsageProps } from '../entities/usage'
+import { UserProps } from '../entities/user'
 import {
   CreateWebhooksProps,
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
   WebhookHealthProps,
   WebhookProps,
-} from '../../entities/webhook'
-import { DefaultParams, MarkOptional } from '../wrappers/wrap'
-import { GetAppDefinitionParams } from './app-definition'
-import { GetAppInstallationParams } from './app-installation'
-import { GetContentTypeParams } from './content-type'
-import { GetEditorInterfaceParams } from './editor-interface'
-import { GetSpaceEnvAliasParams } from './environment-alias'
-import { GetOrganizationMembershipProps } from './organization-membership'
-import { GetSnapshotForContentTypeParams, GetSnapshotForEntryParams } from './snapshot'
-import { GetSpaceMembershipProps } from './space-membership'
-import { GetTagParams } from './tag'
-import { GetTeamMembershipParams } from './team-membership'
-import { GetTeamSpaceMembershipParams } from './team-space-membership'
-import { GetUiExtensionParams } from './ui-extension'
-import { GetWebhookCallDetailsUrl, GetWebhookParams } from './webhook'
+} from '../entities/webhook'
+import { DefaultParams, MarkOptional } from './wrappers/wrap'
 
 export type GetSpaceParams = { spaceId: string }
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetTeamParams = { organizationId: string; teamId: string }
+export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
+export type GetOrganizationMembershipProps = GetOrganizationParams & {
+  organizationMembershipId: string
+}
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
-
-export type { CollectionProp, KeyValueMap } from '../../common-types'
 
 export type PlainClientAPI = {
   raw: {

@@ -1,3 +1,4 @@
+import { AdapterParams } from './create-adapter'
 import { SpaceProps } from './entities/space'
 import { GetSpaceParams, QueryParams } from './plain/endpoints/common-types'
 
@@ -148,8 +149,13 @@ export interface Adapter {
     params: GetSpaceParams
     userAgent: string
   }): Promise<any>
-  // makeRequest<R = unknown>(options: MakeRequestOptions): Promise<R>
+  makeRequest(options: MakeRequestOptions): Promise<unknown>
 }
+
+export type MakeRequest = Adapter['makeRequest']
+export type MakeRequestWithoutUserAgent = (
+  options: Omit<MakeRequestOptions, 'userAgent'>
+) => Promise<unknown>
 
 // TODO: Infer type from overloading
 // type MakeRequestOptions = Parameters<Adapter['makeRequest']>[0]

@@ -1,7 +1,11 @@
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
+import copy from 'fast-copy'
+import {
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+  MetaLinkProps,
+  MetaSysProps,
+} from '../common-types'
 
 export type OrganizationInvitationProps = {
   sys: MetaSysProps & {
@@ -29,7 +33,7 @@ export interface OrganizationInvitation
  * @return {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
-  _http: AxiosInstance,
+  _makeRequest: MakeRequestWithoutUserAgent,
   data: OrganizationInvitationProps
 ): OrganizationInvitation {
   const invitation = toPlainObject(copy(data))

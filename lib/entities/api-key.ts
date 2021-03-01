@@ -1,10 +1,13 @@
-import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
+import copy from 'fast-copy'
+import {
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+  MetaLinkProps,
+  MetaSysProps,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type ApiKeyProps = {
   sys: MetaSysProps
@@ -60,7 +63,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   update(): Promise<ApiKey>
 }
 
-function createApiKeyApi(http: AxiosInstance) {
+function createApiKeyApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: ApiKeyProps) => ({
     spaceId: data.sys.space?.sys.id ?? '',
     apiKeyId: data.sys.id,
@@ -86,9 +89,9 @@ function createApiKeyApi(http: AxiosInstance) {
  * @param http - HTTP client instance
  * @param data - Raw api key data
  */
-export function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiKey {
+export function wrapApiKey(makeRequest: MakeRequestWithoutUserAgent, data: ApiKeyProps): ApiKey {
   const apiKey = toPlainObject(copy(data))
-  const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(http))
+  const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(makeRequest))
   return freezeSys(apiKeyWithMethods)
 }
 

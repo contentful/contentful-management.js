@@ -1,6 +1,11 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
@@ -104,7 +109,7 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
   update(): Promise<AppDefinition>
 }
 
-function createAppDefinitionApi(http: AxiosInstance) {
+function createAppDefinitionApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
     organizationId: data.sys.organization.sys.id,
@@ -113,14 +118,21 @@ function createAppDefinitionApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as AppDefinitionProps
-      return endpoints.appDefinition
-        .update(http, getParams(data), data)
-        .then((data) => wrapAppDefinition(http, data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'update',
+        params: getParams(data),
+        payload: data,
+      }).then((data) => wrapAppDefinition(makeRequest, data))
     },
 
     delete: function del() {
       const data = this.toPlainObject() as AppDefinitionProps
-      return endpoints.appDefinition.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -131,9 +143,15 @@ function createAppDefinitionApi(http: AxiosInstance) {
  * @param data - Raw App Definition data
  * @return Wrapped App Definition data
  */
-export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps): AppDefinition {
+export function wrapAppDefinition(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: AppDefinitionProps
+): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
-  const appDefinitionWithMethods = enhanceWithMethods(appDefinition, createAppDefinitionApi(http))
+  const appDefinitionWithMethods = enhanceWithMethods(
+    appDefinition,
+    createAppDefinitionApi(makeRequest)
+  )
   return freezeSys(appDefinitionWithMethods)
 }
 

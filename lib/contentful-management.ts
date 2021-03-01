@@ -4,18 +4,19 @@
  * @packageDocumentation
  */
 
-import createContentfulApi, { ClientAPI } from './create-contentful-api'
-import { AdapterParams, createAdapter } from './create-adapter'
-import type { DefaultParams } from './plain/plain-client'
-
-import { createPlainClient } from './plain/plain-client'
-import { PlainClientAPI } from './plain/endpoints/common-types'
 import { getUserAgentHeader } from 'contentful-sdk-core'
-import { RestAdapterParams } from './adapters/REST/rest-adapter'
+import type { RestAdapterParams } from './adapters/REST/rest-adapter'
+import type { MakeRequestWithoutUserAgent } from './common-types'
+import { AdapterParams, createAdapter } from './create-adapter'
+import createContentfulApi, { ClientAPI } from './create-contentful-api'
+import type { PlainClientAPI } from './plain/common-types'
+import type { DefaultParams } from './plain/plain-client'
+import { createPlainClient } from './plain/plain-client'
 
+export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
-export type { ClientAPI } from './create-contentful-api'
+export { createClient }
 export type PlainClientDefaultParams = DefaultParams
 
 interface UserAgentParams {
@@ -69,11 +70,15 @@ function createClient(
   )
 
   const adapter = createAdapter(params)
+  const makeRequestWithoutUserAgent: MakeRequestWithoutUserAgent = (options) =>
+    adapter.makeRequest({
+      ...options,
+      userAgent,
+    })
+
   if (opts.type === 'plain') {
-    return createPlainClient(adapter, opts.defaults, userAgent)
+    return createPlainClient(makeRequestWithoutUserAgent, opts.defaults)
   } else {
-    return createContentfulApi(adapter, userAgent) as ClientAPI
+    return createContentfulApi(makeRequestWithoutUserAgent) as ClientAPI
   }
 }
-
-export { createClient }

@@ -1,8 +1,6 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions } from './common-types'
+import { BasicQueryOptions, MakeRequestWithoutUserAgent } from './common-types'
 import entities from './entities'
-import * as endpoints from './plain/endpoints'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
@@ -19,7 +17,11 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 /**
  * Creates API object with methods to access the Environment API
  */
-export default function createEnvironmentApi({ http }: { http: AxiosInstance }) {
+export default function createEnvironmentApi({
+  makeRequest,
+}: {
+  makeRequest: MakeRequestWithoutUserAgent
+}) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry

@@ -1,10 +1,14 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import {
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+  MetaLinkProps,
+  MetaSysProps,
+  QueryOptions,
+} from '../common-types'
 
 export interface Options {
   teamId?: string
@@ -82,7 +86,7 @@ export interface TeamSpaceMembership
   update(): Promise<TeamSpaceMembership>
 }
 
-function createTeamSpaceMembershipApi(http: AxiosInstance) {
+function createTeamSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: TeamSpaceMembershipProps) => ({
     teamSpaceMembershipId: data.sys.id,
     spaceId: data.sys.space.sys.id,
@@ -91,14 +95,21 @@ function createTeamSpaceMembershipApi(http: AxiosInstance) {
   return {
     update: function () {
       const raw = this.toPlainObject() as TeamSpaceMembershipProps
-      return endpoints.teamSpaceMembership
-        .update(http, getParams(raw), raw)
-        .then((data) => wrapTeamSpaceMembership(http, data))
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapTeamSpaceMembership(makeRequest, data))
     },
 
     delete: function del() {
       const data = this.toPlainObject() as TeamSpaceMembershipProps
-      return endpoints.teamSpaceMembership.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -110,13 +121,13 @@ function createTeamSpaceMembershipApi(http: AxiosInstance) {
  * @return Wrapped team space membership data
  */
 export function wrapTeamSpaceMembership(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: TeamSpaceMembershipProps
 ): TeamSpaceMembership {
   const teamSpaceMembership = toPlainObject(copy(data))
   const teamSpaceMembershipWithMethods = enhanceWithMethods(
     teamSpaceMembership,
-    createTeamSpaceMembershipApi(http)
+    createTeamSpaceMembershipApi(makeRequest)
   )
   return freezeSys(teamSpaceMembershipWithMethods)
 }
