@@ -73,14 +73,14 @@ function createOrganizationMembershipApi(
   makeRequest: MakeRequestWithoutUserAgent,
   organizationId: string
 ) {
-  const getParams = (data: OrganizationMembership) => ({
+  const getParams = (data: OrganizationMembershipProps) => ({
     organizationMembershipId: data.sys.id,
     organizationId,
   })
 
   return {
     update: function () {
-      const raw = this.toPlainObject() as OrganizationMembership
+      const raw = this.toPlainObject() as OrganizationMembershipProps
       return makeRequest({
         entityType: 'OrganizationMembership',
         action: 'update',
@@ -90,7 +90,7 @@ function createOrganizationMembershipApi(
     },
 
     delete: function del() {
-      const raw = this.toPlainObject() as OrganizationMembership
+      const raw = this.toPlainObject() as OrganizationMembershipProps
       return makeRequest({
         entityType: 'OrganizationMembership',
         action: 'delete',

@@ -919,13 +919,15 @@ export default function createEnvironmentApi({
      */
     getUiExtension(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.uiExtension
-        .get(http, {
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           extensionId: id,
-        })
-        .then((data) => wrapUiExtension(http, data))
+        },
+      }).then((data) => wrapUiExtension(makeRequest, data))
     },
     /**
      * Gets a collection of UI Extension

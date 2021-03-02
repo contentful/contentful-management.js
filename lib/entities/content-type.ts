@@ -1,24 +1,20 @@
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import { wrapEditorInterface } from './editor-interface'
-import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
+import copy from 'fast-copy'
 import { Except, SetOptional } from 'type-fest'
-import { isUpdated, isPublished, isDraft } from '../plain/checks'
-
-import { ContentFields } from './content-type-fields'
 import {
   BasicMetaSysProps,
-  DefaultElements,
   Collection,
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
   QueryOptions,
   SysLink,
-  MakeRequestWithoutUserAgent,
-  MakeRequest,
 } from '../common-types'
-import { EditorInterface } from './editor-interface'
-import { SnapshotProps } from './snapshot'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
+import { isDraft, isPublished, isUpdated } from '../plain/checks'
+import { ContentFields } from './content-type-fields'
+import { EditorInterface, wrapEditorInterface } from './editor-interface'
+import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -211,7 +207,7 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
-function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
+function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps
 
@@ -229,15 +225,22 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
     update: function () {
       const { raw, params } = getParams(this)
 
-      return endpoints.contentType
-        .update(http, params, raw)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'update',
+        params,
+        payload: raw,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     delete: function () {
       const { params } = getParams(this)
 
-      return endpoints.contentType.del(http, params).then(() => {
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'delete',
+        params,
+      }).then(() => {
         // noop
       })
     },
@@ -245,41 +248,52 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
     publish: function () {
       const { raw, params } = getParams(this)
 
-      return endpoints.contentType
-        .publish(http, params, raw)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'publish',
+        params,
+        payload: raw,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     unpublish: function () {
       const { params } = getParams(this)
 
-      return endpoints.contentType
-        .unpublish(http, params)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'unpublish',
+        params,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     getEditorInterface: function () {
       const { params } = getParams(this)
 
-      return endpoints.editorInterface
-        .get(http, params)
-        .then((data) => wrapEditorInterface(http, data))
+      return makeRequest({
+        entityType: 'EditorInterface',
+        action: 'get',
+        params,
+      }).then((data) => wrapEditorInterface(makeRequest, data))
     },
 
     getSnapshots: function (query: QueryOptions = {}) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getManyForContentType(http, { ...params, query })
-        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getManyForContentType',
+        params: { ...params, query },
+      }).then((data) => wrapSnapshotCollection<ContentTypeProps>(makeRequest, data))
     },
 
     getSnapshot: function (snapshotId: string) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getForContentType(http, { ...params, snapshotId })
-        .then((data) => wrapSnapshot<ContentTypeProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getForContentType',
+        params: { ...params, snapshotId },
+      }).then((data) => wrapSnapshot<ContentTypeProps>(makeRequest, data))
     },
 
     isPublished: function () {
@@ -297,9 +311,10 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
     omitAndDeleteField: function (id: string) {
       const { raw, params } = getParams(this)
 
-      return endpoints.contentType
-        .omitAndDeleteField(http, params, raw, id)
-        .then((data) => wrapContentType(http, data))
+      throw new Error('Not implemented yet')
+      // return endpoints.contentType
+      //   .omitAndDeleteField(http, params, raw, id)
+      // .then((data) => wrapContentType(http, data))
     },
   }
 }

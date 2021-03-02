@@ -85,7 +85,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequestWithoutUserAgent) {
         action: 'update',
         params: getParams(raw),
         payload: raw,
-      }).then((data) => wrapEnvironmentAlias(http, data))
+      }).then((data) => wrapEnvironmentAlias(makeRequest, data))
     },
 
     delete: function () {

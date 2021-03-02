@@ -1,6 +1,5 @@
-import { AdapterParams } from './create-adapter'
 import { SpaceProps } from './entities/space'
-import { GetSpaceParams, QueryParams } from './plain/endpoints/common-types'
+import { GetSpaceParams, QueryParams } from './plain/common-types'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
