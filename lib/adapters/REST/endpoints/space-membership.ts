@@ -1,8 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { CollectionProp } from '../../../common-types'
+import {
+  CreateSpaceMembershipProps,
+  SpaceMembershipProps,
+} from '../../../entities/space-membership'
+import { GetOrganizationParams, GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
-import { SpaceMembershipProps, CreateSpaceMembershipProps } from '../../entities/space-membership'
-import { CollectionProp, QueryParams, GetSpaceParams, GetOrganizationParams } from './common-types'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(

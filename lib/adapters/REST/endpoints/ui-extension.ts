@@ -1,9 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { QueryParams, GetSpaceEnvironmentParams, CollectionProp } from './common-types'
 import { normalizeSelect } from './utils'
-import { UIExtensionProps, CreateUIExtensionProps } from '../../entities/ui-extension'
 import copy from 'fast-copy'
+import { CreateUIExtensionProps, UIExtensionProps } from '../../../entities/ui-extension'
+import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CollectionProp } from '../../../common-types'
 
 export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 

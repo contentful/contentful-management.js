@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
+import { GetSpaceParams, PaginationQueryParams } from '../../../plain/common-types'
 import {
-  EnvironmentAliasProps,
   CreateEnvironmentAliasProps,
-} from '../../entities/environment-alias'
-import { CollectionProp, PaginationQueryParams, GetSpaceParams } from './common-types'
+  EnvironmentAliasProps,
+} from '../../../entities/environment-alias'
+import { CollectionProp } from '../../../common-types'
 
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
 

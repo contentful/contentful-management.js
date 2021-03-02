@@ -1,9 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { CreateEntryProps, EntryProps } from '../../entities/entry'
 import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
-import { QueryParams, CollectionProp, KeyValueMap, GetSpaceEnvironmentParams } from './common-types'
+import { CollectionProp, KeyValueMap } from '../../../common-types'
+import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CreateEntryProps, EntryProps } from '../../../entities/entry'
 
 export const get = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,

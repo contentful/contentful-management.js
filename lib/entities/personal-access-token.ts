@@ -50,7 +50,7 @@ export function wrapPersonalAccessToken(
   const personalAccessToken = toPlainObject(copy(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {
     revoke: function () {
-      makeRequest({
+      return makeRequest({
         entityType: 'PersonalAccessToken',
         action: 'revoke',
         params: { tokenId: data.sys.id },

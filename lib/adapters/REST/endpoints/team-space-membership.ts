@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import * as raw from './raw'
-import { GetSpaceParams, QueryParams, CollectionProp, GetOrganizationParams } from './common-types'
+import { CollectionProp } from '../../../common-types'
 import {
-  TeamSpaceMembershipProps,
   CreateTeamSpaceMembershipProps,
-} from '../../entities/team-space-membership'
+  TeamSpaceMembershipProps,
+} from '../../../entities/team-space-membership'
+import { GetOrganizationParams, GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import * as raw from './raw'
 
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
 

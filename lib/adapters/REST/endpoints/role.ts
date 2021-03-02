@@ -1,9 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { CollectionProp } from '../../../common-types'
+import { CreateRoleProps, RoleProps } from '../../../entities/role'
+import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
-import { RoleProps, CreateRoleProps } from '../../entities/role'
-import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams & { roleId: string }) => {
   return raw.get<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`)

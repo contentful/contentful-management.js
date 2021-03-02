@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
+import { CollectionProp } from '../../../common-types'
+import { OrganizationProp } from '../../../entities/organization'
+import { GetOrganizationParams } from '../../../plain/common-types'
 import * as raw from './raw'
-import { CollectionProp, GetOrganizationParams } from './common-types'
-import { OrganizationProp } from '../../entities/organization'
 
 export const getAll = (http: AxiosInstance) => {
   return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`)

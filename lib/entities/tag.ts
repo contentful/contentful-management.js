@@ -70,8 +70,10 @@ export default function createTagApi(makeRequest: MakeRequestWithoutUserAgent): 
       return makeRequest({
         entityType: 'Tag',
         action: 'delete',
-        params: getParams(raw),
-        payload: raw.sys.version,
+        params: {
+          ...getParams(raw),
+          version: raw.sys.version,
+        },
       }).then(() => {
         // noop
       })

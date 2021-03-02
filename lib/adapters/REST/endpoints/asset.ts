@@ -1,18 +1,18 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import errorHandler from '../../error-handler'
-import {
-  CreateAssetProps,
-  AssetProps,
-  AssetFileProp,
-  AssetProcessingForLocale,
-} from '../../entities/asset'
 import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
 import { create as createUpload } from './upload'
-import { getUploadHttpClient } from '../../upload-http-client'
-
-import { QueryParams, CollectionProp, GetSpaceEnvironmentParams } from './common-types'
+import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import {
+  AssetFileProp,
+  AssetProcessingForLocale,
+  AssetProps,
+  CreateAssetProps,
+} from '../../../entities/asset'
+import { CollectionProp } from '../../../common-types'
+import errorHandler from '../../../error-handler'
+import { getUploadHttpClient } from '../../../upload-http-client'
 
 export const get = (
   http: AxiosInstance,

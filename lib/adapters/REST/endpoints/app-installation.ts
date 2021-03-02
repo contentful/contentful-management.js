@@ -1,9 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { GetSpaceEnvironmentParams, CollectionProp, PaginationQueryParams } from './common-types'
 import { normalizeSelect } from './utils'
-import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
 import copy from 'fast-copy'
+import { GetSpaceEnvironmentParams, PaginationQueryParams } from '../../../plain/common-types'
+import {
+  AppInstallationProps,
+  CreateAppInstallationProps,
+} from '../../../entities/app-installation'
+import { CollectionProp } from '../../../common-types'
 
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 

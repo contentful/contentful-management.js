@@ -1,10 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import { GetOrganizationParams, QueryParams } from './common-types'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../../entities/app-definition'
 import { normalizeSelect } from './utils'
-import { CollectionProp } from '../../common-types'
+import { GetOrganizationParams, QueryParams } from '../../../plain/common-types'
+import { AppDefinitionProps, CreateAppDefinitionProps } from '../../../entities/app-definition'
+import { CollectionProp } from '../../../common-types'
 
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 

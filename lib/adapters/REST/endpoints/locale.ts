@@ -1,10 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../common-types'
-import { LocaleProps, CreateLocaleProps } from '../../entities/locale'
 import { normalizeSelect } from './utils'
 import * as raw from './raw'
-import { QueryParams, GetSpaceEnvironmentParams } from './common-types'
+import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CreateLocaleProps, LocaleProps } from '../../../entities/locale'
+import { CollectionProp } from '../../../common-types'
 
 export const get = (
   http: AxiosInstance,

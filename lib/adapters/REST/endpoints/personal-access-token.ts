@@ -1,10 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
-import { CollectionProp, QueryParams } from './common-types'
+import { CollectionProp } from '../../../common-types'
 import {
-  PersonalAccessTokenProp,
   CreatePersonalAccessTokenProps,
-} from '../../entities/personal-access-token'
+  PersonalAccessTokenProp,
+} from '../../../entities/personal-access-token'
+import { QueryParams } from '../../../plain/common-types'
+import * as raw from './raw'
 
 export const get = (http: AxiosInstance, params: { tokenId: string }) => {
   return raw.get<PersonalAccessTokenProp>(http, `/users/me/access_tokens/${params.tokenId}`)
