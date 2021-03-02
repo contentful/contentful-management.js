@@ -166,7 +166,7 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams): Promise {
+    getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams): Promise<T> {
       return makeRequest({
         entityType: 'User',
         action: 'getCurrent',

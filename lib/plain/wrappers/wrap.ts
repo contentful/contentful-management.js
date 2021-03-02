@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Except } from 'type-fest'
-import { MakeRequestWithUserAgent } from '../../common-types'
+import { MakeRequestWithoutUserAgent } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -16,7 +16,7 @@ export type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType>
     Partial<Pick<BaseType, Keys>>
 
 export type WrapParams = {
-  makeRequest: MakeRequestWithUserAgent
+  makeRequest: MakeRequestWithoutUserAgent
   defaults?: DefaultParams
 }
 

@@ -155,7 +155,7 @@ export interface Adapter {
 export type MakeRequest = Adapter['makeRequest']
 export type MakeRequestWithoutUserAgent = (
   options: Omit<MakeRequestOptions, 'userAgent'>
-) => Promise<unknown>
+) => Promise<any>
 
 // TODO: Infer type from overloading
 // type MakeRequestOptions = Parameters<Adapter['makeRequest']>[0]
