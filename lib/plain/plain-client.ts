@@ -4,9 +4,6 @@ import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type RestParamsType<F> = F extends (p1: any, ...rest: infer REST) => any ? REST : never
-
 export const createPlainClient = (
   adapter: Adapter,
   defaults: DefaultParams | undefined,
