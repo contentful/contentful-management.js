@@ -5,17 +5,33 @@
  */
 
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
-import { createCMAHttpClient, ClientParams } from './create-cma-http-client'
-import type { DefaultParams, PlainClientAPI } from './plain/plain-client'
+import { AdapterParams, createAdapter } from './create-adapter'
+import type { DefaultParams } from './plain/plain-client'
 
 import { createPlainClient } from './plain/plain-client'
+import { PlainClientAPI } from './plain/endpoints/common-types'
+import { getUserAgentHeader } from 'contentful-sdk-core'
+import { RestAdapterParams } from './adapters/REST/rest-adapter'
 
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
-export type { PlainClientAPI } from './plain/plain-client'
 export type { ClientAPI } from './create-contentful-api'
-export type { ClientParams } from './create-cma-http-client'
 export type PlainClientDefaultParams = DefaultParams
+
+interface UserAgentParams {
+  /**
+   * Application name and version e.g myApp/version
+   */
+  application?: string
+  /**
+   * Integration name and version e.g react/version
+   */
+  integration?: string
+
+  feature?: string
+}
+
+export type ClientParams = RestAdapterParams & AdapterParams & UserAgentParams
 
 /**
  * Create a client instance
@@ -42,18 +58,22 @@ function createClient(
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {
-  let client: ClientAPI | PlainClientAPI
+  const sdkMain =
+    opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+  const userAgent = getUserAgentHeader(
+    // @ts-expect-error
+    `${sdkMain}/${__VERSION__}`,
+    params.application,
+    params.integration,
+    params.feature
+  )
 
+  const adapter = createAdapter(params)
   if (opts.type === 'plain') {
-    client = createPlainClient(params, opts.defaults)
+    return createPlainClient(adapter, opts.defaults, userAgent)
   } else {
-    const http = createCMAHttpClient(params)
-    client = createContentfulApi({
-      http: http,
-    }) as ClientAPI
+    return createContentfulApi(adapter, userAgent) as ClientAPI
   }
-
-  return client
 }
 
 export { createClient }

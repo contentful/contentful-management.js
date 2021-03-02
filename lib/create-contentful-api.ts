@@ -1,19 +1,22 @@
 import { AxiosRequestConfig } from 'axios'
-import { createRequestConfig, AxiosInstance } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
+import { createRequestConfig } from 'contentful-sdk-core'
+import { RestAdapter } from './adapters/REST/rest-adapter'
+import { Adapter, Collection, QueryOptions } from './common-types'
 import entities from './entities'
-import { Collection, QueryOptions } from './common-types'
-import { OrganizationProp, Organization } from './entities/organization'
-import { SpaceProps, Space } from './entities/space'
+import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import * as endpoints from './plain/endpoints'
-import { QueryParams } from './plain/endpoints/common-types'
+import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
+import errorHandler from './error-handler'
+import * as endpoints from './plain/endpoints'
+import { QueryParams } from './plain/endpoints/common-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
-export default function createClientApi({ http }: { http: AxiosInstance }) {
+export default function createClientApi(adapter: Adapter, userAgent: string) {
+  const http = (adapter as RestAdapter).http
+
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
   const {
@@ -42,11 +45,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getSpaces: function getSpaces(
       query: QueryOptions = {}
     ): Promise<Collection<Space, SpaceProps>> {
-      return endpoints.space
-        .getMany(http, {
-          query: createRequestConfig({ query: query }).params,
+      return adapter
+        .makeRequest({
+          entityType: 'Space',
+          action: 'getMany',
+          params: { query: createRequestConfig({ query: query }).params },
+          userAgent,
         })
-        .then((data) => wrapSpaceCollection(http, data))
+        .then((data) => wrapSpaceCollection(adapter, data, userAgent))
     },
     /**
      * Gets a space
@@ -65,7 +71,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpace: function getSpace(spaceId: string): Promise<Space> {
-      return endpoints.space.get(http, { spaceId }).then((data) => wrapSpace(http, data))
+      return adapter
+        .makeRequest({
+          entityType: 'Space',
+          action: 'get',
+          params: { spaceId },
+          userAgent,
+        })
+        .then((data) => wrapSpace(adapter, data, userAgent))
     },
     /**
      * Creates a space
@@ -90,9 +103,17 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       spaceData: Omit<SpaceProps, 'sys'>,
       organizationId: string
     ): Promise<Space> {
-      return endpoints.space.create(http, { organizationId }, spaceData).then((data) => {
-        return wrapSpace(http, data)
-      })
+      return adapter
+        .makeRequest({
+          entityType: 'Space',
+          action: 'create',
+          params: { organizationId },
+          payload: spaceData,
+          userAgent,
+        })
+        .then((data) => {
+          return wrapSpace(adapter, data, userAgent)
+        })
     },
     /**
      * Gets an organization

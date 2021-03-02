@@ -3,7 +3,7 @@
 import copy from 'fast-copy'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { toPlainObject } from 'contentful-sdk-core'
-import { CollectionProp, Collection } from './common-types'
+import { CollectionProp, Collection, Adapter } from './common-types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const wrapCollection = <R, T, Rest extends any[]>(
@@ -14,4 +14,14 @@ export const wrapCollection = <R, T, Rest extends any[]>(
   collectionData.items = collectionData.items.map((entity) => fn(http, entity, ...rest))
   // @ts-ignore
   return collectionData
+}
+
+export const wrapCollectionWithAdapter = <R, T, Rest extends any[]>(
+  fn: (adapter: Adapter, entity: T, ...rest: Rest) => R
+) => (adapter: Adapter, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
+  const collectionData = toPlainObject(copy(data))
+  return {
+    ...collectionData,
+    items: collectionData.items.map((entity) => fn(adapter, entity, ...rest)),
+  }
 }

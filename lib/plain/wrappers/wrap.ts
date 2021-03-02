@@ -2,6 +2,7 @@
 
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
+import { Adapter, MakeRequestOptions } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -47,7 +48,28 @@ export const wrap = <T extends any[], P extends {}, R>(
 ) => {
   return withDefaults(defaults, withHttp(http, fn))
 }
-
 type EndpointWithHttp<R> = (http: AxiosInstance) => R
 
 export const wrapHttp = <R>(http: AxiosInstance, fn: EndpointWithHttp<R>) => () => fn(http)
+
+export type WrapParamsWithAdapter = {
+  adapter: Adapter
+  defaults?: DefaultParams
+  userAgent: string
+}
+
+export const wrapAdapter = <Params extends {}, Payload extends {}>(
+  { adapter, defaults, userAgent }: WrapParamsWithAdapter,
+  entityType: string,
+  action: string
+) => {
+  return (params: Params, payload?: Payload, headers?: Record<string, unknown>) =>
+    (adapter.makeRequest as (options: MakeRequestOptions) => Promise<unknown>)({
+      entityType,
+      action,
+      params: { ...defaults, ...params },
+      payload,
+      headers,
+      userAgent,
+    })
+}

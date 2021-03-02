@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { SpaceProps } from '../../entities/space'
+import { SpaceProps } from '../../../entities/space'
 import copy from 'fast-copy'
 import { CollectionProp, QueryParams, GetSpaceParams } from './common-types'
 
@@ -15,10 +15,10 @@ export const getMany = (http: AxiosInstance, params: QueryParams) =>
 export const create = (
   http: AxiosInstance,
   params: { organizationId?: string },
-  rawData: Omit<SpaceProps, 'sys'>,
+  payload: Omit<SpaceProps, 'sys'>,
   headers?: Record<string, unknown>
 ) => {
-  return raw.post(http, `/spaces`, rawData, {
+  return raw.post(http, `/spaces`, payload, {
     headers: params.organizationId
       ? { ...headers, 'X-Contentful-Organization': params.organizationId }
       : headers,
@@ -28,15 +28,15 @@ export const create = (
 export const update = (
   http: AxiosInstance,
   params: GetSpaceParams,
-  rawData: SpaceProps,
+  payload: SpaceProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data = copy(payload)
   delete data.sys
 
   return raw.put<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      'X-Contentful-Version': payload.sys.version ?? 0,
       ...headers,
     },
   })

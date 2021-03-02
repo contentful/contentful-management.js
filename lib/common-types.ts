@@ -1,3 +1,6 @@
+import { SpaceProps } from './entities/space'
+import { GetSpaceParams, QueryParams } from './plain/endpoints/common-types'
+
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -109,3 +112,52 @@ export interface BasicCursorPaginationOptions {
 }
 
 export type KeyValueMap = Record<string, any>
+
+export interface Adapter {
+  makeRequest(options: {
+    entityType: 'Space'
+    action: 'get'
+    params: GetSpaceParams
+    userAgent: string
+  }): Promise<SpaceProps>
+  makeRequest(options: {
+    entityType: 'Space'
+    action: 'getMany'
+    params: QueryParams
+    userAgent: string
+  }): Promise<CollectionProp<SpaceProps>>
+  makeRequest(options: {
+    entityType: 'Space'
+    action: 'create'
+    params: { organizationId?: string }
+    payload: Omit<SpaceProps, 'sys'>
+    headers?: Record<string, unknown>
+    userAgent: string
+  }): Promise<any>
+  makeRequest(options: {
+    entityType: 'Space'
+    action: 'update'
+    payload: SpaceProps
+    params: GetSpaceParams
+    headers?: Record<string, unknown>
+    userAgent: string
+  }): Promise<SpaceProps>
+  makeRequest(options: {
+    entityType: 'Space'
+    action: 'delete'
+    params: GetSpaceParams
+    userAgent: string
+  }): Promise<any>
+  // makeRequest<R = unknown>(options: MakeRequestOptions): Promise<R>
+}
+
+// TODO: Infer type from overloading
+// type MakeRequestOptions = Parameters<Adapter['makeRequest']>[0]
+export interface MakeRequestOptions {
+  entityType: string
+  action: string
+  params?: Record<string, unknown>
+  payload?: Record<string, unknown>
+  headers?: Record<string, unknown>
+  userAgent: string
+}
