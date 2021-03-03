@@ -348,6 +348,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Raw',
         action: 'request',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore TODO: an interface cannot be assigned to `Record<string, unknown>`
         params: opts,
       }).then((response) => response.data, errorHandler)
     },
