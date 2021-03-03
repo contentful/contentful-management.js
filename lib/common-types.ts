@@ -114,10 +114,8 @@ export interface Adapter {
   makeRequest(options: MakeRequestOptions): Promise<any>
 }
 
-export type MakeRequest = Adapter['makeRequest']
-export type MakeRequestWithoutUserAgent = (
-  options: Omit<MakeRequestOptions, 'userAgent'>
-) => Promise<any>
+export type MakeRequestWithUserAgent = Adapter['makeRequest']
+export type MakeRequest = (options: Omit<MakeRequestOptions, 'userAgent'>) => Promise<any>
 
 export interface MakeRequestOptions {
   entityType: string

@@ -2,15 +2,11 @@
 
 import { toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Collection, CollectionProp, MakeRequestWithoutUserAgent } from './common-types'
+import { Collection, CollectionProp, MakeRequest } from './common-types'
 
 export const wrapCollection = <R, T, Rest extends any[]>(
-  fn: (makeRequest: MakeRequestWithoutUserAgent, entity: T, ...rest: Rest) => R
-) => (
-  makeRequest: MakeRequestWithoutUserAgent,
-  data: CollectionProp<T>,
-  ...rest: Rest
-): Collection<R, T> => {
+  fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R
+) => (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
   const collectionData = toPlainObject(copy(data))
   return {
     ...collectionData,

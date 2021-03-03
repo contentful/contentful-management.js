@@ -2,12 +2,7 @@ import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  DefaultElements,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 import { Except } from 'type-fest'
 import { FreeFormParameters } from './widget-parameters'
 
@@ -71,7 +66,7 @@ export interface AppInstallation
   delete(): Promise<void>
 }
 
-function createAppInstallationApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createAppInstallationApi(makeRequest: MakeRequest) {
   const getParams = (data: AppInstallationProps) => ({
     spaceId: data.sys.space.sys.id,
     environmentId: data.sys.environment.sys.id,
@@ -107,7 +102,7 @@ function createAppInstallationApi(makeRequest: MakeRequestWithoutUserAgent) {
  * @return Wrapped App installation data
  */
 export function wrapAppInstallation(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: AppInstallationProps
 ): AppInstallation {
   const appInstallation = toPlainObject(copy(data))

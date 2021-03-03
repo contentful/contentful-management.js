@@ -1,11 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-  MetaLinkProps,
-  MetaSysProps,
-} from '../common-types'
+import { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 
 export type SpaceMemberProps = {
@@ -28,7 +23,7 @@ export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemb
  * @param data - Raw space member data
  * @return Wrapped space member data
  */
-export function wrapSpaceMember(_makeRequest: MakeRequestWithoutUserAgent, data: SpaceMemberProps) {
+export function wrapSpaceMember(_makeRequest: MakeRequest, data: SpaceMemberProps) {
   const spaceMember = toPlainObject(copy(data))
   return freezeSys(spaceMember)
 }

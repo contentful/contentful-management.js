@@ -3,7 +3,7 @@ import entities from './entities'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
-import { MakeRequestWithoutUserAgent, QueryOptions } from './common-types'
+import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 
@@ -11,10 +11,10 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
- * @param {MakeRequestWithoutUserAgent} makeRequest - function to make requests via an adapter
+ * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulOrganizationAPI}
  */
-export default function createOrganizationApi(makeRequest: MakeRequestWithoutUserAgent) {
+export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
   const { wrapUser, wrapUserCollection } = entities.user
   const {

@@ -3,12 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import {
-  DefaultElements,
-  SysLink,
-  BasicMetaSysProps,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { DefaultElements, SysLink, BasicMetaSysProps, MakeRequest } from '../common-types'
 
 type EnvironmentMetaSys = BasicMetaSysProps & {
   status: SysLink
@@ -44,10 +39,7 @@ export type Environment = ContentfulEnvironmentAPI &
  * @param data - API response for a Environment
  * @return
  */
-export function wrapEnvironment(
-  makeRequest: MakeRequestWithoutUserAgent,
-  data: EnvironmentProps
-): Environment {
+export function wrapEnvironment(makeRequest: MakeRequest, data: EnvironmentProps): Environment {
   // do not pollute generated typings
   const environment = toPlainObject(copy(data))
   const environmentApi = createEnvironmentApi(makeRequest)

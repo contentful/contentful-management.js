@@ -2,12 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  DefaultElements,
-  MetaSysProps,
-  MetaLinkProps,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
 
 export type TeamProps = {
   /**
@@ -74,7 +69,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
 /**
  * @private
  */
-function createTeamApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createTeamApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamProps) => ({
     teamId: data.sys.id,
     organizationId: data.sys.organization.sys.id,
@@ -108,7 +103,7 @@ function createTeamApi(makeRequest: MakeRequestWithoutUserAgent) {
  * @param data - Raw team data
  * @return Wrapped team data
  */
-export function wrapTeam(makeRequest: MakeRequestWithoutUserAgent, data: TeamProps): Team {
+export function wrapTeam(makeRequest: MakeRequest, data: TeamProps): Team {
   const team = toPlainObject(copy(data))
   const teamWithMethods = enhanceWithMethods(team, createTeamApi(makeRequest))
   return freezeSys(teamWithMethods)

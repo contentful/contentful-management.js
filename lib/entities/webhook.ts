@@ -5,7 +5,7 @@ import {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
   MetaLinkProps,
   SysLink,
 } from '../common-types'
@@ -284,7 +284,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   getHealth(): Promise<WebhookHealthProps>
 }
 
-function createWebhookApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createWebhookApi(makeRequest: MakeRequest) {
   const getParams = (data: WebhookProps) => ({
     spaceId: data.sys.space.sys.id,
     webhookDefinitionId: data.sys.id,
@@ -341,10 +341,7 @@ function createWebhookApi(makeRequest: MakeRequestWithoutUserAgent) {
  * @param data - Raw webhook data
  * @return Wrapped webhook data
  */
-export function wrapWebhook(
-  makeRequest: MakeRequestWithoutUserAgent,
-  data: WebhookProps
-): WebHooks {
+export function wrapWebhook(makeRequest: MakeRequest, data: WebhookProps): WebHooks {
   const webhook = toPlainObject(copy(data))
   const webhookWithMethods = enhanceWithMethods(webhook, createWebhookApi(makeRequest))
   return freezeSys(webhookWithMethods)

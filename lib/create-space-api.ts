@@ -4,7 +4,7 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { MakeRequestWithoutUserAgent, PaginationQueryOptions, QueryOptions } from './common-types'
+import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
 import { CreateEnvironmentProps } from './entities/environment'
@@ -20,10 +20,10 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
 /**
  * Creates API object with methods to access the Space API
- * @param {MakeRequestWithoutUserAgent} makeRequest - function to make requests via an adapter
+ * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi(makeRequest: MakeRequestWithoutUserAgent) {
+export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook

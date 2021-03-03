@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { Collection, MakeRequestWithoutUserAgent, QueryOptions } from './common-types'
+import { Collection, MakeRequest, QueryOptions } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
@@ -12,7 +12,7 @@ import { QueryParams } from './plain/common-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
-export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent) {
+export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
   const {

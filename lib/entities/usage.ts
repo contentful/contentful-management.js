@@ -2,7 +2,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
   DefaultElements,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
   MetaLinkProps,
   MetaSysProps,
   QueryOptions,
@@ -65,7 +65,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @param data - Raw data
  * @return Normalized usage
  */
-export function wrapUsage(_makeRequest: MakeRequestWithoutUserAgent, data: UsageProps): Usage {
+export function wrapUsage(_makeRequest: MakeRequest, data: UsageProps): Usage {
   const usage = toPlainObject(copy(data))
   const usageWithMethods = enhanceWithMethods(usage, {})
   return freezeSys(usageWithMethods)

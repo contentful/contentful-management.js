@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { DefaultElements, MakeRequestWithoutUserAgent, MetaSysProps } from '../common-types'
+import { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -23,7 +23,7 @@ function createPreviewApiKeyApi() {
  * @return Wrapped preview api key data
  */
 export function wrapPreviewApiKey(
-  _makeRequest: MakeRequestWithoutUserAgent,
+  _makeRequest: MakeRequest,
   data: PreviewApiKeyProps
 ): PreviewApiKey {
   const previewApiKey = toPlainObject(copy(data))

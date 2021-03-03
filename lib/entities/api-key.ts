@@ -1,11 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-  MetaLinkProps,
-  MetaSysProps,
-} from '../common-types'
+import { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -63,7 +58,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   update(): Promise<ApiKey>
 }
 
-function createApiKeyApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createApiKeyApi(makeRequest: MakeRequest) {
   const getParams = (data: ApiKeyProps) => ({
     spaceId: data.sys.space?.sys.id ?? '',
     apiKeyId: data.sys.id,
@@ -96,7 +91,7 @@ function createApiKeyApi(makeRequest: MakeRequestWithoutUserAgent) {
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  */
-export function wrapApiKey(makeRequest: MakeRequestWithoutUserAgent, data: ApiKeyProps): ApiKey {
+export function wrapApiKey(makeRequest: MakeRequest, data: ApiKeyProps): ApiKey {
   const apiKey = toPlainObject(copy(data))
   const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(makeRequest))
   return freezeSys(apiKeyWithMethods)

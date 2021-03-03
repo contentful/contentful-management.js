@@ -5,7 +5,7 @@ import {
   BasicMetaSysProps,
   Collection,
   DefaultElements,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
   QueryOptions,
   SysLink,
 } from '../common-types'
@@ -207,7 +207,7 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
-function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): ContentTypeApi {
+function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps
 
@@ -330,10 +330,7 @@ function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): Content
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(
-  makeRequest: MakeRequestWithoutUserAgent,
-  data: ContentTypeProps
-): ContentType {
+export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(copy(data))
   const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(makeRequest))
   return freezeSys(contentTypeWithMethods)

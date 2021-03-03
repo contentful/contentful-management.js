@@ -6,7 +6,7 @@
 
 import { getUserAgentHeader } from 'contentful-sdk-core'
 import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequestWithoutUserAgent } from './common-types'
+import type { MakeRequest } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type { PlainClientAPI } from './plain/common-types'
@@ -70,15 +70,15 @@ function createClient(
   )
 
   const adapter = createAdapter(params)
-  const makeRequestWithoutUserAgent: MakeRequestWithoutUserAgent = (options) =>
+  const MakeRequest: MakeRequest = (options) =>
     adapter.makeRequest({
       ...options,
       userAgent,
     })
 
   if (opts.type === 'plain') {
-    return createPlainClient(makeRequestWithoutUserAgent, opts.defaults)
+    return createPlainClient(MakeRequest, opts.defaults)
   } else {
-    return createContentfulApi(makeRequestWithoutUserAgent) as ClientAPI
+    return createContentfulApi(MakeRequest) as ClientAPI
   }
 }

@@ -1,5 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions, MakeRequestWithoutUserAgent } from './common-types'
+import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
@@ -19,7 +19,7 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
  */
-export default function createEnvironmentApi(makeRequest: MakeRequestWithoutUserAgent) {
+export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry

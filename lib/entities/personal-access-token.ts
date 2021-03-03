@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements, MakeRequestWithoutUserAgent } from '../common-types'
+import { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type PersonalAccessTokenProp = {
   sys: MetaSysProps
@@ -44,7 +44,7 @@ export interface PersonalAccessToken
  * @return Wrapped personal access token
  */
 export function wrapPersonalAccessToken(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: PersonalAccessTokenProp
 ): PersonalAccessToken {
   const personalAccessToken = toPlainObject(copy(data))

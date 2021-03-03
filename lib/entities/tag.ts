@@ -1,11 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-  MetaSysProps,
-  SysLink,
-} from '../common-types'
+import { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -45,7 +40,7 @@ type TagApi = {
 
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
-export default function createTagApi(makeRequest: MakeRequestWithoutUserAgent): TagApi {
+export default function createTagApi(makeRequest: MakeRequest): TagApi {
   const getParams = (tag: TagProps) => ({
     spaceId: tag.sys.space.sys.id,
     environmentId: tag.sys.environment.sys.id,
@@ -81,7 +76,7 @@ export default function createTagApi(makeRequest: MakeRequestWithoutUserAgent): 
   }
 }
 
-export function wrapTag(makeRequest: MakeRequestWithoutUserAgent, data: TagProps): Tag {
+export function wrapTag(makeRequest: MakeRequest, data: TagProps): Tag {
   const tag = toPlainObject(copy(data))
   const tagWithMethods = enhanceWithMethods(tag, createTagApi(makeRequest))
   return freezeSys(tagWithMethods)
