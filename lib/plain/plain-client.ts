@@ -54,7 +54,7 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
       omitAndDeleteField: (params, contentType, fieldId) =>
-        adapter.makeRequest({
+        makeRequest({
           entityType: 'ContentType',
           action: 'omitAndDeleteField',
           params: {
@@ -63,7 +63,6 @@ export const createPlainClient = (
             contentType,
             fieldId,
           },
-          userAgent,
         }),
     },
     user: {
@@ -98,7 +97,7 @@ export const createPlainClient = (
       createWithId: wrap(wrapParams, 'Asset', 'createWithId'),
       createFromFiles: wrap(wrapParams, 'Asset', 'createFromFiles'),
       processForAllLocales: (params, asset, options) =>
-        adapter.makeRequest({
+        makeRequest({
           entityType: 'Asset',
           action: 'processForAllLocales',
           params: {
@@ -107,10 +106,9 @@ export const createPlainClient = (
             asset,
             options,
           },
-          userAgent,
         }),
       processForLocale: (params, asset, locale, options) =>
-        adapter.makeRequest({
+        makeRequest({
           entityType: 'Asset',
           action: 'processForLocale',
           params: {
@@ -120,7 +118,6 @@ export const createPlainClient = (
             locale,
             options,
           },
-          userAgent,
         }),
     },
     upload: {
@@ -139,12 +136,11 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'PersonalAccessToken', 'get'),
       getMany: wrap(wrapParams, 'PersonalAccessToken', 'getMany'),
       create: (data, headers) =>
-        adapter.makeRequest({
+        makeRequest({
           entityType: 'PersonalAccessToken',
           action: 'create',
           headers,
           payload: data,
-          userAgent,
         }),
       revoke: wrap(wrapParams, 'PersonalAccessToken', 'revoke'),
     },
