@@ -1,6 +1,3 @@
-import { SpaceProps } from './entities/space'
-import { GetSpaceParams, QueryParams } from './plain/common-types'
-
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
