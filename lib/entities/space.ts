@@ -18,15 +18,13 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * http client with a space id, so the base path for requests now has the
  * space id already set.
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Space
  * @return {Space}
  */
 export function wrapSpace(makeRequest: MakeRequestWithoutUserAgent, data: SpaceProps): Space {
   const space = toPlainObject(copy(data))
-  const spaceApi = createSpaceApi({
-    makeRequest,
-  })
+  const spaceApi = createSpaceApi(makeRequest)
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)
 }

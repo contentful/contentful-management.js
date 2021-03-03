@@ -21,7 +21,7 @@ function createSnapshotApi() {
 }
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot data
  * @return Wrapped snapshot data
  */
@@ -36,7 +36,7 @@ export function wrapSnapshot<T>(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot collection data
  * @return Wrapped snapshot collection data
  */

@@ -16,12 +16,10 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
 /**
  * Creates API object with methods to access the Environment API
+ * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
+ * @return {ContentfulSpaceAPI}
  */
-export default function createEnvironmentApi({
-  makeRequest,
-}: {
-  makeRequest: MakeRequestWithoutUserAgent
-}) {
+export default function createEnvironmentApi(makeRequest: MakeRequestWithoutUserAgent) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry

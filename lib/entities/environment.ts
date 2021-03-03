@@ -40,7 +40,7 @@ export type Environment = ContentfulEnvironmentAPI &
  * http client with a environment id, so the base path for requests now has the
  * environment id already set.
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Environment
  * @return
  */
@@ -50,9 +50,7 @@ export function wrapEnvironment(
 ): Environment {
   // do not pollute generated typings
   const environment = toPlainObject(copy(data))
-  const environmentApi = createEnvironmentApi({
-    makeRequest,
-  })
+  const environmentApi = createEnvironmentApi(makeRequest)
   const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
   return freezeSys(enhancedEnvironment)
 }

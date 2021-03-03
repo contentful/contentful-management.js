@@ -103,7 +103,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias data
  * @return Wrapped environment alias data
  */
@@ -118,7 +118,7 @@ export function wrapEnvironmentAlias(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias collection data
  * @return Wrapped environment alias collection data
  */

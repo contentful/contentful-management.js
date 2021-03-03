@@ -134,7 +134,7 @@ function createUiExtensionApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw UI Extension data
  * @return Wrapped UI Extension data
  */

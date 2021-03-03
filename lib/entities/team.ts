@@ -104,7 +104,7 @@ function createTeamApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw team data
  * @return Wrapped team data
  */

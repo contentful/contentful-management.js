@@ -18,7 +18,7 @@ function createPreviewApiKeyApi() {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  * @return Wrapped preview api key data
  */

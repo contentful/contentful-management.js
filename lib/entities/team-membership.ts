@@ -105,7 +105,7 @@ function createTeamMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
 }
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw team membership data
  * @return Wrapped team membership data
  */

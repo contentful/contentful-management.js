@@ -26,7 +26,7 @@ export type OrganizationProp = {
  * http client with an organization id, so the base path for requests now has the
  * organization id already set.
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - API response for an Organization
  * @return {Organization}
  */
@@ -35,9 +35,7 @@ export function wrapOrganization(
   data: OrganizationProp
 ): Organization {
   const org = toPlainObject(copy(data))
-  const orgApi = createOrganizationApi({
-    makeRequest,
-  })
+  const orgApi = createOrganizationApi(makeRequest)
   const enhancedOrganization = enhanceWithMethods(org, orgApi)
   return freezeSys(enhancedOrganization)
 }

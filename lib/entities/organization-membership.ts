@@ -102,7 +102,7 @@ function createOrganizationMembershipApi(
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
+ * @param {function} makeRequest - function to make requests via an adapter
  * @param {Object} data - Raw organization membership data
  * @return {OrganizationMembership} Wrapped organization membership data
  */

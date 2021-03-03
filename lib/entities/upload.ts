@@ -54,8 +54,8 @@ function createUploadApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw upload data
+ * @param {function} makeRequest - function to make requests via an adapter
+ * @param {object} data - Raw upload data
  * @return {Upload} Wrapped upload data
  */
 export function wrapUpload(makeRequest: MakeRequestWithoutUserAgent, data: UploadProps) {

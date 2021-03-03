@@ -337,7 +337,7 @@ function createWebhookApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw webhook data
  * @return Wrapped webhook data
  */

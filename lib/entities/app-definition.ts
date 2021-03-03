@@ -137,7 +137,7 @@ function createAppDefinitionApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition data
  * @return Wrapped App Definition data
  */
@@ -155,7 +155,7 @@ export function wrapAppDefinition(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */

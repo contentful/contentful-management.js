@@ -39,7 +39,7 @@ export interface PersonalAccessToken
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw  personal access token data
  * @return Wrapped personal access token
  */
@@ -62,7 +62,7 @@ export function wrapPersonalAccessToken(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw personal access collection data
  * @return Wrapped personal access token collection data
  */

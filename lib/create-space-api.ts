@@ -20,16 +20,10 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
 /**
  * Creates API object with methods to access the Space API
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
+ * @param {MakeRequestWithoutUserAgent} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({
-  makeRequest,
-}: {
-  makeRequest: MakeRequestWithoutUserAgent
-}) {
+export default function createSpaceApi(makeRequest: MakeRequestWithoutUserAgent) {
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook

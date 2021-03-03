@@ -326,7 +326,7 @@ function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): Content
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
  * @return Wrapped content type data
  */

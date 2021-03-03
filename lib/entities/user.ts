@@ -53,7 +53,7 @@ export interface User extends UserProps, DefaultElements<UserProps> {}
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @return Normalized user
  */
@@ -65,7 +65,7 @@ export function wrapUser<T = UserProps>(_makeRequest: MakeRequestWithoutUserAgen
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data collection
  * @return Normalized user collection
  */

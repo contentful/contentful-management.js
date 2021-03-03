@@ -93,7 +93,7 @@ function createApiKeyApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  */
 export function wrapApiKey(makeRequest: MakeRequestWithoutUserAgent, data: ApiKeyProps): ApiKey {
@@ -104,7 +104,7 @@ export function wrapApiKey(makeRequest: MakeRequestWithoutUserAgent, data: ApiKe
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */

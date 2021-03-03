@@ -318,7 +318,7 @@ function createEntryApi(makeRequest: MakeRequestWithoutUserAgent): EntryApi {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
  * @return Wrapped entry data
  */

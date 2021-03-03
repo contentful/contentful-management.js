@@ -11,12 +11,10 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
+ * @param {MakeRequestWithoutUserAgent} makeRequest - function to make requests via an adapter
+ * @return {ContentfulOrganizationAPI}
  */
-export default function createOrganizationApi({
-  makeRequest,
-}: {
-  makeRequest: MakeRequestWithoutUserAgent
-}) {
+export default function createOrganizationApi(makeRequest: MakeRequestWithoutUserAgent) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
   const { wrapUser, wrapUserCollection } = entities.user
   const {
