@@ -112,9 +112,13 @@ const findAndUpdateField = function (
 
 export const omitAndDeleteField = (
   http: AxiosInstance,
-  params: GetContentTypeParams,
-  contentType: ContentTypeProps,
-  fieldId: string
+  {
+    fieldId,
+    ...params
+  }: GetContentTypeParams & {
+    fieldId: string
+  },
+  contentType: ContentTypeProps
 ) => {
   return findAndUpdateField(contentType, fieldId, 'omitted')
     .then((newContentType) => {

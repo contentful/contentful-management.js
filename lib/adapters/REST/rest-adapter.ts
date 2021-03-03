@@ -3,7 +3,7 @@ import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'content
 import copy from 'fast-copy'
 import { omit } from 'lodash'
 import { Adapter, MakeRequestOptions } from '../../common-types'
-import * as endpoints from './endpoints'
+import endpoints from './endpoints'
 
 export type RestAdapterParams = CreateHttpClientParams & {
   /**

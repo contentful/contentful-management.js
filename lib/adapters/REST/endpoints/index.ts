@@ -1,30 +1,65 @@
-export * as ApiKey from './api-key'
-export * as AppDefinition from './app-definition'
-export * as AppInstallation from './app-installation'
-export * as Asset from './asset'
-export * as ContentType from './content-type'
-export * as EditorInterface from './editor-interface'
-export * as Entry from './entry'
-export * as Environment from './environment'
-export * as EnvironmentAlias from './environment-alias'
-export * as Locale from './locale'
-export * as Organization from './organization'
-export * as OrganizationInvitation from './organization-invitation'
-export * as OrganizationMembership from './organization-membership'
-export * as PersonalAccessToken from './personal-access-token'
-export * as PreviewApiKey from './preview-api-keys'
-export * as Role from './role'
-export * as ScheduledAction from './scheduled-action'
-export * as Snapshot from './snapshot'
-export * as Space from './space'
-export * as SpaceMember from './space-member'
-export * as SpaceMembership from './space-membership'
-export * as Team from './team'
-export * as TeamMembership from './team-membership'
-export * as Tag from './tag'
-export * as TeamSpaceMembership from './team-space-membership'
-export * as UUExtension from './ui-extension'
-export * as Upload from './upload'
-export * as Usage from './usage'
-export * as User from './user'
-export * as Webhook from './webhook'
+import * as ApiKey from './api-key'
+import * as AppDefinition from './app-definition'
+import * as AppInstallation from './app-installation'
+import * as Asset from './asset'
+import * as ContentType from './content-type'
+import * as EditorInterface from './editor-interface'
+import * as Entry from './entry'
+import * as Environment from './environment'
+import * as EnvironmentAlias from './environment-alias'
+import * as Http from './http'
+import * as Locale from './locale'
+import * as Organization from './organization'
+import * as OrganizationInvitation from './organization-invitation'
+import * as OrganizationMembership from './organization-membership'
+import * as PersonalAccessToken from './personal-access-token'
+import * as PreviewApiKey from './preview-api-keys'
+import * as Role from './role'
+import * as ScheduledAction from './scheduled-action'
+import * as Snapshot from './snapshot'
+import * as Space from './space'
+import * as SpaceMember from './space-member'
+import * as SpaceMembership from './space-membership'
+import * as Team from './team'
+import * as TeamMembership from './team-membership'
+import * as Tag from './tag'
+import * as TeamSpaceMembership from './team-space-membership'
+import * as UIExtension from './ui-extension'
+import * as Upload from './upload'
+import * as Usage from './usage'
+import * as User from './user'
+import * as Webhook from './webhook'
+
+export default {
+  ApiKey,
+  AppDefinition,
+  AppInstallation,
+  Asset,
+  ContentType,
+  EditorInterface,
+  Entry,
+  Environment,
+  EnvironmentAlias,
+  Http,
+  Locale,
+  Organization,
+  OrganizationInvitation,
+  OrganizationMembership,
+  PersonalAccessToken,
+  PreviewApiKey,
+  Role,
+  ScheduledAction,
+  Snapshot,
+  Space,
+  SpaceMember,
+  SpaceMembership,
+  Tag,
+  Team,
+  TeamMembership,
+  TeamSpaceMembership,
+  UIExtension,
+  Upload,
+  Usage,
+  User,
+  Webhook,
+}

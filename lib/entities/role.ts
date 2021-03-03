@@ -105,7 +105,7 @@ function createRoleApi(makeRequest: MakeRequest) {
     delete: function del() {
       const data = this.toPlainObject() as RoleProps
       return makeRequest({
-        entityType: 'role',
+        entityType: 'Role',
         action: 'delete',
         params: getParams(data),
       })

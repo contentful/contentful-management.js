@@ -13,11 +13,11 @@ export const createPlainClient = (
   return {
     raw: {
       getDefaultParams: () => defaults,
-      get: wrap(wrapParams, 'Raw', 'get'),
-      post: wrap(wrapParams, 'Raw', 'post'),
-      put: wrap(wrapParams, 'Raw', 'put'),
-      delete: wrap(wrapParams, 'Raw', 'delete'),
-      http: wrap(wrapParams, 'Raw', 'http'),
+      get: wrap(wrapParams, 'Http', 'get'),
+      post: wrap(wrapParams, 'Http', 'post'),
+      put: wrap(wrapParams, 'Http', 'put'),
+      delete: wrap(wrapParams, 'Http', 'delete'),
+      http: wrap(wrapParams, 'Http', 'request'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
@@ -60,9 +60,9 @@ export const createPlainClient = (
           params: {
             ...defaults,
             ...params,
-            contentType,
             fieldId,
           },
+          payload: contentType,
         }),
     },
     user: {

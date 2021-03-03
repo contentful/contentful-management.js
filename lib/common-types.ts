@@ -118,10 +118,43 @@ export type MakeRequestWithUserAgent = Adapter['makeRequest']
 export type MakeRequest = (options: Omit<MakeRequestOptions, 'userAgent'>) => Promise<any>
 
 export interface MakeRequestOptions {
-  entityType: string
+  entityType: EntityType
   action: string
   params?: Record<string, unknown>
   payload?: Record<string, unknown>
   headers?: Record<string, unknown>
   userAgent: string
 }
+
+export type EntityType =
+  | 'ApiKey'
+  | 'AppDefinition'
+  | 'AppInstallation'
+  | 'Asset'
+  | 'ContentType'
+  | 'EditorInterface'
+  | 'Entry'
+  | 'Environment'
+  | 'EnvironmentAlias'
+  | 'Http'
+  | 'Locale'
+  | 'Organization'
+  | 'OrganizationInvitation'
+  | 'OrganizationMembership'
+  | 'PersonalAccessToken'
+  | 'PreviewApiKey'
+  | 'Role'
+  | 'ScheduledAction'
+  | 'Snapshot'
+  | 'Space'
+  | 'SpaceMember'
+  | 'SpaceMembership'
+  | 'Tag'
+  | 'Team'
+  | 'TeamMembership'
+  | 'TeamSpaceMembership'
+  | 'UIExtension'
+  | 'Upload'
+  | 'Usage'
+  | 'User'
+  | 'Webhook'

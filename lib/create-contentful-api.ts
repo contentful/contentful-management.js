@@ -346,11 +346,9 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     rawRequest: function rawRequest(opts: AxiosRequestConfig) {
       return makeRequest({
-        entityType: 'Raw',
+        entityType: 'Http',
         action: 'request',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore TODO: an interface cannot be assigned to `Record<string, unknown>`
-        params: opts,
+        params: { config: opts },
       }).then((response) => response.data, errorHandler)
     },
   }

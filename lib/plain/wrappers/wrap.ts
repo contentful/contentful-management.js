@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Except } from 'type-fest'
-import { MakeRequest } from '../../common-types'
+import { EntityType, MakeRequest } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -22,7 +22,7 @@ export type WrapParams = {
 
 export const wrap = <Params extends {}, Payload extends {}>(
   { makeRequest, defaults }: WrapParams,
-  entityType: string,
+  entityType: EntityType,
   action: string
 ) => {
   return (params?: Params, payload?: Payload, headers?: Record<string, unknown>): Promise<any> =>

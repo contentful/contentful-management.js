@@ -1,18 +1,18 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
-import { create as createUpload } from './upload'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CollectionProp } from '../../../common-types'
 import {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
-import { CollectionProp } from '../../../common-types'
 import errorHandler from '../../../error-handler'
+import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
+import * as raw from './raw'
+import { create as createUpload } from './upload'
+import { normalizeSelect } from './utils'
 
 export const get = (
   http: AxiosInstance,
@@ -238,10 +238,16 @@ function checkIfAssetHasUrl(
 
 export function processForLocale(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
-  asset: AssetProps,
-  locale: string,
-  { processingCheckWait, processingCheckRetries }: AssetProcessingForLocale = {}
+  {
+    asset,
+    locale,
+    options: { processingCheckRetries, processingCheckWait } = {},
+    ...params
+  }: GetSpaceEnvironmentParams & {
+    asset: AssetProps
+    locale: string
+    options: AssetProcessingForLocale
+  }
 ) {
   return raw
     .put<AssetProps>(
@@ -264,11 +270,11 @@ export function processForLocale(
             assetId: asset.sys.id,
           },
           {
-            resolve: resolve,
-            reject: reject,
-            locale: locale,
-            processingCheckWait: processingCheckWait,
-            processingCheckRetries: processingCheckRetries,
+            resolve,
+            reject,
+            locale,
+            processingCheckWait,
+            processingCheckRetries,
           }
         )
       )
@@ -277,9 +283,11 @@ export function processForLocale(
 
 export function processForAllLocales(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
-  asset: AssetProps,
-  options: AssetProcessingForLocale = {}
+  {
+    asset,
+    options = {},
+    ...params
+  }: GetSpaceEnvironmentParams & { asset: AssetProps; options: AssetProcessingForLocale }
 ) {
   const locales = Object.keys(asset.fields.file || {})
 
@@ -290,7 +298,7 @@ export function processForAllLocales(
   // we need to pick the last resolved value
   // to reflect the most recent state
   const allProcessingLocales = locales.map((locale) =>
-    processForLocale(http, params, asset, locale, options).then((result) => {
+    processForLocale(http, { ...params, asset, locale, options }).then((result) => {
       // Side effect of always setting the most up to date asset version
       // The last one to call this will be the last one that finished
       // and thus the most up to date
