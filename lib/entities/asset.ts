@@ -285,18 +285,29 @@ function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
       options?: AssetProcessingForLocale
     ) {
       const raw = this.toPlainObject() as AssetProps
-      throw new Error('Not implemented yet') // TODO
-      // return endpoints.asset
-      //   .processForLocale(http, getParams(raw), raw, locale, options)
-      //   .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'processForLocale',
+        params: {
+          ...getParams(raw),
+          locale,
+          options,
+        },
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     processForAllLocales: function processForAllLocales(options?: AssetProcessingForLocale) {
       const raw = this.toPlainObject() as AssetProps
-      throw new Error('Not implemented yet') // TODO
-      // return endpoints.asset
-      //   .processForAllLocales(http, getParams(raw), raw, options)
-      //   .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'processForAllLocales',
+        params: {
+          ...getParams(raw),
+          options,
+        },
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     update: function update() {

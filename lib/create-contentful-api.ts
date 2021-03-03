@@ -345,8 +345,11 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
      * ```
      */
     rawRequest: function rawRequest(opts: AxiosRequestConfig) {
-      throw new Error('Not implemented yet')
-      // return http(opts).then((response) => response.data, errorHandler)
+      return makeRequest({
+        entityType: 'Raw',
+        action: 'request',
+        params: opts,
+      }).then((response) => response.data, errorHandler)
     },
   }
 }

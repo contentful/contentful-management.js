@@ -311,10 +311,15 @@ function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): Content
     omitAndDeleteField: function (id: string) {
       const { raw, params } = getParams(this)
 
-      throw new Error('Not implemented yet')
-      // return endpoints.contentType
-      //   .omitAndDeleteField(http, params, raw, id)
-      // .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'omitAndDeleteField',
+        params: {
+          ...params,
+          id,
+        },
+        payload: raw,
+      })
     },
   }
 }
