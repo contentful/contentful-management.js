@@ -148,7 +148,7 @@ export interface Adapter {
     params: GetSpaceParams
     userAgent: string
   }): Promise<any>
-  makeRequest(options: MakeRequestOptions): Promise<unknown>
+  makeRequest(options: MakeRequestOptions): Promise<any>
 }
 
 export type MakeRequest = Adapter['makeRequest']

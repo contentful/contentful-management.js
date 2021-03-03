@@ -53,10 +53,18 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'ContentType', 'del'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
-      // TODO
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      omitAndDeleteField: wrap(wrapParams, 'ContentType', 'omitAndDeleteField'),
+      omitAndDeleteField: (params, contentType, fieldId) =>
+        adapter.makeRequest({
+          entityType: 'ContentType',
+          action: 'omitAndDeleteField',
+          params: {
+            ...defaults,
+            ...params,
+            contentType,
+            fieldId,
+          },
+          userAgent,
+        }),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
@@ -88,13 +96,32 @@ export const createPlainClient = (
       unarchive: wrap(wrapParams, 'Asset', 'unarchive'),
       create: wrap(wrapParams, 'Asset', 'create'),
       createWithId: wrap(wrapParams, 'Asset', 'createWithId'),
-      createFromFiles: wrap(wrapParams, 'Asset', 'createFromFiles'), // TODO
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      processForAllLocales: wrap(wrapParams, 'Asset', 'processForAllLocales'), // TODO
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      processForLocale: wrap(wrapParams, 'Asset', 'processForLocale'),
+      createFromFiles: wrap(wrapParams, 'Asset', 'createFromFiles'),
+      processForAllLocales: (params, asset, options) =>
+        adapter.makeRequest({
+          entityType: 'Asset',
+          action: 'processForAllLocales',
+          params: {
+            ...defaults,
+            ...params,
+            asset,
+            options,
+          },
+          userAgent,
+        }),
+      processForLocale: (params, asset, locale, options) =>
+        adapter.makeRequest({
+          entityType: 'Asset',
+          action: 'processForLocale',
+          params: {
+            ...defaults,
+            ...params,
+            asset,
+            locale,
+            options,
+          },
+          userAgent,
+        }),
     },
     upload: {
       get: wrap(wrapParams, 'Upload', 'get'),
@@ -111,7 +138,14 @@ export const createPlainClient = (
     personalAccessToken: {
       get: wrap(wrapParams, 'PersonalAccessToken', 'get'),
       getMany: wrap(wrapParams, 'PersonalAccessToken', 'getMany'),
-      create: wrap(wrapParams, 'PersonalAccessToken', 'create'),
+      create: (data, headers) =>
+        adapter.makeRequest({
+          entityType: 'PersonalAccessToken',
+          action: 'create',
+          headers,
+          payload: data,
+          userAgent,
+        }),
       revoke: wrap(wrapParams, 'PersonalAccessToken', 'revoke'),
     },
     usage: {
