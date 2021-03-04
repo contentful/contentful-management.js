@@ -348,6 +348,8 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
       return makeRequest({
         entityType: 'Raw',
         action: 'request',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         params: opts,
       }).then((response) => response.data, errorHandler)
     },
