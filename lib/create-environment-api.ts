@@ -10,7 +10,7 @@ import type { CreateContentTypeProps, ContentTypeProps } from './entities/conten
 import type { CreateLocaleProps } from './entities/locale'
 import type { CreateUIExtensionProps } from './entities/ui-extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
-import { wrapTag, wrapTagCollection } from './entities/tag'
+import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
 
@@ -1181,11 +1181,13 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
         .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
     },
 
-    createTag(id: string, name: string) {
+    createTag(id: string, name: string, visibility?: TagVisibility) {
       const raw = this.toPlainObject() as EnvironmentProps
       const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
-      return endpoints.tag.createWithId(http, params, { name }).then((data) => wrapTag(http, data))
+      return endpoints.tag
+        .createWithId(http, params, { name }, visibility)
+        .then((data) => wrapTag(http, data))
     },
 
     getTags(query: BasicQueryOptions = {}) {

@@ -124,6 +124,7 @@ const entryMockWithTags = {
       {
         name: 'entrytag',
         sys: {
+          visibility: 'private',
           type: 'Tag',
           id: 'entrytag',
         },
