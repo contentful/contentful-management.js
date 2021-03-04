@@ -6,11 +6,14 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import * as endpoints from '../plain/endpoints'
 
+export type TagVisibility = 'private' | 'public'
+
 export type TagSysProps = Pick<
   MetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Tag'
+  visibility: TagVisibility
   space: SysLink
   environment: SysLink
 }
@@ -20,7 +23,7 @@ export type TagProps = {
   name: string
 }
 
-export type CreateTagProps = Omit<TagProps, 'sys'>
+export type CreateTagProps = Omit<TagProps, 'sys'> & { sys: { visibility?: TagVisibility } }
 
 export type TagCollectionProps = {
   sys: {

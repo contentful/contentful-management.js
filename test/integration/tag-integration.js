@@ -30,19 +30,28 @@ describe('Tags api', function () {
     const deleting = tags.items
       .filter((tag) => suiteTags.includes(tag.sys.id))
       .map((tag) => tag.delete())
-    await Promise.all(deleting)
+    await Promise.allSettled(deleting)
   })
 
   after(async () => {
     const tags = await environment.getTags(0, 1000)
-    await Promise.all(tags.items.map((tag) => tag.delete()))
+    await Promise.allSettled(tags.items.map((tag) => tag.delete()))
   })
 
-  it('can create a tag', async () => {
+  it('can create a tag with default visibility of "private"', async () => {
     const tagId = randomTagId()
     const tagName = 'Tag ' + tagId
     const newTag = await environment.createTag(tagId, tagName)
     expect(newTag.name).to.eq(tagName)
+    expect(newTag.sys.visibility).to.eq('private')
+  })
+
+  it('can create a tag with explicit visibility of "public"', async () => {
+    const tagId = randomTagId()
+    const tagName = 'Tag ' + tagId
+    const newTag = await environment.createTag(tagId, tagName, 'public')
+    expect(newTag.name).to.eq(tagName)
+    expect(newTag.sys.visibility).to.eq('public')
   })
 
   it('can read a tag', async () => {
