@@ -1,4 +1,5 @@
 import { MakeRequest } from '../common-types'
+import { omitAndDeleteField } from '../methods/content-type'
 import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
 
@@ -54,16 +55,7 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
       omitAndDeleteField: (params, contentType, fieldId) =>
-        makeRequest({
-          entityType: 'ContentType',
-          action: 'omitAndDeleteField',
-          params: {
-            ...defaults,
-            ...params,
-            fieldId,
-          },
-          payload: contentType,
-        }),
+        omitAndDeleteField(makeRequest, { ...defaults, ...params, fieldId }, contentType),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),

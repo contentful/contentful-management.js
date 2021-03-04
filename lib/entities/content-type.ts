@@ -15,6 +15,7 @@ import { isDraft, isPublished, isUpdated } from '../plain/checks'
 import { ContentFields } from './content-type-fields'
 import { EditorInterface, wrapEditorInterface } from './editor-interface'
 import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { omitAndDeleteField } from '../methods/content-type'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -308,18 +309,9 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
       return isDraft(this)
     },
 
-    omitAndDeleteField: function (id: string) {
+    omitAndDeleteField: function (fieldId: string) {
       const { raw, params } = getParams(this)
-
-      return makeRequest({
-        entityType: 'ContentType',
-        action: 'omitAndDeleteField',
-        params: {
-          ...params,
-          id,
-        },
-        payload: raw,
-      })
+      return omitAndDeleteField(makeRequest, { ...params, fieldId }, raw)
     },
   }
 }
