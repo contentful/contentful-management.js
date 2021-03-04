@@ -1,10 +1,8 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import { MetaSysProps, DefaultElements, MakeRequestWithoutUserAgent } from '../common-types'
 
 export type PersonalAccessTokenProp = {
   sys: MetaSysProps
@@ -46,15 +44,17 @@ export interface PersonalAccessToken
  * @return Wrapped personal access token
  */
 export function wrapPersonalAccessToken(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: PersonalAccessTokenProp
 ): PersonalAccessToken {
   const personalAccessToken = toPlainObject(copy(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {
     revoke: function () {
-      return endpoints.personalAccessToken
-        .revoke(http, { tokenId: data.sys.id })
-        .then((data) => wrapPersonalAccessToken(http, data))
+      return makeRequest({
+        entityType: 'PersonalAccessToken',
+        action: 'revoke',
+        params: { tokenId: data.sys.id },
+      }).then((data) => wrapPersonalAccessToken(makeRequest, data))
     },
   })
   return freezeSys(personalAccessTokenWithMethods)

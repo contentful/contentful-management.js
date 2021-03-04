@@ -4,19 +4,17 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
+import { MakeRequestWithoutUserAgent, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
-import { CreateEnvironmentProps } from './entities/environment'
-import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
-import { CreateSpaceMembershipProps } from './entities/space-membership'
-import { RoleProps, CreateRoleProps } from './entities/role'
-import { CreateWebhooksProps } from './entities/webhook'
-import { QueryOptions, PaginationQueryOptions, Adapter } from './common-types'
 import { CreateApiKeyProps } from './entities/api-key'
-import * as endpoints from './plain/endpoints'
-import { SpaceProps } from './entities/space'
-import { ScheduledActionQueryOptions, ScheduledActionProps } from './entities/scheduled-action'
+import { CreateEnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps } from './entities/environment-alias'
-import { RestAdapter } from './adapters/REST/rest-adapter'
+import { CreateRoleProps, RoleProps } from './entities/role'
+import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
+import { SpaceProps } from './entities/space'
+import { CreateSpaceMembershipProps } from './entities/space-membership'
+import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
+import { CreateWebhooksProps } from './entities/webhook'
 
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
@@ -28,13 +26,10 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @return {ContentfulSpaceAPI}
  */
 export default function createSpaceApi({
-  adapter,
-  userAgent,
+  makeRequest,
 }: {
-  adapter: Adapter
-  userAgent: string
+  makeRequest: MakeRequestWithoutUserAgent
 }) {
-  const http = (adapter as RestAdapter).http
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook
@@ -70,11 +65,10 @@ export default function createSpaceApi({
      */
     delete: function deleteSpace() {
       const raw = this.toPlainObject() as SpaceProps
-      return adapter.makeRequest({
+      return makeRequest({
         entityType: 'Space',
         action: 'delete',
         params: { spaceId: raw.sys.id },
-        userAgent,
       })
     },
     /**
@@ -98,15 +92,12 @@ export default function createSpaceApi({
      */
     update: function updateSpace() {
       const raw = this.toPlainObject() as SpaceProps
-      return adapter
-        .makeRequest({
-          entityType: 'Space',
-          action: 'update',
-          params: { spaceId: raw.sys.id },
-          payload: raw,
-          userAgent,
-        })
-        .then((data) => wrapSpace(adapter, data, userAgent))
+      return makeRequest({
+        entityType: 'Space',
+        action: 'update',
+        params: { spaceId: raw.sys.id },
+        payload: raw,
+      }).then((data) => wrapSpace(makeRequest, data))
     },
     /**
      * Gets an environment
@@ -127,12 +118,12 @@ export default function createSpaceApi({
      */
     getEnvironment(environmentId: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environment
-        .get(http, {
-          spaceId: raw.sys.id,
-          environmentId,
-        })
-        .then((data) => wrapEnvironment(http, data))
+
+      return makeRequest({
+        entityType: 'Environment',
+        action: 'get',
+        params: { spaceId: raw.sys.id, environmentId },
+      }).then((data) => wrapEnvironment(makeRequest, data))
     },
 
     /**
@@ -153,12 +144,11 @@ export default function createSpaceApi({
      */
     getEnvironments(query: PaginationQueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environment
-        .getMany(http, {
-          spaceId: raw.sys.id,
-          query,
-        })
-        .then((data) => wrapEnvironmentCollection(http, data))
+      return makeRequest({
+        entityType: 'Environment',
+        action: 'get',
+        params: { spaceId: raw.sys.id, query },
+      }).then((data) => wrapEnvironmentCollection(makeRequest, data))
     },
 
     /**
@@ -180,15 +170,14 @@ export default function createSpaceApi({
      */
     createEnvironment(data: CreateEnvironmentProps = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environment
-        .create(
-          http,
-          {
-            spaceId: raw.sys.id,
-          },
-          data
-        )
-        .then((response) => wrapEnvironment(http, response))
+      return makeRequest({
+        entityType: 'Environment',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapEnvironment(makeRequest, response))
     },
 
     /**
@@ -216,17 +205,16 @@ export default function createSpaceApi({
       sourceEnvironmentId?: string
     ) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environment
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.id,
-            environmentId: id,
-            sourceEnvironmentId,
-          },
-          data
-        )
-        .then((response) => wrapEnvironment(http, response))
+      return makeRequest({
+        entityType: 'Environment',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.id,
+          environmentId: id,
+          sourceEnvironmentId,
+        },
+        payload: data,
+      }).then((response) => wrapEnvironment(makeRequest, response))
     },
 
     /**
@@ -248,9 +236,11 @@ export default function createSpaceApi({
      */
     getWebhook(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.webhook
-        .get(http, { spaceId: raw.sys.id, webhookDefinitionId: id })
-        .then((data) => wrapWebhook(http, data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'get',
+        params: { spaceId: raw.sys.id, webhookDefinitionId: id },
+      }).then((data) => wrapWebhook(makeRequest, data))
     },
 
     /**
@@ -271,9 +261,11 @@ export default function createSpaceApi({
      */
     getWebhooks() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.webhook
-        .getMany(http, { spaceId: raw.sys.id })
-        .then((data) => wrapWebhookCollection(http, data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getMany',
+        params: { spaceId: raw.sys.id },
+      }).then((data) => wrapWebhookCollection(makeRequest, data))
     },
 
     /**
@@ -300,9 +292,12 @@ export default function createSpaceApi({
      */
     createWebhook(data: CreateWebhooksProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.webhook
-        .create(http, { spaceId: raw.sys.id }, data)
-        .then((data) => wrapWebhook(http, data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'create',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      }).then((data) => wrapWebhook(makeRequest, data))
     },
 
     /**
@@ -330,9 +325,12 @@ export default function createSpaceApi({
      */
     createWebhookWithId(id: string, data: CreateWebhooksProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.webhook
-        .createWithId(http, { spaceId: raw.sys.id, webhookDefinitionId: id }, data)
-        .then((data) => wrapWebhook(http, data))
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'createWithId',
+        params: { spaceId: raw.sys.id, webhookDefinitionId: id },
+        payload: data,
+      }).then((data) => wrapWebhook(makeRequest, data))
     },
     /**
      * Gets a Role
@@ -359,9 +357,11 @@ export default function createSpaceApi({
      */
     getRole(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.role
-        .get(http, { spaceId: raw.sys.id, roleId: id })
-        .then((data) => wrapRole(http, data))
+      return makeRequest({
+        entityType: 'Role',
+        action: 'get',
+        params: { spaceId: raw.sys.id, roleId: id },
+      }).then((data) => wrapRole(makeRequest, data))
     },
     /**
      * Gets a collection of Roles
@@ -381,11 +381,11 @@ export default function createSpaceApi({
      */
     getRoles(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.role
-        .getMany(http, { spaceId: raw.sys.id, query: createRequestConfig({ query }).params })
-        .then((data) => {
-          return wrapRoleCollection(http, data)
-        })
+      return makeRequest({
+        entityType: 'Role',
+        action: 'getMany',
+        params: { spaceId: raw.sys.id, query: createRequestConfig({ query }).params },
+      }).then((data) => wrapRoleCollection(makeRequest, data))
     },
 
     /**
@@ -436,9 +436,12 @@ export default function createSpaceApi({
      */
     createRole(data: CreateRoleProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.role
-        .create(http, { spaceId: raw.sys.id }, data)
-        .then((data) => wrapRole(http, data))
+      return makeRequest({
+        entityType: 'Role',
+        action: 'create',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      }).then((data) => wrapRole(makeRequest, data))
     },
     /**
      * Creates a Role with a custom ID
@@ -489,9 +492,12 @@ export default function createSpaceApi({
      */
     createRoleWithId(id: string, roleData: Omit<RoleProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.role
-        .createWithId(http, { spaceId: raw.sys.id, roleId: id }, roleData)
-        .then((data) => wrapRole(http, data))
+      return makeRequest({
+        entityType: 'Role',
+        action: 'createWithId',
+        params: { spaceId: raw.sys.id, roleId: id },
+        payload: roleData,
+      }).then((data) => wrapRole(makeRequest, data))
     },
     /**
      * Gets a User
@@ -508,12 +514,14 @@ export default function createSpaceApi({
      */
     getSpaceUser(userId: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.user
-        .getForSpace(http, {
+      return makeRequest({
+        entityType: 'User',
+        action: 'getForSpace',
+        params: {
           spaceId: raw.sys.id,
           userId,
-        })
-        .then((data) => wrapUser(http, data))
+        },
+      }).then((data) => wrapUser(makeRequest, data))
     },
     /**
      * Gets a collection of Users in a space
@@ -530,12 +538,14 @@ export default function createSpaceApi({
      */
     getSpaceUsers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.user
-        .getManyForSpace(http, {
+      return makeRequest({
+        entityType: 'User',
+        action: 'getManyForSpace',
+        params: {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapUserCollection(http, data))
+        },
+      }).then((data) => wrapUserCollection(makeRequest, data))
     },
     /**
      * Gets a Space Member
@@ -552,9 +562,11 @@ export default function createSpaceApi({
      */
     getSpaceMember(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMember
-        .get(http, { spaceId: raw.sys.id, spaceMemberId: id })
-        .then((data) => wrapSpaceMember(http, data))
+      return makeRequest({
+        entityType: 'SpaceMember',
+        action: 'get',
+        params: { spaceId: raw.sys.id, spaceMemberId: id },
+      }).then((data) => wrapSpaceMember(makeRequest, data))
     },
     /**
      * Gets a collection of Space Members
@@ -571,12 +583,14 @@ export default function createSpaceApi({
      */
     getSpaceMembers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMember
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'SpaceMember',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapSpaceMemberCollection(http, data))
+        },
+      }).then((data) => wrapSpaceMemberCollection(makeRequest, data))
     },
     /**
      * Gets a Space Membership
@@ -594,9 +608,11 @@ export default function createSpaceApi({
      */
     getSpaceMembership(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMembership
-        .get(http, { spaceId: raw.sys.id, spaceMembershipId: id })
-        .then((data) => wrapSpaceMembership(http, data))
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'get',
+        params: { spaceId: raw.sys.id, spaceMembershipId: id },
+      }).then((data) => wrapSpaceMembership(makeRequest, data))
     },
     /**
      * Gets a collection of Space Memberships
@@ -614,12 +630,14 @@ export default function createSpaceApi({
      */
     getSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMembership
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapSpaceMembershipCollection(http, data))
+        },
+      }).then((data) => wrapSpaceMembershipCollection(makeRequest, data))
     },
 
     /**
@@ -652,15 +670,14 @@ export default function createSpaceApi({
      */
     createSpaceMembership(data: CreateSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMembership
-        .create(
-          http,
-          {
-            spaceId: raw.sys.id,
-          },
-          data
-        )
-        .then((response) => wrapSpaceMembership(http, response))
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapSpaceMembership(makeRequest, response))
     },
     /**
      * Creates a Space Membership with a custom ID
@@ -693,16 +710,15 @@ export default function createSpaceApi({
      */
     createSpaceMembershipWithId(id: string, data: CreateSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.spaceMembership
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.id,
-            spaceMembershipId: id,
-          },
-          data
-        )
-        .then((response) => wrapSpaceMembership(http, response))
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.id,
+          spaceMembershipId: id,
+        },
+        payload: data,
+      }).then((response) => wrapSpaceMembership(makeRequest, response))
     },
 
     /**
@@ -720,12 +736,14 @@ export default function createSpaceApi({
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.teamSpaceMembership
-        .get(http, {
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'get',
+        params: {
           spaceId: raw.sys.id,
           teamSpaceMembershipId,
-        })
-        .then((data) => wrapTeamSpaceMembership(http, data))
+        },
+      }).then((data) => wrapTeamSpaceMembership(makeRequest, data))
     },
 
     /**
@@ -743,12 +761,14 @@ export default function createSpaceApi({
      */
     getTeamSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.teamSpaceMembership
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
+        },
+      }).then((data) => wrapTeamSpaceMembershipCollection(makeRequest, data))
     },
     /**
    * Creates a Team Space Membership
@@ -781,16 +801,15 @@ export default function createSpaceApi({
    */
     createTeamSpaceMembership(teamId: string, data: CreateTeamSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.teamSpaceMembership
-        .create(
-          http,
-          {
-            spaceId: raw.sys.id,
-            teamId,
-          },
-          data
-        )
-        .then((data) => wrapTeamSpaceMembership(http, data))
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.id,
+          teamId,
+        },
+        payload: data,
+      }).then((response) => wrapTeamSpaceMembership(makeRequest, response))
     },
     /**
      * Gets a Api Key
@@ -811,12 +830,14 @@ export default function createSpaceApi({
      */
     getApiKey(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.apiKey
-        .get(http, {
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'get',
+        params: {
           spaceId: raw.sys.id,
           apiKeyId: id,
-        })
-        .then((data) => wrapApiKey(http, data))
+        },
+      }).then((data) => wrapApiKey(makeRequest, data))
     },
     /**
      * Gets a collection of Api Keys
@@ -836,11 +857,13 @@ export default function createSpaceApi({
      */
     getApiKeys() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.apiKey
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
-        })
-        .then((data) => wrapApiKeyCollection(http, data))
+        },
+      }).then((data) => wrapApiKeyCollection(makeRequest, data))
     },
     /**
      * Gets a collection of preview Api Keys
@@ -860,11 +883,13 @@ export default function createSpaceApi({
      */
     getPreviewApiKeys() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.previewApiKey
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'PreviewApiKey',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
-        })
-        .then((data) => wrapPreviewApiKeyCollection(http, data))
+        },
+      }).then((data) => wrapPreviewApiKeyCollection(makeRequest, data))
     },
     /**
      * Gets a preview Api Key
@@ -885,12 +910,14 @@ export default function createSpaceApi({
      */
     getPreviewApiKey(id: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.previewApiKey
-        .get(http, {
+      return makeRequest({
+        entityType: 'PreviewApiKey',
+        action: 'get',
+        params: {
           spaceId: raw.sys.id,
           previewApiKeyId: id,
-        })
-        .then((data) => wrapPreviewApiKey(http, data))
+        },
+      }).then((data) => wrapPreviewApiKey(makeRequest, data))
     },
     /**
      * Creates a Api Key
@@ -923,9 +950,12 @@ export default function createSpaceApi({
      */
     createApiKey: function createApiKey(payload: CreateApiKeyProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.apiKey
-        .create(http, { spaceId: raw.sys.id }, payload)
-        .then((data) => wrapApiKey(http, data))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'create',
+        params: { spaceId: raw.sys.id },
+        payload,
+      }).then((data) => wrapApiKey(makeRequest, data))
     },
     /**
      * Creates a Api Key with a custom ID
@@ -959,9 +989,12 @@ export default function createSpaceApi({
      */
     createApiKeyWithId(id: string, payload: CreateApiKeyProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.apiKey
-        .createWithId(http, { spaceId: raw.sys.id, apiKeyId: id }, payload)
-        .then((data) => wrapApiKey(http, data))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'createWithId',
+        params: { spaceId: raw.sys.id, apiKeyId: id },
+        payload,
+      }).then((data) => wrapApiKey(makeRequest, data))
     },
 
     /**
@@ -988,9 +1021,12 @@ export default function createSpaceApi({
      */
     createEnvironmentAliasWithId(environmentAliasId: string, data: CreateEnvironmentAliasProps) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environmentAlias
-        .createWithId(http, { spaceId: raw.sys.id, environmentAliasId }, data)
-        .then((data) => wrapEnvironmentAlias(http, data))
+      return makeRequest({
+        entityType: 'EnvironmentAlias',
+        action: 'createWithId',
+        params: { spaceId: raw.sys.id, environmentAliasId },
+        payload: data,
+      }).then((response) => wrapEnvironmentAlias(makeRequest, response))
     },
 
     /**
@@ -1012,9 +1048,11 @@ export default function createSpaceApi({
      */
     getEnvironmentAlias(environmentAliasId: string) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environmentAlias
-        .get(http, { spaceId: raw.sys.id, environmentAliasId })
-        .then((data) => wrapEnvironmentAlias(http, data))
+      return makeRequest({
+        entityType: 'EnvironmentAlias',
+        action: 'get',
+        params: { spaceId: raw.sys.id, environmentAliasId },
+      }).then((data) => wrapEnvironmentAlias(makeRequest, data))
     },
     /**
      * Gets a collection of Environment Aliases
@@ -1034,11 +1072,13 @@ export default function createSpaceApi({
      */
     getEnvironmentAliases() {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.environmentAlias
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'EnvironmentAlias',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.id,
-        })
-        .then((data) => wrapEnvironmentAliasCollection(http, data))
+        },
+      }).then((data) => wrapEnvironmentAliasCollection(makeRequest, data))
     },
     /**
      * Query for scheduled actions in space.
@@ -1047,9 +1087,11 @@ export default function createSpaceApi({
      */
     getScheduledActions(query: ScheduledActionQueryOptions) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.scheduledAction
-        .getMany(http, { spaceId: raw.sys.id, query })
-        .then((response) => wrapScheduledActionCollection(http, response))
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'getMany',
+        params: { spaceId: raw.sys.id, query },
+      }).then((response) => wrapScheduledActionCollection(makeRequest, response))
     },
     /**
      * Creates a scheduled action
@@ -1058,9 +1100,12 @@ export default function createSpaceApi({
      */
     createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
-      return endpoints.scheduledAction
-        .create(http, { spaceId: raw.sys.id }, data)
-        .then((response) => wrapScheduledAction(http, response))
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'create',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      }).then((response) => wrapScheduledAction(makeRequest, response))
     },
   }
 }

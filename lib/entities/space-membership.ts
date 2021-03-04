@@ -1,10 +1,13 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { SysLink, MetaSysProps, DefaultElements } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import {
+  SysLink,
+  MetaSysProps,
+  DefaultElements,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }
@@ -60,7 +63,7 @@ export interface SpaceMembership
   update(): Promise<SpaceMembership>
 }
 
-function createSpaceMembershipApi(http: AxiosInstance) {
+function createSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: SpaceMembershipProps) => ({
     spaceId: data.sys.space.sys.id,
     spaceMembershipId: data.sys.id,
@@ -69,13 +72,20 @@ function createSpaceMembershipApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as SpaceMembershipProps
-      return endpoints.spaceMembership
-        .update(http, getParams(data), data)
-        .then((data) => wrapSpaceMembership(http, data))
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'update',
+        params: getParams(data),
+        payload: data,
+      }).then((data) => wrapSpaceMembership(makeRequest, data))
     },
     delete: function del() {
       const data = this.toPlainObject() as SpaceMembershipProps
-      return endpoints.spaceMembership.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -87,13 +97,13 @@ function createSpaceMembershipApi(http: AxiosInstance) {
  * @return Wrapped space membership data
  */
 export function wrapSpaceMembership(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: SpaceMembershipProps
 ): SpaceMembership {
   const spaceMembership = toPlainObject(copy(data))
   const spaceMembershipWithMethods = enhanceWithMethods(
     spaceMembership,
-    createSpaceMembershipApi(http)
+    createSpaceMembershipApi(makeRequest)
   )
   return freezeSys(spaceMembershipWithMethods)
 }

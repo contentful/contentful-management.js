@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Except } from 'type-fest'
-import { Adapter, MakeRequestOptions } from '../../common-types'
+import { MakeRequestWithoutUserAgent } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -16,23 +16,21 @@ export type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType>
     Partial<Pick<BaseType, Keys>>
 
 export type WrapParams = {
-  adapter: Adapter
+  makeRequest: MakeRequestWithoutUserAgent
   defaults?: DefaultParams
-  userAgent: string
 }
 
 export const wrap = <Params extends {}, Payload extends {}>(
-  { adapter, defaults, userAgent }: WrapParams,
+  { makeRequest, defaults }: WrapParams,
   entityType: string,
   action: string
 ) => {
-  return (params?: Params, payload?: Payload, headers?: Record<string, unknown>) =>
-    (adapter.makeRequest as (options: MakeRequestOptions) => Promise<any>)({
+  return (params?: Params, payload?: Payload, headers?: Record<string, unknown>): Promise<any> =>
+    makeRequest({
       entityType,
       action,
       params: { ...defaults, ...params },
       payload,
       headers,
-      userAgent,
     })
 }

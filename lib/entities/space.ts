@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Adapter, BasicMetaSysProps, DefaultElements } from '../common-types'
-import { wrapCollectionWithAdapter } from '../common-utils'
+import { BasicMetaSysProps, DefaultElements, MakeRequestWithoutUserAgent } from '../common-types'
+import { wrapCollection } from '../common-utils'
 import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -22,11 +22,10 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @param data - API response for a Space
  * @return {Space}
  */
-export function wrapSpace(adapter: Adapter, data: SpaceProps, userAgent: string): Space {
+export function wrapSpace(makeRequest: MakeRequestWithoutUserAgent, data: SpaceProps): Space {
   const space = toPlainObject(copy(data))
   const spaceApi = createSpaceApi({
-    adapter,
-    userAgent,
+    makeRequest,
   })
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)
@@ -37,4 +36,4 @@ export function wrapSpace(adapter: Adapter, data: SpaceProps, userAgent: string)
  * above for more details.
  * @private
  */
-export const wrapSpaceCollection = wrapCollectionWithAdapter(wrapSpace)
+export const wrapSpaceCollection = wrapCollection(wrapSpace)

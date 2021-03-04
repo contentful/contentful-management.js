@@ -2,9 +2,13 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, BasicMetaSysProps, SysLink } from '../common-types'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import * as endpoints from '../plain/endpoints'
+import {
+  DefaultElements,
+  MetaLinkProps,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type EnvironmentAliasProps = {
   /**
@@ -67,7 +71,7 @@ export interface EnvironmentAlias
   delete(): Promise<void>
 }
 
-function createEnvironmentAliasApi(http: AxiosInstance) {
+function createEnvironmentAliasApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (alias: EnvironmentAliasProps) => ({
     spaceId: alias.sys.space.sys.id,
     environmentAliasId: alias.sys.id,
@@ -76,14 +80,21 @@ function createEnvironmentAliasApi(http: AxiosInstance) {
   return {
     update: function () {
       const raw = this.toPlainObject() as EnvironmentAliasProps
-      return endpoints.environmentAlias
-        .update(http, getParams(raw), raw)
-        .then((data) => wrapEnvironmentAlias(http, data))
+      return makeRequest({
+        entityType: 'EnvironmentAlias',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapEnvironmentAlias(makeRequest, data))
     },
 
     delete: function () {
       const raw = this.toPlainObject() as EnvironmentAliasProps
-      return endpoints.environmentAlias.del(http, getParams(raw)).then(() => {
+      return makeRequest({
+        entityType: 'EnvironmentAlias',
+        action: 'delete',
+        params: getParams(raw),
+      }).then(() => {
         // noop
       })
     },
@@ -97,11 +108,11 @@ function createEnvironmentAliasApi(http: AxiosInstance) {
  * @return Wrapped environment alias data
  */
 export function wrapEnvironmentAlias(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: EnvironmentAliasProps
 ): EnvironmentAlias {
   const alias = toPlainObject(copy(data))
-  const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(http))
+  const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(makeRequest))
   return freezeSys(enhancedAlias)
 }
 

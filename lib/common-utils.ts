@@ -1,27 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 
-import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { toPlainObject } from 'contentful-sdk-core'
-import { CollectionProp, Collection, Adapter } from './common-types'
+import copy from 'fast-copy'
+import { Collection, CollectionProp, MakeRequestWithoutUserAgent } from './common-types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const wrapCollection = <R, T, Rest extends any[]>(
-  fn: (http: AxiosInstance, entity: T, ...rest: Rest) => R
-) => (http: AxiosInstance, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
-  const collectionData = toPlainObject(copy(data))
-  // @ts-ignore
-  collectionData.items = collectionData.items.map((entity) => fn(http, entity, ...rest))
-  // @ts-ignore
-  return collectionData
-}
-
-export const wrapCollectionWithAdapter = <R, T, Rest extends any[]>(
-  fn: (adapter: Adapter, entity: T, ...rest: Rest) => R
-) => (adapter: Adapter, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
+  fn: (makeRequest: MakeRequestWithoutUserAgent, entity: T, ...rest: Rest) => R
+) => (
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: CollectionProp<T>,
+  ...rest: Rest
+): Collection<R, T> => {
   const collectionData = toPlainObject(copy(data))
   return {
     ...collectionData,
-    items: collectionData.items.map((entity) => fn(adapter, entity, ...rest)),
+    items: collectionData.items.map((entity) => fn(makeRequest, entity, ...rest)),
   }
 }

@@ -3,8 +3,12 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, SysLink, BasicMetaSysProps } from '../common-types'
-import type { AxiosInstance } from 'contentful-sdk-core'
+import {
+  DefaultElements,
+  SysLink,
+  BasicMetaSysProps,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 type EnvironmentMetaSys = BasicMetaSysProps & {
   status: SysLink
@@ -40,11 +44,14 @@ export type Environment = ContentfulEnvironmentAPI &
  * @param data - API response for a Environment
  * @return
  */
-export function wrapEnvironment(http: AxiosInstance, data: EnvironmentProps): Environment {
+export function wrapEnvironment(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: EnvironmentProps
+): Environment {
   // do not pollute generated typings
   const environment = toPlainObject(copy(data))
   const environmentApi = createEnvironmentApi({
-    http,
+    makeRequest,
   })
   const enhancedEnvironment = enhanceWithMethods(environment, environmentApi)
   return freezeSys(enhancedEnvironment)

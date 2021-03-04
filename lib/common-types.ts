@@ -1,5 +1,5 @@
 import { SpaceProps } from './entities/space'
-import { GetSpaceParams, QueryParams } from './plain/endpoints/common-types'
+import { GetSpaceParams, QueryParams } from './plain/common-types'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -150,6 +150,11 @@ export interface Adapter {
   }): Promise<any>
   makeRequest(options: MakeRequestOptions): Promise<any>
 }
+
+export type MakeRequest = Adapter['makeRequest']
+export type MakeRequestWithoutUserAgent = (
+  options: Omit<MakeRequestOptions, 'userAgent'>
+) => Promise<any>
 
 // TODO: Infer type from overloading
 // type MakeRequestOptions = Parameters<Adapter['makeRequest']>[0]

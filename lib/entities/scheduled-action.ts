@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
@@ -7,10 +6,10 @@ import {
   BasicCursorPaginationOptions,
   MetaLinkProps,
   Link,
+  MakeRequestWithoutUserAgent,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import * as endpoints from '../plain/endpoints'
 
 /**
  * Represents that state of the scheduled action
@@ -79,32 +78,38 @@ export interface ScheduledAction
     DefaultElements<ScheduledActionProps>,
     ScheduledActionApi {}
 
-export function createDeleteScheduledAction(http: AxiosInstance): () => Promise<ScheduledAction> {
+export function createDeleteScheduledAction(
+  makeRequest: MakeRequestWithoutUserAgent
+): () => Promise<ScheduledAction> {
   return function (): Promise<ScheduledAction> {
     const data = this.toPlainObject() as ScheduledActionProps
-    return endpoints.scheduledAction
-      .del(http, {
+    return makeRequest({
+      entityType: 'ScheduledAction',
+      action: 'delete',
+      params: {
         spaceId: data.sys.space.sys.id,
         scheduledActionId: data.sys.id,
-      })
-      .then((data) => wrapScheduledAction(http, data))
+      },
+    }).then((data) => wrapScheduledAction(makeRequest, data))
   }
 }
 
-export default function createScheduledActionApi(http: AxiosInstance): ScheduledActionApi {
+export default function createScheduledActionApi(
+  makeRequest: MakeRequestWithoutUserAgent
+): ScheduledActionApi {
   return {
-    delete: createDeleteScheduledAction(http),
+    delete: createDeleteScheduledAction(makeRequest),
   }
 }
 
 export function wrapScheduledAction(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: ScheduledActionProps
 ): ScheduledAction {
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    createScheduledActionApi(http)
+    createScheduledActionApi(makeRequest)
   )
   return freezeSys(scheduledActionWithMethods)
 }

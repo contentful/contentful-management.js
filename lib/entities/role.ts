@@ -1,10 +1,13 @@
 import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import * as endpoints from '../plain/endpoints'
-import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type ActionType =
   | 'read'
@@ -88,7 +91,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
   update(): Promise<Role>
 }
 
-function createRoleApi(http: AxiosInstance) {
+function createRoleApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: RoleProps) => ({
     spaceId: data.sys.space.sys.id,
     roleId: data.sys.id,
@@ -97,11 +100,20 @@ function createRoleApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as RoleProps
-      return endpoints.role.update(http, getParams(data), data).then((data) => wrapRole(http, data))
+      return makeRequest({
+        entityType: 'Role',
+        action: 'update',
+        params: getParams(data),
+        payload: data,
+      }).then((data) => wrapRole(makeRequest, data))
     },
     delete: function del() {
       const data = this.toPlainObject() as RoleProps
-      return endpoints.role.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'role',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -112,9 +124,9 @@ function createRoleApi(http: AxiosInstance) {
  * @param data - Raw role data
  * @return Wrapped role data
  */
-export function wrapRole(http: AxiosInstance, data: RoleProps): Role {
+export function wrapRole(makeRequest: MakeRequestWithoutUserAgent, data: RoleProps): Role {
   const role = toPlainObject(copy(data))
-  const roleWithMethods = enhanceWithMethods(role, createRoleApi(http))
+  const roleWithMethods = enhanceWithMethods(role, createRoleApi(makeRequest))
   return freezeSys(roleWithMethods)
 }
 

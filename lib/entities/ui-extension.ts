@@ -1,12 +1,15 @@
 import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { FieldType } from './field-type'
 import { DefinedParameters, ParameterDefinition } from './widget-parameters'
-import * as endpoints from '../plain/endpoints'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import {
+  DefaultElements,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 import { SetRequired, RequireExactlyOne } from 'type-fest'
 
 type UIExtensionSysProps = BasicMetaSysProps & {
@@ -101,7 +104,7 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
   delete(): Promise<void>
 }
 
-function createUiExtensionApi(http: AxiosInstance) {
+function createUiExtensionApi(makeRequest: MakeRequestWithoutUserAgent) {
   const getParams = (data: UIExtensionProps) => ({
     spaceId: data.sys.space.sys.id,
     environmentId: data.sys.environment.sys.id,
@@ -111,13 +114,20 @@ function createUiExtensionApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as UIExtensionProps
-      return endpoints.uiExtension
-        .update(http, getParams(data), data)
-        .then((data) => wrapUiExtension(http, data))
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'update',
+        params: getParams(data),
+        payload: data,
+      }).then((response) => wrapUiExtension(makeRequest, response))
     },
     delete: function del() {
       const data = this.toPlainObject() as UIExtensionProps
-      return endpoints.uiExtension.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
@@ -128,9 +138,12 @@ function createUiExtensionApi(http: AxiosInstance) {
  * @param data - Raw UI Extension data
  * @return Wrapped UI Extension data
  */
-export function wrapUiExtension(http: AxiosInstance, data: UIExtensionProps): UIExtension {
+export function wrapUiExtension(
+  makeRequest: MakeRequestWithoutUserAgent,
+  data: UIExtensionProps
+): UIExtension {
   const uiExtension = toPlainObject(copy(data))
-  const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(http))
+  const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(makeRequest))
   return freezeSys(uiExtensionWithMethods)
 }
 

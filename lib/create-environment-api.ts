@@ -1,8 +1,6 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions } from './common-types'
+import { BasicQueryOptions, MakeRequestWithoutUserAgent } from './common-types'
 import entities from './entities'
-import * as endpoints from './plain/endpoints'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
@@ -19,7 +17,11 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 /**
  * Creates API object with methods to access the Environment API
  */
-export default function createEnvironmentApi({ http }: { http: AxiosInstance }) {
+export default function createEnvironmentApi({
+  makeRequest,
+}: {
+  makeRequest: MakeRequestWithoutUserAgent
+}) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry
@@ -51,11 +53,13 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     delete: function deleteEnvironment() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.environment
-        .del(http, { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id })
-        .then(() => {
-          // noop
-        })
+      makeRequest({
+        entityType: 'Environment',
+        action: 'delete',
+        params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id },
+      }).then(() => {
+        // noop
+      })
     },
     /**
      * Updates the environment
@@ -79,11 +83,13 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     update: function updateEnvironment() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.environment
-        .update(http, { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id }, raw)
-        .then((data) => {
-          return wrapEnvironment(http, data)
-        })
+
+      return makeRequest({
+        entityType: 'Environment',
+        action: 'update',
+        params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id },
+        payload: raw,
+      }).then((data) => wrapEnvironment(makeRequest, data))
     },
 
     /**
@@ -117,7 +123,7 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      * ```
      **/
     getEntryFromData(entryData: EntryProps) {
-      return wrapEntry(http, entryData)
+      return wrapEntry(makeRequest, entryData)
     },
     /**
      * Creates SDK Asset object (locally) from entry data
@@ -150,7 +156,7 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      * ```
      */
     getAssetFromData(assetData: AssetProps) {
-      return wrapAsset(http, assetData)
+      return wrapAsset(makeRequest, assetData)
     },
 
     /**
@@ -174,13 +180,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
     getContentType(contentTypeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
 
-      return endpoints.contentType
-        .get(http, {
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           contentTypeId,
-        })
-        .then((data) => wrapContentType(http, data))
+        },
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     /**
@@ -203,13 +211,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getContentTypes(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.contentType
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapContentTypeCollection(http, data))
+        },
+      }).then((data) => wrapContentTypeCollection(makeRequest, data))
     },
     /**
      * Creates a Content Type
@@ -243,16 +253,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
     createContentType(data: CreateContentTypeProps) {
       const raw = this.toPlainObject() as EnvironmentProps
 
-      return endpoints.contentType
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapContentType(makeRequest, response))
     },
     /**
      * Creates a Content Type with a custom ID
@@ -287,17 +296,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
     createContentTypeWithId(contentTypeId: string, data: CreateContentTypeProps) {
       const raw = this.toPlainObject() as EnvironmentProps
 
-      return endpoints.contentType
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            contentTypeId,
-          },
-          data
-        )
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          contentTypeId,
+        },
+        payload: data,
+      }).then((response) => wrapContentType(makeRequest, response))
     },
 
     /**
@@ -320,13 +328,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getEditorInterfaceForContentType(contentTypeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.editorInterface
-        .get(http, {
+      return makeRequest({
+        entityType: 'EditorInterface',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           contentTypeId,
-        })
-        .then((response) => wrapEditorInterface(http, response))
+        },
+      }).then((response) => wrapEditorInterface(makeRequest, response))
     },
 
     /**
@@ -348,12 +358,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getEditorInterfaces() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.editorInterface
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'EditorInterface',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-        })
-        .then((response) => wrapEditorInterfaceCollection(http, response))
+        },
+      }).then((response) => wrapEditorInterfaceCollection(makeRequest, response))
     },
 
     /**
@@ -379,14 +391,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getEntry(id: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.entry
-        .get(http, {
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapEntry(http, data))
+        },
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     /**
@@ -409,15 +423,17 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     deleteEntry(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.entry
-        .del(http, {
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'delete',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: id,
-        })
-        .then(() => {
-          // noop
-        })
+        },
+      }).then(() => {
+        // noop
+      })
     },
 
     /**
@@ -442,13 +458,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.entry
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapEntryCollection(http, data))
+        },
+      }).then((data) => wrapEntryCollection(makeRequest, data))
     },
 
     /**
@@ -478,17 +496,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.entry
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            contentTypeId: contentTypeId,
-          },
-          data
-        )
-        .then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          contentTypeId: contentTypeId,
+        },
+        payload: data,
+      }).then((response) => wrapEntry(makeRequest, response))
     },
 
     /**
@@ -520,18 +537,17 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createEntryWithId(contentTypeId: string, id: string, data: CreateEntryProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.entry
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            entryId: id,
-            contentTypeId: contentTypeId,
-          },
-          data
-        )
-        .then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: id,
+          contentTypeId: contentTypeId,
+        },
+        payload: data,
+      }).then((response) => wrapEntry(makeRequest, response))
     },
 
     /**
@@ -557,14 +573,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getAsset(id: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.asset
-        .get(http, {
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           assetId: id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapAsset(http, data))
+        },
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     /**
@@ -589,13 +607,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getAssets(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.asset
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapAssetCollection(http, data))
+        },
+      }).then((data) => wrapAssetCollection(makeRequest, data))
     },
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
@@ -630,16 +650,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createAsset(data: CreateAssetProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.asset
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapAsset(makeRequest, response))
     },
     /**
      * Creates a Asset with a custom ID. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
@@ -673,17 +692,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createAssetWithId(id: string, data: CreateAssetProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.asset
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            assetId: id,
-          },
-          data
-        )
-        .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          assetId: id,
+        },
+        payload: data,
+      }).then((response) => wrapAsset(makeRequest, response))
     },
     /**
      * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
@@ -719,18 +737,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.asset
-        .createFromFiles(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => {
-          return wrapAsset(http, data)
-        })
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'createFromFiles',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapAsset(makeRequest, response))
     },
     /**
      * Gets an Upload
@@ -750,12 +765,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getUpload(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.upload
-        .get(http, {
+      return makeRequest({
+        entityType: 'Upload',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           uploadId: id,
-        })
-        .then((data) => wrapUpload(http, data))
+        },
+      }).then((data) => wrapUpload(makeRequest, data))
     },
 
     /**
@@ -778,15 +795,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.upload
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapUpload(http, data))
+      return makeRequest({
+        entityType: 'Upload',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+        },
+        payload: data,
+      }).then((data) => wrapUpload(makeRequest, data))
     },
     /**
      * Gets a Locale
@@ -808,13 +824,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getLocale(localeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.locale
-        .get(http, {
+      return makeRequest({
+        entityType: 'Locale',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           localeId,
-        })
-        .then((data) => wrapLocale(http, data))
+        },
+      }).then((data) => wrapLocale(makeRequest, data))
     },
 
     /**
@@ -836,12 +854,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getLocales() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.locale
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'Locale',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-        })
-        .then((data) => wrapLocaleCollection(http, data))
+        },
+      }).then((data) => wrapLocaleCollection(makeRequest, data))
     },
     /**
      * Creates a Locale
@@ -869,16 +889,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createLocale(data: CreateLocaleProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.locale
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapLocale(http, data))
+      return makeRequest({
+        entityType: 'Locale',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapLocale(makeRequest, response))
     },
     /**
      * Gets an UI Extension
@@ -900,13 +919,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getUiExtension(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.uiExtension
-        .get(http, {
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           extensionId: id,
-        })
-        .then((data) => wrapUiExtension(http, data))
+        },
+      }).then((data) => wrapUiExtension(makeRequest, data))
     },
     /**
      * Gets a collection of UI Extension
@@ -927,12 +948,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getUiExtensions() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.uiExtension
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-        })
-        .then((data) => wrapUiExtensionCollection(http, data))
+        },
+      }).then((response) => wrapUiExtensionCollection(makeRequest, response))
     },
     /**
      * Creates a UI Extension
@@ -968,16 +991,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createUiExtension(data: CreateUIExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.uiExtension
-        .create(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapUiExtension(http, data))
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapUiExtension(makeRequest, response))
     },
     /**
      * Creates a UI Extension with a custom ID
@@ -1014,17 +1036,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.uiExtension
-        .createWithId(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            extensionId: id,
-          },
-          data
-        )
-        .then((data) => wrapUiExtension(http, data))
+      return makeRequest({
+        entityType: 'UIExtension',
+        action: 'createWithId',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          extensionId: id,
+        },
+        payload: data,
+      }).then((response) => wrapUiExtension(makeRequest, response))
     },
 
     /**
@@ -1052,17 +1073,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     createAppInstallation(appDefinitionId: string, data: CreateAppInstallationProps) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.appInstallation
-        .upsert(
-          http,
-          {
-            spaceId: raw.sys.space.sys.id,
-            environmentId: raw.sys.id,
-            appDefinitionId,
-          },
-          data
-        )
-        .then((data) => wrapAppInstallation(http, data))
+      return makeRequest({
+        entityType: 'AppInstallation',
+        action: 'upsert',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+        },
+        payload: data,
+      }).then((payload) => wrapAppInstallation(makeRequest, payload))
     },
     /**
      * Gets an App Installation
@@ -1084,13 +1104,15 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getAppInstallation(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.appInstallation
-        .get(http, {
+      return makeRequest({
+        entityType: 'AppInstallation',
+        action: 'get',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           appDefinitionId: id,
-        })
-        .then((data) => wrapAppInstallation(http, data))
+        },
+      }).then((data) => wrapAppInstallation(makeRequest, data))
     },
     /**
      * Gets a collection of App Installation
@@ -1111,12 +1133,14 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getAppInstallations() {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.appInstallation
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'AppInstallation',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-        })
-        .then((data) => wrapAppInstallationCollection(http, data))
+        },
+      }).then((data) => wrapAppInstallationCollection(makeRequest, data))
     },
     /**
      * Gets all snapshots of an entry
@@ -1140,14 +1164,16 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.snapshot
-        .getManyForEntry(http, {
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getManyForEntry',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId,
           query,
-        })
-        .then((data) => wrapSnapshotCollection<EntryProps>(http, data))
+        },
+      }).then((data) => wrapSnapshotCollection<EntryProps>(makeRequest, data))
     },
     /**
      * Gets all snapshots of a contentType
@@ -1171,39 +1197,52 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
      */
     getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.snapshot
-        .getManyForContentType(http, {
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getManyForContentType',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           contentTypeId,
           query,
-        })
-        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
+        },
+      }).then((data) => wrapSnapshotCollection<ContentTypeProps>(makeRequest, data))
     },
 
     createTag(id: string, name: string) {
       const raw = this.toPlainObject() as EnvironmentProps
       const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
-      return endpoints.tag.createWithId(http, params, { name }).then((data) => wrapTag(http, data))
+      return makeRequest({
+        entityType: 'Tag',
+        action: 'createWithId',
+        params,
+        payload: { name },
+      }).then((data) => wrapTag(makeRequest, data))
     },
 
     getTags(query: BasicQueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      return endpoints.tag
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'Tag',
+        action: 'getMany',
+        params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapTagCollection(http, data))
+        },
+      }).then((data) => wrapTagCollection(makeRequest, data))
     },
 
     getTag(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
       const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
-      return endpoints.tag.get(http, params).then((data) => wrapTag(http, data))
+      return makeRequest({
+        entityType: 'Tag',
+        action: 'get',
+        params,
+      }).then((data) => wrapTag(makeRequest, data))
     },
   }
 }

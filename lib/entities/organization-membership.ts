@@ -1,10 +1,13 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements, MetaLinkProps } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import {
+  MetaSysProps,
+  DefaultElements,
+  MetaLinkProps,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 
 export type OrganizationMembershipProps = {
   /**
@@ -66,23 +69,33 @@ export interface OrganizationMembership
   delete(): Promise<void>
 }
 
-function createOrganizationMembershipApi(http: AxiosInstance, organizationId: string) {
-  const getParams = (data: OrganizationMembership) => ({
+function createOrganizationMembershipApi(
+  makeRequest: MakeRequestWithoutUserAgent,
+  organizationId: string
+) {
+  const getParams = (data: OrganizationMembershipProps) => ({
     organizationMembershipId: data.sys.id,
     organizationId,
   })
 
   return {
     update: function () {
-      const raw = this.toPlainObject() as OrganizationMembership
-      return endpoints.organizationMembership
-        .update(http, getParams(raw), raw)
-        .then((data) => wrapOrganizationMembership(http, data, organizationId))
+      const raw = this.toPlainObject() as OrganizationMembershipProps
+      return makeRequest({
+        entityType: 'OrganizationMembership',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapOrganizationMembership(makeRequest, data, organizationId))
     },
 
     delete: function del() {
-      const raw = this.toPlainObject() as OrganizationMembership
-      return endpoints.organizationMembership.del(http, getParams(raw))
+      const raw = this.toPlainObject() as OrganizationMembershipProps
+      return makeRequest({
+        entityType: 'OrganizationMembership',
+        action: 'delete',
+        params: getParams(raw),
+      })
     },
   }
 }
@@ -94,14 +107,14 @@ function createOrganizationMembershipApi(http: AxiosInstance, organizationId: st
  * @return {OrganizationMembership} Wrapped organization membership data
  */
 export function wrapOrganizationMembership(
-  http: AxiosInstance,
+  makeRequest: MakeRequestWithoutUserAgent,
   data: OrganizationMembershipProps,
   organizationId: string
 ): OrganizationMembership {
   const organizationMembership = toPlainObject(copy(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
-    createOrganizationMembershipApi(http, organizationId)
+    createOrganizationMembershipApi(makeRequest, organizationId)
   )
   return freezeSys(organizationMembershipWithMethods)
 }

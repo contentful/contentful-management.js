@@ -1,9 +1,8 @@
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
+import copy from 'fast-copy'
+import { DefaultElements, MakeRequestWithoutUserAgent, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type PreviewApiKeyProps = {
   sys: MetaSysProps
@@ -23,7 +22,10 @@ function createPreviewApiKeyApi() {
  * @param data - Raw api key data
  * @return Wrapped preview api key data
  */
-export function wrapPreviewApiKey(_http: AxiosInstance, data: PreviewApiKeyProps): PreviewApiKey {
+export function wrapPreviewApiKey(
+  _makeRequest: MakeRequestWithoutUserAgent,
+  data: PreviewApiKeyProps
+): PreviewApiKey {
   const previewApiKey = toPlainObject(copy(data))
   const previewApiKeyWithMethods = enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())
   return freezeSys(previewApiKeyWithMethods)

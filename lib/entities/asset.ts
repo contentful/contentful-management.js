@@ -1,11 +1,15 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Stream } from 'stream'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { MetaSysProps, DefaultElements, EntityMetaSysProps, MetadataProps } from '../common-types'
+import {
+  MetaSysProps,
+  DefaultElements,
+  EntityMetaSysProps,
+  MetadataProps,
+  MakeRequestWithoutUserAgent,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
-import * as endpoints from '../plain/endpoints'
 import * as checks from '../plain/checks'
 
 export type AssetProps = {
@@ -266,7 +270,7 @@ type AssetApi = {
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
-function createAssetApi(http: AxiosInstance): AssetApi {
+function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
   const getParams = (raw: AssetProps) => {
     return {
       spaceId: raw.sys.space.sys.id,
@@ -281,48 +285,85 @@ function createAssetApi(http: AxiosInstance): AssetApi {
       options?: AssetProcessingForLocale
     ) {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset
-        .processForLocale(http, getParams(raw), raw, locale, options)
-        .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'processForLocale',
+        params: {
+          ...getParams(raw),
+          locale,
+          options,
+        },
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     processForAllLocales: function processForAllLocales(options?: AssetProcessingForLocale) {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset
-        .processForAllLocales(http, getParams(raw), raw, options)
-        .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'processForAllLocales',
+        params: {
+          ...getParams(raw),
+          options,
+        },
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     update: function update() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset.update(http, getParams(raw), raw).then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'update',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     delete: function del() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset.del(http, getParams(raw))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'delete',
+        params: getParams(raw),
+      })
     },
 
     publish: function publish() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset
-        .publish(http, getParams(raw), raw)
-        .then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'publish',
+        params: getParams(raw),
+        payload: raw,
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     unpublish: function unpublish() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset.unpublish(http, getParams(raw)).then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'unpublish',
+        params: getParams(raw),
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     archive: function archive() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset.archive(http, getParams(raw)).then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'archive',
+        params: getParams(raw),
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     unarchive: function unarchive() {
       const raw = this.toPlainObject() as AssetProps
-      return endpoints.asset.unarchive(http, getParams(raw)).then((data) => wrapAsset(http, data))
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'unarchive',
+        params: getParams(raw),
+      }).then((data) => wrapAsset(makeRequest, data))
     },
 
     isPublished: function isPublished() {
@@ -353,9 +394,9 @@ function createAssetApi(http: AxiosInstance): AssetApi {
  * @param data - Raw asset data
  * @return Wrapped asset data
  */
-export function wrapAsset(http: AxiosInstance, data: AssetProps): Asset {
+export function wrapAsset(makeRequest: MakeRequestWithoutUserAgent, data: AssetProps): Asset {
   const asset = toPlainObject(copy(data))
-  const assetWithMethods = enhanceWithMethods(asset, createAssetApi(http))
+  const assetWithMethods = enhanceWithMethods(asset, createAssetApi(makeRequest))
   return freezeSys(assetWithMethods)
 }
 
