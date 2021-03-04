@@ -1,8 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../../common-types'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { CreateRoleProps, RoleProps } from '../../../entities/role'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import { Stream } from 'stream'
-import { GetSpaceParams } from '../../../plain/common-types'
+import { GetSpaceParams } from '../../../common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
+import * as raw from './raw'
 
 export const create = (
   http: AxiosInstance,

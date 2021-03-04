@@ -1,11 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../../common-types'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetTagParams,
+  QueryParams,
+} from '../../../common-types'
 import { CreateTagProps, TagProps } from '../../../entities/tag'
-
-export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/tags`

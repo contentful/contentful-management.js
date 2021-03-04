@@ -1,7 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp } from '../../../common-types'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { SpaceMemberProps } from '../../../entities/space-member'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams & { spaceMemberId: string }) =>

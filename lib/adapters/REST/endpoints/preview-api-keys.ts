@@ -1,7 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp } from '../../../common-types'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { PreviewApiKeyProps } from '../../../entities/preview-api-key'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 
 export const get = (http: AxiosInstance, params: GetSpaceParams & { previewApiKeyId: string }) => {

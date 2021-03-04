@@ -1,7 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp } from '../../../common-types'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import { UserProps } from '../../../entities/user'
-import { GetOrganizationParams, GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 
 export const getForSpace = (http: AxiosInstance, params: GetSpaceParams & { userId: string }) => {

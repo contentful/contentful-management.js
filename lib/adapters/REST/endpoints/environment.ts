@@ -1,13 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
 import {
+  CollectionProp,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../../plain/common-types'
+} from '../../../common-types'
 import { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment'
-import { CollectionProp } from '../../../common-types'
+import * as raw from './raw'
 
 export const get = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
   return raw.get<EnvironmentProps>(

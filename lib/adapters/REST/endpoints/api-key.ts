@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import { GetSpaceParams, QueryParams } from '../../../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../../../entities/api-key'
 import { CollectionProp } from '../../../common-types'
 

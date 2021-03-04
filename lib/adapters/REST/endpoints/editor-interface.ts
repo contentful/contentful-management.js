@@ -1,11 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
+import {
+  CollectionProp,
+  GetEditorInterfaceParams,
+  GetSpaceEnvironmentParams,
+  QueryParams,
+} from '../../../common-types'
 import { EditorInterfaceProps } from '../../../entities/editor-interface'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
-import { CollectionProp } from '../../../common-types'
-
-export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`

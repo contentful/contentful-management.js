@@ -1,12 +1,15 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
-import { normalizeSelect } from './utils'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetTeamMembershipParams,
+  GetTeamParams,
+  QueryParams,
+} from '../../../common-types'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../../../entities/team-membership'
-import { GetOrganizationParams, GetTeamParams, QueryParams } from '../../../plain/common-types'
-import { CollectionProp } from '../../../common-types'
-
-export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetTeamParams) =>
   `/organizations/${params.organizationId}/teams/${params.teamId}/team_memberships`

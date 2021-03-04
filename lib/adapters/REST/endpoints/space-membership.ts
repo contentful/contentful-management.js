@@ -1,11 +1,16 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../../common-types'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetSpaceMembershipProps,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import {
   CreateSpaceMembershipProps,
   SpaceMembershipProps,
 } from '../../../entities/space-membership'
-import { GetOrganizationParams, GetSpaceParams, QueryParams } from '../../../plain/common-types'
 import * as raw from './raw'
 
 function spaceMembershipDeprecationWarning() {
@@ -13,8 +18,6 @@ function spaceMembershipDeprecationWarning() {
     'The user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user)'
   )
 }
-
-export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/space_memberships`
 const getEntityUrl = (params: GetSpaceMembershipProps) =>

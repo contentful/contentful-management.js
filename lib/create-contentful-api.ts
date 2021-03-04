@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { Collection, MakeRequest, QueryOptions } from './common-types'
+import { Collection, MakeRequest, QueryOptions, QueryParams } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
@@ -8,7 +8,6 @@ import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 import errorHandler from './error-handler'
-import { QueryParams } from './plain/common-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 

@@ -158,3 +158,28 @@ export type EntityType =
   | 'Usage'
   | 'User'
   | 'Webhook'
+
+export type GetSpaceParams = { spaceId: string }
+export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
+export type GetOrganizationParams = { organizationId: string }
+export type GetTeamParams = { organizationId: string; teamId: string }
+export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
+export type GetOrganizationMembershipProps = GetOrganizationParams & {
+  organizationMembershipId: string
+}
+
+export type QueryParams = { query?: QueryOptions }
+export type PaginationQueryParams = { query?: PaginationQueryOptions }

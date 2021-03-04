@@ -1,13 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
+import {
+  CollectionProp,
+  GetOrganizationMembershipProps,
+  GetOrganizationParams,
+  QueryParams,
+} from '../../../common-types'
 import { OrganizationMembershipProps } from '../../../entities/organization-membership'
-import { CollectionProp } from '../../../common-types'
-import { GetOrganizationParams, QueryParams } from '../../../plain/common-types'
-
-export type GetOrganizationMembershipProps = GetOrganizationParams & {
-  organizationMembershipId: string
-}
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/organization_memberships`

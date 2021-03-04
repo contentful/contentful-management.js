@@ -1,8 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import {
+  CollectionProp,
+  GetSpaceParams,
+  GetWebhookCallDetailsUrl,
+  GetWebhookParams,
+  QueryParams,
+} from '../../../common-types'
 import {
   CreateWebhooksProps,
   WebhookCallDetailsProps,
@@ -10,11 +14,8 @@ import {
   WebhookHealthProps,
   WebhookProps,
 } from '../../../entities/webhook'
-import { CollectionProp } from '../../../common-types'
-
-export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
-
-export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
 

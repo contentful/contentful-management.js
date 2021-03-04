@@ -1,8 +1,5 @@
-import { MakeRequest } from '../common-types'
+import { GetContentTypeParams, MakeRequest } from '../common-types'
 import { ContentTypeProps } from '../entities/content-type'
-import { GetSpaceEnvironmentParams } from '../plain/common-types'
-
-export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 type OmitOrDelete = 'omitted' | 'deleted'
 
