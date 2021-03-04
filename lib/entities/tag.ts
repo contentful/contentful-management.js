@@ -23,7 +23,7 @@ export type TagProps = {
   name: string
 }
 
-export type CreateTagProps = Omit<TagProps, 'sys'> & { sys: { visibility?: TagVisibility } }
+export type CreateTagProps = Omit<TagProps, 'sys'>
 
 export type TagCollectionProps = {
   sys: {

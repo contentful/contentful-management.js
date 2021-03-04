@@ -1181,15 +1181,12 @@ export default function createEnvironmentApi({ http }: { http: AxiosInstance }) 
         .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
     },
 
-    createTag(id: string, name: string, visibility: TagVisibility = 'private') {
+    createTag(id: string, name: string, visibility?: TagVisibility) {
       const raw = this.toPlainObject() as EnvironmentProps
       const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
       return endpoints.tag
-        .createWithId(http, params, {
-          name,
-          sys: { visibility },
-        })
+        .createWithId(http, params, { name }, visibility)
         .then((data) => wrapTag(http, data))
     },
 
