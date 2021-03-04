@@ -4,7 +4,7 @@ import { CreateTagProps, TagProps } from '../../entities/tag'
 import copy from 'fast-copy'
 import type { CollectionProp, QueryParams, GetSpaceEnvironmentParams } from './common-types'
 
-type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/tags`

@@ -5,7 +5,7 @@ import { normalizeSelect } from './utils'
 import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
 import copy from 'fast-copy'
 
-type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`

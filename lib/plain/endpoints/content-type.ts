@@ -6,7 +6,7 @@ import { CollectionProp, QueryParams, GetSpaceEnvironmentParams } from './common
 import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
 
-type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types`

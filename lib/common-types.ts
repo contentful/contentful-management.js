@@ -148,7 +148,7 @@ export interface Adapter {
     params: GetSpaceParams
     userAgent: string
   }): Promise<any>
-  // makeRequest<R = unknown>(options: MakeRequestOptions): Promise<R>
+  makeRequest(options: MakeRequestOptions): Promise<any>
 }
 
 // TODO: Infer type from overloading

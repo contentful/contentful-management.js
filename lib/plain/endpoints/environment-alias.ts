@@ -7,7 +7,7 @@ import {
 } from '../../entities/environment-alias'
 import { CollectionProp, PaginationQueryParams, GetSpaceParams } from './common-types'
 
-type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
 
 /**
  * Urls

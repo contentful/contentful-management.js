@@ -7,7 +7,7 @@ import {
   CreateTeamSpaceMembershipProps,
 } from '../../entities/team-space-membership'
 
-type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/team_space_memberships`
 

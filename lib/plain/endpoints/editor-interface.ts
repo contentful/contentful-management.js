@@ -4,7 +4,7 @@ import copy from 'fast-copy'
 import { EditorInterfaceProps } from '../../entities/editor-interface'
 import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from './common-types'
 
-type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`

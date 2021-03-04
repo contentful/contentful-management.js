@@ -5,7 +5,7 @@ import { CollectionProp, QueryParams, GetOrganizationParams, GetTeamParams } fro
 import { normalizeSelect } from './utils'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../../entities/team-membership'
 
-type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
 
 const getBaseUrl = (params: GetTeamParams) =>
   `/organizations/${params.organizationId}/teams/${params.teamId}/team_memberships`
