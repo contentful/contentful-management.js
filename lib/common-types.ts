@@ -1,4 +1,11 @@
 import { SpaceProps } from './entities/space'
+import {
+  CreateWebhooksProps,
+  WebhookCallDetailsProps,
+  WebhookCallOverviewProps,
+  WebhookHealthProps,
+  WebhookProps,
+} from './entities/webhook'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -118,6 +125,14 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
+  (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
+  (opts: MROpts<'Webhook', 'getCallDetails', UA>): MRReturn<'Webhook', 'getCallDetails'>
+  (opts: MROpts<'Webhook', 'getHealthStatus', UA>): MRReturn<'Webhook', 'getHealthStatus'>
+  (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
+  (opts: MROpts<'Webhook', 'getManyCallDetails', UA>): MRReturn<'Webhook', 'getManyCallDetails'>
+  (opts: MROpts<'Webhook', 'create', UA>): MRReturn<'Webhook', 'create'>
+  (opts: MROpts<'Webhook', 'update', UA>): MRReturn<'Webhook', 'update'>
+  (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
 }
 
 export type MakeRequestWithUserAgent = MRInternal<true>
@@ -144,6 +159,30 @@ export type MRActions = {
       return: SpaceProps
     }
     delete: { params: GetSpaceParams; return: void }
+  }
+  Webhook: {
+    get: { params: GetWebhookParams; return: WebhookProps }
+    getCallDetails: { params: GetWebhookCallDetailsUrl; return: WebhookCallDetailsProps }
+    getHealthStatus: { params: GetWebhookParams; return: WebhookHealthProps }
+    getMany: { params: GetWebhookParams & QueryParams; return: CollectionProp<WebhookProps> }
+    getManyCallDetails: {
+      params: GetWebhookParams & QueryParams
+      return: CollectionProp<WebhookCallOverviewProps>
+    }
+    create: {
+      params: GetWebhookParams
+      payload: CreateWebhooksProps
+      headers?: Record<string, unknown>
+      return: WebhookProps
+    }
+    update: { params: GetWebhookParams; payload: WebhookProps; return: WebhookProps }
+    delete: { params: GetWebhookParams; return: void }
+    createWithId: {
+      params: GetWebhookParams
+      payload: CreateWebhooksProps
+      headers?: Record<string, unknown>
+      return: void
+    }
   }
 }
 
