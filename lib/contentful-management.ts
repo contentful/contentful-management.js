@@ -70,15 +70,15 @@ function createClient(
   )
 
   const adapter = createAdapter(params)
-  const MakeRequest: MakeRequest = (options) =>
+  const makeRequest: MakeRequest = (options) =>
     adapter.makeRequest({
       ...options,
       userAgent,
     })
 
   if (opts.type === 'plain') {
-    return createPlainClient(MakeRequest, opts.defaults)
+    return createPlainClient(makeRequest, opts.defaults)
   } else {
-    return createContentfulApi(MakeRequest) as ClientAPI
+    return createContentfulApi(makeRequest) as ClientAPI
   }
 }
