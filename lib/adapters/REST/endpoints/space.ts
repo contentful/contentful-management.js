@@ -1,18 +1,19 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import { CollectionProp, GetSpaceParams } from '../../../common-types'
 import { SpaceProps } from '../../../entities/space'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const get = (http: AxiosInstance, params: GetSpaceParams) =>
+export const get: RestEndpoint<'Space', 'get'> = (http, params) =>
   raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)
 
-export const getMany = (http: AxiosInstance, params: QueryParams) =>
+export const getMany: RestEndpoint<'Space', 'getMany'> = (http, params) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
     params: params.query,
   })
 
-export const create = (
+export const create: RestEndpoint<'Space', 'create'> = (
   http: AxiosInstance,
   params: { organizationId?: string },
   payload: Omit<SpaceProps, 'sys'>,
@@ -25,7 +26,7 @@ export const create = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'Space', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   payload: SpaceProps,
@@ -42,5 +43,5 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceParams) =>
+export const del: RestEndpoint<'Space', 'delete'> = (http: AxiosInstance, params: GetSpaceParams) =>
   raw.del(http, `/spaces/${params.spaceId}`)

@@ -70,11 +70,10 @@ function createClient(
   )
 
   const adapter = createAdapter(params)
-  const makeRequest: MakeRequest = (options) =>
-    adapter.makeRequest({
-      ...options,
-      userAgent,
-    })
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const makeRequest: MakeRequest = (options) => adapter.makeRequest({ ...options, userAgent })
 
   if (opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)

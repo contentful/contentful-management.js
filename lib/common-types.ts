@@ -1,3 +1,5 @@
+import { SpaceProps } from './entities/space'
+
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -110,12 +112,68 @@ export interface BasicCursorPaginationOptions {
 
 export type KeyValueMap = Record<string, any>
 
-export interface Adapter {
-  makeRequest(options: MakeRequestOptions): Promise<any>
+type MRInternal<UA extends boolean> = {
+  (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
+  (opts: MROpts<'Space', 'getMany', UA>): MRReturn<'Space', 'getMany'>
+  (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
+  (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
+  (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
 }
 
-export type MakeRequestWithUserAgent = Adapter['makeRequest']
-export type MakeRequest = (options: Omit<MakeRequestOptions, 'userAgent'>) => Promise<any>
+export type MakeRequestWithUserAgent = MRInternal<true>
+export type MakeRequest = MRInternal<false>
+
+export interface Adapter {
+  makeRequest: MakeRequestWithUserAgent
+}
+
+export type MRActions = {
+  Space: {
+    get: { params: GetSpaceParams; return: SpaceProps }
+    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    create: {
+      params: { organizationId?: string }
+      payload: Omit<SpaceProps, 'sys'>
+      headers?: Record<string, unknown>
+      return: any
+    }
+    update: {
+      params: GetSpaceParams
+      payload: SpaceProps
+      headers?: Record<string, unknown>
+      return: SpaceProps
+    }
+    delete: { params: GetSpaceParams; return: void }
+  }
+}
+
+export type MROpts<
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
+  UA extends boolean
+> = Omit<
+  {
+    entityType: ET
+    action: Action
+    params: 'params' extends keyof MRActions[ET][Action] ? MRActions[ET][Action]['params'] : never
+    payload: 'payload' extends keyof MRActions[ET][Action]
+      ? MRActions[ET][Action]['payload']
+      : never
+    headers: 'headers' extends keyof MRActions[ET][Action]
+      ? MRActions[ET][Action]['headers']
+      : never
+    userAgent: string
+  },
+  | ('params' extends keyof MRActions[ET][Action] ? never : 'params')
+  | ('payload' extends keyof MRActions[ET][Action] ? never : 'payload')
+  | ('headers' extends keyof MRActions[ET][Action] ? never : 'headers')
+  | (UA extends true ? never : 'userAgent')
+>
+
+export type MRReturn<
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET]
+> = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 export interface MakeRequestOptions {
   entityType: EntityType
