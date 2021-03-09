@@ -91,6 +91,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'update',
         params: { spaceId: raw.sys.id },
         payload: raw,
+        headers: {},
       }).then((data) => wrapSpace(makeRequest, data))
     },
     /**

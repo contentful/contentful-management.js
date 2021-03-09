@@ -1,3 +1,12 @@
+import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
+import {
+  AssetFileProp,
+  AssetProcessingForLocale,
+  AssetProps,
+  CreateAssetProps,
+} from './entities/asset'
 import { SpaceProps } from './entities/space'
 import {
   CreateWebhooksProps,
@@ -120,11 +129,42 @@ export interface BasicCursorPaginationOptions {
 export type KeyValueMap = Record<string, any>
 
 type MRInternal<UA extends boolean> = {
-  (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
+  (opts: MROpts<'ApiKey', 'get', UA>): MRReturn<'ApiKey', 'get'>
+  (opts: MROpts<'ApiKey', 'getMany', UA>): MRReturn<'ApiKey', 'getMany'>
+  (opts: MROpts<'ApiKey', 'create', UA>): MRReturn<'ApiKey', 'create'>
+  (opts: MROpts<'ApiKey', 'createWithId', UA>): MRReturn<'ApiKey', 'createWithId'>
+  (opts: MROpts<'ApiKey', 'update', UA>): MRReturn<'ApiKey', 'update'>
+  (opts: MROpts<'ApiKey', 'delete', UA>): MRReturn<'ApiKey', 'delete'>
+
+  (opts: MROpts<'AppDefinition', 'getMany', UA>): MRReturn<'AppDefinition', 'getMany'>
+  (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
+  (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
+  (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
+
+  (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
+  (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
+  (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
+  (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
+
+  (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
+  (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
+  (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
+  (opts: MROpts<'Asset', 'delete', UA>): MRReturn<'Asset', 'delete'>
+  (opts: MROpts<'Asset', 'publish', UA>): MRReturn<'Asset', 'publish'>
+  (opts: MROpts<'Asset', 'unpublish', UA>): MRReturn<'Asset', 'unpublish'>
+  (opts: MROpts<'Asset', 'archive', UA>): MRReturn<'Asset', 'archive'>
+  (opts: MROpts<'Asset', 'unarchive', UA>): MRReturn<'Asset', 'unarchive'>
+  (opts: MROpts<'Asset', 'create', UA>): MRReturn<'Asset', 'create'>
+  (opts: MROpts<'Asset', 'createWithId', UA>): MRReturn<'Asset', 'createWithId'>
+  (opts: MROpts<'Asset', 'createFromFiles', UA>): MRReturn<'Asset', 'createFromFiles'>
+  (opts: MROpts<'Asset', 'processForAllLocales', UA>): MRReturn<'Asset', 'processForAllLocales'>
+  (opts: MROpts<'Asset', 'processForLocale', UA>): MRReturn<'Asset', 'processForLocale'>
+
   (opts: MROpts<'Space', 'getMany', UA>): MRReturn<'Space', 'getMany'>
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
+
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getCallDetails', UA>): MRReturn<'Webhook', 'getCallDetails'>
   (opts: MROpts<'Webhook', 'getHealthStatus', UA>): MRReturn<'Webhook', 'getHealthStatus'>
@@ -143,6 +183,113 @@ export interface Adapter {
 }
 
 export type MRActions = {
+  ApiKey: {
+    get: { params: GetSpaceParams & { apiKeyId: string }; return: ApiKeyProps }
+    getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ApiKeyProps> }
+    create: {
+      params: GetSpaceParams
+      payload: CreateApiKeyProps
+      headers?: Record<string, unknown>
+      return: ApiKeyProps
+    }
+    createWithId: {
+      params: GetSpaceParams & { apiKeyId: string }
+      payload: CreateApiKeyProps
+      headers?: Record<string, unknown>
+      return: ApiKeyProps
+    }
+    update: {
+      params: GetSpaceParams & { apiKeyId: string }
+      payload: ApiKeyProps
+      headers?: Record<string, unknown>
+      return: ApiKeyProps
+    }
+    delete: { params: GetSpaceParams & { apiKeyId: string }; return: any }
+  }
+  AppDefinition: {
+    get: {
+      params: GetOrganizationParams & { appDefinitionId: string } & QueryParams
+      return: AppDefinitionProps
+    }
+    getMany: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<AppDefinitionProps>
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: CreateAppDefinitionProps
+      return: AppDefinitionProps
+    }
+    update: {
+      params: GetAppDefinitionParams
+      payload: AppDefinitionProps
+      headers?: Record<string, unknown>
+      return: AppDefinitionProps
+    }
+    delete: { params: GetAppDefinitionParams; return: any }
+  }
+  AppInstallation: {
+    get: { params: GetAppInstallationParams; return: AppInstallationProps }
+    getMany: {
+      params: GetSpaceEnvironmentParams & PaginationQueryParams
+      return: CollectionProp<AppInstallationProps>
+    }
+    upsert: {
+      params: GetAppInstallationParams
+      payload: CreateAppInstallationProps
+      headers?: Record<string, unknown>
+      return: AppInstallationProps
+    }
+    delete: { params: GetAppInstallationParams; return: any }
+  }
+  Asset: {
+    getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
+    get: {
+      params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      return: AssetProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { assetId: string }
+      payload: AssetProps
+      headers?: Record<string, unknown>
+      return: AssetProps
+    }
+    delete: { params: GetSpaceEnvironmentParams & { assetId: string }; return: any }
+    publish: {
+      params: GetSpaceEnvironmentParams & { assetId: string }
+      payload: AssetProps
+      return: AssetProps
+    }
+    unpublish: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
+    archive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
+    unarchive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
+    create: { params: GetSpaceEnvironmentParams; payload: CreateAssetProps; return: AssetProps }
+    createWithId: {
+      params: GetSpaceEnvironmentParams & { assetId: string }
+      payload: CreateAssetProps
+      return: AssetProps
+    }
+    createFromFiles: {
+      params: GetSpaceEnvironmentParams
+      payload: Omit<AssetFileProp, 'sys'>
+      return: AssetProps
+    }
+    processForAllLocales: {
+      params: GetSpaceEnvironmentParams & {
+        asset: AssetProps
+        options?: AssetProcessingForLocale
+      }
+      return: AssetProps
+    }
+    processForLocale: {
+      params: GetSpaceEnvironmentParams & {
+        asset: AssetProps
+        locale: string
+        options?: AssetProcessingForLocale
+      }
+      return: AssetProps
+    }
+  }
   Space: {
     get: { params: GetSpaceParams; return: SpaceProps }
     getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
@@ -223,38 +370,7 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
-export type EntityType =
-  | 'ApiKey'
-  | 'AppDefinition'
-  | 'AppInstallation'
-  | 'Asset'
-  | 'ContentType'
-  | 'EditorInterface'
-  | 'Entry'
-  | 'Environment'
-  | 'EnvironmentAlias'
-  | 'Http'
-  | 'Locale'
-  | 'Organization'
-  | 'OrganizationInvitation'
-  | 'OrganizationMembership'
-  | 'PersonalAccessToken'
-  | 'PreviewApiKey'
-  | 'Role'
-  | 'ScheduledAction'
-  | 'Snapshot'
-  | 'Space'
-  | 'SpaceMember'
-  | 'SpaceMembership'
-  | 'Tag'
-  | 'Team'
-  | 'TeamMembership'
-  | 'TeamSpaceMembership'
-  | 'UIExtension'
-  | 'Upload'
-  | 'Usage'
-  | 'User'
-  | 'Webhook'
+export type EntityType = keyof MRActions
 
 export type GetSpaceParams = { spaceId: string }
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }

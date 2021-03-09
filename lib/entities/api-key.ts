@@ -72,6 +72,7 @@ function createApiKeyApi(makeRequest: MakeRequest) {
         action: 'update',
         params: getParams(self),
         payload: self,
+        headers: {},
       }).then((data) => wrapApiKey(makeRequest, data))
     },
 

@@ -95,8 +95,8 @@ export const createPlainClient = (
           params: {
             ...defaults,
             ...params,
-            asset,
             options,
+            asset,
           },
         }),
       processForLocale: (params, asset, locale, options) =>
@@ -106,8 +106,8 @@ export const createPlainClient = (
           params: {
             ...defaults,
             ...params,
-            asset,
             locale,
+            asset,
             options,
           },
         }),

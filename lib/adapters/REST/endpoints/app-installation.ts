@@ -12,6 +12,7 @@ import {
   CreateAppInstallationProps,
 } from '../../../entities/app-installation'
 import { CollectionProp } from '../../../common-types'
+import { RestEndpoint } from '../types'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`
@@ -19,7 +20,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
 
-export const get = (
+export const get: RestEndpoint<'AppInstallation', 'get'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams & PaginationQueryParams
 ) => {
@@ -28,7 +29,7 @@ export const get = (
   })
 }
 
-export const getMany = (
+export const getMany: RestEndpoint<'AppInstallation', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & PaginationQueryParams
 ) => {
@@ -37,7 +38,7 @@ export const getMany = (
   })
 }
 
-export const upsert = (
+export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams,
   rawData: CreateAppInstallationProps,
@@ -50,6 +51,9 @@ export const upsert = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetAppInstallationParams) => {
+export const del: RestEndpoint<'AppInstallation', 'delete'> = (
+  http: AxiosInstance,
+  params: GetAppInstallationParams
+) => {
   return raw.del(http, getAppInstallationUrl(params))
 }

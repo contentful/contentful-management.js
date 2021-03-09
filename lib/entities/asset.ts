@@ -292,8 +292,8 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
           ...getParams(raw),
           locale,
           options,
+          asset: raw,
         },
-        payload: raw,
       }).then((data) => wrapAsset(makeRequest, data))
     },
 
@@ -304,9 +304,9 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
         action: 'processForAllLocales',
         params: {
           ...getParams(raw),
+          asset: raw,
           options,
         },
-        payload: raw,
       }).then((data) => wrapAsset(makeRequest, data))
     },
 
@@ -317,6 +317,7 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
         action: 'update',
         params: getParams(raw),
         payload: raw,
+        headers: {},
       }).then((data) => wrapAsset(makeRequest, data))
     },
 

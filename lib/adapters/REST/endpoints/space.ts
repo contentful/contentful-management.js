@@ -1,14 +1,17 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp, GetSpaceParams } from '../../../common-types'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { SpaceProps } from '../../../entities/space'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const get: RestEndpoint<'Space', 'get'> = (http, params) =>
+export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: GetSpaceParams) =>
   raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)
 
-export const getMany: RestEndpoint<'Space', 'getMany'> = (http, params) =>
+export const getMany: RestEndpoint<'Space', 'getMany'> = (
+  http: AxiosInstance,
+  params: QueryParams
+) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
     params: params.query,
   })

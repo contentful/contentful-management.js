@@ -80,6 +80,7 @@ function createAppInstallationApi(makeRequest: MakeRequest) {
         entityType: 'AppInstallation',
         action: 'upsert',
         params: getParams(data),
+        headers: {},
         payload: data,
       }).then((data) => wrapAppInstallation(makeRequest, data))
     },

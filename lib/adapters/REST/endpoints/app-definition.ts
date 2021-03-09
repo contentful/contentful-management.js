@@ -5,6 +5,7 @@ import { normalizeSelect } from './utils'
 import { GetAppDefinitionParams, GetOrganizationParams, QueryParams } from '../../../common-types'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../../../entities/app-definition'
 import { CollectionProp } from '../../../common-types'
+import { RestEndpoint } from '../types'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_definitions`
@@ -12,19 +13,25 @@ const getBaseUrl = (params: GetOrganizationParams) =>
 export const getAppDefinitionUrl = (params: GetAppDefinitionParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
 
-export const get = (http: AxiosInstance, params: GetAppDefinitionParams & QueryParams) => {
+export const get: RestEndpoint<'AppDefinition', 'get'> = (
+  http: AxiosInstance,
+  params: GetAppDefinitionParams & QueryParams
+) => {
   return raw.get<AppDefinitionProps>(http, getAppDefinitionUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
-export const getMany = (http: AxiosInstance, params: GetOrganizationParams & QueryParams) => {
+export const getMany: RestEndpoint<'AppDefinition', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) => {
   return raw.get<CollectionProp<AppDefinitionProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'AppDefinition', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
   rawData: CreateAppDefinitionProps
@@ -34,7 +41,7 @@ export const create = (
   return raw.post<AppDefinitionProps>(http, getBaseUrl(params), data)
 }
 
-export const update = async (
+export const update: RestEndpoint<'AppDefinition', 'update'> = async (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   rawData: AppDefinitionProps,
@@ -52,6 +59,9 @@ export const update = async (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetAppDefinitionParams) => {
+export const del: RestEndpoint<'AppDefinition', 'delete'> = (
+  http: AxiosInstance,
+  params: GetAppDefinitionParams
+) => {
   return raw.del(http, getAppDefinitionUrl(params))
 }

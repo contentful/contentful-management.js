@@ -115,6 +115,7 @@ function createAppDefinitionApi(makeRequest: MakeRequest) {
         entityType: 'AppDefinition',
         action: 'update',
         params: getParams(data),
+        headers: {},
         payload: data,
       }).then((data) => wrapAppDefinition(makeRequest, data))
     },
