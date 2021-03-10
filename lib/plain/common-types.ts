@@ -203,14 +203,15 @@ export type PlainClientAPI = {
       params: GetSpaceEnvironmentParams & { entryId: string }
     ): Promise<EntryProps<T>>
     unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryid: string }
+      params: GetSpaceEnvironmentParams & { entryId: string }
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
       params: GetSpaceEnvironmentParams & { contentTypeId: string },
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
+      rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
   }
   asset: {
@@ -535,6 +536,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     create(
       params: GetSpaceParams & { teamId: string },
+      rawData: TeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
     update(

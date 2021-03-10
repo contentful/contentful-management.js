@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Except } from 'type-fest'
-import { EntityType, MakeRequest } from '../../common-types'
+import { MakeRequest, MRActions, MROpts, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -20,12 +20,39 @@ export type WrapParams = {
   defaults?: DefaultParams
 }
 
-export const wrap = <Params extends {}, Payload extends {}>(
+export type WrapFn<
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
+  Params = 'params' extends keyof MROpts<ET, Action, false>
+    ? MROpts<ET, Action, false>['params']
+    : undefined,
+  Payload = 'payload' extends keyof MROpts<ET, Action, false>
+    ? MROpts<ET, Action, false>['payload']
+    : undefined,
+  Headers = 'headers' extends keyof MROpts<ET, Action, false>
+    ? MROpts<ET, Action, false>['headers']
+    : undefined,
+  Return = MRReturn<ET, Action>
+> = Params extends undefined
+  ? () => Return
+  : Payload extends undefined
+  ? (params: Params) => Return
+  : Headers extends undefined
+  ? (params: Params, payload: Payload) => Return
+  : (params: Params, payload: Payload, headers: Headers) => Return
+
+export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
   { makeRequest, defaults }: WrapParams,
-  entityType: EntityType,
-  action: string
-) => {
-  return (params?: Params, payload?: Payload, headers?: Record<string, unknown>): Promise<any> =>
+  entityType: ET,
+  action: Action
+): WrapFn<ET, Action> => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  return (
+    params?: Record<string, unknown>,
+    payload?: unknown,
+    headers?: Record<string, unknown>
+  ): Promise<any> =>
     makeRequest({
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore

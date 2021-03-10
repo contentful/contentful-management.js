@@ -401,8 +401,8 @@ export interface Adapter {
 export type MRActions = {
   Http: {
     get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
-    post: { params: { url: string; config?: AxiosRequestConfig }; return: any }
-    put: { params: { url: string; config?: AxiosRequestConfig }; return: any }
+    post: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
+    put: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: AxiosRequestConfig }; return: any }
   }
@@ -976,7 +976,7 @@ export type MRActions = {
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  UA extends boolean
+  UA extends boolean = false
 > = {
   entityType: ET
   action: Action
@@ -1003,15 +1003,13 @@ export type MRReturn<
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 export interface MakeRequestOptions {
-  entityType: EntityType
+  entityType: keyof MRActions
   action: string
   params?: Record<string, unknown>
   payload?: Record<string, unknown>
   headers?: Record<string, unknown>
   userAgent: string
 }
-
-export type EntityType = keyof MRActions
 
 export type GetSpaceParams = { spaceId: string }
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }

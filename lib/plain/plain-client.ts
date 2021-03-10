@@ -14,11 +14,38 @@ export const createPlainClient = (
   return {
     raw: {
       getDefaultParams: () => defaults,
-      get: wrap(wrapParams, 'Http', 'get'),
-      post: wrap(wrapParams, 'Http', 'post'),
-      put: wrap(wrapParams, 'Http', 'put'),
-      delete: wrap(wrapParams, 'Http', 'delete'),
-      http: wrap(wrapParams, 'Http', 'request'),
+      get: (url, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'get',
+          params: { url, config },
+        }),
+      post: (url, payload, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'post',
+          params: { url, config },
+          payload,
+        }),
+      put: (url, payload, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'put',
+          params: { url, config },
+          payload,
+        }),
+      delete: (url, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'delete',
+          params: { url, config },
+        }),
+      http: (url, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'request',
+          params: { url, config },
+        }),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
@@ -28,7 +55,7 @@ export const createPlainClient = (
     space: {
       get: wrap(wrapParams, 'Space', 'get'),
       getMany: wrap(wrapParams, 'Space', 'getMany'),
-      update: wrap(wrapParams, 'Space', 'save'),
+      update: wrap(wrapParams, 'Space', 'update'),
       delete: wrap(wrapParams, 'Space', 'delete'),
       create: wrap(wrapParams, 'Space', 'create'),
     },
