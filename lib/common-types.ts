@@ -599,7 +599,6 @@ export type MRActions = {
     delete: { params: GetSpaceEnvAliasParams; return: any }
   }
   Entry: {
-    // TODO
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
@@ -940,7 +939,7 @@ export type MRActions = {
   User: {
     getManyForSpace: { params: GetSpaceParams & QueryParams; return: CollectionProp<UserProps> }
     getForSpace: { params: GetSpaceParams & { userId: string }; return: UserProps }
-    getCurrent: { params?: QueryParams; return: any } // TODO
+    getCurrent: { params?: QueryParams; return: any }
     getForOrganization: { params: GetOrganizationParams & { userId: string }; return: UserProps }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
