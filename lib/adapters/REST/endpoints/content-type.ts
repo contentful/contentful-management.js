@@ -7,6 +7,7 @@ import {
   QueryParams,
 } from '../../../common-types'
 import { ContentTypeProps, CreateContentTypeProps } from '../../../entities/content-type'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
@@ -16,19 +17,25 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getContentTypeUrl = (params: GetContentTypeParams) =>
   getBaseUrl(params) + `/${params.contentTypeId}`
 
-export const get = (http: AxiosInstance, params: GetContentTypeParams & QueryParams) => {
+export const get: RestEndpoint<'ContentType', 'get'> = (
+  http: AxiosInstance,
+  params: GetContentTypeParams & QueryParams
+) => {
   return raw.get<ContentTypeProps>(http, getContentTypeUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+export const getMany: RestEndpoint<'ContentType', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<ContentTypeProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'ContentType', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: CreateContentTypeProps
@@ -38,7 +45,7 @@ export const create = (
   return raw.post<ContentTypeProps>(http, getBaseUrl(params), data)
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'ContentType', 'createWithId'> = (
   http: AxiosInstance,
   params: GetContentTypeParams,
   rawData: CreateContentTypeProps
@@ -48,7 +55,7 @@ export const createWithId = (
   return raw.put<ContentTypeProps>(http, getContentTypeUrl(params), data)
 }
 
-export const update = (
+export const update: RestEndpoint<'ContentType', 'update'> = (
   http: AxiosInstance,
   params: GetContentTypeParams,
   rawData: ContentTypeProps,
@@ -64,11 +71,14 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetContentTypeParams) => {
+export const del: RestEndpoint<'ContentType', 'delete'> = (
+  http: AxiosInstance,
+  params: GetContentTypeParams
+) => {
   return raw.del(http, getContentTypeUrl(params))
 }
 
-export const publish = (
+export const publish: RestEndpoint<'ContentType', 'publish'> = (
   http: AxiosInstance,
   params: GetContentTypeParams,
   rawData: ContentTypeProps
@@ -80,6 +90,9 @@ export const publish = (
   })
 }
 
-export const unpublish = (http: AxiosInstance, params: GetContentTypeParams) => {
+export const unpublish: RestEndpoint<'ContentType', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetContentTypeParams
+) => {
   return raw.del<ContentTypeProps>(http, getContentTypeUrl(params) + '/published')
 }

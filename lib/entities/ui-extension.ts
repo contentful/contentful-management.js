@@ -110,7 +110,7 @@ function createUiExtensionApi(makeRequest: MakeRequest) {
     update: function update() {
       const data = this.toPlainObject() as UIExtensionProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'update',
         params: getParams(data),
         payload: data,
@@ -119,7 +119,7 @@ function createUiExtensionApi(makeRequest: MakeRequest) {
     delete: function del() {
       const data = this.toPlainObject() as UIExtensionProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'delete',
         params: getParams(data),
       })

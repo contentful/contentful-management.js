@@ -45,8 +45,6 @@ export const omitAndDeleteField = (
       return makeRequest({
         entityType: 'ContentType',
         action: 'update',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
         params,
         payload: newContentType,
       })
@@ -58,8 +56,6 @@ export const omitAndDeleteField = (
       return makeRequest({
         entityType: 'ContentType',
         action: 'update',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
         params,
         payload: newContentType,
       })

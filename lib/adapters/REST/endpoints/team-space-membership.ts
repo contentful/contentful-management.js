@@ -11,6 +11,7 @@ import {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from '../../../entities/team-space-membership'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/team_space_memberships`
@@ -18,15 +19,20 @@ const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/team_s
 const getEntityUrl = (params: GetTeamSpaceMembershipParams) =>
   `${getBaseUrl(params)}/${params.teamSpaceMembershipId}`
 
-export const get = (http: AxiosInstance, params: GetTeamSpaceMembershipParams) =>
-  raw.get<TeamSpaceMembershipProps>(http, getEntityUrl(params))
+export const get: RestEndpoint<'TeamSpaceMembership', 'get'> = (
+  http: AxiosInstance,
+  params: GetTeamSpaceMembershipParams
+) => raw.get<TeamSpaceMembershipProps>(http, getEntityUrl(params))
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) =>
+export const getMany: RestEndpoint<'TeamSpaceMembership', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & QueryParams
+) =>
   raw.get<CollectionProp<TeamSpaceMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
 
-export const getForOrganization = (
+export const getForOrganization: RestEndpoint<'TeamSpaceMembership', 'getForOrganization'> = (
   http: AxiosInstance,
   params: GetOrganizationParams & { teamSpaceMembershipId: string }
 ) => {
@@ -36,10 +42,10 @@ export const getForOrganization = (
   )
 }
 
-export const getManyForOrganization = (
-  http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams & { teamId?: string }
-) => {
+export const getManyForOrganization: RestEndpoint<
+  'TeamSpaceMembership',
+  'getManyForOrganization'
+> = (http: AxiosInstance, params: GetOrganizationParams & QueryParams & { teamId?: string }) => {
   const query = params.query || {}
   if (params.teamId) {
     query['sys.team.sys.id'] = params.teamId
@@ -53,7 +59,7 @@ export const getManyForOrganization = (
   )
 }
 
-export const create = (
+export const create: RestEndpoint<'TeamSpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { teamId: string },
   rawData: CreateTeamSpaceMembershipProps,
@@ -67,7 +73,7 @@ export const create = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'TeamSpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetTeamSpaceMembershipParams,
   rawData: TeamSpaceMembershipProps,
@@ -85,6 +91,9 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetTeamSpaceMembershipParams) => {
+export const del: RestEndpoint<'TeamSpaceMembership', 'delete'> = (
+  http: AxiosInstance,
+  params: GetTeamSpaceMembershipParams
+) => {
   return raw.del(http, getEntityUrl(params))
 }

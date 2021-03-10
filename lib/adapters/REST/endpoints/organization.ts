@@ -1,13 +1,17 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { CollectionProp, GetOrganizationParams } from '../../../common-types'
 import { OrganizationProp } from '../../../entities/organization'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const getAll = (http: AxiosInstance) => {
+export const getAll: RestEndpoint<'Organization', 'getAll'> = (http: AxiosInstance) => {
   return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`)
 }
 
-export const get = (http: AxiosInstance, params: GetOrganizationParams) => {
+export const get: RestEndpoint<'Organization', 'get'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams
+) => {
   return getAll(http).then((data) => {
     const org = data.items.find((org) => org.sys.id === params.organizationId)
     if (!org) {

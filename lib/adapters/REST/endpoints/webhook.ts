@@ -1,19 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
-  CollectionProp,
   GetSpaceParams,
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   QueryParams,
 } from '../../../common-types'
-import {
-  CreateWebhooksProps,
-  WebhookCallDetailsProps,
-  WebhookCallOverviewProps,
-  WebhookHealthProps,
-  WebhookProps,
-} from '../../../entities/webhook'
+import { CreateWebhooksProps, WebhookProps } from '../../../entities/webhook'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'

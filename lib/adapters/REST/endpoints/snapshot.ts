@@ -9,6 +9,7 @@ import {
 import { ContentTypeProps } from '../../../entities/content-type'
 import { EntryProps } from '../../../entities/entry'
 import { SnapshotProps } from '../../../entities/snapshot'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
@@ -18,7 +19,9 @@ const getBaseEntryUrl = (params: GetSnapshotForEntryParams) =>
 const getEntryUrl = (params: GetSnapshotForEntryParams & { snapshotId: string }) =>
   getBaseEntryUrl(params) + `/${params.snapshotId}`
 
-export const getManyForEntry = <T extends KeyValueMap = KeyValueMap>(
+export const getManyForEntry: RestEndpoint<'Snapshot', 'getManyForEntry'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
   http: AxiosInstance,
   params: GetSnapshotForEntryParams & QueryParams
 ) => {
@@ -27,7 +30,9 @@ export const getManyForEntry = <T extends KeyValueMap = KeyValueMap>(
   })
 }
 
-export const getForEntry = <T extends KeyValueMap = KeyValueMap>(
+export const getForEntry: RestEndpoint<'Snapshot', 'getForEntry'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
   http: AxiosInstance,
   params: GetSnapshotForEntryParams & { snapshotId: string }
 ) => {
@@ -40,7 +45,7 @@ const getBaseContentTypeUrl = (params: GetSnapshotForContentTypeParams) =>
 const getContentTypeUrl = (params: GetSnapshotForContentTypeParams & { snapshotId: string }) =>
   getBaseContentTypeUrl(params) + `/${params.snapshotId}`
 
-export const getManyForContentType = (
+export const getManyForContentType: RestEndpoint<'Snapshot', 'getManyForContentType'> = (
   http: AxiosInstance,
   params: GetSnapshotForContentTypeParams & QueryParams
 ) => {
@@ -53,7 +58,7 @@ export const getManyForContentType = (
   )
 }
 
-export const getForContentType = (
+export const getForContentType: RestEndpoint<'Snapshot', 'getForContentType'> = (
   http: AxiosInstance,
   params: GetSnapshotForContentTypeParams & { snapshotId: string }
 ) => {

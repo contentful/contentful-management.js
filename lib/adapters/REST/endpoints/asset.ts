@@ -71,7 +71,7 @@ export const del: RestEndpoint<'Asset', 'delete'> = (
   )
 }
 
-export const publish: RestEndpoint<'Asset', 'delete'> = (
+export const publish: RestEndpoint<'Asset', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps

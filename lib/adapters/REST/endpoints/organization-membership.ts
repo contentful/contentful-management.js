@@ -7,6 +7,7 @@ import {
   QueryParams,
 } from '../../../common-types'
 import { OrganizationMembershipProps } from '../../../entities/organization-membership'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
@@ -15,15 +16,21 @@ const getBaseUrl = (params: GetOrganizationParams) =>
 const getEntityUrl = (params: GetOrganizationMembershipProps) =>
   `${getBaseUrl(params)}/${params.organizationMembershipId}`
 
-export const get = (http: AxiosInstance, params: GetOrganizationMembershipProps) => {
+export const get: RestEndpoint<'OrganizationMembership', 'get'> = (
+  http: AxiosInstance,
+  params: GetOrganizationMembershipProps
+) => {
   return raw.get<OrganizationMembershipProps>(http, getEntityUrl(params))
 }
 
-export const getMany = (http: AxiosInstance, params: GetOrganizationParams & QueryParams) => {
+export const getMany: RestEndpoint<'OrganizationMembership', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) => {
   return raw.get<CollectionProp<OrganizationMembershipProps>>(http, getBaseUrl(params))
 }
 
-export const update = (
+export const update: RestEndpoint<'OrganizationMembership', 'update'> = (
   http: AxiosInstance,
   params: GetOrganizationMembershipProps,
   rawData: OrganizationMembershipProps,
@@ -46,6 +53,9 @@ export const update = (
   )
 }
 
-export const del = (http: AxiosInstance, params: GetOrganizationMembershipProps) => {
+export const del: RestEndpoint<'OrganizationMembership', 'delete'> = (
+  http: AxiosInstance,
+  params: GetOrganizationMembershipProps
+) => {
   return raw.del(http, getEntityUrl(params))
 }

@@ -522,7 +522,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       const raw = this.toPlainObject() as OrganizationProp
       return makeRequest({
         entityType: 'AppDefinition',
-        action: 'get',
+        action: 'getMany',
         params: { organizationId: raw.sys.id, query: query },
       }).then((data) => wrapAppDefinitionCollection(makeRequest, data))
     },

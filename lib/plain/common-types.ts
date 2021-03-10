@@ -465,7 +465,7 @@ export type PlainClientAPI = {
   }
   spaceMembership: {
     get(params: GetSpaceMembershipProps): Promise<SpaceMembershipProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMemberProps>>
+    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMembershipProps>>
     getForOrganization(
       params: GetOrganizationParams & { spaceMembershipId: string }
     ): Promise<SpaceMembershipProps>

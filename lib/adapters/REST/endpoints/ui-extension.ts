@@ -7,6 +7,7 @@ import {
   QueryParams,
 } from '../../../common-types'
 import { CreateUIExtensionProps, UIExtensionProps } from '../../../entities/ui-extension'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
@@ -16,19 +17,25 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 export const getUIExtensionUrl = (params: GetUiExtensionParams) =>
   getBaseUrl(params) + `/${params.extensionId}`
 
-export const get = (http: AxiosInstance, params: GetUiExtensionParams & QueryParams) => {
+export const get: RestEndpoint<'Extension', 'get'> = (
+  http: AxiosInstance,
+  params: GetUiExtensionParams & QueryParams
+) => {
   return raw.get<UIExtensionProps>(http, getUIExtensionUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+export const getMany: RestEndpoint<'Extension', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<UIExtensionProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'Extension', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: CreateUIExtensionProps,
@@ -37,7 +44,7 @@ export const create = (
   return raw.post<UIExtensionProps>(http, getBaseUrl(params), rawData, { headers })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'Extension', 'createWithId'> = (
   http: AxiosInstance,
   params: GetUiExtensionParams,
   rawData: CreateUIExtensionProps,
@@ -48,7 +55,7 @@ export const createWithId = (
   return raw.put<UIExtensionProps>(http, getUIExtensionUrl(params), data, { headers })
 }
 
-export const update = async (
+export const update: RestEndpoint<'Extension', 'update'> = async (
   http: AxiosInstance,
   params: GetUiExtensionParams,
   rawData: UIExtensionProps,
@@ -66,6 +73,9 @@ export const update = async (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetUiExtensionParams) => {
+export const del: RestEndpoint<'Extension', 'delete'> = (
+  http: AxiosInstance,
+  params: GetUiExtensionParams
+) => {
   return raw.del(http, getUIExtensionUrl(params))
 }

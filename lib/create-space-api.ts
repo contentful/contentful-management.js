@@ -141,7 +141,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'Environment',
-        action: 'get',
+        action: 'getMany',
         params: { spaceId: raw.sys.id, query },
       }).then((data) => wrapEnvironmentCollection(makeRequest, data))
     },
@@ -259,7 +259,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Webhook',
         action: 'getMany',
-        params: { spaceId: raw.sys.id },
+        params: { spaceId: raw.sys.id, query: undefined },
       }).then((data) => wrapWebhookCollection(makeRequest, data))
     },
 

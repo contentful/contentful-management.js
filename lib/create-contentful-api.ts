@@ -202,6 +202,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'PersonalAccessToken',
         action: 'create',
+        params: {},
         payload: data,
       }).then((response) => wrapPersonalAccessToken(makeRequest, response))
     },
@@ -283,7 +284,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     ) {
       return makeRequest({
         entityType: 'Usage',
-        action: 'get',
+        action: 'getManyForOrganization',
         params: { organizationId, query },
       }).then((data) => wrapUsageCollection(makeRequest, data))
     },
@@ -343,11 +344,11 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest(opts: AxiosRequestConfig) {
+    rawRequest: function rawRequest(opts: AxiosRequestConfig & { url: string }) {
       return makeRequest({
         entityType: 'Http',
         action: 'request',
-        params: { config: opts },
+        params: { url: opts.url, config: opts },
       }).then((response) => response.data, errorHandler)
     },
   }

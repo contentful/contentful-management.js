@@ -918,7 +918,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     getUiExtension(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'get',
         params: {
           spaceId: raw.sys.space.sys.id,
@@ -947,7 +947,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     getUiExtensions() {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'getMany',
         params: {
           spaceId: raw.sys.space.sys.id,
@@ -990,7 +990,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createUiExtension(data: CreateUIExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'create',
         params: {
           spaceId: raw.sys.space.sys.id,
@@ -1035,7 +1035,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'createWithId',
         params: {
           spaceId: raw.sys.space.sys.id,
@@ -1234,12 +1234,15 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     getTag(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
       return makeRequest({
         entityType: 'Tag',
         action: 'get',
-        params,
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          tagId: id,
+        },
       }).then((data) => wrapTag(makeRequest, data))
     },
   }

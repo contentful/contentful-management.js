@@ -27,8 +27,14 @@ export const wrap = <Params extends {}, Payload extends {}>(
 ) => {
   return (params?: Params, payload?: Payload, headers?: Record<string, unknown>): Promise<any> =>
     makeRequest({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       entityType,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       action,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       params: { ...defaults, ...params },
       payload,
       headers,

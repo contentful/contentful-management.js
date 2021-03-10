@@ -131,6 +131,7 @@ export const createPlainClient = (
         makeRequest({
           entityType: 'PersonalAccessToken',
           action: 'create',
+          params: {},
           headers,
           payload: data,
         }),
@@ -179,12 +180,12 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'AppInstallation', 'delete'),
     },
     extension: {
-      get: wrap(wrapParams, 'UIExtension', 'get'),
-      getMany: wrap(wrapParams, 'UIExtension', 'getMany'),
-      create: wrap(wrapParams, 'UIExtension', 'create'),
-      createWithId: wrap(wrapParams, 'UIExtension', 'createWithId'),
-      update: wrap(wrapParams, 'UIExtension', 'update'),
-      delete: wrap(wrapParams, 'UIExtension', 'delete'),
+      get: wrap(wrapParams, 'Extension', 'get'),
+      getMany: wrap(wrapParams, 'Extension', 'getMany'),
+      create: wrap(wrapParams, 'Extension', 'create'),
+      createWithId: wrap(wrapParams, 'Extension', 'createWithId'),
+      update: wrap(wrapParams, 'Extension', 'update'),
+      delete: wrap(wrapParams, 'Extension', 'delete'),
     },
     webhook: {
       get: wrap(wrapParams, 'Webhook', 'get'),

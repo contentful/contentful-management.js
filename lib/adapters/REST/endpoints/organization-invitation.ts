@@ -3,6 +3,7 @@ import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
 } from '../../../entities/organization-invitation'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const OrganizationUserManagementAlphaHeaders = {
@@ -13,7 +14,7 @@ const InvitationAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'pending-org-membership',
 }
 
-export const create = (
+export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
   http: AxiosInstance,
   params: { organizationId: string },
   data: CreateOrganizationInvitationProps,
@@ -32,7 +33,7 @@ export const create = (
   )
 }
 
-export const get = (
+export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
   http: AxiosInstance,
   params: { organizationId: string; invitationId: string },
   headers?: Record<string, unknown>
