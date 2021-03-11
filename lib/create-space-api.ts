@@ -259,7 +259,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Webhook',
         action: 'getMany',
-        params: { spaceId: raw.sys.id, query: undefined },
+        params: { spaceId: raw.sys.id },
       }).then((data) => wrapWebhookCollection(makeRequest, data))
     },
 
