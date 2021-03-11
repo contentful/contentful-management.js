@@ -98,6 +98,9 @@ export const createPlainClient = (params: ClientParams, defaults?: DefaultParams
       processForAllLocales: wrap(wrapParams, endpoints.asset.processForAllLocales),
       processForLocale: wrap(wrapParams, endpoints.asset.processForLocale),
     },
+    assetKey: {
+      create: wrap(wrapParams, endpoints.assetKey.create),
+    },
     upload: {
       get: wrap(wrapParams, endpoints.upload.get),
       create: wrap(wrapParams, endpoints.upload.create),

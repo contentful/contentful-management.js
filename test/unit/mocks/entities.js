@@ -163,6 +163,11 @@ const assetMock = {
   },
 }
 
+const assetKeyMock = {
+  policy: 'assetKey.policyJWT',
+  secret: 'assetKeySecret',
+}
+
 const assetMockWithTags = {
   ...assetMock,
   metadata: {
@@ -454,6 +459,7 @@ const mocks = {
   snapshot: snapShotMock,
   asset: assetMock,
   assetWithTags: assetMockWithTags,
+  assetKey: assetKeyMock,
   locale: localeMock,
   webhook: webhookMock,
   spaceMember: spaceMemberMock,
@@ -518,6 +524,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     asset: {
       wrapAsset: sinon.stub(),
       wrapAssetCollection: sinon.stub(),
+    },
+    assetKey: {
+      wrapAssetKey: sinon.stub(),
     },
     locale: {
       wrapLocale: sinon.stub(),
@@ -625,6 +634,7 @@ export {
   entryMock,
   assetMock,
   assetWithFilesMock,
+  assetKeyMock,
   localeMock,
   webhookMock,
   spaceMemberMock,
