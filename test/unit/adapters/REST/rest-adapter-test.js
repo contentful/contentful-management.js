@@ -1,10 +1,7 @@
-import { expect, use } from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import { expect } from 'chai'
 import { describe, it } from 'mocha'
 import { RestAdapter } from '../../../../lib/adapters/REST/rest-adapter'
 import setupRestAdapter, { resetRestAdapterRewire } from './helpers/setupRestAdapter'
-
-use(chaiAsPromised)
 
 describe('Rest Adapter', () => {
   it('throws if no accessToken is defined', () => {
