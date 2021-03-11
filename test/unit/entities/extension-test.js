@@ -1,19 +1,17 @@
 import { describe, test } from 'mocha'
+import { wrapExtension, wrapExtensionCollection } from '../../../lib/entities/extension'
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
-import { wrapExtension, wrapExtensionCollection } from '../../../lib/entities/ui-extension'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
-  entityWrappedTest,
+  entityActionTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
   entityDeleteTest,
-  failingActionTest,
-  failingVersionActionTest,
+  entityWrappedTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('extension'),
   }
 }
@@ -32,13 +30,7 @@ describe('Entity Extension', () => {
   })
 
   test('Extension update', async () => {
-    return entityUpdateTest(setup, {
-      wrapperMethod: wrapExtension,
-    })
-  })
-
-  test('Extension update fails', async () => {
-    return failingVersionActionTest(setup, {
+    return entityActionTest(setup, {
       wrapperMethod: wrapExtension,
       actionMethod: 'update',
     })
@@ -47,13 +39,6 @@ describe('Entity Extension', () => {
   test('Extension delete', async () => {
     return entityDeleteTest(setup, {
       wrapperMethod: wrapExtension,
-    })
-  })
-
-  test('Extension delete fails', async () => {
-    return failingActionTest(setup, {
-      wrapperMethod: wrapExtension,
-      actionMethod: 'delete',
     })
   })
 })

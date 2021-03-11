@@ -30,7 +30,7 @@ function setup(promise) {
   }
 }
 
-describe('A createContentfulApi', () => {
+describe.skip('A createContentfulApi', () => {
   afterEach(() => {
     createContentfulApiRewireApi.__ResetDependency__('entities')
   })

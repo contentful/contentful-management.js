@@ -1,12 +1,12 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { entityWrappedTest } from '../test-creators/instance-entity-methods'
 import { wrapOrganizationInvitation } from '../../../lib/entities/organization-invitation'
 import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('organizationInvitation'),
   }
 }

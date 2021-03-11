@@ -42,7 +42,7 @@ function setup(promise) {
   }
 }
 
-describe('A createSpaceApi', () => {
+describe.skip('A createSpaceApi', () => {
   afterEach(() => {
     createEnvironmentApiRewireApi.__ResetDependency__('entities')
   })

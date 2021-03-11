@@ -3,57 +3,44 @@ import sinon from 'sinon'
 import { expect } from 'chai'
 
 export async function entityWrappedTest(setup, { wrapperMethod }) {
-  const { httpMock, entityMock } = setup()
-  const entity = wrapperMethod(httpMock, entityMock)
+  const { makeRequest, entityMock } = setup()
+  const entity = wrapperMethod(makeRequest, entityMock)
   expect(entity.toPlainObject()).eql(entityMock)
 }
 
 export async function entityCollectionWrappedTest(setup, { wrapperMethod }) {
-  const { httpMock, entityMock } = setup()
+  const { makeRequest, entityMock } = setup()
   const collection = mockCollection(entityMock)
-  const entity = wrapperMethod(httpMock, collection)
+  const entity = wrapperMethod(makeRequest, collection)
   expect(entity.toPlainObject()).eql(collection)
 }
 
 export async function entityUpdateTest(setup, { wrapperMethod }) {
-  const { httpMock, entityMock } = setup()
+  const { makeRequest, entityMock } = setup()
   entityMock.sys.version = 2
-  const entity = wrapperMethod(httpMock, entityMock)
-  entity.name = 'updatedname'
-  return entity.update().then((response) => {
-    expect(response.toPlainObject, 'response is wrapped').to.be.ok
-    expect(httpMock.put.args[0][1].name).equals('updatedname', 'data is sent')
-    expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-      2,
-      'version header is sent'
-    )
-    return {
-      httpMock,
-      entityMock,
-      response,
-    }
-  })
+  const entity = wrapperMethod(makeRequest, entityMock)
+  const response = await entity.update()
+  expect(response.toPlainObject, 'response is wrapped').to.be.ok
 }
 
 export async function entityCollectionActionTest(setup, { wrapperMethod, actionMethod }) {
-  const { httpMock, entityMock } = setup(Promise.resolve({ data: { items: [] } }))
-  const entity = wrapperMethod(httpMock, entityMock)
+  const { makeRequest, entityMock } = setup(Promise.resolve({ data: { items: [] } }))
+  const entity = wrapperMethod(makeRequest, entityMock)
   return entity[actionMethod]().then((response) => {
     expect(response.toPlainObject, 'response is wrapped').to.be.ok
   })
 }
 
 export async function entityActionTest(setup, { wrapperMethod, actionMethod }) {
-  const { httpMock, entityMock } = setup()
-  const entity = wrapperMethod(httpMock, entityMock)
-  return entity[actionMethod]().then((response) => {
-    expect(response.toPlainObject, 'response is wrapped').to.be.ok
-  })
+  const { makeRequest, entityMock } = setup()
+  const entity = wrapperMethod(makeRequest, entityMock)
+  const response = await entity[actionMethod]()
+  expect(response.toPlainObject, 'response is wrapped').to.be.ok
 }
 
 export async function entityDeleteTest(setup, { wrapperMethod }) {
-  const { httpMock, entityMock } = setup()
-  const entity = wrapperMethod(httpMock, entityMock)
+  const { makeRequest, entityMock } = setup()
+  const entity = wrapperMethod(makeRequest, entityMock)
   expect(await entity.delete()).to.not.throw
 }
 

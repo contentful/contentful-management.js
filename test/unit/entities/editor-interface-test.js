@@ -1,5 +1,5 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { wrapEditorInterface } from '../../../lib/entities/editor-interface'
 import { entityUpdateTest, entityWrappedTest } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
@@ -7,7 +7,7 @@ import { expect } from 'chai'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('editorInterface'),
   }
 }

@@ -29,11 +29,6 @@ export const defaultHostParameters = {
 }
 
 export class RestAdapter implements Adapter {
-  /**
-   * @deprecated
-   */
-  public readonly http: AxiosInstance
-
   private readonly params: RestAdapterParams
 
   public constructor(params: RestAdapterParams) {
@@ -45,14 +40,6 @@ export class RestAdapter implements Adapter {
       ...defaultHostParameters,
       ...copy(params),
     }
-
-    this.http = createHttpClient(axios, {
-      ...omit(this.params, 'headers'),
-      headers: {
-        ...this.params.headers,
-        'Content-Type': 'application/vnd.contentful.management.v1+json',
-      },
-    })
   }
 
   public async makeRequest<R>({
@@ -77,7 +64,7 @@ export class RestAdapter implements Adapter {
       endpoints[entityType]?.[action]
 
     if (endpoint === undefined) {
-      throw new Error('Could not find valid endpoint')
+      throw new Error('Unknown endpoint')
     }
 
     const requiredHeaders = {

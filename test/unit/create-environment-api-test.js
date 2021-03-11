@@ -45,7 +45,7 @@ function setup(promise) {
   }
 }
 
-describe('A createEnvironmentApi', () => {
+describe.skip('A createEnvironmentApi', () => {
   afterEach(() => {
     createEnvironmentApiRewireApi.__ResetDependency__('entities')
   })

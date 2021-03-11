@@ -53,6 +53,7 @@ export function del<T = any>(http: AxiosInstance, url: string, config?: AxiosReq
     .then((response) => response.data, errorHandler)
 }
 
+// TODO: this is broken
 export function http<T = any>(http: AxiosInstance, url: string, config?: AxiosRequestConfig) {
   return http(url, {
     baseURL: getBaseUrl(http),
