@@ -46,22 +46,27 @@ export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[
   entityType: ET,
   action: Action
 ): WrapFn<ET, Action> => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  return (
-    params?: Record<string, unknown>,
-    payload?: unknown,
-    headers?: Record<string, unknown>
-  ): Promise<any> =>
+  type Params = 'params' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['params']
+    : never
+  type Payload = 'payload' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['payload']
+    : never
+  type Headers = 'headers' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['headers']
+    : never
+
+  // It's not really possible to make this type safe as we are overloading `makeRequest`.
+  // This missing typesafety is only within `wrap`. `wrap` has proper public types.
+  // @ts-expect-error
+  return (params?: Params, payload?: Payload, headers?: Headers): MRReturn<ET, Action> =>
+    // @ts-expect-error
     makeRequest({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      // @ts-expect-error
       entityType,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      // @ts-expect-error
       action,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      // @ts-expect-error
       params: { ...defaults, ...params },
       payload,
       headers,

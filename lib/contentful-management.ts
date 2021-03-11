@@ -71,9 +71,11 @@ function createClient(
 
   const adapter = createAdapter(params)
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  const makeRequest: MakeRequest = (options) => adapter.makeRequest({ ...options, userAgent })
+  // Parameters<?> and ReturnType<?> only return the types of the last overload
+  // https://github.com/microsoft/TypeScript/issues/26591
+  // @ts-expect-error
+  const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
+    adapter.makeRequest({ ...options, userAgent })
 
   if (opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)

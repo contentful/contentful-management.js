@@ -23,8 +23,6 @@ const findAndUpdateField = function (
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
   field[omitOrDelete] = true
 
   return Promise.resolve(contentType)
