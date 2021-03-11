@@ -7,14 +7,14 @@ import { wrapCollection } from '../common-utils'
 import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 import { SetRequired, RequireExactlyOne } from 'type-fest'
 
-type UIExtensionSysProps = BasicMetaSysProps & {
+type ExtensionSysProps = BasicMetaSysProps & {
   space: SysLink
   environment: SysLink
   srcdocSha256?: string
 }
 
-export type UIExtensionProps = {
-  sys: UIExtensionSysProps
+export type ExtensionProps = {
+  sys: ExtensionSysProps
   extension: {
     /**
      * Extension name
@@ -50,12 +50,12 @@ export type UIExtensionProps = {
   parameters?: DefinedParameters
 }
 
-export type CreateUIExtensionProps = RequireExactlyOne<
-  SetRequired<UIExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
+export type CreateExtensionProps = RequireExactlyOne<
+  SetRequired<ExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
   'src' | 'srcdoc'
 >
 
-export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensionProps> {
+export interface Extension extends ExtensionProps, DefaultElements<ExtensionProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @return Object returned from the server with updated changes.
@@ -69,15 +69,15 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getUiExtension('<ui_extension_id>'))
-   * .then((uiExtension) => {
-   *   uiExtension.extension.name = 'New UI Extension name'
-   *   return uiExtension.update()
+   * .then((extension) => {
+   *   extension.extension.name = 'New UI Extension name'
+   *   return extension.update()
    * })
-   * .then((uiExtension) => console.log(`UI Extension ${uiExtension.sys.id} updated.`))
+   * .then((extension) => console.log(`UI Extension ${extension.sys.id} updated.`))
    * .catch(console.error)
    * ```
    */
-  update(): Promise<UIExtension>
+  update(): Promise<Extension>
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
@@ -91,7 +91,7 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getUiExtension('<ui_extension_id>'))
-   * .then((uiExtension) => uiExtension.delete())
+   * .then((extension) => extension.delete())
    * .then(() => console.log(`UI Extension deleted.`))
    * .catch(console.error)
    * ```
@@ -99,8 +99,8 @@ export interface UIExtension extends UIExtensionProps, DefaultElements<UIExtensi
   delete(): Promise<void>
 }
 
-function createUiExtensionApi(makeRequest: MakeRequest) {
-  const getParams = (data: UIExtensionProps) => ({
+function createExtensionApi(makeRequest: MakeRequest) {
+  const getParams = (data: ExtensionProps) => ({
     spaceId: data.sys.space.sys.id,
     environmentId: data.sys.environment.sys.id,
     extensionId: data.sys.id,
@@ -108,16 +108,16 @@ function createUiExtensionApi(makeRequest: MakeRequest) {
 
   return {
     update: function update() {
-      const data = this.toPlainObject() as UIExtensionProps
+      const data = this.toPlainObject() as ExtensionProps
       return makeRequest({
         entityType: 'Extension',
         action: 'update',
         params: getParams(data),
         payload: data,
-      }).then((response) => wrapUiExtension(makeRequest, response))
+      }).then((response) => wrapExtension(makeRequest, response))
     },
     delete: function del() {
-      const data = this.toPlainObject() as UIExtensionProps
+      const data = this.toPlainObject() as ExtensionProps
       return makeRequest({
         entityType: 'Extension',
         action: 'delete',
@@ -133,13 +133,13 @@ function createUiExtensionApi(makeRequest: MakeRequest) {
  * @param data - Raw UI Extension data
  * @return Wrapped UI Extension data
  */
-export function wrapUiExtension(makeRequest: MakeRequest, data: UIExtensionProps): UIExtension {
-  const uiExtension = toPlainObject(copy(data))
-  const uiExtensionWithMethods = enhanceWithMethods(uiExtension, createUiExtensionApi(makeRequest))
-  return freezeSys(uiExtensionWithMethods)
+export function wrapExtension(makeRequest: MakeRequest, data: ExtensionProps): Extension {
+  const extension = toPlainObject(copy(data))
+  const extensionWithMethods = enhanceWithMethods(extension, createExtensionApi(makeRequest))
+  return freezeSys(extensionWithMethods)
 }
 
 /**
  * @private
  */
-export const wrapUiExtensionCollection = wrapCollection(wrapUiExtension)
+export const wrapExtensionCollection = wrapCollection(wrapExtension)

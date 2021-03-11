@@ -7,6 +7,7 @@ import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
 import * as Environment from './environment'
 import * as EnvironmentAlias from './environment-alias'
+import * as Extension from './extension'
 import * as Http from './http'
 import * as Locale from './locale'
 import * as Organization from './organization'
@@ -24,7 +25,6 @@ import * as Tag from './tag'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
-import * as UIExtension from './ui-extension'
 import * as Upload from './upload'
 import * as Usage from './usage'
 import * as User from './user'
@@ -40,6 +40,7 @@ export default {
   Entry,
   Environment,
   EnvironmentAlias,
+  Extension,
   Http,
   Locale,
   Organization,
@@ -57,7 +58,6 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
-  UIExtension,
   Upload,
   Usage,
   User,

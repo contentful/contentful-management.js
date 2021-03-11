@@ -6,7 +6,7 @@ import type { EntryProps, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
-import type { CreateUIExtensionProps } from './entities/ui-extension'
+import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import { wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
@@ -28,7 +28,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapSnapshotCollection } = entities.snapshot
   const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
   const { wrapUpload } = entities.upload
-  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
+  const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
 
   return {
@@ -911,7 +911,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.getUiExtension('<extension-id>'))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
@@ -925,7 +925,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           extensionId: id,
         },
-      }).then((data) => wrapUiExtension(makeRequest, data))
+      }).then((data) => wrapExtension(makeRequest, data))
     },
     /**
      * Gets a collection of UI Extension
@@ -953,7 +953,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
         },
-      }).then((response) => wrapUiExtensionCollection(makeRequest, response))
+      }).then((response) => wrapExtensionCollection(makeRequest, response))
     },
     /**
      * Creates a UI Extension
@@ -983,11 +983,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *     sidebar: false
      *   }
      * }))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
-    createUiExtension(data: CreateUIExtensionProps) {
+    createUiExtension(data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Extension',
@@ -997,7 +997,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
         payload: data,
-      }).then((response) => wrapUiExtension(makeRequest, response))
+      }).then((response) => wrapExtension(makeRequest, response))
     },
     /**
      * Creates a UI Extension with a custom ID
@@ -1028,11 +1028,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *     sidebar: false
      *   }
      * }))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
-    createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
+    createUiExtensionWithId(id: string, data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Extension',
@@ -1043,7 +1043,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           extensionId: id,
         },
         payload: data,
-      }).then((response) => wrapUiExtension(makeRequest, response))
+      }).then((response) => wrapExtension(makeRequest, response))
     },
 
     /**

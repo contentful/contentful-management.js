@@ -18,7 +18,7 @@ import {
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
-  GetUiExtensionParams,
+  GetExtensionParams,
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   KeyValueMap,
@@ -61,7 +61,7 @@ import { CreateTagProps, TagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import { TeamSpaceMembershipProps } from '../entities/team-space-membership'
-import { CreateUIExtensionProps, UIExtensionProps } from '../entities/ui-extension'
+import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
 import {
@@ -371,26 +371,26 @@ export type PlainClientAPI = {
     delete(params: GetAppInstallationParams): Promise<any>
   }
   extension: {
-    get(params: GetUiExtensionParams & QueryParams): Promise<UIExtensionProps>
+    get(params: GetExtensionParams & QueryParams): Promise<ExtensionProps>
     getMany(
       params: GetSpaceEnvironmentParams & QueryParams
-    ): Promise<CollectionProp<UIExtensionProps>>
+    ): Promise<CollectionProp<ExtensionProps>>
     create(
       params: GetSpaceEnvironmentParams,
-      rawData: CreateUIExtensionProps,
+      rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
+    ): Promise<ExtensionProps>
     createWithId(
-      params: GetUiExtensionParams,
-      rawData: CreateUIExtensionProps,
+      params: GetExtensionParams,
+      rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
+    ): Promise<ExtensionProps>
     update(
-      params: GetUiExtensionParams,
-      rawData: UIExtensionProps,
+      params: GetExtensionParams,
+      rawData: ExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
-    delete(params: GetUiExtensionParams): Promise<any>
+    ): Promise<ExtensionProps>
+    delete(params: GetExtensionParams): Promise<any>
   }
   webhook: {
     get(params: GetWebhookParams): Promise<WebhookProps>

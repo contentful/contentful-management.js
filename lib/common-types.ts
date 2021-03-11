@@ -39,7 +39,7 @@ import {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import { CreateUIExtensionProps, UIExtensionProps } from './entities/ui-extension'
+import { CreateExtensionProps, ExtensionProps } from './entities/extension'
 import { UsageProps } from './entities/usage'
 import { UserProps } from './entities/user'
 import {
@@ -643,30 +643,30 @@ export type MRActions = {
     }
   }
   Extension: {
-    get: { params: GetUiExtensionParams & QueryParams; return: UIExtensionProps }
+    get: { params: GetExtensionParams & QueryParams; return: ExtensionProps }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
-      return: CollectionProp<UIExtensionProps>
+      return: CollectionProp<ExtensionProps>
     }
     create: {
       params: GetSpaceEnvironmentParams
-      payload: CreateUIExtensionProps
+      payload: CreateExtensionProps
       headers?: Record<string, unknown>
-      return: UIExtensionProps
+      return: ExtensionProps
     }
     createWithId: {
-      params: GetUiExtensionParams
-      payload: CreateUIExtensionProps
+      params: GetExtensionParams
+      payload: CreateExtensionProps
       headers?: Record<string, unknown>
-      return: UIExtensionProps
+      return: ExtensionProps
     }
     update: {
-      params: GetUiExtensionParams
-      payload: UIExtensionProps
+      params: GetExtensionParams
+      payload: ExtensionProps
       headers?: Record<string, unknown>
-      return: UIExtensionProps
+      return: ExtensionProps
     }
-    delete: { params: GetUiExtensionParams; return: any }
+    delete: { params: GetExtensionParams; return: any }
   }
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
@@ -1025,7 +1025,7 @@ export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: stri
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
-export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipProps = GetOrganizationParams & {
