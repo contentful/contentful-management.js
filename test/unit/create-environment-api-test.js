@@ -701,3 +701,17 @@ describe('A createEnvironmentApi', () => {
     })
   })
 })
+
+// Embargoed Assets
+
+test('API call createAssetKey', async () => {
+  const withExpiryIn1Hour = Math.floor(Date.now() / 1000) + 1 * 60 * 60
+  const data = { expiresAt: withExpiryIn1Hour }
+  const assetKey = cloneMock('assetKey')
+  const { api, entitiesMock } = setup(Promise.resolve({ data: assetKey }))
+  entitiesMock.assetKey.wrapAssetKey.returns(assetKey)
+
+  await api.createAssetKey(data).then((r) => {
+    expect(r).eql(assetKey)
+  })
+})
