@@ -1,6 +1,7 @@
 export * as contentType from './content-type'
 export * as entry from './entry'
 export * as asset from './asset'
+export * as assetKey from './asset-key'
 export * as environment from './environment'
 export * as environmentAlias from './environment-alias'
 export * as locale from './locale'

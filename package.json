@@ -55,10 +55,10 @@
     "tonic-example.js"
   ],
   "dependencies": {
-    "contentful-sdk-core": "^6.7.0",
     "axios": "^0.21.0",
-    "lodash.isplainobject": "^4.0.6",
+    "contentful-sdk-core": "^6.7.0",
     "fast-copy": "^2.1.0",
+    "lodash.isplainobject": "^4.0.6",
     "type-fest": "0.20.2"
   },
   "devDependencies": {
@@ -88,6 +88,7 @@
     "bundlesize": "^0.18.0",
     "codecov": "^3.8.1",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "contentful-sdk-jsdoc": "^2.2.0",
     "core-js": "^2.5.7",
     "cz-conventional-changelog": "^3.3.0",
