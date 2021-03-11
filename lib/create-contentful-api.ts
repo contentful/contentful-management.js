@@ -146,7 +146,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     > {
       return makeRequest({
         entityType: 'Organization',
-        action: 'getAll',
+        action: 'getMany',
       }).then((data) => wrapOrganizationCollection(makeRequest, data))
     },
 

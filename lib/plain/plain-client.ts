@@ -238,7 +238,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Tag', 'delete'),
     },
     organization: {
-      getAll: wrap(wrapParams, 'Organization', 'getAll'),
+      getAll: wrap(wrapParams, 'Organization', 'getMany'),
       get: wrap(wrapParams, 'Organization', 'get'),
     },
     organizationInvitation: {

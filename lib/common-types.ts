@@ -254,7 +254,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Locale', 'update', UA>): MRReturn<'Locale', 'update'>
   (opts: MROpts<'Locale', 'create', UA>): MRReturn<'Locale', 'create'>
 
-  (opts: MROpts<'Organization', 'getAll', UA>): MRReturn<'Organization', 'getAll'>
+  (opts: MROpts<'Organization', 'getMany', UA>): MRReturn<'Organization', 'getMany'>
   (opts: MROpts<'Organization', 'get', UA>): MRReturn<'Organization', 'get'>
 
   (opts: MROpts<'OrganizationInvitation', 'get', UA>): MRReturn<'OrganizationInvitation', 'get'>
@@ -689,7 +689,7 @@ export type MRActions = {
     }
   }
   Organization: {
-    getAll: { return: CollectionProp<OrganizationProp> }
+    getMany: { return: CollectionProp<OrganizationProp> }
     get: { params: GetOrganizationParams; return: OrganizationProp }
   }
   OrganizationInvitation: {

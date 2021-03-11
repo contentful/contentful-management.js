@@ -4,7 +4,7 @@ import { OrganizationProp } from '../../../entities/organization'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const getAll: RestEndpoint<'Organization', 'getAll'> = (http: AxiosInstance) => {
+export const getMany: RestEndpoint<'Organization', 'getMany'> = (http: AxiosInstance) => {
   return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`)
 }
 
@@ -12,7 +12,7 @@ export const get: RestEndpoint<'Organization', 'get'> = (
   http: AxiosInstance,
   params: GetOrganizationParams
 ) => {
-  return getAll(http).then((data) => {
+  return getMany(http).then((data) => {
     const org = data.items.find((org) => org.sys.id === params.organizationId)
     if (!org) {
       const error = new Error(
