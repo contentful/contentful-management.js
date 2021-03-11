@@ -6,7 +6,7 @@ import {
   BasicCursorPaginationOptions,
   MetaLinkProps,
   Link,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -79,7 +79,7 @@ export interface ScheduledAction
     ScheduledActionApi {}
 
 export function createDeleteScheduledAction(
-  makeRequest: MakeRequestWithoutUserAgent
+  makeRequest: MakeRequest
 ): () => Promise<ScheduledAction> {
   return function (): Promise<ScheduledAction> {
     const data = this.toPlainObject() as ScheduledActionProps
@@ -94,16 +94,14 @@ export function createDeleteScheduledAction(
   }
 }
 
-export default function createScheduledActionApi(
-  makeRequest: MakeRequestWithoutUserAgent
-): ScheduledActionApi {
+export default function createScheduledActionApi(makeRequest: MakeRequest): ScheduledActionApi {
   return {
     delete: createDeleteScheduledAction(makeRequest),
   }
 }
 
 export function wrapScheduledAction(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: ScheduledActionProps
 ): ScheduledAction {
   const scheduledAction = toPlainObject(copy(data))

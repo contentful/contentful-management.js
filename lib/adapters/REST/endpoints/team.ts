@@ -1,25 +1,33 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetTeamParams,
+  QueryParams,
+} from '../../../common-types'
+import { CreateTeamProps, TeamProps } from '../../../entities/team'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
-import copy from 'fast-copy'
-import { GetOrganizationParams, GetTeamParams, QueryParams } from '../../../plain/common-types'
-import { CreateTeamProps, TeamProps } from '../../../entities/team'
-import { CollectionProp } from '../../../common-types'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/teams`
 
 const getEntityUrl = (params: GetTeamParams) => `${getBaseUrl(params)}/${params.teamId}`
 
-export const get = (http: AxiosInstance, params: GetTeamParams) =>
+export const get: RestEndpoint<'Team', 'get'> = (http: AxiosInstance, params: GetTeamParams) =>
   raw.get<TeamProps>(http, getEntityUrl(params))
 
-export const getMany = (http: AxiosInstance, params: GetOrganizationParams & QueryParams) =>
+export const getMany: RestEndpoint<'Team', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) =>
   raw.get<CollectionProp<TeamProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
 
-export const create = (
+export const create: RestEndpoint<'Team', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
   rawData: CreateTeamProps,
@@ -28,7 +36,7 @@ export const create = (
   return raw.post(http, getBaseUrl(params), rawData, { headers })
 }
 
-export const update = (
+export const update: RestEndpoint<'Team', 'update'> = (
   http: AxiosInstance,
   params: GetTeamParams,
   rawData: TeamProps,
@@ -45,5 +53,5 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetTeamParams) =>
+export const del: RestEndpoint<'Team', 'delete'> = (http: AxiosInstance, params: GetTeamParams) =>
   raw.del(http, getEntityUrl(params))

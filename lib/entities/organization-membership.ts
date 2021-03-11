@@ -2,12 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  MetaSysProps,
-  DefaultElements,
-  MetaLinkProps,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { MetaSysProps, DefaultElements, MetaLinkProps, MakeRequest } from '../common-types'
 
 export type OrganizationMembershipProps = {
   /**
@@ -69,10 +64,7 @@ export interface OrganizationMembership
   delete(): Promise<void>
 }
 
-function createOrganizationMembershipApi(
-  makeRequest: MakeRequestWithoutUserAgent,
-  organizationId: string
-) {
+function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationId: string) {
   const getParams = (data: OrganizationMembershipProps) => ({
     organizationMembershipId: data.sys.id,
     organizationId,
@@ -102,12 +94,12 @@ function createOrganizationMembershipApi(
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
+ * @param {function} makeRequest - function to make requests via an adapter
  * @param {Object} data - Raw organization membership data
  * @return {OrganizationMembership} Wrapped organization membership data
  */
 export function wrapOrganizationMembership(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: OrganizationMembershipProps,
   organizationId: string
 ): OrganizationMembership {

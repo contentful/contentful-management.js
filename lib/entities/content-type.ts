@@ -5,7 +5,7 @@ import {
   BasicMetaSysProps,
   Collection,
   DefaultElements,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
   QueryOptions,
   SysLink,
 } from '../common-types'
@@ -15,6 +15,7 @@ import { isDraft, isPublished, isUpdated } from '../plain/checks'
 import { ContentFields } from './content-type-fields'
 import { EditorInterface, wrapEditorInterface } from './editor-interface'
 import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { omitAndDeleteField } from '../methods/content-type'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -207,7 +208,7 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
-function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): ContentTypeApi {
+function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps
 
@@ -308,32 +309,22 @@ function createContentTypeApi(makeRequest: MakeRequestWithoutUserAgent): Content
       return isDraft(this)
     },
 
-    omitAndDeleteField: function (id: string) {
+    omitAndDeleteField: function (fieldId: string) {
       const { raw, params } = getParams(this)
-
-      return makeRequest({
-        entityType: 'ContentType',
-        action: 'omitAndDeleteField',
-        params: {
-          ...params,
-          id,
-        },
-        payload: raw,
-      })
+      return omitAndDeleteField(makeRequest, { ...params, fieldId }, raw).then((data) =>
+        wrapContentType(makeRequest, data)
+      )
     },
   }
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(
-  makeRequest: MakeRequestWithoutUserAgent,
-  data: ContentTypeProps
-): ContentType {
+export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(copy(data))
   const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(makeRequest))
   return freezeSys(contentTypeWithMethods)

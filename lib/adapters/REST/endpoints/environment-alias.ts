@@ -1,14 +1,17 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
-import { GetSpaceParams, PaginationQueryParams } from '../../../plain/common-types'
+import {
+  CollectionProp,
+  GetSpaceEnvAliasParams,
+  GetSpaceParams,
+  PaginationQueryParams,
+} from '../../../common-types'
 import {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
 } from '../../../entities/environment-alias'
-import { CollectionProp } from '../../../common-types'
-
-export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 /**
  * Urls
@@ -23,17 +26,23 @@ const getEnvironmentAliasUrl = (params: GetSpaceEnvAliasParams) =>
  * Endpoints
  */
 
-export const get = (http: AxiosInstance, params: GetSpaceEnvAliasParams) => {
+export const get: RestEndpoint<'EnvironmentAlias', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvAliasParams
+) => {
   return raw.get<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params))
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & PaginationQueryParams) => {
+export const getMany: RestEndpoint<'EnvironmentAlias', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & PaginationQueryParams
+) => {
   return raw.get<CollectionProp<EnvironmentAliasProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'EnvironmentAlias', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: CreateEnvironmentAliasProps,
@@ -45,7 +54,7 @@ export const createWithId = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'EnvironmentAlias', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: EnvironmentAliasProps,
@@ -61,6 +70,9 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceEnvAliasParams) => {
+export const del: RestEndpoint<'EnvironmentAlias', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvAliasParams
+) => {
   return raw.del(http, getEnvironmentAliasUrl(params))
 }

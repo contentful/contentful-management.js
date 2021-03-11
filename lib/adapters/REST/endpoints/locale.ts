@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { normalizeSelect } from './utils'
-import * as raw from './raw'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
 import { CreateLocaleProps, LocaleProps } from '../../../entities/locale'
-import { CollectionProp } from '../../../common-types'
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
-export const get = (
+export const get: RestEndpoint<'Locale', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string }
 ) => {
@@ -16,7 +16,10 @@ export const get = (
   )
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+export const getMany: RestEndpoint<'Locale', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<LocaleProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
@@ -26,7 +29,7 @@ export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams &
   )
 }
 
-export const create = (
+export const create: RestEndpoint<'Locale', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   data: CreateLocaleProps,
@@ -42,7 +45,7 @@ export const create = (
   )
 }
 
-export const update = (
+export const update: RestEndpoint<'Locale', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string },
   rawData: LocaleProps,
@@ -64,7 +67,7 @@ export const update = (
   )
 }
 
-export const del = (
+export const del: RestEndpoint<'Locale', 'delete'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string }
 ) => {

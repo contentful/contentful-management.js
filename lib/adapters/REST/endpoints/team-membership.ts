@@ -1,12 +1,16 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
-import { normalizeSelect } from './utils'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetTeamMembershipParams,
+  GetTeamParams,
+  QueryParams,
+} from '../../../common-types'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../../../entities/team-membership'
-import { GetOrganizationParams, GetTeamParams, QueryParams } from '../../../plain/common-types'
-import { CollectionProp } from '../../../common-types'
-
-export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetTeamParams) =>
   `/organizations/${params.organizationId}/teams/${params.teamId}/team_memberships`
@@ -14,8 +18,10 @@ const getBaseUrl = (params: GetTeamParams) =>
 const getEntityUrl = (params: GetTeamMembershipParams) =>
   `/organizations/${params.organizationId}/teams/${params.teamId}/team_memberships/${params.teamMembershipId}`
 
-export const get = (http: AxiosInstance, params: GetTeamMembershipParams) =>
-  raw.get<TeamMembershipProps>(http, getEntityUrl(params))
+export const get: RestEndpoint<'TeamMembership', 'get'> = (
+  http: AxiosInstance,
+  params: GetTeamMembershipParams
+) => raw.get<TeamMembershipProps>(http, getEntityUrl(params))
 
 export const getManyForOrganization = (
   http: AxiosInstance,
@@ -29,13 +35,16 @@ export const getManyForOrganization = (
     }
   )
 
-export const getManyForTeam = (http: AxiosInstance, params: GetTeamParams & QueryParams) => {
+export const getManyForTeam: RestEndpoint<'TeamMembership', 'getManyForTeam'> = (
+  http: AxiosInstance,
+  params: GetTeamParams & QueryParams
+) => {
   return raw.get<CollectionProp<TeamMembershipProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'TeamMembership', 'create'> = (
   http: AxiosInstance,
   params: GetTeamParams,
   rawData: CreateTeamMembershipProps,
@@ -44,7 +53,7 @@ export const create = (
   return raw.post<TeamMembershipProps>(http, getBaseUrl(params), rawData, { headers })
 }
 
-export const update = (
+export const update: RestEndpoint<'TeamMembership', 'update'> = (
   http: AxiosInstance,
   params: GetTeamMembershipParams,
   rawData: TeamMembershipProps,
@@ -61,5 +70,7 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetTeamMembershipParams) =>
-  raw.del(http, getEntityUrl(params))
+export const del: RestEndpoint<'TeamMembership', 'delete'> = (
+  http: AxiosInstance,
+  params: GetTeamMembershipParams
+) => raw.del(http, getEntityUrl(params))

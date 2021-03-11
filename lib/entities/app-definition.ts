@@ -1,11 +1,6 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import {
-  DefaultElements,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import { SetOptional, Except } from 'type-fest'
@@ -107,7 +102,7 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
   update(): Promise<AppDefinition>
 }
 
-function createAppDefinitionApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createAppDefinitionApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
     organizationId: data.sys.organization.sys.id,
@@ -120,6 +115,7 @@ function createAppDefinitionApi(makeRequest: MakeRequestWithoutUserAgent) {
         entityType: 'AppDefinition',
         action: 'update',
         params: getParams(data),
+        headers: {},
         payload: data,
       }).then((data) => wrapAppDefinition(makeRequest, data))
     },
@@ -137,12 +133,12 @@ function createAppDefinitionApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition data
  * @return Wrapped App Definition data
  */
 export function wrapAppDefinition(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: AppDefinitionProps
 ): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
@@ -155,7 +151,7 @@ export function wrapAppDefinition(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */

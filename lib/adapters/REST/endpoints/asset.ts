@@ -1,20 +1,20 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
 import copy from 'fast-copy'
-import { create as createUpload } from './upload'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
+import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
 import {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
-import { CollectionProp } from '../../../common-types'
 import errorHandler from '../../../error-handler'
 import { getUploadHttpClient } from '../../../upload-http-client'
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { create as createUpload } from './upload'
+import { normalizeSelect } from './utils'
 
-export const get = (
+export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
 ) => {
@@ -27,7 +27,10 @@ export const get = (
   )
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+export const getMany: RestEndpoint<'Asset', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
@@ -37,7 +40,7 @@ export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams &
   )
 }
 
-export const update = (
+export const update: RestEndpoint<'Asset', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps,
@@ -58,7 +61,7 @@ export const update = (
   )
 }
 
-export const del = (
+export const del: RestEndpoint<'Asset', 'delete'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
@@ -68,7 +71,7 @@ export const del = (
   )
 }
 
-export const publish = (
+export const publish: RestEndpoint<'Asset', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps
@@ -85,7 +88,7 @@ export const publish = (
   )
 }
 
-export const unpublish = (
+export const unpublish: RestEndpoint<'Asset', 'unpublish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
@@ -95,7 +98,7 @@ export const unpublish = (
   )
 }
 
-export const archive = (
+export const archive: RestEndpoint<'Asset', 'archive'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
@@ -105,7 +108,7 @@ export const archive = (
   )
 }
 
-export const unarchive = (
+export const unarchive: RestEndpoint<'Asset', 'unarchive'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string }
 ) => {
@@ -115,7 +118,7 @@ export const unarchive = (
   )
 }
 
-export const create = (
+export const create: RestEndpoint<'Asset', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: CreateAssetProps
@@ -129,7 +132,7 @@ export const create = (
   )
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: CreateAssetProps
@@ -143,7 +146,7 @@ export const createWithId = (
   )
 }
 
-export const createFromFiles = (
+export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   data: Omit<AssetFileProp, 'sys'>
@@ -236,13 +239,19 @@ function checkIfAssetHasUrl(
   })
 }
 
-export function processForLocale(
+export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
-  asset: AssetProps,
-  locale: string,
-  { processingCheckWait, processingCheckRetries }: AssetProcessingForLocale = {}
-) {
+  {
+    asset,
+    locale,
+    options: { processingCheckRetries, processingCheckWait } = {},
+    ...params
+  }: GetSpaceEnvironmentParams & {
+    asset: AssetProps
+    locale: string
+    options?: AssetProcessingForLocale
+  }
+) => {
   return raw
     .put<AssetProps>(
       http,
@@ -264,23 +273,25 @@ export function processForLocale(
             assetId: asset.sys.id,
           },
           {
-            resolve: resolve,
-            reject: reject,
-            locale: locale,
-            processingCheckWait: processingCheckWait,
-            processingCheckRetries: processingCheckRetries,
+            resolve,
+            reject,
+            locale,
+            processingCheckWait,
+            processingCheckRetries,
           }
         )
       )
     })
 }
 
-export function processForAllLocales(
+export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
-  asset: AssetProps,
-  options: AssetProcessingForLocale = {}
-) {
+  {
+    asset,
+    options = {},
+    ...params
+  }: GetSpaceEnvironmentParams & { asset: AssetProps; options?: AssetProcessingForLocale }
+) => {
   const locales = Object.keys(asset.fields.file || {})
 
   let mostUpToDateAssetVersion: AssetProps = asset
@@ -290,7 +301,7 @@ export function processForAllLocales(
   // we need to pick the last resolved value
   // to reflect the most recent state
   const allProcessingLocales = locales.map((locale) =>
-    processForLocale(http, params, asset, locale, options).then((result) => {
+    processForLocale(http, { ...params, asset, locale, options }).then((result) => {
       // Side effect of always setting the most up to date asset version
       // The last one to call this will be the last one that finished
       // and thus the most up to date

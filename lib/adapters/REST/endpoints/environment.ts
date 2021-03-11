@@ -1,28 +1,35 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
 import {
+  CollectionProp,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../../plain/common-types'
+} from '../../../common-types'
 import { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment'
-import { CollectionProp } from '../../../common-types'
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
 
-export const get = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
+export const get: RestEndpoint<'Environment', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams
+) => {
   return raw.get<EnvironmentProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}`
   )
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & PaginationQueryParams) => {
+export const getMany: RestEndpoint<'Environment', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & PaginationQueryParams
+) => {
   return raw.get<CollectionProp<EnvironmentProps>>(http, `/spaces/${params.spaceId}/environments`, {
     params: params.query,
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'Environment', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: EnvironmentProps,
@@ -44,11 +51,14 @@ export const update = (
   )
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceEnvironmentParams) => {
+export const del: RestEndpoint<'Environment', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams
+) => {
   return raw.del(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`)
 }
 
-export const create = (
+export const create: RestEndpoint<'Environment', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: CreateEnvironmentProps,
@@ -60,7 +70,7 @@ export const create = (
   })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'Environment', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,

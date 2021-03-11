@@ -1,12 +1,7 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import {
-  MetaSysProps,
-  MetaLinkProps,
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import { DefinedParameters } from './widget-parameters'
 
@@ -143,7 +138,7 @@ export interface EditorInterface
   update(): Promise<EditorInterface>
 }
 
-function createEditorInterfaceApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createEditorInterfaceApi(makeRequest: MakeRequest) {
   return {
     update: function () {
       const self = this as EditorInterface
@@ -174,7 +169,7 @@ function createEditorInterfaceApi(makeRequest: MakeRequestWithoutUserAgent) {
  * @private
  */
 export function wrapEditorInterface(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: EditorInterfaceProps
 ): EditorInterface {
   const editorInterface = toPlainObject(copy(data))

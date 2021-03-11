@@ -3,6 +3,7 @@ import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'content
 import copy from 'fast-copy'
 import { omit } from 'lodash'
 import { Adapter, MakeRequestOptions } from '../../common-types'
+import endpoints from './endpoints'
 
 export type RestAdapterParams = CreateHttpClientParams & {
   /**
@@ -56,12 +57,15 @@ export class RestAdapter implements Adapter {
 
   public async makeRequest<R>({
     entityType,
-    action,
+    action: actionInput,
     params,
     payload,
     headers,
     userAgent,
   }: MakeRequestOptions): Promise<R> {
+    // `delete` is a reserved keyword. Therefore, the methods are called `del`.
+    const action = actionInput === 'delete' ? 'del' : actionInput
+
     const endpoint: (
       http: AxiosInstance,
       params?: Record<string, unknown>,

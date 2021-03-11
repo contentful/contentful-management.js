@@ -1,12 +1,17 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
+import {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  KeyValueMap,
+  QueryParams,
+} from '../../../common-types'
+import { CreateEntryProps, EntryProps } from '../../../entities/entry'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
-import copy from 'fast-copy'
-import { CollectionProp, KeyValueMap } from '../../../common-types'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
-import { CreateEntryProps, EntryProps } from '../../../entities/entry'
 
-export const get = <T extends KeyValueMap = KeyValueMap>(
+export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
 ) => {
@@ -19,7 +24,7 @@ export const get = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const getMany = <T extends KeyValueMap = KeyValueMap>(
+export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams
 ) => {
@@ -32,7 +37,7 @@ export const getMany = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const update = <T extends KeyValueMap = KeyValueMap>(
+export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>,
@@ -53,7 +58,7 @@ export const update = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const del = (
+export const del: RestEndpoint<'Entry', 'delete'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
@@ -63,7 +68,7 @@ export const del = (
   )
 }
 
-export const publish = <T extends KeyValueMap = KeyValueMap>(
+export const publish: RestEndpoint<'Entry', 'publish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>
@@ -80,7 +85,7 @@ export const publish = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const unpublish = <T extends KeyValueMap = KeyValueMap>(
+export const unpublish: RestEndpoint<'Entry', 'unpublish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
@@ -90,7 +95,7 @@ export const unpublish = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const archive = <T extends KeyValueMap = KeyValueMap>(
+export const archive: RestEndpoint<'Entry', 'archive'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
@@ -100,7 +105,7 @@ export const archive = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const unarchive = <T extends KeyValueMap = KeyValueMap>(
+export const unarchive: RestEndpoint<'Entry', 'unarchive'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string }
 ) => {
@@ -110,7 +115,7 @@ export const unarchive = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const create = <T extends KeyValueMap = KeyValueMap>(
+export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { contentTypeId: string },
   rawData: CreateEntryProps<T>
@@ -129,7 +134,9 @@ export const create = <T extends KeyValueMap = KeyValueMap>(
   )
 }
 
-export const createWithId = <T extends KeyValueMap = KeyValueMap>(
+export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
   rawData: CreateEntryProps<T>

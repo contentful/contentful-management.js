@@ -6,7 +6,7 @@
 
 import { getUserAgentHeader } from 'contentful-sdk-core'
 import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequestWithoutUserAgent } from './common-types'
+import type { MakeRequest } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type { PlainClientAPI } from './plain/common-types'
@@ -70,15 +70,16 @@ function createClient(
   )
 
   const adapter = createAdapter(params)
-  const makeRequestWithoutUserAgent: MakeRequestWithoutUserAgent = (options) =>
-    adapter.makeRequest({
-      ...options,
-      userAgent,
-    })
+
+  // Parameters<?> and ReturnType<?> only return the types of the last overload
+  // https://github.com/microsoft/TypeScript/issues/26591
+  // @ts-expect-error
+  const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
+    adapter.makeRequest({ ...options, userAgent })
 
   if (opts.type === 'plain') {
-    return createPlainClient(makeRequestWithoutUserAgent, opts.defaults)
+    return createPlainClient(makeRequest, opts.defaults)
   } else {
-    return createContentfulApi(makeRequestWithoutUserAgent) as ClientAPI
+    return createContentfulApi(makeRequest) as ClientAPI
   }
 }

@@ -1,12 +1,12 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions, MakeRequestWithoutUserAgent } from './common-types'
+import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
-import type { CreateUIExtensionProps } from './entities/ui-extension'
+import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import { wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
@@ -16,12 +16,10 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
 /**
  * Creates API object with methods to access the Environment API
+ * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
+ * @return {ContentfulSpaceAPI}
  */
-export default function createEnvironmentApi({
-  makeRequest,
-}: {
-  makeRequest: MakeRequestWithoutUserAgent
-}) {
+export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry
@@ -30,7 +28,7 @@ export default function createEnvironmentApi({
   const { wrapSnapshotCollection } = entities.snapshot
   const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
   const { wrapUpload } = entities.upload
-  const { wrapUiExtension, wrapUiExtensionCollection } = entities.uiExtension
+  const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
 
   return {
@@ -913,21 +911,21 @@ export default function createEnvironmentApi({
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.getUiExtension('<extension-id>'))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
     getUiExtension(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'get',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           extensionId: id,
         },
-      }).then((data) => wrapUiExtension(makeRequest, data))
+      }).then((data) => wrapExtension(makeRequest, data))
     },
     /**
      * Gets a collection of UI Extension
@@ -949,13 +947,13 @@ export default function createEnvironmentApi({
     getUiExtensions() {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'getMany',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
         },
-      }).then((response) => wrapUiExtensionCollection(makeRequest, response))
+      }).then((response) => wrapExtensionCollection(makeRequest, response))
     },
     /**
      * Creates a UI Extension
@@ -985,21 +983,21 @@ export default function createEnvironmentApi({
      *     sidebar: false
      *   }
      * }))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
-    createUiExtension(data: CreateUIExtensionProps) {
+    createUiExtension(data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'create',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
         },
         payload: data,
-      }).then((response) => wrapUiExtension(makeRequest, response))
+      }).then((response) => wrapExtension(makeRequest, response))
     },
     /**
      * Creates a UI Extension with a custom ID
@@ -1030,14 +1028,14 @@ export default function createEnvironmentApi({
      *     sidebar: false
      *   }
      * }))
-     * .then((uiExtension) => console.log(uiExtension))
+     * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
      */
-    createUiExtensionWithId(id: string, data: CreateUIExtensionProps) {
+    createUiExtensionWithId(id: string, data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
-        entityType: 'UIExtension',
+        entityType: 'Extension',
         action: 'createWithId',
         params: {
           spaceId: raw.sys.space.sys.id,
@@ -1045,7 +1043,7 @@ export default function createEnvironmentApi({
           extensionId: id,
         },
         payload: data,
-      }).then((response) => wrapUiExtension(makeRequest, response))
+      }).then((response) => wrapExtension(makeRequest, response))
     },
 
     /**
@@ -1236,12 +1234,15 @@ export default function createEnvironmentApi({
 
     getTag(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
-      const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
 
       return makeRequest({
         entityType: 'Tag',
         action: 'get',
-        params,
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          tagId: id,
+        },
       }).then((data) => wrapTag(makeRequest, data))
     },
   }

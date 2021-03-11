@@ -1,7 +1,7 @@
 import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupHttpMock from '../mocks/http'
-import { wrapUiExtension, wrapUiExtensionCollection } from '../../../lib/entities/ui-extension'
+import { wrapExtension, wrapExtensionCollection } from '../../../lib/entities/ui-extension'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -14,45 +14,45 @@ import {
 function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: cloneMock('uiExtension'),
+    entityMock: cloneMock('extension'),
   }
 }
 
-describe('Entity UiExtension', () => {
-  test('UiExtension is wrapped', async () => {
+describe('Entity Extension', () => {
+  test('Extension is wrapped', async () => {
     return entityWrappedTest(setup, {
-      wrapperMethod: wrapUiExtension,
+      wrapperMethod: wrapExtension,
     })
   })
 
-  test('UiExtension collection is wrapped', async () => {
+  test('Extension collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
-      wrapperMethod: wrapUiExtensionCollection,
+      wrapperMethod: wrapExtensionCollection,
     })
   })
 
-  test('UiExtension update', async () => {
+  test('Extension update', async () => {
     return entityUpdateTest(setup, {
-      wrapperMethod: wrapUiExtension,
+      wrapperMethod: wrapExtension,
     })
   })
 
-  test('UiExtension update fails', async () => {
+  test('Extension update fails', async () => {
     return failingVersionActionTest(setup, {
-      wrapperMethod: wrapUiExtension,
+      wrapperMethod: wrapExtension,
       actionMethod: 'update',
     })
   })
 
-  test('UiExtension delete', async () => {
+  test('Extension delete', async () => {
     return entityDeleteTest(setup, {
-      wrapperMethod: wrapUiExtension,
+      wrapperMethod: wrapExtension,
     })
   })
 
-  test('UiExtension delete fails', async () => {
+  test('Extension delete fails', async () => {
     return failingActionTest(setup, {
-      wrapperMethod: wrapUiExtension,
+      wrapperMethod: wrapExtension,
       actionMethod: 'delete',
     })
   })

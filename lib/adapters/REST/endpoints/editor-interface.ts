@@ -1,27 +1,36 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
+import {
+  CollectionProp,
+  GetEditorInterfaceParams,
+  GetSpaceEnvironmentParams,
+  QueryParams,
+} from '../../../common-types'
 import { EditorInterfaceProps } from '../../../entities/editor-interface'
-import { GetSpaceEnvironmentParams, QueryParams } from '../../../plain/common-types'
-import { CollectionProp } from '../../../common-types'
-
-export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`
 
-export const get = (http: AxiosInstance, params: GetEditorInterfaceParams) => {
+export const get: RestEndpoint<'EditorInterface', 'get'> = (
+  http: AxiosInstance,
+  params: GetEditorInterfaceParams
+) => {
   return raw.get<EditorInterfaceProps>(http, getBaseUrl(params))
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceEnvironmentParams & QueryParams) => {
+export const getMany: RestEndpoint<'EditorInterface', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
   return raw.get<CollectionProp<EditorInterfaceProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/editor_interfaces`
   )
 }
 
-export const update = (
+export const update: RestEndpoint<'EditorInterface', 'update'> = (
   http: AxiosInstance,
   params: GetEditorInterfaceParams,
   rawData: EditorInterfaceProps,

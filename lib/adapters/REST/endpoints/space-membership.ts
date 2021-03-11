@@ -1,11 +1,17 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../../common-types'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetSpaceMembershipProps,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import {
   CreateSpaceMembershipProps,
   SpaceMembershipProps,
 } from '../../../entities/space-membership'
-import { GetOrganizationParams, GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 function spaceMembershipDeprecationWarning() {
@@ -14,25 +20,29 @@ function spaceMembershipDeprecationWarning() {
   )
 }
 
-export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
-
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/space_memberships`
 const getEntityUrl = (params: GetSpaceMembershipProps) =>
   `${getBaseUrl(params)}/${params.spaceMembershipId}`
 
-export const get = (http: AxiosInstance, params: GetSpaceMembershipProps) => {
+export const get: RestEndpoint<'SpaceMembership', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceMembershipProps
+) => {
   spaceMembershipDeprecationWarning()
   return raw.get<SpaceMembershipProps>(http, getEntityUrl(params))
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
+export const getMany: RestEndpoint<'SpaceMembership', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & QueryParams
+) => {
   spaceMembershipDeprecationWarning()
   return raw.get<CollectionProp<SpaceMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
   })
 }
 
-export const getForOrganization = (
+export const getForOrganization: RestEndpoint<'SpaceMembership', 'getForOrganization'> = (
   http: AxiosInstance,
   params: GetOrganizationParams & { spaceMembershipId: string }
 ) => {
@@ -42,7 +52,7 @@ export const getForOrganization = (
   )
 }
 
-export const getManyForOrganization = (
+export const getManyForOrganization: RestEndpoint<'SpaceMembership', 'getManyForOrganization'> = (
   http: AxiosInstance,
   params: GetOrganizationParams & QueryParams
 ) => {
@@ -55,7 +65,7 @@ export const getManyForOrganization = (
   )
 }
 
-export const create = (
+export const create: RestEndpoint<'SpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateSpaceMembershipProps,
@@ -67,7 +77,7 @@ export const create = (
   })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'SpaceMembership', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   data: CreateSpaceMembershipProps,
@@ -79,7 +89,7 @@ export const createWithId = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'SpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   rawData: SpaceMembershipProps,
@@ -95,6 +105,9 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceMembershipProps) => {
+export const del: RestEndpoint<'SpaceMembership', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceMembershipProps
+) => {
   return raw.del(http, getEntityUrl(params))
 }

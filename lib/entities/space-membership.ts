@@ -2,12 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  SysLink,
-  MetaSysProps,
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }
@@ -63,7 +58,7 @@ export interface SpaceMembership
   update(): Promise<SpaceMembership>
 }
 
-function createSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: SpaceMembershipProps) => ({
     spaceId: data.sys.space.sys.id,
     spaceMembershipId: data.sys.id,
@@ -92,12 +87,12 @@ function createSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
  * @return Wrapped space membership data
  */
 export function wrapSpaceMembership(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: SpaceMembershipProps
 ): SpaceMembership {
   const spaceMembership = toPlainObject(copy(data))

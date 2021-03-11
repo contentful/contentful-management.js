@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { Collection, MakeRequestWithoutUserAgent, QueryOptions } from './common-types'
+import { Collection, MakeRequest, QueryOptions, QueryParams } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
@@ -8,11 +8,10 @@ import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 import errorHandler from './error-handler'
-import { QueryParams } from './plain/common-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
-export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent) {
+export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
   const {
@@ -147,7 +146,7 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
     > {
       return makeRequest({
         entityType: 'Organization',
-        action: 'getAll',
+        action: 'getMany',
       }).then((data) => wrapOrganizationCollection(makeRequest, data))
     },
 
@@ -203,6 +202,7 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
       return makeRequest({
         entityType: 'PersonalAccessToken',
         action: 'create',
+        params: {},
         payload: data,
       }).then((response) => wrapPersonalAccessToken(makeRequest, response))
     },
@@ -284,7 +284,7 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
     ) {
       return makeRequest({
         entityType: 'Usage',
-        action: 'get',
+        action: 'getManyForOrganization',
         params: { organizationId, query },
       }).then((data) => wrapUsageCollection(makeRequest, data))
     },
@@ -344,13 +344,11 @@ export default function createClientApi(makeRequest: MakeRequestWithoutUserAgent
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest(opts: AxiosRequestConfig) {
+    rawRequest: function rawRequest(opts: AxiosRequestConfig & { url: string }) {
       return makeRequest({
-        entityType: 'Raw',
+        entityType: 'Http',
         action: 'request',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        params: opts,
+        params: { url: opts.url, config: opts },
       }).then((response) => response.data, errorHandler)
     },
   }

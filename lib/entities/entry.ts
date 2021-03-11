@@ -9,7 +9,7 @@ import {
   KeyValueMap,
   EntityMetaSysProps,
   MetadataProps,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
 } from '../common-types'
 import * as checks from '../plain/checks'
 
@@ -201,7 +201,7 @@ type EntryApi = {
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
-function createEntryApi(makeRequest: MakeRequestWithoutUserAgent): EntryApi {
+function createEntryApi(makeRequest: MakeRequest): EntryApi {
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
 
@@ -318,11 +318,11 @@ function createEntryApi(makeRequest: MakeRequestWithoutUserAgent): EntryApi {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(makeRequest: MakeRequestWithoutUserAgent, data: EntryProps): Entry {
+export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
   const entry = toPlainObject(copy(data))
   const entryWithMethods = enhanceWithMethods(entry, createEntryApi(makeRequest))
   return freezeSys(entryWithMethods)

@@ -1,12 +1,7 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import {
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-  MetaSysProps,
-  SysLink,
-} from '../common-types'
+import { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 
 export type UploadProps = {
   /**
@@ -36,7 +31,7 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
   delete(): Promise<void>
 }
 
-function createUploadApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createUploadApi(makeRequest: MakeRequest) {
   return {
     delete: function del() {
       const raw = this.toPlainObject() as UploadProps
@@ -54,11 +49,11 @@ function createUploadApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw upload data
+ * @param {function} makeRequest - function to make requests via an adapter
+ * @param {object} data - Raw upload data
  * @return {Upload} Wrapped upload data
  */
-export function wrapUpload(makeRequest: MakeRequestWithoutUserAgent, data: UploadProps) {
+export function wrapUpload(makeRequest: MakeRequest, data: UploadProps) {
   const upload = toPlainObject(copy(data))
   const uploadWithMethods = enhanceWithMethods(upload, createUploadApi(makeRequest))
   return freezeSys(uploadWithMethods)

@@ -2,12 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  DefaultElements,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 
 export type ActionType =
   | 'read'
@@ -91,7 +86,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
   update(): Promise<Role>
 }
 
-function createRoleApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createRoleApi(makeRequest: MakeRequest) {
   const getParams = (data: RoleProps) => ({
     spaceId: data.sys.space.sys.id,
     roleId: data.sys.id,
@@ -110,7 +105,7 @@ function createRoleApi(makeRequest: MakeRequestWithoutUserAgent) {
     delete: function del() {
       const data = this.toPlainObject() as RoleProps
       return makeRequest({
-        entityType: 'role',
+        entityType: 'Role',
         action: 'delete',
         params: getParams(data),
       })
@@ -120,11 +115,11 @@ function createRoleApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw role data
  * @return Wrapped role data
  */
-export function wrapRole(makeRequest: MakeRequestWithoutUserAgent, data: RoleProps): Role {
+export function wrapRole(makeRequest: MakeRequest, data: RoleProps): Role {
   const role = toPlainObject(copy(data))
   const roleWithMethods = enhanceWithMethods(role, createRoleApi(makeRequest))
   return freezeSys(roleWithMethods)

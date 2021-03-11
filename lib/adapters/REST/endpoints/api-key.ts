@@ -1,21 +1,28 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import { GetSpaceParams, QueryParams } from '../../../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../../../entities/api-key'
 import { CollectionProp } from '../../../common-types'
+import { RestEndpoint } from '../types'
 
-export const get = (http: AxiosInstance, params: GetSpaceParams & { apiKeyId: string }) => {
+export const get: RestEndpoint<'ApiKey', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { apiKeyId: string }
+) => {
   return raw.get<ApiKeyProps>(http, `/spaces/${params.spaceId}/api_keys/${params.apiKeyId}`)
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
+export const getMany: RestEndpoint<'ApiKey', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & QueryParams
+) => {
   return raw.get<CollectionProp<ApiKeyProps>>(http, `/spaces/${params.spaceId}/api_keys`, {
     params: params.query,
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'ApiKey', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateApiKeyProps,
@@ -24,7 +31,7 @@ export const create = (
   return raw.post<ApiKeyProps>(http, `/spaces/${params.spaceId}/api_keys`, data, { headers })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'ApiKey', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { apiKeyId: string },
   data: CreateApiKeyProps,
@@ -35,7 +42,7 @@ export const createWithId = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'ApiKey', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { apiKeyId: string },
   rawData: ApiKeyProps,
@@ -60,6 +67,9 @@ export const update = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceParams & { apiKeyId: string }) => {
+export const del: RestEndpoint<'ApiKey', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { apiKeyId: string }
+) => {
   return raw.del(http, `/spaces/${params.spaceId}/api_keys/${params.apiKeyId}`)
 }

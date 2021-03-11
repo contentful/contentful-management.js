@@ -3,12 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
-  BasicMetaSysProps,
-  SysLink,
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-} from '../common-types'
+import { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
 
 export type LocaleProps = {
   sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
@@ -98,7 +93,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   update(): Promise<Locale>
 }
 
-function createLocaleApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createLocaleApi(makeRequest: MakeRequest) {
   const getParams = (locale: LocaleProps) => ({
     spaceId: locale.sys.space.sys.id,
     environmentId: locale.sys.environment.sys.id,
@@ -131,11 +126,11 @@ function createLocaleApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw locale data
  * @return Wrapped locale data
  */
-export function wrapLocale(makeRequest: MakeRequestWithoutUserAgent, data: LocaleProps): Locale {
+export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete data.internal_code

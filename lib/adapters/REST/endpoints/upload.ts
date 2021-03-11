@@ -1,10 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import { Stream } from 'stream'
-import { GetSpaceParams } from '../../../plain/common-types'
+import { GetSpaceParams } from '../../../common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
+import { RestEndpoint } from '../types'
+import * as raw from './raw'
 
-export const create = (
+export const create: RestEndpoint<'Upload', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: { file: string | ArrayBuffer | Stream }
@@ -22,13 +23,19 @@ export const create = (
   })
 }
 
-export const del = (http: AxiosInstance, params: GetSpaceParams & { uploadId: string }) => {
+export const del: RestEndpoint<'Upload', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { uploadId: string }
+) => {
   const httpUpload = getUploadHttpClient(http)
 
   return raw.del(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
 }
 
-export const get = (http: AxiosInstance, params: GetSpaceParams & { uploadId: string }) => {
+export const get: RestEndpoint<'Upload', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { uploadId: string }
+) => {
   const httpUpload = getUploadHttpClient(http)
 
   return raw.get(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)

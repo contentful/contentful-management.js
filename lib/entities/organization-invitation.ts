@@ -1,11 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
-  DefaultElements,
-  MakeRequestWithoutUserAgent,
-  MetaLinkProps,
-  MetaSysProps,
-} from '../common-types'
+import { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 
 export type OrganizationInvitationProps = {
   sys: MetaSysProps & {
@@ -28,12 +23,12 @@ export interface OrganizationInvitation
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw invitation data
  * @return {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
-  _makeRequest: MakeRequestWithoutUserAgent,
+  _makeRequest: MakeRequest,
   data: OrganizationInvitationProps
 ): OrganizationInvitation {
   const invitation = toPlainObject(copy(data))

@@ -14,7 +14,7 @@ import {
   mockCollection,
   setupEntitiesMock,
   snapShotMock,
-  uiExtensionMock,
+  extensionMock,
   uploadMock,
 } from './mocks/entities'
 import setupHttpMock from './mocks/http'
@@ -578,60 +578,60 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-  test('API call getUiExtension', async () => {
+  test('API call getExtension', async () => {
     return makeGetEntityTest(setup, {
-      entityType: 'uiExtension',
-      mockToReturn: uiExtensionMock,
-      methodToTest: 'getUiExtension',
+      entityType: 'extension',
+      mockToReturn: extensionMock,
+      methodToTest: 'getExtension',
     })
   })
 
-  test('API call getUiExtension fails', async () => {
+  test('API call getExtension fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getUiExtension',
+      methodToTest: 'getExtension',
     })
   })
 
-  test('API call getUiExtensions', async () => {
+  test('API call getExtensions', async () => {
     return makeGetCollectionTest(setup, {
-      entityType: 'uiExtension',
-      mockToReturn: uiExtensionMock,
-      methodToTest: 'getUiExtensions',
+      entityType: 'extension',
+      mockToReturn: extensionMock,
+      methodToTest: 'getExtensions',
     })
   })
 
-  test('API call getUiExtensions fails', async () => {
+  test('API call getExtensions fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getUiExtensions',
+      methodToTest: 'getExtensions',
     })
   })
 
-  test('API call createUiExtension', async () => {
+  test('API call createExtension', async () => {
     return makeEntityMethodFailingTest(setup, {
-      entityType: 'uiExtension',
-      mockToReturn: uiExtensionMock,
-      methodToTest: 'createUiExtension',
+      entityType: 'extension',
+      mockToReturn: extensionMock,
+      methodToTest: 'createExtension',
     })
   })
 
-  test('API call createUiExtension fails', async () => {
+  test('API call createExtension fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createUiExtension',
+      methodToTest: 'createExtension',
     })
   })
 
-  test('API call createUiExtensionWithId', async () => {
+  test('API call createExtensionWithId', async () => {
     return makeCreateEntityWithIdTest(setup, {
-      entityType: 'uiExtension',
-      mockToReturn: uiExtensionMock,
-      methodToTest: 'createUiExtensionWithId',
+      entityType: 'extension',
+      mockToReturn: extensionMock,
+      methodToTest: 'createExtensionWithId',
       entityPath: '/spaces/id/environments/id/extensions',
     })
   })
 
-  test('API call createUiExtensionWithId fails', async () => {
+  test('API call createExtensionWithId fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createUiExtensionWithId',
+      methodToTest: 'createExtensionWithId',
     })
   })
 

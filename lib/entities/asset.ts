@@ -7,7 +7,7 @@ import {
   DefaultElements,
   EntityMetaSysProps,
   MetadataProps,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import * as checks from '../plain/checks'
@@ -270,7 +270,7 @@ type AssetApi = {
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
-function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
+function createAssetApi(makeRequest: MakeRequest): AssetApi {
   const getParams = (raw: AssetProps) => {
     return {
       spaceId: raw.sys.space.sys.id,
@@ -292,8 +292,8 @@ function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
           ...getParams(raw),
           locale,
           options,
+          asset: raw,
         },
-        payload: raw,
       }).then((data) => wrapAsset(makeRequest, data))
     },
 
@@ -304,9 +304,9 @@ function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
         action: 'processForAllLocales',
         params: {
           ...getParams(raw),
+          asset: raw,
           options,
         },
-        payload: raw,
       }).then((data) => wrapAsset(makeRequest, data))
     },
 
@@ -317,6 +317,7 @@ function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
         action: 'update',
         params: getParams(raw),
         payload: raw,
+        headers: {},
       }).then((data) => wrapAsset(makeRequest, data))
     },
 
@@ -390,11 +391,11 @@ function createAssetApi(makeRequest: MakeRequestWithoutUserAgent): AssetApi {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw asset data
  * @return Wrapped asset data
  */
-export function wrapAsset(makeRequest: MakeRequestWithoutUserAgent, data: AssetProps): Asset {
+export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
   const asset = toPlainObject(copy(data))
   const assetWithMethods = enhanceWithMethods(asset, createAssetApi(makeRequest))
   return freezeSys(assetWithMethods)

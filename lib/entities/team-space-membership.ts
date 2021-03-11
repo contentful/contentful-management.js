@@ -4,7 +4,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import {
   DefaultElements,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
   MetaLinkProps,
   MetaSysProps,
   QueryOptions,
@@ -86,7 +86,7 @@ export interface TeamSpaceMembership
   update(): Promise<TeamSpaceMembership>
 }
 
-function createTeamSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamSpaceMembershipProps) => ({
     teamSpaceMembershipId: data.sys.id,
     spaceId: data.sys.space.sys.id,
@@ -116,12 +116,12 @@ function createTeamSpaceMembershipApi(makeRequest: MakeRequestWithoutUserAgent) 
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
  * @return Wrapped team space membership data
  */
 export function wrapTeamSpaceMembership(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: TeamSpaceMembershipProps
 ): TeamSpaceMembership {
   const teamSpaceMembership = toPlainObject(copy(data))

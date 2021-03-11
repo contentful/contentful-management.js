@@ -4,7 +4,7 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { MakeRequestWithoutUserAgent, PaginationQueryOptions, QueryOptions } from './common-types'
+import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
 import { CreateEnvironmentProps } from './entities/environment'
@@ -20,16 +20,10 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
 /**
  * Creates API object with methods to access the Space API
- * @param {object} params - API initialization params
- * @prop {object} http - HTTP client instance
- * @prop {object} entities - Object with wrapper methods for each kind of entity
+ * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
  */
-export default function createSpaceApi({
-  makeRequest,
-}: {
-  makeRequest: MakeRequestWithoutUserAgent
-}) {
+export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapSpace } = entities.space
   const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
   const { wrapWebhook, wrapWebhookCollection } = entities.webhook
@@ -97,6 +91,7 @@ export default function createSpaceApi({
         action: 'update',
         params: { spaceId: raw.sys.id },
         payload: raw,
+        headers: {},
       }).then((data) => wrapSpace(makeRequest, data))
     },
     /**
@@ -146,7 +141,7 @@ export default function createSpaceApi({
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'Environment',
-        action: 'get',
+        action: 'getMany',
         params: { spaceId: raw.sys.id, query },
       }).then((data) => wrapEnvironmentCollection(makeRequest, data))
     },

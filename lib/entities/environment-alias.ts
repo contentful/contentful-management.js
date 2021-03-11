@@ -7,7 +7,7 @@ import {
   MetaLinkProps,
   BasicMetaSysProps,
   SysLink,
-  MakeRequestWithoutUserAgent,
+  MakeRequest,
 } from '../common-types'
 
 export type EnvironmentAliasProps = {
@@ -71,7 +71,7 @@ export interface EnvironmentAlias
   delete(): Promise<void>
 }
 
-function createEnvironmentAliasApi(makeRequest: MakeRequestWithoutUserAgent) {
+function createEnvironmentAliasApi(makeRequest: MakeRequest) {
   const getParams = (alias: EnvironmentAliasProps) => ({
     spaceId: alias.sys.space.sys.id,
     environmentAliasId: alias.sys.id,
@@ -103,12 +103,12 @@ function createEnvironmentAliasApi(makeRequest: MakeRequestWithoutUserAgent) {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias data
  * @return Wrapped environment alias data
  */
 export function wrapEnvironmentAlias(
-  makeRequest: MakeRequestWithoutUserAgent,
+  makeRequest: MakeRequest,
   data: EnvironmentAliasProps
 ): EnvironmentAlias {
   const alias = toPlainObject(copy(data))
@@ -118,7 +118,7 @@ export function wrapEnvironmentAlias(
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias collection data
  * @return Wrapped environment alias collection data
  */

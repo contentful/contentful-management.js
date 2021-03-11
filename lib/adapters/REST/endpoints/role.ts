@@ -1,22 +1,28 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { CollectionProp } from '../../../common-types'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { CreateRoleProps, RoleProps } from '../../../entities/role'
-import { GetSpaceParams, QueryParams } from '../../../plain/common-types'
+import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
-export const get = (http: AxiosInstance, params: GetSpaceParams & { roleId: string }) => {
+export const get: RestEndpoint<'Role', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { roleId: string }
+) => {
   return raw.get<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`)
 }
 
-export const getMany = (http: AxiosInstance, params: GetSpaceParams & QueryParams) => {
+export const getMany: RestEndpoint<'Role', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & QueryParams
+) => {
   return raw.get<CollectionProp<RoleProps>>(http, `/spaces/${params.spaceId}/roles`, {
     params: normalizeSelect(params.query),
   })
 }
 
-export const create = (
+export const create: RestEndpoint<'Role', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateRoleProps,
@@ -27,7 +33,7 @@ export const create = (
   })
 }
 
-export const createWithId = (
+export const createWithId: RestEndpoint<'Role', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { roleId: string },
   data: CreateRoleProps,
@@ -38,7 +44,7 @@ export const createWithId = (
   })
 }
 
-export const update = (
+export const update: RestEndpoint<'Role', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { roleId: string },
   rawData: RoleProps,

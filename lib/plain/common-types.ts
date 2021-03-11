@@ -1,6 +1,30 @@
 import { AxiosRequestConfig } from 'axios'
 import { Stream } from 'stream'
-import { CollectionProp, KeyValueMap, PaginationQueryOptions, QueryOptions } from '../common-types'
+import {
+  CollectionProp,
+  GetAppDefinitionParams,
+  GetAppInstallationParams,
+  GetContentTypeParams,
+  GetEditorInterfaceParams,
+  GetOrganizationMembershipProps,
+  GetOrganizationParams,
+  GetSnapshotForContentTypeParams,
+  GetSnapshotForEntryParams,
+  GetSpaceEnvAliasParams,
+  GetSpaceEnvironmentParams,
+  GetSpaceMembershipProps,
+  GetSpaceParams,
+  GetTagParams,
+  GetTeamMembershipParams,
+  GetTeamParams,
+  GetTeamSpaceMembershipParams,
+  GetExtensionParams,
+  GetWebhookCallDetailsUrl,
+  GetWebhookParams,
+  KeyValueMap,
+  PaginationQueryParams,
+  QueryParams,
+} from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
@@ -37,7 +61,7 @@ import { CreateTagProps, TagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import { TeamSpaceMembershipProps } from '../entities/team-space-membership'
-import { CreateUIExtensionProps, UIExtensionProps } from '../entities/ui-extension'
+import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
 import {
@@ -48,31 +72,6 @@ import {
   WebhookProps,
 } from '../entities/webhook'
 import { DefaultParams, MarkOptional } from './wrappers/wrap'
-
-export type GetSpaceParams = { spaceId: string }
-export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
-export type GetOrganizationParams = { organizationId: string }
-export type GetTeamParams = { organizationId: string; teamId: string }
-export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
-export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
-export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
-export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
-export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
-export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
-export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
-export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
-export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
-export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
-export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
-export type GetUiExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
-export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
-export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
-export type GetOrganizationMembershipProps = GetOrganizationParams & {
-  organizationMembershipId: string
-}
-
-export type QueryParams = { query?: QueryOptions }
-export type PaginationQueryParams = { query?: PaginationQueryOptions }
 
 export type PlainClientAPI = {
   raw: {
@@ -204,14 +203,15 @@ export type PlainClientAPI = {
       params: GetSpaceEnvironmentParams & { entryId: string }
     ): Promise<EntryProps<T>>
     unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryid: string }
+      params: GetSpaceEnvironmentParams & { entryId: string }
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
       params: GetSpaceEnvironmentParams & { contentTypeId: string },
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
+      rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
   }
   asset: {
@@ -371,26 +371,26 @@ export type PlainClientAPI = {
     delete(params: GetAppInstallationParams): Promise<any>
   }
   extension: {
-    get(params: GetUiExtensionParams & QueryParams): Promise<UIExtensionProps>
+    get(params: GetExtensionParams & QueryParams): Promise<ExtensionProps>
     getMany(
       params: GetSpaceEnvironmentParams & QueryParams
-    ): Promise<CollectionProp<UIExtensionProps>>
+    ): Promise<CollectionProp<ExtensionProps>>
     create(
       params: GetSpaceEnvironmentParams,
-      rawData: CreateUIExtensionProps,
+      rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
+    ): Promise<ExtensionProps>
     createWithId(
-      params: GetUiExtensionParams,
-      rawData: CreateUIExtensionProps,
+      params: GetExtensionParams,
+      rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
+    ): Promise<ExtensionProps>
     update(
-      params: GetUiExtensionParams,
-      rawData: UIExtensionProps,
+      params: GetExtensionParams,
+      rawData: ExtensionProps,
       headers?: Record<string, unknown>
-    ): Promise<UIExtensionProps>
-    delete(params: GetUiExtensionParams): Promise<any>
+    ): Promise<ExtensionProps>
+    delete(params: GetExtensionParams): Promise<any>
   }
   webhook: {
     get(params: GetWebhookParams): Promise<WebhookProps>
@@ -466,7 +466,7 @@ export type PlainClientAPI = {
   }
   spaceMembership: {
     get(params: GetSpaceMembershipProps): Promise<SpaceMembershipProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMemberProps>>
+    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMembershipProps>>
     getForOrganization(
       params: GetOrganizationParams & { spaceMembershipId: string }
     ): Promise<SpaceMembershipProps>
@@ -536,6 +536,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     create(
       params: GetSpaceParams & { teamId: string },
+      rawData: TeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
     update(
