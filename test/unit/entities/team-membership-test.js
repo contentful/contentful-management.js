@@ -18,7 +18,7 @@ function setup(promise) {
   }
 }
 
-describe.skip('Entity TeamMembership', () => {
+describe('Entity TeamMembership', () => {
   test('TeamMembership is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapTeamMembership,
@@ -31,7 +31,7 @@ describe.skip('Entity TeamMembership', () => {
     })
   })
 
-  test('TeamMembership update', async () => {
+  test.skip('TeamMembership update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
     entityMock.sys.team = { sys: { id: 'team1' } }
@@ -55,7 +55,7 @@ describe.skip('Entity TeamMembership', () => {
     })
   })
 
-  test('TeamMembership update fails', async () => {
+  test.skip('TeamMembership update fails', async () => {
     const error = cloneMock('error')
     const { httpMock, entityMock } = setup(Promise.reject(error))
     entityMock.sys.team = { sys: { id: 'team1' } }
@@ -66,7 +66,7 @@ describe.skip('Entity TeamMembership', () => {
     })
   })
 
-  test('TeamMembership delete', async () => {
+  test.skip('TeamMembership delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
     entityMock.sys.team = { sys: { id: 'team1' } }
@@ -84,7 +84,7 @@ describe.skip('Entity TeamMembership', () => {
     })
   })
 
-  test('TeamMembership delete fails', async () => {
+  test.skip('TeamMembership delete fails', async () => {
     const error = cloneMock('error')
     const { httpMock, entityMock } = setup(Promise.reject(error))
     entityMock.sys.team = { sys: { id: 'team1' } }

@@ -28,7 +28,7 @@ describe('Entity TeamSpaceMembership', () => {
     })
   })
 
-  test.skip('Upload delete fails', async () => {
+  test('Upload delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapUpload,
       actionMethod: 'delete',

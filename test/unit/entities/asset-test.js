@@ -44,13 +44,16 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset update fails', async () => {
+  test('Asset update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'update',
     })
   })
 
+  /**
+   * TODO Move to adapters/REST
+   */
   test.skip('Asset update with tags works', async () => {
     const { httpMock } = setup()
     const entityMock = cloneMock('assetWithTags')
@@ -81,7 +84,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset delete fails', async () => {
+  test('Asset delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'delete',
@@ -94,7 +97,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset publish fails', async () => {
+  test('Asset publish fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'publish',
@@ -108,7 +111,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset unpublish fails', async () => {
+  test('Asset unpublish fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'unpublish',

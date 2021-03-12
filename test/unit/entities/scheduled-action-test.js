@@ -39,7 +39,7 @@ describe('Entity ScheduledAction', () => {
     })
   })
 
-  test.skip('Schedule action delete fails', async () => {
+  test('Schedule action delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapScheduledAction,
       actionMethod: 'delete',

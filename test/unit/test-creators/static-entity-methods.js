@@ -38,11 +38,11 @@ export async function makeEntityMethodFailingTest(setup, { methodToTest }) {
 }
 
 export async function makeCreateEntityTest(setup, { entityType, mockToReturn, methodToTest }) {
-  const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+  const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
   return api[methodToTest](mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(httpMock.post.args[0][1]).to.eql(mockToReturn)
+    expect(makeRequest.post.args[0][1]).to.eql(mockToReturn)
   })
 }
 
@@ -51,13 +51,13 @@ export async function makeCreateEntityWithIdTest(
   { entityType, entityPath, mockToReturn, methodToTest }
 ) {
   const id = 'entityId'
-  const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+  const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
 
   return api[methodToTest](id, mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(httpMock.put.args[0][0]).eql(entityPath + '/' + id)
-    expect(httpMock.put.args[0][1]).eql(mockToReturn, 'data is sent')
+    expect(makeRequest.put.args[0][0]).eql(entityPath + '/' + id)
+    expect(makeRequest.put.args[0][1]).eql(mockToReturn, 'data is sent')
   })
 }
 
@@ -72,9 +72,9 @@ export function testGettingEntrySDKObject(
     getResourceFromDataFunctionName,
   }
 ) {
-  let { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+  let { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
   const resourceData = cloneDeep(resourceMock)
-  entitiesMock[type][wrapFunctionName].returns(wrapFunction(httpMock, resourceData))
+  entitiesMock[type][wrapFunctionName].returns(wrapFunction(makeRequest, resourceData))
 
   expectedFunctions.forEach((funcName) => {
     expect(typeof resourceData[funcName]).not.equals('function')

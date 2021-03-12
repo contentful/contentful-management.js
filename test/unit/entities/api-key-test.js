@@ -37,7 +37,7 @@ describe('Entity ApiKey', () => {
     })
   })
 
-  test.skip('ApiKey update fails', async () => {
+  test('ApiKey update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapApiKey,
       actionMethod: 'update',
@@ -50,7 +50,7 @@ describe('Entity ApiKey', () => {
     })
   })
 
-  test.skip('ApiKey delete fails', async () => {
+  test('ApiKey delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapApiKey,
       actionMethod: 'delete',

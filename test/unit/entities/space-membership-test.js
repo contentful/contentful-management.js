@@ -28,7 +28,7 @@ describe('Entity SpaceMembership', () => {
     })
   })
 
-  test('SpaceMembership collection is wrapped', async () => {
+  test('SpaceMembership collection is wrapped', () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapSpaceMembershipCollection,
     })
@@ -40,7 +40,7 @@ describe('Entity SpaceMembership', () => {
     })
   })
 
-  test.skip('SpaceMembership update fails', async () => {
+  test('SpaceMembership update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapSpaceMembership,
       actionMethod: 'update',
@@ -53,7 +53,7 @@ describe('Entity SpaceMembership', () => {
     })
   })
 
-  test.skip('SpaceMembership delete fails', async () => {
+  test('SpaceMembership delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapSpaceMembership,
       actionMethod: 'delete',

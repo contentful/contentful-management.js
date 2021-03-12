@@ -56,7 +56,7 @@ describe('Entity OrganizationMembership', () => {
     })
   })
 
-  test.skip('OrganizationMembership update fails', async () => {
+  test('OrganizationMembership update fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapOrganizationMembership,
       actionMethod: 'update',
@@ -80,7 +80,7 @@ describe('Entity OrganizationMembership', () => {
     })
   })
 
-  test.skip('OrganizationMembership delete fails', async () => {
+  test('OrganizationMembership delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapOrganizationMembership,
       actionMethod: 'delete',

@@ -25,9 +25,9 @@ describe('Entity EditorInterface', () => {
     })
   })
 
-  test('EditorInterface getControlForField with an existing fieldId', async () => {
-    const { httpMock, entityMock } = setup()
-    const editorInterface = wrapEditorInterface(httpMock, entityMock)
+  test('EditorInterface getControlForField with an existing fieldId', () => {
+    const { makeRequest, entityMock } = setup()
+    const editorInterface = wrapEditorInterface(makeRequest, entityMock)
     const control = editorInterface.getControlForField('fieldId')
     expect(control, 'control object sould be there').to.be.ok
     expect(control.fieldId, 'should have a fieldId').to.be.ok
@@ -36,9 +36,9 @@ describe('Entity EditorInterface', () => {
     expect(control.widgetId).equals('singleLine')
   })
 
-  test('EditorInterface getControlForField without an existing fieldId', async () => {
-    const { httpMock, entityMock } = setup()
-    const editorInterface = wrapEditorInterface(httpMock, entityMock)
+  test('EditorInterface getControlForField without an existing fieldId', () => {
+    const { makeRequest, entityMock } = setup()
+    const editorInterface = wrapEditorInterface(makeRequest, entityMock)
     const control = editorInterface.getControlForField('notThere')
     expect(control).to.be.null
   })

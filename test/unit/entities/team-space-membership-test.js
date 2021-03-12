@@ -22,7 +22,7 @@ function setup(promise) {
 
 import { expect } from 'chai'
 
-describe.skip('Entity TeamSpaceMembership', () => {
+describe('Entity TeamSpaceMembership', () => {
   test('TeamSpaceMembership is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapTeamSpaceMembership,
@@ -35,7 +35,7 @@ describe.skip('Entity TeamSpaceMembership', () => {
     })
   })
 
-  test('TeamSpaceMembership update', async () => {
+  test.skip('TeamSpaceMembership update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
     const entity = wrapTeamSpaceMembership(httpMock, entityMock)

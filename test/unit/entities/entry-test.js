@@ -82,7 +82,7 @@ describe('Entity Entry', () => {
     })
   })
 
-  test.skip('Entry delete fails', async () => {
+  test('Entry delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'delete',
@@ -95,86 +95,86 @@ describe('Entity Entry', () => {
     })
   })
 
-  test.skip('Entry publish fails', async () => {
+  test('Entry publish fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'publish',
     })
   })
 
-  test.skip('Entry unpublish', async () => {
+  test('Entry unpublish', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'unpublish',
     })
   })
 
-  test.skip('Entry unpublish fails', async () => {
+  test('Entry unpublish fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'unpublish',
     })
   })
 
-  test.skip('Entry archive', async () => {
+  test('Entry archive', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'archive',
     })
   })
 
-  test.skip('Entry archive fails', async () => {
+  test('Entry archive fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'archive',
     })
   })
 
-  test.skip('Entry unarchive', async () => {
+  test('Entry unarchive', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'unarchive',
     })
   })
 
-  test.skip('Entry unarchive fails', async () => {
+  test('Entry unarchive fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'unarchive',
     })
   })
 
-  test.skip('Entry isPublished', async () => {
+  test('Entry isPublished', async () => {
     return isPublishedTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test.skip('Entry isUpdated', async () => {
+  test('Entry isUpdated', async () => {
     return isUpdatedTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test.skip('Entry isDraft', async () => {
+  test('Entry isDraft', async () => {
     return isDraftTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test.skip('Entry isArchived', async () => {
+  test('Entry isArchived', async () => {
     return isArchivedTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test.skip('Entry getSnapshots fails', async () => {
+  test('Entry getSnapshots fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshots',
     })
   })
 
-  test.skip('Entry getSnapshot fails', async () => {
+  test('Entry getSnapshot fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshot',
     })
   })
 
-  test.skip('Entry getSnapshot', async () => {
+  test('Entry getSnapshot', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshot',

@@ -50,7 +50,7 @@ describe('Entity Role', () => {
     })
   })
 
-  test.skip('Role delete fails', async () => {
+  test('Role delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapRole,
       actionMethod: 'delete',

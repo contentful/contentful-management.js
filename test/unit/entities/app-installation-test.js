@@ -4,11 +4,10 @@ import {
   wrapAppInstallation,
   wrapAppInstallationCollection,
 } from '../../../lib/entities/app-installation'
-import { expect } from 'chai'
-
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
+  entityUpdateTest,
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
@@ -35,23 +34,13 @@ describe('Entity AppInstallation', () => {
     })
   })
 
-  test.skip('AppInstallation update', async () => {
-    const { httpMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    const entity = wrapAppInstallation(httpMock, entityMock)
-    entity.name = 'updatedname'
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][1].name).equals('updatedname', 'data is sent')
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+  test('AppInstallation update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapAppInstallation,
     })
   })
 
-  test.skip('AppInstallation update fails', async () => {
+  test('AppInstallation update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAppInstallation,
       actionMethod: 'update',
@@ -64,7 +53,7 @@ describe('Entity AppInstallation', () => {
     })
   })
 
-  test.skip('AppInstallation delete fails', async () => {
+  test('AppInstallation delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapAppInstallation,
       actionMethod: 'delete',

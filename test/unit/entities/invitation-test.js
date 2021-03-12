@@ -13,7 +13,7 @@ function setup(promise) {
 
 describe('Entity OrganizationInvitation', () => {
   test('Organization invitation is wrapped', () => {
-    return entityWrappedTest(setup, {
+    entityWrappedTest(setup, {
       wrapperMethod: wrapOrganizationInvitation,
     })
   })

@@ -1,16 +1,15 @@
 import { describe, test } from 'mocha'
+import { wrapWebhook, wrapWebhookCollection } from '../../../lib/entities/webhook'
 import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
-import { wrapWebhook, wrapWebhookCollection } from '../../../lib/entities/webhook'
 import {
-  entityWrappedTest,
   entityCollectionWrappedTest,
-  entityUpdateTest,
   entityDeleteTest,
+  entityUpdateTest,
+  entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
 } from '../test-creators/instance-entity-methods'
-import { expect } from 'chai'
 
 function setup(promise) {
   return {
@@ -19,7 +18,7 @@ function setup(promise) {
   }
 }
 
-describe.skip('Entity Webhook', () => {
+describe('Entity Webhook', () => {
   test('Webhook is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapWebhook,
@@ -55,33 +54,6 @@ describe.skip('Entity Webhook', () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapWebhook,
       actionMethod: 'delete',
-    })
-  })
-
-  test('Webhook list of calls', async () => {
-    const { httpMock, entityMock } = setup()
-    const entity = wrapWebhook(httpMock, entityMock)
-    return entity.getCalls().then(() => {
-      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/calls', 'id is sent')
-    })
-  })
-
-  test('Webhook specific call', async () => {
-    const { httpMock, entityMock } = setup()
-    const entity = wrapWebhook(httpMock, entityMock)
-    return entity.getCall('callid').then(() => {
-      expect(httpMock.get.args[0][0]).equals(
-        '/spaces/space-id/webhooks/id/calls/callid',
-        'id is sent'
-      )
-    })
-  })
-
-  test('Webhook health', async () => {
-    const { httpMock, entityMock } = setup()
-    const entity = wrapWebhook(httpMock, entityMock)
-    return entity.getHealth().then(() => {
-      expect(httpMock.get.args[0][0]).equals('/spaces/space-id/webhooks/id/health', 'id is sent')
     })
   })
 })

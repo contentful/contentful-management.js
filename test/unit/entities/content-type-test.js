@@ -45,7 +45,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType update fails', async () => {
+  test('ContentType update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'update',
@@ -58,7 +58,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType delete fails', async () => {
+  test('ContentType delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'delete',
@@ -71,7 +71,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType publish fails', async () => {
+  test('ContentType publish fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'publish',
@@ -85,35 +85,35 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType unpublish fails', async () => {
+  test('ContentType unpublish fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'unpublish',
     })
   })
 
-  test.skip('ContentType getSnapshots fails', async () => {
+  test('ContentType getSnapshots fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getSnapshots',
     })
   })
 
-  test.skip('ContentType getSnapshot fails', async () => {
+  test('ContentType getSnapshot fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getSnapshot',
     })
   })
 
-  test.skip('ContentType getEditorInterface', async () => {
+  test('ContentType getEditorInterface', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getEditorInterface',
     })
   })
 
-  test.skip('ContentType getEditorInterface fails', async () => {
+  test('ContentType getEditorInterface fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getEditorInterface',
@@ -127,7 +127,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType getSnapshot', async () => {
+  test('ContentType getSnapshot', async () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getSnapshot',
@@ -146,11 +146,11 @@ describe('Entity ContentType', () => {
     return isDraftTest(setup, { wrapperMethod: wrapContentType })
   })
 
-  test.skip('ContentType omitAndDeleteField', async () => {
+  test('ContentType omitAndDeleteField', async () => {
     return omitAndDeleteFieldTest(setup, { wrapperMethod: wrapContentType })
   })
 
-  test.skip('ContentType omitAndDeleteField fails', async () => {
+  test('ContentType omitAndDeleteField fails', async () => {
     return failingOmitAndDeleteFieldTest(setup, { wrapperMethod: wrapContentType })
   })
 })

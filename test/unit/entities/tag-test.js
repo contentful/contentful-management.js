@@ -22,7 +22,7 @@ describe('Entity Tag', () => {
     })
   })
 
-  test.skip('Tag update fails', async () => {
+  test('Tag update fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapTag,
       actionMethod: 'update',
@@ -35,7 +35,7 @@ describe('Entity Tag', () => {
     })
   })
 
-  test.skip('Tag delete fails', async () => {
+  test('Tag delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapTag,
       actionMethod: 'delete',

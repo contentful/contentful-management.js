@@ -16,7 +16,7 @@ function setup(promise) {
   }
 }
 
-describe.skip('Entity TeamSpaceMembership', () => {
+describe('Entity TeamSpaceMembership', () => {
   test('Team is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapTeam,
@@ -29,7 +29,7 @@ describe.skip('Entity TeamSpaceMembership', () => {
     })
   })
 
-  test('Team update', async () => {
+  test.skip('Team update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
     const entity = wrapTeam(httpMock, entityMock)
@@ -59,7 +59,7 @@ describe.skip('Entity TeamSpaceMembership', () => {
     })
   })
 
-  test('Team delete', async () => {
+  test.skip('Team delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
     const entity = wrapTeam(httpMock, entityMock)

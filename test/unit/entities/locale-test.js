@@ -37,7 +37,7 @@ describe('Entity Locale', () => {
     })
   })
 
-  test.skip('Locale update fails', async () => {
+  test('Locale update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapLocale,
       actionMethod: 'update',
@@ -50,7 +50,7 @@ describe('Entity Locale', () => {
     })
   })
 
-  test.skip('Locale delete fails', async () => {
+  test('Locale delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapLocale,
       actionMethod: 'delete',

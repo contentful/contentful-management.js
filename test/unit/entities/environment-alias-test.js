@@ -38,7 +38,7 @@ describe('Entity EnvironmentAlias', () => {
     })
   })
 
-  test.skip('Environment alias update fails', async () => {
+  test('Environment alias update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapEnvironmentAlias,
       actionMethod: 'update',
