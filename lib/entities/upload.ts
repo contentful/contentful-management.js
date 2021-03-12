@@ -33,9 +33,9 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
 
 function createUploadApi(makeRequest: MakeRequest) {
   return {
-    delete: function del() {
+    delete: async function del() {
       const raw = this.toPlainObject() as UploadProps
-      makeRequest({
+      await makeRequest({
         entityType: 'Upload',
         action: 'delete',
         params: {
