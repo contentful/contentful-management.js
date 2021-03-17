@@ -5,6 +5,9 @@ export type {
   AppDefinition,
   AppDefinitionProps,
   AppLocation,
+  SimpleLocation,
+  EntryFieldLocation,
+  PageLocation,
   CreateAppDefinitionProps,
 } from './entities/app-definition'
 export type {
