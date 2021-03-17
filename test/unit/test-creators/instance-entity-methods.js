@@ -20,7 +20,7 @@ export async function entityUpdateTest(setup, { wrapperMethod }) {
 }
 
 export async function entityCollectionActionTest(setup, { wrapperMethod, actionMethod }) {
-  const { makeRequest, entityMock } = setup(Promise.resolve({ data: { items: [] } }))
+  const { makeRequest, entityMock } = setup(Promise.resolve({ items: [] }))
   const entity = wrapperMethod(makeRequest, entityMock)
   return entity[actionMethod]().then((response) => {
     expect(response.toPlainObject, 'response is wrapped').to.be.ok
@@ -41,16 +41,7 @@ export async function entityDeleteTest(setup, { wrapperMethod }) {
 }
 
 export async function entityPublishTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
-  entityMock.sys.version = 2
-  const entity = wrapperMethod(makeRequest, entityMock)
-  return entity.publish().then((response) => {
-    expect(response.toPlainObject, 'response is wrapped').to.be.ok
-    expect(makeRequest.put.args[0][2].headers['X-Contentful-Version']).equals(
-      2,
-      'version header is sent'
-    )
-  })
+  await entityActionTest(setup, { wrapperMethod, actionMethod: 'publish' })
 }
 
 export async function failingActionTest(setup, { wrapperMethod, actionMethod }) {

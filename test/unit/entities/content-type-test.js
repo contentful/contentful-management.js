@@ -65,7 +65,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType publish', async () => {
+  test('ContentType publish', async () => {
     return entityPublishTest(setup, {
       wrapperMethod: wrapContentType,
     })
@@ -120,7 +120,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.skip('ContentType getSnapshots', async () => {
+  test('ContentType getSnapshots', async () => {
     return entityCollectionActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'getSnapshots',

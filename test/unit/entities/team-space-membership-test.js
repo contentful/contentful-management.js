@@ -11,6 +11,7 @@ import {
   entityDeleteTest,
   failingActionTest,
   failingVersionActionTest,
+  entityUpdateTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -19,8 +20,6 @@ function setup(promise) {
     entityMock: cloneMock('teamSpaceMembership'),
   }
 }
-
-import { expect } from 'chai'
 
 describe('Entity TeamSpaceMembership', () => {
   test('TeamSpaceMembership is wrapped', async () => {
@@ -35,23 +34,9 @@ describe('Entity TeamSpaceMembership', () => {
     })
   })
 
-  test.skip('TeamSpaceMembership update', async () => {
-    const { httpMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    const entity = wrapTeamSpaceMembership(httpMock, entityMock)
-    entity.roles[0].sys.id = 'updatedId'
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][1].roles[0].sys.id).equals('updatedId', 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent'
-      )
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+  test('TeamSpaceMembership update', async () => {
+    entityUpdateTest(setup, {
+      wrapperMethod: wrapTeamSpaceMembership,
     })
   })
 

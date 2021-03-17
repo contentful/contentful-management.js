@@ -91,7 +91,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset publish', async () => {
+  test('Asset publish', async () => {
     return entityPublishTest(setup, {
       wrapperMethod: wrapAsset,
     })
@@ -125,7 +125,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset archive fails', async () => {
+  test('Asset archive fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'archive',
@@ -139,7 +139,7 @@ describe('Entity Asset', () => {
     })
   })
 
-  test.skip('Asset unarchive fails', async () => {
+  test('Asset unarchive fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapAsset,
       actionMethod: 'unarchive',
@@ -162,6 +162,9 @@ describe('Entity Asset', () => {
     return isArchivedTest(setup, { wrapperMethod: wrapAsset })
   })
 
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Asset processing for one locale succeeds', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
@@ -195,6 +198,9 @@ describe('Entity Asset', () => {
     - Test is failing
     - it also causes a memory leak in watch mode
    */
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Asset processing for one locale fails due to timeout', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
@@ -211,6 +217,9 @@ describe('Entity Asset', () => {
     }
   })
 
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Asset processing for multiple locales succeeds', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
@@ -268,6 +277,9 @@ describe('Entity Asset', () => {
     })
   })
 
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Asset processing for multiple locales fails due to timeout', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {

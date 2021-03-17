@@ -37,7 +37,7 @@ describe('Entity Role', () => {
     })
   })
 
-  test.skip('Role update fails', async () => {
+  test('Role update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapRole,
       actionMethod: 'update',

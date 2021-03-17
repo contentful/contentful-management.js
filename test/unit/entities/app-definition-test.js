@@ -40,7 +40,7 @@ describe('Entity AppDefinition', () => {
     })
   })
 
-  test.skip('AppDefinition update fails', async () => {
+  test('AppDefinition update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAppDefinition,
       actionMethod: 'update',
@@ -53,7 +53,7 @@ describe('Entity AppDefinition', () => {
     })
   })
 
-  test.skip('AppDefinition delete fails', async () => {
+  test('AppDefinition delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapAppDefinition,
       actionMethod: 'delete',

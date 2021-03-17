@@ -45,6 +45,9 @@ describe('Entity Entry', () => {
     })
   })
 
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Entry update with tags works', async () => {
     const { httpMock } = setup()
     const entityMock = cloneMock('entryWithTags')
@@ -69,7 +72,7 @@ describe('Entity Entry', () => {
     })
   })
 
-  test.skip('Entry update fails', async () => {
+  test('Entry update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'update',
@@ -89,7 +92,7 @@ describe('Entity Entry', () => {
     })
   })
 
-  test.skip('Entry publish', async () => {
+  test('Entry publish', async () => {
     return entityPublishTest(setup, {
       wrapperMethod: wrapEntry,
     })
@@ -160,13 +163,6 @@ describe('Entity Entry', () => {
     return isArchivedTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test('Entry getSnapshots fails', async () => {
-    return failingActionTest(setup, {
-      wrapperMethod: wrapEntry,
-      actionMethod: 'getSnapshots',
-    })
-  })
-
   test('Entry getSnapshot fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
@@ -181,7 +177,14 @@ describe('Entity Entry', () => {
     })
   })
 
-  test.skip('Entry getSnapshots', async () => {
+  test('Entry getSnapshots fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapEntry,
+      actionMethod: 'getSnapshots',
+    })
+  })
+
+  test('Entry getSnapshots', async () => {
     return entityCollectionActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshots',

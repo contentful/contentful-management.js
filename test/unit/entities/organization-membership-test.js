@@ -7,6 +7,7 @@ import {
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
+  entityUpdateTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
@@ -32,27 +33,9 @@ describe('Entity OrganizationMembership', () => {
     })
   })
 
-  test.skip('OrganizationMembership update', async () => {
-    const { httpMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
-    entity.role = 'member'
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][0]).equals(
-        `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-        'url is correct'
-      )
-      expect(httpMock.put.args[0][1]).eql({ role: 'member' }, 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent'
-      )
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+  test('OrganizationMembership update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapOrganizationMembership,
     })
   })
 
@@ -63,6 +46,9 @@ describe('Entity OrganizationMembership', () => {
     })
   })
 
+  /**
+   * Move to adapters/REST
+   */
   test.skip('OrganizationMembership delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2

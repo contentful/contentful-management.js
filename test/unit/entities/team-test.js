@@ -6,6 +6,8 @@ import {
   entityWrappedTest,
   entityCollectionWrappedTest,
   failingActionTest,
+  entityUpdateTest,
+  entityDeleteTest,
 } from '../test-creators/instance-entity-methods'
 import { expect } from 'chai'
 
@@ -29,6 +31,15 @@ describe('Entity TeamSpaceMembership', () => {
     })
   })
 
+  test('Team update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapTeam,
+    })
+  })
+
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Team update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
@@ -59,6 +70,15 @@ describe('Entity TeamSpaceMembership', () => {
     })
   })
 
+  test('Team delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapTeam,
+    })
+  })
+
+  /**
+   * Move to adapters/REST
+   */
   test.skip('Team delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2

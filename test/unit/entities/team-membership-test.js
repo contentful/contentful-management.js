@@ -7,6 +7,9 @@ import {
 } from '../../../lib/entities/team-membership'
 import {
   entityWrappedTest,
+  entityUpdateTest,
+  entityDeleteTest,
+  failingActionTest,
   entityCollectionWrappedTest,
 } from '../test-creators/instance-entity-methods'
 import { expect } from 'chai'
@@ -31,6 +34,15 @@ describe('Entity TeamMembership', () => {
     })
   })
 
+  test('TeamMembership update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapTeamMembership,
+    })
+  })
+
+  /**
+   * Move to adapters/REST
+   */
   test.skip('TeamMembership update', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
@@ -55,17 +67,22 @@ describe('Entity TeamMembership', () => {
     })
   })
 
-  test.skip('TeamMembership update fails', async () => {
-    const error = cloneMock('error')
-    const { httpMock, entityMock } = setup(Promise.reject(error))
-    entityMock.sys.team = { sys: { id: 'team1' } }
-    const entity = wrapTeamMembership(httpMock, entityMock)
-
-    return entity['update']().catch((r) => {
-      expect(r.name).equals('404 Not Found')
+  test('TeamMembership update fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTeamMembership,
+      actionMethod: 'update',
     })
   })
 
+  test('TeamMembership delete', async () => {
+    return entityDeleteTest(setup, {
+      wrapperMethod: wrapTeamMembership,
+    })
+  })
+
+  /**
+   * Move to adapters/REST
+   */
   test.skip('TeamMembership delete', async () => {
     const { httpMock, entityMock } = setup()
     entityMock.sys.version = 2
@@ -84,14 +101,10 @@ describe('Entity TeamMembership', () => {
     })
   })
 
-  test.skip('TeamMembership delete fails', async () => {
-    const error = cloneMock('error')
-    const { httpMock, entityMock } = setup(Promise.reject(error))
-    entityMock.sys.team = { sys: { id: 'team1' } }
-    const entity = wrapTeamMembership(httpMock, entityMock)
-
-    return entity['delete']().catch((r) => {
-      expect(r.name).equals('404 Not Found')
+  test('TeamMembership delete fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapTeamMembership,
+      actionMethod: 'delete',
     })
   })
 })
