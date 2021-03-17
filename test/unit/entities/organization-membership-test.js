@@ -11,7 +11,6 @@ import {
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
-import { expect } from 'chai'
 
 function setup(promise) {
   return {
@@ -43,26 +42,6 @@ describe('Entity OrganizationMembership', () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapOrganizationMembership,
       actionMethod: 'update',
-    })
-  })
-
-  /**
-   * Move to adapters/REST
-   */
-  test.skip('OrganizationMembership delete', async () => {
-    const { httpMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    const entity = wrapOrganizationMembership(httpMock, entityMock, 'org-id')
-    return entity.delete().then((response) => {
-      expect(httpMock.delete.args[0][0]).equals(
-        `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-        'url is correct'
-      )
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
     })
   })
 

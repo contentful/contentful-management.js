@@ -17,7 +17,6 @@ import {
   isArchivedTest,
 } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
-import { expect } from 'chai'
 
 function setup(promise) {
   return {
@@ -42,33 +41,6 @@ describe('Entity Entry', () => {
   test('Entry update', async () => {
     return entityUpdateTest(setup, {
       wrapperMethod: wrapEntry,
-    })
-  })
-
-  /**
-   * Move to adapters/REST
-   */
-  test.skip('Entry update with tags works', async () => {
-    const { httpMock } = setup()
-    const entityMock = cloneMock('entryWithTags')
-    entityMock.sys.version = 2
-    const entity = wrapEntry(httpMock, entityMock)
-    entity.metadata.tags[0] = {
-      name: 'newname',
-      sys: entityMock.metadata.tags[0].sys,
-    }
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][1].metadata.tags[0].name).equals('newname', 'metadata is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent'
-      )
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
     })
   })
 

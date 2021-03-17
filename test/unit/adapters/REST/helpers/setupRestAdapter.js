@@ -5,7 +5,7 @@ import {
 } from '../../../../../lib/adapters/REST/rest-adapter'
 import setupHttpMock from '../../../mocks/http'
 
-export default function setupRestAdapter(params = {}, httpPromise) {
+export default function setupRestAdapter(httpPromise, params = {}) {
   const httpMock = setupHttpMock(httpPromise)
   __Rewire__('createHttpClient', () => httpMock)
 
