@@ -14,7 +14,6 @@ import {
   userMock,
   organizationMock,
 } from './mocks/entities'
-import setupHttpMock from './mocks/http'
 import {
   makeGetEntityTest,
   makeGetCollectionTest,
@@ -23,22 +22,23 @@ import {
 } from './test-creators/static-entity-methods'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
+import setupMakeRequest from './mocks/makeRequest'
 
 import { __RewireAPI__ as createEnvironmentApiRewireApi } from '../../lib/create-environment-api'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createOrganizationApiRewireApi)
-  const httpMock = setupHttpMock(promise)
-  const api = createOrganizationApi({ http: httpMock })
+  const makeRequest = setupMakeRequest(promise)
+  const api = createOrganizationApi(makeRequest)
   api.toPlainObject = () => organizationMock
   return {
     api,
-    httpMock,
+    makeRequest,
     entitiesMock,
   }
 }
 
-describe.skip('A createOrganizationApi', () => {
+describe('A createOrganizationApi', () => {
   afterEach(() => {
     createEnvironmentApiRewireApi.__ResetDependency__('entities')
   })
@@ -266,7 +266,7 @@ describe.skip('A createOrganizationApi', () => {
     return api['getTeamMembership']('teamid', 'eid').then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -296,7 +296,7 @@ describe.skip('A createOrganizationApi', () => {
     return api['getTeamMembership']({ teamId: 'teamid' }).then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -334,7 +334,7 @@ describe.skip('A createOrganizationApi', () => {
     return api['getTeamSpaceMembership']('eid').then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -364,7 +364,7 @@ describe.skip('A createOrganizationApi', () => {
     return api['getTeamSpaceMemberships']({ teamId: 'teamid' }).then(
       () => {},
       (r) => {
-        expect(r.name).eql('404 Not Found')
+        expect(r).eql(error)
       }
     )
   })
