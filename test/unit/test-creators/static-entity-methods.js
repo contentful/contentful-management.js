@@ -33,7 +33,7 @@ export async function makeEntityMethodFailingTest(setup, { methodToTest }) {
   try {
     await api[methodToTest]('eid')
   } catch (e) {
-    expect(e.name).to.eq('404 Not Found')
+    expect(e).to.eq(error)
   }
 }
 
@@ -42,13 +42,13 @@ export async function makeCreateEntityTest(setup, { entityType, mockToReturn, me
   entitiesMock[entityType][`wrap${upperFirst(entityType)}`].returns(mockToReturn)
   return api[methodToTest](mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(makeRequest.post.args[0][1]).to.eql(mockToReturn)
+    expect(makeRequest.args[0][0].payload).to.eql(mockToReturn)
   })
 }
 
 export async function makeCreateEntityWithIdTest(
   setup,
-  { entityType, entityPath, mockToReturn, methodToTest }
+  { entityType, mockToReturn, methodToTest }
 ) {
   const id = 'entityId'
   const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
@@ -56,8 +56,7 @@ export async function makeCreateEntityWithIdTest(
 
   return api[methodToTest](id, mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(makeRequest.put.args[0][0]).eql(entityPath + '/' + id)
-    expect(makeRequest.put.args[0][1]).eql(mockToReturn, 'data is sent')
+    expect(makeRequest.args[0][0].payload).eql(mockToReturn, 'data is sent')
   })
 }
 
@@ -81,7 +80,6 @@ export function testGettingEntrySDKObject(
   })
 
   const sdkEntry = api[getResourceFromDataFunctionName](resourceData)
-  //expect(sdkEntry);
   expectedFunctions.forEach((funcName) => {
     expect(typeof sdkEntry[funcName]).equals('function')
   })

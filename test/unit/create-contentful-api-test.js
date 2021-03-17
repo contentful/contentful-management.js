@@ -6,7 +6,6 @@ import {
   usageMock,
   userMock,
 } from './mocks/entities'
-import setupHttpMock from './mocks/http'
 import createContentfulApi, {
   __RewireAPI__ as createContentfulApiRewireApi,
 } from '../../lib/create-contentful-api'
@@ -18,19 +17,20 @@ import {
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
 import sinon from 'sinon'
+import setupMakeRequest from './mocks/makeRequest'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createContentfulApiRewireApi)
-  const httpMock = setupHttpMock(promise)
-  const api = createContentfulApi({ http: httpMock })
+  const makeRequest = setupMakeRequest(promise)
+  const api = createContentfulApi(makeRequest)
   return {
     api,
-    httpMock,
+    makeRequest,
     entitiesMock,
   }
 }
 
-describe.skip('A createContentfulApi', () => {
+describe('A createContentfulApi', () => {
   afterEach(() => {
     createContentfulApiRewireApi.__ResetDependency__('entities')
   })
@@ -68,13 +68,13 @@ describe.skip('A createContentfulApi', () => {
         },
         name: 'name',
       }
-      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
+      const { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: data }))
       entitiesMock.space.wrapSpace.returns(data)
 
       const space = await api.createSpace({ name: 'name' }, 'orgid')
       expect(space).to.eq(data)
-      expect(httpMock.post.args[0][1]).to.eql({ name: 'name' })
-      expect(httpMock.post.args[0][2].headers['X-Contentful-Organization']).to.eq('orgid')
+      expect(makeRequest.args[0][0].params).to.deep.equal({ organizationId: 'orgid' })
+      expect(makeRequest.args[0][0].payload).to.deep.equal({ name: 'name' })
     })
 
     test('API call createSpace fails', async () =>
@@ -169,11 +169,11 @@ describe.skip('A createContentfulApi', () => {
     })
 
     test('API call getCurrentUser with extra params', async () => {
-      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: userMock }))
+      const { api, makeRequest, entitiesMock } = setup(Promise.resolve(userMock))
       entitiesMock.user.wrapUser.returns(userMock)
 
       await api.getCurrentUser({ query: { foo: 'bar' } })
-      expect(httpMock.get.args[0][1].params).to.eql({ foo: 'bar' })
+      expect(makeRequest.args[0][0].params).to.deep.eql({ query: { foo: 'bar' } })
     })
   })
 
@@ -213,32 +213,39 @@ describe.skip('A createContentfulApi', () => {
         },
         name: 'name',
       }
-      const { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: data }))
+      const { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: data }))
       entitiesMock.personalAccessToken.wrapPersonalAccessToken.returns(data)
 
       const result = await api.createPersonalAccessToken({ name: 'name' }, 'orgid')
       expect(result).to.eq(data)
-      expect(httpMock.post.args[0][1]).to.eql({ name: 'name' })
+      expect(makeRequest.args[0][0].payload).to.deep.eql({ name: 'name' })
     })
   })
 
   describe('with raw api', () => {
     test('API call rawRequest', async () => {
-      const httpMock = sinon.stub().resolves({
+      const makeRequest = sinon.stub().resolves({
         data: {
           response: true,
         },
       })
 
-      const api = createContentfulApi({ http: httpMock })
+      const api = createContentfulApi(makeRequest)
 
-      const result = await api.rawRequest({ opts: true })
+      const result = await api.rawRequest({
+        url: 'url',
+        opts: true,
+      })
       expect(result).to.eql({
         response: true,
       })
 
-      expect(httpMock.args[0][0]).to.eql({
-        opts: true,
+      expect(makeRequest.args[0][0].params).to.eql({
+        url: 'url',
+        config: {
+          url: 'url',
+          opts: true,
+        },
       })
     })
   })
