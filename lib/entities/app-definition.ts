@@ -16,16 +16,16 @@ interface NavigationItem {
 
 type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
-interface SimpleLocation {
+export interface SimpleLocation {
   location: LocationType
 }
 
-interface EntryFieldLocation {
+export interface EntryFieldLocation {
   location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
-interface PageLocation {
+export interface PageLocation {
   location: 'page'
   navigationItem?: NavigationItem
 }
