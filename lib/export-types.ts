@@ -8,6 +8,7 @@ export type {
   SimpleLocation,
   EntryFieldLocation,
   PageLocation,
+  NavigationItem,
   CreateAppDefinitionProps,
 } from './entities/app-definition'
 export type {

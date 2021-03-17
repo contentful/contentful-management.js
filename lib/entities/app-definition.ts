@@ -9,7 +9,7 @@ import * as endpoints from '../plain/endpoints'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 
-interface NavigationItem {
+export interface NavigationItem {
   name: string
   path: string
 }
