@@ -51,7 +51,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     delete: function deleteEnvironment() {
       const raw = this.toPlainObject() as EnvironmentProps
-      makeRequest({
+      return makeRequest({
         entityType: 'Environment',
         action: 'delete',
         params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id },

@@ -7,7 +7,7 @@ import setupRestAdapter from '../helpers/setupRestAdapter'
 function setup(promise, params = {}) {
   return {
     ...setupRestAdapter(promise, params),
-    entityMock: cloneMock('asset'),
+    entityMock: cloneMock('entry'),
   }
 }
 
@@ -34,5 +34,36 @@ describe('Rest Entry', () => {
         response,
       }
     })
+  })
+
+  test('API call createEntryWithId', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.put.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'createWithId',
+        params: {
+          environmentId: 'id',
+          spaceId: 'id',
+          contentTypeId: 'contentTypeId',
+          entryId: 'entryId',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.put.args[0][0]).to.eql(
+          '/spaces/id/environments/id/entries/entryId',
+          'entry id is sent'
+        )
+        expect(httpMock.put.args[0][1]).to.eql(entityMock, 'data is sent')
+        expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
+          'contentTypeId',
+          'content type is specified'
+        )
+      })
   })
 })

@@ -1,5 +1,5 @@
 import { describe, test } from 'mocha'
-import { cloneMock } from '../../../mocks/entities'
+import { cloneMock, assetWithFilesMock } from '../../../mocks/entities'
 import { wrapAsset } from '../../../../../lib/entities/asset'
 import { expect } from 'chai'
 import setupRestAdapter from '../helpers/setupRestAdapter'
@@ -226,5 +226,70 @@ describe('Rest Asset', async () => {
         response,
       }
     })
+  })
+
+  test('API call createAssetFromFiles', async () => {
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+
+    httpMock.post.onFirstCall().returns(
+      Promise.resolve({
+        data: {
+          sys: {
+            id: 'some_random_id',
+          },
+        },
+      })
+    )
+
+    httpMock.post.onSecondCall().returns(
+      Promise.resolve({
+        data: {
+          sys: {
+            id: 'some_random_id',
+          },
+        },
+      })
+    )
+
+    httpMock.post.onThirdCall().returns(
+      Promise.resolve({
+        data: assetWithFilesMock,
+      })
+    )
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Asset',
+        action: 'createFromFiles',
+        params: { spaceId: 'id' },
+        payload: {
+          fields: {
+            file: {
+              locale: {
+                contentType: 'image/svg+xml',
+                fileName: 'filename.svg',
+                file:
+                  '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+              },
+              locale2: {
+                contentType: 'image/svg+xml',
+                fileName: 'filename.svg',
+                file:
+                  '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+              },
+            },
+          },
+        },
+      })
+      .then(() => {
+        expect(httpMock.post.args[0][1]).equals(
+          '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+          'uploads file #1 to upload endpoint'
+        )
+        expect(httpMock.post.args[1][1]).equals(
+          '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+          'uploads file #2 to upload endpoint'
+        )
+      })
   })
 })
