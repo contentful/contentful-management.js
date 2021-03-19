@@ -1,5 +1,5 @@
-import { QueryParams, CollectionProp } from './endpoints/common-types'
 import copy from 'fast-copy'
+import { CollectionProp, QueryParams } from '../common-types'
 
 type IterableFn<P = any, T = any> = (params: P) => Promise<CollectionProp<T>>
 type ParamsType<T extends IterableFn> = T extends (params: infer P) => any ? P : never

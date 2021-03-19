@@ -1,19 +1,16 @@
 import { AxiosRequestConfig } from 'axios'
-import { createRequestConfig, AxiosInstance } from 'contentful-sdk-core'
-import errorHandler from './error-handler'
+import { createRequestConfig } from 'contentful-sdk-core'
+import { Collection, MakeRequest, QueryOptions, QueryParams } from './common-types'
 import entities from './entities'
-import { Collection, QueryOptions } from './common-types'
-import { OrganizationProp, Organization } from './entities/organization'
-import { SpaceProps, Space } from './entities/space'
+import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import * as endpoints from './plain/endpoints'
-import { QueryParams } from './plain/endpoints/common-types'
+import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
-export default function createClientApi({ http }: { http: AxiosInstance }) {
+export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
   const {
@@ -42,12 +39,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getSpaces: function getSpaces(
       query: QueryOptions = {}
     ): Promise<Collection<Space, SpaceProps>> {
-      return endpoints.space
-        .getMany(http, {
-          query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapSpaceCollection(http, data))
+      return makeRequest({
+        entityType: 'Space',
+        action: 'getMany',
+        params: { query: createRequestConfig({ query: query }).params },
+      }).then((data) => wrapSpaceCollection(makeRequest, data))
     },
+
     /**
      * Gets a space
      * @param spaceId - Space ID
@@ -65,8 +63,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpace: function getSpace(spaceId: string): Promise<Space> {
-      return endpoints.space.get(http, { spaceId }).then((data) => wrapSpace(http, data))
+      return makeRequest({
+        entityType: 'Space',
+        action: 'get',
+        params: { spaceId },
+      }).then((data) => wrapSpace(makeRequest, data))
     },
+
     /**
      * Creates a space
      * @param spaceData - Object representation of the Space to be created
@@ -90,10 +93,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       spaceData: Omit<SpaceProps, 'sys'>,
       organizationId: string
     ): Promise<Space> {
-      return endpoints.space.create(http, { organizationId }, spaceData).then((data) => {
-        return wrapSpace(http, data)
-      })
+      return makeRequest({
+        entityType: 'Space',
+        action: 'create',
+        params: { organizationId },
+        payload: spaceData,
+      }).then((data) => wrapSpace(makeRequest, data))
     },
+
     /**
      * Gets an organization
      * @param  id - Organization ID
@@ -111,10 +118,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getOrganization: function getOrganization(id: string): Promise<Organization> {
-      return endpoints.organization.get(http, { organizationId: id }).then((data) => {
-        return wrapOrganization(http, data)
-      })
+      return makeRequest({
+        entityType: 'Organization',
+        action: 'get',
+        params: { organizationId: id },
+      }).then((data) => wrapOrganization(makeRequest, data))
     },
+
     /**
      * Gets a collection of Organizations
      * @return Promise for a collection of Organizations
@@ -133,10 +143,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     getOrganizations: function getOrganizations(): Promise<
       Collection<Organization, OrganizationProp>
     > {
-      return endpoints.organization
-        .getAll(http)
-        .then((data) => wrapOrganizationCollection(http, data))
+      return makeRequest({
+        entityType: 'Organization',
+        action: 'getMany',
+      }).then((data) => wrapOrganizationCollection(makeRequest, data))
     },
+
     /**
      * Gets the authenticated user
      * @return Promise for a User
@@ -152,9 +164,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams) {
-      return endpoints.user.getCurrent<T>(http, params).then((data) => wrapUser(http, data))
+    getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams): Promise<T> {
+      return makeRequest({
+        entityType: 'User',
+        action: 'getCurrent',
+        params,
+      }).then((data) => wrapUser<T>(makeRequest, data))
     },
+
     /**
      * Creates a personal access token
      * @param data - personal access token config
@@ -181,10 +198,14 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
     createPersonalAccessToken: function createPersonalAccessToken(
       data: CreatePersonalAccessTokenProps
     ) {
-      return endpoints.personalAccessToken
-        .create(http, data)
-        .then((response) => wrapPersonalAccessToken(http, response))
+      return makeRequest({
+        entityType: 'PersonalAccessToken',
+        action: 'create',
+        params: {},
+        payload: data,
+      }).then((response) => wrapPersonalAccessToken(makeRequest, response))
     },
+
     /**
      * Gets a personal access token
      * @param data - personal access token config
@@ -202,10 +223,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPersonalAccessToken: function getPersonalAccessToken(tokenId: string) {
-      return endpoints.personalAccessToken
-        .get(http, { tokenId })
-        .then((data) => wrapPersonalAccessToken(http, data))
+      return makeRequest({
+        entityType: 'PersonalAccessToken',
+        action: 'get',
+        params: { tokenId },
+      }).then((data) => wrapPersonalAccessToken(makeRequest, data))
     },
+
     /**
      * Gets all personal access tokens
      * @return Promise for a Token
@@ -222,10 +246,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getPersonalAccessTokens: function getPersonalAccessTokens() {
-      return endpoints.personalAccessToken
-        .getMany(http, {})
-        .then((data) => wrapPersonalAccessTokenCollection(http, data))
+      return makeRequest({
+        entityType: 'PersonalAccessToken',
+        action: 'getMany',
+        params: {},
+      }).then((data) => wrapPersonalAccessTokenCollection(makeRequest, data))
     },
+
     /**
      * Get organization usage grouped by {@link UsageMetricEnum metric}
      *
@@ -254,10 +281,13 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
       organizationId: string,
       query: QueryOptions = {}
     ) {
-      return endpoints.usage
-        .getManyForOrganization(http, { organizationId, query })
-        .then((data) => wrapUsageCollection(http, data))
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getManyForOrganization',
+        params: { organizationId, query },
+      }).then((data) => wrapUsageCollection(makeRequest, data))
     },
+
     /**
      * Get organization usage grouped by space and metric
      *
@@ -284,13 +314,16 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * ```
      */
     getSpaceUsage: function getSpaceUsage(organizationId: string, query: UsageQuery = {}) {
-      return endpoints.usage
-        .getManyForSpace(http, {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getManyForSpace',
+        params: {
           organizationId,
           query,
-        })
-        .then((data) => wrapUsageCollection(http, data))
+        },
+      }).then((data) => wrapUsageCollection(makeRequest, data))
     },
+
     /**
      * Make a custom request to the Contentful management API's /spaces endpoint
      * @param opts - axios request options (https://github.com/mzabriskie/axios)
@@ -310,8 +343,12 @@ export default function createClientApi({ http }: { http: AxiosInstance }) {
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest(opts: AxiosRequestConfig) {
-      return http(opts).then((response) => response.data, errorHandler)
+    rawRequest: function rawRequest({ url, ...config }: AxiosRequestConfig & { url: string }) {
+      return makeRequest({
+        entityType: 'Http',
+        action: 'request',
+        params: { url, config },
+      })
     },
   }
 }

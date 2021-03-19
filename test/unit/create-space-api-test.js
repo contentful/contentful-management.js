@@ -19,7 +19,6 @@ import {
   userMock,
   webhookMock,
 } from './mocks/entities'
-import setupHttpMock from './mocks/http'
 import {
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
@@ -29,15 +28,16 @@ import {
 } from './test-creators/static-entity-methods'
 import { __RewireAPI__ as createEnvironmentApiRewireApi } from '../../lib/create-environment-api'
 import { expect } from 'chai'
+import setupMakeRequest from './mocks/makeRequest'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createSpaceApiRewireApi)
-  const httpMock = setupHttpMock(promise)
-  const api = createSpaceApi({ http: httpMock })
+  const makeRequest = setupMakeRequest(promise)
+  const api = createSpaceApi(makeRequest)
   api.toPlainObject = () => spaceMock
   return {
     api,
-    httpMock,
+    makeRequest,
     entitiesMock,
   }
 }
@@ -57,7 +57,7 @@ describe('A createSpaceApi', () => {
     const { api } = setup(Promise.reject(error))
 
     return api.delete().catch((r) => {
-      expect(r.name).equals('404 Not Found')
+      expect(r).equals(error)
     })
   })
 
@@ -69,7 +69,7 @@ describe('A createSpaceApi', () => {
       },
       name: 'updatedname',
     }
-    let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
+    let { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: responseData }))
     entitiesMock.space.wrapSpace.returns(responseData)
 
     // mocks data that would exist in a space object already retrieved from the server
@@ -83,11 +83,7 @@ describe('A createSpaceApi', () => {
     api.name = 'updatedname'
     return api.update().then((r) => {
       expect(r).eql(responseData, 'space is wrapped')
-      expect(httpMock.put.args[0][1].name).equals('updatedname', 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent'
-      )
+      expect(makeRequest.args[0][0].payload.name).equals('updatedname', 'data is sent')
     })
   })
 
@@ -104,7 +100,7 @@ describe('A createSpaceApi', () => {
     api = toPlainObject(api)
 
     return api.update().catch((r) => {
-      expect(r.name).equals('404 Not Found')
+      expect(r).equals(error)
     })
   })
 
@@ -155,7 +151,6 @@ describe('A createSpaceApi', () => {
       entityType: 'webhook',
       mockToReturn: webhookMock,
       methodToTest: 'createWebhookWithId',
-      entityPath: '/spaces/id/webhook_definitions',
     })
   })
 
@@ -260,7 +255,6 @@ describe('A createSpaceApi', () => {
       entityType: 'spaceMembership',
       mockToReturn: spaceMembershipMock,
       methodToTest: 'createSpaceMembershipWithId',
-      entityPath: '/spaces/id/space_memberships',
     })
   })
 
@@ -345,7 +339,6 @@ describe('A createSpaceApi', () => {
       entityType: 'role',
       mockToReturn: roleMock,
       methodToTest: 'createRoleWithId',
-      entityPath: '/spaces/id/roles',
     })
   })
 
@@ -402,7 +395,6 @@ describe('A createSpaceApi', () => {
       entityType: 'apiKey',
       mockToReturn: apiKeyMock,
       methodToTest: 'createApiKeyWithId',
-      entityPath: '/spaces/id/api_keys',
     })
   })
 

@@ -79,7 +79,11 @@ export type {
   TeamSpaceMembershipProps,
   CreateTeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-export type { UIExtension, UIExtensionProps, CreateUIExtensionProps } from './entities/ui-extension'
+export type {
+  Extension as UIExtension,
+  ExtensionProps as UIExtensionProps,
+  CreateExtensionProps as CreateUIExtensionProps,
+} from './entities/extension'
 export type { Upload, UploadProps } from './entities/upload'
 export type { Usage, UsageProps } from './entities/usage'
 export type { User, UserProps } from './entities/user'

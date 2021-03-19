@@ -1,5 +1,5 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   wrapEnvironmentAlias,
   wrapEnvironmentAliasCollection,
@@ -14,7 +14,7 @@ import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('environmentAlias'),
   }
 }
