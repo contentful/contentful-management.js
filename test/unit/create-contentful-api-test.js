@@ -224,11 +224,7 @@ describe('A createContentfulApi', () => {
 
   describe('with raw api', () => {
     test('API call rawRequest', async () => {
-      const makeRequest = sinon.stub().resolves({
-        data: {
-          response: true,
-        },
-      })
+      const makeRequest = sinon.stub().resolves({ response: true })
 
       const api = createContentfulApi(makeRequest)
 
@@ -243,7 +239,6 @@ describe('A createContentfulApi', () => {
       expect(makeRequest.args[0][0].params).to.eql({
         url: 'url',
         config: {
-          url: 'url',
           opts: true,
         },
       })

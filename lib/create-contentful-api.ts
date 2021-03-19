@@ -344,12 +344,12 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest(opts: AxiosRequestConfig & { url: string }) {
+    rawRequest: function rawRequest({ url, ...config }: AxiosRequestConfig & { url: string }) {
       return makeRequest({
         entityType: 'Http',
         action: 'request',
-        params: { url: opts.url, config: opts },
-      }).then((response) => response.data, errorHandler)
+        params: { url, config },
+      })
     },
   }
 }
