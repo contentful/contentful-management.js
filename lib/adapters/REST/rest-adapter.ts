@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { omit } from 'lodash'
 import { Adapter, MakeRequestOptions } from '../../common-types'
 import endpoints from './endpoints'
 

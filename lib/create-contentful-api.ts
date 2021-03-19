@@ -7,7 +7,6 @@ import { CreatePersonalAccessTokenProps } from './entities/personal-access-token
 import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
-import errorHandler from './error-handler'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
@@ -344,12 +343,12 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest(opts: AxiosRequestConfig & { url: string }) {
+    rawRequest: function rawRequest({ url, ...config }: AxiosRequestConfig & { url: string }) {
       return makeRequest({
         entityType: 'Http',
         action: 'request',
-        params: { url: opts.url, config: opts },
-      }).then((response) => response.data, errorHandler)
+        params: { url, config },
+      })
     },
   }
 }
