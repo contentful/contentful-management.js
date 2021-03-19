@@ -4,7 +4,6 @@ import createEnvironmentApi, {
 import {
   appInstallationMock,
   assetMock,
-  assetWithFilesMock,
   cloneMock,
   contentTypeMock,
   editorInterfaceMock,
@@ -14,10 +13,9 @@ import {
   mockCollection,
   setupEntitiesMock,
   snapShotMock,
-  extensionMock,
+  UiExtensionMock,
   uploadMock,
 } from './mocks/entities'
-import setupHttpMock from './mocks/http'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
 import { toPlainObject } from 'contentful-sdk-core'
@@ -32,15 +30,16 @@ import {
 import { wrapEntry } from '../../lib/entities/entry'
 import { wrapAsset } from '../../lib/entities/asset'
 import { wrapTagCollection } from '../../lib/entities/tag'
+import setupMakeRequest from './mocks/makeRequest'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
-  const httpMock = setupHttpMock(promise)
-  const api = createEnvironmentApi({ http: httpMock })
+  const makeRequest = setupMakeRequest(promise)
+  const api = createEnvironmentApi(makeRequest)
   api.toPlainObject = () => environmentMock
   return {
     api,
-    httpMock,
+    makeRequest,
     entitiesMock,
   }
 }
@@ -59,7 +58,7 @@ describe('A createEnvironmentApi', () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
     await api.delete().catch((r) => {
-      expect(r.name).to.equals('404 Not Found')
+      expect(r).to.equals(error)
     })
   })
 
@@ -68,7 +67,7 @@ describe('A createEnvironmentApi', () => {
       sys: { id: 'id', type: 'Environment', space: { sys: { id: 'spaceId' } } },
       name: 'updatedname',
     }
-    let { api, httpMock, entitiesMock } = setup(Promise.resolve({ data: responseData }))
+    let { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
     entitiesMock.environment.wrapEnvironment.returns(responseData)
 
     // mocks data that would exist in a environment object already retrieved from the server
@@ -79,11 +78,7 @@ describe('A createEnvironmentApi', () => {
 
     return api.update().then((r) => {
       expect(r).to.eql(responseData)
-      expect(httpMock.put.args[0][1].name).to.eql('updatedname', 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).to.eql(
-        2,
-        'version header is sent'
-      )
+      expect(makeRequest.args[0][0].payload.name).to.eql('updatedname', 'data is sent')
     })
   })
 
@@ -96,7 +91,7 @@ describe('A createEnvironmentApi', () => {
     api = toPlainObject(api)
 
     return api.update().catch((r) => {
-      expect(r.name).equals('404 Not Found')
+      expect(r).equals(error)
     })
   })
 
@@ -146,7 +141,6 @@ describe('A createEnvironmentApi', () => {
       entityType: 'contentType',
       mockToReturn: contentTypeMock,
       methodToTest: 'createContentTypeWithId',
-      entityPath: '/spaces/id/environments/id/content_types',
     })
   })
 
@@ -223,40 +217,18 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createEntry', async () => {
-    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
     entitiesMock.entry.wrapEntry.returns(entryMock)
 
     return api.createEntry('contentTypeId', entryMock).then((r) => {
       expect(r).to.eql(entryMock)
-      expect(httpMock.post.args[0][1]).to.eql(entryMock, 'data is sent')
-      expect(httpMock.post.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
-        'contentTypeId',
-        'content type is specified'
-      )
+      expect(makeRequest.args[0][0].payload).to.eql(entryMock, 'data is sent')
     })
   })
 
   test('API call createEntry fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createEntry',
-    })
-  })
-
-  test('API call createEntryWithId', async () => {
-    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock.entry.wrapEntry.returns(entryMock)
-
-    return api.createEntryWithId('contentTypeId', 'entryId', entryMock).then((r) => {
-      expect(r).to.eql(entryMock)
-      expect(httpMock.put.args[0][0]).to.eql(
-        '/spaces/id/environments/id/entries/entryId',
-        'entry id is sent'
-      )
-      expect(httpMock.put.args[0][1]).to.eql(entryMock, 'data is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
-        'contentTypeId',
-        'content type is specified'
-      )
     })
   })
 
@@ -334,7 +306,6 @@ describe('A createEnvironmentApi', () => {
       entityType: 'asset',
       mockToReturn: assetMock,
       methodToTest: 'createAssetWithId',
-      entityPath: '/spaces/id/environments/id/assets',
     })
   })
 
@@ -342,72 +313,6 @@ describe('A createEnvironmentApi', () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createAssetWithId',
     })
-  })
-
-  test('API call createAssetFromFiles', async () => {
-    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
-
-    entitiesMock.upload.wrapUpload.returns(Promise.resolve(uploadMock))
-
-    httpMock.post.onFirstCall().returns(
-      Promise.resolve({
-        data: {
-          sys: {
-            id: 'some_random_id',
-          },
-        },
-      })
-    )
-
-    httpMock.post.onSecondCall().returns(
-      Promise.resolve({
-        data: {
-          sys: {
-            id: 'some_random_id',
-          },
-        },
-      })
-    )
-
-    httpMock.post.onThirdCall().returns(
-      Promise.resolve({
-        data: assetWithFilesMock,
-      })
-    )
-
-    return api
-      .createAssetFromFiles({
-        fields: {
-          file: {
-            locale: {
-              contentType: 'image/svg+xml',
-              fileName: 'filename.svg',
-              file:
-                '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
-            },
-            locale2: {
-              contentType: 'image/svg+xml',
-              fileName: 'filename.svg',
-              file:
-                '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
-            },
-          },
-        },
-      })
-      .then(() => {
-        expect(httpMock.post.args[0][1]).equals(
-          '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
-          'uploads file #1 to upload endpoint'
-        )
-        expect(httpMock.post.args[1][1]).equals(
-          '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
-          'uploads file #2 to upload endpoint'
-        )
-        expect(entitiesMock.asset.wrapAsset.args[0][1]).deep.equals(
-          assetWithFilesMock,
-          'wrapAsset was called with proper asset'
-        )
-      })
   })
 
   test('API call getUpload', async () => {
@@ -422,71 +327,6 @@ describe('A createEnvironmentApi', () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getUpload',
     })
-  })
-
-  test('API call createUpload', async () => {
-    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
-    const mockedUpload = {
-      sys: {
-        id: 'some_random_id',
-      },
-    }
-    httpMock.post.returns(
-      Promise.resolve({
-        data: mockedUpload,
-      })
-    )
-
-    return api
-      .createUpload({
-        contentType: 'image/svg',
-        fileName: 'filename.svg',
-        file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
-      })
-      .then(() => {
-        expect(httpMock.post.args[0][0]).equals('/spaces/id/uploads')
-        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
-        expect(httpMock.post.args[0][1]).equals(
-          '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
-          'uploads file to upload endpoint'
-        )
-        expect(entitiesMock.upload.wrapUpload.args[0][1]).deep.equals(
-          mockedUpload,
-          'wrapUpload was called with correct raw upload object'
-        )
-      })
-  })
-
-  test('API call createUpload defaults the content type to octet-stream', async () => {
-    const { api, httpMock, entitiesMock } = setup(Promise.resolve({}))
-    const mockedUpload = {
-      sys: {
-        id: 'some_random_id',
-      },
-    }
-    httpMock.post.returns(
-      Promise.resolve({
-        data: mockedUpload,
-      })
-    )
-
-    return api
-      .createUpload({
-        // no contentType set here
-        fileName: 'filename.svg',
-        file: '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
-      })
-      .then(() => {
-        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
-        expect(httpMock.post.args[0][1]).equals(
-          '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
-          'uploads file to upload endpoint'
-        )
-        expect(entitiesMock.upload.wrapUpload.args[0][1]).deep.equals(
-          mockedUpload,
-          'wrapUpload was called with correct raw upload object'
-        )
-      })
   })
 
   test('API call createAssetFromFiles with invalid data', async () => {
@@ -578,60 +418,59 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-  test('API call getExtension', async () => {
+  test('API call getUiExtension', async () => {
     return makeGetEntityTest(setup, {
       entityType: 'extension',
-      mockToReturn: extensionMock,
-      methodToTest: 'getExtension',
+      mockToReturn: UiExtensionMock,
+      methodToTest: 'getUiExtension',
     })
   })
 
-  test('API call getExtension fails', async () => {
+  test('API call getUiExtension fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getExtension',
+      methodToTest: 'getUiExtension',
     })
   })
 
-  test('API call getExtensions', async () => {
+  test('API call getUiExtensions', async () => {
     return makeGetCollectionTest(setup, {
       entityType: 'extension',
-      mockToReturn: extensionMock,
-      methodToTest: 'getExtensions',
+      mockToReturn: UiExtensionMock,
+      methodToTest: 'getUiExtensions',
     })
   })
 
-  test('API call getExtensions fails', async () => {
+  test('API call getUiExtensions fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getExtensions',
+      methodToTest: 'getUiExtensions',
     })
   })
 
-  test('API call createExtension', async () => {
+  test('API call createUiExtension', async () => {
     return makeEntityMethodFailingTest(setup, {
       entityType: 'extension',
-      mockToReturn: extensionMock,
-      methodToTest: 'createExtension',
+      mockToReturn: UiExtensionMock,
+      methodToTest: 'createUiExtension',
     })
   })
 
-  test('API call createExtension fails', async () => {
+  test('API call createUiExtension fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createExtension',
+      methodToTest: 'createUiExtension',
     })
   })
 
-  test('API call createExtensionWithId', async () => {
+  test('API call createUiExtensionWithId', async () => {
     return makeCreateEntityWithIdTest(setup, {
       entityType: 'extension',
-      mockToReturn: extensionMock,
-      methodToTest: 'createExtensionWithId',
-      entityPath: '/spaces/id/environments/id/extensions',
+      mockToReturn: UiExtensionMock,
+      methodToTest: 'createUiExtensionWithId',
     })
   })
 
-  test('API call createExtensionWithId fails', async () => {
+  test('API call createUiExtensionWithId fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createExtensionWithId',
+      methodToTest: 'createUiExtensionWithId',
     })
   })
 
@@ -665,7 +504,7 @@ describe('A createEnvironmentApi', () => {
 
   test('API call getTag', async () => {
     const tag = cloneMock('tag')
-    const { api } = setup(Promise.resolve({ data: cloneMock('tag') }))
+    const { api } = setup(Promise.resolve(cloneMock('tag')))
     return api.getTag(tag.id).then((r) => {
       expect(r).eql(tag)
     })
@@ -673,7 +512,7 @@ describe('A createEnvironmentApi', () => {
 
   test('API call getTags', async () => {
     const tagCollection = mockCollection(cloneMock('tag'))
-    const { api, httpMock } = setup(Promise.resolve({ data: tagCollection }))
+    const { api, httpMock } = setup(Promise.resolve(tagCollection))
     const wrappedCollection = wrapTagCollection(httpMock, tagCollection)
     return api.getTags(0, 1).then((r) => {
       expect(r).eql(wrappedCollection)
@@ -682,7 +521,7 @@ describe('A createEnvironmentApi', () => {
 
   test('API call createTag', async () => {
     const tag = cloneMock('tag')
-    const { api } = setup(Promise.resolve({ data: cloneMock('tag') }))
+    const { api } = setup(Promise.resolve(cloneMock('tag')))
     return api.createTag('my-tag', 'My tag').then((r) => {
       expect(r).eql(tag)
     })
@@ -697,7 +536,7 @@ describe('A createEnvironmentApi', () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
     await api.deleteEntry().catch((r) => {
-      expect(r.name).to.equals('404 Not Found')
+      expect(r).to.equals(error)
     })
   })
 })

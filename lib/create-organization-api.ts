@@ -158,7 +158,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     createTeam(data: CreateTeamProps) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      makeRequest({
+      return makeRequest({
         entityType: 'Team',
         action: 'create',
         params: { organizationId: raw.sys.id },
@@ -182,7 +182,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     getTeam(teamId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      makeRequest({
+      return makeRequest({
         entityType: 'Team',
         action: 'get',
         params: { organizationId: raw.sys.id, teamId },
