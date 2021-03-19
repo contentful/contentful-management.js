@@ -124,6 +124,7 @@ const entryMockWithTags = {
       {
         name: 'entrytag',
         sys: {
+          visibility: 'private',
           type: 'Tag',
           id: 'entrytag',
         },
@@ -160,6 +161,11 @@ const assetMock = {
   fields: {
     field1: 'str',
   },
+}
+
+const assetKeyMock = {
+  policy: 'assetKey.policyJWT',
+  secret: 'assetKeySecret',
 }
 
 const assetMockWithTags = {
@@ -453,6 +459,7 @@ const mocks = {
   snapshot: snapShotMock,
   asset: assetMock,
   assetWithTags: assetMockWithTags,
+  assetKey: assetKeyMock,
   locale: localeMock,
   webhook: webhookMock,
   spaceMember: spaceMemberMock,
@@ -517,6 +524,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     asset: {
       wrapAsset: sinon.stub(),
       wrapAssetCollection: sinon.stub(),
+    },
+    assetKey: {
+      wrapAssetKey: sinon.stub(),
     },
     locale: {
       wrapLocale: sinon.stub(),
@@ -625,6 +635,7 @@ export {
   extensionMock,
   assetMock,
   assetWithFilesMock,
+  assetKeyMock,
   localeMock,
   webhookMock,
   spaceMemberMock,

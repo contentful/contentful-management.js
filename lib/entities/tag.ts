@@ -4,11 +4,14 @@ import { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-t
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+export type TagVisibility = 'private' | 'public'
+
 export type TagSysProps = Pick<
   MetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Tag'
+  visibility: TagVisibility
   space: SysLink
   environment: SysLink
 }

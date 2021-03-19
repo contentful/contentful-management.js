@@ -61,7 +61,16 @@ export function generateRandomId(prefix = 'randomId') {
 }
 
 export const DEFAULT_SPACE_ID = 'ezs1swce23xe'
+export const ALTERNATIVE_SPACE_ID = '7dh3w86is8ls'
+export const V2_SPACE_ID = 'w6xueg32zr68'
 
 export async function getDefaultSpace() {
   return await client().getSpace(DEFAULT_SPACE_ID)
+}
+export async function getAlternativeSpace() {
+  return await client().getSpace(ALTERNATIVE_SPACE_ID)
+}
+
+export async function getV2Space() {
+  return await client(true).getSpace(V2_SPACE_ID)
 }

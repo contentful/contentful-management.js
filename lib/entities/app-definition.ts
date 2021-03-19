@@ -7,23 +7,23 @@ import { SetOptional, Except } from 'type-fest'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 
-interface NavigationItem {
+export interface NavigationItem {
   name: string
   path: string
 }
 
 type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
-interface SimpleLocation {
+export interface SimpleLocation {
   location: LocationType
 }
 
-interface EntryFieldLocation {
+export interface EntryFieldLocation {
   location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
-interface PageLocation {
+export interface PageLocation {
   location: 'page'
   navigationItem?: NavigationItem
 }

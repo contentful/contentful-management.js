@@ -49,6 +49,7 @@ import {
   WebhookHealthProps,
   WebhookProps,
 } from './entities/webhook'
+import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -200,6 +201,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Asset', 'createFromFiles', UA>): MRReturn<'Asset', 'createFromFiles'>
   (opts: MROpts<'Asset', 'processForAllLocales', UA>): MRReturn<'Asset', 'processForAllLocales'>
   (opts: MROpts<'Asset', 'processForLocale', UA>): MRReturn<'Asset', 'processForLocale'>
+
+  (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -511,6 +514,13 @@ export type MRActions = {
         options?: AssetProcessingForLocale
       }
       return: AssetProps
+    }
+  }
+  AssetKey: {
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAssetKeyProps
+      return: AssetKeyProps
     }
   }
   ContentType: {

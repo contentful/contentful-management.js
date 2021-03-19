@@ -4,11 +4,12 @@ import entities from './entities'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
+import type { CreateAssetKeyProps } from './entities/asset-key'
 import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
-import { wrapTag, wrapTagCollection } from './entities/tag'
+import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
 
@@ -24,6 +25,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapContentType, wrapContentTypeCollection } = entities.contentType
   const { wrapEntry, wrapEntryCollection } = entities.entry
   const { wrapAsset, wrapAssetCollection } = entities.asset
+  const { wrapAssetKey } = entities.assetKey
   const { wrapLocale, wrapLocaleCollection } = entities.locale
   const { wrapSnapshotCollection } = entities.snapshot
   const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
@@ -746,6 +748,39 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((response) => wrapAsset(makeRequest, response))
     },
     /**
+     * Creates an asset key for signing asset URLs (Embargoed Assets)
+     * @param data Object with request payload
+     * @param data.expiresAt number a UNIX timestamp in the future (but not more than 48 hours from time of calling)
+     * @return Promise for the newly created AssetKey
+     * @example ```javascript
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Create assetKey
+     * now = () => Math.floor(Date.now() / 1000)
+     * const withExpiryIn1Hour = () => now() + 1 * 60 * 60
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.createAssetKey({ expiresAt: withExpiryIn1Hour() }))
+     * .then((policy, secret) => console.log({ policy, secret }))
+     * .catch(console.error)
+     * ```
+     */
+    createAssetKey(payload: CreateAssetKeyProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AssetKey',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapAssetKey(makeRequest, data))
+    },
+
+    /**
      * Gets an Upload
      * @param id - Upload ID
      * @return Promise for an Upload
@@ -1207,9 +1242,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapSnapshotCollection<ContentTypeProps>(makeRequest, data))
     },
 
-    createTag(id: string, name: string) {
+    createTag(id: string, name: string, visibility?: TagVisibility) {
       const raw = this.toPlainObject() as EnvironmentProps
-      const params = { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, tagId: id }
+      const params = {
+        spaceId: raw.sys.space.sys.id,
+        environmentId: raw.sys.id,
+        tagId: id,
+        visibility,
+      }
 
       return makeRequest({
         entityType: 'Tag',

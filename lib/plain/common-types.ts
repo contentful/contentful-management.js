@@ -72,6 +72,7 @@ import {
   WebhookProps,
 } from '../entities/webhook'
 import { DefaultParams, MarkOptional } from './wrappers/wrap'
+import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 
 export type PlainClientAPI = {
   raw: {
@@ -250,6 +251,9 @@ export type PlainClientAPI = {
       locale: string,
       processingOptions: AssetProcessingForLocale
     ): Promise<AssetProps>
+  }
+  assetKey: {
+    create(params: GetSpaceEnvironmentParams, data: CreateAssetKeyProps): Promise<AssetKeyProps>
   }
   upload: {
     get(params: GetSpaceParams & { uploadId: string }): Promise<any>

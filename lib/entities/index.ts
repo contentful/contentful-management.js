@@ -2,6 +2,7 @@ import * as apiKey from './api-key'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
 import * as asset from './asset'
+import * as assetKey from './asset-key'
 import * as contentType from './content-type'
 import * as editorInterface from './editor-interface'
 import * as entry from './entry'
@@ -34,6 +35,7 @@ export default {
   appDefinition,
   appInstallation,
   asset,
+  assetKey,
   contentType,
   editorInterface,
   entry,

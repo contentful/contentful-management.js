@@ -139,6 +139,9 @@ export const createPlainClient = (
           },
         }),
     },
+    assetKey: {
+      create: wrap(wrapParams, 'AssetKey', 'create'),
+    },
     upload: {
       get: wrap(wrapParams, 'Upload', 'get'),
       create: wrap(wrapParams, 'Upload', 'create'),
