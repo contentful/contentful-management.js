@@ -7,7 +7,6 @@ import { CreatePersonalAccessTokenProps } from './entities/personal-access-token
 import { Space, SpaceProps } from './entities/space'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
-import errorHandler from './error-handler'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 

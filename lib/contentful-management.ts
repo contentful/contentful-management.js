@@ -32,7 +32,7 @@ interface UserAgentParams {
   feature?: string
 }
 
-export type ClientParams = RestAdapterParams & AdapterParams & UserAgentParams
+export type ClientParams = (RestAdapterParams | AdapterParams) & UserAgentParams
 
 /**
  * Create a client instance
