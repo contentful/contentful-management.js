@@ -261,13 +261,13 @@ export type PlainClientAPI = {
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
-      processingOptions: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
     processForLocale(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       locale: string,
-      processingOptions: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
   }
   assetKey: {
