@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Except } from 'type-fest'
 import { MakeRequest, MRActions, MROpts, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
@@ -9,11 +8,10 @@ export type DefaultParams = {
   organizationId?: string
 }
 
-export type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
-  // Pick just the keys that are not optional from the base type.
-  Except<BaseType, Keys> &
-    // Pick the keys that should be optional from the base type and make them optional.
-    Partial<Pick<BaseType, Keys>>
+export type OptionalDefaults<T> = Omit<T, keyof DefaultParams> &
+  ('organizationId' extends keyof T ? { organizationId?: string } : {}) &
+  ('spaceId' extends keyof T ? { spaceId?: string } : {}) &
+  ('environmentId' extends keyof T ? { environmentId?: string } : {})
 
 export type WrapParams = {
   makeRequest: MakeRequest

@@ -71,7 +71,7 @@ import {
   WebhookHealthProps,
   WebhookProps,
 } from '../entities/webhook'
-import { DefaultParams, MarkOptional } from './wrappers/wrap'
+import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 
 export type PlainClientAPI = {
@@ -84,470 +84,529 @@ export type PlainClientAPI = {
     http<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
   }
   editorInterface: {
-    get(
-      params: MarkOptional<GetEditorInterfaceParams, 'spaceId' | 'environmentId'>
-    ): Promise<EditorInterfaceProps>
+    get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>
     getMany(
-      params: MarkOptional<GetSpaceEnvironmentParams & QueryParams, 'spaceId' | 'environmentId'>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<EditorInterfaceProps>>
     update(
-      params: MarkOptional<GetEditorInterfaceParams, 'spaceId' | 'environmentId'>,
+      params: OptionalDefaults<GetEditorInterfaceParams>,
       rawData: EditorInterfaceProps,
       headers?: Record<string, unknown>
     ): Promise<EditorInterfaceProps>
   }
   space: {
-    get(params: GetSpaceParams): Promise<SpaceProps>
-    getMany(params: QueryParams): Promise<CollectionProp<SpaceProps>>
+    get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
+    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
     create(
-      params: { organizationId?: string },
+      params: OptionalDefaults<{ organizationId?: string }>,
       payload: Omit<SpaceProps, 'sys'>,
       headers?: Record<string, unknown>
     ): Promise<any>
     update(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       payload: SpaceProps,
       headers?: Record<string, unknown>
     ): Promise<SpaceProps>
-    delete(params: GetSpaceParams): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceParams>): Promise<any>
   }
   environment: {
-    get(
-      params: MarkOptional<GetSpaceEnvironmentParams, 'spaceId' | 'environmentId'>
-    ): Promise<EnvironmentProps>
+    get(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<EnvironmentProps>
     getMany(
-      params: MarkOptional<GetSpaceParams & PaginationQueryParams, 'spaceId'>
+      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
     ): Promise<CollectionProp<EnvironmentProps>>
     create(
-      params: MarkOptional<GetSpaceParams, 'spaceId'>,
+      params: OptionalDefaults<GetSpaceParams>,
       rawData: Partial<Pick<EnvironmentProps, 'name'>>,
       headers?: Record<string, unknown>
     ): Promise<EnvironmentProps>
     createWithId(
-      params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
       rawData: CreateEnvironmentProps,
       headers?: Record<string, unknown>
     ): Promise<EnvironmentProps>
     update(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       rawData: EnvironmentProps,
       headers?: Record<string, unknown>
     ): Promise<EnvironmentProps>
-    delete(params: GetSpaceEnvironmentParams): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<any>
   }
   environmentAlias: {
-    get(params: GetSpaceEnvAliasParams): Promise<EnvironmentAliasProps>
+    get(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<EnvironmentAliasProps>
     getMany(
-      params: GetSpaceParams & PaginationQueryParams
+      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
     ): Promise<CollectionProp<EnvironmentAliasProps>>
     createWithId(
-      params: GetSpaceEnvAliasParams,
+      params: OptionalDefaults<GetSpaceEnvAliasParams>,
       rawData: CreateEnvironmentAliasProps,
       headers?: Record<string, unknown>
     ): Promise<EnvironmentAliasProps>
     update(
-      params: GetSpaceEnvAliasParams,
+      params: OptionalDefaults<GetSpaceEnvAliasParams>,
       rawData: EnvironmentAliasProps,
       headers?: Record<string, unknown>
     ): Promise<EnvironmentAliasProps>
-    delete(params: GetSpaceEnvAliasParams): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
   }
   contentType: {
-    get(params: GetContentTypeParams & QueryParams): Promise<ContentTypeProps>
+    get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<ContentTypeProps>>
     update(
-      params: GetContentTypeParams,
+      params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
       headers?: Record<string, unknown>
     ): Promise<ContentTypeProps>
-    delete(params: GetContentTypeParams): Promise<any>
-    publish(params: GetContentTypeParams, rawData: ContentTypeProps): Promise<ContentTypeProps>
-    unpublish(params: GetContentTypeParams): Promise<ContentTypeProps>
+    delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
+    publish(
+      params: OptionalDefaults<GetContentTypeParams>,
+      rawData: ContentTypeProps
+    ): Promise<ContentTypeProps>
+    unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
     omitAndDeleteField(
-      params: GetContentTypeParams,
+      params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
       fieldId: string
     ): Promise<ContentTypeProps>
   }
   user: {
-    getManyForSpace(params: GetSpaceParams & QueryParams): Promise<CollectionProp<UserProps>>
-    getForSpace(params: GetSpaceParams & { userId: string }): Promise<UserProps>
+    getManyForSpace(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<UserProps>>
+    getForSpace(params: OptionalDefaults<GetSpaceParams & { userId: string }>): Promise<UserProps>
     getCurrent<T = UserProps>(params?: QueryParams): Promise<T>
-    getForOrganization(params: GetOrganizationParams & { userId: string }): Promise<UserProps>
+    getForOrganization(
+      params: OptionalDefaults<GetOrganizationParams & { userId: string }>
+    ): Promise<UserProps>
     getManyForOrganization(
-      params: GetOrganizationParams & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<UserProps>>
   }
   entry: {
     getMany<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
       headers?: Record<string, unknown>
     ): Promise<EntryProps<T>>
-    delete(params: GetSpaceEnvironmentParams & { entryId: string }): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
     ): Promise<EntryProps<T>>
     unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { contentTypeId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      >,
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
   }
   asset: {
-    getMany(params: GetSpaceEnvironmentParams & QueryParams): Promise<CollectionProp<AssetProps>>
-    get(params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams): Promise<AssetProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    ): Promise<CollectionProp<AssetProps>>
+    get(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>
+    ): Promise<AssetProps>
     update(
-      params: GetSpaceEnvironmentParams & { assetId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: AssetProps,
       headers?: Record<string, unknown>
     ): Promise<AssetProps>
-    delete(params: GetSpaceEnvironmentParams & { assetId: string }): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
-      params: GetSpaceEnvironmentParams & { assetId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: AssetProps
     ): Promise<AssetProps>
-    unpublish(params: GetSpaceEnvironmentParams & { assetId: string }): Promise<AssetProps>
-    archive(params: GetSpaceEnvironmentParams & { assetId: string }): Promise<AssetProps>
-    unarchive(params: GetSpaceEnvironmentParams & { assetId: string }): Promise<AssetProps>
-    create(params: GetSpaceEnvironmentParams, rawData: CreateAssetProps): Promise<AssetProps>
+    unpublish(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+    ): Promise<AssetProps>
+    archive(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+    ): Promise<AssetProps>
+    unarchive(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+    ): Promise<AssetProps>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      rawData: CreateAssetProps
+    ): Promise<AssetProps>
     createWithId(
-      params: GetSpaceEnvironmentParams & { assetId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: CreateAssetProps
     ): Promise<AssetProps>
     createFromFiles(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: Omit<AssetFileProp, 'sys'>
     ): Promise<AssetProps>
     processForAllLocales(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       processingOptions: AssetProcessingForLocale
     ): Promise<AssetProps>
     processForLocale(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       locale: string,
       processingOptions: AssetProcessingForLocale
     ): Promise<AssetProps>
   }
   assetKey: {
-    create(params: GetSpaceEnvironmentParams, data: CreateAssetKeyProps): Promise<AssetKeyProps>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      data: CreateAssetKeyProps
+    ): Promise<AssetKeyProps>
   }
   upload: {
-    get(params: GetSpaceParams & { uploadId: string }): Promise<any>
-    create(params: GetSpaceParams, data: { file: string | ArrayBuffer | Stream }): Promise<any>
-    delete(params: GetSpaceParams & { uploadId: string }): Promise<any>
+    get(params: OptionalDefaults<GetSpaceParams & { uploadId: string }>): Promise<any>
+    create(
+      params: OptionalDefaults<GetSpaceParams>,
+      data: { file: string | ArrayBuffer | Stream }
+    ): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceParams & { uploadId: string }>): Promise<any>
   }
   locale: {
-    get(params: GetSpaceEnvironmentParams & { localeId: string }): Promise<LocaleProps>
-    getMany(params: GetSpaceEnvironmentParams & QueryParams): Promise<CollectionProp<LocaleProps>>
-    delete(params: GetSpaceEnvironmentParams & { localeId: string }): Promise<any>
+    get(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
+    ): Promise<LocaleProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    ): Promise<CollectionProp<LocaleProps>>
+    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>): Promise<any>
     update(
-      params: GetSpaceEnvironmentParams & { localeId: string },
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
       rawData: LocaleProps,
       headers?: Record<string, unknown>
     ): Promise<LocaleProps>
     create(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: CreateLocaleProps,
       headers?: Record<string, unknown>
     ): Promise<LocaleProps>
   }
   personalAccessToken: {
-    get(params: { tokenId: string }): Promise<PersonalAccessTokenProp>
-    getMany(params: QueryParams): Promise<CollectionProp<PersonalAccessTokenProp>>
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
+    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
     create(
       rawData: CreatePersonalAccessTokenProps,
       headers?: Record<string, unknown>
     ): Promise<PersonalAccessTokenProp>
-    revoke(params: { tokenId: string }): Promise<PersonalAccessTokenProp>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
   }
   usage: {
     getManyForSpace(
-      params: { organizationId: string } & QueryParams
+      params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
     getManyForOrganization(
-      params: { organizationId: string } & QueryParams
+      params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
   }
   role: {
-    get(params: GetSpaceParams & { roleId: string }): Promise<RoleProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<RoleProps>>
+    get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<RoleProps>>
     create(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       data: CreateRoleProps,
       headers?: Record<string, unknown>
     ): Promise<RoleProps>
     createWithId(
-      params: GetSpaceParams & { roleId: string },
+      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
       data: CreateRoleProps,
       headers?: Record<string, unknown>
     ): Promise<RoleProps>
     update(
-      params: GetSpaceParams & { roleId: string },
+      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
       rawData: RoleProps,
       headers?: Record<string, unknown>
     ): Promise<RoleProps>
-    delete(params: GetSpaceParams & { roleId: string }): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
   }
   scheduledActions: {
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<ScheduledActionProps>>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<ScheduledActionProps>>
     create(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       data: Omit<ScheduledActionProps, 'sys'>
     ): Promise<ScheduledActionProps>
-    delete(params: GetSpaceParams & { scheduledActionId: string }): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>): Promise<any>
   }
   previewApiKey: {
-    get(params: GetSpaceParams & { previewApiKeyId: string }): Promise<PreviewApiKeyProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<PreviewApiKeyProps>>
+    get(
+      params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>
+    ): Promise<PreviewApiKeyProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<PreviewApiKeyProps>>
   }
   apiKey: {
-    get(params: GetSpaceParams & { apiKeyId: string }): Promise<ApiKeyProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<ApiKeyProps>>
+    get(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<ApiKeyProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<ApiKeyProps>>
     create(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       data: CreateApiKeyProps,
       headers?: Record<string, unknown>
     ): Promise<ApiKeyProps>
     createWithId(
-      params: GetSpaceParams & { apiKeyId: string },
+      params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       data: CreateApiKeyProps,
       headers?: Record<string, unknown>
     ): Promise<ApiKeyProps>
     update(
-      params: GetSpaceParams & { apiKeyId: string },
+      params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       rawData: ApiKeyProps,
       headers?: Record<string, unknown>
     ): Promise<ApiKeyProps>
-    delete(params: GetSpaceParams & { apiKeyId: string }): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
   appDefinition: {
     get(
-      params: GetOrganizationParams & { appDefinitionId: string } & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & { appDefinitionId: string } & QueryParams>
     ): Promise<AppDefinitionProps>
     getMany(
-      params: GetOrganizationParams & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<AppDefinitionProps>>
     create(
-      params: GetOrganizationParams,
+      params: OptionalDefaults<GetOrganizationParams>,
       rawData: CreateAppDefinitionProps
     ): Promise<AppDefinitionProps>
     update(
-      params: GetAppDefinitionParams,
+      params: OptionalDefaults<GetAppDefinitionParams>,
       rawData: AppDefinitionProps,
       headers?: Record<string, unknown>
     ): Promise<AppDefinitionProps>
-    delete(params: GetAppDefinitionParams): Promise<any>
+    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
   }
   appInstallation: {
-    get(params: GetAppInstallationParams): Promise<AppInstallationProps>
+    get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
     getMany(
-      params: GetSpaceEnvironmentParams & PaginationQueryParams
+      params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
     ): Promise<CollectionProp<AppInstallationProps>>
     upsert(
-      params: GetAppInstallationParams,
+      params: OptionalDefaults<GetAppInstallationParams>,
       rawData: CreateAppInstallationProps,
       headers?: Record<string, unknown>
     ): Promise<AppInstallationProps>
-    delete(params: GetAppInstallationParams): Promise<any>
+    delete(params: OptionalDefaults<GetAppInstallationParams>): Promise<any>
   }
   extension: {
-    get(params: GetExtensionParams & QueryParams): Promise<ExtensionProps>
+    get(params: OptionalDefaults<GetExtensionParams & QueryParams>): Promise<ExtensionProps>
     getMany(
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<ExtensionProps>>
     create(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
     ): Promise<ExtensionProps>
     createWithId(
-      params: GetExtensionParams,
+      params: OptionalDefaults<GetExtensionParams>,
       rawData: CreateExtensionProps,
       headers?: Record<string, unknown>
     ): Promise<ExtensionProps>
     update(
-      params: GetExtensionParams,
+      params: OptionalDefaults<GetExtensionParams>,
       rawData: ExtensionProps,
       headers?: Record<string, unknown>
     ): Promise<ExtensionProps>
-    delete(params: GetExtensionParams): Promise<any>
+    delete(params: OptionalDefaults<GetExtensionParams>): Promise<any>
   }
   webhook: {
-    get(params: GetWebhookParams): Promise<WebhookProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<WebhookProps>>
-    getHealthStatus(params: GetWebhookParams): Promise<WebhookHealthProps>
-    getCallDetails(params: GetWebhookCallDetailsUrl): Promise<WebhookCallDetailsProps>
+    get(params: OptionalDefaults<GetWebhookParams>): Promise<WebhookProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<WebhookProps>>
+    getHealthStatus(params: OptionalDefaults<GetWebhookParams>): Promise<WebhookHealthProps>
+    getCallDetails(
+      params: OptionalDefaults<GetWebhookCallDetailsUrl>
+    ): Promise<WebhookCallDetailsProps>
     getManyCallDetails(
-      params: GetWebhookParams & QueryParams
+      params: OptionalDefaults<GetWebhookParams & QueryParams>
     ): Promise<CollectionProp<WebhookCallOverviewProps>>
     create(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       rawData: CreateWebhooksProps,
       headers?: Record<string, unknown>
     ): Promise<WebhookProps>
-    update(params: GetWebhookParams, rawData: CreateWebhooksProps): Promise<WebhookProps>
-    delete(params: GetWebhookParams): Promise<any>
+    update(
+      params: OptionalDefaults<GetWebhookParams>,
+      rawData: CreateWebhooksProps
+    ): Promise<WebhookProps>
+    delete(params: OptionalDefaults<GetWebhookParams>): Promise<any>
   }
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: GetSnapshotForEntryParams & QueryParams
+      params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
     ): Promise<CollectionProp<SnapshotProps<EntryProps<T>>>>
     getForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: GetSnapshotForEntryParams & { snapshotId: string }
+      params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>
     ): Promise<SnapshotProps<EntryProps<T>>>
     getManyForContentType(
-      params: GetSnapshotForContentTypeParams & QueryParams
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>
     getForContentType(
-      params: GetSnapshotForContentTypeParams & { snapshotId: string }
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
   tag: {
-    get(params: GetTagParams, rawData: CreateTagProps): Promise<TagProps>
-    getMany(params: GetSpaceEnvironmentParams & QueryParams): Promise<CollectionProp<TagProps>>
-    createWithId(params: GetTagParams, rawData: CreateTagProps): Promise<TagProps>
+    get(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    ): Promise<CollectionProp<TagProps>>
+    createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
     update(
-      params: GetTagParams,
+      params: OptionalDefaults<GetTagParams>,
       rawData: TagProps,
       headers?: Record<string, unknown>
     ): Promise<TagProps>
-    delete(params: GetTagParams, version: number): Promise<any>
+    delete(params: OptionalDefaults<GetTagParams>, version: number): Promise<any>
   }
   organization: {
     getAll(): Promise<CollectionProp<OrganizationProp>>
-    get(params: GetOrganizationParams): Promise<OrganizationProp>
+    get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
   }
   organizationInvitation: {
     get(
-      params: { organizationId: string; invitationId: string },
+      params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
       headers?: Record<string, unknown>
     ): Promise<OrganizationInvitationProps>
     create(
-      params: { organizationId: string },
+      params: OptionalDefaults<{ organizationId: string }>,
       data: CreateOrganizationInvitationProps,
       headers?: Record<string, unknown>
     ): Promise<OrganizationInvitationProps>
   }
   organizationMembership: {
-    get(params: GetOrganizationMembershipProps): Promise<OrganizationMembershipProps>
+    get(
+      params: OptionalDefaults<GetOrganizationMembershipProps>
+    ): Promise<OrganizationMembershipProps>
     getMany(
-      params: GetOrganizationParams & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<OrganizationMembershipProps>>
     update(
-      params: GetOrganizationMembershipProps,
+      params: OptionalDefaults<GetOrganizationMembershipProps>,
       rawData: OrganizationMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<OrganizationMembershipProps>
-    delete(params: GetOrganizationMembershipProps): Promise<any>
+    delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
   }
   spaceMember: {
-    get(params: GetSpaceParams & { spaceMemberId: string }): Promise<SpaceMemberProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMemberProps>>
+    get(
+      params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>
+    ): Promise<SpaceMemberProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<SpaceMemberProps>>
   }
   spaceMembership: {
-    get(params: GetSpaceMembershipProps): Promise<SpaceMembershipProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<SpaceMembershipProps>>
+    get(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<SpaceMembershipProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<SpaceMembershipProps>>
     getForOrganization(
-      params: GetOrganizationParams & { spaceMembershipId: string }
+      params: OptionalDefaults<GetOrganizationParams & { spaceMembershipId: string }>
     ): Promise<SpaceMembershipProps>
     getManyForOrganization(
-      params: GetOrganizationParams & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<SpaceMembershipProps>>
     create(
-      params: GetSpaceParams,
+      params: OptionalDefaults<GetSpaceParams>,
       data: CreateSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<SpaceMembershipProps>
     createWithId(
-      params: GetSpaceMembershipProps,
+      params: OptionalDefaults<GetSpaceMembershipProps>,
       data: CreateSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<SpaceMembershipProps>
     update(
-      params: GetSpaceMembershipProps,
+      params: OptionalDefaults<GetSpaceMembershipProps>,
       rawData: SpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<SpaceMembershipProps>
-    delete(params: GetSpaceMembershipProps): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
   }
   team: {
-    get(params: GetTeamParams): Promise<TeamProps>
-    getMany(params: GetOrganizationParams & QueryParams): Promise<CollectionProp<TeamProps>>
+    get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
+    getMany(
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    ): Promise<CollectionProp<TeamProps>>
     create(
-      params: GetOrganizationParams,
+      params: OptionalDefaults<GetOrganizationParams>,
       rawData: CreateTeamProps,
       headers?: Record<string, unknown>
     ): Promise<any>
     update(
-      params: GetTeamParams,
+      params: OptionalDefaults<GetTeamParams>,
       rawData: TeamProps,
       headers?: Record<string, unknown>
     ): Promise<TeamProps>
-    delete(params: GetTeamParams): Promise<any>
+    delete(params: OptionalDefaults<GetTeamParams>): Promise<any>
   }
   teamMembership: {
-    get(params: GetTeamMembershipParams): Promise<TeamMembershipProps>
+    get(params: OptionalDefaults<GetTeamMembershipParams>): Promise<TeamMembershipProps>
     getManyForOrganization(
-      params: GetOrganizationParams & QueryParams
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<TeamMembershipProps>>
     getManyForTeam(
-      params: GetTeamParams & QueryParams
+      params: OptionalDefaults<GetTeamParams & QueryParams>
     ): Promise<CollectionProp<TeamMembershipProps>>
     create(
-      params: GetTeamParams,
+      params: OptionalDefaults<GetTeamParams>,
       rawData: CreateTeamMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamMembershipProps>
     update(
-      params: GetTeamMembershipParams,
+      params: OptionalDefaults<GetTeamMembershipParams>,
       rawData: TeamMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamMembershipProps>
-    delete(params: GetTeamMembershipParams): Promise<any>
+    delete(params: OptionalDefaults<GetTeamMembershipParams>): Promise<any>
   }
   teamSpaceMembership: {
-    get(params: GetTeamSpaceMembershipParams): Promise<TeamSpaceMembershipProps>
-    getMany(params: GetSpaceParams & QueryParams): Promise<CollectionProp<TeamSpaceMembershipProps>>
+    get(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<TeamSpaceMembershipProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     getForOrganization(
-      params: GetOrganizationParams & { teamSpaceMembershipId: string }
+      params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>
     ): Promise<TeamSpaceMembershipProps>
     getManyForOrganization(
-      params: GetOrganizationParams & QueryParams & { teamId?: string }
+      params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>
     ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     create(
-      params: GetSpaceParams & { teamId: string },
+      params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
       rawData: TeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
     update(
-      params: GetTeamSpaceMembershipParams,
+      params: OptionalDefaults<GetTeamSpaceMembershipParams>,
       rawData: TeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
-    delete(params: GetTeamSpaceMembershipParams): Promise<any>
+    delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
 }
