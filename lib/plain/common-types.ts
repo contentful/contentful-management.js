@@ -472,7 +472,7 @@ export type PlainClientAPI = {
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
   tag: {
-    get(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
+    get(params: OptionalDefaults<GetTagParams>): Promise<TagProps>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<TagProps>>
