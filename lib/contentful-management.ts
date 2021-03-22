@@ -33,7 +33,11 @@ interface UserAgentParams {
   feature?: string
 }
 
-export type ClientParams = (RestAdapterParams | AdapterParams) & UserAgentParams
+/**
+ * @deprecated
+ */
+export type ClientParams = RestAdapterParams & UserAgentParams
+type ClientOptions = (RestAdapterParams | AdapterParams) & UserAgentParams
 
 /**
  * Create a client instance
@@ -45,16 +49,16 @@ export type ClientParams = (RestAdapterParams | AdapterParams) & UserAgentParams
  * })
  * ```
  */
-function createClient(params: ClientParams): ClientAPI
+function createClient(params: ClientOptions): ClientAPI
 function createClient(
-  params: ClientParams,
+  params: ClientOptions,
   opts: {
     type: 'plain'
     defaults?: DefaultParams
   }
 ): PlainClientAPI
 function createClient(
-  params: ClientParams,
+  params: ClientOptions,
   opts: {
     type?: 'plain'
     defaults?: DefaultParams
