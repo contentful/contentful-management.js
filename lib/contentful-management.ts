@@ -16,6 +16,7 @@ import { createPlainClient } from './plain/plain-client'
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
+export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
 export type PlainClientDefaultParams = DefaultParams
 
