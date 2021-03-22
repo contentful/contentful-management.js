@@ -1,4 +1,4 @@
-import { MakeRequest } from '../common-types'
+import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
@@ -82,7 +82,11 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
       omitAndDeleteField: (params, contentType, fieldId) =>
-        omitAndDeleteField(makeRequest, { ...defaults, ...params, fieldId }, contentType),
+        omitAndDeleteField(
+          makeRequest,
+          { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
+          contentType
+        ),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
@@ -120,8 +124,7 @@ export const createPlainClient = (
           entityType: 'Asset',
           action: 'processForAllLocales',
           params: {
-            ...defaults,
-            ...params,
+            ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
             options,
             asset,
           },
@@ -131,8 +134,7 @@ export const createPlainClient = (
           entityType: 'Asset',
           action: 'processForLocale',
           params: {
-            ...defaults,
-            ...params,
+            ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
             locale,
             asset,
             options,
