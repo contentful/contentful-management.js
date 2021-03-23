@@ -60,7 +60,10 @@ import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/sp
 import { CreateTagProps, TagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
-import { TeamSpaceMembershipProps } from '../entities/team-space-membership'
+import {
+  CreateTeamSpaceMembershipProps,
+  TeamSpaceMembershipProps,
+} from '../entities/team-space-membership'
 import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
@@ -599,7 +602,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     create(
       params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
-      rawData: TeamSpaceMembershipProps,
+      rawData: CreateTeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
     update(
