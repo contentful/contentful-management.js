@@ -67,8 +67,6 @@ export interface ScheduledActionQueryOptions extends BasicCursorPaginationOption
   [key: string]: any
 }
 
-type ThisContext = ScheduledActionProps & DefaultElements<ScheduledActionProps>
-
 type ScheduledActionApi = {
   delete(): Promise<ScheduledAction>
 }

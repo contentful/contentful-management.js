@@ -60,7 +60,10 @@ import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/sp
 import { CreateTagProps, TagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
-import { TeamSpaceMembershipProps } from '../entities/team-space-membership'
+import {
+  CreateTeamSpaceMembershipProps,
+  TeamSpaceMembershipProps,
+} from '../entities/team-space-membership'
 import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
@@ -261,13 +264,13 @@ export type PlainClientAPI = {
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
-      processingOptions: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
     processForLocale(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       locale: string,
-      processingOptions: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
   }
   assetKey: {
@@ -472,7 +475,7 @@ export type PlainClientAPI = {
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
   tag: {
-    get(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
+    get(params: OptionalDefaults<GetTagParams>): Promise<TagProps>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<TagProps>>
@@ -599,7 +602,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<TeamSpaceMembershipProps>>
     create(
       params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
-      rawData: TeamSpaceMembershipProps,
+      rawData: CreateTeamSpaceMembershipProps,
       headers?: Record<string, unknown>
     ): Promise<TeamSpaceMembershipProps>
     update(

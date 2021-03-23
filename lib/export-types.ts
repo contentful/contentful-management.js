@@ -58,7 +58,11 @@ export type {
 } from './entities/personal-access-token'
 export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
 export type { Role, RoleProps, CreateRoleProps } from './entities/role'
-export type { ScheduledAction, ScheduledActionProps } from './entities/scheduled-action'
+export type {
+  ScheduledAction,
+  ScheduledActionProps,
+  ScheduledActionSysProps,
+} from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
