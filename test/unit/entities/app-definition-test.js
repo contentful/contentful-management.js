@@ -2,7 +2,7 @@ import {
   wrapAppDefinition,
   wrapAppDefinitionCollection,
 } from '../../../lib/entities/app-definition'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { appDefinitionMock } from '../mocks/entities'
 import {
   entityCollectionWrappedTest,
@@ -16,7 +16,7 @@ import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: appDefinitionMock,
   }
 }

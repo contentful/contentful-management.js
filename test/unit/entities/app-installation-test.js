@@ -1,14 +1,13 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   wrapAppInstallation,
   wrapAppInstallationCollection,
 } from '../../../lib/entities/app-installation'
-import { expect } from 'chai'
-
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
+  entityUpdateTest,
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
@@ -17,7 +16,7 @@ import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('appInstallation'),
   }
 }
@@ -36,18 +35,8 @@ describe('Entity AppInstallation', () => {
   })
 
   test('AppInstallation update', async () => {
-    const { httpMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    const entity = wrapAppInstallation(httpMock, entityMock)
-    entity.name = 'updatedname'
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][1].name).equals('updatedname', 'data is sent')
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapAppInstallation,
     })
   })
 
