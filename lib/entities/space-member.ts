@@ -1,8 +1,7 @@
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import copy from 'fast-copy'
+import { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, MetaLinkProps, DefaultElements } from '../common-types'
-import type { AxiosInstance } from 'contentful-sdk-core'
 
 export type SpaceMemberProps = {
   sys: MetaSysProps
@@ -20,11 +19,11 @@ export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemb
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space member data
  * @return Wrapped space member data
  */
-export function wrapSpaceMember(http: AxiosInstance, data: SpaceMemberProps) {
+export function wrapSpaceMember(_makeRequest: MakeRequest, data: SpaceMemberProps) {
   const spaceMember = toPlainObject(copy(data))
   return freezeSys(spaceMember)
 }

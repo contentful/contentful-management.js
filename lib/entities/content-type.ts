@@ -1,24 +1,21 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import { wrapEditorInterface } from './editor-interface'
-import { wrapSnapshot, wrapSnapshotCollection, Snapshot } from './snapshot'
+import copy from 'fast-copy'
 import { Except, SetOptional } from 'type-fest'
-import { isUpdated, isPublished, isDraft } from '../plain/checks'
-
-import { ContentFields } from './content-type-fields'
 import {
   BasicMetaSysProps,
-  DefaultElements,
   Collection,
+  DefaultElements,
+  MakeRequest,
   QueryOptions,
   SysLink,
 } from '../common-types'
-import { EditorInterface } from './editor-interface'
-import { SnapshotProps } from './snapshot'
-import * as endpoints from '../plain/endpoints'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
+import { isDraft, isPublished, isUpdated } from '../plain/checks'
+import { ContentFields } from './content-type-fields'
+import { EditorInterface, wrapEditorInterface } from './editor-interface'
+import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { omitAndDeleteField } from '../methods/content-type'
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -211,7 +208,7 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
-function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
+function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps
 
@@ -229,15 +226,22 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
     update: function () {
       const { raw, params } = getParams(this)
 
-      return endpoints.contentType
-        .update(http, params, raw)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'update',
+        params,
+        payload: raw,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     delete: function () {
       const { params } = getParams(this)
 
-      return endpoints.contentType.del(http, params).then(() => {
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'delete',
+        params,
+      }).then(() => {
         // noop
       })
     },
@@ -245,41 +249,52 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
     publish: function () {
       const { raw, params } = getParams(this)
 
-      return endpoints.contentType
-        .publish(http, params, raw)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'publish',
+        params,
+        payload: raw,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     unpublish: function () {
       const { params } = getParams(this)
 
-      return endpoints.contentType
-        .unpublish(http, params)
-        .then((data) => wrapContentType(http, data))
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'unpublish',
+        params,
+      }).then((data) => wrapContentType(makeRequest, data))
     },
 
     getEditorInterface: function () {
       const { params } = getParams(this)
 
-      return endpoints.editorInterface
-        .get(http, params)
-        .then((data) => wrapEditorInterface(http, data))
+      return makeRequest({
+        entityType: 'EditorInterface',
+        action: 'get',
+        params,
+      }).then((data) => wrapEditorInterface(makeRequest, data))
     },
 
     getSnapshots: function (query: QueryOptions = {}) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getManyForContentType(http, { ...params, query })
-        .then((data) => wrapSnapshotCollection<ContentTypeProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getManyForContentType',
+        params: { ...params, query },
+      }).then((data) => wrapSnapshotCollection<ContentTypeProps>(makeRequest, data))
     },
 
     getSnapshot: function (snapshotId: string) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getForContentType(http, { ...params, snapshotId })
-        .then((data) => wrapSnapshot<ContentTypeProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getForContentType',
+        params: { ...params, snapshotId },
+      }).then((data) => wrapSnapshot<ContentTypeProps>(makeRequest, data))
     },
 
     isPublished: function () {
@@ -294,25 +309,24 @@ function createContentTypeApi(http: AxiosInstance): ContentTypeApi {
       return isDraft(this)
     },
 
-    omitAndDeleteField: function (id: string) {
+    omitAndDeleteField: function (fieldId: string) {
       const { raw, params } = getParams(this)
-
-      return endpoints.contentType
-        .omitAndDeleteField(http, params, raw, id)
-        .then((data) => wrapContentType(http, data))
+      return omitAndDeleteField(makeRequest, { ...params, fieldId }, raw).then((data) =>
+        wrapContentType(makeRequest, data)
+      )
     },
   }
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
  * @return Wrapped content type data
  */
-export function wrapContentType(http: AxiosInstance, data: ContentTypeProps): ContentType {
+export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(copy(data))
-  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(http))
+  const contentTypeWithMethods = enhanceWithMethods(contentType, createContentTypeApi(makeRequest))
   return freezeSys(contentTypeWithMethods)
 }
 

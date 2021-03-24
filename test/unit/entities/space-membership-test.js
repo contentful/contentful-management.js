@@ -1,6 +1,6 @@
 import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   wrapSpaceMembership,
   wrapSpaceMembershipCollection,
@@ -16,7 +16,7 @@ import {
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('spaceMembership'),
   }
 }
@@ -28,7 +28,7 @@ describe('Entity SpaceMembership', () => {
     })
   })
 
-  test('SpaceMembership collection is wrapped', async () => {
+  test('SpaceMembership collection is wrapped', () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapSpaceMembershipCollection,
     })

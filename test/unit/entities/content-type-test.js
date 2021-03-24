@@ -1,5 +1,5 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { wrapContentType, wrapContentTypeCollection } from '../../../lib/entities/content-type'
 import {
   entityActionTest,
@@ -21,7 +21,7 @@ import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('contentType'),
   }
 }

@@ -354,7 +354,7 @@ const usageMock = {
   }),
 }
 
-const uiExtensionMock = {
+const extensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
     space: {
@@ -475,7 +475,7 @@ const mocks = {
   error: errorMock,
   upload: uploadMock,
   organization: organizationMock,
-  uiExtension: uiExtensionMock,
+  extension: extensionMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   user: userMock,
@@ -590,9 +590,9 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapOrganization: sinon.stub(),
       wrapOrganizationCollection: sinon.stub(),
     },
-    uiExtension: {
-      wrapUiExtension: sinon.stub(),
-      wrapUiExtensionCollection: sinon.stub(),
+    extension: {
+      wrapExtension: sinon.stub(),
+      wrapExtensionCollection: sinon.stub(),
     },
     appInstallation: {
       wrapAppInstallation: sinon.stub(),
@@ -632,6 +632,7 @@ export {
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
+  extensionMock,
   assetMock,
   assetWithFilesMock,
   assetKeyMock,
@@ -653,7 +654,6 @@ export {
   setupEntitiesMock,
   uploadMock,
   organizationMock,
-  uiExtensionMock,
   snapShotMock,
   userMock,
   personalAccessTokenMock,

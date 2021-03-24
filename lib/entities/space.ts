@@ -1,15 +1,9 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
+import copy from 'fast-copy'
+import { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
-import { BasicMetaSysProps, DefaultElements } from '../common-types'
-
-type SdkHttpClient = AxiosInstance & {
-  httpClientParams: Record<string, any>
-  cloneWithNewParams: (newParams: Record<string, any>) => SdkHttpClient
-}
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type SpaceProps = {
   sys: BasicMetaSysProps & { organization: { sys: { id: string } } }
@@ -24,15 +18,13 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * http client with a space id, so the base path for requests now has the
  * space id already set.
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Space
  * @return {Space}
  */
-export function wrapSpace(http: AxiosInstance, data: SpaceProps): Space {
+export function wrapSpace(makeRequest: MakeRequest, data: SpaceProps): Space {
   const space = toPlainObject(copy(data))
-  const spaceApi = createSpaceApi({
-    http,
-  })
+  const spaceApi = createSpaceApi(makeRequest)
   const enhancedSpace = enhanceWithMethods(space, spaceApi)
   return freezeSys(enhancedSpace)
 }

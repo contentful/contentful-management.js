@@ -1,9 +1,14 @@
-import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
+import copy from 'fast-copy'
+import {
+  DefaultElements,
+  MakeRequest,
+  MetaLinkProps,
+  MetaSysProps,
+  QueryOptions,
+} from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MetaLinkProps, MetaSysProps, QueryOptions } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 
@@ -56,11 +61,11 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @return Normalized usage
  */
-export function wrapUsage(http: AxiosInstance, data: UsageProps): Usage {
+export function wrapUsage(_makeRequest: MakeRequest, data: UsageProps): Usage {
   const usage = toPlainObject(copy(data))
   const usageWithMethods = enhanceWithMethods(usage, {})
   return freezeSys(usageWithMethods)

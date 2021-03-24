@@ -1,11 +1,7 @@
-import * as chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import { expect } from 'chai'
 import { before, describe, it } from 'mocha'
 import { getDefaultSpace, getAlternativeSpace } from '../helpers'
 import { ValidationError } from '../../lib/entities/asset-key'
-
-chai.use(chaiAsPromised)
-const expect = chai.expect
 
 export const now = () => Math.floor(Date.now() / 1000)
 export const withExpiryIn1Hour = () => now() + 1 * 60 * 60

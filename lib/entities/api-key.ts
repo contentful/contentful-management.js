@@ -1,10 +1,8 @@
-import copy from 'fast-copy'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
+import copy from 'fast-copy'
+import { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { MetaLinkProps, MetaSysProps, DefaultElements } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type ApiKeyProps = {
   sys: MetaSysProps
@@ -60,7 +58,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   update(): Promise<ApiKey>
 }
 
-function createApiKeyApi(http: AxiosInstance) {
+function createApiKeyApi(makeRequest: MakeRequest) {
   const getParams = (data: ApiKeyProps) => ({
     spaceId: data.sys.space?.sys.id ?? '',
     apiKeyId: data.sys.id,
@@ -69,32 +67,40 @@ function createApiKeyApi(http: AxiosInstance) {
   return {
     update: function update() {
       const self = this as ApiKeyProps
-      return endpoints.apiKey
-        .update(http, getParams(self), self)
-        .then((data) => wrapApiKey(http, data))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'update',
+        params: getParams(self),
+        payload: self,
+        headers: {},
+      }).then((data) => wrapApiKey(makeRequest, data))
     },
 
     delete: function del() {
       const self = this as ApiKeyProps
-      return endpoints.apiKey.del(http, getParams(self))
+      return makeRequest({
+        entityType: 'ApiKey',
+        action: 'delete',
+        params: getParams(self),
+      })
     },
   }
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  */
-export function wrapApiKey(http: AxiosInstance, data: ApiKeyProps): ApiKey {
+export function wrapApiKey(makeRequest: MakeRequest, data: ApiKeyProps): ApiKey {
   const apiKey = toPlainObject(copy(data))
-  const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(http))
+  const apiKeyWithMethods = enhanceWithMethods(apiKey, createApiKeyApi(makeRequest))
   return freezeSys(apiKeyWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key collection data
  * @return Wrapped api key collection data
  */

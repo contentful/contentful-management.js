@@ -1,7 +1,6 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { DefaultElements } from '../common-types'
+import { DefaultElements, MakeRequest } from '../common-types'
 
 export type AssetKeyProps = {
   /** A JWT describing a policy; needs to be attached to signed URLs */
@@ -23,7 +22,7 @@ export interface AssetKey extends AssetKeyProps, DefaultElements<AssetKeyProps> 
  * @param data - Raw asset key data
  * @return Wrapped asset key data
  */
-export function wrapAssetKey(_http: AxiosInstance, data: AssetKeyProps): AssetKey {
+export function wrapAssetKey(_makeRequest: MakeRequest, data: AssetKeyProps): AssetKey {
   const assetKey = toPlainObject(copy(data))
   return assetKey
 }

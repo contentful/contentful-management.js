@@ -1,6 +1,6 @@
 import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { wrapSpaceMember, wrapSpaceMemberCollection } from '../../../lib/entities/space-member'
 import {
   entityCollectionWrappedTest,
@@ -9,7 +9,7 @@ import {
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('spaceMembership'),
   }
 }

@@ -26,18 +26,18 @@ describe('Extension api', function () {
           fieldTypes: [{ type: 'Text' }],
         },
       })
-      .then((uiExtension) => {
-        expect(uiExtension.sys.type).equals('Extension', 'type')
-        expect(uiExtension.extension.name).equals('My awesome extension', 'name')
+      .then((extension) => {
+        expect(extension.sys.type).equals('Extension', 'type')
+        expect(extension.extension.name).equals('My awesome extension', 'name')
 
-        uiExtension.extension.name = 'New name'
-        return uiExtension.update()
+        extension.extension.name = 'New name'
+        return extension.update()
       })
-      .then((uiExtension) => {
-        expect(uiExtension.extension.name).equals('New name', 'name')
+      .then((extension) => {
+        expect(extension.extension.name).equals('New name', 'name')
 
-        return environment.getUiExtension(uiExtension.sys.id).then((response) => {
-          expect(response.sys.id).equals(uiExtension.sys.id, 'id')
+        return environment.getUiExtension(extension.sys.id).then((response) => {
+          expect(response.sys.id).equals(extension.sys.id, 'id')
           expect(response.extension.name).equals('New name', 'name')
 
           return environment
@@ -48,7 +48,7 @@ describe('Extension api', function () {
                 'returns the just created ui extensions'
               )
             })
-            .then(() => uiExtension.delete())
+            .then(() => extension.delete())
         })
       })
   })
@@ -63,18 +63,15 @@ describe('Extension api', function () {
           fieldTypes: [{ type: 'Text' }],
         },
       })
-      .then((uiExtension) => {
-        expect(uiExtension.sys.type).equals('Extension', 'type')
-        expect(uiExtension.extension.name).equals(
-          'My awesome extension hosted at Contentful',
-          'name'
-        )
-        expect(uiExtension.extension.srcdoc).equals(
+      .then((extension) => {
+        expect(extension.sys.type).equals('Extension', 'type')
+        expect(extension.extension.name).equals('My awesome extension hosted at Contentful', 'name')
+        expect(extension.extension.srcdoc).equals(
           '<html><head><title>MyAwesomeUiExtension</title></head><body><h1>Awesome</h1></body></html>',
           'name'
         )
 
-        return uiExtension.delete()
+        return extension.delete()
       })
   })
 
@@ -87,10 +84,10 @@ describe('Extension api', function () {
           fieldTypes: [{ type: 'Symbol' }],
         },
       })
-      .then((uiExtension) => {
-        expect(uiExtension.sys.id).equals('awesome-extension', 'id')
-        expect(uiExtension.extension.name).equals('Awesome extension!', 'name')
-        expect(uiExtension.extension.src).equals('https://awesome.extension', 'src')
+      .then((extension) => {
+        expect(extension.sys.id).equals('awesome-extension', 'id')
+        expect(extension.extension.name).equals('Awesome extension!', 'name')
+        expect(extension.extension.src).equals('https://awesome.extension', 'src')
       })
   })
 })
