@@ -277,6 +277,7 @@ export type PlainClientAPI = {
   }
   appUpload: {
     get(params: OptionalDefaults<GetAppUploadParams>): Promise<AppUploadProps>
+    delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
   }
   assetKey: {
     create(

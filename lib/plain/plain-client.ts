@@ -143,6 +143,7 @@ export const createPlainClient = (
     },
     appUpload: {
       get: wrap(wrapParams, 'AppUpload', 'get'),
+      delete: wrap(wrapParams, 'AppUpload', 'delete'),
     },
     assetKey: {
       create: wrap(wrapParams, 'AssetKey', 'create'),

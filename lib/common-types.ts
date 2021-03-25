@@ -203,6 +203,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Asset', 'processForAllLocales', UA>): MRReturn<'Asset', 'processForAllLocales'>
   (opts: MROpts<'Asset', 'processForLocale', UA>): MRReturn<'Asset', 'processForLocale'>
 
+  (opts: MROpts<'AppUpload', 'get', UA>): MRReturn<'AppUpload', 'get'>
+  (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
+
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
@@ -473,6 +476,10 @@ export type MRActions = {
     get: {
       params: GetAppUploadParams
       return: AppUploadProps
+    }
+    delete: {
+      params: GetAppUploadParams
+      return: void
     }
   }
   Asset: {
