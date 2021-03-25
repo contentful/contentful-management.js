@@ -50,6 +50,7 @@ import {
   WebhookProps,
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import { AppUploadProps } from './entities/app-upload'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -467,6 +468,12 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
+  }
+  AppUpload: {
+    get: {
+      params: GetAppUploadParams
+      return: AppUploadProps
+    }
   }
   Asset: {
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
@@ -1041,6 +1048,7 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipProps = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetAppUploadParams = GetOrganizationParams & { uploadId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

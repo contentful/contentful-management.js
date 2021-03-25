@@ -141,6 +141,9 @@ export const createPlainClient = (
           },
         }),
     },
+    appUpload: {
+      get: wrap(wrapParams, 'AppUpload', 'get'),
+    },
     assetKey: {
       create: wrap(wrapParams, 'AssetKey', 'create'),
     },
