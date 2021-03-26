@@ -47,6 +47,11 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    appBundle: {
+      get: wrap(wrapParams, 'AppBundle', 'get'),
+      getMany: wrap(wrapParams, 'AppBundle', 'getMany'),
+      delete: wrap(wrapParams, 'AppBundle', 'delete'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),
