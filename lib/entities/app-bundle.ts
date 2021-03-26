@@ -1,5 +1,5 @@
 import { Except } from 'type-fest'
-import { BasicMetaSysProps, SysLink } from '../common-types'
+import { BasicMetaSysProps, Link, SysLink } from '../common-types'
 
 type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink
@@ -12,7 +12,17 @@ type File = {
   md5: string
 }
 
+export type CreateAppBundleProps = {
+  upload: Link<'AppUpload'>
+}
+
 export type AppBundleProps = {
+  /**
+   * System metadata
+   */
   sys: AppBundleSys
+  /**
+   * List of all the files that are in a bundle
+   */
   files: File[]
 }

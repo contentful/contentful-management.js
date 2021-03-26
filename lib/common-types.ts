@@ -174,6 +174,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
   (opts: MROpts<'AppBundle', 'delete', UA>): MRReturn<'AppBundle', 'delete'>
+  (opts: MROpts<'AppBundle', 'create', UA>): MRReturn<'AppBundle', 'create'>
 
   (opts: MROpts<'ApiKey', 'get', UA>): MRReturn<'ApiKey', 'get'>
   (opts: MROpts<'ApiKey', 'getMany', UA>): MRReturn<'ApiKey', 'getMany'>
@@ -418,6 +419,7 @@ export type MRActions = {
     get: { params: GetAppBundleParams; return: AppBundleProps }
     getMany: { params: GetAppDefinitionParams; return: CollectionProp<AppBundleProps> }
     delete: { params: GetAppBundleParams; return: void }
+    create: { params: GetAppBundleParams & { appUploadId: string }; return: AppBundleProps }
   }
   ApiKey: {
     get: { params: GetSpaceParams & { apiKeyId: string }; return: ApiKeyProps }

@@ -8,7 +8,7 @@ import {
   QueryParams,
 } from '../../../common-types'
 import { RestEndpoint } from '../types'
-import { AppBundleProps } from '../../../entities/app-bundle'
+import { AppBundleProps, CreateAppBundleProps } from '../../../entities/app-bundle'
 
 const getBaseUrl = (params: GetAppDefinitionParams) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/app_bundles`
@@ -37,4 +37,21 @@ export const del: RestEndpoint<'AppBundle', 'delete'> = (
   params: GetAppBundleParams
 ) => {
   return raw.del<void>(http, getAppBundleUrl(params))
+}
+
+export const create = (
+  http: AxiosInstance,
+  params: GetAppDefinitionParams & { appUploadId: string }
+) => {
+  const payload: CreateAppBundleProps = {
+    upload: {
+      sys: {
+        type: 'Link',
+        linkType: 'AppUpload',
+        id: params.appUploadId,
+      },
+    },
+  }
+
+  return raw.post<AppBundleProps>(http, getBaseUrl(params), payload)
 }
