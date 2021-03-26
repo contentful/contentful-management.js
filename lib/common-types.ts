@@ -205,6 +205,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AppUpload', 'get', UA>): MRReturn<'AppUpload', 'get'>
   (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
+  (opts: MROpts<'AppUpload', 'create', UA>): MRReturn<'AppUpload', 'create'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -480,6 +481,11 @@ export type MRActions = {
     delete: {
       params: GetAppUploadParams
       return: void
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: { file: File }
+      return: AppUploadProps
     }
   }
   Asset: {
