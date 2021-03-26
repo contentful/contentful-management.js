@@ -1,4 +1,5 @@
 import * as apiKey from './api-key'
+import * as appBundle from './app-bundle'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
 import * as asset from './asset'
@@ -31,6 +32,7 @@ import * as user from './user'
 import * as webhook from './webhook'
 
 export default {
+  appBundle,
   apiKey,
   appDefinition,
   appInstallation,

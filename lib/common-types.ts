@@ -417,7 +417,10 @@ export type MRActions = {
   }
   AppBundle: {
     get: { params: GetAppBundleParams; return: AppBundleProps }
-    getMany: { params: GetAppDefinitionParams; return: CollectionProp<AppBundleProps> }
+    getMany: {
+      params: GetAppDefinitionParams & QueryParams
+      return: CollectionProp<AppBundleProps>
+    }
     delete: { params: GetAppBundleParams; return: void }
     create: { params: GetAppBundleParams & { appUploadId: string }; return: AppBundleProps }
   }
