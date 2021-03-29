@@ -1,6 +1,5 @@
-import { freezeSys } from 'contentful-sdk-core'
+import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { toPlainObject } from 'lodash'
 import { Except } from 'type-fest'
 import { wrapCollection } from '../common-utils'
 import { BasicMetaSysProps, DefaultElements, Link, MakeRequest, SysLink } from '../common-types'
