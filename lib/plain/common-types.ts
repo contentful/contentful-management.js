@@ -95,7 +95,8 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<AppBundleProps>>
     delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
     create(
-      params: OptionalDefaults<GetAppDefinitionParams & { appUploadId: string }>
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: { appUploadId: string }
     ): Promise<AppBundleProps>
   }
   editorInterface: {
