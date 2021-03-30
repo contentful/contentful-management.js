@@ -1,6 +1,7 @@
 import * as apiKey from './api-key'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
+import * as appUpload from './app-upload'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
 import * as contentType from './content-type'
@@ -34,6 +35,7 @@ export default {
   apiKey,
   appDefinition,
   appInstallation,
+  appUpload,
   asset,
   assetKey,
   contentType,

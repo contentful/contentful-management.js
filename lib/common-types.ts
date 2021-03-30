@@ -484,7 +484,7 @@ export type MRActions = {
     }
     create: {
       params: GetOrganizationParams
-      payload: { file: File }
+      payload: { file: string | ArrayBuffer | Stream }
       return: AppUploadProps
     }
   }
@@ -1061,7 +1061,7 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipProps = GetOrganizationParams & {
   organizationMembershipId: string
 }
-export type GetAppUploadParams = GetOrganizationParams & { uploadId: string }
+export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

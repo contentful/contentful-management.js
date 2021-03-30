@@ -72,6 +72,13 @@ const appDefinitionMock = {
   ],
 }
 
+const appUploadMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppUpload',
+    organization: { sys: { id: 'organization-id' } },
+  }),
+}
+
 const contentTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType',
@@ -452,6 +459,7 @@ export const scheduledActionCollectionMock = {
 const mocks = {
   link: linkMock,
   sys: sysMock,
+  appUpload: appUploadMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
@@ -504,6 +512,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     appDefinition: {
       wrapAppDefinition: sinon.stub(),
       wrapAppDefinitionCollection: sinon.stub(),
+    },
+    appUpload: {
+      wrapAppUpload: sinon.stub(),
+      wrapAppUploadCollection: sinon.stub(),
     },
     space: {
       wrapSpace: sinon.stub(),
@@ -626,6 +638,7 @@ function setupEntitiesMock(rewiredModuleApi) {
 export {
   appInstallationMock,
   appDefinitionMock,
+  appUploadMock,
   linkMock,
   sysMock,
   spaceMock,

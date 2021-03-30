@@ -1,6 +1,7 @@
 export * from './common-types'
 
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+export type { AppUploadProps, AppUpload } from './entities/app-upload'
 export type {
   AppDefinition,
   AppDefinitionProps,
