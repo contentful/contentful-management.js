@@ -422,7 +422,11 @@ export type MRActions = {
       return: CollectionProp<AppBundleProps>
     }
     delete: { params: GetAppBundleParams; return: void }
-    create: { params: GetAppBundleParams & { appUploadId: string }; return: AppBundleProps }
+    create: {
+      params: GetAppDefinitionParams
+      payload: { appUploadId: string }
+      return: AppBundleProps
+    }
   }
   ApiKey: {
     get: { params: GetSpaceParams & { apiKeyId: string }; return: ApiKeyProps }

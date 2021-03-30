@@ -44,8 +44,8 @@ export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProp
    *
    * client.getOrganization('<org_id>')
    * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => appDefinition.delete())
-   * .then(() => console.log(`App Definition deleted.`))
+   * .then((appDefinition) => appDefinition.getAppBundle('<app-bundle-id>'))
+   * .then((appBundle) => appBundle.delete())
    * .catch(console.error)
    * ```
    */
