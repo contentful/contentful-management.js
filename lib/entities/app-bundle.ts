@@ -10,7 +10,7 @@ type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
-type File = {
+export type File = {
   name: string
   size: number
   md5: string
