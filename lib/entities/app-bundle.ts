@@ -26,7 +26,7 @@ export type AppBundleProps = {
    */
   sys: AppBundleSys
   /**
-   * List of all the files that are in a bundle
+   * List of all the files that are in this bundle
    */
   files: AppBundleFile[]
 }
