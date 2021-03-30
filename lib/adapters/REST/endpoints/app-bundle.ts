@@ -14,7 +14,7 @@ const getBaseUrl = (params: GetAppDefinitionParams) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/app_bundles`
 
 const getAppBundleUrl = (params: GetAppBundleParams) =>
-  getBaseUrl(params) + `/${params.appBundleId}`
+  `${getBaseUrl(params)}/${params.appBundleId}`
 
 export const get: RestEndpoint<'AppBundle', 'get'> = (
   http: AxiosInstance,
