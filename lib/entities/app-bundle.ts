@@ -10,7 +10,7 @@ type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
-export type File = {
+export type AppBundleFile = {
   name: string
   size: number
   md5: string
@@ -28,7 +28,7 @@ export type AppBundleProps = {
   /**
    * List of all the files that are in a bundle
    */
-  files: File[]
+  files: AppBundleFile[]
 }
 
 export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProps> {
