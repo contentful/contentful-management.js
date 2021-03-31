@@ -280,7 +280,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
     create(
       params: OptionalDefaults<GetOrganizationParams>,
-      data: { file: string | ArrayBuffer | Stream }
+      payload: { file: string | ArrayBuffer | Stream }
     ): Promise<AppUploadProps>
   }
   assetKey: {

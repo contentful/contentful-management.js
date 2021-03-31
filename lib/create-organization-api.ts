@@ -578,6 +578,21 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then((data) => wrapAppUpload(makeRequest, data))
     },
 
+    /**
+     * Creates an app upload
+     * @return Promise for an App Upload
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.createAppUpload('some_zip_file'))
+     * .then((appUpload) => console.log(appUpload))
+     * .catch(console.error)
+     * ```
+     */
     createAppUpload(file: string | ArrayBuffer | Stream) {
       const raw = this.toPlainObject() as OrganizationProp
 
@@ -585,7 +600,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         entityType: 'AppUpload',
         action: 'create',
         params: { organizationId: raw.sys.id },
-        payload: file,
+        payload: { file },
       }).then((data) => wrapAppUpload(makeRequest, data))
     },
   }
