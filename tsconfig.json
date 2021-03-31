@@ -28,6 +28,7 @@
       "ClientParams",
 
       "ApiKey",
+      "AppUpload",
       "AppDefinition",
       "AppInstalation",
       "Asset",
