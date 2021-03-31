@@ -77,7 +77,7 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { AppBundleProps } from '../entities/app-bundle'
+import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 
 export type PlainClientAPI = {
   raw: {
@@ -96,7 +96,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
     create(
       params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: { appUploadId: string; comment?: string }
+      payload: CreateAppBundleProps
     ): Promise<AppBundleProps>
   }
   editorInterface: {

@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { Stream } from 'stream'
-import { AppBundleProps } from './entities/app-bundle'
+import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
@@ -424,7 +424,7 @@ export type MRActions = {
     delete: { params: GetAppBundleParams; return: void }
     create: {
       params: GetAppDefinitionParams
-      payload: { appUploadId: string; comment?: string }
+      payload: CreateAppBundleProps
       return: AppBundleProps
     }
   }

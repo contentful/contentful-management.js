@@ -1,6 +1,11 @@
 export * from './common-types'
 
-export type { AppBundle, AppBundleProps, AppBundleFile } from './entities/app-bundle'
+export type {
+  AppBundle,
+  AppBundleProps,
+  AppBundleFile,
+  CreateAppBundleProps,
+} from './entities/app-bundle'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 export type {
   AppDefinition,

@@ -1,5 +1,6 @@
 import { MakeRequest, QueryOptions } from './common-types'
 import entities from './entities'
+import { CreateAppBundleProps } from './entities/app-bundle'
 import { AppDefinitionProps, wrapAppDefinition } from './entities/app-definition'
 
 export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionApi>
@@ -141,7 +142,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAppBundle(appUploadId: string, comment?: string) {
+    createAppBundle(data: CreateAppBundleProps) {
       const raw = this.toPlainObject() as AppDefinitionProps
       return makeRequest({
         entityType: 'AppBundle',
@@ -150,7 +151,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
           appDefinitionId: raw.sys.id,
           organizationId: raw.sys.organization.sys.id,
         },
-        payload: { appUploadId, comment },
+        payload: data,
       }).then((data) => wrapAppBundle(makeRequest, data))
     },
   }

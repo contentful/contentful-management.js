@@ -17,7 +17,7 @@ export type AppBundleFile = {
 }
 
 export type CreateAppBundleProps = {
-  upload: Link<'AppUpload'>
+  appUploadId: string
   comment?: string
 }
 
