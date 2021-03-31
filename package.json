@@ -33,7 +33,7 @@
     "test": "npm run test:cover-unit && npm run test:cover-integration && npm run test:size",
     "test:cover-unit": "./node_modules/.bin/nyc --reporter=lcov --reporter=text --report-dir=coverage/unit npm run test:unit",
     "test:cover-integration": "./node_modules/.bin/nyc --reporter=lcov --reporter=text --report-dir=coverage/integration npm run test:integration",
-    "test:unit": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/app-upload-test.js' --config mocharc.js --require @babel/register",
+    "test:unit": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.js' --config mocharc.js --require @babel/register",
     "test:unit-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.js' --config mocharc.js --watch --require @babel/register",
     "test:integration": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.js' --config mocharc.js --require @babel/register",
     "test:integration-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.js' --config mocharc.js --watch --require @babel/register",
