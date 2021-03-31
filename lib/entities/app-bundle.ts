@@ -18,6 +18,7 @@ export type AppBundleFile = {
 
 export type CreateAppBundleProps = {
   upload: Link<'AppUpload'>
+  comment?: string
 }
 
 export type AppBundleProps = {
@@ -29,6 +30,10 @@ export type AppBundleProps = {
    * List of all the files that are in this bundle
    */
   files: AppBundleFile[]
+  /**
+   * A comment that describes this bundle
+   */
+  comment?: string
 }
 
 export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProps> {

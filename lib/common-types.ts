@@ -424,7 +424,7 @@ export type MRActions = {
     delete: { params: GetAppBundleParams; return: void }
     create: {
       params: GetAppDefinitionParams
-      payload: { appUploadId: string }
+      payload: { appUploadId: string; comment?: string }
       return: AppBundleProps
     }
   }

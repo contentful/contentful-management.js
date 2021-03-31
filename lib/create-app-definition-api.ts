@@ -141,7 +141,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAppBundle(appUploadId: string) {
+    createAppBundle(appUploadId: string, comment?: string) {
       const raw = this.toPlainObject() as AppDefinitionProps
       return makeRequest({
         entityType: 'AppBundle',
@@ -150,7 +150,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
           appDefinitionId: raw.sys.id,
           organizationId: raw.sys.organization.sys.id,
         },
-        payload: { appUploadId },
+        payload: { appUploadId, comment },
       }).then((data) => wrapAppBundle(makeRequest, data))
     },
   }

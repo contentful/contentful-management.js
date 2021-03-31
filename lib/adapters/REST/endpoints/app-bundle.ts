@@ -41,17 +41,21 @@ export const del: RestEndpoint<'AppBundle', 'delete'> = (
 
 export const create = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams & { appUploadId: string }
+  params: GetAppDefinitionParams,
+  payload: { appUploadId: string; comment?: string }
 ) => {
-  const payload: CreateAppBundleProps = {
+  const { appUploadId, comment } = payload
+
+  const data: CreateAppBundleProps = {
     upload: {
       sys: {
         type: 'Link',
         linkType: 'AppUpload',
-        id: params.appUploadId,
+        id: appUploadId,
       },
     },
+    comment,
   }
 
-  return raw.post<AppBundleProps>(http, getBaseUrl(params), payload)
+  return raw.post<AppBundleProps>(http, getBaseUrl(params), data)
 }
