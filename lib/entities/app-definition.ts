@@ -1,10 +1,10 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest, Link } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
-import { SetOptional, Except } from 'type-fest'
+import { SetOptional, Except, RequireExactlyOne } from 'type-fest'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 
@@ -45,6 +45,10 @@ export type AppDefinitionProps = {
    */
   src?: string
   /**
+   * Link to an AppBundle
+   */
+  bundle?: Link<'AppBundle'>
+  /**
    * Locations where the app can be installed
    */
   locations?: AppLocation[]
@@ -57,7 +61,7 @@ export type AppDefinitionProps = {
 }
 
 export type CreateAppDefinitionProps = SetOptional<
-  Except<AppDefinitionProps, 'sys'>,
+  Except<AppDefinitionProps, 'sys' | 'bundle'>,
   'src' | 'locations'
 >
 
