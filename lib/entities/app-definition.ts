@@ -3,6 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
+import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
 import { SetOptional, Except } from 'type-fest'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
@@ -60,76 +61,9 @@ export type CreateAppDefinitionProps = SetOptional<
   'src' | 'locations'
 >
 
-export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDefinitionProps> {
-  /**
-   * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('<org_id>')
-   * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => appDefinition.delete())
-   * .then(() => console.log(`App Definition deleted.`))
-   * .catch(console.error)
-   * ```
-   */
-  delete(): Promise<void>
-  /**
-   * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('<org_id>')
-   * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => {
-   *   appDefinition.name = 'New App Definition name'
-   *   return appDefinition.update()
-   * })
-   * .then((appDefinition) => console.log(`App Definition ${appDefinition.sys.id} updated.`))
-   * .catch(console.error)
-   * ```
-   */
-  update(): Promise<AppDefinition>
-}
-
-function createAppDefinitionApi(makeRequest: MakeRequest) {
-  const getParams = (data: AppDefinitionProps) => ({
-    appDefinitionId: data.sys.id,
-    organizationId: data.sys.organization.sys.id,
-  })
-
-  return {
-    update: function update() {
-      const data = this.toPlainObject() as AppDefinitionProps
-      return makeRequest({
-        entityType: 'AppDefinition',
-        action: 'update',
-        params: getParams(data),
-        headers: {},
-        payload: data,
-      }).then((data) => wrapAppDefinition(makeRequest, data))
-    },
-
-    delete: function del() {
-      const data = this.toPlainObject() as AppDefinitionProps
-      return makeRequest({
-        entityType: 'AppDefinition',
-        action: 'delete',
-        params: getParams(data),
-      })
-    },
-  }
-}
+export type AppDefinition = ContentfulAppDefinitionAPI &
+  AppDefinitionProps &
+  DefaultElements<AppDefinitionProps>
 
 /**
  * @private

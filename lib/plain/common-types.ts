@@ -25,6 +25,7 @@ import {
   PaginationQueryParams,
   QueryParams,
   GetAppUploadParams,
+  GetAppBundleParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -78,6 +79,7 @@ import {
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
+import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 
 export type PlainClientAPI = {
   raw: {
@@ -87,6 +89,17 @@ export type PlainClientAPI = {
     put<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
+  }
+  appBundle: {
+    get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
+    getMany(
+      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    ): Promise<CollectionProp<AppBundleProps>>
+    delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
+    create(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppBundleProps
+    ): Promise<AppBundleProps>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>

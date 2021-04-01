@@ -31,6 +31,7 @@
       "AppUpload",
       "AppDefinition",
       "AppInstalation",
+      "AppBundle",
       "Asset",
       "AssetKey",
       "ContentType",
