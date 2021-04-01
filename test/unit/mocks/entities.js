@@ -163,6 +163,11 @@ const assetMock = {
   },
 }
 
+const assetKeyMock = {
+  policy: 'assetKey.policyJWT',
+  secret: 'assetKeySecret',
+}
+
 const assetMockWithTags = {
   ...assetMock,
   metadata: {
@@ -349,7 +354,7 @@ const usageMock = {
   }),
 }
 
-const uiExtensionMock = {
+const extensionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
     space: {
@@ -454,6 +459,7 @@ const mocks = {
   snapshot: snapShotMock,
   asset: assetMock,
   assetWithTags: assetMockWithTags,
+  assetKey: assetKeyMock,
   locale: localeMock,
   webhook: webhookMock,
   spaceMember: spaceMemberMock,
@@ -469,7 +475,7 @@ const mocks = {
   error: errorMock,
   upload: uploadMock,
   organization: organizationMock,
-  uiExtension: uiExtensionMock,
+  extension: extensionMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   user: userMock,
@@ -518,6 +524,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     asset: {
       wrapAsset: sinon.stub(),
       wrapAssetCollection: sinon.stub(),
+    },
+    assetKey: {
+      wrapAssetKey: sinon.stub(),
     },
     locale: {
       wrapLocale: sinon.stub(),
@@ -581,9 +590,9 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapOrganization: sinon.stub(),
       wrapOrganizationCollection: sinon.stub(),
     },
-    uiExtension: {
-      wrapUiExtension: sinon.stub(),
-      wrapUiExtensionCollection: sinon.stub(),
+    extension: {
+      wrapExtension: sinon.stub(),
+      wrapExtensionCollection: sinon.stub(),
     },
     appInstallation: {
       wrapAppInstallation: sinon.stub(),
@@ -623,8 +632,10 @@ export {
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
+  extensionMock,
   assetMock,
   assetWithFilesMock,
+  assetKeyMock,
   localeMock,
   webhookMock,
   spaceMemberMock,
@@ -643,7 +654,6 @@ export {
   setupEntitiesMock,
   uploadMock,
   organizationMock,
-  uiExtensionMock,
   snapShotMock,
   userMock,
   personalAccessTokenMock,

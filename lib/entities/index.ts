@@ -2,11 +2,13 @@ import * as apiKey from './api-key'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
 import * as asset from './asset'
+import * as assetKey from './asset-key'
 import * as contentType from './content-type'
 import * as editorInterface from './editor-interface'
 import * as entry from './entry'
 import * as environment from './environment'
 import * as environmentAlias from './environment-alias'
+import * as extension from './extension'
 import * as locale from './locale'
 import * as organization from './organization'
 import * as organizationInvitation from './organization-invitation'
@@ -23,7 +25,6 @@ import * as team from './team'
 import * as teamMembership from './team-membership'
 import * as tag from './tag'
 import * as teamSpaceMembership from './team-space-membership'
-import * as uiExtension from './ui-extension'
 import * as upload from './upload'
 import * as usage from './usage'
 import * as user from './user'
@@ -34,11 +35,13 @@ export default {
   appDefinition,
   appInstallation,
   asset,
+  assetKey,
   contentType,
   editorInterface,
   entry,
   environment,
   environmentAlias,
+  extension,
   locale,
   organization,
   organizationInvitation,
@@ -55,7 +58,6 @@ export default {
   team,
   teamMembership,
   teamSpaceMembership,
-  uiExtension,
   upload,
   usage,
   user,

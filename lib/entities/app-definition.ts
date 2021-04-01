@@ -1,31 +1,29 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { DefaultElements, BasicMetaSysProps, SysLink } from '../common-types'
+import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
 import { SetOptional, Except } from 'type-fest'
-import * as endpoints from '../plain/endpoints'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 
-interface NavigationItem {
+export interface NavigationItem {
   name: string
   path: string
 }
 
 type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
 
-interface SimpleLocation {
+export interface SimpleLocation {
   location: LocationType
 }
 
-interface EntryFieldLocation {
+export interface EntryFieldLocation {
   location: 'entry-field'
   fieldTypes: FieldType[]
 }
 
-interface PageLocation {
+export interface PageLocation {
   location: 'page'
   navigationItem?: NavigationItem
 }
@@ -104,7 +102,7 @@ export interface AppDefinition extends AppDefinitionProps, DefaultElements<AppDe
   update(): Promise<AppDefinition>
 }
 
-function createAppDefinitionApi(http: AxiosInstance) {
+function createAppDefinitionApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
     organizationId: data.sys.organization.sys.id,
@@ -113,33 +111,47 @@ function createAppDefinitionApi(http: AxiosInstance) {
   return {
     update: function update() {
       const data = this.toPlainObject() as AppDefinitionProps
-      return endpoints.appDefinition
-        .update(http, getParams(data), data)
-        .then((data) => wrapAppDefinition(http, data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'update',
+        params: getParams(data),
+        headers: {},
+        payload: data,
+      }).then((data) => wrapAppDefinition(makeRequest, data))
     },
 
     delete: function del() {
       const data = this.toPlainObject() as AppDefinitionProps
-      return endpoints.appDefinition.del(http, getParams(data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'delete',
+        params: getParams(data),
+      })
     },
   }
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition data
  * @return Wrapped App Definition data
  */
-export function wrapAppDefinition(http: AxiosInstance, data: AppDefinitionProps): AppDefinition {
+export function wrapAppDefinition(
+  makeRequest: MakeRequest,
+  data: AppDefinitionProps
+): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
-  const appDefinitionWithMethods = enhanceWithMethods(appDefinition, createAppDefinitionApi(http))
+  const appDefinitionWithMethods = enhanceWithMethods(
+    appDefinition,
+    createAppDefinitionApi(makeRequest)
+  )
   return freezeSys(appDefinitionWithMethods)
 }
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition collection data
  * @return Wrapped App Definition collection data
  */

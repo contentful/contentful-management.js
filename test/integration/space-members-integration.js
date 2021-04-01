@@ -1,12 +1,12 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getV2Space } from '../helpers'
 import { expect } from 'chai'
 
 describe('SpaceMembers Api', () => {
   let space
 
   before(async () => {
-    space = await client(true).getSpace('w6xueg32zr68')
+    space = await getV2Space()
   })
 
   test('Gets spaceMembers', async () => {
