@@ -30,7 +30,7 @@ export const del: RestEndpoint<'AppUpload', 'delete'> = (
   return raw.del<void>(httpUpload, getAppUploadUrl(params))
 }
 
-export const create: RestEndpoint<'AppUpload', 'create'> = async (
+export const create: RestEndpoint<'AppUpload', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
   payload: { file: string | ArrayBuffer | Stream }
@@ -38,10 +38,6 @@ export const create: RestEndpoint<'AppUpload', 'create'> = async (
   const httpUpload = getUploadHttpClient(http)
 
   const { file } = payload
-
-  if (!file) {
-    return Promise.reject(new Error('Unable to locate a file to upload.'))
-  }
 
   return raw.post<AppUploadProps>(httpUpload, getBaseUrl(params), file, {
     headers: {

@@ -41,7 +41,7 @@ export const create: RestEndpoint<'AppDefinition', 'create'> = (
   return raw.post<AppDefinitionProps>(http, getBaseUrl(params), data)
 }
 
-export const update: RestEndpoint<'AppDefinition', 'update'> = async (
+export const update: RestEndpoint<'AppDefinition', 'update'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   rawData: AppDefinitionProps,
