@@ -39,7 +39,7 @@ export const del: RestEndpoint<'AppBundle', 'delete'> = (
   return raw.del<void>(http, getAppBundleUrl(params))
 }
 
-export const create = (
+export const create: RestEndpoint<'AppBundle', 'create'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   payload: CreateAppBundleProps

@@ -4,7 +4,7 @@ import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest, Link } from '
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
-import { SetOptional, Except, RequireExactlyOne } from 'type-fest'
+import { SetOptional, Except } from 'type-fest'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
 
