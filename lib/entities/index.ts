@@ -1,6 +1,8 @@
 import * as apiKey from './api-key'
+import * as appBundle from './app-bundle'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
+import * as appUpload from './app-upload'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
 import * as contentType from './content-type'
@@ -31,9 +33,11 @@ import * as user from './user'
 import * as webhook from './webhook'
 
 export default {
+  appBundle,
   apiKey,
   appDefinition,
   appInstallation,
+  appUpload,
   asset,
   assetKey,
   contentType,

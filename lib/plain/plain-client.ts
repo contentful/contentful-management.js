@@ -47,6 +47,12 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    appBundle: {
+      get: wrap(wrapParams, 'AppBundle', 'get'),
+      getMany: wrap(wrapParams, 'AppBundle', 'getMany'),
+      delete: wrap(wrapParams, 'AppBundle', 'delete'),
+      create: wrap(wrapParams, 'AppBundle', 'create'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),
@@ -140,6 +146,11 @@ export const createPlainClient = (
             options,
           },
         }),
+    },
+    appUpload: {
+      get: wrap(wrapParams, 'AppUpload', 'get'),
+      delete: wrap(wrapParams, 'AppUpload', 'delete'),
+      create: wrap(wrapParams, 'AppUpload', 'create'),
     },
     assetKey: {
       create: wrap(wrapParams, 'AssetKey', 'create'),
