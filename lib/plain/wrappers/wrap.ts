@@ -21,14 +21,14 @@ export type WrapParams = {
 export type WrapFn<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  Params = 'params' extends keyof MROpts<ET, Action, false>
-    ? MROpts<ET, Action, false>['params']
+  Params = 'params' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['params']
     : undefined,
-  Payload = 'payload' extends keyof MROpts<ET, Action, false>
-    ? MROpts<ET, Action, false>['payload']
+  Payload = 'payload' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['payload']
     : undefined,
-  Headers = 'headers' extends keyof MROpts<ET, Action, false>
-    ? MROpts<ET, Action, false>['headers']
+  Headers = 'headers' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['headers']
     : undefined,
   Return = MRReturn<ET, Action>
 > = Params extends undefined
