@@ -24,6 +24,7 @@ import {
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
+  GetAppUploadParams,
   GetAppBundleParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
@@ -77,6 +78,7 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
+import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 
 export type PlainClientAPI = {
@@ -285,6 +287,14 @@ export type PlainClientAPI = {
       locale: string,
       processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
+  }
+  appUpload: {
+    get(params: OptionalDefaults<GetAppUploadParams>): Promise<AppUploadProps>
+    delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
+    create(
+      params: OptionalDefaults<GetOrganizationParams>,
+      payload: { file: string | ArrayBuffer | Stream }
+    ): Promise<AppUploadProps>
   }
   assetKey: {
     create(

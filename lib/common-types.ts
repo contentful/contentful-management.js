@@ -51,6 +51,7 @@ import {
   WebhookProps,
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import { AppUploadProps } from './entities/app-upload'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -207,6 +208,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Asset', 'createFromFiles', UA>): MRReturn<'Asset', 'createFromFiles'>
   (opts: MROpts<'Asset', 'processForAllLocales', UA>): MRReturn<'Asset', 'processForAllLocales'>
   (opts: MROpts<'Asset', 'processForLocale', UA>): MRReturn<'Asset', 'processForLocale'>
+
+  (opts: MROpts<'AppUpload', 'get', UA>): MRReturn<'AppUpload', 'get'>
+  (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
+  (opts: MROpts<'AppUpload', 'create', UA>): MRReturn<'AppUpload', 'create'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -486,6 +491,21 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
+  }
+  AppUpload: {
+    get: {
+      params: GetAppUploadParams
+      return: AppUploadProps
+    }
+    delete: {
+      params: GetAppUploadParams
+      return: void
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: { file: string | ArrayBuffer | Stream }
+      return: AppUploadProps
+    }
   }
   Asset: {
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
@@ -1061,6 +1081,7 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipProps = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

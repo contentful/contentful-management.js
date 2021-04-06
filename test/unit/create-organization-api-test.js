@@ -2,17 +2,18 @@ import createOrganizationApi, {
   __RewireAPI__ as createOrganizationApiRewireApi,
 } from '../../lib/create-organization-api'
 import {
-  cloneMock,
   appDefinitionMock,
+  appUploadMock,
+  cloneMock,
+  organizationInvitationMock,
   organizationMembershipMock,
+  organizationMock,
+  setupEntitiesMock,
   spaceMembershipMock,
   teamMembershipMock,
-  teamSpaceMembershipMock,
-  setupEntitiesMock,
-  organizationInvitationMock,
   teamMock,
+  teamSpaceMembershipMock,
   userMock,
-  organizationMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -385,5 +386,45 @@ describe('A createOrganizationApi', () => {
         items: [teamSpaceMembershipMock],
       })
     })
+  })
+
+  test('API call getAppUpload', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    return api['getAppUpload']('upload-id').then((result) => {
+      expect(result).eql(appUploadMock)
+    })
+  })
+
+  test('API call getAppUpload fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppUpload']('app-upload-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createAppUpload', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    return api['createAppUpload']('content-of-zip-file').then((result) => {
+      expect(result).eql(appUploadMock)
+    })
+  })
+
+  test('API call createAppUpload fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['createAppUpload']('content-of-zip-file').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
   })
 })

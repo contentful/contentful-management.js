@@ -1,5 +1,6 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
+import { Stream } from 'stream'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
@@ -29,6 +30,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapTeam, wrapTeamCollection } = entities.team
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const { wrapOrganizationInvitation } = entities.organizationInvitation
+  const { wrapAppUpload } = entities.appUpload
 
   return {
     /**
@@ -549,6 +551,57 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         action: 'get',
         params: { organizationId: raw.sys.id, appDefinitionId: id },
       }).then((data) => wrapAppDefinition(makeRequest, data))
+    },
+
+    /**
+     * Gets an app upload
+     * @return Promise for an App Upload
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppUpload('<app_upload_id>'))
+     * .then((appUpload) => console.log(appUpload))
+     * .catch(console.error)
+     * ```
+     */
+    getAppUpload(appUploadId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppUpload',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appUploadId },
+      }).then((data) => wrapAppUpload(makeRequest, data))
+    },
+
+    /**
+     * Creates an app upload
+     * @return Promise for an App Upload
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.createAppUpload('some_zip_file'))
+     * .then((appUpload) => console.log(appUpload))
+     * .catch(console.error)
+     * ```
+     */
+    createAppUpload(file: string | ArrayBuffer | Stream) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppUpload',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload: { file },
+      }).then((data) => wrapAppUpload(makeRequest, data))
     },
   }
 }
