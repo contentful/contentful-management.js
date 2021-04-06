@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios'
 import { Stream } from 'stream'
+import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
@@ -50,6 +51,7 @@ import {
   WebhookProps,
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import { AppUploadProps } from './entities/app-upload'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -170,6 +172,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
   (opts: MROpts<'Http', 'request', UA>): MRReturn<'Http', 'request'>
 
+  (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
+  (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
+  (opts: MROpts<'AppBundle', 'delete', UA>): MRReturn<'AppBundle', 'delete'>
+  (opts: MROpts<'AppBundle', 'create', UA>): MRReturn<'AppBundle', 'create'>
+
   (opts: MROpts<'ApiKey', 'get', UA>): MRReturn<'ApiKey', 'get'>
   (opts: MROpts<'ApiKey', 'getMany', UA>): MRReturn<'ApiKey', 'getMany'>
   (opts: MROpts<'ApiKey', 'create', UA>): MRReturn<'ApiKey', 'create'>
@@ -201,6 +208,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Asset', 'createFromFiles', UA>): MRReturn<'Asset', 'createFromFiles'>
   (opts: MROpts<'Asset', 'processForAllLocales', UA>): MRReturn<'Asset', 'processForAllLocales'>
   (opts: MROpts<'Asset', 'processForLocale', UA>): MRReturn<'Asset', 'processForLocale'>
+
+  (opts: MROpts<'AppUpload', 'get', UA>): MRReturn<'AppUpload', 'get'>
+  (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
+  (opts: MROpts<'AppUpload', 'create', UA>): MRReturn<'AppUpload', 'create'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -409,6 +420,19 @@ export type MRActions = {
     delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: AxiosRequestConfig }; return: any }
   }
+  AppBundle: {
+    get: { params: GetAppBundleParams; return: AppBundleProps }
+    getMany: {
+      params: GetAppDefinitionParams & QueryParams
+      return: CollectionProp<AppBundleProps>
+    }
+    delete: { params: GetAppBundleParams; return: void }
+    create: {
+      params: GetAppDefinitionParams
+      payload: CreateAppBundleProps
+      return: AppBundleProps
+    }
+  }
   ApiKey: {
     get: { params: GetSpaceParams & { apiKeyId: string }; return: ApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ApiKeyProps> }
@@ -467,6 +491,21 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
+  }
+  AppUpload: {
+    get: {
+      params: GetAppUploadParams
+      return: AppUploadProps
+    }
+    delete: {
+      params: GetAppUploadParams
+      return: void
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: { file: string | ArrayBuffer | Stream }
+      return: AppUploadProps
+    }
   }
   Asset: {
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
@@ -1020,27 +1059,29 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
-export type GetSpaceParams = { spaceId: string }
-export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
-export type GetOrganizationParams = { organizationId: string }
-export type GetTeamParams = { organizationId: string; teamId: string }
+export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
-export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetOrganizationParams = { organizationId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+export type GetSpaceParams = { spaceId: string }
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+export type GetTeamParams = { organizationId: string; teamId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
-export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipProps = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
