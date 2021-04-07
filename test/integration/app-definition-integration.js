@@ -45,7 +45,6 @@ describe('AppDefinition api', function () {
           return organization
             .getAppDefinitions()
             .then((response) => {
-              console.log(response)
               expect(response.items.length).equals(
                 response.total,
                 'returns the just created app definitions'

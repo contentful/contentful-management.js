@@ -3,7 +3,7 @@ import { readFileSync } from 'fs'
 import { before, describe, test } from 'mocha'
 import { client } from '../helpers'
 
-describe.only('AppUpload api', function () {
+describe('AppUpload api', function () {
   let organization
 
   before(async () => {
