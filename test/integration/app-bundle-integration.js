@@ -21,35 +21,61 @@ describe('AppBundle api', function () {
   })
 
   after(async () => {
-    organization.getAppDefinitions().then((response) => {
-      response.items.map((appDefinition) => appDefinition.delete())
-    })
+    const { items: appDefinitions } = await organization.getAppDefinitions()
+    for (const appDefinition of appDefinitions) {
+      await appDefinition.delete()
+    }
 
     if (appUpload) {
-      appUpload.delete()
+      await appUpload.delete()
     }
   })
 
-  test('Create, get, get all and delete AppBundle', async () => {
-    return appDefinition
-      .createAppBundle({ appUploadId: appUpload.sys.id, comment: 'Test comment' })
-      .then((appBundle) => {
-        expect(appBundle.sys.type).equals('AppBundle', 'type')
-        expect(appBundle.comment).equals('Test comment', 'comment')
-        expect(appBundle.files).to.be.an('array')
-        return appDefinition.getAppBundle(appBundle.sys.id).then((response) => {
-          expect(response.sys.id).equals(appBundle.sys.id)
+  test('createAppBundle', async () => {
+    const appBundle = await appDefinition.createAppBundle({
+      appUploadId: appUpload.sys.id,
+      comment: 'Test comment',
+    })
 
-          return appDefinition
-            .getAppBundles()
-            .then((response) => {
-              expect(response.items.length).equals(
-                response.total,
-                'returns the just created app bundles'
-              )
-            })
-            .then(() => appBundle.delete())
-        })
-      })
+    expect(appBundle.sys.type).equals('AppBundle', 'type')
+    expect(appBundle.comment).equals('Test comment', 'comment')
+    expect(appBundle.files).to.be.an('array')
+    const indexFile = appBundle.files.filter((file) => (file.name = 'build/index.html'))
+    expect(indexFile).to.exist
+
+    await appBundle.delete()
+  })
+
+  test('getAppBundle', async () => {
+    const appBundle = await appDefinition.createAppBundle({
+      appUploadId: appUpload.sys.id,
+      comment: 'Test comment',
+    })
+
+    const fetchedAppBundle = await appDefinition.getAppBundle(appBundle.sys.id)
+
+    expect(appBundle.sys.id).equals(fetchedAppBundle.sys.id)
+
+    await appBundle.delete()
+  })
+
+  test('getAppBundles', async () => {
+    const response = await appDefinition.getAppBundles()
+
+    expect(response.items).to.be.an('array')
+    expect(response.sys.type).equals('Array', 'type')
+  })
+
+  test('delete', async () => {
+    const appBundle = await appDefinition.createAppBundle({
+      appUploadId: appUpload.sys.id,
+      comment: 'Test comment',
+    })
+
+    await appBundle.delete()
+
+    await expect(appDefinition.getAppBundle(appBundle.sys.id)).to.be.rejectedWith(
+      'The resource could not be found'
+    )
   })
 })

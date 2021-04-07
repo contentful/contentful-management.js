@@ -12,17 +12,37 @@ describe('AppUpload api', function () {
       .then((response) => response.items[0])
   })
 
-  test('Create, get and delete AppUpload', async () => {
-    return organization
-      .createAppUpload(readFileSync(`${__dirname}/fixtures/build.zip`))
-      .then((appUpload) => {
-        expect(appUpload.sys.type).equals('AppUpload', 'type')
-        return organization
-          .getAppUpload(appUpload.sys.id)
-          .then((response) => {
-            expect(response.sys.id).equals(appUpload.sys.id)
-          })
-          .then(() => appUpload.delete())
-      })
+  test('createAppUpload', async () => {
+    const appUpload = await organization.createAppUpload(
+      readFileSync(`${__dirname}/fixtures/build.zip`)
+    )
+
+    expect(appUpload.sys.type).equals('AppUpload', 'type')
+
+    await appUpload.delete()
+  })
+
+  test('getAppUpload', async () => {
+    const appUpload = await organization.createAppUpload(
+      readFileSync(`${__dirname}/fixtures/build.zip`)
+    )
+
+    const fetchedAppUpload = await organization.getAppUpload(appUpload.sys.id)
+
+    expect(appUpload.sys.id).equals(fetchedAppUpload.sys.id)
+
+    await appUpload.delete()
+  })
+
+  test('delete', async () => {
+    const appUpload = await organization.createAppUpload(
+      readFileSync(`${__dirname}/fixtures/build.zip`)
+    )
+
+    await appUpload.delete()
+
+    await expect(organization.getAppUpload(appUpload.sys.id)).to.be.rejectedWith(
+      'The resource could not be found'
+    )
   })
 })

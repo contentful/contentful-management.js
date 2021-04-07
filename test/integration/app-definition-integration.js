@@ -12,46 +12,89 @@ describe('AppDefinition api', function () {
   })
 
   after(async () => {
-    organization.getAppDefinitions().then((response) => {
-      response.items.map((appDefinition) => appDefinition.delete())
-    })
+    const { items: appDefinitions } = await organization.getAppDefinitions()
+    for (const appDefinition of appDefinitions) {
+      await appDefinition.delete()
+    }
   })
 
-  test('Create, update, get, get all and delete AppDefinition', async () => {
-    return organization
-      .createAppDefinition({
-        name: 'Test App',
-        src: 'http://localhost:3000',
-        locations: [
-          {
-            location: 'app-config',
-          },
-        ],
-      })
-      .then((newAppDefinition) => {
-        expect(newAppDefinition.sys.type).equals('AppDefinition', 'type')
-        expect(newAppDefinition.name).equals('Test App', 'name')
+  test('createAppDefinition', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+    })
 
-        newAppDefinition.name = 'Test App Updated'
-        return newAppDefinition.update()
-      })
-      .then((newAppDefinition) => {
-        expect(newAppDefinition.name).equals('Test App Updated', 'name')
+    expect(appDefinition.sys.type).equals('AppDefinition', 'type')
+    expect(appDefinition.name).equals('Test App', 'name')
 
-        return organization.getAppDefinition(newAppDefinition.sys.id).then((response) => {
-          expect(response.sys.id).equals(newAppDefinition.sys.id, 'id')
-          expect(response.name).equals('Test App Updated', 'name')
+    await appDefinition.delete()
+  })
 
-          return organization
-            .getAppDefinitions()
-            .then((response) => {
-              expect(response.items.length).equals(
-                response.total,
-                'returns the just created app definitions'
-              )
-            })
-            .then(() => newAppDefinition.delete())
-        })
-      })
+  test('getAppDefintion', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+    })
+
+    const fetchedAppDefinition = await organization.getAppDefinition(appDefinition.sys.id)
+
+    expect(appDefinition.sys.id).equals(fetchedAppDefinition.sys.id)
+
+    await appDefinition.delete()
+  })
+
+  test('getAppDefinitions', async () => {
+    const appDefinitions = await organization.getAppDefinitions()
+
+    expect(appDefinitions.items).to.be.an('array')
+    expect(appDefinitions.sys.type).equals('Array', 'type')
+  })
+
+  test('delete', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+    })
+
+    await appDefinition.delete()
+
+    await expect(organization.getAppDefinition(appDefinition.sys.id)).to.be.rejectedWith(
+      'The resource could not be found'
+    )
+  })
+
+  test('update', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+    })
+
+    appDefinition.name = 'Test App Updated'
+
+    await appDefinition.update()
+
+    expect(appDefinition.name).equals('Test App Updated', 'name')
+
+    await appDefinition.delete()
   })
 })
