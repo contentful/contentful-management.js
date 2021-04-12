@@ -15,7 +15,7 @@ export const post: RestEndpoint<'Http', 'post'> = <T = any>(
   { url, config }: { url: string; config?: AxiosRequestConfig },
   payload?: any
 ) => {
-  return raw.post<T>(http, url, config, payload)
+  return raw.post<T>(http, url, payload, config)
 }
 
 export const put: RestEndpoint<'Http', 'put'> = <T = any>(
@@ -23,7 +23,7 @@ export const put: RestEndpoint<'Http', 'put'> = <T = any>(
   { url, config }: { url: string; config?: AxiosRequestConfig },
   payload?: any
 ) => {
-  return raw.put<T>(http, url, config, payload)
+  return raw.put<T>(http, url, payload, config)
 }
 
 export const del: RestEndpoint<'Http', 'delete'> = <T = any>(
