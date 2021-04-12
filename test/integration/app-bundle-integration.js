@@ -40,7 +40,7 @@ describe('AppBundle api', function () {
     expect(appBundle.sys.type).equals('AppBundle', 'type')
     expect(appBundle.comment).equals('Test comment', 'comment')
     expect(appBundle.files).to.be.an('array')
-    const indexFile = appBundle.files.filter((file) => file.name === 'build/index.html')
+    const indexFile = appBundle.files.filter((file) => file.name === 'index.html')
     expect(indexFile).to.exist
 
     await appBundle.delete()
