@@ -1031,7 +1031,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
         },
-        payload: data,
+        payload: { extension: data },
       }).then((response) => wrapExtension(makeRequest, response))
     },
     /**
@@ -1077,7 +1077,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           extensionId: id,
         },
-        payload: data,
+        payload: { extension: data },
       }).then((response) => wrapExtension(makeRequest, response))
     },
 

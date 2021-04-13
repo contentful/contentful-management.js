@@ -20,11 +20,9 @@ describe('Extension api', function () {
   test('Create, update, get, get all and delete UI Extension', async () => {
     return environment
       .createUiExtension({
-        extension: {
-          name: 'My awesome extension',
-          src: 'https://extensions.example.com/your-extension.html',
-          fieldTypes: [{ type: 'Text' }],
-        },
+        name: 'My awesome extension',
+        src: 'https://extensions.example.com/your-extension.html',
+        fieldTypes: [{ type: 'Text' }],
       })
       .then((extension) => {
         expect(extension.sys.type).equals('Extension', 'type')
@@ -56,12 +54,10 @@ describe('Extension api', function () {
   test('Create and delete UI Extension hosted by Contentful', async () => {
     return environment
       .createUiExtension({
-        extension: {
-          name: 'My awesome extension hosted at Contentful',
-          srcdoc:
-            '<html><head><title>MyAwesomeUiExtension</title></head><body><h1>Awesome</h1></body></html>',
-          fieldTypes: [{ type: 'Text' }],
-        },
+        name: 'My awesome extension hosted at Contentful',
+        srcdoc:
+          '<html><head><title>MyAwesomeUiExtension</title></head><body><h1>Awesome</h1></body></html>',
+        fieldTypes: [{ type: 'Text' }],
       })
       .then((extension) => {
         expect(extension.sys.type).equals('Extension', 'type')
@@ -78,11 +74,9 @@ describe('Extension api', function () {
   test('Create UI extension with ID', () => {
     return environment
       .createUiExtensionWithId('awesome-extension', {
-        extension: {
-          name: 'Awesome extension!',
-          src: 'https://awesome.extension',
-          fieldTypes: [{ type: 'Symbol' }],
-        },
+        name: 'Awesome extension!',
+        src: 'https://awesome.extension',
+        fieldTypes: [{ type: 'Symbol' }],
       })
       .then((extension) => {
         expect(extension.sys.id).equals('awesome-extension', 'id')
