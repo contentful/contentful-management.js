@@ -20,6 +20,13 @@ export const createPlainClient = (
           action: 'get',
           params: { url, config },
         }),
+      patch: (url, payload, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'patch',
+          params: { url, config },
+          payload,
+        }),
       post: (url, payload, config) =>
         makeRequest({
           entityType: 'Http',
@@ -105,6 +112,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
+      patch: wrap(wrapParams, 'Entry', 'patch'),
       delete: wrap(wrapParams, 'Entry', 'delete'),
       publish: wrap(wrapParams, 'Entry', 'publish'),
       unpublish: wrap(wrapParams, 'Entry', 'unpublish'),

@@ -16,6 +16,20 @@ export function get<T = any>(http: AxiosInstance, url: string, config?: AxiosReq
     .then((response) => response.data, errorHandler)
 }
 
+export function patch<T = any>(
+  http: AxiosInstance,
+  url: string,
+  payload?: any,
+  config?: AxiosRequestConfig
+) {
+  return http
+    .patch<T>(url, payload, {
+      baseURL: getBaseUrl(http),
+      ...config,
+    })
+    .then((response) => response.data, errorHandler)
+}
+
 export function post<T = any>(
   http: AxiosInstance,
   url: string,

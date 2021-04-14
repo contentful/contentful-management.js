@@ -80,12 +80,14 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
+import { OpPatch } from 'json-patch'
 
 export type PlainClientAPI = {
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     post<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
+    patch<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     put<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
@@ -211,6 +213,11 @@ export type PlainClientAPI = {
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
+      headers?: Record<string, unknown>
+    ): Promise<EntryProps<T>>
+    patch<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      rawData: OpPatch[],
       headers?: Record<string, unknown>
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>

@@ -15,6 +15,13 @@ export function entityCollectionWrappedTest(setup, { wrapperMethod }) {
   expect(entity.toPlainObject()).eql(collection)
 }
 
+export async function entityPatchTest(setup, { wrapperMethod }) {
+  const { makeRequest, entityMock } = setup()
+  const entity = wrapperMethod(makeRequest, entityMock)
+  const response = await entity.patch([])
+  expect(response.toPlainObject, 'response is wrapped').to.be.ok
+}
+
 export async function entityUpdateTest(setup, { wrapperMethod }) {
   await entityActionTest(setup, { wrapperMethod, actionMethod: 'update' })
 }

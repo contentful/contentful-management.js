@@ -12,6 +12,7 @@ import {
   MakeRequest,
 } from '../common-types'
 import * as checks from '../plain/checks'
+import type { OpPatch } from 'json-patch'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -45,6 +46,31 @@ type EntryApi = {
    * ```
    */
   update(): Promise<Entry>
+  /**
+   * Sends an JSON patch to the server with any changes made to the object's properties
+   * @return Object returned from the server with updated changes.
+   * @example ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   *
+   * client.getSpace('<space_id>')
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
+   * .then((entry) => entry.patch([
+   *   {
+   *     op: 'replace',
+   *     path: '/fields/title/en-US',
+   *     value: 'New entry title'
+   *   }
+   * ]))
+   * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
+   * .catch(console.error)
+   * ```
+   */
+  patch(patch: OpPatch[]): Promise<Entry>
   /**
    * Archives the object
    * @return Object returned from the server with updated metadata.
@@ -224,6 +250,20 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
         action: 'update',
         params,
         payload: raw,
+      }).then((data) => wrapEntry(makeRequest, data))
+    },
+
+    patch: function patch(ops: OpPatch[]) {
+      const { raw, params } = getParams(this)
+
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'patch',
+        params: {
+          ...params,
+          version: raw.sys.version,
+        },
+        payload: ops,
       }).then((data) => wrapEntry(makeRequest, data))
     },
 

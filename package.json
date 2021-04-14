@@ -55,6 +55,7 @@
     "tonic-example.js"
   ],
   "dependencies": {
+    "@types/json-patch": "0.0.30",
     "axios": "^0.21.0",
     "contentful-sdk-core": "^6.7.0",
     "fast-copy": "^2.1.0",
