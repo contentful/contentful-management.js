@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { OpPatch } from 'json-patch'
 import { Adapter, MakeRequestOptions } from '../../common-types'
 import endpoints from './endpoints'
 
@@ -55,7 +56,7 @@ export class RestAdapter implements Adapter {
     const endpoint: (
       http: AxiosInstance,
       params?: Record<string, unknown>,
-      payload?: Record<string, unknown>,
+      payload?: Record<string, unknown> | OpPatch[],
       headers?: Record<string, unknown>
     ) => Promise<R> =
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

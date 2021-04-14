@@ -52,6 +52,7 @@ import {
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
+import { OpPatch } from 'json-patch'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -167,6 +168,7 @@ export type KeyValueMap = Record<string, any>
 
 type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
+  (opts: MROpts<'Http', 'patch', UA>): MRReturn<'Http', 'patch'>
   (opts: MROpts<'Http', 'post', UA>): MRReturn<'Http', 'post'>
   (opts: MROpts<'Http', 'put', UA>): MRReturn<'Http', 'put'>
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
@@ -246,6 +248,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
+  (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
   (opts: MROpts<'Entry', 'delete', UA>): MRReturn<'Entry', 'delete'>
   (opts: MROpts<'Entry', 'publish', UA>): MRReturn<'Entry', 'publish'>
@@ -415,6 +418,7 @@ export interface Adapter {
 export type MRActions = {
   Http: {
     get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
+    patch: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     post: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     put: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
@@ -654,6 +658,12 @@ export type MRActions = {
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+      return: EntryProps<any>
+    }
+    patch: {
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number }
+      payload: OpPatch[]
+      headers?: Record<string, unknown>
       return: EntryProps<any>
     }
     update: {
@@ -1054,7 +1064,7 @@ export interface MakeRequestOptions {
   entityType: keyof MRActions
   action: string
   params?: Record<string, unknown>
-  payload?: Record<string, unknown>
+  payload?: Record<string, unknown> | OpPatch[]
   headers?: Record<string, unknown>
   userAgent: string
 }
