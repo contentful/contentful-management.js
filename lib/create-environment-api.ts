@@ -12,6 +12,7 @@ import type { CreateAppInstallationProps } from './entities/app-installation'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
+import { BulkActionPayload, wrapBulkAction } from './entities/bulk-action'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -157,6 +158,166 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     getAssetFromData(assetData: AssetProps) {
       return wrapAsset(makeRequest, assetData)
+    },
+
+    /**
+     * Gets a BulkAction by ID
+     * @param bulkActionId - ID of the BulkAction to fetch
+     * @returns - Promise with the BulkAction
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getBulkAction('<bulk_action_id>'))
+     * .then((bulkAction) => console.log(bulkAction))
+     * ```
+     */
+    getBulkAction(bulkActionId: string) {
+      const raw = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+          bulkActionId,
+        },
+      }).then((data) => wrapBulkAction(makeRequest, data))
+    },
+
+    /**
+     * Gets a BulkAction by ID
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    action: 'publish',
+     *    items: [
+     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry', version: 2 } }
+     *    ]
+     *  }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.createPublishBulkAction(payload))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((bulkAction) => console.log(bulkAction))
+     * ```
+     */
+    createPublishBulkAction(payload: BulkActionPayload) {
+      const raw = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'publish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction(makeRequest, data))
+    },
+
+    /**
+     * Gets a BulkAction by ID
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    action: 'publish',
+     *    items: [
+     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry' } }
+     *    ]
+     *  }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.createValidateBulkAction(payload))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((bulkAction) => console.log(bulkAction))
+     * ```
+     */
+    createValidateBulkAction(payload: BulkActionPayload) {
+      const raw = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'validate',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction(makeRequest, data))
+    },
+
+    /**
+     * Gets a BulkAction by ID
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    items: [
+     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry', version: 1 } }
+     *    ]
+     *  }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.createUnpublishBulkAction(payload))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((bulkAction) => console.log(bulkAction))
+     * ```
+     */
+    createUnpublishBulkAction(payload: BulkActionPayload) {
+      const raw = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'unpublish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction(makeRequest, data))
     },
 
     /**

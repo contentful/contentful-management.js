@@ -87,6 +87,12 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'EnvironmentAlias', 'update'),
       delete: wrap(wrapParams, 'EnvironmentAlias', 'delete'),
     },
+    bulkAction: {
+      get: wrap(wrapParams, 'BulkAction', 'get'),
+      publish: wrap(wrapParams, 'BulkAction', 'publish'),
+      unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
+      validate: wrap(wrapParams, 'BulkAction', 'validate'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
