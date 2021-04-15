@@ -70,7 +70,7 @@ export interface Link<T extends string> {
   }
 }
 
-export interface VersionedLink<T = string> {
+export interface VersionedLink<T extends string> {
   sys: {
     type: 'Link'
     linkType: T

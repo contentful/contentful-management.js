@@ -689,6 +689,7 @@ export {
   linkMock,
   sysMock,
   spaceMock,
+  bulkActionMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,

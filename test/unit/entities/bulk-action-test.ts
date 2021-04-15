@@ -12,10 +12,8 @@ function setup(promise) {
   }
 }
 
-describe('Entity ScheduledAction', () => {
+describe('Entity BulkAction', () => {
   it('BulkAction is wrapped', async () => {
-    return entityWrappedTest(setup, {
-      wrapperMethod: wrapBulkAction,
-    })
+    return entityWrappedTest(setup, { wrapperMethod: wrapBulkAction })
   })
 })

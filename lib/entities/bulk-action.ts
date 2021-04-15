@@ -16,7 +16,7 @@ export type BulkActionType = 'publish' | 'unpublish' | 'validate'
 /** Represents the state of the BulkAction */
 export enum BulkActionStatus {
   /** BulkAction is pending execution */
-  scheduled = 'created',
+  created = 'created',
   /** BulkAction has been started and pending completion */
   inProgress = 'inProgress',
   /** BulkAction was completed successfully (terminal state) */
@@ -52,7 +52,7 @@ export type BulkActionProps = {
 
 export type BulkActionPayload = {
   entities: {
-    sys: { type: 'Array' }
+    sys?: { type: string }
     items: Link<Entity>[] | VersionedLink<Entity>[]
     [key: string]: any
   }

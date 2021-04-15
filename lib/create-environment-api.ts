@@ -12,7 +12,7 @@ import type { CreateAppInstallationProps } from './entities/app-installation'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
-import { BulkActionPayload, wrapBulkAction } from './entities/bulk-action'
+import { BulkActionPayload } from './entities/bulk-action'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -33,6 +33,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapUpload } = entities.upload
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
+  const { wrapBulkAction } = entities.bulkAction
 
   return {
     /**
@@ -161,7 +162,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets a BulkAction by ID
+     *
+     * @description Gets a BulkAction by ID.
+     *  See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
      * @param bulkActionId - ID of the BulkAction to fetch
      * @returns - Promise with the BulkAction
      *
@@ -179,21 +182,22 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * ```
      */
     getBulkAction(bulkActionId: string) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() // Environment object
 
       return makeRequest({
         entityType: 'BulkAction',
         action: 'get',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.environment.sys.id,
+          environmentId: raw.sys.id,
           bulkActionId,
         },
       }).then((data) => wrapBulkAction(makeRequest, data))
     },
 
     /**
-     * Gets a BulkAction by ID
+     * @description Creates a BulkAction that will publish all items contained in payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
@@ -219,24 +223,26 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.createPublishBulkAction(payload))
      * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
      * .then((bulkAction) => console.log(bulkAction))
+     * .catch(console.error)
      * ```
      */
     createPublishBulkAction(payload: BulkActionPayload) {
-      const raw = this.toPlainObject()
+      const raw = this.toPlainObject() // Environment object
 
       return makeRequest({
         entityType: 'BulkAction',
         action: 'publish',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.environment.sys.id,
+          environmentId: raw.sys.id,
         },
         payload,
       }).then((data) => wrapBulkAction(makeRequest, data))
     },
 
     /**
-     * Gets a BulkAction by ID
+     * @description Creates a BulkAction that will validate all items contained in payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
@@ -248,9 +254,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * })
      *
      * const payload = {
+     *  action: 'publish',
      *  entities: {
      *    sys: { type: 'Array' }
-     *    action: 'publish',
      *    items: [
      *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry' } }
      *    ]
@@ -262,6 +268,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.createValidateBulkAction(payload))
      * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
      * .then((bulkAction) => console.log(bulkAction))
+     * .catch(console.error)
      * ```
      */
     createValidateBulkAction(payload: BulkActionPayload) {
@@ -272,14 +279,15 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         action: 'validate',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.environment.sys.id,
+          environmentId: raw.sys.id,
         },
         payload,
       }).then((data) => wrapBulkAction(makeRequest, data))
     },
 
     /**
-     * Gets a BulkAction by ID
+     * @description Creates a BulkAction that will unpublish all items contained in payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
@@ -294,7 +302,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  entities: {
      *    sys: { type: 'Array' }
      *    items: [
-     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry', version: 1 } }
+     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry' } }
      *    ]
      *  }
      * }
@@ -304,6 +312,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.createUnpublishBulkAction(payload))
      * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
      * .then((bulkAction) => console.log(bulkAction))
+     * .catch(console.error)
      * ```
      */
     createUnpublishBulkAction(payload: BulkActionPayload) {
@@ -314,7 +323,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         action: 'unpublish',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.environment.sys.id,
+          environmentId: raw.sys.id,
         },
         payload,
       }).then((data) => wrapBulkAction(makeRequest, data))
