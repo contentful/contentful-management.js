@@ -11,7 +11,3 @@ export function makeVersionedLink(type, id, version: number): VersionedLink<'Ent
     sys: { id, linkType: type, type: 'Link', version },
   }
 }
-
-export function sleep(duration: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, duration))
-}

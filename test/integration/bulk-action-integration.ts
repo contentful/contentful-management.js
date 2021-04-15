@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+import delay from 'delay'
 import { before, after, describe, test } from 'mocha'
 import { Link, VersionedLink } from '../../lib/common-types'
 import { BulkActionStatus } from '../../lib/entities/bulk-action'
@@ -6,7 +7,7 @@ import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace } from '../helpers'
-import { makeLink, makeVersionedLink, sleep } from '../utils'
+import { makeLink, makeVersionedLink } from '../utils'
 
 const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]) => ({
   entities: {
@@ -58,7 +59,7 @@ describe('BulkAction Api', async function () {
     })
   })
 
-  describe('Write', () => {
+  describe.only('Write', () => {
     test('Publish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
@@ -67,7 +68,7 @@ describe('BulkAction Api', async function () {
       )
 
       // Wait for BulkAction completion
-      await sleep(1000)
+      await delay(1000)
 
       const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
@@ -106,7 +107,7 @@ describe('BulkAction Api', async function () {
       )
 
       // Wait for BulkAction completion
-      await sleep(1000)
+      await delay(1000)
 
       const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
@@ -121,7 +122,7 @@ describe('BulkAction Api', async function () {
       )
 
       // Wait for BulkAction completion
-      await sleep(1000)
+      await delay(1000)
 
       const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
