@@ -198,10 +198,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * @description Creates a BulkAction that will attempt to publish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
-     * @param payload - Object containing the items to be processed in the bulkAction
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
-     * @example ```javascript
+     * @example
+     *
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -218,12 +220,24 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  }
      * }
      *
+     * // Using Thenables
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createPublishBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await clientgetSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createPublishBulkAction(payload)
+     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
      * ```
      */
     createPublishBulkAction(payload: BulkActionPayload) {
@@ -243,10 +257,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * @description Creates a BulkAction that will attempt to validate all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
-     * @param payload - Object containing the items to be processed in the bulkAction
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
-     * @example ```javascript
+     * @example
+     *
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -263,12 +279,24 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  }
      * }
      *
+     * // Using Thenables
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createValidateBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await clientgetSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createValidateBulkAction(payload)
+     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
      * ```
      */
     createValidateBulkAction(payload: BulkActionPayload) {
@@ -288,10 +316,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * @description Creates a BulkAction that will attempt to unpublish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
-     * @param payload - Object containing the items to be processed in the bulkAction
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
      *
-     * @example ```javascript
+     * @example
+     *
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -307,12 +337,24 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  }
      * }
      *
+     * // Using Thenables
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createUnpublishBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.id))
+     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await clientgetSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createUnpublishBulkAction(payload)
+     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
      * ```
      */
     createUnpublishBulkAction(payload: BulkActionPayload) {
