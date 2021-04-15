@@ -163,7 +163,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      *
-     * @description Gets a BulkAction by ID.
+     * @description Get a BulkAction by ID.
      *  See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
      * @param bulkActionId - ID of the BulkAction to fetch
      * @returns - Promise with the BulkAction
@@ -196,7 +196,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will publish all items contained in payload.
+     * @description Creates a BulkAction that will attempt to publish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
@@ -241,7 +241,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will validate all items contained in payload.
+     * @description Creates a BulkAction that will attempt to validate all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction
@@ -286,7 +286,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will unpublish all items contained in payload.
+     * @description Creates a BulkAction that will attempt to unpublish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
      * @param payload - Object containing the items to be processed in the bulkAction
      * @returns - Promise with the BulkAction

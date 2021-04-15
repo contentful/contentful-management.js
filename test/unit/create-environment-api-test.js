@@ -125,7 +125,7 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call getBulkAction', async () => {
-    return makeCreateEntityTest(setup, {
+    return makeGetEntityTest(setup, {
       entityType: 'bulkAction',
       mockToReturn: bulkActionMock,
       methodToTest: 'getBulkAction',
@@ -143,7 +143,7 @@ describe('A createEnvironmentApi', () => {
   test('API call createUnpublishBulkAction', async () => {
     return makeCreateEntityTest(setup, {
       entityType: 'bulkAction',
-      mockToReturn: bulkActionMock,
+      mockToReturn: { ...bulkActionMock, action: 'unpublish' },
       methodToTest: 'createUnpublishBulkAction',
     })
   })
@@ -151,7 +151,7 @@ describe('A createEnvironmentApi', () => {
   test('API call createValidateBulkAction', async () => {
     return makeCreateEntityTest(setup, {
       entityType: 'bulkAction',
-      mockToReturn: bulkActionMock,
+      mockToReturn: { ...bulkActionMock, action: 'validate' },
       methodToTest: 'createValidateBulkAction',
     })
   })
