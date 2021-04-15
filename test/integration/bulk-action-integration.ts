@@ -59,7 +59,7 @@ describe('BulkAction Api', async function () {
     })
   })
 
-  describe.only('Write', () => {
+  describe('Write', () => {
     test('Publish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
