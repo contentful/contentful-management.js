@@ -6,7 +6,7 @@ import { BulkActionStatus } from '../../lib/entities/bulk-action'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace } from '../helpers'
+import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
 const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]) => ({
@@ -16,7 +16,7 @@ const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]) => ({
   },
 })
 
-describe('BulkAction Api', async function () {
+describe('BulkActions Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
   let writeSpace
@@ -127,6 +127,76 @@ describe('BulkAction Api', async function () {
       const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
       expect(bulkActionInProgress.action).to.eql('validate')
+    })
+  })
+
+  describe('PlainClient', () => {
+    const defaultParams = {
+      environmentId: TestDefaults.environmentId,
+      spaceId: TestDefaults.spaceId,
+    }
+
+    test('bulkAction.publish', async () => {
+      const plainClient = getPlainClient(defaultParams)
+      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+      const bulkActionInProgress = await plainClient.bulkAction.publish(
+        defaultParams,
+        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
+      )
+
+      // Wait for BulkAction completion
+      await delay(1000)
+
+      const bulkActionCompleted = await plainClient.bulkAction.get({
+        ...defaultParams,
+        bulkActionId: bulkActionInProgress.sys.id,
+      })
+
+      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
+      expect(bulkActionCompleted.action).to.eql('publish')
+    })
+
+    test('bulkAction.unpublish', async () => {
+      const plainClient = getPlainClient(defaultParams)
+      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+      const bulkActionInProgress = await plainClient.bulkAction.unpublish(
+        defaultParams,
+        bulkActionPayload([makeLink('Entry', entry.sys.id)])
+      )
+
+      // Wait for BulkAction completion
+      await delay(1000)
+
+      const bulkActionCompleted = await plainClient.bulkAction.get({
+        ...defaultParams,
+        bulkActionId: bulkActionInProgress.sys.id,
+      })
+
+      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
+      expect(bulkActionCompleted.action).to.eql('unpublish')
+    })
+
+    test('bulkAction.validate', async () => {
+      const plainClient = getPlainClient(defaultParams)
+      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+      const bulkActionInProgress = await plainClient.bulkAction.validate(
+        defaultParams,
+        bulkActionPayload([makeLink('Entry', entry.sys.id)])
+      )
+
+      // Wait for BulkAction completion
+      await delay(1000)
+
+      const bulkActionCompleted = await plainClient.bulkAction.get({
+        ...defaultParams,
+        bulkActionId: bulkActionInProgress.sys.id,
+      })
+
+      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
+      expect(bulkActionCompleted.action).to.eql('validate')
     })
   })
 })

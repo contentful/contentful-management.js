@@ -82,7 +82,7 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
-import { BulkActionProps } from '../entities/bulk-action'
+import { BulkActionPayload, BulkActionProps } from '../entities/bulk-action'
 
 export type PlainClientAPI = {
   raw: {
@@ -172,9 +172,15 @@ export type PlainClientAPI = {
   }
   bulkAction: {
     get(params: GetBulkActionParams): Promise<BulkActionProps>
-    publish(params: GetSpaceEnvironmentParams, payload: any): Promise<BulkActionProps>
-    unpublish(params: GetSpaceEnvironmentParams, payload: any): Promise<BulkActionProps>
-    validate(params: GetSpaceEnvironmentParams, payload: any): Promise<BulkActionProps>
+    publish(params: GetSpaceEnvironmentParams, payload: BulkActionPayload): Promise<BulkActionProps>
+    unpublish(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionPayload
+    ): Promise<BulkActionProps>
+    validate(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionPayload
+    ): Promise<BulkActionProps>
   }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
