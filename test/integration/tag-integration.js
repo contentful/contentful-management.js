@@ -1,12 +1,9 @@
 import { expect } from 'chai'
-import { after, afterEach, beforeEach, describe, it } from 'mocha'
-import { client, generateRandomId } from '../helpers'
-
-const suiteTags = []
+import { after, afterEach, before, describe, it } from 'mocha'
+import { client, generateRandomId, createTestSpace } from '../helpers'
 
 function randomTagId() {
   const id = generateRandomId('test-tag')
-  suiteTags.push(id)
   return id
 }
 
@@ -16,26 +13,23 @@ async function createRandomTag(environment) {
   return environment.createTag(tagId, tagName)
 }
 
-// TODO: use dedicated test space (needs to go GA first)
 describe('Tags api', function () {
+  let space
   let environment
 
-  beforeEach(async () => {
-    const space = await client(true).getSpace('w6xueg32zr68')
+  before(async () => {
+    space = await createTestSpace(client(), 'Tags Api')
     environment = await space.getEnvironment('master')
   })
 
   afterEach(async () => {
     const tags = await environment.getTags(0, 1000)
-    const deleting = tags.items
-      .filter((tag) => suiteTags.includes(tag.sys.id))
-      .map((tag) => tag.delete())
+    const deleting = tags.items.map((tag) => tag.delete())
     await Promise.allSettled(deleting)
   })
 
   after(async () => {
-    const tags = await environment.getTags(0, 1000)
-    await Promise.allSettled(tags.items.map((tag) => tag.delete()))
+    await space.delete()
   })
 
   it('can create a tag with default visibility of "private"', async () => {
@@ -69,7 +63,6 @@ describe('Tags api', function () {
 
     for (let index = 0; index < 10; index++) {
       const id = `${tagId}-${index}`
-      suiteTags.push(id)
       await environment.createTag(id, `${tagName} ${index}`)
     }
 
@@ -91,6 +84,18 @@ describe('Tags api', function () {
   })
 
   it('append a tag to an entity', async () => {
+    const contentType = await environment.createContentTypeWithId('layout', {
+      name: 'testCT',
+      fields: [
+        {
+          id: 'title',
+          name: 'Title',
+          type: 'Text',
+        },
+      ],
+    })
+    await contentType.publish()
+
     const entity = await environment.createEntry('layout', { fields: {} })
     expect(entity.metadata.tags).to.have.lengthOf(0)
     const tag = await createRandomTag(environment)
