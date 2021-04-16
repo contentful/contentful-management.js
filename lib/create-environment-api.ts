@@ -230,7 +230,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Using async/await
      * try {
-     *  const space = await clientgetSpace('<space_id>')
+     *  const space = await client.getSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createPublishBulkAction(payload)
      *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
