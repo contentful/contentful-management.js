@@ -589,7 +589,7 @@ export type MRActions = {
   BulkAction: {
     get: {
       params: GetBulkActionParams
-      return: BulkActionProps<BulkActionPayload | any>
+      return: BulkActionProps
     }
     publish: {
       params: GetSpaceEnvironmentParams

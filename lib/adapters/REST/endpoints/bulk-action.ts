@@ -2,7 +2,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { GetBulkActionParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import {
-  BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
@@ -14,7 +13,7 @@ import * as raw from './raw'
 export const get: RestEndpoint<'BulkAction', 'get'> = (
   http: AxiosInstance,
   params: GetBulkActionParams
-): Promise<BulkActionProps<BulkActionPayload>> => {
+) => {
   return raw.get(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/actions/${params.bulkActionId}`

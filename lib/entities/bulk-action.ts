@@ -75,7 +75,7 @@ export type BulkActionSysProps = {
 }
 
 /** The object returned by the BulkActions API */
-export interface BulkActionProps<TPayload extends BulkActionPayload> {
+export interface BulkActionProps<TPayload extends BulkActionPayload = any> {
   sys: BulkActionSysProps
   action: BulkActionType
   /** original payload when BulkAction was created */
@@ -84,7 +84,7 @@ export interface BulkActionProps<TPayload extends BulkActionPayload> {
   error?: BulkActionFailedError
 }
 
-export interface BulkAction<T extends BulkActionPayload>
+export interface BulkAction<T extends BulkActionPayload = any>
   extends BulkActionProps<T>,
     DefaultElements<BulkActionProps<T>> {}
 

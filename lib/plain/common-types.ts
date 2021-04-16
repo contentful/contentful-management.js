@@ -177,7 +177,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
   }
   bulkAction: {
-    get<T extends BulkActionPayload>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
+    get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
       payload: BulkActionPayload
