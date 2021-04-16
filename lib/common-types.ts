@@ -53,7 +53,13 @@ import {
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
-import { BulkActionProps } from './entities/bulk-action'
+import {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -583,22 +589,22 @@ export type MRActions = {
   BulkAction: {
     get: {
       params: GetBulkActionParams
-      return: BulkActionProps
+      return: BulkActionProps<BulkActionPayload | any>
     }
     publish: {
       params: GetSpaceEnvironmentParams
       payload: any
-      return: BulkActionProps
+      return: BulkActionProps<BulkActionPublishPayload>
     }
     unpublish: {
       params: GetSpaceEnvironmentParams
       payload: any
-      return: BulkActionProps
+      return: BulkActionProps<BulkActionUnpublishPayload>
     }
     validate: {
       params: GetSpaceEnvironmentParams
       payload: any
-      return: BulkActionProps
+      return: BulkActionProps<BulkActionValidatePayload>
     }
   }
   ContentType: {

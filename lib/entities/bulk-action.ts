@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
@@ -8,7 +9,7 @@ import {
   VersionedLink,
 } from '../common-types'
 
-/** Entities supported by the BulkAction API */
+/** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'
 
 export type BulkActionType = 'publish' | 'unpublish' | 'validate'
@@ -25,15 +26,47 @@ export enum BulkActionStatus {
   failed = 'failed',
 }
 
+const STATUSES = Object.values(BulkActionStatus)
+type BulkActionStatuses = typeof STATUSES[number]
+
 interface BulkActionFailedError {
   sys: { type: 'Error'; id: 'BulkActionFailed' }
-  details: any
+  details: {
+    errors: any
+    [key: string]: any
+  }
+}
+
+export type BulkActionPayload =
+  | BulkActionPublishPayload
+  | BulkActionUnpublishPayload
+  | BulkActionValidatePayload
+
+export interface BulkActionValidatePayload {
+  action?: 'publish'
+  entities: {
+    sys?: { type: string }
+    items: Link<Entity>[]
+  }
+}
+export interface BulkActionUnpublishPayload {
+  entities: {
+    sys?: { type: string }
+    items: Link<Entity>[]
+  }
+}
+
+export interface BulkActionPublishPayload {
+  entities: {
+    sys?: { type: string }
+    items: VersionedLink<Entity>[]
+  }
 }
 
 export type BulkActionSysProps = {
   id: string
   type: 'BulkAction'
-  status: BulkActionStatus
+  status: BulkActionStatuses
   space: Link<'Space'>
   environment: Link<'Environment'>
   createdBy: Link<'User'>
@@ -41,32 +74,30 @@ export type BulkActionSysProps = {
   updatedAt: ISO8601Timestamp
 }
 
-export type BulkActionProps = {
+/** The object returned by the BulkActions API */
+export interface BulkActionProps<TPayload extends BulkActionPayload> {
   sys: BulkActionSysProps
   action: BulkActionType
   /** original payload when BulkAction was created */
-  payload: any
+  payload: TPayload
   /** error information, if present */
   error?: BulkActionFailedError
 }
 
-export type BulkActionPayload = {
-  entities: {
-    sys?: { type: string }
-    items: Link<Entity>[] | VersionedLink<Entity>[]
-    [key: string]: any
-  }
-}
-
-export interface BulkAction extends BulkActionProps, DefaultElements<BulkActionProps> {}
+export interface BulkAction<T extends BulkActionPayload>
+  extends BulkActionProps<T>,
+    DefaultElements<BulkActionProps<T>> {}
 
 /**
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw BulkAction data
- * @return Wrapped content type data
+ * @return Wrapped BulkAction data
  */
-export function wrapBulkAction(_makeRequest: MakeRequest, data: BulkActionProps): BulkAction {
+export function wrapBulkAction<T extends BulkActionPayload = any>(
+  _makeRequest: MakeRequest,
+  data: BulkActionProps<BulkActionPayload>
+): BulkAction<T> {
   const bulkAction = toPlainObject(copy(data))
-  return freezeSys(bulkAction)
+  return freezeSys(bulkAction) as BulkAction<T>
 }

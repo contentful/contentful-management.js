@@ -12,7 +12,13 @@ import type { CreateAppInstallationProps } from './entities/app-installation'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
-import { BulkActionPayload } from './entities/bulk-action'
+import {
+  BulkAction,
+  BulkActionPayload,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -181,7 +187,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((bulkAction) => console.log(bulkAction))
      * ```
      */
-    getBulkAction(bulkActionId: string) {
+    getBulkAction<T extends BulkActionPayload = any>(bulkActionId: string): Promise<BulkAction<T>> {
       const raw = this.toPlainObject() // Environment object
 
       return makeRequest({
@@ -192,7 +198,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           bulkActionId,
         },
-      }).then((data) => wrapBulkAction(makeRequest, data))
+      }).then((data) => wrapBulkAction<T>(makeRequest, data))
     },
 
     /**
@@ -213,9 +219,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * const payload = {
      *  entities: {
      *    sys: { type: 'Array' }
-     *    action: 'publish',
      *    items: [
-     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry', version: 2 } }
+     *      { sys: { type: 'Link', id: '<entry-id>', linkType: 'Entry', version: 2 } }
      *    ]
      *  }
      * }
@@ -224,7 +229,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createPublishBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
      *
@@ -251,7 +255,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
         payload,
-      }).then((data) => wrapBulkAction(makeRequest, data))
+      }).then((data) => wrapBulkAction<BulkActionPublishPayload>(makeRequest, data))
     },
 
     /**
@@ -274,7 +278,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  entities: {
      *    sys: { type: 'Array' }
      *    items: [
-     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry' } }
+     *      { sys: { type: 'Link', id: '<entry-id>', linkType: 'Entry' } }
      *    ]
      *  }
      * }
@@ -283,7 +287,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createValidateBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
      *
@@ -310,7 +313,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
         payload,
-      }).then((data) => wrapBulkAction(makeRequest, data))
+      }).then((data) => wrapBulkAction<BulkActionValidatePayload>(makeRequest, data))
     },
 
     /**
@@ -341,7 +344,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createUnpublishBulkAction(payload))
-     * .then((inProgressBulkAction) => getBulkAction(inProgressBulkAction.sys.id))
      * .then((bulkAction) => console.log(bulkAction))
      * .catch(console.error)
      *
@@ -368,7 +370,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
         payload,
-      }).then((data) => wrapBulkAction(makeRequest, data))
+      }).then((data) => wrapBulkAction<BulkActionUnpublishPayload>(makeRequest, data))
     },
 
     /**

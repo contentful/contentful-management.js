@@ -27,8 +27,12 @@ export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entit
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 export type {
   BulkAction,
-  BulkActionPayload,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
   BulkActionStatus,
+  BulkActionPayload,
+  BulkActionType,
   BulkActionProps,
 } from './entities/bulk-action'
 export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'

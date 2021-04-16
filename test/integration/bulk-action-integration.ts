@@ -1,8 +1,13 @@
 import { expect } from 'chai'
 import delay from 'delay'
-import { before, after, describe, test } from 'mocha'
+import { before, describe, test } from 'mocha'
 import { Link, VersionedLink } from '../../lib/common-types'
-import { BulkActionStatus } from '../../lib/entities/bulk-action'
+import {
+  BulkActionStatus,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from '../../lib/entities/bulk-action'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
@@ -19,17 +24,10 @@ const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]) => ({
 describe('BulkActions Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
-  let writeSpace
 
   before(async () => {
     testSpace = await getDefaultSpace()
     testEnvironment = await testSpace.getEnvironment('master')
-  })
-
-  after(async () => {
-    if (writeSpace) {
-      return writeSpace.delete()
-    }
   })
 
   describe('Read', () => {
@@ -40,7 +38,9 @@ describe('BulkActions Api', async function () {
         bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
       )
 
-      const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
+      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionPublishPayload>(
+        createdBulkAction.sys.id
+      )
       expect(bulkActionInProgress.sys.id).to.eql(createdBulkAction.sys.id)
     })
 
@@ -70,7 +70,9 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
+      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionPublishPayload>(
+        createdBulkAction.sys.id
+      )
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
       expect(bulkActionInProgress.action).to.eql('publish')
     })
@@ -109,7 +111,9 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
+      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionUnpublishPayload>(
+        createdBulkAction.sys.id
+      )
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
       expect(bulkActionInProgress.action).to.eql('unpublish')
     })
@@ -124,7 +128,9 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionInProgress = await testEnvironment.getBulkAction(createdBulkAction.sys.id)
+      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
+        createdBulkAction.sys.id
+      )
       expect(bulkActionInProgress.sys.status).to.eql(BulkActionStatus.succeeded)
       expect(bulkActionInProgress.action).to.eql('validate')
     })
@@ -148,7 +154,7 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionCompleted = await plainClient.bulkAction.get({
+      const bulkActionCompleted = await plainClient.bulkAction.get<BulkActionPublishPayload>({
         ...defaultParams,
         bulkActionId: bulkActionInProgress.sys.id,
       })
@@ -169,7 +175,7 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionCompleted = await plainClient.bulkAction.get({
+      const bulkActionCompleted = await plainClient.bulkAction.get<BulkActionUnpublishPayload>({
         ...defaultParams,
         bulkActionId: bulkActionInProgress.sys.id,
       })
@@ -190,7 +196,7 @@ describe('BulkActions Api', async function () {
       // Wait for BulkAction completion
       await delay(1000)
 
-      const bulkActionCompleted = await plainClient.bulkAction.get({
+      const bulkActionCompleted = await plainClient.bulkAction.get<BulkActionValidatePayload>({
         ...defaultParams,
         bulkActionId: bulkActionInProgress.sys.id,
       })
