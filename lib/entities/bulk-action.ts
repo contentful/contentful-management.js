@@ -8,6 +8,12 @@ import {
   MakeRequest,
   VersionedLink,
 } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
+import {
+  BulkActionProcessingOptions,
+  pollBulkActionStatus,
+  waitForBulkActionProcessing,
+} from '../methods/bulk-action'
 
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'
@@ -84,20 +90,59 @@ export interface BulkActionProps<TPayload extends BulkActionPayload = any> {
   error?: BulkActionFailedError
 }
 
+export interface BulkActionApiMethods {
+  /** Performs a new GET request and returns the wrapper BulkAction */
+  get(): BulkAction
+  /** Waits until the BulkAction is in one of the final states (`succeeded` or `failed`) and returns it. */
+  waitProcessing(options?: BulkActionProcessingOptions): BulkAction
+}
+
+function createBulkActionApi(makeRequest: MakeRequest) {
+  const getParams = (self: BulkAction) => {
+    const bulkAction = self.toPlainObject()
+
+    return {
+      spaceId: bulkAction.sys.space.sys.id,
+      environmentId: bulkAction.sys.environment.sys.id,
+      bulkActionId: bulkAction.sys.id,
+    }
+  }
+
+  return {
+    async get() {
+      const params = getParams(this)
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'get',
+        params,
+      }).then((bulkAction) => wrapBulkAction(makeRequest, bulkAction))
+    },
+    async waitProcessing<T extends BulkActionPayload = any>(
+      options?: BulkActionProcessingOptions
+    ): Promise<BulkActionProps<T>> {
+      return pollBulkActionStatus(async () => this.get(), options)
+    },
+  }
+}
+
 export interface BulkAction<T extends BulkActionPayload = any>
   extends BulkActionProps<T>,
+    BulkActionApiMethods,
     DefaultElements<BulkActionProps<T>> {}
 
 /**
- * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw BulkAction data
  * @return Wrapped BulkAction data
  */
 export function wrapBulkAction<T extends BulkActionPayload = any>(
-  _makeRequest: MakeRequest,
+  makeRequest: MakeRequest,
   data: BulkActionProps<BulkActionPayload>
 ): BulkAction<T> {
   const bulkAction = toPlainObject(copy(data))
-  return freezeSys(bulkAction) as BulkAction<T>
+  const bulkActionWithApiMethods = enhanceWithMethods(
+    bulkAction as any,
+    createBulkActionApi(makeRequest)
+  )
+  return freezeSys(bulkActionWithApiMethods) as BulkAction<T>
 }

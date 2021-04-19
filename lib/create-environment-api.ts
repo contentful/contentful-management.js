@@ -229,7 +229,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createPublishBulkAction(payload))
-     * .then((bulkAction) => console.log(bulkAction))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
      *
      * // Using async/await
@@ -237,7 +237,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await client.getSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createPublishBulkAction(payload)
-     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
      *  console.log(error)
@@ -287,7 +287,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createValidateBulkAction(payload))
-     * .then((bulkAction) => console.log(bulkAction))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
      *
      * // Using async/await
@@ -295,7 +295,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await client.getSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createValidateBulkAction(payload)
-     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
      *  console.log(error)
@@ -344,7 +344,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.createUnpublishBulkAction(payload))
-     * .then((bulkAction) => console.log(bulkAction))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
      *
      * // Using async/await
@@ -352,7 +352,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await clientgetSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createUnpublishBulkAction(payload)
-     *  const bulkActionCompleted = await environment.getBulkAction(bulkActionInProgress.sys.id)
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
      *  console.log(error)
