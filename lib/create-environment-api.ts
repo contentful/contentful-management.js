@@ -237,6 +237,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await client.getSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createPublishBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
      *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
@@ -295,6 +297,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await client.getSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createValidateBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
      *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
@@ -352,6 +356,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  const space = await clientgetSpace('<space_id>')
      *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createUnpublishBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
      *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
      *  console.log(bulkActionCompleted)
      * } catch (error) {
