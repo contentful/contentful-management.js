@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
+import { merge } from 'lodash'
 import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
 import {
@@ -15,7 +16,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-describe('BulkActions Api', async function () {
+describe.only('BulkActions Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -202,7 +203,7 @@ describe('BulkActions Api', async function () {
     })
   })
 
-  describe('Retry', () => {
+  describe('Processing errors', () => {
     test('when the BulkAction does not get processed in the expected retry count', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
@@ -227,6 +228,34 @@ describe('BulkActions Api', async function () {
           "BulkAction didn't finish processing within the expected timeframe."
         )
         expect(error.bulkAction).to.eql(createdBulkAction)
+      }
+    })
+
+    test('when the BulkAction returns a `failed` status', async () => {
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
+
+      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+        },
+      })
+
+      // returns the same bulkAction with status = failed
+      sinon
+        .stub(createdBulkAction, 'get')
+        .returns(merge(createdBulkAction, { sys: { status: 'failed' } }))
+
+      try {
+        createdBulkAction.waitProcessing({
+          initialDelayMs: 0,
+          retryCount: 10,
+          retryIntervalMs: 100,
+          throwOnFailedExecution: true,
+        })
+      } catch (error: any) {
+        expect(error.message).to.eql('BulkAction failed to execute.')
+        expect(error.bulkAction.sys.status).to.eql('failed')
       }
     })
   })

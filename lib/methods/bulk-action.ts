@@ -17,21 +17,32 @@ export class BulkActionProcessingError extends Error {
   constructor(message: string, bulkAction?: BulkAction | BulkActionProps) {
     super(message)
     this.bulkAction = bulkAction
-    this.name = 'BulkActionProcessingError'
+    this.name = this.constructor.name
   }
 }
 
+export class BulkActionFailedError extends BulkActionProcessingError {}
+
 export type BulkActionProcessingOptions = {
-  /** The amount of times to retry. Defaults to 30 */
+  /** The amount of times to retry.
+   * @default 30
+   * */
   retryCount?: number
-  /** The interval between retries, in milliseconds (ms). Defaults to 2000 (2s) */
+  /** The interval between retries, in milliseconds (ms).
+   * @default 2000 (2s)
+   * */
   retryIntervalMs?: number
   /**
    * Initial delay in milliseconds when performing the first check.
    * This is used to prevent short running bulkActions of waiting too long for a result.
-   * Defaults to 1000ms (1s)
+   * @default 1000 (1s)
    * */
   initialDelayMs?: number
+  /**
+   * Throws an error if the BulkAction does not complete with a successful (succeeded) status.
+   * @default false
+   */
+  throwOnFailedExecution?: boolean
 }
 
 /**
@@ -50,6 +61,7 @@ export async function pollBulkActionStatus(
   const maxRetries = options?.retryCount ?? DEFAULT_MAX_RETRIES
   const retryIntervalMs = options?.retryIntervalMs ?? DEFAULT_RETRY_INTERVAL_MS
   const initialDelayMs = options?.initialDelayMs ?? DEFAULT_INITIAL_DELAY_MS
+  const throwOnFailedExecution = options?.throwOnFailedExecution ?? false
 
   // Initial delay for short-running BulkActions
   await delay(initialDelayMs)
@@ -63,6 +75,11 @@ export async function pollBulkActionStatus(
       [BulkActionStatus.succeeded, BulkActionStatus.failed].includes(action.sys.status)
     ) {
       done = true
+
+      if (action.sys.status === BulkActionStatus.failed && throwOnFailedExecution) {
+        throw new BulkActionFailedError('BulkAction failed to execute.', action)
+      }
+
       return action
     }
 
