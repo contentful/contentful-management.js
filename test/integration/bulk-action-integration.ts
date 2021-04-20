@@ -208,7 +208,9 @@ describe('BulkActions Api', async function () {
           retryIntervalMs: 100,
         })
       } catch (error: any) {
-        expect(error.message).to.throw('BulkAction did not complete in the expected duration (60s)')
+        expect(error.message).to.eql(
+          "BulkAction didn't finish processing within the expected timeframe."
+        )
         expect(error.bulkAction).to.eql(createdBulkAction)
       }
     })

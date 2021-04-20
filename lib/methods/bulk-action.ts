@@ -71,7 +71,7 @@ export async function pollBulkActionStatus(
   }
 
   throw new BulkActionProcessingError(
-    'BulkAction did not complete in the expected duration (60s).',
+    "BulkAction didn't finish processing within the expected timeframe.",
     action
   )
 }

@@ -593,17 +593,17 @@ export type MRActions = {
     }
     publish: {
       params: GetSpaceEnvironmentParams
-      payload: any
+      payload: BulkActionPublishPayload
       return: BulkActionProps<BulkActionPublishPayload>
     }
     unpublish: {
       params: GetSpaceEnvironmentParams
-      payload: any
+      payload: BulkActionUnpublishPayload
       return: BulkActionProps<BulkActionUnpublishPayload>
     }
     validate: {
       params: GetSpaceEnvironmentParams
-      payload: any
+      payload: BulkActionValidatePayload
       return: BulkActionProps<BulkActionValidatePayload>
     }
   }
