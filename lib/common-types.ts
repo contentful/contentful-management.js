@@ -54,6 +54,7 @@ import {
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
 import {
+  BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
@@ -1100,11 +1101,14 @@ export type MRReturn<
   Action extends keyof MRActions[ET]
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface MakeRequestPayload {}
+
 export interface MakeRequestOptions {
   entityType: keyof MRActions
   action: string
   params?: Record<string, unknown>
-  payload?: Record<string, unknown> | OpPatch[]
+  payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload
   headers?: Record<string, unknown>
   userAgent: string
 }

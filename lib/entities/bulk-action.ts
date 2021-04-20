@@ -6,6 +6,7 @@ import {
   ISO8601Timestamp,
   Link,
   MakeRequest,
+  MakeRequestPayload,
   VersionedLink,
 } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -44,21 +45,21 @@ export type BulkActionPayload =
   | BulkActionUnpublishPayload
   | BulkActionValidatePayload
 
-export interface BulkActionValidatePayload {
+export interface BulkActionValidatePayload extends MakeRequestPayload {
   action?: 'publish'
   entities: {
     sys?: { type: string }
     items: Link<Entity>[]
   }
 }
-export interface BulkActionUnpublishPayload {
+export interface BulkActionUnpublishPayload extends MakeRequestPayload {
   entities: {
     sys?: { type: string }
     items: Link<Entity>[]
   }
 }
 
-export interface BulkActionPublishPayload {
+export interface BulkActionPublishPayload extends MakeRequestPayload {
   entities: {
     sys?: { type: string }
     items: VersionedLink<Entity>[]
