@@ -49,6 +49,8 @@ export type BulkActionProcessingOptions = {
  * @private
  * @description Waits for a BulkAction to be completed and to be in one of the final states (failed or succeeded)
  * @param {Function} fn - GET function that will be called every interval to fetch a bulkAction status
+ * @throws {BulkActionFailedError} throws an error if `throwOnFailedExecution = true` with the bulkAction that failed.
+ * @throws {BulkActionProcessingError} throws an error with a bulkAction when processing takes too long.
  */
 export async function pollBulkActionStatus(
   getBulkActionFunction: () => Promise<BulkActionProps | BulkAction>,

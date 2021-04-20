@@ -16,7 +16,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-describe.only('BulkActions Api', async function () {
+describe('BulkActions Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -249,8 +249,8 @@ describe.only('BulkActions Api', async function () {
       try {
         createdBulkAction.waitProcessing({
           initialDelayMs: 0,
-          retryCount: 10,
-          retryIntervalMs: 100,
+          retryCount: 1,
+          retryIntervalMs: 0,
           throwOnFailedExecution: true,
         })
       } catch (error: any) {
