@@ -6,6 +6,7 @@ import {
   assetMock,
   cloneMock,
   bulkActionMock,
+  bulkActionPublishMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
@@ -135,7 +136,7 @@ describe('A createEnvironmentApi', () => {
   test('API call createPublishBulkAction', async () => {
     return makeCreateEntityTest(setup, {
       entityType: 'bulkAction',
-      mockToReturn: bulkActionMock,
+      mockToReturn: bulkActionPublishMock,
       methodToTest: 'createPublishBulkAction',
     })
   })

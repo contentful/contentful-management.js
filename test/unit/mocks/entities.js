@@ -107,11 +107,27 @@ const bulkActionMock = {
     createdBy: makeLink('User', 'user-id'),
     status: 'created',
   }),
+  action: 'validate',
+  payload: {
+    entities: {
+      sys: { type: 'Array' },
+      items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+    },
+  },
+}
+
+const bulkActionPublishMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'BulkAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    status: 'created',
+  }),
   action: 'publish',
   payload: {
     entities: {
       sys: { type: 'Array' },
-      items: [makeVersionedLink('Entry', 'entry-id', 2), makeVersionedLink('Asset', 'asset-id', 1)],
+      items: [makeVersionedLink('Entry', 'entry-id', 1), makeVersionedLink('Asset', 'asset-id', 2)],
     },
   },
 }
@@ -503,6 +519,7 @@ const mocks = {
   assetKey: assetKeyMock,
   assetWithTags: assetMockWithTags,
   bulkAction: bulkActionMock,
+  bulkActionPublish: bulkActionPublishMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,

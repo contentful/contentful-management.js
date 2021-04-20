@@ -247,7 +247,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * ```
      */
     createPublishBulkAction(payload: BulkActionPublishPayload) {
-      const raw: EnvironmentProps = this.toPlainObject() // Environment object
+      const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
         entityType: 'BulkAction',
