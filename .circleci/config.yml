@@ -60,6 +60,7 @@ workflows:
             - unit
             - lint
       - release:
+          context: dev-workflows-release
           requires:
             - unit
             - integration
