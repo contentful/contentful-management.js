@@ -182,7 +182,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.getBulkAction('<bulk_action_id>'))
      * .then((bulkAction) => console.log(bulkAction))
      * ```
@@ -227,7 +227,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Using Thenables
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.createPublishBulkAction(payload))
      * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
@@ -287,7 +287,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Using Thenables
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.createValidateBulkAction(payload))
      * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
@@ -346,7 +346,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Using Thenables
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.createUnpublishBulkAction(payload))
      * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
