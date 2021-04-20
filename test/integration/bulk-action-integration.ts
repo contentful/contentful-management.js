@@ -234,10 +234,10 @@ describe('BulkActions Api', async function () {
     test('when the BulkAction returns a `failed` status', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+      const createdBulkAction = await testEnvironment.createValidateBulkAction({
         entities: {
           sys: { type: 'Array' },
-          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+          items: [makeLink('Entry', entry.sys.id)],
         },
       })
 
