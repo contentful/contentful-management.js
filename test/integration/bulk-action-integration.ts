@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
+import sinon from 'sinon'
 import { Link, VersionedLink } from '../../lib/common-types'
 import {
   BulkActionStatus,
@@ -14,7 +15,9 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]) => ({
+const bulkActionPayload = (
+  items: Link<'Entry' | 'Asset'>[] | VersionedLink<'Entry' | 'Asset'>[]
+) => ({
   entities: {
     sys: { type: 'Array' },
     items,
@@ -184,6 +187,30 @@ describe('BulkActions Api', async function () {
 
       expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
       expect(bulkActionCompleted.action).to.eql('validate')
+    })
+  })
+
+  describe('Retry', () => {
+    test('when the BulkAction does not get processed in the expected retry count', async () => {
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
+
+      const createdBulkAction = await testEnvironment.createPublishBulkAction(
+        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
+      )
+
+      // returns the same bulkAction with status = created
+      sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
+
+      try {
+        createdBulkAction.waitProcessing({
+          initialDelayMs: 0,
+          retryCount: 10,
+          retryIntervalMs: 100,
+        })
+      } catch (error: any) {
+        expect(error.message).to.throw('BulkAction did not complete in the expected duration (60s)')
+        expect(error.bulkAction).to.eql(createdBulkAction)
+      }
     })
   })
 })
