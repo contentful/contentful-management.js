@@ -246,8 +246,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * }
      * ```
      */
-    createPublishBulkAction(payload: BulkActionPayload) {
-      const raw = this.toPlainObject() // Environment object
+    createPublishBulkAction(payload: BulkActionPublishPayload) {
+      const raw: EnvironmentProps = this.toPlainObject() // Environment object
 
       return makeRequest({
         entityType: 'BulkAction',
@@ -306,8 +306,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * }
      * ```
      */
-    createValidateBulkAction(payload: BulkActionPayload) {
-      const raw = this.toPlainObject()
+    createValidateBulkAction(payload: BulkActionValidatePayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
         entityType: 'BulkAction',
@@ -365,8 +365,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * }
      * ```
      */
-    createUnpublishBulkAction(payload: BulkActionPayload) {
-      const raw = this.toPlainObject()
+    createUnpublishBulkAction(payload: BulkActionUnpublishPayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
         entityType: 'BulkAction',

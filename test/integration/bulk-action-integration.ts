@@ -15,9 +15,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-const bulkActionPayload = (
-  items: Link<'Entry' | 'Asset'>[] | VersionedLink<'Entry' | 'Asset'>[]
-) => ({
+const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]): any => ({
   entities: {
     sys: { type: 'Array' },
     items,

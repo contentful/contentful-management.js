@@ -12,9 +12,9 @@ const DEFAULT_INITIAL_DELAY_MS = 1000
 const DEFAULT_RETRY_INTERVAL_MS = 2000
 
 export class BulkActionProcessingError extends Error {
-  public bulkAction?: BulkAction
+  public bulkAction?: BulkAction | BulkActionProps
 
-  constructor(message: string, bulkAction?: BulkAction) {
+  constructor(message: string, bulkAction?: BulkAction | BulkActionProps) {
     super(message)
     this.bulkAction = bulkAction
     this.name = 'BulkActionProcessingError'
@@ -24,10 +24,10 @@ export class BulkActionProcessingError extends Error {
 export type BulkActionProcessingOptions = {
   /** The amount of times to retry. Defaults to 30 */
   retryCount?: number
-  /** The interval between retries, in miliseconds (ms). Defaults to 2000 (2s) */
+  /** The interval between retries, in milliseconds (ms). Defaults to 2000 (2s) */
   retryIntervalMs?: number
   /**
-   * Initial delay in miliseconds when performing the first check.
+   * Initial delay in milliseconds when performing the first check.
    * This is used to prevent short running bulkActions of waiting too long for a result.
    * Defaults to 1000ms (1s)
    * */
@@ -40,16 +40,16 @@ export type BulkActionProcessingOptions = {
  * @param {Function} fn - GET function that will be called every interval to fetch a bulkAction status
  */
 export async function pollBulkActionStatus(
-  getBulkActionFunction: Function,
+  getBulkActionFunction: () => Promise<BulkActionProps | BulkAction>,
   options?: BulkActionProcessingOptions
 ): Promise<BulkActionProps> {
   let retryCount = 0
   let done = false
-  let action: BulkAction | undefined
+  let action: BulkAction | BulkActionProps | undefined
 
-  const maxRetries = options?.retryCount || DEFAULT_MAX_RETRIES
-  const retryIntervalMs = options?.retryIntervalMs || DEFAULT_RETRY_INTERVAL_MS
-  const initialDelayMs = options?.initialDelayMs || DEFAULT_INITIAL_DELAY_MS
+  const maxRetries = options?.retryCount ?? DEFAULT_MAX_RETRIES
+  const retryIntervalMs = options?.retryIntervalMs ?? DEFAULT_RETRY_INTERVAL_MS
+  const initialDelayMs = options?.initialDelayMs ?? DEFAULT_INITIAL_DELAY_MS
 
   // Initial delay for short-running BulkActions
   await delay(initialDelayMs)
