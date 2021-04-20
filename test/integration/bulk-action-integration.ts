@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
-import { Link, VersionedLink } from '../../lib/common-types'
 import {
   BulkActionStatus,
   BulkActionPublishPayload,
@@ -14,13 +14,6 @@ import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
-
-const bulkActionPayload = (items: Link<any>[] | VersionedLink<any>[]): any => ({
-  entities: {
-    sys: { type: 'Array' },
-    items,
-  },
-})
 
 describe('BulkActions Api', async function () {
   let testSpace: Space
@@ -35,9 +28,12 @@ describe('BulkActions Api', async function () {
     test('Get BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createPublishBulkAction(
-        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
-      )
+      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+        },
+      })
 
       const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionPublishPayload>(
         createdBulkAction.sys.id
@@ -64,9 +60,12 @@ describe('BulkActions Api', async function () {
     test('Publish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createPublishBulkAction(
-        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
-      )
+      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+        },
+      })
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
 
@@ -79,9 +78,12 @@ describe('BulkActions Api', async function () {
 
       // The publish action relies on the Link object having a `version` property
       try {
-        await testEnvironment.createPublishBulkAction(
-          bulkActionPayload([makeLink('Entry', entry.sys.id)])
-        )
+        await testEnvironment.createPublishBulkAction({
+          entities: {
+            sys: { type: 'Array' },
+            items: [makeLink('Entry', entry.sys.id) as any],
+          },
+        })
       } catch (error) {
         const parsed = JSON.parse(error.message)
         expect(parsed.status).to.eql(422)
@@ -101,9 +103,12 @@ describe('BulkActions Api', async function () {
     test('Unpublish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createUnpublishBulkAction(
-        bulkActionPayload([makeLink('Entry', entry.sys.id)])
-      )
+      const createdBulkAction = await testEnvironment.createUnpublishBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
       expect(bulkAction.sys.status).to.eql(BulkActionStatus.succeeded)
@@ -113,9 +118,12 @@ describe('BulkActions Api', async function () {
     test('Validate BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createValidateBulkAction(
-        bulkActionPayload([makeLink('Entry', entry.sys.id)])
-      )
+      const createdBulkAction = await testEnvironment.createValidateBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
       expect(bulkAction.sys.status).to.eql(BulkActionStatus.succeeded)
@@ -134,10 +142,12 @@ describe('BulkActions Api', async function () {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
-      const bulkActionInProgress = await plainClient.bulkAction.publish(
-        defaultParams,
-        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
-      )
+      const bulkActionInProgress = await plainClient.bulkAction.publish(defaultParams, {
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+        },
+      })
 
       const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionPublishPayload>({
         ...defaultParams,
@@ -153,10 +163,12 @@ describe('BulkActions Api', async function () {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
-      const bulkActionInProgress = await plainClient.bulkAction.unpublish(
-        defaultParams,
-        bulkActionPayload([makeLink('Entry', entry.sys.id)])
-      )
+      const bulkActionInProgress = await plainClient.bulkAction.unpublish(defaultParams, {
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
 
       const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionUnpublishPayload>({
         ...defaultParams,
@@ -172,10 +184,12 @@ describe('BulkActions Api', async function () {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
-      const bulkActionInProgress = await plainClient.bulkAction.validate(
-        defaultParams,
-        bulkActionPayload([makeLink('Entry', entry.sys.id)])
-      )
+      const bulkActionInProgress = await plainClient.bulkAction.validate(defaultParams, {
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
 
       const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionValidatePayload>({
         ...defaultParams,
@@ -192,9 +206,12 @@ describe('BulkActions Api', async function () {
     test('when the BulkAction does not get processed in the expected retry count', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createPublishBulkAction(
-        bulkActionPayload([makeVersionedLink('Entry', entry.sys.id, entry.sys.version)])
-      )
+      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+        },
+      })
 
       // returns the same bulkAction with status = created
       sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
