@@ -14,6 +14,7 @@ import { BulkActionProcessingOptions, pollBulkActionStatus } from '../methods/bu
 
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'
+type Collection<T> = Array<T>
 
 export type BulkActionType = 'publish' | 'unpublish' | 'validate'
 
@@ -34,9 +35,9 @@ type BulkActionStatuses = typeof STATUSES[number]
 
 interface BulkActionFailedError {
   sys: { type: 'Error'; id: 'BulkActionFailed' }
+  message?: string
   details: {
     errors: any
-    [key: string]: any
   }
 }
 
@@ -48,21 +49,21 @@ export type BulkActionPayload =
 export interface BulkActionValidatePayload extends MakeRequestPayload {
   action?: 'publish'
   entities: {
-    sys?: { type: string }
-    items: Link<Entity>[]
+    sys?: { type: 'Array' }
+    items: Collection<Link<Entity>>
   }
 }
 export interface BulkActionUnpublishPayload extends MakeRequestPayload {
   entities: {
-    sys?: { type: string }
-    items: Link<Entity>[]
+    sys?: { type: 'Array' }
+    items: Collection<Link<Entity>>
   }
 }
 
 export interface BulkActionPublishPayload extends MakeRequestPayload {
   entities: {
-    sys?: { type: string }
-    items: VersionedLink<Entity>[]
+    sys?: { type: 'Array' }
+    items: Collection<VersionedLink<Entity>>
   }
 }
 

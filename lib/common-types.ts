@@ -54,7 +54,6 @@ import {
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
 import {
-  BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
