@@ -15,6 +15,7 @@ import { BulkActionProcessingOptions, pollBulkActionStatus } from '../methods/bu
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'
 type Collection<T> = Array<T>
+type EntityError = { entity: VersionedLink<Entity> | Link<Entity>; error: any }
 
 export type BulkActionType = 'publish' | 'unpublish' | 'validate'
 
@@ -36,8 +37,8 @@ type BulkActionStatuses = typeof STATUSES[number]
 interface BulkActionFailedError {
   sys: { type: 'Error'; id: 'BulkActionFailed' }
   message?: string
-  details: {
-    errors: any
+  details?: {
+    errors: Collection<EntityError>
   }
 }
 

@@ -11,7 +11,7 @@ import {
 } from '../../lib/entities/bulk-action'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
-import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
+import { BulkActionFailedError, waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
