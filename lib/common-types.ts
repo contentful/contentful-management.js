@@ -1101,6 +1101,7 @@ export type MRReturn<
   Action extends keyof MRActions[ET]
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
+/** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MakeRequestPayload {}
 

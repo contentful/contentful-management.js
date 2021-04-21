@@ -40,7 +40,7 @@ export type BulkActionProcessingOptions = {
   initialDelayMs?: number
   /**
    * Throws an error if the BulkAction does not complete with a successful (succeeded) status.
-   * @default false
+   * @default true
    */
   throwOnFailedExecution?: boolean
 }
@@ -63,7 +63,7 @@ export async function pollBulkActionStatus(
   const maxRetries = options?.retryCount ?? DEFAULT_MAX_RETRIES
   const retryIntervalMs = options?.retryIntervalMs ?? DEFAULT_RETRY_INTERVAL_MS
   const initialDelayMs = options?.initialDelayMs ?? DEFAULT_INITIAL_DELAY_MS
-  const throwOnFailedExecution = options?.throwOnFailedExecution ?? false
+  const throwOnFailedExecution = options?.throwOnFailedExecution ?? true
 
   // Initial delay for short-running BulkActions
   await delay(initialDelayMs)
