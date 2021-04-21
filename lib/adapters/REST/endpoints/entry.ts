@@ -15,7 +15,7 @@ import { normalizeSelect } from './utils'
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
-  _rawData?: never,
+  rawData?: unknown,
   headers?: Record<string, unknown>
 ) => {
   return raw.get<EntryProps<T>>(

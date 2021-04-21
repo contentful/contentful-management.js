@@ -209,7 +209,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
-      _rawData?: never,
+      rawData?: unknown,
       headers?: Record<string, unknown>
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
@@ -253,7 +253,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
-      _rawData?: never,
+      rawData?: unknown,
       headers?: Record<string, unknown>
     ): Promise<AssetProps>
     update(

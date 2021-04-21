@@ -17,7 +17,7 @@ import { normalizeSelect } from './utils'
 export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
-  _rawData?: never,
+  rawData?: unknown,
   headers?: Record<string, unknown>
 ) => {
   return raw.get<AssetProps>(
