@@ -16,13 +16,16 @@ import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
+  rawData?: unknown,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
     {
       params: normalizeSelect(params.query),
+      headers: { ...headers },
     }
   )
 }
