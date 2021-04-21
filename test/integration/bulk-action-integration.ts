@@ -29,14 +29,14 @@ describe('BulkActions Api', async function () {
     test('Get BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
-      const createdBulkAction = await testEnvironment.createPublishBulkAction({
+      const createdBulkAction = await testEnvironment.createValidateBulkAction({
         entities: {
           sys: { type: 'Array' },
-          items: [makeVersionedLink('Entry', entry.sys.id, entry.sys.version)],
+          items: [makeLink('Entry', entry.sys.id)],
         },
       })
 
-      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionPublishPayload>(
+      const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
         createdBulkAction.sys.id
       )
       expect(bulkActionInProgress.sys.id).to.eql(createdBulkAction.sys.id)
