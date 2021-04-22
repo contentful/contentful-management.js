@@ -12,6 +12,13 @@ import type { CreateAppInstallationProps } from './entities/app-installation'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
+import {
+  BulkAction,
+  BulkActionPayload,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -32,6 +39,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapUpload } = entities.upload
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
+  const { wrapBulkAction } = entities.bulkAction
 
   return {
     /**
@@ -157,6 +165,218 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     getAssetFromData(assetData: AssetProps) {
       return wrapAsset(makeRequest, assetData)
+    },
+
+    /**
+     *
+     * @description Get a BulkAction by ID.
+     *  See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
+     * @param bulkActionId - ID of the BulkAction to fetch
+     * @returns - Promise with the BulkAction
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getBulkAction('<bulk_action_id>'))
+     * .then((bulkAction) => console.log(bulkAction))
+     * ```
+     */
+    getBulkAction<T extends BulkActionPayload = any>(bulkActionId: string): Promise<BulkAction<T>> {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          bulkActionId,
+        },
+      }).then((data) => wrapBulkAction<T>(makeRequest, data))
+    },
+
+    /**
+     * @description Creates a BulkAction that will attempt to publish all items contained in the payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example
+     *
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    items: [
+     *      { sys: { type: 'Link', id: '<entry-id>', linkType: 'Entry', version: 2 } }
+     *    ]
+     *  }
+     * }
+     *
+     * // Using Thenables
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.createPublishBulkAction(payload))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
+     * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await client.getSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createPublishBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
+     * ```
+     */
+    createPublishBulkAction(payload: BulkActionPublishPayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'publish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction<BulkActionPublishPayload>(makeRequest, data))
+    },
+
+    /**
+     * @description Creates a BulkAction that will attempt to validate all items contained in the payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example
+     *
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  action: 'publish',
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    items: [
+     *      { sys: { type: 'Link', id: '<entry-id>', linkType: 'Entry' } }
+     *    ]
+     *  }
+     * }
+     *
+     * // Using Thenables
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.createValidateBulkAction(payload))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
+     * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await client.getSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createValidateBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
+     * ```
+     */
+    createValidateBulkAction(payload: BulkActionValidatePayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'validate',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction<BulkActionValidatePayload>(makeRequest, data))
+    },
+
+    /**
+     * @description Creates a BulkAction that will attempt to unpublish all items contained in the payload.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
+     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
+     * @returns - Promise with the BulkAction
+     *
+     * @example
+     *
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *  entities: {
+     *    sys: { type: 'Array' }
+     *    items: [
+     *      { sys: { type: 'Link', id: 'entry-id', linkType: 'Entry' } }
+     *    ]
+     *  }
+     * }
+     *
+     * // Using Thenables
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.createUnpublishBulkAction(payload))
+     * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
+     * .catch(console.error)
+     *
+     * // Using async/await
+     * try {
+     *  const space = await clientgetSpace('<space_id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
+     *  const bulkActionInProgress = await environment.createUnpublishBulkAction(payload)
+     *
+     *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
+     *  const bulkActionCompleted = await bulkActionInProgress.waitProcessing()
+     *  console.log(bulkActionCompleted)
+     * } catch (error) {
+     *  console.log(error)
+     * }
+     * ```
+     */
+    createUnpublishBulkAction(payload: BulkActionUnpublishPayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'BulkAction',
+        action: 'unpublish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapBulkAction<BulkActionUnpublishPayload>(makeRequest, data))
     },
 
     /**

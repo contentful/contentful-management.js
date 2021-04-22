@@ -1,5 +1,18 @@
 import sinon from 'sinon'
 
+/**
+ * @typedef {object} HTTPStub
+ * @property {sinon.SinonStub} get
+ * @property {sinon.SinonStub} post
+ * @property {sinon.SinonStub} put
+ * @property {sinon.SinonStub} delete
+ * @property {object} defaults
+ * @property {object} httpClientParams
+ */
+
+/**
+ * @returns {sinon.SinonStub & HTTPStub}
+ */
 export default function setupHttpMock(promise = Promise.resolve({ data: {} })) {
   const mock = sinon.stub().returns(promise)
 

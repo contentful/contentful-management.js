@@ -1,6 +1,7 @@
 import sinon from 'sinon'
 
 import cloneDeep from 'lodash/cloneDeep'
+import { makeLink, makeVersionedLink } from '../../utils'
 
 const linkMock = {
   id: 'linkid',
@@ -97,6 +98,38 @@ const appUploadMock = {
     type: 'AppUpload',
     organization: { sys: { id: 'organization-id' } },
   }),
+}
+
+const bulkActionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'BulkAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    status: 'created',
+  }),
+  action: 'validate',
+  payload: {
+    entities: {
+      sys: { type: 'Array' },
+      items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+    },
+  },
+}
+
+const bulkActionPublishMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'BulkAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    status: 'created',
+  }),
+  action: 'publish',
+  payload: {
+    entities: {
+      sys: { type: 'Array' },
+      items: [makeVersionedLink('Entry', 'entry-id', 1), makeVersionedLink('Asset', 'asset-id', 2)],
+    },
+  },
 }
 
 const contentTypeMock = {
@@ -485,6 +518,8 @@ const mocks = {
   asset: assetMock,
   assetKey: assetKeyMock,
   assetWithTags: assetMockWithTags,
+  bulkAction: bulkActionMock,
+  bulkActionPublish: bulkActionPublishMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
@@ -549,6 +584,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     environment: {
       wrapEnvironment: sinon.stub(),
       wrapEnvironmentCollection: sinon.stub(),
+    },
+    bulkAction: {
+      wrapBulkAction: sinon.stub(),
     },
     contentType: {
       wrapContentType: sinon.stub(),
@@ -668,6 +706,7 @@ export {
   linkMock,
   sysMock,
   spaceMock,
+  bulkActionMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,

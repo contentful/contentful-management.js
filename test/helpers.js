@@ -16,6 +16,24 @@ export const client = (isV2 = false) =>
     ...params,
   })
 
+/**
+ *
+ * @returns {import('../lib/contentful-management').PlainClientAPI}
+ */
+export const getPlainClient = (defaults = {}, isV2 = false) => {
+  const accessToken = isV2 ? env.CONTENTFUL_V2_ACCESS_TOKEN : env.CONTENTFUL_ACCESS_TOKEN
+  return createClient(
+    {
+      accessToken,
+      ...params,
+    },
+    {
+      type: 'plain',
+      defaults,
+    }
+  )
+}
+
 export const createTestSpace = async (client, spacePrefix = '') => {
   let space
   let spaceName = 'CMA JS SDK [AUTO]'
@@ -67,6 +85,7 @@ export const V2_SPACE_ID = 'w6xueg32zr68'
 export async function getDefaultSpace() {
   return await client().getSpace(DEFAULT_SPACE_ID)
 }
+
 export async function getAlternativeSpace() {
   return await client().getSpace(ALTERNATIVE_SPACE_ID)
 }

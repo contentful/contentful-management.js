@@ -5,6 +5,7 @@ import * as AppInstallation from './app-installation'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
+import * as BulkAction from './bulk-action'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -41,6 +42,7 @@ export default {
   AppUpload,
   Asset,
   AssetKey,
+  BulkAction,
   ContentType,
   EditorInterface,
   Entry,

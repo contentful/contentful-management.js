@@ -58,13 +58,10 @@ describe('Entry Api', () => {
 
     test('Gets entries with content type query param', async () => {
       return environment.getEntries({ content_type: 'cat' }).then((response) => {
-        expect(response.total).eql(4)
-        expect(response.items.map((item) => item.sys.contentType.sys.id)).eql([
-          'cat',
-          'cat',
-          'cat',
-          'cat',
-        ])
+        expect(response.total).to.eql(4)
+        response.items.forEach((entry) => {
+          expect(entry.sys.contentType.sys.id).to.eql('cat')
+        })
       })
     })
 
