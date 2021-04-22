@@ -180,15 +180,15 @@ export type PlainClientAPI = {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPayload
+      payload: BulkActionPublishPayload
     ): Promise<BulkActionProps<BulkActionPublishPayload>>
     unpublish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPayload
+      payload: BulkActionUnpublishPayload
     ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
     validate(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPayload
+      payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   contentType: {
