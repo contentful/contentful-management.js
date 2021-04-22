@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import {
   CollectionProp,
@@ -26,6 +27,7 @@ import {
   QueryParams,
   GetAppUploadParams,
   GetAppBundleParams,
+  GetBulkActionParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -80,7 +82,13 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
-import { OpPatch } from 'json-patch'
+import {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from '../entities/bulk-action'
 
 export type PlainClientAPI = {
   raw: {
@@ -167,6 +175,21 @@ export type PlainClientAPI = {
       headers?: Record<string, unknown>
     ): Promise<EnvironmentAliasProps>
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
+  }
+  bulkAction: {
+    get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
+    publish(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionPublishPayload
+    ): Promise<BulkActionProps<BulkActionPublishPayload>>
+    unpublish(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionUnpublishPayload
+    ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
+    validate(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionValidatePayload
+    ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>

@@ -25,6 +25,16 @@ export type {
 } from './entities/app-installation'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+export type {
+  BulkAction,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+  BulkActionStatus,
+  BulkActionPayload,
+  BulkActionType,
+  BulkActionProps,
+} from './entities/bulk-action'
 export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
