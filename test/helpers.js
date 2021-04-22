@@ -1,5 +1,5 @@
 import { createClient } from '../lib/contentful-management'
-import delay from 'delay'
+import { sleep } from '../lib/methods/utils'
 
 const params = {}
 
@@ -68,7 +68,7 @@ export function waitForEnvironmentToBeReady(space, environment) {
   return space.getEnvironment(environment.sys.id).then((env) => {
     if (env.sys.status.sys.id !== 'ready') {
       console.log(`Environment ${environment.sys.id} is not ready yet. Waiting 1000ms...`)
-      return delay(1000).then(() => waitForEnvironmentToBeReady(space, env))
+      return sleep(1000).then(() => waitForEnvironmentToBeReady(space, env))
     }
     return env
   })
