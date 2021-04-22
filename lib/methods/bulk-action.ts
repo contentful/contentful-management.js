@@ -1,4 +1,3 @@
-import delay from 'delay'
 import {
   BulkAction,
   BulkActionPayload,
@@ -6,6 +5,7 @@ import {
   BulkActionStatus,
 } from '../entities/bulk-action'
 import { PlainClientAPI } from '../plain/common-types'
+import { sleep } from './utils'
 
 const DEFAULT_MAX_RETRIES = 30
 const DEFAULT_INITIAL_DELAY_MS = 1000
@@ -66,7 +66,7 @@ export async function pollBulkActionStatus(
   const throwOnFailedExecution = options?.throwOnFailedExecution ?? true
 
   // Initial delay for short-running BulkActions
-  await delay(initialDelayMs)
+  await sleep(initialDelayMs)
 
   while (retryCount < maxRetries && !done) {
     action = await getBulkActionFunction()
@@ -85,7 +85,7 @@ export async function pollBulkActionStatus(
       return action
     }
 
-    await delay(retryIntervalMs)
+    await sleep(retryIntervalMs)
     retryCount += 1
   }
 
