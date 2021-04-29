@@ -268,7 +268,14 @@ describe('Entry Api', () => {
             .map((item) => item.sys.contentType.sys.id)
             .filter((value, index, self) => self.indexOf(value) === index)
           expect(contentTypeOrder).eql(
-            ['1t9IbcfdCk6m04uISSsaIK', 'cat', 'contentTypeWithMetadataField', 'dog', 'human'],
+            [
+              '1t9IbcfdCk6m04uISSsaIK',
+              'cat',
+              'contentTypeWithMetadataField',
+              'dog',
+              'human',
+              'kangaroo',
+            ],
             'orders'
           )
           expect(
