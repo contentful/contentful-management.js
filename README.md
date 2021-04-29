@@ -30,7 +30,7 @@ Browsers and Node.js:
 - Edge
 - Safari
 - node.js (LTS)
-- IE11 (with [legacy version](#legacy-browsers) of the library)
+- IE11 (with [legacy version](#legacy-contentful-managementjs) of the library)
 
 Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
 
