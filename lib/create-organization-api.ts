@@ -1,11 +1,10 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
-import * as endpoints from './plain/endpoints'
+import { Stream } from 'stream'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
-import { QueryOptions } from './common-types'
+import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 
@@ -13,8 +12,10 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
+ * @param {MakeRequest} makeRequest - function to make requests via an adapter
+ * @return {ContentfulOrganizationAPI}
  */
-export default function createOrganizationApi({ http }: { http: AxiosInstance }) {
+export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
   const { wrapUser, wrapUserCollection } = entities.user
   const {
@@ -29,6 +30,7 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
   const { wrapTeam, wrapTeamCollection } = entities.team
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const { wrapOrganizationInvitation } = entities.organizationInvitation
+  const { wrapAppUpload } = entities.appUpload
 
   return {
     /**
@@ -48,9 +50,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getUser(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.user
-        .getForOrganization(http, { organizationId: raw.sys.id, userId: id })
-        .then((data) => wrapUser(http, data))
+      return makeRequest({
+        entityType: 'User',
+        action: 'getForOrganization',
+        params: { organizationId: raw.sys.id, userId: id },
+      }).then((data) => wrapUser(makeRequest, data))
     },
     /**
      * Gets a collection of Users in organization
@@ -70,12 +74,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getUsers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.user
-        .getManyForOrganization(http, {
+      return makeRequest({
+        entityType: 'User',
+        action: 'getManyForOrganization',
+        params: {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query: query }).params,
-        })
-        .then((data) => wrapUserCollection(http, data))
+        },
+      }).then((data) => wrapUserCollection(makeRequest, data))
     },
     /**
      * Gets an Organization Membership
@@ -96,12 +102,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getOrganizationMembership(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
       const organizationId = raw.sys.id
-      return endpoints.organizationMembership
-        .get(http, {
+      return makeRequest({
+        entityType: 'OrganizationMembership',
+        action: 'get',
+        params: {
           organizationId,
           organizationMembershipId: id,
-        })
-        .then((data) => wrapOrganizationMembership(http, data, organizationId))
+        },
+      }).then((data) => wrapOrganizationMembership(makeRequest, data, organizationId))
     },
     /**
      * Gets a collection of Organization Memberships
@@ -122,12 +130,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getOrganizationMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
       const organizationId = raw.sys.id
-      return endpoints.organizationMembership
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'OrganizationMembership',
+        action: 'getMany',
+        params: {
           organizationId,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapOrganizationMembershipCollection(http, data, organizationId))
+        },
+      }).then((data) => wrapOrganizationMembershipCollection(makeRequest, data, organizationId))
     },
     /**
      * Creates a Team
@@ -150,9 +160,12 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     createTeam(data: CreateTeamProps) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.team
-        .create(http, { organizationId: raw.sys.id }, data)
-        .then((data) => wrapTeam(http, data))
+      return makeRequest({
+        entityType: 'Team',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload: data,
+      }).then((data) => wrapTeam(makeRequest, data))
     },
     /**
      * Gets an Team
@@ -171,9 +184,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getTeam(teamId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.team
-        .get(http, { organizationId: raw.sys.id, teamId })
-        .then((data) => wrapTeam(http, data))
+      return makeRequest({
+        entityType: 'Team',
+        action: 'get',
+        params: { organizationId: raw.sys.id, teamId },
+      }).then((data) => wrapTeam(makeRequest, data))
     },
     /**
      * Gets all Teams in an organization
@@ -192,12 +207,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getTeams(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.team
-        .getMany(http, {
+      return makeRequest({
+        entityType: 'Team',
+        action: 'getMany',
+        params: {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapTeamCollection(http, data))
+        },
+      }).then((data) => wrapTeamCollection(makeRequest, data))
     },
     /**
      * Creates a Team membership
@@ -222,9 +239,12 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     createTeamMembership(teamId: string, data: CreateTeamMembershipProps) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.teamMembership
-        .create(http, { organizationId: raw.sys.id, teamId }, data)
-        .then((data) => wrapTeamMembership(http, data))
+      return makeRequest({
+        entityType: 'TeamMembership',
+        action: 'create',
+        params: { organizationId: raw.sys.id, teamId },
+        payload: data,
+      }).then((data) => wrapTeamMembership(makeRequest, data))
     },
     /**
      * Gets an Team Membership from the team with given teamId
@@ -244,9 +264,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getTeamMembership(teamId: string, teamMembershipId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.teamMembership
-        .get(http, { organizationId: raw.sys.id, teamId, teamMembershipId })
-        .then((data) => wrapTeamMembership(http, data))
+      return makeRequest({
+        entityType: 'TeamMembership',
+        action: 'get',
+        params: { organizationId: raw.sys.id, teamId, teamMembershipId },
+      }).then((data) => wrapTeamMembership(makeRequest, data))
     },
     /**
      * Get all Team Memberships. If teamID is provided in the optional config object, it will return all Team Memberships in that team. By default, returns all team memberships for the organization.
@@ -268,21 +290,25 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
       const raw = this.toPlainObject() as OrganizationProp
 
       if (teamId) {
-        return endpoints.teamMembership
-          .getManyForTeam(http, {
+        return makeRequest({
+          entityType: 'TeamMembership',
+          action: 'getManyForTeam',
+          params: {
             organizationId: raw.sys.id,
             teamId,
             query: createRequestConfig({ query }).params,
-          })
-          .then((data) => wrapTeamMembershipCollection(http, data))
+          },
+        }).then((data) => wrapTeamMembershipCollection(makeRequest, data))
       }
 
-      return endpoints.teamMembership
-        .getManyForOrganization(http, {
+      return makeRequest({
+        entityType: 'TeamMembership',
+        action: 'getManyForOrganization',
+        params: {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapTeamMembershipCollection(http, data))
+        },
+      }).then((data) => wrapTeamMembershipCollection(makeRequest, data))
     },
 
     /**
@@ -302,14 +328,17 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getTeamSpaceMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.teamSpaceMembership
-        .getManyForOrganization(http, {
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'getManyForOrganization',
+        params: {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query: opts.query || {} }).params,
           teamId: opts.teamId,
-        })
-        .then((data) => wrapTeamSpaceMembershipCollection(http, data))
+        },
+      }).then((data) => wrapTeamSpaceMembershipCollection(makeRequest, data))
     },
+
     /**
      * Get a Team Space Membership with given teamSpaceMembershipId
      * @return Promise for a Team Space Membership
@@ -328,12 +357,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
-      return endpoints.teamSpaceMembership
-        .getForOrganization(http, {
+      return makeRequest({
+        entityType: 'TeamSpaceMembership',
+        action: 'getForOrganization',
+        params: {
           organizationId: raw.sys.id,
           teamSpaceMembershipId,
-        })
-        .then((data) => wrapTeamSpaceMembership(http, data))
+        },
+      }).then((data) => wrapTeamSpaceMembership(makeRequest, data))
     },
     /**
      * Gets an Space Membership in Organization
@@ -353,12 +384,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getOrganizationSpaceMembership(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.spaceMembership
-        .getForOrganization(http, {
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'getForOrganization',
+        params: {
           organizationId: raw.sys.id,
           spaceMembershipId: id,
-        })
-        .then((data) => wrapSpaceMembership(http, data))
+        },
+      }).then((data) => wrapSpaceMembership(makeRequest, data))
     },
     /**
      * Gets a collection Space Memberships in organization
@@ -378,12 +411,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getOrganizationSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.spaceMembership
-        .getManyForOrganization(http, {
+      return makeRequest({
+        entityType: 'SpaceMembership',
+        action: 'getManyForOrganization',
+        params: {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query }).params,
-        })
-        .then((data) => wrapSpaceMembershipCollection(http, data))
+        },
+      }).then((data) => wrapSpaceMembershipCollection(makeRequest, data))
     },
     /**
      * Gets an Invitation in Organization
@@ -402,12 +437,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getOrganizationInvitation(invitationId: string) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.organizationInvitation
-        .get(http, {
+      return makeRequest({
+        entityType: 'OrganizationInvitation',
+        action: 'get',
+        params: {
           organizationId: raw.sys.id,
           invitationId,
-        })
-        .then((data) => wrapOrganizationInvitation(http, data))
+        },
+      }).then((data) => wrapOrganizationInvitation(makeRequest, data))
     },
     /**
      * Create an Invitation in Organization
@@ -430,15 +467,14 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     createOrganizationInvitation(data: CreateOrganizationInvitationProps) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.organizationInvitation
-        .create(
-          http,
-          {
-            organizationId: raw.sys.id,
-          },
-          data
-        )
-        .then((data) => wrapOrganizationInvitation(http, data))
+      return makeRequest({
+        entityType: 'OrganizationInvitation',
+        action: 'create',
+        params: {
+          organizationId: raw.sys.id,
+        },
+        payload: data,
+      }).then((data) => wrapOrganizationInvitation(makeRequest, data))
     },
     /**
      * Creates an app definition
@@ -462,9 +498,12 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     createAppDefinition(data: CreateAppDefinitionProps) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.appDefinition
-        .create(http, { organizationId: raw.sys.id }, data)
-        .then((data) => wrapAppDefinition(http, data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload: data,
+      }).then((data) => wrapAppDefinition(makeRequest, data))
     },
     /**
      * Gets all app definitions
@@ -483,9 +522,11 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getAppDefinitions(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.appDefinition
-        .getMany(http, { organizationId: raw.sys.id, query: query })
-        .then((data) => wrapAppDefinitionCollection(http, data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'getMany',
+        params: { organizationId: raw.sys.id, query: query },
+      }).then((data) => wrapAppDefinitionCollection(makeRequest, data))
     },
 
     /**
@@ -505,9 +546,62 @@ export default function createOrganizationApi({ http }: { http: AxiosInstance })
      */
     getAppDefinition(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
-      return endpoints.appDefinition
-        .get(http, { organizationId: raw.sys.id, appDefinitionId: id })
-        .then((data) => wrapAppDefinition(http, data))
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId: id },
+      }).then((data) => wrapAppDefinition(makeRequest, data))
+    },
+
+    /**
+     * Gets an app upload
+     * @return Promise for an App Upload
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppUpload('<app_upload_id>'))
+     * .then((appUpload) => console.log(appUpload))
+     * .catch(console.error)
+     * ```
+     */
+    getAppUpload(appUploadId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppUpload',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appUploadId },
+      }).then((data) => wrapAppUpload(makeRequest, data))
+    },
+
+    /**
+     * Creates an app upload
+     * @return Promise for an App Upload
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.createAppUpload('some_zip_file'))
+     * .then((appUpload) => console.log(appUpload))
+     * .catch(console.error)
+     * ```
+     */
+    createAppUpload(file: string | ArrayBuffer | Stream) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppUpload',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload: { file },
+      }).then((data) => wrapAppUpload(makeRequest, data))
     },
   }
 }

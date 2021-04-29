@@ -2,19 +2,19 @@ import createOrganizationApi, {
   __RewireAPI__ as createOrganizationApiRewireApi,
 } from '../../lib/create-organization-api'
 import {
-  cloneMock,
   appDefinitionMock,
+  appUploadMock,
+  cloneMock,
+  organizationInvitationMock,
   organizationMembershipMock,
+  organizationMock,
+  setupEntitiesMock,
   spaceMembershipMock,
   teamMembershipMock,
-  teamSpaceMembershipMock,
-  setupEntitiesMock,
-  organizationInvitationMock,
   teamMock,
+  teamSpaceMembershipMock,
   userMock,
-  organizationMock,
 } from './mocks/entities'
-import setupHttpMock from './mocks/http'
 import {
   makeGetEntityTest,
   makeGetCollectionTest,
@@ -23,17 +23,18 @@ import {
 } from './test-creators/static-entity-methods'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
+import setupMakeRequest from './mocks/makeRequest'
 
 import { __RewireAPI__ as createEnvironmentApiRewireApi } from '../../lib/create-environment-api'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock(createOrganizationApiRewireApi)
-  const httpMock = setupHttpMock(promise)
-  const api = createOrganizationApi({ http: httpMock })
+  const makeRequest = setupMakeRequest(promise)
+  const api = createOrganizationApi(makeRequest)
   api.toPlainObject = () => organizationMock
   return {
     api,
-    httpMock,
+    makeRequest,
     entitiesMock,
   }
 }
@@ -266,7 +267,7 @@ describe('A createOrganizationApi', () => {
     return api['getTeamMembership']('teamid', 'eid').then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -296,7 +297,7 @@ describe('A createOrganizationApi', () => {
     return api['getTeamMembership']({ teamId: 'teamid' }).then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -334,7 +335,7 @@ describe('A createOrganizationApi', () => {
     return api['getTeamSpaceMembership']('eid').then(
       () => {},
       (r) => {
-        expect(r.name).equals('404 Not Found')
+        expect(r).equals(error)
       }
     )
   })
@@ -364,7 +365,7 @@ describe('A createOrganizationApi', () => {
     return api['getTeamSpaceMemberships']({ teamId: 'teamid' }).then(
       () => {},
       (r) => {
-        expect(r.name).eql('404 Not Found')
+        expect(r).eql(error)
       }
     )
   })
@@ -385,5 +386,45 @@ describe('A createOrganizationApi', () => {
         items: [teamSpaceMembershipMock],
       })
     })
+  })
+
+  test('API call getAppUpload', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    return api['getAppUpload']('upload-id').then((result) => {
+      expect(result).eql(appUploadMock)
+    })
+  })
+
+  test('API call getAppUpload fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppUpload']('app-upload-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createAppUpload', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    return api['createAppUpload']('content-of-zip-file').then((result) => {
+      expect(result).eql(appUploadMock)
+    })
+  })
+
+  test('API call createAppUpload fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['createAppUpload']('content-of-zip-file').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
   })
 })
