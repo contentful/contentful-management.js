@@ -182,7 +182,7 @@
     },
     {
       "path": "./dist/contentful-management.legacy.js",
-      "maxSize": "90Kb"
+      "maxSize": "91Kb"
     },
     {
       "path": "./dist/contentful-management.legacy.min.js",
