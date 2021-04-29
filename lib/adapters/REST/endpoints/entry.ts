@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { OpPatch } from 'json-patch'
 import {
   CollectionProp,
   GetSpaceEnvironmentParams,
@@ -13,13 +14,16 @@ import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
+  rawData?: unknown,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
     {
       params: normalizeSelect(params.query),
+      headers: { ...headers },
     }
   )
 }
@@ -33,6 +37,26 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
     {
       params: normalizeSelect(params.query),
+    }
+  )
+}
+
+export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { entryId: string; version: number },
+  data: OpPatch[],
+  headers?: Record<string, unknown>
+) => {
+  return raw.patch<EntryProps<T>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+        'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
     }
   )
 }

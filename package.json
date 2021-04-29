@@ -33,10 +33,10 @@
     "test": "npm run test:cover-unit && npm run test:cover-integration && npm run test:size",
     "test:cover-unit": "./node_modules/.bin/nyc --reporter=lcov --reporter=text --report-dir=coverage/unit npm run test:unit",
     "test:cover-integration": "./node_modules/.bin/nyc --reporter=lcov --reporter=text --report-dir=coverage/integration npm run test:integration",
-    "test:unit": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.js' --config mocharc.js --require @babel/register",
-    "test:unit-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.js' --config mocharc.js --watch --require @babel/register",
-    "test:integration": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.js' --config mocharc.js --require @babel/register",
-    "test:integration-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.js' --config mocharc.js --watch --require @babel/register",
+    "test:unit": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.[tj]s' --config mocharc.js --require @babel/register",
+    "test:unit-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.[tj]s' --config mocharc.js --watch --require @babel/register",
+    "test:integration": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.[tj]s' --config mocharc.js --require @babel/register",
+    "test:integration-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.[tj]s' --config mocharc.js --watch --require @babel/register",
     "test:browser": "BABEL_ENV=test karma start karma.conf.local.js --log-level info",
     "test:size": "bundlesize",
     "test:prepush": "npm run build && npm run test:unit && npm run test:size",
@@ -55,6 +55,7 @@
     "tonic-example.js"
   ],
   "dependencies": {
+    "@types/json-patch": "0.0.30",
     "axios": "^0.21.0",
     "contentful-sdk-core": "^6.7.0",
     "fast-copy": "^2.1.0",
@@ -89,11 +90,9 @@
     "bundlesize": "^0.18.0",
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
-    "codecov": "^3.8.1",
     "contentful-sdk-jsdoc": "^2.2.0",
     "core-js": "^2.5.7",
     "cz-conventional-changelog": "^3.3.0",
-    "delay": "^4.4.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
@@ -183,7 +182,7 @@
     },
     {
       "path": "./dist/contentful-management.legacy.js",
-      "maxSize": "90Kb"
+      "maxSize": "91Kb"
     },
     {
       "path": "./dist/contentful-management.legacy.min.js",

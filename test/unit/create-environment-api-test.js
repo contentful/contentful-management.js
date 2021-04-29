@@ -5,6 +5,8 @@ import {
   appInstallationMock,
   assetMock,
   cloneMock,
+  bulkActionMock,
+  bulkActionPublishMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
@@ -120,6 +122,38 @@ describe('A createEnvironmentApi', () => {
   test('API call getContentTypes fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getContentTypes',
+    })
+  })
+
+  test('API call getBulkAction', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'bulkAction',
+      mockToReturn: bulkActionMock,
+      methodToTest: 'getBulkAction',
+    })
+  })
+
+  test('API call createPublishBulkAction', async () => {
+    return makeCreateEntityTest(setup, {
+      entityType: 'bulkAction',
+      mockToReturn: bulkActionPublishMock,
+      methodToTest: 'createPublishBulkAction',
+    })
+  })
+
+  test('API call createUnpublishBulkAction', async () => {
+    return makeCreateEntityTest(setup, {
+      entityType: 'bulkAction',
+      mockToReturn: { ...bulkActionMock, action: 'unpublish' },
+      methodToTest: 'createUnpublishBulkAction',
+    })
+  })
+
+  test('API call createValidateBulkAction', async () => {
+    return makeCreateEntityTest(setup, {
+      entityType: 'bulkAction',
+      mockToReturn: { ...bulkActionMock, action: 'validate' },
+      methodToTest: 'createValidateBulkAction',
     })
   })
 

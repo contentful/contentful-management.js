@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
@@ -52,6 +53,12 @@ import {
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
+import {
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -68,6 +75,14 @@ export interface Link<T extends string> {
   }
 }
 
+export interface VersionedLink<T extends string> {
+  sys: {
+    type: 'Link'
+    linkType: T
+    id: string
+    version: number
+  }
+}
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
 export type ISO8601Timestamp = string
 
@@ -167,6 +182,7 @@ export type KeyValueMap = Record<string, any>
 
 type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
+  (opts: MROpts<'Http', 'patch', UA>): MRReturn<'Http', 'patch'>
   (opts: MROpts<'Http', 'post', UA>): MRReturn<'Http', 'post'>
   (opts: MROpts<'Http', 'put', UA>): MRReturn<'Http', 'put'>
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
@@ -215,6 +231,11 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
+  (opts: MROpts<'BulkAction', 'get', UA>): MRReturn<'BulkAction', 'get'>
+  (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
+  (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
+  (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
+
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
@@ -246,6 +267,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
+  (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
   (opts: MROpts<'Entry', 'delete', UA>): MRReturn<'Entry', 'delete'>
   (opts: MROpts<'Entry', 'publish', UA>): MRReturn<'Entry', 'publish'>
@@ -415,6 +437,7 @@ export interface Adapter {
 export type MRActions = {
   Http: {
     get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
+    patch: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     post: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     put: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
@@ -562,6 +585,27 @@ export type MRActions = {
       return: AssetKeyProps
     }
   }
+  BulkAction: {
+    get: {
+      params: GetBulkActionParams
+      return: BulkActionProps
+    }
+    publish: {
+      params: GetSpaceEnvironmentParams
+      payload: BulkActionPublishPayload
+      return: BulkActionProps<BulkActionPublishPayload>
+    }
+    unpublish: {
+      params: GetSpaceEnvironmentParams
+      payload: BulkActionUnpublishPayload
+      return: BulkActionProps<BulkActionUnpublishPayload>
+    }
+    validate: {
+      params: GetSpaceEnvironmentParams
+      payload: BulkActionValidatePayload
+      return: BulkActionProps<BulkActionValidatePayload>
+    }
+  }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
     getMany: {
@@ -654,6 +698,12 @@ export type MRActions = {
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+      return: EntryProps<any>
+    }
+    patch: {
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number }
+      payload: OpPatch[]
+      headers?: Record<string, unknown>
       return: EntryProps<any>
     }
     update: {
@@ -1050,11 +1100,15 @@ export type MRReturn<
   Action extends keyof MRActions[ET]
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
+/** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface MakeRequestPayload {}
+
 export interface MakeRequestOptions {
   entityType: keyof MRActions
   action: string
   params?: Record<string, unknown>
-  payload?: Record<string, unknown>
+  payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload
   headers?: Record<string, unknown>
   userAgent: string
 }
@@ -1062,6 +1116,7 @@ export interface MakeRequestOptions {
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }

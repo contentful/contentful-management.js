@@ -4,6 +4,7 @@ import { wrapEntry, wrapEntryCollection } from '../../../lib/entities/entry'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
+  entityPatchTest,
   entityUpdateTest,
   entityDeleteTest,
   entityPublishTest,
@@ -35,6 +36,12 @@ describe('Entity Entry', () => {
   test('Entry collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapEntryCollection,
+    })
+  })
+
+  test('Entry patch', async () => {
+    return entityPatchTest(setup, {
+      wrapperMethod: wrapEntry,
     })
   })
 

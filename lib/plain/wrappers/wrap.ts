@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { MakeRequest, MRActions, MROpts, MRReturn } from '../../common-types'
+import { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string

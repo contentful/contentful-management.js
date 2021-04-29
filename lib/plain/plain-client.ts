@@ -20,6 +20,13 @@ export const createPlainClient = (
           action: 'get',
           params: { url, config },
         }),
+      patch: (url, payload, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'patch',
+          params: { url, config },
+          payload,
+        }),
       post: (url, payload, config) =>
         makeRequest({
           entityType: 'Http',
@@ -80,6 +87,12 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'EnvironmentAlias', 'update'),
       delete: wrap(wrapParams, 'EnvironmentAlias', 'delete'),
     },
+    bulkAction: {
+      get: wrap(wrapParams, 'BulkAction', 'get'),
+      publish: wrap(wrapParams, 'BulkAction', 'publish'),
+      unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
+      validate: wrap(wrapParams, 'BulkAction', 'validate'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
@@ -105,6 +118,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
+      patch: wrap(wrapParams, 'Entry', 'patch'),
       delete: wrap(wrapParams, 'Entry', 'delete'),
       publish: wrap(wrapParams, 'Entry', 'publish'),
       unpublish: wrap(wrapParams, 'Entry', 'unpublish'),
