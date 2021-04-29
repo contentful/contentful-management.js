@@ -61,7 +61,7 @@ import { SnapshotProps } from '../entities/snapshot'
 import { SpaceProps } from '../entities/space'
 import { SpaceMemberProps } from '../entities/space-member'
 import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/space-membership'
-import { CreateTagProps, TagProps } from '../entities/tag'
+import { CreateTagProps, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import {
@@ -539,7 +539,7 @@ export type PlainClientAPI = {
     createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
     update(
       params: OptionalDefaults<GetTagParams>,
-      rawData: TagProps,
+      rawData: UpdateTagProps,
       headers?: Record<string, unknown>
     ): Promise<TagProps>
     delete(params: OptionalDefaults<GetTagParams>, version: number): Promise<any>
