@@ -1,5 +1,5 @@
 import { createClient } from '../lib/contentful-management'
-import delay from 'delay'
+import { sleep } from '../lib/methods/utils'
 
 const params = {}
 
@@ -15,6 +15,24 @@ export const client = (isV2 = false) =>
     accessToken: isV2 ? env.CONTENTFUL_V2_ACCESS_TOKEN : env.CONTENTFUL_ACCESS_TOKEN,
     ...params,
   })
+
+/**
+ *
+ * @returns {import('../lib/contentful-management').PlainClientAPI}
+ */
+export const getPlainClient = (defaults = {}, isV2 = false) => {
+  const accessToken = isV2 ? env.CONTENTFUL_V2_ACCESS_TOKEN : env.CONTENTFUL_ACCESS_TOKEN
+  return createClient(
+    {
+      accessToken,
+      ...params,
+    },
+    {
+      type: 'plain',
+      defaults,
+    }
+  )
+}
 
 export const createTestSpace = async (client, spacePrefix = '') => {
   let space
@@ -50,7 +68,7 @@ export function waitForEnvironmentToBeReady(space, environment) {
   return space.getEnvironment(environment.sys.id).then((env) => {
     if (env.sys.status.sys.id !== 'ready') {
       console.log(`Environment ${environment.sys.id} is not ready yet. Waiting 1000ms...`)
-      return delay(1000).then(() => waitForEnvironmentToBeReady(space, env))
+      return sleep(1000).then(() => waitForEnvironmentToBeReady(space, env))
     }
     return env
   })
@@ -61,7 +79,17 @@ export function generateRandomId(prefix = 'randomId') {
 }
 
 export const DEFAULT_SPACE_ID = 'ezs1swce23xe'
+export const ALTERNATIVE_SPACE_ID = '7dh3w86is8ls'
+export const V2_SPACE_ID = 'w6xueg32zr68'
 
 export async function getDefaultSpace() {
   return await client().getSpace(DEFAULT_SPACE_ID)
+}
+
+export async function getAlternativeSpace() {
+  return await client().getSpace(ALTERNATIVE_SPACE_ID)
+}
+
+export async function getV2Space() {
+  return await client(true).getSpace(V2_SPACE_ID)
 }

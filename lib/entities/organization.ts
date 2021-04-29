@@ -1,10 +1,9 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import createOrganizationApi, { ContentfulOrganizationAPI } from '../create-organization-api'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements } from '../common-types'
+import { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type Organization = DefaultElements<OrganizationProp> &
   OrganizationProp &
@@ -27,15 +26,13 @@ export type OrganizationProp = {
  * http client with an organization id, so the base path for requests now has the
  * organization id already set.
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - API response for an Organization
  * @return {Organization}
  */
-export function wrapOrganization(http: AxiosInstance, data: OrganizationProp): Organization {
+export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationProp): Organization {
   const org = toPlainObject(copy(data))
-  const orgApi = createOrganizationApi({
-    http: http,
-  })
+  const orgApi = createOrganizationApi(makeRequest)
   const enhancedOrganization = enhanceWithMethods(org, orgApi)
   return freezeSys(enhancedOrganization)
 }

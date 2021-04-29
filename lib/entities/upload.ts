@@ -1,9 +1,7 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { DefaultElements, MetaSysProps, SysLink } from '../common-types'
-import * as endpoints from '../plain/endpoints'
+import { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 
 export type UploadProps = {
   /**
@@ -33,13 +31,17 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
   delete(): Promise<void>
 }
 
-function createUploadApi(http: AxiosInstance) {
+function createUploadApi(makeRequest: MakeRequest) {
   return {
-    delete: function del() {
+    delete: async function del() {
       const raw = this.toPlainObject() as UploadProps
-      return endpoints.upload.del(http, {
-        spaceId: raw.sys.space.sys.id,
-        uploadId: raw.sys.id,
+      await makeRequest({
+        entityType: 'Upload',
+        action: 'delete',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          uploadId: raw.sys.id,
+        },
       })
     },
   }
@@ -47,12 +49,12 @@ function createUploadApi(http: AxiosInstance) {
 
 /**
  * @private
- * @param {Object} http - HTTP client instance
- * @param {Object} data - Raw upload data
+ * @param {function} makeRequest - function to make requests via an adapter
+ * @param {object} data - Raw upload data
  * @return {Upload} Wrapped upload data
  */
-export function wrapUpload(http: AxiosInstance, data: UploadProps) {
+export function wrapUpload(makeRequest: MakeRequest, data: UploadProps) {
   const upload = toPlainObject(copy(data))
-  const uploadWithMethods = enhanceWithMethods(upload, createUploadApi(http))
+  const uploadWithMethods = enhanceWithMethods(upload, createUploadApi(makeRequest))
   return freezeSys(uploadWithMethods)
 }

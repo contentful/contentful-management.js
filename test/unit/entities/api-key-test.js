@@ -1,5 +1,5 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { wrapApiKey, wrapApiKeyCollection } from '../../../lib/entities/api-key'
 import {
   entityCollectionWrappedTest,
@@ -13,7 +13,7 @@ import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('apiKey'),
   }
 }

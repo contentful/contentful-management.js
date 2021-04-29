@@ -1,4 +1,3 @@
-import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -10,9 +9,10 @@ import {
   KeyValueMap,
   EntityMetaSysProps,
   MetadataProps,
+  MakeRequest,
 } from '../common-types'
-import * as endpoints from '../plain/endpoints'
 import * as checks from '../plain/checks'
+import type { OpPatch } from 'json-patch'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -46,6 +46,31 @@ type EntryApi = {
    * ```
    */
   update(): Promise<Entry>
+  /**
+   * Sends an JSON patch to the server with any changes made to the object's properties
+   * @return Object returned from the server with updated changes.
+   * @example ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   *
+   * client.getSpace('<space_id>')
+   * .then((space) => space.getEnvironment('<environment_id>'))
+   * .then((environment) => environment.getEntry('<entry_id>'))
+   * .then((entry) => entry.patch([
+   *   {
+   *     op: 'replace',
+   *     path: '/fields/title/en-US',
+   *     value: 'New entry title'
+   *   }
+   * ]))
+   * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
+   * .catch(console.error)
+   * ```
+   */
+  patch(patch: OpPatch[]): Promise<Entry>
   /**
    * Archives the object
    * @return Object returned from the server with updated metadata.
@@ -202,7 +227,7 @@ type EntryApi = {
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
 
-function createEntryApi(http: AxiosInstance): EntryApi {
+function createEntryApi(makeRequest: MakeRequest): EntryApi {
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
 
@@ -220,53 +245,93 @@ function createEntryApi(http: AxiosInstance): EntryApi {
     update: function update() {
       const { raw, params } = getParams(this)
 
-      return endpoints.entry.update(http, params, raw).then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'update',
+        params,
+        payload: raw,
+      }).then((data) => wrapEntry(makeRequest, data))
+    },
+
+    patch: function patch(ops: OpPatch[]) {
+      const { raw, params } = getParams(this)
+
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'patch',
+        params: {
+          ...params,
+          version: raw.sys.version,
+        },
+        payload: ops,
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     delete: function del() {
       const { params } = getParams(this)
 
-      return endpoints.entry.del(http, params)
+      return makeRequest({ entityType: 'Entry', action: 'delete', params })
     },
 
     publish: function publish() {
       const { raw, params } = getParams(this)
 
-      return endpoints.entry.publish(http, params, raw).then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'publish',
+        params,
+        payload: raw,
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     unpublish: function unpublish() {
       const { params } = getParams(this)
 
-      return endpoints.entry.unpublish(http, params).then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'unpublish',
+        params,
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     archive: function archive() {
       const { params } = getParams(this)
 
-      return endpoints.entry.archive(http, params).then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'archive',
+        params,
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     unarchive: function unarchive() {
       const { params } = getParams(this)
 
-      return endpoints.entry.unarchive(http, params).then((data) => wrapEntry(http, data))
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'unarchive',
+        params,
+      }).then((data) => wrapEntry(makeRequest, data))
     },
 
     getSnapshots: function (query = {}) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getManyForEntry(http, { ...params, query })
-        .then((data) => wrapSnapshotCollection<EntryProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getManyForEntry',
+        params: { ...params, query },
+      }).then((data) => wrapSnapshotCollection<EntryProps>(makeRequest, data))
     },
 
     getSnapshot: function (snapshotId: string) {
       const { params } = getParams(this)
 
-      return endpoints.snapshot
-        .getForEntry(http, { ...params, snapshotId })
-        .then((data) => wrapSnapshot<EntryProps>(http, data))
+      return makeRequest({
+        entityType: 'Snapshot',
+        action: 'getForEntry',
+        params: { ...params, snapshotId },
+      }).then((data) => wrapSnapshot<EntryProps>(makeRequest, data))
     },
 
     isPublished: function isPublished() {
@@ -293,13 +358,13 @@ function createEntryApi(http: AxiosInstance): EntryApi {
 
 /**
  * @private
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
  * @return Wrapped entry data
  */
-export function wrapEntry(http: AxiosInstance, data: EntryProps): Entry {
+export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
   const entry = toPlainObject(copy(data))
-  const entryWithMethods = enhanceWithMethods(entry, createEntryApi(http))
+  const entryWithMethods = enhanceWithMethods(entry, createEntryApi(makeRequest))
   return freezeSys(entryWithMethods)
 }
 

@@ -1,9 +1,10 @@
 import { cloneMock } from '../mocks/entities'
-import setupHttpMock from '../mocks/http'
+import setupMakeRequest from '../mocks/makeRequest'
 import { wrapEntry, wrapEntryCollection } from '../../../lib/entities/entry'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
+  entityPatchTest,
   entityUpdateTest,
   entityDeleteTest,
   entityPublishTest,
@@ -17,11 +18,10 @@ import {
   isArchivedTest,
 } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
-import { expect } from 'chai'
 
 function setup(promise) {
   return {
-    httpMock: setupHttpMock(promise),
+    makeRequest: setupMakeRequest(promise),
     entityMock: cloneMock('entry'),
   }
 }
@@ -39,33 +39,15 @@ describe('Entity Entry', () => {
     })
   })
 
-  test('Entry update', async () => {
-    return entityUpdateTest(setup, {
+  test('Entry patch', async () => {
+    return entityPatchTest(setup, {
       wrapperMethod: wrapEntry,
     })
   })
 
-  test('Entry update with tags works', async () => {
-    const { httpMock } = setup()
-    const entityMock = cloneMock('entryWithTags')
-    entityMock.sys.version = 2
-    const entity = wrapEntry(httpMock, entityMock)
-    entity.metadata.tags[0] = {
-      name: 'newname',
-      sys: entityMock.metadata.tags[0].sys,
-    }
-    return entity.update().then((response) => {
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][1].metadata.tags[0].name).equals('newname', 'metadata is sent')
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent'
-      )
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+  test('Entry update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapEntry,
     })
   })
 
@@ -160,13 +142,6 @@ describe('Entity Entry', () => {
     return isArchivedTest(setup, { wrapperMethod: wrapEntry })
   })
 
-  test('Entry getSnapshots fails', async () => {
-    return failingActionTest(setup, {
-      wrapperMethod: wrapEntry,
-      actionMethod: 'getSnapshots',
-    })
-  })
-
   test('Entry getSnapshot fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapEntry,
@@ -178,6 +153,13 @@ describe('Entity Entry', () => {
     return entityActionTest(setup, {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshot',
+    })
+  })
+
+  test('Entry getSnapshots fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapEntry,
+      actionMethod: 'getSnapshots',
     })
   })
 

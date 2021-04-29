@@ -21,11 +21,6 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test:cover-unit
-      - run: bash <(curl -s https://codecov.io/bash) -F unittests
-      - run:
-          name: Build Success
-          when: on_success
-          command: ./node_modules/.bin/codecov
   integration:
     docker:
       - image: circleci/node:12
@@ -36,11 +31,6 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test:cover-integration
-      - run: bash <(curl -s https://codecov.io/bash) -F integrationtests
-      - run:
-          name: Build Success
-          when: on_success
-          command: ./node_modules/.bin/codecov
   release:
     docker:
       - image: circleci/node:12
@@ -60,6 +50,7 @@ workflows:
             - unit
             - lint
       - release:
+          context: dev-workflows-release
           requires:
             - unit
             - integration

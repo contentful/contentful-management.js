@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { AxiosInstance } from 'contentful-sdk-core'
-import { Except } from 'type-fest'
+import { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -9,45 +8,65 @@ export type DefaultParams = {
   organizationId?: string
 }
 
+export type OptionalDefaults<T> = Omit<T, keyof DefaultParams> &
+  ('organizationId' extends keyof T ? { organizationId?: string } : {}) &
+  ('spaceId' extends keyof T ? { spaceId?: string } : {}) &
+  ('environmentId' extends keyof T ? { environmentId?: string } : {})
+
 export type WrapParams = {
-  http: AxiosInstance
+  makeRequest: MakeRequest
   defaults?: DefaultParams
 }
 
-type MarkOptional<BaseType, Keys extends keyof BaseType = keyof BaseType> =
-  // Pick just the keys that are not optional from the base type.
-  Except<BaseType, Keys> &
-    // Pick the keys that should be optional from the base type and make them optional.
-    Partial<Pick<BaseType, Keys>>
+export type WrapFn<
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
+  Params = 'params' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['params']
+    : undefined,
+  Payload = 'payload' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['payload']
+    : undefined,
+  Headers = 'headers' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['headers']
+    : undefined,
+  Return = MRReturn<ET, Action>
+> = Params extends undefined
+  ? () => Return
+  : Payload extends undefined
+  ? (params: Params) => Return
+  : Headers extends undefined
+  ? (params: Params, payload: Payload) => Return
+  : (params: Params, payload: Payload, headers: Headers) => Return
 
-type EndpointDefinition<T extends any[], P extends {}, R> = (
-  http: AxiosInstance,
-  params: P,
-  ...rest: T
-) => R
+export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
+  { makeRequest, defaults }: WrapParams,
+  entityType: ET,
+  action: Action
+): WrapFn<ET, Action> => {
+  type Params = 'params' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['params']
+    : never
+  type Payload = 'payload' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['payload']
+    : never
+  type Headers = 'headers' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['headers']
+    : never
 
-const withHttp = <T extends any[], P extends {}, R, A>(
-  http: AxiosInstance,
-  fn: EndpointDefinition<T, P, R>
-) => {
-  return (params: P, ...rest: T) => fn(http, params, ...rest)
+  // It's not really possible to make this type safe as we are overloading `makeRequest`.
+  // This missing typesafety is only within `wrap`. `wrap` has proper public types.
+  // @ts-expect-error
+  return (params?: Params, payload?: Payload, headers?: Headers): MRReturn<ET, Action> =>
+    // @ts-expect-error
+    makeRequest({
+      // @ts-expect-error
+      entityType,
+      // @ts-expect-error
+      action,
+      // @ts-expect-error
+      params: { ...defaults, ...params },
+      payload,
+      headers,
+    })
 }
-
-const withDefaults = <T extends any[], P extends {}, R, D>(
-  defaults: D | undefined,
-  fn: (params: P, ...rest: T) => R
-) => {
-  return (params: MarkOptional<P, keyof (P | D)>, ...rest: T) =>
-    fn({ ...defaults, ...params } as P, ...rest)
-}
-
-export const wrap = <T extends any[], P extends {}, R>(
-  { http, defaults }: WrapParams,
-  fn: EndpointDefinition<T, P, R>
-) => {
-  return withDefaults(defaults, withHttp(http, fn))
-}
-
-type EndpointWithHttp<R> = (http: AxiosInstance) => R
-
-export const wrapHttp = <R>(http: AxiosInstance, fn: EndpointWithHttp<R>) => () => fn(http)
