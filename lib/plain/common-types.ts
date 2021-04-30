@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios'
+import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import {
   CollectionProp,
@@ -24,6 +25,9 @@ import {
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
+  GetAppUploadParams,
+  GetAppBundleParams,
+  GetBulkActionParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -57,7 +61,7 @@ import { SnapshotProps } from '../entities/snapshot'
 import { SpaceProps } from '../entities/space'
 import { SpaceMemberProps } from '../entities/space-member'
 import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/space-membership'
-import { CreateTagProps, TagProps } from '../entities/tag'
+import { CreateTagProps, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import {
@@ -76,15 +80,36 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
+import { AppUploadProps } from '../entities/app-upload'
+import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
+import {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from '../entities/bulk-action'
 
 export type PlainClientAPI = {
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     post<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
+    patch<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     put<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
+  }
+  appBundle: {
+    get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
+    getMany(
+      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    ): Promise<CollectionProp<AppBundleProps>>
+    delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
+    create(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppBundleProps
+    ): Promise<AppBundleProps>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>
@@ -151,6 +176,21 @@ export type PlainClientAPI = {
     ): Promise<EnvironmentAliasProps>
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
   }
+  bulkAction: {
+    get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
+    publish(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionPublishPayload
+    ): Promise<BulkActionProps<BulkActionPublishPayload>>
+    unpublish(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionUnpublishPayload
+    ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
+    validate(
+      params: GetSpaceEnvironmentParams,
+      payload: BulkActionValidatePayload
+    ): Promise<BulkActionProps<BulkActionValidatePayload>>
+  }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
@@ -191,11 +231,18 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      rawData?: unknown,
+      headers?: Record<string, unknown>
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
+      headers?: Record<string, unknown>
+    ): Promise<EntryProps<T>>
+    patch<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      rawData: OpPatch[],
       headers?: Record<string, unknown>
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
@@ -228,7 +275,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
     ): Promise<CollectionProp<AssetProps>>
     get(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
+      rawData?: unknown,
+      headers?: Record<string, unknown>
     ): Promise<AssetProps>
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
@@ -272,6 +321,14 @@ export type PlainClientAPI = {
       locale: string,
       processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
+  }
+  appUpload: {
+    get(params: OptionalDefaults<GetAppUploadParams>): Promise<AppUploadProps>
+    delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
+    create(
+      params: OptionalDefaults<GetOrganizationParams>,
+      payload: { file: string | ArrayBuffer | Stream }
+    ): Promise<AppUploadProps>
   }
   assetKey: {
     create(
@@ -482,7 +539,7 @@ export type PlainClientAPI = {
     createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
     update(
       params: OptionalDefaults<GetTagParams>,
-      rawData: TagProps,
+      rawData: UpdateTagProps,
       headers?: Record<string, unknown>
     ): Promise<TagProps>
     delete(params: OptionalDefaults<GetTagParams>, version: number): Promise<any>

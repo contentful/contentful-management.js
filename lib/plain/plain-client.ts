@@ -20,6 +20,13 @@ export const createPlainClient = (
           action: 'get',
           params: { url, config },
         }),
+      patch: (url, payload, config) =>
+        makeRequest({
+          entityType: 'Http',
+          action: 'patch',
+          params: { url, config },
+          payload,
+        }),
       post: (url, payload, config) =>
         makeRequest({
           entityType: 'Http',
@@ -46,6 +53,12 @@ export const createPlainClient = (
           action: 'request',
           params: { url, config },
         }),
+    },
+    appBundle: {
+      get: wrap(wrapParams, 'AppBundle', 'get'),
+      getMany: wrap(wrapParams, 'AppBundle', 'getMany'),
+      delete: wrap(wrapParams, 'AppBundle', 'delete'),
+      create: wrap(wrapParams, 'AppBundle', 'create'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
@@ -74,6 +87,12 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'EnvironmentAlias', 'update'),
       delete: wrap(wrapParams, 'EnvironmentAlias', 'delete'),
     },
+    bulkAction: {
+      get: wrap(wrapParams, 'BulkAction', 'get'),
+      publish: wrap(wrapParams, 'BulkAction', 'publish'),
+      unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
+      validate: wrap(wrapParams, 'BulkAction', 'validate'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
@@ -99,6 +118,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
+      patch: wrap(wrapParams, 'Entry', 'patch'),
       delete: wrap(wrapParams, 'Entry', 'delete'),
       publish: wrap(wrapParams, 'Entry', 'publish'),
       unpublish: wrap(wrapParams, 'Entry', 'unpublish'),
@@ -140,6 +160,11 @@ export const createPlainClient = (
             options,
           },
         }),
+    },
+    appUpload: {
+      get: wrap(wrapParams, 'AppUpload', 'get'),
+      delete: wrap(wrapParams, 'AppUpload', 'delete'),
+      create: wrap(wrapParams, 'AppUpload', 'create'),
     },
     assetKey: {
       create: wrap(wrapParams, 'AssetKey', 'create'),

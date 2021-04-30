@@ -1,6 +1,13 @@
 export * from './common-types'
 
+export type {
+  AppBundle,
+  AppBundleProps,
+  AppBundleFile,
+  CreateAppBundleProps,
+} from './entities/app-bundle'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+export type { AppUploadProps, AppUpload } from './entities/app-upload'
 export type {
   AppDefinition,
   AppDefinitionProps,
@@ -18,6 +25,16 @@ export type {
 } from './entities/app-installation'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+export type {
+  BulkAction,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+  BulkActionStatus,
+  BulkActionPayload,
+  BulkActionType,
+  BulkActionProps,
+} from './entities/bulk-action'
 export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {

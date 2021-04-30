@@ -6,7 +6,13 @@ import {
   GetTagParams,
   QueryParams,
 } from '../../../common-types'
-import { CreateTagProps, TagProps, TagVisibility } from '../../../entities/tag'
+import {
+  CreateTagParams,
+  CreateTagProps,
+  DeleteTagParams,
+  TagProps,
+  UpdateTagProps,
+} from '../../../entities/tag'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -28,7 +34,7 @@ export const getMany: RestEndpoint<'Tag', 'getMany'> = (
 
 export const createWithId: RestEndpoint<'Tag', 'createWithId'> = (
   http: AxiosInstance,
-  { visibility, ...params }: GetTagParams & { visibility?: TagVisibility },
+  { visibility, ...params }: CreateTagParams,
   rawData: CreateTagProps
 ) => {
   const data = copy(rawData)
@@ -40,7 +46,7 @@ export const createWithId: RestEndpoint<'Tag', 'createWithId'> = (
 export const update: RestEndpoint<'Tag', 'update'> = (
   http: AxiosInstance,
   params: GetTagParams,
-  rawData: TagProps,
+  rawData: UpdateTagProps,
   headers?: Record<string, unknown>
 ) => {
   const data = copy(rawData)
@@ -56,7 +62,7 @@ export const update: RestEndpoint<'Tag', 'update'> = (
 
 export const del: RestEndpoint<'Tag', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: GetTagParams & { version: number }
+  { version, ...params }: DeleteTagParams
 ) => {
   return raw.del(http, getTagUrl(params), { headers: { 'X-Contentful-Version': version } })
 }

@@ -1,6 +1,7 @@
 import sinon from 'sinon'
 
 import cloneDeep from 'lodash/cloneDeep'
+import { makeLink, makeVersionedLink } from '../../utils'
 
 const linkMock = {
   id: 'linkid',
@@ -54,6 +55,26 @@ const personalAccessTokenMock = {
   scopes: ['content_management_manage'],
 }
 
+const appBundleMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppBundle',
+    organization: { sys: { id: 'organziation-id' } },
+    appDefinition: { sys: { id: 'app-definition-id' } },
+  }),
+  files: [
+    {
+      name: 'build/asset-manifest.json',
+      size: 1066,
+      md5: '38OsiWdvD1sZJzEXx8jiaA==',
+    },
+    {
+      name: 'build/index.html',
+      size: 2010,
+      md5: 'xkXIzwdDGA4ynvPYBpvRww==',
+    },
+  ],
+}
+
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
@@ -70,6 +91,45 @@ const appDefinitionMock = {
       fieldTypes: [{ type: 'Symbol' }],
     },
   ],
+}
+
+const appUploadMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppUpload',
+    organization: { sys: { id: 'organization-id' } },
+  }),
+}
+
+const bulkActionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'BulkAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    status: 'created',
+  }),
+  action: 'validate',
+  payload: {
+    entities: {
+      sys: { type: 'Array' },
+      items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+    },
+  },
+}
+
+const bulkActionPublishMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'BulkAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    status: 'created',
+  }),
+  action: 'publish',
+  payload: {
+    entities: {
+      sys: { type: 'Array' },
+      items: [makeVersionedLink('Entry', 'entry-id', 1), makeVersionedLink('Asset', 'asset-id', 2)],
+    },
+  },
 }
 
 const contentTypeMock = {
@@ -450,40 +510,44 @@ export const scheduledActionCollectionMock = {
 }
 
 const mocks = {
-  link: linkMock,
-  sys: sysMock,
+  apiKey: apiKeyMock,
+  appBundle: appBundleMock,
+  appDefinition: appDefinitionMock,
+  appInstallation: appInstallationMock,
+  appUpload: appUploadMock,
+  asset: assetMock,
+  assetKey: assetKeyMock,
+  assetWithTags: assetMockWithTags,
+  bulkAction: bulkActionMock,
+  bulkActionPublish: bulkActionPublishMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
   entryWithTags: entryMockWithTags,
-  snapshot: snapShotMock,
-  asset: assetMock,
-  assetWithTags: assetMockWithTags,
-  assetKey: assetKeyMock,
+  environmentAlias: environmentAliasMock,
+  error: errorMock,
+  extension: extensionMock,
+  link: linkMock,
   locale: localeMock,
-  webhook: webhookMock,
+  organization: organizationMock,
+  organizationInvitation: organizationInvitationMock,
+  organizationMembership: organizationMembershipMock,
+  personalAccessToken: personalAccessTokenMock,
+  previewApiKey: previewApiKeyMock,
+  role: roleMock,
+  scheduledAction: scheduledActionMock,
+  snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
-  teamSpaceMembership: teamSpaceMembershipMock,
-  organizationMembership: organizationMembershipMock,
+  sys: sysMock,
+  tag: tagMock,
   team: teamMock,
   teamMembership: teamMembershipMock,
-  organizationInvitation: organizationInvitationMock,
-  role: roleMock,
-  apiKey: apiKeyMock,
-  previewApiKey: previewApiKeyMock,
-  error: errorMock,
+  teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
-  organization: organizationMock,
-  extension: extensionMock,
-  appDefinition: appDefinitionMock,
-  appInstallation: appInstallationMock,
-  user: userMock,
-  personalAccessToken: personalAccessTokenMock,
   usage: usageMock,
-  environmentAlias: environmentAliasMock,
-  tag: tagMock,
-  scheduledAction: scheduledActionMock,
+  user: userMock,
+  webhook: webhookMock,
 }
 
 function cloneMock(name) {
@@ -505,6 +569,14 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapAppDefinition: sinon.stub(),
       wrapAppDefinitionCollection: sinon.stub(),
     },
+    appUpload: {
+      wrapAppUpload: sinon.stub(),
+      wrapAppUploadCollection: sinon.stub(),
+    },
+    appBundle: {
+      wrapAppBundle: sinon.stub(),
+      wrapAppBundleCollection: sinon.stub(),
+    },
     space: {
       wrapSpace: sinon.stub(),
       wrapSpaceCollection: sinon.stub(),
@@ -512,6 +584,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     environment: {
       wrapEnvironment: sinon.stub(),
       wrapEnvironmentCollection: sinon.stub(),
+    },
+    bulkAction: {
+      wrapBulkAction: sinon.stub(),
     },
     contentType: {
       wrapContentType: sinon.stub(),
@@ -624,11 +699,14 @@ function setupEntitiesMock(rewiredModuleApi) {
 }
 
 export {
+  appBundleMock,
   appInstallationMock,
   appDefinitionMock,
+  appUploadMock,
   linkMock,
   sysMock,
   spaceMock,
+  bulkActionMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,

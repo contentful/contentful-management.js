@@ -58,8 +58,10 @@ describe('Entry Api', () => {
 
     test('Gets entries with content type query param', async () => {
       return environment.getEntries({ content_type: 'cat' }).then((response) => {
-        expect(response.total).eql(3)
-        expect(response.items.map((item) => item.sys.contentType.sys.id)).eql(['cat', 'cat', 'cat'])
+        expect(response.total).to.eql(4)
+        response.items.forEach((entry) => {
+          expect(entry.sys.contentType.sys.id).to.eql('cat')
+        })
       })
     })
 
@@ -266,7 +268,15 @@ describe('Entry Api', () => {
             .map((item) => item.sys.contentType.sys.id)
             .filter((value, index, self) => self.indexOf(value) === index)
           expect(contentTypeOrder).eql(
-            ['1t9IbcfdCk6m04uISSsaIK', 'cat', 'contentTypeWithMetadataField', 'dog', 'human'],
+            [
+              '1t9IbcfdCk6m04uISSsaIK',
+              'cat',
+              'contentTypeWithMetadataField',
+              'dog',
+              'human',
+              'kangaroo',
+              'testEntryReferences',
+            ],
             'orders'
           )
           expect(
@@ -316,7 +326,7 @@ describe('Entry Api', () => {
         .then((unpublishedContentType) => unpublishedContentType.delete())
     })
 
-    test('Create, update, publish, unpublish, archive, unarchive and delete entry', async () => {
+    test('Create, update, patch, publish, unpublish, archive, unarchive and delete entry', async () => {
       return environment
         .createEntry(contentType.sys.id, { fields: { title: { 'en-US': 'this is the title' } } })
         .then((entry) => {
@@ -331,14 +341,25 @@ describe('Entry Api', () => {
                 'title has changed',
                 'updated title'
               )
-              return updatedEntry.unpublish().then((unpublishedEntry) => {
-                expect(unpublishedEntry.isDraft(), 'entry is back in draft').ok
-                return unpublishedEntry.archive().then((archivedEntry) => {
-                  expect(archivedEntry.isArchived(), 'entry is archived').ok
-                  return archivedEntry.unarchive().then((unarchivedEntry) => {
-                    expect(unarchivedEntry.isArchived(), 'entry is not archived anymore').not.ok
-                    expect(unarchivedEntry.isDraft(), 'entry is back in draft').ok
-                    return unarchivedEntry.delete()
+              const patchOp = {
+                op: 'replace',
+                path: '/fields/title/en-US',
+                value: 'title was patched',
+              }
+              return updatedEntry.patch([patchOp]).then((patchedEntry) => {
+                expect(patchedEntry.fields.title['en-US']).equals(
+                  'title was patched',
+                  'updated title'
+                )
+                return patchedEntry.unpublish().then((unpublishedEntry) => {
+                  expect(unpublishedEntry.isDraft(), 'entry is back in draft').ok
+                  return unpublishedEntry.archive().then((archivedEntry) => {
+                    expect(archivedEntry.isArchived(), 'entry is archived').ok
+                    return archivedEntry.unarchive().then((unarchivedEntry) => {
+                      expect(unarchivedEntry.isArchived(), 'entry is not archived anymore').not.ok
+                      expect(unarchivedEntry.isDraft(), 'entry is back in draft').ok
+                      return unarchivedEntry.delete()
+                    })
                   })
                 })
               })
