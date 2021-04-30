@@ -178,3 +178,15 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
     }
   )
 }
+
+export const references: RestEndpoint<'Entry', 'references'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }
+): Promise<CollectionProp<EntryProps>> => {
+  const { spaceId, environmentId, entryId, maxDepth = 2 } = params
+
+  return raw.get<CollectionProp<EntryProps>>(
+    http,
+    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${maxDepth}`
+  )
+}

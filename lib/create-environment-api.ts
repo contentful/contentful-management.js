@@ -771,6 +771,23 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Todo: Explain this
+     */
+    getEntryReferences(entryId: string, maxDepth: number) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'references',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: entryId,
+          maxDepth: maxDepth,
+        },
+      }).then((response) => wrapEntryCollection(makeRequest, response))
+    },
+
+    /**
      * Gets an Asset
      * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
      * from your entry in the backend

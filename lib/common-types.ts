@@ -276,6 +276,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Entry', 'unarchive', UA>): MRReturn<'Entry', 'unarchive'>
   (opts: MROpts<'Entry', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Entry', 'createWithId', UA>): MRReturn<'Entry', 'createWithId'>
+  (opts: MROpts<'Entry', 'references', UA>): MRReturn<'Entry', 'references'>
 
   (opts: MROpts<'Extension', 'get', UA>): MRReturn<'Extension', 'get'>
   (opts: MROpts<'Extension', 'getMany', UA>): MRReturn<'Extension', 'getMany'>
@@ -739,6 +740,10 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
+    }
+    references: {
+      params: GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }
+      return: CollectionProp<EntryProps>
     }
   }
   Extension: {

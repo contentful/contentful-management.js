@@ -10,6 +10,7 @@ import {
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
+  CollectionProp,
 } from '../common-types'
 import * as checks from '../plain/checks'
 import type { OpPatch } from 'json-patch'
@@ -223,6 +224,8 @@ type EntryApi = {
    * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
    */
   isUpdated(): boolean
+
+  references(maxDepth: number): Promise<CollectionProp<EntryProps>>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
@@ -352,6 +355,20 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
     isArchived: function isArchived() {
       const raw = this.toPlainObject() as EntryProps
       return checks.isArchived(raw)
+    },
+
+    references: function references(maxDepth: number) {
+      const raw = this.toPlainObject() as EntryProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'references',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+          entryId: raw.sys.id,
+          maxDepth: maxDepth,
+        },
+      }).then((response) => wrapEntryCollection(makeRequest, response))
     },
   }
 }
