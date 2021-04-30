@@ -21,11 +21,11 @@ describe('BulkActions Api', async function () {
   describe('Environment Scoped', () => {
     test.only('getEntryReferences', async () => {
       const entryReferences = await testEnvironment.getEntryReferences(
-        TestDefaults.entry.testEntryId,
+        TestDefaults.entry.testEntryReferenceId,
         2
       )
       console.dir(entryReferences, {
-        depth: 3,
+        depth: 5,
       })
     })
   })
@@ -39,7 +39,9 @@ describe('BulkActions Api', async function () {
 
     test('entry.references', async () => {
       const plainClient = getPlainClient(defaultParams)
-      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+      const entry = await plainClient.entry.get({
+        entryId: TestDefaults.entry.testEntryReferenceId,
+      })
 
       const entryReferences = await plainClient.entry.references({
         entryId: entry.sys.id,
