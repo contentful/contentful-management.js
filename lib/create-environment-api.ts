@@ -771,7 +771,24 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Todo: Explain this
+     * Get entry references
+     * @param entryId - Entry ID
+     * @param maxDepth - Level of the entry descendants from 1 up to 10 maximum
+     * @returns Promise of Entry references
+     * @example ```javascript
+     * const contentful = require('contentful-management');
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<contentful_management_api_key>
+     * })
+     *
+     * // Get entry references
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntryReferences('<entry_id>', '<max_depth>'))
+     * .then((entry) => console.log(entry.includes))
+     * .catch(console.error)
+     * ```
      */
     getEntryReferences(entryId: string, maxDepth: number) {
       const raw = this.toPlainObject() as EnvironmentProps
