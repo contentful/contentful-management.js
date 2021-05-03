@@ -1,7 +1,7 @@
 // To test creating spaceMemberships user has to exist in the organization. Organization membership is produced also within invitation process.
-import { client, generateRandomId, getDefaultSpace } from '../helpers'
+import { client, createTestSpace, generateRandomId } from '../helpers'
 
-import { before, describe, test } from 'mocha'
+import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
 describe('SpaceMembers Api', function () {
@@ -9,10 +9,16 @@ describe('SpaceMembers Api', function () {
   let organization
 
   before(async () => {
-    space = await getDefaultSpace()
+    space = await createTestSpace(client(true), 'SMembership')
     organization = await client()
       .getOrganizations()
       .then((response) => response.items[0])
+  })
+
+  after(async () => {
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('Gets spaceMemberships', async () => {

@@ -34,7 +34,7 @@ import { SnapshotProps } from './entities/snapshot'
 import { SpaceProps } from './entities/space'
 import { SpaceMemberProps } from './entities/space-member'
 import { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
-import { CreateTagProps, TagProps } from './entities/tag'
+import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
 import { CreateTeamProps, TeamProps } from './entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
 import {
@@ -954,11 +954,11 @@ export type MRActions = {
     createWithId: { params: GetTagParams; payload: CreateTagProps; return: TagProps }
     update: {
       params: GetTagParams
-      payload: TagProps
+      payload: UpdateTagProps
       headers?: Record<string, unknown>
       return: TagProps
     }
-    delete: { params: GetTagParams & { version: number }; return: any }
+    delete: { params: DeleteTagParams; return: any }
   }
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
