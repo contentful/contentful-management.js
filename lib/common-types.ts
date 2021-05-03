@@ -154,6 +154,9 @@ export interface CollectionProp<TObj> {
   skip: number
   limit: number
   items: TObj[]
+  includes?: {
+    [key: string]: TObj[]
+  }
 }
 
 export interface Collection<T, TPlain>
