@@ -21,10 +21,9 @@ export type TagProps = {
   name: string
 }
 
-export type CreateTagProps = Omit<TagProps, 'sys'>
+export type CreateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'visibility'> }
 export type UpdateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'version'> }
 
-export type CreateTagParams = GetTagParams & { visibility?: TagVisibility }
 export type DeleteTagParams = GetTagParams & { version: number }
 
 export type TagCollectionProps = {

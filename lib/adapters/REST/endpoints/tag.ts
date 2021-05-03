@@ -6,13 +6,7 @@ import {
   GetTagParams,
   QueryParams,
 } from '../../../common-types'
-import {
-  CreateTagParams,
-  CreateTagProps,
-  DeleteTagParams,
-  TagProps,
-  UpdateTagProps,
-} from '../../../entities/tag'
+import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../../../entities/tag'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -34,12 +28,12 @@ export const getMany: RestEndpoint<'Tag', 'getMany'> = (
 
 export const createWithId: RestEndpoint<'Tag', 'createWithId'> = (
   http: AxiosInstance,
-  { visibility, ...params }: CreateTagParams,
+  params: GetTagParams,
   rawData: CreateTagProps
 ) => {
   const data = copy(rawData)
   return raw.put<TagProps>(http, getTagUrl(params), data, {
-    headers: { 'X-Contentful-Tag-Visibility': visibility ?? 'private' },
+    headers: { 'X-Contentful-Tag-Visibility': rawData.sys.visibility ?? 'private' },
   })
 }
 

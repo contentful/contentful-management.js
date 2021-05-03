@@ -1,5 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions, MakeRequest } from './common-types'
+import { BasicQueryOptions, GetTagParams, MakeRequest } from './common-types'
 import entities from './entities'
 import type { QueryOptions } from './common-types'
 import type { EntryProps, CreateEntryProps } from './entities/entry'
@@ -9,7 +9,7 @@ import type { CreateContentTypeProps, ContentTypeProps } from './entities/conten
 import type { CreateLocaleProps } from './entities/locale'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
-import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import { CreateTagProps, TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
 import {
@@ -1464,18 +1464,19 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     createTag(id: string, name: string, visibility?: TagVisibility) {
       const raw = this.toPlainObject() as EnvironmentProps
-      const params = {
-        spaceId: raw.sys.space.sys.id,
-        environmentId: raw.sys.id,
-        tagId: id,
-        visibility,
-      }
 
       return makeRequest({
         entityType: 'Tag',
         action: 'createWithId',
-        params,
-        payload: { name },
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          tagId: id,
+        },
+        payload: {
+          name,
+          sys: { visibility: visibility ?? 'private' },
+        },
       }).then((data) => wrapTag(makeRequest, data))
     },
 
