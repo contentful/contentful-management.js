@@ -37,7 +37,6 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run build
       - run: npm run semantic-release
 workflows:
   version: 2
