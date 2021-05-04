@@ -20,6 +20,9 @@ export const create: RestEndpoint<'Upload', 'create'> = (
     headers: {
       'Content-Type': 'application/octet-stream',
     },
+    //TODO: remove the line below when CreateHttpClientParams
+    //from sdk-core supports maxContentLength
+    maxBodyLength: http.defaults.maxContentLength,
   })
 }
 
