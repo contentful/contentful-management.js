@@ -24,6 +24,12 @@ export type EntryProps<T = KeyValueMap> = {
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
+export interface EntryReferenceProps<TObj> extends CollectionProp<TObj> {
+  includes?: {
+    [key: string]: TObj[]
+  }
+}
+
 type EntryApi = {
   /**
    * Sends an update to the server with any changes made to the object's properties
@@ -225,7 +231,10 @@ type EntryApi = {
    */
   isUpdated(): boolean
 
-  references(maxDepth: number): Promise<CollectionProp<EntryProps>>
+  /**
+   * Recursively collects references of an entry and their descendants
+   */
+  references(maxDepth: number): Promise<EntryReferenceProps<EntryProps>>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}

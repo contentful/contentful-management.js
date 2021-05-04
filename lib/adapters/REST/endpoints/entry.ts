@@ -7,7 +7,7 @@ import {
   KeyValueMap,
   QueryParams,
 } from '../../../common-types'
-import { CreateEntryProps, EntryProps } from '../../../entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
@@ -181,11 +181,11 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
 
 export const references: RestEndpoint<'Entry', 'references'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }
-): Promise<CollectionProp<EntryProps>> => {
+  params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
+): Promise<EntryReferenceProps<EntryProps>> => {
   const { spaceId, environmentId, entryId, maxDepth = 2 } = params
 
-  return raw.get<CollectionProp<EntryProps>>(
+  return raw.get<EntryReferenceProps<EntryProps>>(
     http,
     `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${maxDepth}`
   )

@@ -40,7 +40,7 @@ import {
 } from '../entities/asset'
 import { ContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
-import { CreateEntryProps, EntryProps } from '../entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from '../entities/locale'
@@ -271,7 +271,7 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     references(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }>
-    ): Promise<CollectionProp<EntryProps>>
+    ): Promise<EntryReferenceProps<EntryProps>>
   }
   asset: {
     getMany(

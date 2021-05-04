@@ -13,7 +13,7 @@ import {
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import { EditorInterfaceProps } from './entities/editor-interface'
-import { CreateEntryProps, EntryProps } from './entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
@@ -154,9 +154,6 @@ export interface CollectionProp<TObj> {
   skip: number
   limit: number
   items: TObj[]
-  includes?: {
-    [key: string]: TObj[]
-  }
 }
 
 export interface Collection<T, TPlain>
@@ -746,7 +743,7 @@ export type MRActions = {
     }
     references: {
       params: GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }
-      return: CollectionProp<EntryProps>
+      return: EntryReferenceProps<EntryProps>
     }
   }
   Extension: {
