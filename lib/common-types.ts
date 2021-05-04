@@ -742,7 +742,7 @@ export type MRActions = {
       return: EntryProps<any>
     }
     references: {
-      params: GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }
+      params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
       return: EntryReferenceProps<EntryProps>
     }
   }
