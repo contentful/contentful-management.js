@@ -270,7 +270,7 @@ export type PlainClientAPI = {
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
     references(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; maxDepth: number }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }>
     ): Promise<EntryReferenceProps<EntryProps>>
   }
   asset: {
