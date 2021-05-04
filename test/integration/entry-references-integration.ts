@@ -17,10 +17,13 @@ describe('Entry References', async function () {
     testEnvironment = await testSpace.getEnvironment('master')
   })
 
-  describe('Environment Scoped', () => {
+  describe.only('Environment Scoped', () => {
     let entryWithReferences
     before(async () => {
       entryWithReferences = await testEnvironment.getEntryReferences(ENTRY_WITH_REFERENCES_ID, 2)
+      console.dir(entryWithReferences, {
+        depth: 6,
+      })
     })
 
     test('Get the correct entry with references', () => {
