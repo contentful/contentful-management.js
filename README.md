@@ -4,7 +4,6 @@
 
 [![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
 [![Build Status](https://travis-ci.org/contentful/contentful-management.js.svg?branch=master)](https://travis-ci.org/contentful/contentful-management.js)
-[![codecov](https://codecov.io/gh/contentful/contentful-management.js/branch/master/graph/badge.svg)](https://codecov.io/gh/contentful/contentful-management.js)
 [![Dependency Status](https://david-dm.org/contentful/contentful-management.js.svg)](https://david-dm.org/contentful/contentful-management.js)
 [![devDependency Status](https://david-dm.org/contentful/contentful-management.js/dev-status.svg)](https://david-dm.org/contentful/contentful-management.js#info=devDependencies)
 
@@ -30,7 +29,7 @@ Browsers and Node.js:
 - Edge
 - Safari
 - node.js (LTS)
-- IE11 (with [legacy version](#legacy-browsers) of the library)
+- IE11 (with [legacy version](#legacy-contentful-managementjs) of the library)
 
 Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
 

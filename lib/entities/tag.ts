@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
+import { DefaultElements, GetTagParams, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -21,7 +21,10 @@ export type TagProps = {
   name: string
 }
 
-export type CreateTagProps = Omit<TagProps, 'sys'>
+export type CreateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'visibility'> }
+export type UpdateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'version'> }
+
+export type DeleteTagParams = GetTagParams & { version: number }
 
 export type TagCollectionProps = {
   sys: {
