@@ -60,6 +60,7 @@ import {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 import {
+  CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
   TaskProps,
@@ -963,7 +964,7 @@ export type MRActions = {
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
     getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
-    create: { params: GetEntryParams; payload: CreateTaskProps; return: TaskProps }
+    create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
     update: {
       params: UpdateTaskParams
       payload: UpdateTaskProps
