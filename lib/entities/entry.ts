@@ -236,7 +236,7 @@ type EntryApi = {
   /**
    * Recursively collects references of an entry and their descendants
    */
-  references(maxDepth: number): Promise<EntryReferenceProps>
+  references({ maxDepth }: { maxDepth: number }): Promise<EntryReferenceProps>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
@@ -368,7 +368,7 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
       return checks.isArchived(raw)
     },
 
-    references: function references(maxDepth: number) {
+    references: function references(options?: { maxDepth?: number }) {
       const raw = this.toPlainObject() as EntryProps
       return makeRequest({
         entityType: 'Entry',
@@ -377,7 +377,7 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.environment.sys.id,
           entryId: raw.sys.id,
-          maxDepth: maxDepth,
+          maxDepth: options?.maxDepth,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response))
     },
