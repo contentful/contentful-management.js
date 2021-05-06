@@ -12,6 +12,7 @@ import {
   MakeRequest,
   CollectionProp,
 } from '../common-types'
+import type { AssetProps } from '../entities/asset'
 import * as checks from '../plain/checks'
 import type { OpPatch } from 'json-patch'
 
@@ -24,9 +25,10 @@ export type EntryProps<T = KeyValueMap> = {
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
-export interface EntryReferenceProps<TObj> extends CollectionProp<TObj> {
+export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   includes?: {
-    [key: string]: TObj[]
+    Entry?: CollectionProp<EntryProps>
+    Asset?: CollectionProp<AssetProps>
   }
 }
 
@@ -234,7 +236,7 @@ type EntryApi = {
   /**
    * Recursively collects references of an entry and their descendants
    */
-  references(maxDepth: number): Promise<EntryReferenceProps<EntryProps>>
+  references(maxDepth: number): Promise<EntryReferenceProps>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}

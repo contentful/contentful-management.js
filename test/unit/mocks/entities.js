@@ -513,7 +513,7 @@ const entryWithReferencesMock = {
   sys: {
     type: 'Array',
   },
-  items: [makeLink('Entry', 'entry-id')],
+  items: [entryMock],
 }
 
 const entryReferencesCollectionMock = {
