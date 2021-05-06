@@ -28,6 +28,7 @@ import {
   GetAppUploadParams,
   GetAppBundleParams,
   GetBulkActionParams,
+  GetReleaseParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -89,6 +90,8 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
+import { Release, ReleasePayload, ReleaseProps } from '../entities/release'
+import { ReleaseActionProps } from '../entities/release-action'
 
 export type PlainClientAPI = {
   raw: {
@@ -382,6 +385,23 @@ export type PlainClientAPI = {
     getManyForOrganization(
       params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
+  }
+  release: {
+    get(params: GetReleaseParams): Promise<ReleaseProps>
+    query(params: GetSpaceEnvironmentParams): Promise<CollectionProp<ReleaseProps>>
+    create(params: GetSpaceEnvironmentParams, data: ReleasePayload): Promise<ReleaseProps>
+    update(
+      params: GetReleaseParams & { version: number },
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    delete(params: GetReleaseParams): Promise<null>
+    publish(params: GetReleaseParams & { version: number }): Promise<ReleaseActionProps<'publish'>>
+    unpublish(params: GetReleaseParams): Promise<ReleaseActionProps<'unpublish'>>
+    validate(params: GetReleaseParams): Promise<ReleaseActionProps<'validate'>>
+  }
+  releaseAction: {
+    get(params: GetReleaseParams & { actionId: string }): Promise<ReleaseActionProps>
+    query(params: GetReleaseParams): Promise<CollectionProp<ReleaseActionProps>>
   }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>

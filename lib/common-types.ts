@@ -59,6 +59,8 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import { ReleasePayload, ReleaseProps, ReleaseValidatePayload } from './entities/release'
+import { ReleaseActionProps } from './entities/release-action'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -83,6 +85,14 @@ export interface VersionedLink<T extends string> {
     version: number
   }
 }
+
+export interface EntityPayload<T> {
+  entities: {
+    sys: { type: 'Array' }
+    items: T[]
+  }
+}
+
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
 export type ISO8601Timestamp = string
 
@@ -321,6 +331,18 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
+
+  (opts: MROpts<'Release', 'get', UA>): MRReturn<'Release', 'get'>
+  (opts: MROpts<'Release', 'query', UA>): MRReturn<'Release', 'query'>
+  (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
+  (opts: MROpts<'Release', 'update', UA>): MRReturn<'Release', 'update'>
+  (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
+  (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
+  (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
+
+  (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'query', UA>): MRReturn<'Release', 'query'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
@@ -838,6 +860,53 @@ export type MRActions = {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
   }
+  Release: {
+    get: {
+      params: GetReleaseParams
+      return: ReleaseProps
+    }
+    query: {
+      params: GetSpaceEnvironmentParams
+      return: CollectionProp<ReleaseProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    update: {
+      params: GetReleaseParams & { version: number }
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    delete: {
+      params: GetReleaseParams
+      return: null
+    }
+    publish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'publish'>
+    }
+    unpublish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'unpublish'>
+    }
+    validate: {
+      params: GetReleaseParams
+      payload?: ReleaseValidatePayload
+      return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAction: {
+    get: {
+      params: GetReleaseParams & { actionId: string }
+      return: ReleaseActionProps<any>
+    }
+    query: {
+      params: GetReleaseParams
+      return: CollectionProp<ReleaseActionProps<any>>
+    }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -1126,6 +1195,7 @@ export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: 
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetOrganizationParams = { organizationId: string }
+export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }

@@ -24,6 +24,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import { ReleasePayload, ReleaseValidatePayload } from './entities/release'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -45,6 +46,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
   const { wrapBulkAction } = entities.bulkAction
+  const { wrapRelease, wrapReleaseCollection } = entities.release
+  const { wrapReleaseAction } = entities.releaseAction
 
   return {
     /**
@@ -1546,6 +1549,123 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           tagId: id,
         },
       }).then((data) => wrapTag(makeRequest, data))
+    },
+
+    getRelease(releaseId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    createRelease(payload: ReleasePayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    updateRelease({
+      releaseId,
+      payload,
+      version,
+    }: {
+      releaseId: string
+      payload: ReleasePayload
+      version: number
+    }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'update',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+        payload,
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    deleteRelease(releaseId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'delete',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+      })
+    },
+
+    publishRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'publish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapReleaseAction(makeRequest, data))
+    },
+
+    unpublishRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'unpublish',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapReleaseAction(makeRequest, data))
+    },
+
+    validateRelease({
+      releaseId,
+      payload,
+    }: {
+      releaseId: string
+      payload?: ReleaseValidatePayload
+    }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'validate',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+        payload,
+      }).then((data) => wrapReleaseAction(makeRequest, data))
     },
   }
 }
