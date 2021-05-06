@@ -16,6 +16,7 @@ import {
   isUpdatedTest,
   isDraftTest,
   isArchivedTest,
+  entityReferenceCollectionTest,
 } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'mocha'
 
@@ -168,5 +169,17 @@ describe('Entity Entry', () => {
       wrapperMethod: wrapEntry,
       actionMethod: 'getSnapshots',
     })
+  })
+
+  test('Entry references', async () => {
+    return entityReferenceCollectionTest(
+      (promise) => {
+        return {
+          makeRequest: setupMakeRequest(promise),
+          entityMock: cloneMock('entryReferencesCollection'),
+        }
+      },
+      { wrapperMethod: wrapEntryCollection }
+    )
   })
 })

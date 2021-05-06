@@ -10,7 +10,9 @@ import {
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
+  CollectionProp,
 } from '../common-types'
+import type { AssetProps } from '../entities/asset'
 import * as checks from '../plain/checks'
 import type { OpPatch } from 'json-patch'
 
@@ -22,6 +24,13 @@ export type EntryProps<T = KeyValueMap> = {
 }
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
+
+export interface EntryReferenceProps extends CollectionProp<EntryProps> {
+  includes?: {
+    Entry?: CollectionProp<EntryProps>
+    Asset?: CollectionProp<AssetProps>
+  }
+}
 
 type EntryApi = {
   /**
@@ -223,6 +232,11 @@ type EntryApi = {
    * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
    */
   isUpdated(): boolean
+
+  /**
+   * Recursively collects references of an entry and their descendants
+   */
+  references(maxDepth: number): Promise<EntryReferenceProps>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
@@ -352,6 +366,20 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
     isArchived: function isArchived() {
       const raw = this.toPlainObject() as EntryProps
       return checks.isArchived(raw)
+    },
+
+    references: function references(maxDepth: number) {
+      const raw = this.toPlainObject() as EntryProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'references',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+          entryId: raw.sys.id,
+          maxDepth: maxDepth,
+        },
+      }).then((response) => wrapEntryCollection(makeRequest, response))
     },
   }
 }
