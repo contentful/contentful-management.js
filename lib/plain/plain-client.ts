@@ -126,6 +126,7 @@ export const createPlainClient = (
       unarchive: wrap(wrapParams, 'Entry', 'unarchive'),
       create: wrap(wrapParams, 'Entry', 'create'),
       createWithId: wrap(wrapParams, 'Entry', 'createWithId'),
+      references: wrap(wrapParams, 'Entry', 'references'),
     },
     asset: {
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
