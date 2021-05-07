@@ -1,13 +1,17 @@
 import type { OpPatch } from 'json-patch'
 import { MakeRequest } from './common-types'
-import { Entry, EntryProps, wrapEntry } from './entities/entry'
-import { wrapSnapshot, wrapSnapshotCollection } from './entities/snapshot'
-import { CreateTaskProps, wrapTask, wrapTaskCollection } from './entities/task'
+import { Entry, EntryProps } from './entities/entry'
+import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
+import entities from './entities'
 
 export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
 
 export default function createEntryApi(makeRequest: MakeRequest) {
+  const { wrapEntry } = entities.entry
+  const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
+  const { wrapTask, wrapTaskCollection } = entities.task
+
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
 

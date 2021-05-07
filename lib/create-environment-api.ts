@@ -1,17 +1,11 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions, GetTagParams, MakeRequest } from './common-types'
-import entities from './entities'
+import { Stream } from 'stream'
 import type { QueryOptions } from './common-types'
-import type { EntryProps, CreateEntryProps } from './entities/entry'
+import { BasicQueryOptions, MakeRequest } from './common-types'
+import entities from './entities'
+import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
-import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
-import type { CreateLocaleProps } from './entities/locale'
-import type { CreateExtensionProps } from './entities/extension'
-import type { CreateAppInstallationProps } from './entities/app-installation'
-import { CreateTagProps, TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
-import { Stream } from 'stream'
-import { EnvironmentProps } from './entities/environment'
 import {
   BulkAction,
   BulkActionPayload,
@@ -19,6 +13,12 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import type { CreateEntryProps, EntryProps } from './entities/entry'
+import { EnvironmentProps } from './entities/environment'
+import type { CreateExtensionProps } from './entities/extension'
+import type { CreateLocaleProps } from './entities/locale'
+import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
