@@ -390,7 +390,7 @@ describe('Entry Api', () => {
     })
 
     test('Create, update, delete task', async () => {
-      const entry = environment.createEntry(contentType.sys.id, { fields: {} })
+      const entry = await environment.createEntry(contentType.sys.id, { fields: {} })
       const task = await entry.createTask({
         body: 'Body',
         status: 'active',
@@ -407,7 +407,7 @@ describe('Entry Api', () => {
     })
 
     test('Fetch tasks', async () => {
-      const entry = environment.createEntry(contentType.sys.id, { fields: {} })
+      const entry = await environment.createEntry(contentType.sys.id, { fields: {} })
       const {
         sys: { id },
       } = await entry.createTask({
