@@ -1,6 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
+  CollectionProp,
   DefaultElements,
   EntityMetaSysProps,
   KeyValueMap,
@@ -10,6 +11,7 @@ import {
 import { wrapCollection } from '../common-utils'
 import createEntryApi, { ContentfulEntryApi } from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
+import { AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -19,6 +21,17 @@ export type EntryProps<T = KeyValueMap> = {
 }
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
+
+export interface EntryReferenceProps extends CollectionProp<EntryProps> {
+  includes?: {
+    Entry?: CollectionProp<EntryProps>
+    Asset?: CollectionProp<AssetProps>
+  }
+}
+
+export type EntryReferenceOptionsProps = {
+  maxDepth?: number
+}
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
 

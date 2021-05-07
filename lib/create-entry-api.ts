@@ -1,15 +1,11 @@
 import type { OpPatch } from 'json-patch'
 import { MakeRequest } from './common-types'
-import { Entry, EntryProps } from './entities/entry'
+import { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
 import entities from './entities'
 
 export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
-
-export type EntryReferenceOptionsProps = {
-  maxDepth?: number
-}
 
 export default function createEntryApi(makeRequest: MakeRequest) {
   const { wrapEntry, wrapEntryCollection } = entities.entry
