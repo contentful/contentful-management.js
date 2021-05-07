@@ -86,7 +86,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
         .then((action) => wrapReleaseAction(makeRequest, action))
         .then((action) => action.waitProcessing())
     },
-    async validate(payload: { action: 'publish' | 'unpublish' }) {
+    async validate(payload: ReleaseValidatePayload) {
       const params = getParams(this)
 
       return makeRequest({

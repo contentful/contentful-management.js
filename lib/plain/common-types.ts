@@ -90,7 +90,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import { Release, ReleasePayload, ReleaseProps } from '../entities/release'
+import { Release, ReleasePayload, ReleaseProps, ReleaseValidatePayload } from '../entities/release'
 import { ReleaseActionProps } from '../entities/release-action'
 
 export type PlainClientAPI = {
@@ -397,7 +397,10 @@ export type PlainClientAPI = {
     delete(params: GetReleaseParams): Promise<null>
     publish(params: GetReleaseParams & { version: number }): Promise<ReleaseActionProps<'publish'>>
     unpublish(params: GetReleaseParams): Promise<ReleaseActionProps<'unpublish'>>
-    validate(params: GetReleaseParams): Promise<ReleaseActionProps<'validate'>>
+    validate(
+      params: GetReleaseParams,
+      data: ReleaseValidatePayload
+    ): Promise<ReleaseActionProps<'validate'>>
   }
   releaseAction: {
     get(params: GetReleaseParams & { actionId: string }): Promise<ReleaseActionProps>
