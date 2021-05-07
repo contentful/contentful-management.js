@@ -112,6 +112,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
 export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElements<ReleaseProps> {}
 
 /**
+ * Return a Release object enhanced with its own API helper functions.
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @return Wrapped Release data

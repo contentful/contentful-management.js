@@ -1,3 +1,4 @@
+import { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
@@ -15,16 +16,16 @@ import type { CreateLocaleProps } from './entities/locale'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
-import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
-import {
+import type {
   BulkAction,
   BulkActionPayload,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
-import { ReleasePayload, ReleaseValidatePayload } from './entities/release'
+import { wrapRelease, ReleasePayload, ReleaseValidatePayload } from './entities/release'
+import { wrapReleaseAction } from './entities/release-action'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -46,8 +47,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
   const { wrapBulkAction } = entities.bulkAction
-  const { wrapRelease, wrapReleaseCollection } = entities.release
-  const { wrapReleaseAction } = entities.releaseAction
 
   return {
     /**
@@ -1551,6 +1550,23 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapTag(makeRequest, data))
     },
 
+    /**
+     * Retrieves a Release by ID
+     * @param releaseId
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getRelease('<release_id>'))
+     * .then((release) => console.log(release))
+     * .catch(console.error)
+     * ```
+     */
     getRelease(releaseId: string) {
       const raw: EnvironmentProps = this.toPlainObject()
 
