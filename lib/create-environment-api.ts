@@ -1,15 +1,15 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicQueryOptions, GetTagParams, MakeRequest } from './common-types'
+import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { QueryOptions } from './common-types'
-import type { EntryProps, CreateEntryProps } from './entities/entry'
+import type { EntryProps, CreateEntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
 import type { CreateLocaleProps } from './entities/locale'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateAppInstallationProps } from './entities/app-installation'
-import { CreateTagProps, TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { Stream } from 'stream'
 import { EnvironmentProps } from './entities/environment'
 import {
@@ -792,7 +792,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getEntryReferences(entryId: string, options: { maxDepth: number }) {
+    getEntryReferences(entryId: string, options?: EntryReferenceOptionsProps) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Entry',
@@ -801,7 +801,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: entryId,
-          maxDepth: options.maxDepth,
+          maxDepth: options?.maxDepth,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response))
     },

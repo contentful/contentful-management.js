@@ -32,6 +32,10 @@ export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   }
 }
 
+export type EntryReferenceOptionsProps = {
+  maxDepth?: number
+}
+
 type EntryApi = {
   /**
    * Sends an update to the server with any changes made to the object's properties
@@ -236,7 +240,7 @@ type EntryApi = {
   /**
    * Recursively collects references of an entry and their descendants
    */
-  references({ maxDepth }: { maxDepth: number }): Promise<EntryReferenceProps>
+  references(options?: EntryReferenceOptionsProps): Promise<EntryReferenceProps>
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, EntryApi {}
@@ -368,7 +372,7 @@ function createEntryApi(makeRequest: MakeRequest): EntryApi {
       return checks.isArchived(raw)
     },
 
-    references: function references(options?: { maxDepth?: number }) {
+    references: function references(options?: EntryReferenceOptionsProps) {
       const raw = this.toPlainObject() as EntryProps
       return makeRequest({
         entityType: 'Entry',
