@@ -2,7 +2,12 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { QueryOptions } from './common-types'
-import type { EntryProps, CreateEntryProps, EntryReferenceOptionsProps } from './entities/entry'
+import type {
+  EntryProps,
+  CreateEntryProps,
+  EntryReferenceOptionsProps,
+  EntryReferenceProps,
+} from './entities/entry'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type { CreateContentTypeProps, ContentTypeProps } from './entities/content-type'
@@ -803,7 +808,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           entryId: entryId,
           maxDepth: options?.maxDepth,
         },
-      }).then((response) => wrapEntryCollection(makeRequest, response))
+      }).then((response) => wrapEntryCollection(makeRequest, response) as EntryReferenceProps)
     },
 
     /**
