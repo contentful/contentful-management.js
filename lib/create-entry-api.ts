@@ -7,8 +7,12 @@ import entities from './entities'
 
 export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
 
+export type EntryReferenceOptionsProps = {
+  maxDepth?: number
+}
+
 export default function createEntryApi(makeRequest: MakeRequest) {
-  const { wrapEntry } = entities.entry
+  const { wrapEntry, wrapEntryCollection } = entities.entry
   const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
   const { wrapTask, wrapTaskCollection } = entities.task
 
@@ -377,6 +381,23 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     isArchived: function isArchived() {
       const raw = this.toPlainObject() as EntryProps
       return checks.isArchived(raw)
+    },
+
+    /**
+     * Recursively collects references of an entry and their descendants
+     */
+    references: function references(options?: EntryReferenceOptionsProps) {
+      const raw = this.toPlainObject() as EntryProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'references',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.environment.sys.id,
+          entryId: raw.sys.id,
+          maxDepth: options?.maxDepth,
+        },
+      }).then((response) => wrapEntryCollection(makeRequest, response))
     },
   }
 }

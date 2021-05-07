@@ -13,7 +13,7 @@ import {
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import { EditorInterfaceProps } from './entities/editor-interface'
-import { CreateEntryProps, EntryProps } from './entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
@@ -284,6 +284,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Entry', 'unarchive', UA>): MRReturn<'Entry', 'unarchive'>
   (opts: MROpts<'Entry', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Entry', 'createWithId', UA>): MRReturn<'Entry', 'createWithId'>
+  (opts: MROpts<'Entry', 'references', UA>): MRReturn<'Entry', 'references'>
 
   (opts: MROpts<'Extension', 'get', UA>): MRReturn<'Extension', 'get'>
   (opts: MROpts<'Extension', 'getMany', UA>): MRReturn<'Extension', 'getMany'>
@@ -753,6 +754,10 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
+    }
+    references: {
+      params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
+      return: EntryReferenceProps
     }
   }
   Extension: {

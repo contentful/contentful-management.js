@@ -2,6 +2,7 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import { Stream } from 'stream'
 import type { QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
+import { EntryReferenceOptionsProps } from './create-entry-api'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
@@ -768,6 +769,42 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((response) => wrapEntry(makeRequest, response))
+    },
+
+    /**
+     * Get entry references
+     * @param entryId - Entry ID
+     * @param {Object} options.maxDepth - Level of the entry descendants from 1 up to 10 maximum
+     * @returns Promise of Entry references
+     * @example ```javascript
+     * const contentful = require('contentful-management');
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<contentful_management_api_key>
+     * })
+     *
+     * // Get entry references
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntryReferences('<entry_id>', {maxDepth: number}))
+     * .then((entry) => console.log(entry.includes))
+     * // or
+     * .then((environment) => environment.getEntry('<entry_id>')).then((entry) => entry.references({maxDepth: number}))
+     * .catch(console.error)
+     * ```
+     */
+    getEntryReferences(entryId: string, options?: EntryReferenceOptionsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'references',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          entryId: entryId,
+          maxDepth: options?.maxDepth,
+        },
+      }).then((response) => wrapEntryCollection(makeRequest, response))
     },
 
     /**

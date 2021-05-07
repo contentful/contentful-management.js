@@ -544,6 +544,22 @@ export const scheduledActionCollectionMock = {
   items: [cloneDeep(scheduledActionMock)],
 }
 
+const entryWithReferencesMock = {
+  sys: {
+    type: 'Array',
+  },
+  items: [entryMock],
+}
+
+const entryReferencesCollectionMock = {
+  sys: {
+    type: 'Array',
+  },
+  limit: 1,
+  items: [cloneDeep(entryWithReferencesMock)],
+  includes: [makeLink('Entry', 'entry-1'), makeLink('Entry', 'entry-2')],
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appBundle: appBundleMock,
@@ -559,6 +575,8 @@ const mocks = {
   editorInterface: editorInterfaceMock,
   entry: entryMock,
   entryWithTags: entryMockWithTags,
+  entryWithReferences: entryWithReferencesMock,
+  entryReferencesCollection: entryReferencesCollectionMock,
   environmentAlias: environmentAliasMock,
   error: errorMock,
   extension: extensionMock,
@@ -750,6 +768,8 @@ export {
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
+  entryWithReferencesMock,
+  entryReferencesCollectionMock,
   extensionMock,
   assetMock,
   assetWithFilesMock,

@@ -5,5 +5,6 @@ export const TestDefaults = {
   environmentId: 'master',
   entry: {
     testEntryId: '5ETMRzkl9KM4omyMwKAOki',
+    testEntryReferenceId: '3ZgkmNQJxGjO9TUcnDgNQC',
   },
 }

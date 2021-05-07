@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { describe, test, afterEach } from 'mocha'
+import { afterEach, describe, test } from 'mocha'
 import createEntryApi, {
   __RewireAPI__ as createEntryApiRewireApi,
 } from '../../lib/create-entry-api'
-import { wrapEntry } from './../../lib/entities/entry'
+import { wrapEntry, wrapEntryCollection } from './../../lib/entities/entry'
 import { cloneMock, setupEntitiesMock, taskMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
@@ -12,6 +12,7 @@ import {
   entityDeleteTest,
   entityPatchTest,
   entityPublishTest,
+  entityReferenceCollectionTest,
   entityUpdateTest,
   failingActionTest,
   failingVersionActionTest,
@@ -170,7 +171,19 @@ describe('createEntryApi', () => {
     })
   })
 
-  test('API call createTask', async () => {
+  test('Entry references', async () => {
+    return entityReferenceCollectionTest(
+      (promise) => {
+        return {
+          makeRequest: setupMakeRequest(promise),
+          entityMock: cloneMock('entryReferencesCollection'),
+        }
+      },
+      { wrapperMethod: wrapEntryCollection }
+    )
+  })
+
+  test('Entry createTask', async () => {
     const entitiesMock = setupEntitiesMock(createEntryApiRewireApi)
     entitiesMock.task.wrapTask.returns(taskMock)
 
@@ -181,7 +194,7 @@ describe('createEntryApi', () => {
     })
   })
 
-  test('API call createTask fails', async () => {
+  test('Entry createTask fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createTask',
     })
