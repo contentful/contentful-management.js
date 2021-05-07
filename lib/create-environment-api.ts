@@ -787,7 +787,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.getEntryReferences('<entry_id>', {maxDepth: number}))
      * .then((entry) => console.log(entry.includes))
-     * // Or
+     * // or
      * .then((environment) => environment.getEntry('<entry_id>')).then((entry) => entry.references({maxDepth: number}))
      * .catch(console.error)
      * ```
