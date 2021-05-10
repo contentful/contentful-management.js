@@ -14,8 +14,12 @@ import {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type { CreateEntryProps, EntryProps } from './entities/entry'
-import { EntryReferenceOptionsProps } from './entities/entry'
+import type {
+  CreateEntryProps,
+  EntryProps,
+  EntryReferenceOptionsProps,
+  EntryReferenceProps,
+} from './entities/entry'
 import { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
@@ -804,7 +808,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           entryId: entryId,
           maxDepth: options?.maxDepth,
         },
-      }).then((response) => wrapEntryCollection(makeRequest, response))
+      }).then((response) => wrapEntryCollection(makeRequest, response) as EntryReferenceProps)
     },
 
     /**
