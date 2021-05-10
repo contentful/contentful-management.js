@@ -21,12 +21,13 @@ describe('Task Api', () => {
       assignedTo: { sys: { id: 'user-id', linkType: 'User', type: 'Link' } },
     })
 
-    const tasks = await entry.getTasks()
-    expect(tasks).lengthOf(1)
-    expect(tasks[0].body).to.be('Body')
+    const response = await entry.getTasks()
+    expect(response.items).to.be.an('array')
+    expect(response.items).lengthOf(1)
+    expect(response.items[0].body).to.be('Body')
 
     const task = await entry.getTask(id)
-    expect(task.body).to.be('Body')
+    expect(task.body).to.eq('Body')
     await task.delete()
   })
 
@@ -37,11 +38,11 @@ describe('Task Api', () => {
       assignedTo: { sys: { id: 'user-id', linkType: 'User', type: 'Link' } },
     })
 
-    expect(task.body).to.be('Body', 'body is set')
+    expect(task.body).to.eq('Body', 'body is set')
     task.body = 'new body'
 
     const updatedBody = await task.update()
-    expect(updatedBody).to.be('new body')
+    expect(updatedBody).to.eq('new body')
 
     await updatedBody.delete()
   })
