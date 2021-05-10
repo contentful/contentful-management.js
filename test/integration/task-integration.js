@@ -18,7 +18,7 @@ describe('Task Api', () => {
     } = await entry.createTask({
       body: 'Body',
       status: 'active',
-      assignedTo: { sys: { id: 'user-id', type: 'User' } },
+      assignedTo: { sys: { id: 'user-id', linkType: 'User', type: 'Link' } },
     })
 
     const tasks = await entry.getTasks()
@@ -34,7 +34,7 @@ describe('Task Api', () => {
     const task = await entry.createTask({
       body: 'Body',
       status: 'active',
-      assignedTo: { sys: { id: 'user-id', type: 'User' } },
+      assignedTo: { sys: { id: 'user-id', linkType: 'User', type: 'Link' } },
     })
 
     expect(task.body).to.be('Body', 'body is set')
