@@ -41,7 +41,7 @@ describe('Task Api', () => {
     task.body = 'new body'
 
     const updatedBody = await task.update()
-    expect(updatedBody).to.eq('new body')
+    expect(updatedBody.body).to.eq('new body')
 
     await updatedBody.delete()
   })
