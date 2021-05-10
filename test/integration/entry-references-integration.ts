@@ -17,12 +17,11 @@ describe('Entry References', async function () {
     testEnvironment = await testSpace.getEnvironment('master')
   })
 
-  describe.only('Environment Scoped', () => {
+  describe('Environment Scoped', () => {
     let entryWithReferences
     before(async () => {
-      entryWithReferences = await testEnvironment.getEntryReferences(ENTRY_WITH_REFERENCES_ID, 2)
-      console.dir(entryWithReferences, {
-        depth: 6,
+      entryWithReferences = await testEnvironment.getEntryReferences(ENTRY_WITH_REFERENCES_ID, {
+        maxDepth: 2,
       })
     })
 
@@ -38,7 +37,9 @@ describe('Entry References', async function () {
     })
 
     test('Should not return any references', async () => {
-      const noEntryReferences = await testEnvironment.getEntryReferences(WRONG_ENTRY_ID, 2)
+      const noEntryReferences = await testEnvironment.getEntryReferences(WRONG_ENTRY_ID, {
+        maxDepth: 2,
+      })
       expect(noEntryReferences.items).to.be.empty
     })
   })
