@@ -388,41 +388,5 @@ describe('Entry Api', () => {
           return environment.deleteEntry('entryid')
         })
     })
-
-    test('Create, update, delete task', async () => {
-      const entry = await environment.createEntry(contentType.sys.id, { fields: {} })
-      const task = await entry.createTask({
-        body: 'Body',
-        status: 'active',
-        assignedTo: { sys: { id: 'user-id', type: 'User' } },
-      })
-
-      expect(task.body).to.be('Body', 'body is set')
-      task.body = 'new body'
-
-      const updatedBody = await task.update()
-      expect(updatedBody).to.be('new body')
-
-      await updatedBody.delete()
-    })
-
-    test('Fetch tasks', async () => {
-      const entry = await environment.createEntry(contentType.sys.id, { fields: {} })
-      const {
-        sys: { id },
-      } = await entry.createTask({
-        body: 'Body',
-        status: 'active',
-        assignedTo: { sys: { id: 'user-id', type: 'User' } },
-      })
-
-      const tasks = await entry.getTasks()
-      expect(tasks).lengthOf(1)
-      expect(tasks[0].body).to.be('Body')
-
-      const task = await entry.getTask(id)
-      expect(task.body).to.be('Body')
-      await task.delete()
-    })
   })
 })
