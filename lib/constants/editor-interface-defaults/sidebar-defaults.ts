@@ -1,10 +1,4 @@
-enum WidgetNamespace {
-  BUILTIN = "builtin",
-  EXTENSION = "extension",
-  SIDEBAR_BUILTIN = "sidebar-builtin",
-  APP = "app",
-  EDITOR_BUILTIN = "editor-builtin"
-}
+import { WidgetNamespace } from './types'
 
 const SidebarWidgetTypes = {
   USERS: 'users-widget',
@@ -78,7 +72,7 @@ const Users = {
   description: 'Built-in - Displays users on the same entry.',
 };
 
-export const EntryConfiguration = [
+export const SidebarEntryConfiguration = [
   Publication,
   Releases,
   Tasks,
@@ -89,4 +83,4 @@ export const EntryConfiguration = [
   Users,
 ];
 
-export const AssetConfiguration = [Publication, Releases, Links, Translation, Users];
+export const SidebarAssetConfiguration = [Publication, Releases, Links, Translation, Users];
