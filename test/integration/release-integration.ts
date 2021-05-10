@@ -8,7 +8,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe.only('Release Api', async function () {
+describe('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -272,7 +272,7 @@ describe.only('Release Api', async function () {
         version: createdRelease.sys.version,
       })
 
-      const releaseActionCompleted = await waitForReleaseActionProcessing({
+      const releaseActionCompleted = await waitForReleaseActionProcessing<'publish'>({
         ...defaultParams,
         plainClient,
         releaseId: createdRelease.sys.id,
@@ -305,7 +305,7 @@ describe.only('Release Api', async function () {
         releaseId: createdRelease.sys.id,
       })
 
-      const releaseActionCompleted = await waitForReleaseActionProcessing({
+      const releaseActionCompleted = await waitForReleaseActionProcessing<'validate'>({
         ...defaultParams,
         plainClient,
         releaseId: createdRelease.sys.id,
@@ -339,7 +339,7 @@ describe.only('Release Api', async function () {
         version: createdRelease.sys.version,
       })
 
-      const releaseActionCompleted = await waitForReleaseActionProcessing({
+      const releaseActionCompleted = await waitForReleaseActionProcessing<'unpublish'>({
         ...defaultParams,
         plainClient,
         releaseId: createdRelease.sys.id,

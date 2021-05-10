@@ -59,7 +59,7 @@ describe('BulkActions Api', async function () {
 
   describe('Write', () => {
     test('Publish BulkAction', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
 
       const createdBulkAction = await testEnvironment.createPublishBulkAction({
         entities: {
@@ -75,7 +75,7 @@ describe('BulkActions Api', async function () {
     })
 
     test('Publish BulkAction with wrong payload', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
 
       // The publish action relies on the Link object having a `version` property
       try {
@@ -141,7 +141,9 @@ describe('BulkActions Api', async function () {
 
     test('bulkAction.publish', async () => {
       const plainClient = getPlainClient(defaultParams)
-      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+      const entry = await plainClient.entry.get({
+        entryId: TestDefaults.entry.testEntryReferenceId,
+      })
 
       const bulkActionInProgress = await plainClient.bulkAction.publish(defaultParams, {
         entities: {
@@ -254,7 +256,7 @@ describe('BulkActions Api', async function () {
           throwOnFailedExecution: true,
         })
       } catch (error: any) {
-        expect(error.message).to.eql('BulkAction failed to execute.')
+        expect(error.message).to.eql('Action failed to execute.')
         expect(error.bulkAction.sys.status).to.eql('failed')
       }
     })

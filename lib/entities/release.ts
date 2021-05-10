@@ -11,6 +11,7 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
+import { ActionProcessingOptions } from '../methods/action'
 import { ReleaseActionProps, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
@@ -64,7 +65,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
   }
 
   return {
-    async publish() {
+    async publish(options?: ActionProcessingOptions) {
       const params = getParams(this)
 
       return makeRequest({
@@ -73,9 +74,9 @@ function createReleaseApi(makeRequest: MakeRequest) {
         params,
       })
         .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing())
+        .then((action) => action.waitProcessing(options))
     },
-    async unpublish() {
+    async unpublish(options?: ActionProcessingOptions) {
       const params = getParams(this)
 
       return makeRequest({
@@ -84,9 +85,9 @@ function createReleaseApi(makeRequest: MakeRequest) {
         params,
       })
         .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing())
+        .then((action) => action.waitProcessing(options))
     },
-    async validate(payload: ReleaseValidatePayload) {
+    async validate(payload?: ReleaseValidatePayload, options?: ActionProcessingOptions) {
       const params = getParams(this)
 
       return makeRequest({
@@ -96,7 +97,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
         payload,
       })
         .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing())
+        .then((action) => action.waitProcessing(options))
     },
     async delete() {
       const params = getParams(this)
