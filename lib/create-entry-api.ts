@@ -333,7 +333,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
      * .then((environment) => environment.getEntry('<entry-id>'))
-     * .then((entry) => entry.getAll())
+     * .then((entry) => entry.getTasks())
      * .then((tasks) => console.log(tasks))
      * .catch(console.error)
      * ```
@@ -345,6 +345,35 @@ export default function createEntryApi(makeRequest: MakeRequest) {
         action: 'getAll',
         params,
       }).then((data) => wrapTaskCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a task of an entry
+     * @returns
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntry('<entry-id>'))
+     * .then((entry) => entry.getTask(`<task-id>`))
+     * .then((task) => console.log(task))
+     * .catch(console.error)
+     * ```
+     */
+    getTask: function (id: string) {
+      const { params } = getParams(this)
+      return makeRequest({
+        entityType: 'Task',
+        action: 'get',
+        params: {
+          ...params,
+          taskId: id,
+        },
+      }).then((data) => wrapTask(makeRequest, data))
     },
 
     /**
