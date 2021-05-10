@@ -55,7 +55,7 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
       }).then((releaseAction) => wrapReleaseAction(makeRequest, releaseAction))
     },
 
-    /** Waits for a bulkAction to complete */
+    /** Waits for a Release Action to complete */
     async waitProcessing(options?: ReleaseActionProcessingOptions): Promise<ReleaseActionProps> {
       return pollReleaseActionStatus(async () => this.get(), options)
     },

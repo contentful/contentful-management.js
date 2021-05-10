@@ -3,11 +3,12 @@ import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
+import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe('Release Api', async function () {
+describe.only('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -241,6 +242,76 @@ describe('Release Api', async function () {
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
+    })
+  })
+
+  describe('PlainClient', () => {
+    const defaultParams = {
+      environmentId: TestDefaults.environmentId,
+      spaceId: TestDefaults.spaceId,
+    }
+
+    test('release.publish', async () => {
+      const plainClient = getPlainClient(defaultParams)
+      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+      const createdRelease = await plainClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
+
+      const releaseAction = await plainClient.release.publish({
+        releaseId: createdRelease.sys.id,
+        version: createdRelease.sys.version,
+      })
+
+      const releaseActionCompleted = await waitForReleaseActionProcessing({
+        ...defaultParams,
+        plainClient,
+        releaseId: createdRelease.sys.id,
+        actionId: releaseAction.sys.id,
+      })
+
+      expect(releaseActionCompleted.sys.status).to.eql('succeeded')
+
+      // cleanup
+      await plainClient.release.delete({
+        releaseId: createdRelease.sys.id,
+      })
+    })
+
+    test('release.validate', async () => {
+      const plainClient = getPlainClient(defaultParams)
+      const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+      const createdRelease = await plainClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', entry.sys.id)],
+        },
+      })
+
+      const releaseAction = await plainClient.release.validate({
+        releaseId: createdRelease.sys.id,
+      })
+
+      const releaseActionCompleted = await waitForReleaseActionProcessing({
+        ...defaultParams,
+        plainClient,
+        releaseId: createdRelease.sys.id,
+        actionId: releaseAction.sys.id,
+      })
+
+      expect(releaseActionCompleted.sys.status).to.eql('succeeded')
+
+      // cleanup
+      await plainClient.release.delete({
+        releaseId: createdRelease.sys.id,
+      })
     })
   })
 })

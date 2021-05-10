@@ -90,7 +90,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import { Release, ReleasePayload, ReleaseProps, ReleaseValidatePayload } from '../entities/release'
+import { ReleasePayload, ReleaseProps, ReleaseValidatePayload } from '../entities/release'
 import { ReleaseActionProps } from '../entities/release-action'
 
 export type PlainClientAPI = {
@@ -387,19 +387,26 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UsageProps>>
   }
   release: {
-    get(params: GetReleaseParams): Promise<ReleaseProps>
-    query(params: GetSpaceEnvironmentParams): Promise<CollectionProp<ReleaseProps>>
-    create(params: GetSpaceEnvironmentParams, data: ReleasePayload): Promise<ReleaseProps>
-    update(
-      params: GetReleaseParams & { version: number },
+    get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
+    query(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>
+    ): Promise<CollectionProp<ReleaseProps>>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: ReleasePayload
     ): Promise<ReleaseProps>
-    delete(params: GetReleaseParams): Promise<null>
-    publish(params: GetReleaseParams & { version: number }): Promise<ReleaseActionProps<'publish'>>
-    unpublish(params: GetReleaseParams): Promise<ReleaseActionProps<'unpublish'>>
+    update(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<null>
+    publish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'publish'>>
+    unpublish(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseActionProps<'unpublish'>>
     validate(
-      params: GetReleaseParams,
-      data: ReleaseValidatePayload
+      params: OptionalDefaults<GetReleaseParams>,
+      data?: ReleaseValidatePayload
     ): Promise<ReleaseActionProps<'validate'>>
   }
   releaseAction: {
