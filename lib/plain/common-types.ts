@@ -403,7 +403,9 @@ export type PlainClientAPI = {
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'publish'>>
-    unpublish(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseActionProps<'unpublish'>>
+    unpublish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'unpublish'>>
     validate(
       params: OptionalDefaults<GetReleaseParams>,
       data?: ReleaseValidatePayload
