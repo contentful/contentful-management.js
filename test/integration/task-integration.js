@@ -23,8 +23,7 @@ describe('Task Api', () => {
 
     const response = await entry.getTasks()
     expect(response.items).to.be.an('array')
-    expect(response.items).lengthOf(1)
-    expect(response.items[0].body).to.be('Body')
+    expect(response.items.map((item) => item.sys.id)).to.include(id)
 
     const task = await entry.getTask(id)
     expect(task.body).to.eq('Body')
