@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
-import { ReleasePayload, ReleaseValidatePayload } from '../../../entities/release'
+import { ReleasePayload } from '../../../entities/release'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -60,52 +60,5 @@ export const del: RestEndpoint<'Release', 'delete'> = (
   return raw.del(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}`
-  )
-}
-
-export const publish: RestEndpoint<'Release', 'publish'> = (
-  http: AxiosInstance,
-  params: GetReleaseParams & { version: number },
-  headers?: Record<string, unknown>
-) => {
-  return raw.put(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/published`,
-    null,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        ...headers,
-      },
-    }
-  )
-}
-
-export const unpublish: RestEndpoint<'Release', 'unpublish'> = (
-  http: AxiosInstance,
-  params: GetReleaseParams & { version: number },
-  headers?: Record<string, unknown>
-) => {
-  return raw.del(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/published`,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        ...headers,
-      },
-    }
-  )
-}
-
-export const validate: RestEndpoint<'Release', 'validate'> = (
-  http: AxiosInstance,
-  params: GetReleaseParams,
-  payload?: ReleaseValidatePayload
-) => {
-  return raw.post(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/validate`,
-    payload
   )
 }

@@ -24,8 +24,7 @@ import type {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
-import { wrapRelease, ReleasePayload, ReleaseValidatePayload } from './entities/release'
-import { wrapReleaseAction } from './entities/release-action'
+import { wrapRelease, ReleasePayload } from './entities/release'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -1711,114 +1710,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           releaseId,
         },
       })
-    },
-
-    /**
-     * Publishes all Entities contained in a Release.
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be published
-     *
-     * @returns Promise containing a wrapped Release, that has helper methods within.
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.publishRelease({ releaseId: '<release_id>', version: 1 })
-     * .catch(console.error)
-     * ```
-     */
-    publishRelease({ releaseId, version }: { releaseId: string; version: number }) {
-      const raw: EnvironmentProps = this.toPlainObject()
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'publish',
-        params: {
-          spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
-          releaseId,
-          version,
-        },
-      }).then((data) => wrapReleaseAction(makeRequest, data))
-    },
-
-    /**
-     * Unpublishes all Entities contained in a Release.
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be published
-     *
-     * @returns Promise containing a wrapped Release, that has helper methods within.
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.unpublishRelease({ releaseId: '<release_id>', version: 1 })
-     * .catch(console.error)
-     * ```
-     */
-    unpublishRelease({ releaseId, version }: { releaseId: string; version: number }) {
-      const raw: EnvironmentProps = this.toPlainObject()
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'unpublish',
-        params: {
-          spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
-          releaseId,
-          version,
-        },
-      }).then((data) => wrapReleaseAction(makeRequest, data))
-    },
-
-    /**
-     * Validates all Entities contained in a Release against an action (publish or unpublish)
-     * @param options.releaseId the ID of the release
-     * @param options.payload (optional) the type of action to be validated against
-     *
-     * @returns Promise containing a wrapped Release, that has helper methods within.
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.validateRelease({ releaseId: '<release_id>', payload: { action: 'unpublish' } })
-     * .catch(console.error)
-     * ```
-     */
-    validateRelease({
-      releaseId,
-      payload,
-    }: {
-      releaseId: string
-      payload?: ReleaseValidatePayload
-    }) {
-      const raw: EnvironmentProps = this.toPlainObject()
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'validate',
-        params: {
-          spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
-          releaseId,
-        },
-        payload,
-      }).then((data) => wrapReleaseAction(makeRequest, data))
     },
   }
 }

@@ -13,11 +13,11 @@ interface Action extends Record<string, any> {
 }
 
 export class ActionProcessingError extends Error {
-  public releaseAction?: Action
+  public action?: Action
 
-  constructor(message: string, releaseAction?: Action) {
+  constructor(message: string, action?: Action) {
     super(message)
-    this.releaseAction = releaseAction
+    this.action = action
     this.name = this.constructor.name
   }
 }
@@ -40,7 +40,7 @@ export type ActionProcessingOptions = {
    * */
   initialDelayMs?: number
   /**
-   * Throws an error if the ReleaseAction does not complete with a successful (succeeded) status.
+   * Throws an error if the Action does not complete with a successful (succeeded) status.
    * @default true
    */
   throwOnFailedExecution?: boolean
@@ -66,7 +66,7 @@ export async function pollActionStatus<T extends Action = any>(
   const initialDelayMs = options?.initialDelayMs ?? DEFAULT_INITIAL_DELAY_MS
   const throwOnFailedExecution = options?.throwOnFailedExecution ?? true
 
-  // Initial delay for short-running ReleaseActions
+  // Initial delay for short-running Actions
   await sleep(initialDelayMs)
 
   while (retryCount < maxRetries && !done) {

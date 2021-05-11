@@ -11,8 +11,6 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionProcessingOptions } from '../methods/action'
-import { ReleaseActionProps, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
@@ -44,10 +42,6 @@ export interface ReleaseValidatePayload {
 }
 
 export interface ReleaseApiMethods {
-  /** Attempts to publish a Release */
-  publish(): Promise<ReleaseActionProps>
-  unpublish(): Promise<ReleaseActionProps>
-  validate(payload?: ReleaseValidatePayload): Promise<ReleaseActionProps>
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<null>
 }
@@ -65,40 +59,6 @@ function createReleaseApi(makeRequest: MakeRequest) {
   }
 
   return {
-    async publish(options?: ActionProcessingOptions) {
-      const params = getParams(this)
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'publish',
-        params,
-      })
-        .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing(options))
-    },
-    async unpublish(options?: ActionProcessingOptions) {
-      const params = getParams(this)
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'unpublish',
-        params,
-      })
-        .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing(options))
-    },
-    async validate(payload?: ReleaseValidatePayload, options?: ActionProcessingOptions) {
-      const params = getParams(this)
-
-      return makeRequest({
-        entityType: 'Release',
-        action: 'validate',
-        params,
-        payload,
-      })
-        .then((action) => wrapReleaseAction(makeRequest, action))
-        .then((action) => action.waitProcessing(options))
-    },
     async delete() {
       const params = getParams(this)
       return makeRequest({
