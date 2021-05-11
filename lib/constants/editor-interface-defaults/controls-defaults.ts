@@ -22,12 +22,7 @@ const INTERNAL_TO_API = {
   Assets: { type: 'Array', items: { type: 'Link', linkType: 'Asset' } },
 } as const;
 
-export const FIELD_TYPES = Object.keys(INTERNAL_TO_API);
-
-// All field types that can be used as Entry Editor controls can be used
-// for UI Extensions too. We don't support the `File` field type yet
-// because it's impossible to customize controls in the Asset Editor.
-export const EXTENSION_FIELD_TYPES = FIELD_TYPES.filter((type) => type !== 'File');
+export const FIELD_TYPES = Object.keys(INTERNAL_TO_API) as Array<keyof typeof INTERNAL_TO_API>
 
 /**
  * Returns an internal string identifier for an API field object.
@@ -52,8 +47,7 @@ export const EXTENSION_FIELD_TYPES = FIELD_TYPES.filter((type) => type !== 'File
  * - File
  */
 export function toInternalFieldType(api: any) {
-  const keys = Object.keys(INTERNAL_TO_API) as Array<keyof typeof INTERNAL_TO_API>
-  return keys.find((key ) => {
+  return FIELD_TYPES.find((key ) => {
     const internalApi = INTERNAL_TO_API[key]
     const stripped = {
       type: api.type,
