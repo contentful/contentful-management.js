@@ -20,13 +20,16 @@ type Entity = 'Entry' | 'Asset'
 export interface ReleaseQueryOptions {
   /** Find releases filtered by the Entity type (Asset, Entry) */
   'entities.sys.linkType'?: string
-  /** Find releases by using comma-separated list of Entities Link Ids */
+  /** Find releases containing the specified, comma-separated entities. Requires `entities.sys.linkType` */
   'entities.sys.id'?: string
-  /** Find releases by using comma-separated list of Ids */
+  /** Find releases by using a comma-separated list of Ids */
   'sys.id'?: string
-  /** If present, will return results based of a pagination cursor */
+  /** If present, will return results based on a pagination cursor */
   pageNext?: string
-  /** Limit how many records are returned in the result */
+  /**
+   * Limit how many records are returned in the result
+   * @default 100
+   * */
   limit?: number
 }
 
@@ -55,7 +58,7 @@ export interface ReleasePayload extends MakeRequestPayload {
 }
 
 export interface ReleaseValidatePayload {
-  action: 'publish' | 'unpublish'
+  action: 'publish'
 }
 
 export interface ReleaseApiMethods {
