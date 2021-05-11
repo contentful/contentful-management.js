@@ -49,6 +49,42 @@ describe('Release Api', async function () {
         })
       }
     })
+
+    test('Get Releases', async () => {
+      // Creates 2 releases, 1 empty and 1 containing a test entry
+      const [release1, release2] = await Promise.all([
+        testEnvironment.createRelease({
+          title: 'First release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [],
+          },
+        }),
+        testEnvironment.createRelease({
+          title: 'Second release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          },
+        }),
+      ])
+
+      const queryLimit = 1
+      const queryResult = await testEnvironment.getReleases({
+        'entities.sys.id': TestDefaults.entry.testEntryReferenceId,
+        limit: queryLimit,
+      })
+
+      // Returns the filtered results based on the limit
+      expect(queryResult.items.length).to.eql(queryLimit)
+      expect(queryResult).to.have.property('pages')
+
+      // cleanup
+      await Promise.all([
+        testEnvironment.deleteRelease(release1.sys.id),
+        testEnvironment.deleteRelease(release2.sys.id),
+      ])
+    })
   })
 
   describe('Write', () => {

@@ -24,7 +24,12 @@ import type {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
-import { wrapRelease, ReleasePayload } from './entities/release'
+import {
+  wrapRelease,
+  ReleasePayload,
+  wrapReleaseCollection,
+  ReleaseQueryOptions,
+} from './entities/release'
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -1579,6 +1584,38 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           releaseId,
         },
       }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Gets a Collection of Releases,
+     * @param {ReleaseQueryOptions} query filtering options for the collection result
+     * @returns Promise containing a wrapped Release Collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getReleases({ 'entities.sys.id': '<asset_id>,<entry_id>' }))
+     * .then((releases) => console.log(releases))
+     * .catch(console.error)
+     * ```
+     */
+    getReleases(query?: ReleaseQueryOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'query',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((data) => wrapReleaseCollection(makeRequest, data))
     },
 
     /**

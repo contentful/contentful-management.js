@@ -59,7 +59,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
-import { ReleasePayload, ReleaseProps } from './entities/release'
+import { ReleasePayload, ReleaseProps, ReleaseQueryOptions } from './entities/release'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -85,11 +85,9 @@ export interface VersionedLink<T extends string> {
   }
 }
 
-export interface EntityPayload<T> {
-  entities: {
-    sys: { type: 'Array' }
-    items: T[]
-  }
+export interface BaseCollection<T> {
+  sys: { type: 'Array' }
+  items: T[]
 }
 
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
@@ -859,7 +857,7 @@ export type MRActions = {
       return: ReleaseProps
     }
     query: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
       return: CollectionProp<ReleaseProps>
     }
     create: {

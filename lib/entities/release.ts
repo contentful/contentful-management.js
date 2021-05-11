@@ -2,18 +2,33 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
+  BaseCollection,
   DefaultElements,
-  EntityPayload,
   ISO8601Timestamp,
   Link,
   MakeRequest,
   MakeRequestPayload,
+  Collection,
+  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
+
+export interface ReleaseQueryOptions {
+  /** Find releases filtered by the Entity type (Asset, Entry) */
+  'entities.sys.linkType'?: string
+  /** Find releases by using comma-separated list of Entities Link Ids */
+  'entities.sys.id'?: string
+  /** Find releases by using comma-separated list of Ids */
+  'sys.id'?: string
+  /** If present, will return results based of a pagination cursor */
+  pageNext?: string
+  /** Limit how many records are returned in the result */
+  limit?: number
+}
 
 export type ReleaseSysProps = {
   id: string
@@ -28,13 +43,15 @@ export type ReleaseSysProps = {
 }
 
 /** The object returned by the Releases API */
-export interface ReleaseProps extends EntityPayload<Link<Entity>> {
+export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
+  entities: BaseCollection<Link<Entity>>
 }
 
-export interface ReleasePayload extends EntityPayload<Link<Entity>>, MakeRequestPayload {
+export interface ReleasePayload extends MakeRequestPayload {
   title: string
+  entities: BaseCollection<Link<Entity>>
 }
 
 export interface ReleaseValidatePayload {
@@ -84,4 +101,7 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   return freezeSys(releaseWithApiMethods)
 }
 
-export const wrapReleaseCollection = wrapCollection(wrapRelease)
+export const wrapReleaseCollection: (
+  makeRequest: MakeRequest,
+  data: CollectionProp<ReleaseProps>
+) => Collection<Release, ReleaseProps> & { pages?: { next: string } } = wrapCollection(wrapRelease)

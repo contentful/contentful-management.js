@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
-import { ReleasePayload } from '../../../entities/release'
+import { ReleasePayload, ReleaseQueryOptions } from '../../../entities/release'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -17,9 +17,11 @@ export const get: RestEndpoint<'Release', 'get'> = (
 
 export const query: RestEndpoint<'Release', 'query'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams
+  params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
 ) => {
-  return raw.get(http, `/spaces/${params.spaceId}/environments/${params.environmentId}/releases`)
+  return raw.get(http, `/spaces/${params.spaceId}/environments/${params.environmentId}/releases`, {
+    params: params.query,
+  })
 }
 
 export const create: RestEndpoint<'Release', 'create'> = (

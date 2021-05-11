@@ -90,7 +90,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import { ReleasePayload, ReleaseProps } from '../entities/release'
+import { ReleasePayload, ReleaseProps, ReleaseQueryOptions } from '../entities/release'
 
 export type PlainClientAPI = {
   raw: {
@@ -388,7 +388,7 @@ export type PlainClientAPI = {
   release: {
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
     ): Promise<CollectionProp<ReleaseProps>>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
