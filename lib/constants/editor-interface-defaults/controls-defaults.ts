@@ -92,6 +92,12 @@ export const DEFAULTS = {
   File: 'fileEditor',
 };
 
+// Given our internal identifier returns a minimal API field object.
+export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
+  return INTERNAL_TO_API[internal];
+}
+
+
 /*
  * Gets the default widget ID for a field:
  * - If a field allows predefined values then `dropdown` widget is used
