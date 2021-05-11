@@ -62,7 +62,7 @@ export function toInternalFieldType(api: any) {
       return internalApi.linkType === stripped.linkType
     }
 
-    if (internalApi.type === 'Array') {
+    if (internalApi.type === 'Array' && internalApi.items && stripped.items) {
       if (internalApi.items.type === 'Link') {
         return internalApi.items.linkType === stripped.items.linkType
       }

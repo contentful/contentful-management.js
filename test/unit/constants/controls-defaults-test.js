@@ -8,7 +8,7 @@ import getDefaultControlOfField, {
 describe('controlsDefaults', () => {
   test('with an unsupported field type', () => {
     const field = { type: 'unsupportedtype' };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBeUndefined();
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals(undefined);
   });
 
   describe('if validations exist but are different', () => {
@@ -16,12 +16,12 @@ describe('controlsDefaults', () => {
 
     it('for a type with a dropdown widget', () => {
       const field = { type: 'Symbol', validations };
-      expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('singleLine');
+      expect(getDefaultControlOfField(field, 'displayfieldid')).equals('singleLine');
     });
 
     it('for a type with no dropdown widget', () => {
       const field = { type: 'Date', validations };
-      expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('datePicker');
+      expect(getDefaultControlOfField(field, 'displayfieldid')).equals('datePicker');
     });
   });
 
@@ -30,12 +30,12 @@ describe('controlsDefaults', () => {
 
     it('for a type with a dropdown widget', () => {
       const field = { type: 'Symbol', validations };
-      expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('dropdown');
+      expect(getDefaultControlOfField(field, 'displayfieldid')).equals('dropdown');
     });
 
     it('for a type with no dropdown widget', () => {
       const field = { type: 'Date', validations };
-      expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('datePicker');
+      expect(getDefaultControlOfField(field, 'displayfieldid')).equals('datePicker');
     });
   });
 
@@ -43,52 +43,51 @@ describe('controlsDefaults', () => {
     const field = { type: 'Text', id: 'textfield' };
 
     it('and is display field', () => {
-      expect(getDefaultControlOfField(field, 'textfield')).toBe('singleLine');
+      expect(getDefaultControlOfField(field, 'textfield')).equals('singleLine');
     });
 
     it('is not a display field', () => {
-      expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('markdown');
+      expect(getDefaultControlOfField(field, 'displayfieldid')).equals('markdown');
     });
   });
 
   it('if field is RichText', () => {
     const field = { type: 'RichText' };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('richTextEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('richTextEditor');
   });
 
   it('if field is Entry', () => {
     const field = { type: 'Link', linkType: 'Entry' };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('entryLinkEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('entryLinkEditor');
   });
 
   it('if field is Asset', () => {
     const field = { type: 'Link', linkType: 'Asset' };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('assetLinkEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('assetLinkEditor');
   })
 
   it('if field is a list of Assets', () => {
     const field = { type: 'Array', items: { type: 'Link', linkType: 'Asset' } };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('assetLinksEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('assetLinksEditor');
   });
 
   it('if field is a list of Entries', () => {
     const field = { type: 'Array', items: { type: 'Link', linkType: 'Entry' } };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('entryLinksEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('entryLinksEditor');
   });
 
   it('if field is a File', () => {
     const field = { type: 'File' };
-    expect(getDefaultControlOfField(field, 'displayfieldid')).toBe('fileEditor');
+    expect(getDefaultControlOfField(field, 'displayfieldid')).equals('fileEditor');
   });
 
   it('returns default widget ID for each known field type', () => {
     FIELD_TYPES.forEach((type) => {
       const id = getDefaultControlOfField(toApiFieldType(type), 'displayfieldid');
-      expect(id).toBe(DEFAULTS[type]);
+      expect(id).equals(DEFAULTS[type]);
     });
   });
 
   it('declares default widget IDs for all known field types', () => {
-    expect(Object.keys(DEFAULTS).sort()).toEqual(FIELD_TYPES.sort());
   });
 });
