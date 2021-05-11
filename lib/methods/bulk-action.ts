@@ -71,6 +71,7 @@ export async function pollBulkActionStatus(
   while (retryCount < maxRetries && !done) {
     action = await getBulkActionFunction()
 
+    console.log('action', action)
     // Terminal states
     if (
       action &&

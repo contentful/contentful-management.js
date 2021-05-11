@@ -218,7 +218,7 @@ describe('BulkActions Api', async function () {
       sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 10,
           retryIntervalMs: 100,
@@ -247,7 +247,7 @@ describe('BulkActions Api', async function () {
         .returns(merge(createdBulkAction, { sys: { status: 'failed' } }))
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 1,
           retryIntervalMs: 0,
