@@ -59,6 +59,14 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import {
+  CreateTaskParams,
+  CreateTaskProps,
+  DeleteTaskParams,
+  TaskProps,
+  UpdateTaskParams,
+  UpdateTaskProps,
+} from './entities/task'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -370,6 +378,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Tag', 'createWithId', UA>): MRReturn<'Tag', 'createWithId'>
   (opts: MROpts<'Tag', 'update', UA>): MRReturn<'Tag', 'update'>
   (opts: MROpts<'Tag', 'delete', UA>): MRReturn<'Tag', 'delete'>
+
+  (opts: MROpts<'Task', 'get', UA>): MRReturn<'Task', 'get'>
+  (opts: MROpts<'Task', 'getAll', UA>): MRReturn<'Task', 'getAll'>
+  (opts: MROpts<'Task', 'create', UA>): MRReturn<'Task', 'create'>
+  (opts: MROpts<'Task', 'update', UA>): MRReturn<'Task', 'update'>
+  (opts: MROpts<'Task', 'delete', UA>): MRReturn<'Task', 'delete'>
 
   (opts: MROpts<'Team', 'get', UA>): MRReturn<'Team', 'get'>
   (opts: MROpts<'Team', 'getMany', UA>): MRReturn<'Team', 'getMany'>
@@ -952,6 +966,18 @@ export type MRActions = {
     }
     delete: { params: DeleteTagParams; return: any }
   }
+  Task: {
+    get: { params: GetTaskParams; return: TaskProps }
+    getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
+    create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
+    update: {
+      params: UpdateTaskParams
+      payload: UpdateTaskProps
+      headers?: Record<string, unknown>
+      return: TaskProps
+    }
+    delete: { params: DeleteTaskParams; return: void }
+  }
   Team: {
     get: { params: GetTeamParams; return: TeamProps }
     getMany: { params: GetOrganizationParams & QueryParams; return: CollectionProp<TeamProps> }
@@ -1124,6 +1150,7 @@ export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefiniti
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
@@ -1133,6 +1160,7 @@ export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 export type GetSpaceParams = { spaceId: string }
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+export type GetTaskParams = GetEntryParams & { taskId: string }
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
 export type GetTeamParams = { organizationId: string; teamId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
