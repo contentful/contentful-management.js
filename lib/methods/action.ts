@@ -53,7 +53,7 @@ export type ActionProcessingOptions = {
  * @throws {ActionFailedError} throws an error if `throwOnFailedExecution = true` with the Action that failed.
  * @throws {ActionProcessingError} throws an error with a Action when processing takes too long.
  */
-export async function pollActionStatus<T extends Action = any>(
+export async function pollAsyncActionStatus<T extends Action = any>(
   actionFunction: () => Promise<T>,
   options?: ActionProcessingOptions
 ): Promise<T> {

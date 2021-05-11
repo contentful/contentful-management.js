@@ -10,7 +10,7 @@ import {
   VersionedLink,
 } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionProcessingOptions, pollActionStatus } from '../methods/action'
+import { ActionProcessingOptions, pollAsyncActionStatus } from '../methods/action'
 
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'
@@ -119,7 +119,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
     async waitProcessing<TPayload extends BulkActionPayload = any>(
       options?: ActionProcessingOptions
     ): Promise<BulkActionProps<TPayload>> {
-      return pollActionStatus<BulkActionProps<TPayload>>(async () => this.get(), options)
+      return pollAsyncActionStatus<BulkActionProps<TPayload>>(async () => this.get(), options)
     },
   }
 }
