@@ -1,15 +1,24 @@
 import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { before, describe, test, after } from 'mocha'
+import { client, createTestEnvironment, createTestSpace } from '../helpers'
 
 describe('Task Api', () => {
   let space
   let environment
   let entry
+
   before(async () => {
-    space = await client().getSpace('ezs1swce23xe')
-    environment = await space.getEnvironment('master')
-    entry = await environment.getEntry('5ETMRzkl9KM4omyMwKAOki')
+    space = await createTestSpace(client(), 'Task')
+    environment = await createTestEnvironment(space, 'Task Testing Environment')
+    const contentType = await environment.createContentType({ name: 'Content Type' })
+    await contentType.publish()
+    entry = await environment.createEntry(contentType.sys.id, { fields: {} })
+  })
+
+  after(async () => {
+    if (space) {
+      return space.delete()
+    }
   })
 
   test('Get tasks', async () => {
