@@ -12,21 +12,21 @@ const SidebarWidgetTypes = {
   JOBS: 'jobs-widget',
   TASKS: 'content-workflows-tasks-widget',
   COMMENTS_PANEL: 'comments-panel',
-};
+}
 
 const Publication = {
   widgetId: SidebarWidgetTypes.PUBLICATION,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Publish & Status',
   description: 'Built-in - View entry status, publish, etc.',
-};
+}
 
 const Releases = {
   widgetId: SidebarWidgetTypes.RELEASES,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Release',
   description: 'Built-in - View release, add to it, etc.',
-};
+}
 
 const Tasks = {
   widgetId: SidebarWidgetTypes.TASKS,
@@ -34,28 +34,28 @@ const Tasks = {
   name: 'Tasks',
   description:
     'Built-in - Assign tasks to be completed before publishing. Currently only supported for master environment.',
-};
+}
 
 const ContentPreview = {
   widgetId: SidebarWidgetTypes.CONTENT_PREVIEW,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Preview',
   description: 'Built-in - Displays preview functionality.',
-};
+}
 
 const Links = {
   widgetId: SidebarWidgetTypes.INCOMING_LINKS,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Links',
   description: 'Built-in - Shows where an entry is linked.',
-};
+}
 
 const Translation = {
   widgetId: SidebarWidgetTypes.TRANSLATION,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Translation',
   description: 'Built-in - Manage which translations are visible.',
-};
+}
 
 const Versions = {
   widgetId: SidebarWidgetTypes.VERSIONS,
@@ -63,14 +63,14 @@ const Versions = {
   name: 'Versions',
   description:
     'Built-in - View previously published versions. Available only for master environment.',
-};
+}
 
 const Users = {
   widgetId: SidebarWidgetTypes.USERS,
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Users',
   description: 'Built-in - Displays users on the same entry.',
-};
+}
 
 export const SidebarEntryConfiguration = [
   Publication,
@@ -81,6 +81,6 @@ export const SidebarEntryConfiguration = [
   Translation,
   Versions,
   Users,
-];
+]
 
-export const SidebarAssetConfiguration = [Publication, Releases, Links, Translation, Users];
+export const SidebarAssetConfiguration = [Publication, Releases, Links, Translation, Users]

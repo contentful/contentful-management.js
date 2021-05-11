@@ -1,6 +1,6 @@
 import { ContentTypeFieldValidation } from '../../entities/content-type-fields'
 
-const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean'];
+const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean']
 
 const INTERNAL_TO_API = {
   Symbol: { type: 'Symbol' },
@@ -20,7 +20,7 @@ const INTERNAL_TO_API = {
   Symbols: { type: 'Array', items: { type: 'Symbol' } },
   Entries: { type: 'Array', items: { type: 'Link', linkType: 'Entry' } },
   Assets: { type: 'Array', items: { type: 'Link', linkType: 'Asset' } },
-} as const;
+} as const
 
 export const FIELD_TYPES = Object.keys(INTERNAL_TO_API) as Array<keyof typeof INTERNAL_TO_API>
 
@@ -47,15 +47,15 @@ export const FIELD_TYPES = Object.keys(INTERNAL_TO_API) as Array<keyof typeof IN
  * - File
  */
 export function toInternalFieldType(api: any) {
-  return FIELD_TYPES.find((key ) => {
+  return FIELD_TYPES.find((key) => {
     const internalApi = INTERNAL_TO_API[key]
     const stripped = {
       type: api.type,
       linkType: api.linkType,
-      items: api.items
+      items: api.items,
     }
     if (stripped.items) {
-      stripped.items = {type: stripped.items.type, linkType: stripped.items.linkType }
+      stripped.items = { type: stripped.items.type, linkType: stripped.items.linkType }
     }
 
     if (internalApi.type === 'Link') {
@@ -70,9 +70,8 @@ export function toInternalFieldType(api: any) {
     }
 
     return internalApi.type === stripped.type
-  });
+  })
 }
-
 
 export const DEFAULTS = {
   Text: 'markdown',
@@ -90,13 +89,12 @@ export const DEFAULTS = {
   Entries: 'entryLinksEditor',
   Assets: 'assetLinksEditor',
   File: 'fileEditor',
-};
+}
 
 // Given our internal identifier returns a minimal API field object.
 export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
-  return INTERNAL_TO_API[internal];
+  return INTERNAL_TO_API[internal]
 }
-
 
 /*
  * Gets the default widget ID for a field:
@@ -105,23 +103,25 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - If a Text field is a title then the `singleLine` widget is used.
  * - Otherwise a simple type-to-editor mapping is used.
  */
-export default function getDefaultControlOfField(field: any, displayFieldId:any) {
-  const fieldType = toInternalFieldType(field);
+export default function getDefaultControlOfField(field: any, displayFieldId: any) {
+  const fieldType = toInternalFieldType(field)
 
   if (!fieldType) return
 
-  const hasInValidation = (field.validations || []).find((v: ContentTypeFieldValidation) => 'in' in v);
+  const hasInValidation = (field.validations || []).find(
+    (v: ContentTypeFieldValidation) => 'in' in v
+  )
 
   if (hasInValidation && DROPDOWN_TYPES.includes(fieldType)) {
-    return 'dropdown';
+    return 'dropdown'
   }
 
-  const isTextField = fieldType === 'Text';
-  const isDisplayField = field.id === displayFieldId;
+  const isTextField = fieldType === 'Text'
+  const isDisplayField = field.id === displayFieldId
 
   if (isTextField && isDisplayField) {
-    return 'singleLine';
+    return 'singleLine'
   }
 
-  return DEFAULTS[fieldType];
+  return DEFAULTS[fieldType]
 }
