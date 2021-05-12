@@ -464,6 +464,41 @@ const environmentAliasMock = {
   environment: environmentMock,
 }
 
+const taskMock = {
+  sys: {
+    id: 'task-id',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    version: 1,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'Task',
+    environment: {
+      sys: {
+        id: 'environment-id',
+        type: 'Link',
+        linkType: 'Environment',
+      },
+    },
+    parentEntity: {
+      sys: {
+        id: 'entry-id',
+        type: 'Link',
+        linkType: 'Entry',
+      },
+    },
+  },
+  body: 'Body',
+  assignedTo: {
+    sys: {
+      id: 'user-id',
+      type: 'User',
+    },
+  },
+  status: 'active',
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -576,6 +611,7 @@ const mocks = {
   spaceMembership: spaceMembershipMock,
   sys: sysMock,
   tag: tagMock,
+  task: taskMock,
   team: teamMock,
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
@@ -731,6 +767,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapScheduledAction: sinon.stub(),
       wrapScheduledActionCollection: sinon.stub(),
     },
+    task: {
+      wrapTask: sinon.stub(),
+      wrapTaskCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -780,4 +820,5 @@ export {
   environmentMock,
   usageMock,
   environmentAliasMock,
+  taskMock,
 }

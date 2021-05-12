@@ -93,7 +93,7 @@ export interface BulkActionApiMethods {
   /** Performs a new GET request and returns the wrapper BulkAction */
   get(): BulkAction
   /** Waits until the BulkAction is in one of the final states (`succeeded` or `failed`) and returns it. */
-  waitProcessing(options?: AsyncActionProcessingOptions): BulkAction
+  waitProcessing(options?: AsyncActionProcessingOptions): Promise<BulkAction>
 }
 
 function createBulkActionApi(makeRequest: MakeRequest) {

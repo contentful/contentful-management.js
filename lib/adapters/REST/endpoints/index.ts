@@ -27,6 +27,7 @@ import * as Space from './space'
 import * as SpaceMember from './space-member'
 import * as SpaceMembership from './space-membership'
 import * as Tag from './tag'
+import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
@@ -65,6 +66,7 @@ export default {
   SpaceMember,
   SpaceMembership,
   Tag,
+  Task,
   Team,
   TeamMembership,
   TeamSpaceMembership,

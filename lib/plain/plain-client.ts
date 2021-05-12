@@ -114,6 +114,13 @@ export const createPlainClient = (
       getForOrganization: wrap(wrapParams, 'User', 'getForOrganization'),
       getManyForOrganization: wrap(wrapParams, 'User', 'getManyForOrganization'),
     },
+    task: {
+      get: wrap(wrapParams, 'Task', 'get'),
+      getAll: wrap(wrapParams, 'Task', 'getAll'),
+      create: wrap(wrapParams, 'Task', 'create'),
+      update: wrap(wrapParams, 'Task', 'update'),
+      delete: wrap(wrapParams, 'Task', 'delete'),
+    },
     entry: {
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),

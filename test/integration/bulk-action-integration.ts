@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
-import { merge } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
 import {
@@ -220,7 +220,7 @@ describe('BulkActions Api', async function () {
       sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 10,
           retryIntervalMs: 100,
@@ -244,12 +244,12 @@ describe('BulkActions Api', async function () {
       })
 
       // returns the same bulkAction with status = failed
-      sinon
-        .stub(createdBulkAction, 'get')
-        .returns(merge(createdBulkAction, { sys: { status: 'failed' } }))
+      const failedAction = cloneDeep(createdBulkAction)
+      failedAction.sys.status = BulkActionStatus.failed
+      sinon.stub(createdBulkAction, 'get').returns(failedAction)
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 1,
           retryIntervalMs: 0,
