@@ -1,4 +1,4 @@
-import { ContentTypeFieldValidation } from '../../entities/content-type-fields'
+import { ContentFields, ContentTypeFieldValidation } from '../../entities/content-type-fields'
 
 const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean']
 
@@ -46,7 +46,7 @@ export const FIELD_TYPES = Object.keys(INTERNAL_TO_API) as Array<keyof typeof IN
  * - Assets
  * - File
  */
-export function toInternalFieldType(api: any) {
+export function toInternalFieldType(api: Partial<ContentFields>) {
   return FIELD_TYPES.find((key) => {
     const internalApi = INTERNAL_TO_API[key]
     const stripped = {
@@ -103,7 +103,7 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - If a Text field is a title then the `singleLine` widget is used.
  * - Otherwise a simple type-to-editor mapping is used.
  */
-export default function getDefaultControlOfField(field: any, displayFieldId: any) {
+export default function getDefaultControlOfField(field: ContentFields, displayFieldId: string) {
   const fieldType = toInternalFieldType(field)
 
   if (!fieldType) return
