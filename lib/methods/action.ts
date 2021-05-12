@@ -9,10 +9,11 @@ const DEFAULT_RETRY_INTERVAL_MS = 2000
 interface Action extends Record<string, any> {
   sys: {
     status: string
+    type: string
   }
 }
 
-export class ActionProcessingError extends Error {
+export class AsyncActionProcessingError extends Error {
   public action?: Action
 
   constructor(message: string, action?: Action) {
@@ -22,9 +23,9 @@ export class ActionProcessingError extends Error {
   }
 }
 
-export class ActionFailedError extends ActionProcessingError {}
+export class AsyncActionFailedError extends AsyncActionProcessingError {}
 
-export type ActionProcessingOptions = {
+export type AsyncActionProcessingOptions = {
   /** The amount of times to retry.
    * @default 30
    * */
@@ -47,15 +48,14 @@ export type ActionProcessingOptions = {
 }
 
 /**
- * @private
  * @description Waits for an Action to be completed and to be in one of the final states (failed or succeeded)
- * @param {Function} fn - GET function that will be called every interval to fetch an Action status
+ * @param {Function} actionFunction - GET function that will be called every interval to fetch an Action status
  * @throws {ActionFailedError} throws an error if `throwOnFailedExecution = true` with the Action that failed.
- * @throws {ActionProcessingError} throws an error with a Action when processing takes too long.
+ * @throws {AsyncActionProcessingError} throws an error with a Action when processing takes too long.
  */
 export async function pollAsyncActionStatus<T extends Action = any>(
   actionFunction: () => Promise<T>,
-  options?: ActionProcessingOptions
+  options?: AsyncActionProcessingOptions
 ): Promise<T> {
   let retryCount = 0
   let done = false
@@ -77,7 +77,7 @@ export async function pollAsyncActionStatus<T extends Action = any>(
       done = true
 
       if (action.sys.status === 'failed' && throwOnFailedExecution) {
-        throw new ActionFailedError('Action failed to execute.', action)
+        throw new AsyncActionFailedError(`${action.sys.type} failed to execute.`, action)
       }
 
       return action
@@ -87,8 +87,8 @@ export async function pollAsyncActionStatus<T extends Action = any>(
     retryCount += 1
   }
 
-  throw new ActionProcessingError(
-    "Action didn't finish processing within the expected timeframe.",
+  throw new AsyncActionProcessingError(
+    `${action?.sys.type} didn't finish processing within the expected timeframe.`,
     action
   )
 }

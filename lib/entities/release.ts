@@ -3,13 +3,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
   BaseCollection,
+  Collection,
+  CollectionProp,
   DefaultElements,
   ISO8601Timestamp,
   Link,
   MakeRequest,
   MakeRequestPayload,
-  Collection,
-  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -63,7 +63,7 @@ export interface ReleaseValidatePayload {
 
 export interface ReleaseApiMethods {
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
-  delete(): Promise<null>
+  delete(): Promise<void>
 }
 
 function createReleaseApi(makeRequest: MakeRequest) {
