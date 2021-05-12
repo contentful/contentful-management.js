@@ -398,7 +398,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
       data: ReleasePayload
     ): Promise<ReleaseProps>
-    delete(params: OptionalDefaults<GetReleaseParams>): Promise<null>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
   }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>

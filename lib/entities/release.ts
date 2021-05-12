@@ -58,7 +58,7 @@ export interface ReleasePayload extends MakeRequestPayload {
 }
 
 export interface ReleaseValidatePayload {
-  action: 'publish'
+  action?: 'publish'
 }
 
 export interface ReleaseApiMethods {
@@ -81,7 +81,8 @@ function createReleaseApi(makeRequest: MakeRequest) {
   return {
     async delete() {
       const params = getParams(this)
-      return makeRequest({
+
+      await makeRequest({
         entityType: 'Release',
         action: 'delete',
         params,

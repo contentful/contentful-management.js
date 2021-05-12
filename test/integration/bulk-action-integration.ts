@@ -59,7 +59,7 @@ describe('BulkActions Api', async function () {
 
   describe('Write', () => {
     test('Publish BulkAction', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       const createdBulkAction = await testEnvironment.createPublishBulkAction({
         entities: {
@@ -75,7 +75,7 @@ describe('BulkActions Api', async function () {
     })
 
     test('Publish BulkAction with wrong payload', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       // The publish action relies on the Link object having a `version` property
       try {
@@ -142,7 +142,7 @@ describe('BulkActions Api', async function () {
     test('bulkAction.publish', async () => {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
-        entryId: TestDefaults.entry.testEntryReferenceId,
+        entryId: TestDefaults.entry.testEntryBulkActionId,
       })
 
       const bulkActionInProgress = await plainClient.bulkAction.publish(defaultParams, {

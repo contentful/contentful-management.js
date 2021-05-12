@@ -872,7 +872,7 @@ export type MRActions = {
     }
     delete: {
       params: GetReleaseParams
-      return: null
+      return: void
     }
   }
   Role: {
