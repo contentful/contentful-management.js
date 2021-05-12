@@ -229,7 +229,7 @@ describe('BulkActions Api', async function () {
         expect(error.message).to.eql(
           "BulkAction didn't finish processing within the expected timeframe."
         )
-        expect(error.bulkAction).to.eql(createdBulkAction)
+        expect(error.action.sys.id).to.eql(createdBulkAction.sys.id)
       }
     })
 
@@ -256,8 +256,8 @@ describe('BulkActions Api', async function () {
           throwOnFailedExecution: true,
         })
       } catch (error: any) {
-        expect(error.message).to.eql('Action failed to execute.')
-        expect(error.bulkAction.sys.status).to.eql('failed')
+        expect(error.message).to.eql('BulkAction failed to execute.')
+        expect(error.action.sys.status).to.eql('failed')
       }
     })
   })

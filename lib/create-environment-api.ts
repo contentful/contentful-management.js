@@ -1,13 +1,11 @@
 import { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { Stream } from 'stream'
 import type { QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
-import type { CreateAppInstallationProps } from './entities/app-installation'
 import type {
   BulkAction,
   BulkActionPayload,
@@ -34,7 +32,6 @@ import { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
-
 
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
