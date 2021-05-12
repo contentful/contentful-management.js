@@ -128,7 +128,13 @@ function createReleaseApi(makeRequest: MakeRequest) {
         .then((action) => action.waitProcessing(options))
     },
 
-    async validate(payload?: ReleaseValidatePayload, options?: ActionProcessingOptions) {
+    async validate({
+      payload,
+      options,
+    }: {
+      payload?: ReleaseValidatePayload
+      options?: ActionProcessingOptions
+    }) {
       const params = getParams(this)
 
       return makeRequest({
