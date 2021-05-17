@@ -28,6 +28,7 @@ import {
   GetAppUploadParams,
   GetAppBundleParams,
   GetBulkActionParams,
+  GetReleaseParams,
   GetTaskParams,
   GetEntryParams,
 } from '../common-types'
@@ -91,6 +92,7 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
+import { ReleasePayload, ReleaseProps, ReleaseQueryOptions } from '../entities/release'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -392,6 +394,21 @@ export type PlainClientAPI = {
     getManyForOrganization(
       params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
+  }
+  release: {
+    get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
+    query(
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
+    ): Promise<CollectionProp<ReleaseProps>>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    update(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
   }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>

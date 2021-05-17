@@ -18,6 +18,7 @@ import * as organizationInvitation from './organization-invitation'
 import * as organizationMembership from './organization-membership'
 import * as personalAccessToken from './personal-access-token'
 import * as previewApiKey from './preview-api-key'
+import * as release from './release'
 import * as role from './role'
 import * as scheduledAction from './scheduled-action'
 import * as snapshot from './snapshot'
@@ -55,6 +56,7 @@ export default {
   organizationMembership,
   personalAccessToken,
   previewApiKey,
+  release,
   role,
   scheduledAction,
   snapshot,

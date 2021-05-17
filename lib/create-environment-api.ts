@@ -1,18 +1,26 @@
-import { createRequestConfig } from 'contentful-sdk-core'
 import { Stream } from 'stream'
+import { createRequestConfig } from 'contentful-sdk-core'
 import type { QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
-import {
+import type {
   BulkAction,
   BulkActionPayload,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+
+import {
+  wrapRelease,
+  ReleasePayload,
+  wrapReleaseCollection,
+  ReleaseQueryOptions,
+} from './entities/release'
+
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type {
   CreateEntryProps,
@@ -1546,6 +1554,201 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           tagId: id,
         },
       }).then((data) => wrapTag(makeRequest, data))
+    },
+
+    /**
+     * Retrieves a Release by ID
+     * @param releaseId
+     * @returns Promise containing a wrapped Release
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getRelease('<release_id>'))
+     * .then((release) => console.log(release))
+     * .catch(console.error)
+     * ```
+     */
+    getRelease(releaseId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Gets a Collection of Releases,
+     * @param {ReleaseQueryOptions} query filtering options for the collection result
+     * @returns Promise containing a wrapped Release Collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getReleases({ 'entities.sys.id': '<asset_id>,<entry_id>' }))
+     * .then((releases) => console.log(releases))
+     * .catch(console.error)
+     * ```
+     */
+    getReleases(query?: ReleaseQueryOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'query',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((data) => wrapReleaseCollection(makeRequest, data))
+    },
+
+    /**
+     * Creates a new Release with the entities and title in the payload
+     * @param payload Object containing the payload in order to create a Release
+     * @returns Promise containing a wrapped Release, that has other helper methods within.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const payload = {
+     *   title: 'My Release',
+     *   entities: {
+     *     sys: { type: 'Array' },
+     *     items: [
+     *      { linkType: 'Entry', type: 'Link', id: '<entry_id>' }
+     *     ]
+     *   }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.createRelease(payload))
+     * .then((release) => console.log(release))
+     * .catch(console.error)
+     * ```
+     */
+    createRelease(payload: ReleasePayload) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Updates a Release and replaces all the properties.
+     * @param {object} options,
+     * @param options.releaseId the ID of the release
+     * @param options.payload the payload to be updated in the Release
+     * @param options.version Release sys.version that to be updated
+     *
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     *
+     * const payload = {
+     *   title: "Updated Release title",
+     *   entities: {
+     *     sys: { type: 'Array' },
+     *     items: [
+     *      { linkType: 'Entry', type: 'Link', id: '<entry_id>' }
+     *     ]
+     *   }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.updateRelease({ releaseId: '<release_id>', version: 1, payload } ))
+     * .then((release) => console.log(release))
+     * .catch(console.error)
+     * ```
+     */
+    updateRelease({
+      releaseId,
+      payload,
+      version,
+    }: {
+      releaseId: string
+      payload: ReleasePayload
+      version: number
+    }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'update',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+        payload,
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Deletes a Release by ID - does not delete any entities.
+     * @param releaseId the ID of the release
+     *
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.deleteRelease('<release_id>')
+     * .catch(console.error)
+     * ```
+     */
+    deleteRelease(releaseId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'delete',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+      })
     },
   }
 }

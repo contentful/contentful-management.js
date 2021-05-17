@@ -389,6 +389,22 @@ const roleMock = {
   }),
 }
 
+const releaseMock = {
+  sys: {
+    ...sysMock,
+    type: 'Release',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    version: 1,
+  },
+  entities: {
+    sys: { type: 'Array' },
+    items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+  },
+  title: 'Release Mock',
+}
+
 const apiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -588,6 +604,7 @@ const mocks = {
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
+  release: releaseMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -696,6 +713,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapRole: sinon.stub(),
       wrapRoleCollection: sinon.stub(),
     },
+    release: {
+      wrapRelease: sinon.stub(),
+      wrapReleaseCollection: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -783,6 +804,7 @@ export {
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
+  releaseMock,
   roleMock,
   apiKeyMock,
   previewApiKeyMock,
