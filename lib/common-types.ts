@@ -180,6 +180,10 @@ export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
 
+export interface CursorCollection<T, TPlain>
+  extends CursorCollectionProp<T>,
+    DefaultElements<CursorCollectionProp<TPlain>> {}
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
   content_type?: string

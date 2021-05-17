@@ -8,7 +8,7 @@ import {
   Link,
   MakeRequest,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
 /**
@@ -78,7 +78,7 @@ export interface ScheduledAction
 
 export default function getUtilityFunctions(makeRequest: MakeRequest): ScheduledActionApi {
   return {
-    delete: () => {
+    delete: function () {
       const data = this.toPlainObject() as ScheduledActionProps
       return makeRequest({
         entityType: 'ScheduledAction',
@@ -105,4 +105,4 @@ export function wrapScheduledAction(
   return freezeSys(scheduledActionWithMethods)
 }
 
-export const wrapScheduledActionCollection = wrapCollection(wrapScheduledAction)
+export const wrapScheduledActionCollection = wrapCursorPaginatedCollection(wrapScheduledAction)

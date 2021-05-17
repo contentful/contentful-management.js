@@ -9,8 +9,6 @@ import {
   cloneMock,
   environmentAliasMock,
   roleMock,
-  scheduledActionCollectionMock,
-  scheduledActionMock,
   setupEntitiesMock,
   spaceMemberMock,
   spaceMembershipMock,
@@ -429,34 +427,6 @@ describe('A createSpaceApi', () => {
   test('API call getEnvironmentAliases fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getEnvironmentAliases',
-    })
-  })
-
-  test('API call getScheduledActions', async () => {
-    return makeGetCollectionTest(setup, {
-      entityType: 'scheduledAction',
-      mockToReturn: scheduledActionCollectionMock,
-      methodToTest: 'getScheduledActions',
-    })
-  })
-
-  test('API call getScheduledActions fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getScheduledActions',
-    })
-  })
-
-  test('API call createScheduledAction', async () => {
-    return makeGetEntityTest(setup, {
-      entityType: 'scheduledAction',
-      mockToReturn: scheduledActionMock,
-      methodToTest: 'createScheduledAction',
-    })
-  })
-
-  test('API call createScheduledAction fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createScheduledAction',
     })
   })
 })

@@ -16,6 +16,8 @@ import {
   setupEntitiesMock,
   snapShotMock,
   UiExtensionMock,
+  scheduledActionCollectionMock,
+  scheduledActionMock,
   uploadMock,
 } from './mocks/entities'
 import { afterEach, describe, test } from 'mocha'
@@ -571,6 +573,34 @@ describe('A createEnvironmentApi', () => {
     const { api } = setup(Promise.reject(error))
     await api.deleteEntry().catch((r) => {
       expect(r).to.equals(error)
+    })
+  })
+
+  test('API call getScheduledActions', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'scheduledAction',
+      mockToReturn: scheduledActionCollectionMock,
+      methodToTest: 'getScheduledActions',
+    })
+  })
+
+  test('API call getScheduledActions fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getScheduledActions',
+    })
+  })
+
+  test('API call createScheduledAction', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'scheduledAction',
+      mockToReturn: scheduledActionMock,
+      methodToTest: 'createScheduledAction',
+    })
+  })
+
+  test('API call createScheduledAction fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'createScheduledAction',
     })
   })
 })
