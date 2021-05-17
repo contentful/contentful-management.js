@@ -8,7 +8,12 @@ if (process.env.API_INTEGRATION_TESTS) {
   params.insecure = true
 }
 
-const env = process.env.CONTENTFUL_ACCESS_TOKEN !== undefined ? process.env : window.__env__
+const env =
+  process.env.CONTENTFUL_ACCESS_TOKEN !== undefined
+    ? process.env
+    : typeof window === 'undefined'
+    ? {}
+    : window.__env__
 
 export const client = (isV2 = false) =>
   createClient({

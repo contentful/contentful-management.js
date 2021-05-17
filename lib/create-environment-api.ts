@@ -14,6 +14,8 @@ import type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 
+import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
+
 import {
   wrapRelease,
   ReleasePayload,
@@ -53,6 +55,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
   const { wrapBulkAction } = entities.bulkAction
+  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
 
   return {
     /**
@@ -1747,6 +1750,57 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           releaseId,
+        },
+      })
+    },
+    /**
+     * Query for scheduled actions in space.
+     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
+     * @return Promise for the scheduled actions query
+     */
+    getScheduledActions(query: ScheduledActionQueryOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((response) => wrapScheduledActionCollection(makeRequest, response))
+    },
+    /**
+     * Creates a scheduled action
+     * @param data - Object representation of the scheduled action to be created
+     * @return Promise for the newly created scheduled actions
+     */
+    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
+      const raw: EnvironmentProps = this.toPlainObject()
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload: data,
+      }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
+    /**
+     * Mark a scheduled action as canceled
+     * @param {string} scheduledActionId - id of the scheduled action
+     * @return Promise for the scheduled action with a canceled status
+     */
+    deleteScheduledAction(scheduledActionId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'delete',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          scheduledActionId,
         },
       })
     },

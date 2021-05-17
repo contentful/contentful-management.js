@@ -172,6 +172,10 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+export interface CursorCollectionProp<TObj> extends CollectionProp<TObj> {
+  page?: BasicCursorPaginationOptions
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
@@ -914,13 +918,19 @@ export type MRActions = {
     delete: { params: GetSpaceParams & { roleId: string }; return: any }
   }
   ScheduledAction: {
-    getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ScheduledActionProps> }
+    getMany: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      return: CursorCollectionProp<ScheduledActionProps>
+    }
     create: {
-      params: GetSpaceParams
+      params: GetSpaceEnvironmentParams
       payload: Omit<ScheduledActionProps, 'sys'>
       return: ScheduledActionProps
     }
-    delete: { params: GetSpaceParams & { scheduledActionId: string }; return: any }
+    delete: {
+      params: GetSpaceEnvironmentParams & { scheduledActionId: string }
+      return: ScheduledActionProps
+    }
   }
   Snapshot: {
     getManyForEntry: {
@@ -1164,10 +1174,8 @@ export type MROpts<
       : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
-export type MRReturn<
-  ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
-> = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
+export type MRReturn<ET extends keyof MRActions, Action extends keyof MRActions[ET]> =
+  'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

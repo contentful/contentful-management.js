@@ -10,7 +10,6 @@ import { CreateApiKeyProps } from './entities/api-key'
 import { CreateEnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps } from './entities/environment-alias'
 import { CreateRoleProps, RoleProps } from './entities/role'
-import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
 import { SpaceProps } from './entities/space'
 import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
@@ -31,14 +30,11 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const {
-    wrapTeamSpaceMembership,
-    wrapTeamSpaceMembershipCollection,
-  } = entities.teamSpaceMembership
+  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
+    entities.teamSpaceMembership
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
-  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
 
   return {
     /**
@@ -1074,33 +1070,6 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.id,
         },
       }).then((data) => wrapEnvironmentAliasCollection(makeRequest, data))
-    },
-    /**
-     * Query for scheduled actions in space.
-     * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
-     * @return Promise for the scheduled actions query
-     */
-    getScheduledActions(query: ScheduledActionQueryOptions) {
-      const raw = this.toPlainObject() as SpaceProps
-      return makeRequest({
-        entityType: 'ScheduledAction',
-        action: 'getMany',
-        params: { spaceId: raw.sys.id, query },
-      }).then((response) => wrapScheduledActionCollection(makeRequest, response))
-    },
-    /**
-     * Creates a scheduled action
-     * @param data - Object representation of the scheduled action to be created
-     * @return Promise for the newly created scheduled actions
-     */
-    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
-      const raw = this.toPlainObject() as SpaceProps
-      return makeRequest({
-        entityType: 'ScheduledAction',
-        action: 'create',
-        params: { spaceId: raw.sys.id },
-        payload: data,
-      }).then((response) => wrapScheduledAction(makeRequest, response))
     },
   }
 }

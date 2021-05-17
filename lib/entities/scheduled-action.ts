@@ -76,25 +76,20 @@ export interface ScheduledAction
     DefaultElements<ScheduledActionProps>,
     ScheduledActionApi {}
 
-export function createDeleteScheduledAction(
-  makeRequest: MakeRequest
-): () => Promise<ScheduledAction> {
-  return function (): Promise<ScheduledAction> {
-    const data = this.toPlainObject() as ScheduledActionProps
-    return makeRequest({
-      entityType: 'ScheduledAction',
-      action: 'delete',
-      params: {
-        spaceId: data.sys.space.sys.id,
-        scheduledActionId: data.sys.id,
-      },
-    }).then((data) => wrapScheduledAction(makeRequest, data))
-  }
-}
-
-export default function createScheduledActionApi(makeRequest: MakeRequest): ScheduledActionApi {
+export default function getUtilityFunctions(makeRequest: MakeRequest): ScheduledActionApi {
   return {
-    delete: createDeleteScheduledAction(makeRequest),
+    delete: () => {
+      const data = this.toPlainObject() as ScheduledActionProps
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'delete',
+        params: {
+          spaceId: data.sys.space.sys.id,
+          environmentId: data.environment?.sys.id as string,
+          scheduledActionId: data.sys.id,
+        },
+      }).then((data) => wrapScheduledAction(makeRequest, data)) as Promise<ScheduledAction>
+    },
   }
 }
 
@@ -105,7 +100,7 @@ export function wrapScheduledAction(
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    createScheduledActionApi(makeRequest)
+    getUtilityFunctions(makeRequest)
   )
   return freezeSys(scheduledActionWithMethods)
 }
