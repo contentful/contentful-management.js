@@ -172,9 +172,18 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
+
+export interface CursorPaginatedCollection<T, TPlain>
+  extends CursorPaginatedCollectionProp<T>,
+    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -1164,10 +1173,8 @@ export type MROpts<
       : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
-export type MRReturn<
-  ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
-> = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
+export type MRReturn<ET extends keyof MRActions, Action extends keyof MRActions[ET]> =
+  'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
