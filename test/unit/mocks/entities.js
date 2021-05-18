@@ -548,6 +548,7 @@ export const scheduledActionMock = {
   environment: { sys: cloneDeep(linkMock) },
   scheduledFor: {
     datetime: 'scheduledFor',
+    timezone: 'timezone',
   },
 }
 

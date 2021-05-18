@@ -49,6 +49,7 @@ export type ScheduledActionProps = {
   environment?: { sys: MetaLinkProps }
   scheduledFor: {
     datetime: ISO8601Timestamp
+    timezone?: string
   }
 }
 
