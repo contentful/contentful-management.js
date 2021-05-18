@@ -405,6 +405,30 @@ const releaseMock = {
   title: 'Release Mock',
 }
 
+const releaseActionMock = {
+  sys: {
+    ...sysMock,
+    type: 'ReleaseAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    completedAt: '2021-05-18T10:00:00Z',
+    release: makeLink('Release', 'release-id'),
+    status: 'created',
+  },
+  action: 'publish',
+}
+
+const releaseActionValidateMock = {
+  ...releaseActionMock,
+  action: 'validate',
+}
+
+const releaseActionUnpublishMock = {
+  ...releaseActionMock,
+  action: 'unpublish',
+}
+
 const apiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -605,6 +629,9 @@ const mocks = {
   previewApiKey: previewApiKeyMock,
   role: roleMock,
   release: releaseMock,
+  releaseAction: releaseActionMock,
+  releaseActionValidate: releaseActionValidateMock,
+  releaseActionUnpublish: releaseActionUnpublishMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -716,6 +743,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     release: {
       wrapRelease: sinon.stub(),
       wrapReleaseCollection: sinon.stub(),
+    },
+    releaseAction: {
+      wrapReleaseAction: sinon.stub(),
     },
     apiKey: {
       wrapApiKey: sinon.stub(),

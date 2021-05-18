@@ -16,7 +16,7 @@ describe('Entity ReleaseAction', () => {
     return entityWrappedTest(setup, { wrapperMethod: wrapReleaseAction })
   })
 
-  it('Release get', async () => {
+  it('ReleaseAction get', async () => {
     return entityActionTest(setup, { wrapperMethod: wrapReleaseAction, actionMethod: 'get' })
   })
 })

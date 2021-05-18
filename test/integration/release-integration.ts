@@ -8,7 +8,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe('Release Api', async function () {
+describe.only('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 

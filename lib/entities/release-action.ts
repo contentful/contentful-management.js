@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { DefaultElements, ISO8601Timestamp, Link, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { ActionProcessingOptions, pollActionStatus } from '../methods/action'
+import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../methods/action'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type ReleaseActionStatuses = 'created' | 'inProgress' | 'failed' | 'succeeded'
@@ -30,7 +30,7 @@ export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
 export interface ReleaseActionApiMethods {
   /** Performs a new GET request and returns the wrapper Release */
   get(): ReleaseAction
-  waitProcessing(options?: ActionProcessingOptions): ReleaseActionProps
+  waitProcessing(options?: AsyncActionProcessingOptions): ReleaseActionProps
 }
 
 function createReleaseActionApi(makeRequest: MakeRequest) {
@@ -56,8 +56,8 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
     },
 
     /** Waits for a Release Action to complete */
-    async waitProcessing(options?: ActionProcessingOptions): Promise<ReleaseActionProps> {
-      return pollActionStatus<ReleaseActionProps>(async () => this.get(), options)
+    async waitProcessing(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps> {
+      return pollAsyncActionStatus<ReleaseActionProps>(async () => this.get(), options)
     },
   }
 }
