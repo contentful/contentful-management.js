@@ -13,10 +13,8 @@ export type ClientAPI = ReturnType<typeof createClientApi>
 export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
-  const {
-    wrapPersonalAccessToken,
-    wrapPersonalAccessTokenCollection,
-  } = entities.personalAccessToken
+  const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
+    entities.personalAccessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
   const { wrapUsageCollection } = entities.usage
 

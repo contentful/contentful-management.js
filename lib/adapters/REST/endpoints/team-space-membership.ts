@@ -42,22 +42,20 @@ export const getForOrganization: RestEndpoint<'TeamSpaceMembership', 'getForOrga
   )
 }
 
-export const getManyForOrganization: RestEndpoint<
-  'TeamSpaceMembership',
-  'getManyForOrganization'
-> = (http: AxiosInstance, params: GetOrganizationParams & QueryParams & { teamId?: string }) => {
-  const query = params.query || {}
-  if (params.teamId) {
-    query['sys.team.sys.id'] = params.teamId
-  }
-  return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
-    http,
-    `/organizations/${params.organizationId}/team_space_memberships`,
-    {
-      params: params.query,
+export const getManyForOrganization: RestEndpoint<'TeamSpaceMembership', 'getManyForOrganization'> =
+  (http: AxiosInstance, params: GetOrganizationParams & QueryParams & { teamId?: string }) => {
+    const query = params.query || {}
+    if (params.teamId) {
+      query['sys.team.sys.id'] = params.teamId
     }
-  )
-}
+    return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
+      http,
+      `/organizations/${params.organizationId}/team_space_memberships`,
+      {
+        params: params.query,
+      }
+    )
+  }
 
 export const create: RestEndpoint<'TeamSpaceMembership', 'create'> = (
   http: AxiosInstance,
