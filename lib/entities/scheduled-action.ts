@@ -49,6 +49,12 @@ export type ScheduledActionProps = {
   environment?: { sys: MetaLinkProps }
   scheduledFor: {
     datetime: ISO8601Timestamp
+    /**
+     * A valid IANA timezone Olson identifier
+     *
+     * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * @example 'Asia/Kolkata'
+     */
     timezone?: string
   }
 }
