@@ -1866,6 +1866,25 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapReleaseAction(makeRequest, data))
     },
 
+    /**
+     * Retrieves a ReleaseAction by ID
+     * @param params.releaseId The ID of a Release
+     * @param params.actionId The ID of a Release Action
+     * @returns Promise containing a wrapped ReleaseAction
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getReleaseAction({ releaseId: '<release_id>', actionId: '<action_id>' }))
+     * .then((releaseAction) => console.log(releaseAction))
+     * .catch(console.error)
+     * ```
+     */
     getReleaseAction({ actionId, releaseId }: { actionId: string; releaseId: string }) {
       const raw: EnvironmentProps = this.toPlainObject()
 
@@ -1881,6 +1900,25 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapReleaseAction(makeRequest, data))
     },
 
+    /**
+     * Gets a Collection of ReleaseActions
+     * @param {string} params.releaseId ID of the Release to fetch the actions from
+     * @param {ReleaseQueryOptions} params.query filtering options for the collection result
+     * @returns Promise containing a wrapped ReleaseAction Collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getReleaseActions({ releaseId: '<release_id>', query: { 'sys.id': '<id_1>,<id_2>' } }))
+     * .then((releaseActions) => console.log(releaseActions))
+     * .catch(console.error)
+     * ```
+     */
     getReleaseActions({
       releaseId,
       query,
