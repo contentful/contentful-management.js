@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
-import { merge } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
 import {
@@ -59,7 +59,7 @@ describe('BulkActions Api', async function () {
 
   describe('Write', () => {
     test('Publish BulkAction', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       const createdBulkAction = await testEnvironment.createPublishBulkAction({
         entities: {
@@ -75,7 +75,7 @@ describe('BulkActions Api', async function () {
     })
 
     test('Publish BulkAction with wrong payload', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       // The publish action relies on the Link object having a `version` property
       try {
@@ -142,7 +142,7 @@ describe('BulkActions Api', async function () {
     test('bulkAction.publish', async () => {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
-        entryId: TestDefaults.entry.testEntryReferenceId,
+        entryId: TestDefaults.entry.testEntryBulkActionId,
       })
 
       const bulkActionInProgress = await plainClient.bulkAction.publish(defaultParams, {
@@ -220,7 +220,7 @@ describe('BulkActions Api', async function () {
       sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 10,
           retryIntervalMs: 100,
@@ -229,7 +229,7 @@ describe('BulkActions Api', async function () {
         expect(error.message).to.eql(
           "BulkAction didn't finish processing within the expected timeframe."
         )
-        expect(error.bulkAction).to.eql(createdBulkAction)
+        expect(error.action.sys.id).to.eql(createdBulkAction.sys.id)
       }
     })
 
@@ -244,20 +244,20 @@ describe('BulkActions Api', async function () {
       })
 
       // returns the same bulkAction with status = failed
-      sinon
-        .stub(createdBulkAction, 'get')
-        .returns(merge(createdBulkAction, { sys: { status: 'failed' } }))
+      const failedAction = cloneDeep(createdBulkAction)
+      failedAction.sys.status = BulkActionStatus.failed
+      sinon.stub(createdBulkAction, 'get').returns(failedAction)
 
       try {
-        createdBulkAction.waitProcessing({
+        await createdBulkAction.waitProcessing({
           initialDelayMs: 0,
           retryCount: 1,
           retryIntervalMs: 0,
           throwOnFailedExecution: true,
         })
       } catch (error: any) {
-        expect(error.message).to.eql('Action failed to execute.')
-        expect(error.bulkAction.sys.status).to.eql('failed')
+        expect(error.message).to.eql('BulkAction failed to execute.')
+        expect(error.action.sys.status).to.eql('failed')
       }
     })
   })

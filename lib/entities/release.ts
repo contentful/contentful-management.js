@@ -1,20 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { publish } from '../adapters/REST/endpoints/asset'
 import {
   BaseCollection,
+  Collection,
+  CollectionProp,
   DefaultElements,
   ISO8601Timestamp,
   Link,
   MakeRequest,
   MakeRequestPayload,
-  Collection,
-  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionProcessingOptions } from '../methods/action'
+import { AsyncActionProcessingOptions } from '../methods/action'
 import { ReleaseActionProps, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
@@ -61,23 +60,23 @@ export interface ReleasePayload extends MakeRequestPayload {
 }
 
 export interface ReleaseValidatePayload {
-  action: 'publish'
+  action?: 'publish'
 }
 
 export interface ReleaseApiMethods {
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
-  delete(): Promise<null>
+  delete(): Promise<void>
   /** Publishes a Release and wait until the assynchronous action is completed */
-  publish(options?: ActionProcessingOptions): Promise<ReleaseActionProps<'publish'>>
+  publish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'publish'>>
   /** Unpublishes a Release and wait until the assynchronous action is completed */
-  unpublish(options?: ActionProcessingOptions): Promise<ReleaseActionProps<'unpublish'>>
+  unpublish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'unpublish'>>
   /** Validates a Release and wait until the assynchronous action is completed */
   validate({
     payload,
     options,
   }: {
     payload?: ReleaseValidatePayload
-    options?: ActionProcessingOptions
+    options?: AsyncActionProcessingOptions
   }): Promise<ReleaseActionProps<'validate'>>
 }
 
@@ -97,14 +96,14 @@ function createReleaseApi(makeRequest: MakeRequest) {
     async delete() {
       const params = getParams(this)
 
-      return makeRequest({
+      await makeRequest({
         entityType: 'Release',
         action: 'delete',
         params,
       })
     },
 
-    async publish(options?: ActionProcessingOptions) {
+    async publish(options?: AsyncActionProcessingOptions) {
       const params = getParams(this)
 
       return makeRequest({
@@ -116,7 +115,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
         .then((action) => action.waitProcessing(options))
     },
 
-    async unpublish(options?: ActionProcessingOptions) {
+    async unpublish(options?: AsyncActionProcessingOptions) {
       const params = getParams(this)
 
       return makeRequest({
@@ -133,7 +132,7 @@ function createReleaseApi(makeRequest: MakeRequest) {
       options,
     }: {
       payload?: ReleaseValidatePayload
-      options?: ActionProcessingOptions
+      options?: AsyncActionProcessingOptions
     }) {
       const params = getParams(this)
 

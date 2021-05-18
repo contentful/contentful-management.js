@@ -1,6 +1,6 @@
 import { BulkActionPayload, BulkActionProps } from '../entities/bulk-action'
 import { PlainClientAPI } from '../plain/common-types'
-import { ActionProcessingOptions, pollAsyncActionStatus } from './action'
+import { AsyncActionProcessingOptions, pollAsyncActionStatus } from './action'
 
 type PlainOptions = {
   /** Used by the PlainClient to perform a poll for the BulkAction status */
@@ -14,7 +14,7 @@ type PlainOptions = {
  * Used by the Plain client */
 export async function waitForBulkActionProcessing<T extends BulkActionPayload = any>(
   { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
-  options?: ActionProcessingOptions
+  options?: AsyncActionProcessingOptions
 ): Promise<BulkActionProps<T>> {
   return pollAsyncActionStatus<BulkActionProps>(
     async () =>

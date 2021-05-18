@@ -8,7 +8,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, getPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe.only('Release Api', async function () {
+describe('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -23,7 +23,7 @@ describe.only('Release Api', async function () {
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
@@ -65,14 +65,14 @@ describe.only('Release Api', async function () {
           title: 'Second release',
           entities: {
             sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
           },
         }),
       ])
 
       const queryLimit = 1
       const queryResult = await testEnvironment.getReleases({
-        'entities.sys.id': TestDefaults.entry.testEntryReferenceId,
+        'entities.sys.id': TestDefaults.entry.testEntryReleasesId,
         limit: queryLimit,
       })
 
@@ -94,12 +94,12 @@ describe.only('Release Api', async function () {
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
       expect(release.entities.items).to.eql([
-        makeLink('Entry', TestDefaults.entry.testEntryReferenceId),
+        makeLink('Entry', TestDefaults.entry.testEntryReleasesId),
       ])
       expect(release.title).to.eql('Release (test)')
 
@@ -176,7 +176,7 @@ describe.only('Release Api', async function () {
           title: release.title,
           entities: {
             sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
           },
         },
         version: release.sys.version,
@@ -184,7 +184,7 @@ describe.only('Release Api', async function () {
 
       const updatedRelease = await testEnvironment.getRelease(release.sys.id)
       expect(updatedRelease.entities.items).to.eql([
-        makeLink('Entry', TestDefaults.entry.testEntryReferenceId),
+        makeLink('Entry', TestDefaults.entry.testEntryReleasesId),
       ])
 
       // cleanup
@@ -196,7 +196,7 @@ describe.only('Release Api', async function () {
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 

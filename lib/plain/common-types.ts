@@ -29,6 +29,8 @@ import {
   GetAppBundleParams,
   GetBulkActionParams,
   GetReleaseParams,
+  GetTaskParams,
+  GetEntryParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -97,6 +99,14 @@ import {
   ReleaseValidatePayload,
 } from '../entities/release'
 import { ReleaseActionProps } from '../entities/release-action'
+import {
+  CreateTaskParams,
+  CreateTaskProps,
+  DeleteTaskParams,
+  TaskProps,
+  UpdateTaskParams,
+  UpdateTaskProps,
+} from '../entities/task'
 
 export type PlainClientAPI = {
   raw: {
@@ -404,7 +414,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
       data: ReleasePayload
     ): Promise<ReleaseProps>
-    delete(params: OptionalDefaults<GetReleaseParams>): Promise<null>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'publish'>>
@@ -648,6 +658,21 @@ export type PlainClientAPI = {
       headers?: Record<string, unknown>
     ): Promise<SpaceMembershipProps>
     delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
+  }
+  task: {
+    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
+    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<TaskProps>>
+    create(
+      params: OptionalDefaults<CreateTaskParams>,
+      rawData: CreateTaskProps,
+      headers?: Record<string, unknown>
+    ): Promise<TaskProps>
+    update(
+      params: OptionalDefaults<UpdateTaskParams>,
+      rawData: UpdateTaskProps,
+      headers?: Record<string, unknown>
+    ): Promise<TaskProps>
+    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
   }
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
