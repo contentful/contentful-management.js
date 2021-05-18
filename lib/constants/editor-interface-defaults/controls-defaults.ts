@@ -73,22 +73,86 @@ export function toInternalFieldType(api: Partial<ContentFields>) {
   })
 }
 
-export const DEFAULTS = {
-  Text: 'markdown',
-  Symbol: 'singleLine',
-  Integer: 'numberEditor',
-  Number: 'numberEditor',
-  Boolean: 'boolean',
-  Date: 'datePicker',
-  Location: 'locationEditor',
-  Object: 'objectEditor',
-  RichText: 'richTextEditor',
-  Entry: 'entryLinkEditor',
-  Asset: 'assetLinkEditor',
-  Symbols: 'tagEditor',
-  Entries: 'entryLinksEditor',
-  Assets: 'assetLinksEditor',
-  File: 'fileEditor',
+
+export const DEFAULTS_WIDGET = {
+  Text: { widgetId: 'markdown' },
+  Symbol: { widgetId: 'singleLine' },
+  Integer: { widgetId: 'numberEditor' },
+  Number: { widgetId: 'numberEditor' },
+  Boolean: { widgetId:'boolean' },
+  Date: { widgetId: 'datePicker' },
+  Location: { widgetId: 'locationEditor' },
+  Object: { widgetId: 'objectEditor' },
+  RichText: { widgetId: 'richTextEditor' },
+  Entry: { widgetId: 'entryLinkEditor' },
+  Asset: { widgetId: 'assetLinkEditor' },
+  Symbols: { widgetId: 'tagEditor' },
+  Entries: { widgetId: 'entryLinksEditor' },
+  Assets: { widgetId: 'assetLinksEditor' },
+  File: { widgetId: 'fileEditor' }
+}
+
+export const DEFAULTS_SETTINGS = {
+  Boolean: {
+    falseLabel: "No",
+    helpText: null,
+    trueLabel: "Yes"
+  },
+  Date: {
+    helpText: null,
+    ampm: "24",
+    format: "timeZ",
+  },
+  Entry: {
+    helpText: null,
+    showCreateEntityAction: true,
+    showLinkEntityAction: true
+  },
+  Asset: {
+    helpText: null,
+    showCreateEntityAction: true,
+    showLinkEntityAction: true
+  },
+
+  Entries: {
+    helpText: null,
+    bulkEditing: false,
+    showCreateEntityAction: true,
+    showLinkEntityAction: true,
+  },
+  Assets: {
+    helpText: null,
+    showCreateEntityAction: true,
+    showLinkEntityAction: true
+  },
+} as const
+
+interface DefaultWidget {
+  widgetId: string;
+  settings?: {
+    helpText: null | string;
+  };
+  fieldId: string;
+  widgetNamespace: "builtin"
+}
+
+function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string) {
+  const defaultWidget: DefaultWidget = {
+    ...DEFAULTS_WIDGET[field] as Pick<DefaultWidget, 'widgetId'>,
+    settings: {
+      helpText: null,
+    },
+    widgetNamespace: "builtin",
+    fieldId,
+  }
+  if (field in DEFAULTS_SETTINGS) {
+    defaultWidget.settings = {
+      ...defaultWidget.settings,
+      // @ts-expect-error missmatch but has been checked
+      ...DEFAULTS_SETTINGS[field]
+    }
+  }
+  return defaultWidget
 }
 
 // Given our internal identifier returns a minimal API field object.
@@ -104,7 +168,7 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - Otherwise a simple type-to-editor mapping is used.
  */
 export default function getDefaultControlOfField(field: ContentFields, displayFieldId: string) {
-  const fieldType = toInternalFieldType(field)
+  let fieldType = toInternalFieldType(field)
 
   if (!fieldType) return
 
@@ -113,15 +177,19 @@ export default function getDefaultControlOfField(field: ContentFields, displayFi
   )
 
   if (hasInValidation && DROPDOWN_TYPES.includes(fieldType)) {
-    return 'dropdown'
+    return ({
+      widgetId: 'dropdown',
+      fieldId: field.id,
+      widgetNameSpace: 'builtin'
+    })
   }
 
   const isTextField = fieldType === 'Text'
   const isDisplayField = field.id === displayFieldId
 
   if (isTextField && isDisplayField) {
-    return 'singleLine'
+    fieldType = 'Symbol'
   }
 
-  return DEFAULTS[fieldType]
+  return getDefaultWidget(fieldType, field.id)
 }

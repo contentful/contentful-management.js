@@ -18,7 +18,8 @@ export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
-export { createClient, editorInterfaceDefaults }
+export { createClient }
+export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 
 interface UserAgentParams {
