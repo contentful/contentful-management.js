@@ -73,13 +73,12 @@ export function toInternalFieldType(api: Partial<ContentFields>) {
   })
 }
 
-
 export const DEFAULTS_WIDGET = {
   Text: { widgetId: 'markdown' },
   Symbol: { widgetId: 'singleLine' },
   Integer: { widgetId: 'numberEditor' },
   Number: { widgetId: 'numberEditor' },
-  Boolean: { widgetId:'boolean' },
+  Boolean: { widgetId: 'boolean' },
   Date: { widgetId: 'datePicker' },
   Location: { widgetId: 'locationEditor' },
   Object: { widgetId: 'objectEditor' },
@@ -89,29 +88,29 @@ export const DEFAULTS_WIDGET = {
   Symbols: { widgetId: 'tagEditor' },
   Entries: { widgetId: 'entryLinksEditor' },
   Assets: { widgetId: 'assetLinksEditor' },
-  File: { widgetId: 'fileEditor' }
+  File: { widgetId: 'fileEditor' },
 }
 
 export const DEFAULTS_SETTINGS = {
   Boolean: {
-    falseLabel: "No",
+    falseLabel: 'No',
     helpText: null,
-    trueLabel: "Yes"
+    trueLabel: 'Yes',
   },
   Date: {
     helpText: null,
-    ampm: "24",
-    format: "timeZ",
+    ampm: '24',
+    format: 'timeZ',
   },
   Entry: {
     helpText: null,
     showCreateEntityAction: true,
-    showLinkEntityAction: true
+    showLinkEntityAction: true,
   },
   Asset: {
     helpText: null,
     showCreateEntityAction: true,
-    showLinkEntityAction: true
+    showLinkEntityAction: true,
   },
 
   Entries: {
@@ -123,33 +122,33 @@ export const DEFAULTS_SETTINGS = {
   Assets: {
     helpText: null,
     showCreateEntityAction: true,
-    showLinkEntityAction: true
+    showLinkEntityAction: true,
   },
 } as const
 
 interface DefaultWidget {
-  widgetId: string;
+  widgetId: string
   settings?: {
-    helpText: null | string;
-  };
-  fieldId: string;
-  widgetNamespace: "builtin"
+    helpText: null | string
+  }
+  fieldId: string
+  widgetNamespace: 'builtin'
 }
 
 function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string) {
   const defaultWidget: DefaultWidget = {
-    ...DEFAULTS_WIDGET[field] as Pick<DefaultWidget, 'widgetId'>,
+    ...(DEFAULTS_WIDGET[field] as Pick<DefaultWidget, 'widgetId'>),
     settings: {
       helpText: null,
     },
-    widgetNamespace: "builtin",
+    widgetNamespace: 'builtin',
     fieldId,
   }
   if (field in DEFAULTS_SETTINGS) {
     defaultWidget.settings = {
       ...defaultWidget.settings,
       // @ts-expect-error missmatch but has been checked
-      ...DEFAULTS_SETTINGS[field]
+      ...DEFAULTS_SETTINGS[field],
     }
   }
   return defaultWidget
@@ -177,11 +176,11 @@ export default function getDefaultControlOfField(field: ContentFields, displayFi
   )
 
   if (hasInValidation && DROPDOWN_TYPES.includes(fieldType)) {
-    return ({
+    return {
       widgetId: 'dropdown',
       fieldId: field.id,
-      widgetNameSpace: 'builtin'
-    })
+      widgetNameSpace: 'builtin',
+    }
   }
 
   const isTextField = fieldType === 'Text'
