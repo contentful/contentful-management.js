@@ -98,7 +98,7 @@ import {
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from '../entities/release'
-import { ReleaseActionProps } from '../entities/release-action'
+import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -428,7 +428,9 @@ export type PlainClientAPI = {
   }
   releaseAction: {
     get(params: GetReleaseParams & { actionId: string }): Promise<ReleaseActionProps>
-    query(params: GetReleaseParams & { query?: any }): Promise<CollectionProp<ReleaseActionProps>>
+    query(
+      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
   }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>

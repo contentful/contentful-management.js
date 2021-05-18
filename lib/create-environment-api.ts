@@ -14,7 +14,11 @@ import type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 
-import { wrapReleaseAction } from './entities/release-action'
+import {
+  ReleaseActionQueryOptions,
+  wrapReleaseAction,
+  wrapReleaseActionCollection,
+} from './entities/release-action'
 
 import {
   wrapRelease,
@@ -1860,6 +1864,42 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload,
       }).then((data) => wrapReleaseAction(makeRequest, data))
+    },
+
+    getReleaseAction({ actionId, releaseId }: { actionId: string; releaseId: string }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'ReleaseAction',
+        action: 'get',
+        params: {
+          actionId,
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+        },
+      }).then((data) => wrapReleaseAction(makeRequest, data))
+    },
+
+    getReleaseActions({
+      releaseId,
+      query,
+    }: {
+      releaseId: string
+      query?: ReleaseActionQueryOptions
+    }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'ReleaseAction',
+        action: 'query',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          query,
+        },
+      }).then((data) => wrapReleaseActionCollection(makeRequest, data))
     },
   }
 }

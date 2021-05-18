@@ -27,9 +27,20 @@ export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
   sys: ReleaseActionSysProps
 }
 
+export interface ReleaseActionQueryOptions {
+  /** Find Release Actions by using a comma-separated list of Ids */
+  'sys.id'?: string
+  /**
+   * Limit of how many records are returned in the query result
+   * @default 100
+   * */
+  limit?: number
+}
+
 export interface ReleaseActionApiMethods {
   /** Performs a new GET request and returns the wrapper Release */
   get(): ReleaseAction
+  /** Waits until the Release Action has either succeeded or failed */
   waitProcessing(options?: AsyncActionProcessingOptions): ReleaseActionProps
 }
 

@@ -63,6 +63,11 @@ export interface ReleaseValidatePayload {
   action?: 'publish'
 }
 
+export interface ReleaseValidateOptions {
+  payload?: ReleaseValidatePayload
+  processingOptions?: AsyncActionProcessingOptions
+}
+
 export interface ReleaseApiMethods {
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
@@ -74,7 +79,7 @@ export interface ReleaseApiMethods {
   validate({
     payload,
     options,
-  }: {
+  }?: {
     payload?: ReleaseValidatePayload
     options?: AsyncActionProcessingOptions
   }): Promise<ReleaseActionProps<'validate'>>
@@ -127,23 +132,17 @@ function createReleaseApi(makeRequest: MakeRequest) {
         .then((action) => action.waitProcessing(options))
     },
 
-    async validate({
-      payload,
-      options,
-    }: {
-      payload?: ReleaseValidatePayload
-      options?: AsyncActionProcessingOptions
-    }) {
+    async validate(options?: ReleaseValidateOptions) {
       const params = getParams(this)
 
       return makeRequest({
         entityType: 'Release',
         action: 'validate',
         params,
-        payload,
+        payload: options?.payload,
       })
         .then((data) => wrapReleaseAction(makeRequest, data))
-        .then((action) => action.waitProcessing(options))
+        .then((action) => action.waitProcessing(options?.processingOptions))
     },
   }
 }

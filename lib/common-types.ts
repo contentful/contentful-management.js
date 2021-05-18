@@ -65,7 +65,11 @@ import {
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from './entities/release'
-import { ReleaseAction, ReleaseActionProps } from './entities/release-action'
+import {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
 
 import {
   CreateTaskParams,
@@ -921,7 +925,7 @@ export type MRActions = {
       return: ReleaseAction
     }
     query: {
-      params: GetReleaseParams & { query?: any }
+      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
       return: Collection<ReleaseAction, ReleaseActionProps>
     }
   }
