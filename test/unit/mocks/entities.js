@@ -571,7 +571,8 @@ export const scheduledActionMock = {
   entity: { sys: cloneDeep(linkMock) },
   environment: { sys: cloneDeep(linkMock) },
   scheduledFor: {
-    datetime: 'scheduledFor',
+    datetime: '2006-01-02T15:04:05-0700',
+    timezone: 'Asia/Kolkata',
   },
 }
 

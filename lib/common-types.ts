@@ -182,9 +182,18 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
+
+export interface CursorPaginatedCollection<T, TPlain>
+  extends CursorPaginatedCollectionProp<T>,
+    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
