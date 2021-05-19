@@ -71,7 +71,7 @@ export interface ReleaseValidateOptions {
 export interface ReleaseApiMethods {
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
-  /** Publishes a Release and wait until the assynchronous action is completed */
+  /** Publishes a Release and waits until the asynchronous action is completed */
   publish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'publish'>>
   /** Unpublishes a Release and waits until the asynchronous action is completed */
   unpublish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'unpublish'>>
