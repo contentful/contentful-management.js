@@ -166,10 +166,12 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - If a Text field is a title then the `singleLine` widget is used.
  * - Otherwise a simple type-to-editor mapping is used.
  */
-export default function getDefaultControlOfField(field: ContentFields, displayFieldId: string) {
-  let fieldType = toInternalFieldType(field)
+export default function getDefaultControlOfField(field: ContentFields) {
+  const fieldType = toInternalFieldType(field)
 
-  if (!fieldType) return
+  if (!fieldType) {
+    throw new Error('Invalid field type')
+  }
 
   const hasInValidation = (field.validations || []).find(
     (v: ContentTypeFieldValidation) => 'in' in v
@@ -182,13 +184,5 @@ export default function getDefaultControlOfField(field: ContentFields, displayFi
       widgetNameSpace: 'builtin',
     }
   }
-
-  const isTextField = fieldType === 'Text'
-  const isDisplayField = field.id === displayFieldId
-
-  if (isTextField && isDisplayField) {
-    fieldType = 'Symbol'
-  }
-
   return getDefaultWidget(fieldType, field.id)
 }

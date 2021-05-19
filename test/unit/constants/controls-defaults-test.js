@@ -9,7 +9,9 @@ import getDefaultControlOfField, {
 describe('controlsDefaults', () => {
   test('with an unsupported field type', () => {
     const field = { type: 'unsupportedtype' }
-    expect(getDefaultControlOfField(field, 'displayfieldid')).equals(undefined)
+    expect(function(){
+      getDefaultControlOfField(field)
+    }).to.throw(Error)
   })
 
   describe('if validations exist but are different', () => {
@@ -17,12 +19,12 @@ describe('controlsDefaults', () => {
 
     it('for a type with a dropdown widget', () => {
       const field = { type: 'Symbol', validations }
-      expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('singleLine')
+      expect(getDefaultControlOfField(field).widgetId).equals('singleLine')
     })
 
     it('for a type with no dropdown widget', () => {
       const field = { type: 'Date', validations }
-      expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('datePicker')
+      expect(getDefaultControlOfField(field).widgetId).equals('datePicker')
     })
   })
 
@@ -31,65 +33,58 @@ describe('controlsDefaults', () => {
 
     it('for a type with a dropdown widget', () => {
       const field = { type: 'Symbol', validations }
-      expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('dropdown')
+      expect(getDefaultControlOfField(field).widgetId).equals('dropdown')
     })
 
     it('for a type with no dropdown widget', () => {
       const field = { type: 'Date', validations }
-      expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('datePicker')
+      expect(getDefaultControlOfField(field).widgetId).equals('datePicker')
     })
   })
 
-  describe('if field is Text', () => {
+  it('if field is Text', () => {
     const field = { type: 'Text', id: 'textfield' }
-
-    it('and is display field', () => {
-      expect(getDefaultControlOfField(field, 'textfield').widgetId).equals('singleLine')
-    })
-
-    it('is not a display field', () => {
-      expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('markdown')
-    })
+    expect(getDefaultControlOfField(field).widgetId).equals('markdown')
   })
 
   it('if field is RichText', () => {
     const field = { type: 'RichText' }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('richTextEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('richTextEditor')
   })
 
   it('if field is Entry', () => {
     const field = { type: 'Link', linkType: 'Entry' }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('entryLinkEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('entryLinkEditor')
   })
 
   it('if field is Asset', () => {
     const field = { type: 'Link', linkType: 'Asset' }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('assetLinkEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('assetLinkEditor')
   })
 
   it('if field is a list of Assets', () => {
     const field = { type: 'Array', items: { type: 'Link', linkType: 'Asset' } }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('assetLinksEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('assetLinksEditor')
   })
 
   it('if field is a list of Entries', () => {
     const field = { type: 'Array', items: { type: 'Link', linkType: 'Entry' } }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('entryLinksEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('entryLinksEditor')
   })
 
   it('if field is a File', () => {
     const field = { type: 'File' }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetId).equals('fileEditor')
+    expect(getDefaultControlOfField(field).widgetId).equals('fileEditor')
   })
 
   it('has the correct namespace', () => {
     const field = { type: 'Symbol' }
-    expect(getDefaultControlOfField(field, 'displayfieldid').widgetNamespace).equals('builtin')
+    expect(getDefaultControlOfField(field).widgetNamespace).equals('builtin')
   })
 
   it('returns default widget ID for each known field type', () => {
     FIELD_TYPES.forEach((type) => {
-      const defaultWidget = getDefaultControlOfField(toApiFieldType(type), 'displayfieldid')
+      const defaultWidget = getDefaultControlOfField(toApiFieldType(type))
       expect(defaultWidget.widgetId).equals(DEFAULTS_WIDGET[type].widgetId)
     })
   })
