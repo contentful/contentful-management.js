@@ -8,4 +8,4 @@ export enum WidgetNamespace {
 
 export const DEFAULT_EDITOR_ID = 'default-editor'
 
-export const in_ = <K extends string, O>(key: K, object: O): key is K & keyof O => key in object;
+export const in_ = <K extends string, O>(key: K, object: O): key is K & keyof O => key in object
