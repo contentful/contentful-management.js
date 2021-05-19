@@ -73,7 +73,7 @@ export interface ReleaseApiMethods {
   delete(): Promise<void>
   /** Publishes a Release and wait until the assynchronous action is completed */
   publish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'publish'>>
-  /** Unpublishes a Release and wait until the assynchronous action is completed */
+  /** Unpublishes a Release and waits until the asynchronous action is completed */
   unpublish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'unpublish'>>
   /** Validates a Release and wait until the assynchronous action is completed */
   validate({
