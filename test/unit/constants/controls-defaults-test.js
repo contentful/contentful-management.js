@@ -9,7 +9,7 @@ import getDefaultControlOfField, {
 describe('controlsDefaults', () => {
   test('with an unsupported field type', () => {
     const field = { type: 'unsupportedtype' }
-    expect(function(){
+    expect(function () {
       getDefaultControlOfField(field)
     }).to.throw(Error)
   })
