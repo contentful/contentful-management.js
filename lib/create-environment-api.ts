@@ -1930,7 +1930,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
       return makeRequest({
         entityType: 'ReleaseAction',
-        action: 'query',
+        action: 'queryForRelease',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,

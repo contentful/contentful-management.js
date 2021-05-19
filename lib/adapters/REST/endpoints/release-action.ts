@@ -15,7 +15,7 @@ export const get: RestEndpoint<'ReleaseAction', 'get'> = (
   )
 }
 
-export const query: RestEndpoint<'ReleaseAction', 'query'> = (
+export const queryForRelease: RestEndpoint<'ReleaseAction', 'queryForRelease'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
 ) => {

@@ -218,7 +218,7 @@ export const createPlainClient = (
     },
     releaseAction: {
       get: wrap(wrapParams, 'ReleaseAction', 'get'),
-      query: wrap(wrapParams, 'ReleaseAction', 'query'),
+      queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
     },
     role: {
       get: wrap(wrapParams, 'Role', 'get'),

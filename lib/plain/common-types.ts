@@ -428,7 +428,7 @@ export type PlainClientAPI = {
   }
   releaseAction: {
     get(params: GetReleaseParams & { actionId: string }): Promise<ReleaseActionProps>
-    query(
+    queryForRelease(
       params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
