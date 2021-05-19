@@ -1,4 +1,5 @@
 import { ContentFields, ContentTypeFieldValidation } from '../../entities/content-type-fields'
+import { in_ } from './types'
 
 const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean']
 
@@ -144,10 +145,9 @@ function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string) 
     widgetNamespace: 'builtin',
     fieldId,
   }
-  if (field in DEFAULTS_SETTINGS) {
+  if (in_(field, DEFAULTS_SETTINGS)) {
     defaultWidget.settings = {
       ...defaultWidget.settings,
-      // @ts-expect-error missmatch but has been checked
       ...DEFAULTS_SETTINGS[field],
     }
   }
