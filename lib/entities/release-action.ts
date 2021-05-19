@@ -29,7 +29,7 @@ export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
 
 export interface ReleaseActionQueryOptions {
   /** Find Release Actions by using a comma-separated list of Ids */
-  'sys.id'?: string
+  'sys.id[in]'?: string
   /**
    * Limit of how many records are returned in the query result
    * @default 100
