@@ -11,7 +11,7 @@ type PlainOptions = {
   actionId: string
 }
 
-/** Waits for a BulkAction status to be either succeeded or failed.
+/** Waits for a ReleaseAction status to be either succeeded or failed.
  * Used by the Plain client */
 export async function waitForReleaseActionProcessing<T extends ReleaseActionTypes = any>(
   { plainClient, spaceId, environmentId, releaseId, actionId }: PlainOptions,
