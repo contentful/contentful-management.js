@@ -200,7 +200,7 @@ describe('Release Api', async function () {
         },
       })
 
-      // cleanup
+      // Deletes a Release and all its Release Actions
       await testEnvironment.deleteRelease(release.sys.id)
 
       try {
@@ -274,9 +274,8 @@ describe('Release Api', async function () {
         },
       })
 
-      const unpublishAction = await release.validate({ payload: { action: 'publish' } })
-
-      expect(unpublishAction.sys.status).to.eql('succeeded')
+      const validateAction = await release.validate({ payload: { action: 'publish' } })
+      expect(validateAction.sys.status).to.eql('succeeded')
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
