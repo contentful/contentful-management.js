@@ -93,7 +93,13 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import { ReleasePayload, ReleaseProps, ReleaseQueryOptions } from '../entities/release'
+import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from '../entities/release'
+import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -410,6 +416,24 @@ export type PlainClientAPI = {
       data: ReleasePayload
     ): Promise<ReleaseProps>
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
+    publish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'publish'>>
+    unpublish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'unpublish'>>
+    validate(
+      params: OptionalDefaults<GetReleaseParams>,
+      data?: ReleaseValidatePayload
+    ): Promise<ReleaseActionProps<'validate'>>
+  }
+  releaseAction: {
+    get(
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+    ): Promise<ReleaseActionProps>
+    queryForRelease(
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
   }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
