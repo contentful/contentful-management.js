@@ -971,7 +971,7 @@ export type MRActions = {
       payload: Omit<ScheduledActionProps, 'sys'>
       return: ScheduledActionProps
     }
-    delete: { params: GetSpaceParams & { scheduledActionId: string }; return: any }
+    delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
   }
   Snapshot: {
     getManyForEntry: {
