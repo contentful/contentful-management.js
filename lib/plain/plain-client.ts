@@ -206,6 +206,20 @@ export const createPlainClient = (
       getManyForSpace: wrap(wrapParams, 'Usage', 'getManyForSpace'),
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
+    release: {
+      get: wrap(wrapParams, 'Release', 'get'),
+      query: wrap(wrapParams, 'Release', 'query'),
+      create: wrap(wrapParams, 'Release', 'create'),
+      update: wrap(wrapParams, 'Release', 'update'),
+      delete: wrap(wrapParams, 'Release', 'delete'),
+      publish: wrap(wrapParams, 'Release', 'publish'),
+      unpublish: wrap(wrapParams, 'Release', 'unpublish'),
+      validate: wrap(wrapParams, 'Release', 'validate'),
+    },
+    releaseAction: {
+      get: wrap(wrapParams, 'ReleaseAction', 'get'),
+      queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
+    },
     role: {
       get: wrap(wrapParams, 'Role', 'get'),
       getMany: wrap(wrapParams, 'Role', 'getMany'),

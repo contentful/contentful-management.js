@@ -389,6 +389,46 @@ const roleMock = {
   }),
 }
 
+const releaseMock = {
+  sys: {
+    ...sysMock,
+    type: 'Release',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    version: 1,
+  },
+  entities: {
+    sys: { type: 'Array' },
+    items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+  },
+  title: 'Release Mock',
+}
+
+const releaseActionMock = {
+  sys: {
+    ...sysMock,
+    type: 'ReleaseAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    completedAt: '2021-05-18T10:00:00Z',
+    release: makeLink('Release', 'release-id'),
+    status: 'created',
+  },
+  action: 'publish',
+}
+
+const releaseActionValidateMock = {
+  ...releaseActionMock,
+  action: 'validate',
+}
+
+const releaseActionUnpublishMock = {
+  ...releaseActionMock,
+  action: 'unpublish',
+}
+
 const apiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -531,7 +571,8 @@ export const scheduledActionMock = {
   entity: { sys: cloneDeep(linkMock) },
   environment: { sys: cloneDeep(linkMock) },
   scheduledFor: {
-    datetime: 'scheduledFor',
+    datetime: '2006-01-02T15:04:05-0700',
+    timezone: 'Asia/Kolkata',
   },
 }
 
@@ -588,6 +629,10 @@ const mocks = {
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
+  release: releaseMock,
+  releaseAction: releaseActionMock,
+  releaseActionValidate: releaseActionValidateMock,
+  releaseActionUnpublish: releaseActionUnpublishMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -696,6 +741,13 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapRole: sinon.stub(),
       wrapRoleCollection: sinon.stub(),
     },
+    release: {
+      wrapRelease: sinon.stub(),
+      wrapReleaseCollection: sinon.stub(),
+    },
+    releaseAction: {
+      wrapReleaseAction: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -783,6 +835,7 @@ export {
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
+  releaseMock,
   roleMock,
   apiKeyMock,
   previewApiKeyMock,

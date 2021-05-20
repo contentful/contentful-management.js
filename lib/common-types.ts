@@ -60,6 +60,18 @@ import {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from './entities/release'
+import {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
+
+import {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
@@ -91,6 +103,12 @@ export interface VersionedLink<T extends string> {
     version: number
   }
 }
+
+export interface BaseCollection<T> {
+  sys: { type: 'Array' }
+  items: T[]
+}
+
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
 export type ISO8601Timestamp = string
 
@@ -164,9 +182,18 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
+
+export interface CursorPaginatedCollection<T, TPlain>
+  extends CursorPaginatedCollectionProp<T>,
+    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -329,6 +356,21 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
+
+  (opts: MROpts<'Release', 'get', UA>): MRReturn<'Release', 'get'>
+  (opts: MROpts<'Release', 'query', UA>): MRReturn<'Release', 'query'>
+  (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
+  (opts: MROpts<'Release', 'update', UA>): MRReturn<'Release', 'update'>
+  (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
+  (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
+  (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
+
+  (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
+    'ReleaseAction',
+    'queryForRelease'
+  >
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
@@ -852,6 +894,53 @@ export type MRActions = {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
   }
+  Release: {
+    get: {
+      params: GetReleaseParams
+      return: ReleaseProps
+    }
+    query: {
+      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      return: CollectionProp<ReleaseProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    update: {
+      params: GetReleaseParams & { version: number }
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    delete: {
+      params: GetReleaseParams
+      return: void
+    }
+    publish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'publish'>
+    }
+    unpublish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'unpublish'>
+    }
+    validate: {
+      params: GetReleaseParams
+      payload?: ReleaseValidatePayload
+      return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAction: {
+    get: {
+      params: GetReleaseParams & { actionId: string }
+      return: ReleaseAction
+    }
+    queryForRelease: {
+      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
+    }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -1153,6 +1242,7 @@ export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentType
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetOrganizationParams = { organizationId: string }
+export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }

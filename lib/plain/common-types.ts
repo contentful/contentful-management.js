@@ -28,8 +28,10 @@ import {
   GetAppUploadParams,
   GetAppBundleParams,
   GetBulkActionParams,
+  GetReleaseParams,
   GetTaskParams,
   GetEntryParams,
+  CursorPaginatedCollectionProp,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -91,6 +93,13 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
+import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from '../entities/release'
+import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -393,6 +402,39 @@ export type PlainClientAPI = {
       params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
   }
+  release: {
+    get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
+    query(
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
+    ): Promise<CollectionProp<ReleaseProps>>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    update(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
+    publish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'publish'>>
+    unpublish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'unpublish'>>
+    validate(
+      params: OptionalDefaults<GetReleaseParams>,
+      data?: ReleaseValidatePayload
+    ): Promise<ReleaseActionProps<'validate'>>
+  }
+  releaseAction: {
+    get(
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+    ): Promise<ReleaseActionProps>
+    queryForRelease(
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
+  }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
     getMany(
@@ -418,12 +460,14 @@ export type PlainClientAPI = {
   scheduledActions: {
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<ScheduledActionProps>>
+    ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: Omit<ScheduledActionProps, 'sys'>
     ): Promise<ScheduledActionProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>): Promise<any>
+    delete(
+      params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>
+    ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
     get(
