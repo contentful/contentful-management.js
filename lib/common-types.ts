@@ -59,8 +59,18 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from './entities/release'
+import {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
 
-import { ReleasePayload, ReleaseProps, ReleaseQueryOptions } from './entities/release'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -352,6 +362,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
   (opts: MROpts<'Release', 'update', UA>): MRReturn<'Release', 'update'>
   (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
+  (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
+  (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
+
+  (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
+    'ReleaseAction',
+    'queryForRelease'
+  >
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
@@ -897,6 +916,29 @@ export type MRActions = {
     delete: {
       params: GetReleaseParams
       return: void
+    }
+    publish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'publish'>
+    }
+    unpublish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'unpublish'>
+    }
+    validate: {
+      params: GetReleaseParams
+      payload?: ReleaseValidatePayload
+      return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAction: {
+    get: {
+      params: GetReleaseParams & { actionId: string }
+      return: ReleaseAction
+    }
+    queryForRelease: {
+      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
     }
   }
   Role: {

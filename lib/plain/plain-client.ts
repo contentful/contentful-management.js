@@ -212,6 +212,13 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'Release', 'create'),
       update: wrap(wrapParams, 'Release', 'update'),
       delete: wrap(wrapParams, 'Release', 'delete'),
+      publish: wrap(wrapParams, 'Release', 'publish'),
+      unpublish: wrap(wrapParams, 'Release', 'unpublish'),
+      validate: wrap(wrapParams, 'Release', 'validate'),
+    },
+    releaseAction: {
+      get: wrap(wrapParams, 'ReleaseAction', 'get'),
+      queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
     },
     role: {
       get: wrap(wrapParams, 'Role', 'get'),

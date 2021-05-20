@@ -74,6 +74,21 @@ export type {
   CreatePersonalAccessTokenProps,
 } from './entities/personal-access-token'
 export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
+export type {
+  Release,
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseSysProps,
+  ReleaseValidateOptions,
+} from './entities/release'
+export type {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+  ReleaseActionSysProps,
+  ReleaseActionTypes,
+} from './entities/release-action'
 export type { Role, RoleProps, CreateRoleProps } from './entities/role'
 export type {
   ScheduledAction,
