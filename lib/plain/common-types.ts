@@ -427,9 +427,11 @@ export type PlainClientAPI = {
     ): Promise<ReleaseActionProps<'validate'>>
   }
   releaseAction: {
-    get(params: GetReleaseParams & { actionId: string }): Promise<ReleaseActionProps>
+    get(
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+    ): Promise<ReleaseActionProps>
     queryForRelease(
-      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
   role: {
