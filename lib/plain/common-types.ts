@@ -31,6 +31,7 @@ import {
   GetReleaseParams,
   GetTaskParams,
   GetEntryParams,
+  CursorPaginatedCollectionProp,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -459,12 +460,14 @@ export type PlainClientAPI = {
   scheduledActions: {
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<ScheduledActionProps>>
+    ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: Omit<ScheduledActionProps, 'sys'>
     ): Promise<ScheduledActionProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>): Promise<any>
+    delete(
+      params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>
+    ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
     get(
