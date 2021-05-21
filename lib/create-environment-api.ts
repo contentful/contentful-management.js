@@ -1643,7 +1643,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *   entities: {
      *     sys: { type: 'Array' },
      *     items: [
-     *      { linkType: 'Entry', type: 'Link', id: '<entry_id>' }
+     *      { sys: { linkType: 'Entry', type: 'Link', id: '<entry_id>' } }
      *     ]
      *   }
      * }
@@ -1675,8 +1675,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.releaseId the ID of the release
      * @param options.payload the payload to be updated in the Release
      * @param options.version Release sys.version that to be updated
-     *
      * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1690,7 +1690,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *   entities: {
      *     sys: { type: 'Array' },
      *     items: [
-     *      { linkType: 'Entry', type: 'Link', id: '<entry_id>' }
+     *        { sys: { linkType: 'Entry', type: 'Link', id: '<entry_id>' } }
      *     ]
      *   }
      * }
@@ -1762,8 +1762,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Publishes all Entities contained in a Release.
      * @param options.releaseId the ID of the release
      * @param options.version the version of the release that is to be published
-     *
      * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1773,7 +1773,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.publishRelease({ releaseId: '<release_id>', version: 1 })
+     * .then((environment) => environment.publishRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
      */
@@ -1796,8 +1796,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Unpublishes all Entities contained in a Release.
      * @param options.releaseId the ID of the release
      * @param options.version the version of the release that is to be published
-     *
      * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1807,7 +1807,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.unpublishRelease({ releaseId: '<release_id>', version: 1 })
+     * .then((environment) => environment.unpublishRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
      */
@@ -1832,6 +1832,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.payload (optional) the type of action to be validated against
      *
      * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1841,7 +1842,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.validateRelease({ releaseId: '<release_id>', payload: { action: 'unpublish' } })
+     * .then((environment) => environment.validateRelease({ releaseId: '<release_id>', payload: { action: 'unpublish' } }))
      * .catch(console.error)
      * ```
      */
@@ -1905,6 +1906,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param {string} params.releaseId ID of the Release to fetch the actions from
      * @param {ReleaseQueryOptions} params.query filtering options for the collection result
      * @returns Promise containing a wrapped ReleaseAction Collection
+     *
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

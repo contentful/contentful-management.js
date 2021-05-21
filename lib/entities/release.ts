@@ -69,6 +69,8 @@ export interface ReleaseValidateOptions {
 }
 
 export interface ReleaseApiMethods {
+  /** Updates a Release and returns the updated Release object */
+  update(payload: ReleasePayload): Promise<Release>
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
   /** Publishes a Release and waits until the asynchronous action is completed */
@@ -98,6 +100,16 @@ function createReleaseApi(makeRequest: MakeRequest) {
   }
 
   return {
+    async update(payload: ReleasePayload) {
+      const params = getParams(this)
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'update',
+        params,
+        payload,
+      }).then((release) => wrapRelease(makeRequest, release))
+    },
     async delete() {
       const params = getParams(this)
 
