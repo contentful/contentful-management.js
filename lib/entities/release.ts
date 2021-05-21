@@ -23,9 +23,9 @@ export interface ReleaseQueryOptions {
   /** Find releases filtered by the Entity type (Asset, Entry) */
   'entities.sys.linkType'?: string
   /** Find releases containing the specified, comma-separated entities. Requires `entities.sys.linkType` */
-  'entities.sys.id'?: string
+  'entities.sys.id[in]'?: string
   /** Find releases by using a comma-separated list of Ids */
-  'sys.id'?: string
+  'sys.id[in]'?: string
   /** If present, will return results based on a pagination cursor */
   pageNext?: string
   /**

@@ -1608,7 +1608,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.getReleases({ 'entities.sys.id': '<asset_id>,<entry_id>' }))
+     * .then((environment) => environment.getReleases({ 'entities.sys.id[in]': '<asset_id>,<entry_id>' }))
      * .then((releases) => console.log(releases))
      * .catch(console.error)
      * ```
@@ -1916,7 +1916,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.getReleaseActions({ releaseId: '<release_id>', query: { 'sys.id': '<id_1>,<id_2>' } }))
+     * .then((environment) => environment.getReleaseActions({ releaseId: '<release_id>', query: { 'sys.id[in]': '<id_1>,<id_2>' } }))
      * .then((releaseActions) => console.log(releaseActions))
      * .catch(console.error)
      * ```
