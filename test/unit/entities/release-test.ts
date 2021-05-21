@@ -7,6 +7,7 @@ import {
   entityWrappedTest,
   entityCollectionWrappedTest,
   entityDeleteTest,
+  entityUpdateTest,
 } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
@@ -24,6 +25,12 @@ describe('Entity Release', () => {
   it('Release collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapReleaseCollection,
+    })
+  })
+
+  it('Release update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapRelease,
     })
   })
 
