@@ -1,5 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import { ScheduledActionProps } from '../../../entities/scheduled-action'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -28,7 +33,11 @@ export const create: RestEndpoint<'ScheduledAction', 'create'> = (
 
 export const del: RestEndpoint<'ScheduledAction', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { scheduledActionId: string }
+  params: GetSpaceEnvironmentParams & { scheduledActionId: string }
 ) => {
-  return raw.del(http, `/spaces/${params.spaceId}/scheduled_actions/${params.scheduledActionId}`)
+  return raw.del(http, `/spaces/${params.spaceId}/scheduled_actions/${params.scheduledActionId}`, {
+    params: {
+      'environment.sys.id': params.environmentId,
+    },
+  })
 }

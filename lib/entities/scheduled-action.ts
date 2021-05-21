@@ -94,6 +94,7 @@ export function createDeleteScheduledAction(
       params: {
         spaceId: data.sys.space.sys.id,
         scheduledActionId: data.sys.id,
+        environmentId: data.environment?.sys.id as string,
       },
     }).then((data) => wrapScheduledAction(makeRequest, data))
   }

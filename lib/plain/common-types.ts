@@ -466,7 +466,7 @@ export type PlainClientAPI = {
       data: Omit<ScheduledActionProps, 'sys'>
     ): Promise<ScheduledActionProps>
     delete(
-      params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>
     ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
