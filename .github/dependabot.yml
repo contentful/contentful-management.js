@@ -15,5 +15,8 @@ updates:
       - dependency-name: typedoc
         versions:
           - '>= 0'
+      - dependency-name: type-fest
+        versions:
+          - '>= 1'
     registries:
       - npm-registry-registry-npmjs-org
