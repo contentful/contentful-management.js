@@ -1,3 +1,5 @@
+import { KeyValueMap } from '../common-types'
+
 interface NumRange {
   min?: number
   max?: number
@@ -38,7 +40,7 @@ interface Item {
   validations?: ContentTypeFieldValidation[]
 }
 
-export interface ContentFields extends Item {
+export interface ContentFields<T = KeyValueMap> extends Item {
   id: string
   name: string
   required: boolean
@@ -48,4 +50,5 @@ export interface ContentFields extends Item {
   deleted?: boolean
   items?: Item
   apiName?: string
+  initialValue?: T
 }
