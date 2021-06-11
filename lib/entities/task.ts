@@ -29,6 +29,7 @@ export type TaskProps = {
   body: string
   assignedTo: Link<'User'>
   status: TaskStatus
+  dueDate?: string
 }
 
 export type CreateTaskProps = Omit<TaskProps, 'sys'>
