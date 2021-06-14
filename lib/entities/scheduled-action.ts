@@ -33,6 +33,7 @@ type SchedulableActionType = 'publish' | 'unpublish'
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
+  version?: number
   space: { sys: MetaLinkProps }
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
@@ -40,6 +41,9 @@ export type ScheduledActionSysProps = {
   /** an ISO8601 date string representing when an action was moved to canceled */
   canceledAt?: ISO8601Timestamp
   canceledBy?: { sys: MetaLinkProps }
+  /** an ISO8601 date string representing when an action was updated */
+  updatedAt: ISO8601Timestamp
+  updatedBy: { sys: MetaLinkProps }
 }
 
 export type ScheduledActionProps = {
