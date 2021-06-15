@@ -79,6 +79,7 @@ import {
   UpdateTaskParams,
   UpdateTaskProps,
 } from './entities/task'
+import { SpaceTeamProps } from './entities/space-team'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -396,6 +397,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
+
+  (opts: MROpts<'SpaceTeam', 'get', UA>): MRReturn<'SpaceTeam', 'get'>
+  (opts: MROpts<'SpaceTeam', 'getMany', UA>): MRReturn<'SpaceTeam', 'getMany'>
 
   (opts: MROpts<'SpaceMember', 'get', UA>): MRReturn<'SpaceMember', 'get'>
   (opts: MROpts<'SpaceMember', 'getMany', UA>): MRReturn<'SpaceMember', 'getMany'>
@@ -1008,6 +1012,13 @@ export type MRActions = {
     }
     delete: { params: GetSpaceParams; return: void }
   }
+  SpaceTeam: {
+    get: { params: GetSpaceTeamParams & { teamId: string }; return: SpaceTeamProps }
+    getMany: {
+      params: GetSpaceTeamParams & PaginationQueryParams
+      return: CollectionProp<SpaceTeamProps>
+    }
+  }
   SpaceMember: {
     get: { params: GetSpaceParams & { spaceMemberId: string }; return: SpaceMemberProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<SpaceMemberProps> }
@@ -1249,6 +1260,7 @@ export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: stri
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 export type GetSpaceParams = { spaceId: string }
+export type GetSpaceTeamParams = { spaceId: string }
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
 export type GetTaskParams = GetEntryParams & { taskId: string }
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }

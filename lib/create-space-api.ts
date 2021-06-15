@@ -4,7 +4,7 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
+import { MakeRequest, MROpts, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
 import { CreateEnvironmentProps } from './entities/environment'
@@ -30,6 +30,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapRole, wrapRoleCollection } = entities.role
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
+  const { wrapSpaceTeam, wrapSpaceTeamCollection } = entities.spaceTeam
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const {
     wrapTeamSpaceMembership,
@@ -541,6 +542,52 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapUserCollection(makeRequest, data))
+    },
+    /**
+     * Gets a Space Team
+     * @param id Get Space Team by team_id
+     * @return Promise for a Space Team
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceTeam(id))
+     * .then((spaceTeam) => console.log(spaceTeam))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceTeam(id: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'SpaceTeam',
+        action: 'get',
+        params: { spaceId: raw.sys.id, teamId: id },
+      }).then((data) => wrapSpaceTeam(makeRequest, data))
+    },
+    /**
+     * Gets a collection of Space Teams
+     * @param query
+     * @return Promise for a collection of Space Teams
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceTeams({'limit': 100}))
+     * .then((spaceTeamCollection) => console.log(spaceTeamCollection))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceTeams(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      const opts: MROpts<'SpaceTeam', 'getMany', boolean> = {
+        entityType: 'SpaceTeam',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }
+      return makeRequest(opts).then((data) => wrapSpaceTeamCollection(makeRequest, data))
     },
     /**
      * Gets a Space Member
