@@ -5,6 +5,7 @@ import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import { Space, SpaceProps } from './entities/space'
+import { wrapSpaceTeamCollection } from './entities/space-team'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 
@@ -322,6 +323,39 @@ export default function createClientApi(makeRequest: MakeRequest) {
           query,
         },
       }).then((data) => wrapUsageCollection(makeRequest, data))
+    },
+
+    /**
+     * Get space-scoped teams
+     *
+     * @param spaceId - Id of a space
+     * @param query - Query parameters
+     * @return Promise of a collection of teams
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpaceTeams('<spaceId>', {
+     *    skip: 0,
+     *    limit: 10,
+     *    }
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceTeams: function getSpaceTeams(spaceId: string, query: UsageQuery = {}) {
+      return makeRequest({
+        entityType: 'SpaceTeam',
+        action: 'getMany',
+        params: {
+          spaceId,
+          query,
+        },
+      }).then((data) => wrapSpaceTeamCollection(makeRequest, data))
     },
 
     /**
