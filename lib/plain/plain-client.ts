@@ -304,7 +304,6 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'OrganizationMembership', 'delete'),
     },
     spaceTeam: {
-      get: wrap(wrapParams, 'SpaceTeam', 'get'),
       getMany: wrap(wrapParams, 'SpaceTeam', 'getMany'),
     },
     spaceMember: {

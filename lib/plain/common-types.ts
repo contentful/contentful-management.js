@@ -633,7 +633,6 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
   }
   spaceTeam: {
-    get(params: OptionalDefaults<GetSpaceTeamParams & { teamId: string }>): Promise<SpaceTeamProps>
     getMany(
       params: OptionalDefaults<GetSpaceTeamParams & PaginationQueryParams>
     ): Promise<CollectionProp<SpaceTeamProps>>

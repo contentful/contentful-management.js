@@ -30,7 +30,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapRole, wrapRoleCollection } = entities.role
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
-  const { wrapSpaceTeam, wrapSpaceTeamCollection } = entities.spaceTeam
+  const { wrapSpaceTeamCollection } = entities.spaceTeam
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const {
     wrapTeamSpaceMembership,
@@ -543,31 +543,11 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapUserCollection(makeRequest, data))
     },
+
     /**
-     * Gets a Space Team
-     * @param id Get Space Team by team_id
-     * @return Promise for a Space Team
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * client.getSpace('<space_id>')
-     * .then((space) => space.getSpaceTeam(id))
-     * .then((spaceTeam) => console.log(spaceTeam))
-     * .catch(console.error)
-     * ```
-     */
-    getSpaceTeam(id: string) {
-      const raw = this.toPlainObject() as SpaceProps
-      return makeRequest({
-        entityType: 'SpaceTeam',
-        action: 'get',
-        params: { spaceId: raw.sys.id, teamId: id },
-      }).then((data) => wrapSpaceTeam(makeRequest, data))
-    },
-    /**
-     * Gets a collection of Space Teams
+     * Gets a collection of teams for a space
      * @param query
-     * @return Promise for a collection of Space Teams
+     * @return Promise for a collection of teams for a space
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

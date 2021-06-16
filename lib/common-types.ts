@@ -398,7 +398,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
 
-  (opts: MROpts<'SpaceTeam', 'get', UA>): MRReturn<'SpaceTeam', 'get'>
   (opts: MROpts<'SpaceTeam', 'getMany', UA>): MRReturn<'SpaceTeam', 'getMany'>
 
   (opts: MROpts<'SpaceMember', 'get', UA>): MRReturn<'SpaceMember', 'get'>
@@ -1013,7 +1012,6 @@ export type MRActions = {
     delete: { params: GetSpaceParams; return: void }
   }
   SpaceTeam: {
-    get: { params: GetSpaceTeamParams & { teamId: string }; return: SpaceTeamProps }
     getMany: {
       params: GetSpaceTeamParams & PaginationQueryParams
       return: CollectionProp<SpaceTeamProps>

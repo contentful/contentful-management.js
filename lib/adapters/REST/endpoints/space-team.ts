@@ -4,11 +4,6 @@ import { SpaceTeamProps } from '../../../entities/space-team'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const get: RestEndpoint<'SpaceTeam', 'get'> = (
-  http: AxiosInstance,
-  params: GetSpaceTeamParams & { teamId: string }
-) => raw.get<SpaceTeamProps>(http, `/spaces/${params.spaceId}/teams/${params.teamId}`)
-
 export const getMany: RestEndpoint<'SpaceTeam', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceTeamParams & PaginationQueryParams
