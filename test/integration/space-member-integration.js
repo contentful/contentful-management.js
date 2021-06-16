@@ -2,7 +2,7 @@ import { before, describe, test } from 'mocha'
 import { getV2Space } from '../helpers'
 import { expect } from 'chai'
 
-describe('SpaceMembers Api', () => {
+describe('SpaceMember Api', () => {
   let space
 
   before(async () => {

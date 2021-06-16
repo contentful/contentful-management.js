@@ -12,6 +12,7 @@ import {
   scheduledActionCollectionMock,
   scheduledActionMock,
   setupEntitiesMock,
+  spaceTeamMock,
   spaceMemberMock,
   spaceMembershipMock,
   spaceMock,
@@ -157,6 +158,34 @@ describe('A createSpaceApi', () => {
   test('API call createWebhookWithId fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createWebhookWithId',
+    })
+  })
+
+  test('API call getSpaceTeam', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'spaceTeam',
+      mockToReturn: spaceTeamMock,
+      methodToTest: 'getSpaceTeam',
+    })
+  })
+
+  test('API call getSpaceTeam fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSpaceTeam',
+    })
+  })
+
+  test('API call getSpaceTeams', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'spaceTeam',
+      mockToReturn: spaceTeamMock,
+      methodToTest: 'getSpaceTeams',
+    })
+  })
+
+  test('API call getSpaceTeams fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSpaceTeams',
     })
   })
 

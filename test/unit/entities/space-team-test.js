@@ -1,7 +1,7 @@
 import { describe, test } from 'mocha'
 import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
-import { wrapSpaceMember, wrapSpaceMemberCollection } from '../../../lib/entities/space-member'
+import { wrapSpaceTeam, wrapSpaceTeamCollection } from '../../../lib/entities/space-team'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
@@ -10,20 +10,20 @@ import {
 function setup(promise) {
   return {
     makeRequest: setupMakeRequest(promise),
-    entityMock: cloneMock('spaceMember'),
+    entityMock: cloneMock('spaceTeam'),
   }
 }
 
-describe('Entity SpaceMember', () => {
-  test('SpaceMember is wrapped', async () => {
+describe('Entity SpaceTeam', () => {
+  test('SpaceTeam is wrapped', async () => {
     return entityWrappedTest(setup, {
-      wrapperMethod: wrapSpaceMember,
+      wrapperMethod: wrapSpaceTeam,
     })
   })
 
-  test('SpaceMember collection is wrapped', async () => {
+  test('SpaceTeam collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
-      wrapperMethod: wrapSpaceMemberCollection,
+      wrapperMethod: wrapSpaceTeamCollection,
     })
   })
 })
