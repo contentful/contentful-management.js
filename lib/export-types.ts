@@ -97,6 +97,7 @@ export type {
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
+export type { SpaceTeam, SpaceTeamProps } from './entities/space-team'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
 export type {
   SpaceMembership,
