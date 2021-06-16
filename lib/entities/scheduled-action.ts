@@ -7,6 +7,7 @@ import {
   MetaLinkProps,
   Link,
   MakeRequest,
+  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -33,13 +34,17 @@ type SchedulableActionType = 'publish' | 'unpublish'
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
-  space: { sys: MetaLinkProps }
+  version: number
+  space: SysLink
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
-  createdBy: { sys: MetaLinkProps }
+  createdBy: SysLink
   /** an ISO8601 date string representing when an action was moved to canceled */
   canceledAt?: ISO8601Timestamp
-  canceledBy?: { sys: MetaLinkProps }
+  canceledBy?: SysLink
+  /** an ISO8601 date string representing when an action was updated */
+  updatedAt: ISO8601Timestamp
+  updatedBy: Link<'User'>
 }
 
 export type ScheduledActionProps = {
