@@ -326,7 +326,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Get space-scoped teams
+     * Get a filtered set of teams that have access to a space
      *
      * @param spaceId - Id of a space
      * @param query - Query parameters
