@@ -12,10 +12,10 @@ import {
   scheduledActionCollectionMock,
   scheduledActionMock,
   setupEntitiesMock,
-  spaceTeamMock,
   spaceMemberMock,
   spaceMembershipMock,
   spaceMock,
+  teamMock,
   teamSpaceMembershipMock,
   userMock,
   webhookMock,
@@ -163,8 +163,8 @@ describe('A createSpaceApi', () => {
 
   test('API call getSpaceTeams', async () => {
     return makeGetCollectionTest(setup, {
-      entityType: 'spaceTeam',
-      mockToReturn: spaceTeamMock,
+      entityType: 'team',
+      mockToReturn: teamMock,
       methodToTest: 'getSpaceTeams',
     })
   })
