@@ -320,6 +320,7 @@ export const createPlainClient = (
     team: {
       get: wrap(wrapParams, 'Team', 'get'),
       getMany: wrap(wrapParams, 'Team', 'getMany'),
+      getManyForSpace: wrap(wrapParams, 'Team', 'getManyForSpace'),
       create: wrap(wrapParams, 'Team', 'create'),
       update: wrap(wrapParams, 'Team', 'update'),
       delete: wrap(wrapParams, 'Team', 'delete'),

@@ -3,7 +3,7 @@ import { client, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
 // Skipping the while suite for now to not create unused spaces.
-describe.skip('TeamSpaceMembership api', function () {
+describe.skip('TeamSpaceMembership Api', function () {
   let space
 
   before(async () => {

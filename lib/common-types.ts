@@ -429,6 +429,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Team', 'get', UA>): MRReturn<'Team', 'get'>
   (opts: MROpts<'Team', 'getMany', UA>): MRReturn<'Team', 'getMany'>
+  (opts: MROpts<'Team', 'getManyForSpace', UA>): MRReturn<'Team', 'getManyForSpace'>
   (opts: MROpts<'Team', 'create', UA>): MRReturn<'Team', 'create'>
   (opts: MROpts<'Team', 'update', UA>): MRReturn<'Team', 'update'>
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
@@ -1070,6 +1071,7 @@ export type MRActions = {
   Team: {
     get: { params: GetTeamParams; return: TeamProps }
     getMany: { params: GetOrganizationParams & QueryParams; return: CollectionProp<TeamProps> }
+    getManyForSpace: { params: GetSpaceParams & QueryParams; return: CollectionProp<TeamProps> }
     create: {
       params: GetOrganizationParams
       payload: CreateTeamProps

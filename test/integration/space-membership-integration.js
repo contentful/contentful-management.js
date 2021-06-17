@@ -4,7 +4,7 @@ import { client, createTestSpace, generateRandomId } from '../helpers'
 import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
-describe('SpaceMembers Api', function () {
+describe('SpaceMembership Api', function () {
   let space
   let organization
 

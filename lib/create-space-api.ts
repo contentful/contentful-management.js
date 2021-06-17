@@ -35,6 +35,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     wrapTeamSpaceMembership,
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
+  const { wrapTeamCollection } = entities.team
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
@@ -541,6 +542,31 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapUserCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of teams for a space
+     * @param query
+     * @return Promise for a collection of teams for a space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceTeams({'limit': 100}))
+     * .then((spaceTeamCollection) => console.log(spaceTeamCollection))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceTeams(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Team',
+        action: 'getManyForSpace',
+        params: {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapTeamCollection(makeRequest, data))
     },
     /**
      * Gets a Space Member

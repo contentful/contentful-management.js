@@ -2,7 +2,7 @@ import { before, describe, test } from 'mocha'
 import { client } from '../helpers'
 import { expect } from 'chai'
 
-describe('Team api', function () {
+describe('Team Api', function () {
   let organization
 
   before(async () => {
