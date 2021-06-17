@@ -13,7 +13,6 @@ import { CreateRoleProps, RoleProps } from './entities/role'
 import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
 import { SpaceProps } from './entities/space'
 import { CreateSpaceMembershipProps } from './entities/space-membership'
-import { wrapTeamCollection } from './entities/team'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
 import { CreateWebhooksProps } from './entities/webhook'
 
@@ -36,6 +35,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     wrapTeamSpaceMembership,
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
+  const { wrapTeamCollection } = entities.team
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
