@@ -13,6 +13,7 @@ import { CreateRoleProps, RoleProps } from './entities/role'
 import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
 import { SpaceProps } from './entities/space'
 import { CreateSpaceMembershipProps } from './entities/space-membership'
+import { wrapTeamCollection } from './entities/team'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
 import { CreateWebhooksProps } from './entities/webhook'
 
@@ -559,15 +560,14 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      */
     getSpaceTeams(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
-      const opts: MROpts<'SpaceTeam', 'getMany', boolean> = {
-        entityType: 'SpaceTeam',
-        action: 'getMany',
+      return makeRequest({
+        entityType: 'Team',
+        action: 'getManyForSpace',
         params: {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query }).params,
         },
-      }
-      return makeRequest(opts).then((data) => wrapSpaceTeamCollection(makeRequest, data))
+      }).then((data) => wrapTeamCollection(makeRequest, data))
     },
     /**
      * Gets a Space Member

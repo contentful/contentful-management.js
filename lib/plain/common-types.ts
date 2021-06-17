@@ -693,6 +693,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<TeamProps>>
+    getManyForSpace(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
+    ): Promise<CollectionProp<TeamProps>>
     create(
       params: OptionalDefaults<GetOrganizationParams>,
       rawData: CreateTeamProps,
