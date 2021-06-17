@@ -3,6 +3,7 @@ import copy from 'fast-copy'
 import {
   CollectionProp,
   GetOrganizationParams,
+  GetSpaceParams,
   GetTeamParams,
   QueryParams,
 } from '../../../common-types'
@@ -26,6 +27,15 @@ export const getMany: RestEndpoint<'Team', 'getMany'> = (
   raw.get<CollectionProp<TeamProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
+
+export const getManyForSpace: RestEndpoint<'Team', 'getManyForSpace'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & QueryParams
+) => {
+  return raw.get<CollectionProp<TeamProps>>(http, `/spaces/${params.spaceId}/teams`, {
+    params: normalizeSelect(params.query),
+  })
+}
 
 export const create: RestEndpoint<'Team', 'create'> = (
   http: AxiosInstance,

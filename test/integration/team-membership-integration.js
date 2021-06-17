@@ -2,7 +2,7 @@ import { before, describe, test } from 'mocha'
 import { client } from '../helpers'
 import { expect } from 'chai'
 
-describe('TeamMemberships api', function () {
+describe('TeamMembership Api', function () {
   let organization
   let teamId = '1aBQyG9AVlWLIephQlT0jN'
 
