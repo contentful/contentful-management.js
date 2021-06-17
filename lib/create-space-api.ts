@@ -4,7 +4,7 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { MakeRequest, MROpts, PaginationQueryOptions, QueryOptions } from './common-types'
+import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
 import { CreateEnvironmentProps } from './entities/environment'
@@ -31,7 +31,6 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapRole, wrapRoleCollection } = entities.role
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
-  const { wrapSpaceTeamCollection } = entities.spaceTeam
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const {
     wrapTeamSpaceMembership,

@@ -32,7 +32,6 @@ import {
   GetTaskParams,
   GetEntryParams,
   CursorPaginatedCollectionProp,
-  GetSpaceTeamParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -109,7 +108,6 @@ import {
   UpdateTaskParams,
   UpdateTaskProps,
 } from '../entities/task'
-import { SpaceTeamProps } from '../entities/space-team'
 
 export type PlainClientAPI = {
   raw: {
@@ -631,11 +629,6 @@ export type PlainClientAPI = {
       headers?: Record<string, unknown>
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
-  }
-  spaceTeam: {
-    getMany(
-      params: OptionalDefaults<GetSpaceTeamParams & PaginationQueryParams>
-    ): Promise<CollectionProp<SpaceTeamProps>>
   }
   spaceMember: {
     get(

@@ -25,7 +25,6 @@ import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
-import * as SpaceTeam from './space-team'
 import * as SpaceMember from './space-member'
 import * as SpaceMembership from './space-membership'
 import * as Tag from './tag'
@@ -66,7 +65,6 @@ export default {
   ScheduledAction,
   Snapshot,
   Space,
-  SpaceTeam,
   SpaceMember,
   SpaceMembership,
   Tag,

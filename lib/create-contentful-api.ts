@@ -5,7 +5,6 @@ import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import { Space, SpaceProps } from './entities/space'
-import { wrapSpaceTeamCollection } from './entities/space-team'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 
@@ -19,6 +18,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     wrapPersonalAccessTokenCollection,
   } = entities.personalAccessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
+  const { wrapTeamCollection } = entities.team
   const { wrapUsageCollection } = entities.usage
 
   return {
@@ -349,13 +349,13 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getSpaceTeams: function getSpaceTeams(spaceId: string, query: UsageQuery = {}) {
       return makeRequest({
-        entityType: 'SpaceTeam',
-        action: 'getMany',
+        entityType: 'Team',
+        action: 'getManyForSpace',
         params: {
           spaceId,
           query,
         },
-      }).then((data) => wrapSpaceTeamCollection(makeRequest, data))
+      }).then((data) => wrapTeamCollection(makeRequest, data))
     },
 
     /**
