@@ -557,15 +557,14 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getTeams() {
+    getTeams(query: QueryOptions = { limit: 100 }) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'Team',
         action: 'getManyForSpace',
         params: {
           spaceId: raw.sys.id,
-          // The largest organization includes 29 teams, so the limit is sufficient and no pagination is required
-          query: createRequestConfig({ query: { limit: 100 } }).params,
+          query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapTeamCollection(makeRequest, data))
     },
