@@ -9,8 +9,8 @@ describe('SpaceTeam Api', () => {
     space = await getV2Space()
   })
 
-  test.only('Gets spaceTeams', async () => {
-    return space.getSpaceTeams().then((response) => {
+  test.only('Gets teams for space', async () => {
+    return space.getTeams().then((response) => {
       console.log(response.items)
       expect(response.sys, 'sys').ok
       expect(response.sys.type, 'Array').ok

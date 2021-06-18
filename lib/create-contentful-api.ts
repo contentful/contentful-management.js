@@ -326,39 +326,6 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Get a filtered set of teams that have access to a space
-     *
-     * @param spaceId - Id of a space
-     * @param query - Query parameters
-     * @return Promise of a collection of teams
-     * ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpaceTeams('<spaceId>', {
-     *    skip: 0,
-     *    limit: 10,
-     *    }
-     * })
-     * .then(result => console.log(result.items))
-     * .catch(console.error)
-     * ```
-     */
-    getSpaceTeams: function getSpaceTeams(spaceId: string, query: UsageQuery = {}) {
-      return makeRequest({
-        entityType: 'Team',
-        action: 'getManyForSpace',
-        params: {
-          spaceId,
-          query,
-        },
-      }).then((data) => wrapTeamCollection(makeRequest, data))
-    },
-
-    /**
      * Make a custom request to the Contentful management API's /spaces endpoint
      * @param opts - axios request options (https://github.com/mzabriskie/axios)
      * @return Promise for the response data
