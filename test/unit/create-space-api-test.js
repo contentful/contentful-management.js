@@ -161,17 +161,17 @@ describe('A createSpaceApi', () => {
     })
   })
 
-  test('API call getSpaceTeams', async () => {
+  test('API call getTeams', async () => {
     return makeGetCollectionTest(setup, {
       entityType: 'team',
       mockToReturn: teamMock,
-      methodToTest: 'getSpaceTeams',
+      methodToTest: 'getTeams',
     })
   })
 
-  test('API call getSpaceTeams fails', async () => {
+  test('API call getTeams fails', async () => {
     return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getSpaceTeams',
+      methodToTest: 'getTeams',
     })
   })
 
