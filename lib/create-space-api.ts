@@ -552,19 +552,20 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * const contentful = require('contentful-management')
      *
      * client.getSpace('<space_id>')
-     * .then((space) => space.getSpaceTeams({'limit': 100}))
-     * .then((spaceTeamCollection) => console.log(spaceTeamCollection))
+     * .then((space) => space.getTeams())
+     * .then((teamsCollection) => console.log(teamsCollection))
      * .catch(console.error)
      * ```
      */
-    getSpaceTeams(query: QueryOptions = {}) {
+    getTeams() {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'Team',
         action: 'getManyForSpace',
         params: {
           spaceId: raw.sys.id,
-          query: createRequestConfig({ query }).params,
+          // The largest organization includes 29 teams, so the limit is sufficient and no pagination is required
+          query: createRequestConfig({ query: { limit: 100 } }).params,
         },
       }).then((data) => wrapTeamCollection(makeRequest, data))
     },
