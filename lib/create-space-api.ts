@@ -552,12 +552,12 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * const contentful = require('contentful-management')
      *
      * client.getSpace('<space_id>')
-     * .then((space) => space.getSpaceTeams({'limit': 100}))
-     * .then((spaceTeamCollection) => console.log(spaceTeamCollection))
+     * .then((space) => space.getTeams())
+     * .then((teamsCollection) => console.log(teamsCollection))
      * .catch(console.error)
      * ```
      */
-    getSpaceTeams(query: QueryOptions = {}) {
+    getTeams(query: QueryOptions = { limit: 100 }) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'Team',
