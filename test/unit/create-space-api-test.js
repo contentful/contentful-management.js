@@ -15,6 +15,7 @@ import {
   spaceMemberMock,
   spaceMembershipMock,
   spaceMock,
+  taskMock,
   teamMock,
   teamSpaceMembershipMock,
   userMock,
@@ -360,6 +361,20 @@ describe('A createSpaceApi', () => {
   test('API call createRoleWithId fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createRoleWithId',
+    })
+  })
+
+  test('API call getPendingTasks', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'task',
+      mockToReturn: taskMock,
+      methodToTest: 'getPendingTasks',
+    })
+  })
+
+  test('API call getPendingTasks fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getPendingTasks',
     })
   })
 
