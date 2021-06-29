@@ -669,6 +669,9 @@ export type PlainClientAPI = {
   task: {
     get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
     getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<TaskProps>>
+    getAllForSpaceAndUser(
+      params: OptionalDefaults<GetSpaceParams & { userId: string; includeTeams: boolean }>
+    ): Promise<CollectionProp<TaskProps>>
     create(
       params: OptionalDefaults<CreateTaskParams>,
       rawData: CreateTaskProps,

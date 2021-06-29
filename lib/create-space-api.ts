@@ -36,6 +36,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
   const { wrapTeamCollection } = entities.team
+  const { wrapTaskCollection } = entities.task
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
@@ -831,6 +832,32 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((response) => wrapTeamSpaceMembership(makeRequest, response))
+    },
+    /**
+     * Gets a collection of all pending tasks in a space for a user.
+     * @param userId - User ID
+     * @param  includeTeams - Consider tasks assigned to teams to which the user belongs
+     * @return Promise a collection of pending Tasks of a user in a space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getPendingTasks('<user_id>', true))
+     * .then((data) => console.log(data))
+     * .catch(console.error)
+     * ```
+     */
+    getPendingTasks(userId: string, includeTeams = false) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Task',
+        action: 'getAllForSpaceAndUser',
+        params: {
+          spaceId: raw.sys.id,
+          userId,
+          includeTeams,
+        },
+      }).then((data) => wrapTaskCollection(makeRequest, data))
     },
     /**
      * Gets a Api Key

@@ -423,6 +423,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Task', 'get', UA>): MRReturn<'Task', 'get'>
   (opts: MROpts<'Task', 'getAll', UA>): MRReturn<'Task', 'getAll'>
+  (opts: MROpts<'Task', 'getAllForSpaceAndUser', UA>): MRReturn<'Task', 'getAllForSpaceAndUser'>
   (opts: MROpts<'Task', 'create', UA>): MRReturn<'Task', 'create'>
   (opts: MROpts<'Task', 'update', UA>): MRReturn<'Task', 'update'>
   (opts: MROpts<'Task', 'delete', UA>): MRReturn<'Task', 'delete'>
@@ -1059,6 +1060,10 @@ export type MRActions = {
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
     getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
+    getAllForSpaceAndUser: {
+      params: GetSpaceParams & { userId: string; includeTeams: boolean }
+      return: CollectionProp<TaskProps>
+    }
     create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
     update: {
       params: UpdateTaskParams

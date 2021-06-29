@@ -117,6 +117,7 @@ export const createPlainClient = (
     task: {
       get: wrap(wrapParams, 'Task', 'get'),
       getAll: wrap(wrapParams, 'Task', 'getAll'),
+      getAllForSpaceAndUser: wrap(wrapParams, 'Task', 'getAllForSpaceAndUser'),
       create: wrap(wrapParams, 'Task', 'create'),
       update: wrap(wrapParams, 'Task', 'update'),
       delete: wrap(wrapParams, 'Task', 'delete'),

@@ -1,6 +1,11 @@
 import { AxiosInstance } from 'axios'
 import copy from 'fast-copy'
-import { CollectionProp, GetEntryParams, GetTaskParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetEntryParams,
+  GetSpaceParams,
+  GetTaskParams,
+} from '../../../common-types'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -10,6 +15,7 @@ import {
 } from '../../../entities/task'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/tasks`
@@ -22,6 +28,17 @@ export const getAll: RestEndpoint<'Task', 'getAll'> = (
   http: AxiosInstance,
   params: GetEntryParams
 ) => raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params))
+
+export const getAllForSpaceAndUser: RestEndpoint<'Task', 'getAllForSpaceAndUser'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { userId: string; includeTeams: boolean }
+) =>
+  raw.get<CollectionProp<TaskProps>>(http, `/spaces/${params.spaceId}/tasks`, {
+    params: normalizeSelect({
+      'assignedTo.sys.id': params.userId,
+      includeTeams: params.includeTeams,
+    }),
+  })
 
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
