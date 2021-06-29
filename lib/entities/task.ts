@@ -27,7 +27,7 @@ export type TaskSysProps = Pick<
 export type TaskProps = {
   sys: TaskSysProps
   body: string
-  assignedTo: Link<'User'>
+  assignedTo: Link<'User' | 'Team'>
   status: TaskStatus
   dueDate?: string
 }
