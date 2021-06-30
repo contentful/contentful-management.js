@@ -19,6 +19,7 @@ export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
+export { RestAdapter } from './adapters/REST/rest-adapter'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 
