@@ -109,7 +109,7 @@ export type {
   TeamMembershipProps,
   CreateTeamMembershipProps,
 } from './entities/team-membership'
-export type { Tag, TagProps, CreateTagProps } from './entities/tag'
+export type { Tag, TagProps, CreateTagProps, TagVisibility } from './entities/tag'
 export type { Task, TaskProps, CreateTaskProps, UpdateTaskProps } from './entities/task'
 export type {
   TeamSpaceMembership,
