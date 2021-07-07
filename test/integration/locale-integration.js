@@ -1,5 +1,5 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestEnvironment, createTestSpace } from '../helpers'
+import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
 describe('Locale Api', function () {
@@ -7,7 +7,7 @@ describe('Locale Api', function () {
   let environment
 
   before(async () => {
-    space = await createTestSpace(client(), 'Locale')
+    space = await createTestSpace(initClient(), 'Locale')
     environment = await createTestEnvironment(space, 'Test')
   })
 

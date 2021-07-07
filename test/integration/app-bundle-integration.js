@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
 import { readFileSync } from 'fs'
-import { client } from '../helpers'
+import { initClient } from '../helpers'
 
 describe('AppBundle api', function () {
   let organization
@@ -9,7 +9,7 @@ describe('AppBundle api', function () {
   let appUpload
 
   before(async () => {
-    organization = await client()
+    organization = await initClient()
       .getOrganizations()
       .then((response) => response.items[0])
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, it } from 'mocha'
-import { getDefaultSpace, getAlternativeSpace } from '../helpers'
+import { getDefaultSpace, getSpecialSpace } from '../helpers'
 import { ValidationError } from '../../lib/entities/asset-key'
 
 export const now = () => Math.floor(Date.now() / 1000)
@@ -11,9 +11,11 @@ describe('AssetKey API (createAssetKey)', () => {
   let requestWith
 
   before(async () => {
-    // NOTE: the alternative space is not enabled for Embargoed Assets
+    // NOTE: the default space is not enabled for Embargoed Assets
     requestWith = async (data, disabledSpace = false) => {
-      const space = disabledSpace ? await getAlternativeSpace() : await getDefaultSpace()
+      const space = disabledSpace
+        ? await getDefaultSpace()
+        : await getSpecialSpace('embargoedAssets')
       const environment = await space.getEnvironment('master')
       return environment.createAssetKey(data)
     }

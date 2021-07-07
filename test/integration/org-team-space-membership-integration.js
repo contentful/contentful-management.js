@@ -1,19 +1,21 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { initClient } from '../helpers'
+import { TestDefaults } from '../defaults'
 import { expect } from 'chai'
+
+const { teamId, teamSpaceMembershipId } = TestDefaults
 
 describe('TeamSpaceMembership Api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
+    organization = await initClient()
       .getOrganizations()
       .then((response) => response.items[0])
   })
 
   test('Get a single Team Space Membership', async () => {
-    // create space membership for existing team
-    return organization.getTeamSpaceMembership('6KPB2kockewetUV71cryiw').then((response) => {
+    return organization.getTeamSpaceMembership(teamSpaceMembershipId).then((response) => {
       expect(response.sys.type).equal('TeamSpaceMembership', 'type')
       expect(response.sys.team, 'team').ok
       expect(response.roles, 'roles').ok
@@ -29,12 +31,10 @@ describe('TeamSpaceMembership Api', function () {
   })
 
   test('Gets all Team Space Memberships in a team', async () => {
-    return organization
-      .getTeamSpaceMemberships({ teamId: '6mjkr732nwCxRTDuh2vWHn' })
-      .then((response) => {
-        expect(response.sys, 'sys').ok
-        expect(response.items, 'items').ok
-        expect(response.items[0].sys.type).equals('TeamSpaceMembership')
-      })
+    return organization.getTeamSpaceMemberships({ teamId }).then((response) => {
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'items').ok
+      expect(response.items[0].sys.type).equals('TeamSpaceMembership')
+    })
   })
 })

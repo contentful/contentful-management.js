@@ -1,12 +1,12 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { initClient } from '../helpers'
 import { expect } from 'chai'
 
 describe('OrganizationMembership Invitation Api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
+    organization = await initClient()
       .getOrganizations()
       .then((response) => response.items[0])
   })

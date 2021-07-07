@@ -45,11 +45,7 @@ module.exports = {
       watched: false,
     },
   ],
-  envPreprocessor: [
-    'API_INTEGRATION_TESTS',
-    'CONTENTFUL_ACCESS_TOKEN',
-    'CONTENTFUL_V2_ACCESS_TOKEN',
-  ],
+  envPreprocessor: ['API_INTEGRATION_TESTS', 'CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN'],
   preprocessors: {
     [unitTestsPattern]: ['webpack', 'env'],
     [integrationTestsPattern]: ['webpack', 'env'],

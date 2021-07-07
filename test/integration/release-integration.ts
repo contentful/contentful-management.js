@@ -5,7 +5,7 @@ import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, getPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
 describe('Release Api', async function () {
@@ -289,7 +289,7 @@ describe('Release Api', async function () {
     }
 
     test('release.publish', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
       })
@@ -323,7 +323,7 @@ describe('Release Api', async function () {
     })
 
     test('release.validate', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
 
       const createdRelease = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
@@ -353,7 +353,7 @@ describe('Release Api', async function () {
     })
 
     test('release.unpublish', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
       })

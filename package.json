@@ -55,6 +55,7 @@
     "tonic-example.js"
   ],
   "dependencies": {
+    "@contentful/integration-test-utils": "^1.2.0",
     "@types/json-patch": "0.0.30",
     "axios": "^0.21.0",
     "contentful-sdk-core": "^6.8.0",

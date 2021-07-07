@@ -1,25 +1,24 @@
 import { after, before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getSpecialSpace } from '../helpers'
 import { expect } from 'chai'
 
-// TODO: use dedicated space
 describe('EnvironmentAlias Api', () => {
   describe('read', () => {
     let space
     before(async () => {
-      space = await client(true).getSpace('w6xueg32zr68')
+      space = await getSpecialSpace('alias')
     })
 
     after(async () => {
       const alias = await space.getEnvironmentAlias('master')
-      alias.environment.sys.id = 'previously-master'
+      alias.environment.sys.id = 'previously-master-env'
       await alias.update()
     })
 
     test('Gets aliases', async () => {
       return space.getEnvironmentAliases().then((response) => {
         expect(response.items[0].sys.id).equals('master')
-        expect(response.items[0].environment.sys.id).equals('previously-master')
+        expect(response.items[0].environment.sys.id).equals('previously-master-env')
       })
     })
 
@@ -28,13 +27,13 @@ describe('EnvironmentAlias Api', () => {
         .getEnvironmentAlias('master')
         .then((alias) => {
           expect(alias.sys.id).equals('master')
-          expect(alias.environment.sys.id).equals('previously-master')
-          alias.environment.sys.id = 'feature-13'
+          expect(alias.environment.sys.id).equals('previously-master-env')
+          alias.environment.sys.id = 'feature-env'
           return alias.update()
         })
         .then((updatedAlias) => {
           expect(updatedAlias.sys.id).equals('master')
-          expect(updatedAlias.environment.sys.id).equals('feature-13')
+          expect(updatedAlias.environment.sys.id).equals('feature-env')
         })
     })
   })
