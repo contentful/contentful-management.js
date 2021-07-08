@@ -45,6 +45,7 @@ export type ReleaseSysProps = {
   updatedBy: Link<'User'>
   createdAt: ISO8601Timestamp
   updatedAt: ISO8601Timestamp
+  lastAction?: Link<'ReleaseAction'>
 }
 
 /** The object returned by the Releases API */
