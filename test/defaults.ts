@@ -12,4 +12,7 @@ export const TestDefaults = {
     /** Used in BulkAction specs */
     testEntryBulkActionId: '375PMdQrwWOsifPJYP5Bb9',
   },
+  asset: {
+    testAssetId: '67c9d14ab3ed26b61bbbba',
+  },
 }
