@@ -4,6 +4,7 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
+import { rawListeners } from 'node:process'
 import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
@@ -1126,6 +1127,35 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'create',
         params: { spaceId: raw.sys.id },
         payload: data,
+      }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
+    /**
+     * Update a scheduled action
+     * @param {object} options
+     * @param options.scheduledActionId the id of the scheduled action to update
+     * @param options.version the sys.version of the scheduled action to be updated
+     * @param payload the scheduled actions object with updates, omitting sys object
+     * @returns Promise containing a wrapped scheduled action with helper methods
+     */
+    updateScheduledAction({
+      scheduledActionId,
+      payload,
+      version,
+    }: {
+      scheduledActionId: string
+      payload: Omit<ScheduledActionProps, 'sys'>
+      version: number
+    }) {
+      const spaceProps = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'update',
+        params: {
+          spaceId: spaceProps.sys.id,
+          version,
+          scheduledActionId,
+        },
+        payload,
       }).then((response) => wrapScheduledAction(makeRequest, response))
     },
   }

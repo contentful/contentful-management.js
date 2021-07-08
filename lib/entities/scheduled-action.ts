@@ -81,6 +81,7 @@ export interface ScheduledActionQueryOptions extends BasicCursorPaginationOption
 
 type ScheduledActionApi = {
   delete(): Promise<ScheduledAction>
+  update(): Promise<ScheduledAction>
 }
 
 export interface ScheduledAction
@@ -105,9 +106,28 @@ export function createDeleteScheduledAction(
   }
 }
 
+export function createUpdateScheduledAction(
+  makeRequest: MakeRequest
+): () => Promise<ScheduledAction> {
+  return function (): Promise<ScheduledAction> {
+    const { sys, ...payload } = this.toPlainObject() as ScheduledActionProps
+    return makeRequest({
+      entityType: 'ScheduledAction',
+      action: 'update',
+      params: {
+        spaceId: sys.space.sys.id,
+        scheduledActionId: sys.id,
+        version: sys.version,
+      },
+      payload,
+    }).then((data) => wrapScheduledAction(makeRequest, data))
+  }
+}
+
 export default function createScheduledActionApi(makeRequest: MakeRequest): ScheduledActionApi {
   return {
     delete: createDeleteScheduledAction(makeRequest),
+    update: createUpdateScheduledAction(makeRequest),
   }
 }
 
