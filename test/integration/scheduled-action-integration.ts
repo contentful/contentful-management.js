@@ -8,6 +8,7 @@ import { makeLink } from '../utils'
 
 describe('Scheduled actions api', async function () {
   let testSpace: Space
+  const datetime = new Date(Date.now() + 3600 * 24).toISOString()
 
   before(async () => {
     testSpace = await getDefaultSpace()
@@ -19,7 +20,7 @@ describe('Scheduled actions api', async function () {
         entity: makeLink('Entry', TestDefaults.entry.testEntryId),
         action: 'publish',
         scheduledFor: {
-          datetime: new Date().toISOString(),
+          datetime,
         },
       })
 
@@ -45,14 +46,14 @@ describe('Scheduled actions api', async function () {
           entity: makeLink('Entry', TestDefaults.entry.testEntryId),
           action: 'publish',
           scheduledFor: {
-            datetime: new Date().toISOString(),
+            datetime,
           },
         }),
         testSpace.createScheduledAction({
           entity: makeLink('Asset', TestDefaults.asset.testAssetId),
           action: 'unpublish',
           scheduledFor: {
-            datetime: new Date().toISOString(),
+            datetime,
           },
         }),
       ])
@@ -74,8 +75,6 @@ describe('Scheduled actions api', async function () {
 
   describe('Write', () => {
     test('create Scheduled Action', async () => {
-      const datetime = new Date().toISOString()
-
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Entry', TestDefaults.entry.testEntryId),
         action: 'publish',
@@ -95,8 +94,6 @@ describe('Scheduled actions api', async function () {
     })
 
     test('create scheduled action for an asset', async () => {
-      const datetime = new Date().toISOString()
-
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', TestDefaults.asset.testAssetId),
         action: 'unpublish',
@@ -117,8 +114,6 @@ describe('Scheduled actions api', async function () {
 
     test('create invalid scheduled action', async () => {
       try {
-        const datetime = new Date().toISOString()
-
         await testSpace.createScheduledAction({
           entity: makeLink('Asset', 'invalid-id'),
           action: 'unpublish',
@@ -153,8 +148,7 @@ describe('Scheduled actions api', async function () {
     })
 
     test('update scheduled actions', async () => {
-      const datetime = new Date().toISOString()
-      const updatedSchedule = new Date(Date.now() + 10000).toISOString()
+      const updatedSchedule = new Date(new Date(datetime).getTime() + 3600).toISOString()
 
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', TestDefaults.asset.testAssetId),
@@ -199,8 +193,6 @@ describe('Scheduled actions api', async function () {
     })
 
     test('delete scheduled action', async () => {
-      const datetime = new Date().toISOString()
-
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', TestDefaults.asset.testAssetId),
         action: 'unpublish',
@@ -237,7 +229,7 @@ describe('Scheduled actions api', async function () {
           entity: makeLink('Entry', entry.sys.id),
           action: 'publish',
           scheduledFor: {
-            datetime: new Date().toISOString(),
+            datetime,
           },
         }
       )

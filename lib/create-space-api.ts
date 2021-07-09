@@ -4,7 +4,6 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { rawListeners } from 'node:process'
 import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
 import { CreateApiKeyProps } from './entities/api-key'
