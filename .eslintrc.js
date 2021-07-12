@@ -9,9 +9,12 @@ module.exports = {
       files: '**/*.js',
       parser: 'babel-eslint',
       extends: ['eslint:recommended', 'prettier'],
-      plugins: ['promise'],
+      plugins: ['promise', 'no-only-tests'],
       globals: {
         __VERSION__: true,
+      },
+      rules: {
+        'no-only-tests/no-only-tests': 'error',
       },
     },
     {
@@ -23,7 +26,7 @@ module.exports = {
         'prettier',
         'prettier/@typescript-eslint',
       ],
-      plugins: ['promise'],
+      plugins: ['promise', 'no-only-tests'],
       globals: {
         __VERSION__: true,
       },
@@ -37,6 +40,7 @@ module.exports = {
             allowedNames: ['self'], // Allow `const self = this`; `[]` by default
           },
         ],
+        'no-only-tests/no-only-tests': 'error',
       },
     },
   ],
