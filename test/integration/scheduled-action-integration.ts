@@ -321,7 +321,6 @@ describe('Scheduled actions api', async function () {
         },
       })
 
-      // Deletes a Release and all its Release Actions
       await scheduledAction.delete()
 
       const response = await testSpace.getScheduledActions({

@@ -1105,6 +1105,22 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Query for scheduled actions in space.
      * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
      * @return Promise for the scheduled actions query
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.getScheduledActions({
+     *      'environment.sys.id': '<environment_id>',
+     *      'sys.status': 'scheduled'
+     *    }))
+     *    .then((scheduledActionCollection) => console.log(scheduledActionCollection.items))
+     *    .catch(console.error)
+     * ```
      */
     getScheduledActions(query: ScheduledActionQueryOptions) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1118,6 +1134,36 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates a scheduled action
      * @param data - Object representation of the scheduled action to be created
      * @return Promise for the newly created scheduled actions
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.createScheduledAction({
+     *      entity: {
+     *        sys: {
+     *          type: 'Link',
+     *          linkType: 'Entry',
+     *          id: '<entry_id>'
+     *        }
+     *      },
+     *      environment: {
+     *        type: 'Link',
+     *        linkType: 'Environment',
+     *        id: '<environment_id>'
+     *      },
+     *      action: 'publish',
+     *      scheduledFor: {
+     *        dateTime: <ISO_date_string>,
+     *        timezone: 'Europe/Berlin'
+     *      }
+     *    }))
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error)
+     * ```
      */
     createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1135,6 +1181,47 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * @param options.version the sys.version of the scheduled action to be updated
      * @param payload the scheduled actions object with updates, omitting sys object
      * @returns Promise containing a wrapped scheduled action with helper methods
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *      .then((scheduledAction) => {
+     *        const { _sys, ...payload } = scheduledAction;
+     *        return space.updateScheduledAction({
+     *          ...payload,
+     *          scheduledFor: {
+     *            ...payload.scheduledFor,
+     *            timezone: 'Europe/Paris'
+     *          }
+     *        })
+     *      })
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
      */
     updateScheduledAction({
       scheduledActionId,

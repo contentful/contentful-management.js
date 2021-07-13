@@ -101,6 +101,42 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
   }
 
   return {
+    /**
+     * Delete current scheduled action.
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *    .then((scheduledAction) => scheduledAction.delete())
+     *    .then((deletedScheduledAction) => console.log(deletedScheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
     async delete(): Promise<ScheduledAction> {
       const params = getParams(this)
 
@@ -110,6 +146,46 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
         params,
       }).then((data) => wrapScheduledAction(makeRequest, data))
     },
+    /**
+     * Update current scheduled actions. All changes made to current instance will be saved in the database,
+     * provided the request succeeds.
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *    .then((scheduledAction) => {
+     *      scheduledAction.scheduledFor.timezone = 'Europe/Paris';
+     *      return scheduledAction.update();
+     *    })
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
     async update(): Promise<ScheduledAction> {
       const params = getParams(this)
 
