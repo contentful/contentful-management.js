@@ -173,7 +173,9 @@ describe('Scheduled actions api', async function () {
         expect(parsed.message).to.eql('The resource could not be found.')
       }
     })
+  })
 
+  describe('Update', () => {
     test('update scheduled actions', async () => {
       const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
 
@@ -223,6 +225,47 @@ describe('Scheduled actions api', async function () {
       await updatedAction.delete()
     })
 
+    test('update scheduled actions with instance method', async () => {
+      const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
+
+      const scheduledAction = await testSpace.createScheduledAction({
+        entity: makeLink('Asset', asset.sys.id),
+        environment: makeLink('Environment', environment.sys.id),
+        action: 'unpublish',
+        scheduledFor: {
+          datetime,
+        },
+      })
+
+      expect(scheduledAction.entity).to.eql(makeLink('Asset', asset.sys.id))
+      expect(scheduledAction.scheduledFor).to.deep.equal({
+        datetime,
+      })
+
+      scheduledAction.scheduledFor.timezone = 'Europe/Kiev'
+      scheduledAction.scheduledFor.datetime = updatedSchedule
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { sys, ...payload } = await scheduledAction.update()
+
+      const actions = await testSpace.getScheduledActions({
+        'environment.sys.id': payload.environment.sys.id,
+        'sys.status': 'scheduled',
+        'sys.id[in]': scheduledAction.sys.id,
+      })
+      const updatedAction = actions.items[0]
+
+      expect(updatedAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
+      expect(updatedAction.action).to.eql('unpublish')
+      expect(updatedAction.scheduledFor).to.deep.equal({
+        datetime: updatedSchedule,
+        timezone: 'Europe/Kiev',
+      })
+
+      // cleanup
+      await updatedAction.delete()
+    })
+
     test('fails to update unsupported property of scheduled actions', async () => {
       const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
 
@@ -240,7 +283,7 @@ describe('Scheduled actions api', async function () {
         datetime,
       })
 
-      const { sys, ...payload } = scheduledAction
+      const { sys } = scheduledAction
 
       try {
         await testSpace.updateScheduledAction({
