@@ -232,6 +232,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'ScheduledAction', 'getMany'),
       create: wrap(wrapParams, 'ScheduledAction', 'create'),
       delete: wrap(wrapParams, 'ScheduledAction', 'delete'),
+      update: wrap(wrapParams, 'ScheduledAction', 'update'),
     },
     previewApiKey: {
       get: wrap(wrapParams, 'PreviewApiKey', 'get'),

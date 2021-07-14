@@ -41,3 +41,23 @@ export const del: RestEndpoint<'ScheduledAction', 'delete'> = (
     },
   })
 }
+
+export const update: RestEndpoint<'ScheduledAction', 'update'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { scheduledActionId: string; version: number },
+  data: Omit<ScheduledActionProps, 'sys'>
+) => {
+  return raw.put(
+    http,
+    `/spaces/${params.spaceId}/scheduled_actions/${params.scheduledActionId}`,
+    data,
+    {
+      params: {
+        'environment.sys.id': data.environment?.sys.id,
+      },
+      headers: {
+        'X-Contentful-Version': params.version,
+      },
+    }
+  )
+}

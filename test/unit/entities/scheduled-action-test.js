@@ -9,6 +9,7 @@ import {
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
+  entityUpdateTest,
   entityWrappedTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
@@ -43,6 +44,19 @@ describe('Entity ScheduledAction', () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapScheduledAction,
       actionMethod: 'delete',
+    })
+  })
+
+  test('Scheduled action update', async () => {
+    return entityUpdateTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+    })
+  })
+
+  test('Scheduled action update fails', async () => {
+    return failingActionTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+      actionMethod: 'update',
     })
   })
 })
