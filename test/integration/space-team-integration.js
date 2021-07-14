@@ -11,7 +11,6 @@ describe('SpaceTeam Api', () => {
 
   test('Gets teams for space', async () => {
     return space.getTeams().then((response) => {
-      console.log(response.items)
       expect(response.sys, 'sys').ok
       expect(response.sys.type, 'Array').ok
       expect(response.items, 'items').ok
