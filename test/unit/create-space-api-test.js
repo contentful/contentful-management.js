@@ -474,4 +474,18 @@ describe('A createSpaceApi', () => {
       methodToTest: 'createScheduledAction',
     })
   })
+
+  test('API call updateScheduledAction', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'scheduledAction',
+      mockToReturn: scheduledActionMock,
+      methodToTest: 'updateScheduledAction',
+    })
+  })
+
+  test('API call updateScheduledAction fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'updateScheduledAction',
+    })
+  })
 })

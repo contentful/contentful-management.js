@@ -381,6 +381,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ScheduledAction', 'getMany', UA>): MRReturn<'ScheduledAction', 'getMany'>
   (opts: MROpts<'ScheduledAction', 'create', UA>): MRReturn<'ScheduledAction', 'create'>
+  (opts: MROpts<'ScheduledAction', 'update', UA>): MRReturn<'ScheduledAction', 'update'>
   (opts: MROpts<'ScheduledAction', 'delete', UA>): MRReturn<'ScheduledAction', 'delete'>
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
@@ -969,6 +970,11 @@ export type MRActions = {
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ScheduledActionProps> }
     create: {
       params: GetSpaceParams
+      payload: Omit<ScheduledActionProps, 'sys'>
+      return: ScheduledActionProps
+    }
+    update: {
+      params: GetSpaceParams & { scheduledActionId: string; version: number }
       payload: Omit<ScheduledActionProps, 'sys'>
       return: ScheduledActionProps
     }

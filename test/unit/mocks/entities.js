@@ -562,6 +562,7 @@ export const scheduledActionMock = {
     space: {
       sys: cloneDeep(linkMock),
     },
+    version: 1,
     createdAt: 'createdAt',
     createdBy: 'createdBy',
     type: 'ScheduledAction',
