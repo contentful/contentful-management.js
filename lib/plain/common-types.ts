@@ -232,7 +232,7 @@ export type PlainClientAPI = {
     ): Promise<ContentTypeProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: ContentTypeProps
+      rawData: CreateContentTypeProps
     ): Promise<ContentTypeProps>
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
