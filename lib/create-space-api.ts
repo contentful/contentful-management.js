@@ -1131,6 +1131,46 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       }).then((response) => wrapScheduledActionCollection(makeRequest, response))
     },
     /**
+     * Get a Scheduled Action in the current space by environment and ID
+     * @returns Promise with the Scheduled Action
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.getScheduledAction({
+     *      scheduledActionId: '<scheduled-action-id>',
+     *      environmentId: '<environmentId>'
+     *    }))
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error)
+     * ```
+     */
+    getScheduledAction({
+      scheduledActionId,
+      environmentId,
+    }: {
+      scheduledActionId: string
+      environmentId: string
+    }) {
+      const space = this.toPlainObject() as SpaceProps
+
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'get',
+        params: {
+          spaceId: space.sys.id,
+          environmentId,
+          scheduledActionId,
+        },
+      }).then((scheduledAction) => wrapScheduledAction(makeRequest, scheduledAction))
+    },
+
+    /**
      * Creates a scheduled action
      * @param data - Object representation of the scheduled action to be created
      * @return Promise for the newly created scheduled actions

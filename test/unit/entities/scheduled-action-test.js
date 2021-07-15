@@ -7,6 +7,7 @@ import {
   wrapScheduledActionCollection,
 } from '../../../lib/entities/scheduled-action'
 import {
+  entityActionTest,
   entityCollectionWrappedTest,
   entityDeleteTest,
   entityUpdateTest,
@@ -31,6 +32,13 @@ describe('Entity ScheduledAction', () => {
   test('Scheduled action collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapScheduledActionCollection,
+    })
+  })
+
+  test('Scheduled action get', async () => {
+    return entityActionTest(setup, {
+      wrapperMethod: wrapScheduledAction,
+      actionMethod: 'get',
     })
   })
 
