@@ -466,6 +466,12 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
   }
   scheduledActions: {
+    get(
+      params: OptionalDefaults<GetSpaceParams> & {
+        scheduledActionId: string
+        environmentId: string
+      }
+    ): Promise<ScheduledActionProps>
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
