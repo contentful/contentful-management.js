@@ -256,7 +256,10 @@ describe('Scheduled Actions API', async function () {
       })
 
       // Calling delete will cancel the scheduled action (not actually delete it)
-      await scheduledAction.delete()
+      await testSpace.deleteScheduledAction({
+        environmentId: environment.sys.id,
+        scheduledActionId: scheduledAction.sys.id,
+      })
 
       const deletedScheduledAction = await testSpace.getScheduledAction({
         environmentId: scheduledAction.environment.sys.id,

@@ -1285,5 +1285,50 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         payload,
       }).then((response) => wrapScheduledAction(makeRequest, response))
     },
+    /**
+     * Cancels a Scheduled Action.
+     * Only cancels actions that have not yet executed.
+     *
+     * @param {object} options
+     * @param options.scheduledActionId the id of the scheduled action to be canceled
+     * @param options.environmentId the environment ID of the scheduled action to be canceled
+     * @throws if the Scheduled Action cannot be found or the user doesn't have permissions in the entity in the action.
+     * @returns Promise containing a wrapped Scheduled Action with helper methods
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  // Given that an Scheduled Action is scheduled
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.deleteScheduledAction({
+     *        environmentId: '<environment-id>',
+     *        scheduledActionId: '<scheduled-action-id>'
+     *     }))
+     *     // The scheduled Action sys.status is now 'canceled'
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
+    deleteScheduledAction({
+      scheduledActionId,
+      environmentId,
+    }: {
+      scheduledActionId: string
+      environmentId: string
+    }) {
+      const spaceProps = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'delete',
+        params: {
+          spaceId: spaceProps.sys.id,
+          environmentId,
+          scheduledActionId,
+        },
+      }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
   }
 }
