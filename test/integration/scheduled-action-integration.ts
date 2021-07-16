@@ -245,49 +245,6 @@ describe('Scheduled Actions API', async function () {
       })
     })
 
-    test('fails to update with unsupported property changes in the scheduled action', async () => {
-      const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
-
-      const scheduledAction = await testSpace.createScheduledAction({
-        entity: makeLink('Asset', asset.sys.id),
-        environment: makeLink('Environment', environment.sys.id),
-        action: 'unpublish',
-        scheduledFor: {
-          datetime,
-        },
-      })
-
-      expect(scheduledAction.entity).to.eql(makeLink('Asset', asset.sys.id))
-      expect(scheduledAction.scheduledFor).to.deep.equal({
-        datetime,
-      })
-
-      try {
-        await testSpace.updateScheduledAction({
-          scheduledActionId: scheduledAction.sys.id,
-          version: scheduledAction.sys.version,
-          payload: {
-            entity: makeLink('Entry', TestDefaults.entry.testEntryId),
-            environment: makeLink('Environment', environment.sys.id),
-            action: 'publish',
-            scheduledFor: {
-              datetime: updatedSchedule,
-            },
-          },
-        })
-      } catch (error) {
-        const parsedError = JSON.parse(error.message)
-        expect(parsedError.status).to.eql(400)
-        expect(parsedError.statusText).to.eql('Bad Request'),
-          expect(parsedError.message).to.eql(
-            'Can only update scheduleFor.datetime and scheduleFor.timezone properties'
-          )
-      }
-
-      // cleanup
-      await scheduledAction.delete()
-    })
-
     test('delete scheduled action', async () => {
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', asset.sys.id),

@@ -147,7 +147,7 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
       }).then((data) => wrapScheduledAction(makeRequest, data))
     },
     /**
-     * Update current scheduled actions. All changes made to the current object will be saved, if the request succeeds.
+     * Update the current scheduled action. Currently, only changes made to the `scheduledFor` property will be saved.
      *
      * @example ```javascript
      *  const contentful = require('contentful-management');

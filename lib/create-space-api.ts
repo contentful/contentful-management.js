@@ -1131,9 +1131,10 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       }).then((response) => wrapScheduledActionCollection(makeRequest, response))
     },
     /**
-     * Get a Scheduled Action in the current space by environment and ID
-     * @returns Promise with the Scheduled Action
+     * Get a Scheduled Action in the current space by environment and ID.
      *
+     * @throws if the Scheduled Action cannot be found or the user doesn't have permission to read schedules from the entity of the scheduled action itself.
+     * @returns Promise with the Scheduled Action
      * @example ```javascript
      *  const contentful = require('contentful-management');
      *
