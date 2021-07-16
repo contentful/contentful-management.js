@@ -10,6 +10,21 @@ import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
+export const get: RestEndpoint<'ScheduledAction', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { environmentId: string; scheduledActionId: string }
+) => {
+  return raw.get<ScheduledActionProps>(
+    http,
+    `/spaces/${params.spaceId}/scheduled_actions/${params.scheduledActionId}`,
+    {
+      params: {
+        'environment.sys.id': params.environmentId,
+      },
+    }
+  )
+}
+
 export const getMany: RestEndpoint<'ScheduledAction', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceParams & QueryParams

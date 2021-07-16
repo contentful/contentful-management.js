@@ -19,7 +19,7 @@ const cleanup = async (testSpace: Space, environmentId: string) => {
   await Promise.all(scheduledActions.items.map((action) => action.delete()))
 }
 
-describe('Scheduled actions api', async function () {
+describe('Scheduled Actions API', async function () {
   let testSpace: Space
   let asset: Asset
   let environment: Environment
@@ -39,7 +39,7 @@ describe('Scheduled actions api', async function () {
     await cleanup(testSpace, environment.sys.id)
   })
 
-  afterEach(async () => {
+  after(async () => {
     await cleanup(testSpace, environment.sys.id)
   })
 
@@ -54,23 +54,17 @@ describe('Scheduled actions api', async function () {
         },
       })
 
-      const fetchedActions = await testSpace.getScheduledActions({
-        'environment.sys.id': environment.sys.id,
-        'sys.status': 'scheduled',
-        'sys.id[in]': createdAction.sys.id,
+      const fetchedAction = await testSpace.getScheduledAction({
+        environmentId: environment.sys.id,
+        scheduledActionId: createdAction.sys.id,
       })
 
-      expect(fetchedActions.items.length).to.eql(1)
-      const fetchedAction = fetchedActions.items[0]
       expect(fetchedAction.sys.id).to.eql(createdAction.sys.id)
       expect(fetchedAction.action).to.eql(createdAction.action)
       expect(fetchedAction.entity).to.eql(createdAction.entity)
-
-      // cleanup
-      await fetchedAction.delete()
     })
 
-    test('Get Scheduled Actions', async () => {
+    test('Query Scheduled Actions', async () => {
       // Creates 2 scheduled actions
       const [action1, action2] = await Promise.all([
         testSpace.createScheduledAction({
@@ -101,15 +95,13 @@ describe('Scheduled actions api', async function () {
       const queryResult = await testSpace.getScheduledActions({
         'environment.sys.id': TestDefaults.environmentId,
         'sys.status': 'scheduled',
+        'sys.id[in]': `${action1.sys.id}, ${action2.sys.id}`,
         limit: queryLimit,
       })
 
       // Returns the filtered results based on the limit
       expect(queryResult.items.length).to.eql(queryLimit)
       expect(queryResult).to.have.property('pages')
-
-      // cleanup
-      await Promise.all([action1.delete(), action2.delete()])
     })
   })
 
@@ -131,9 +123,6 @@ describe('Scheduled actions api', async function () {
       expect(scheduledAction.scheduledFor).to.deep.equal({
         datetime,
       })
-
-      // cleanup
-      await scheduledAction.delete()
     })
 
     test('create scheduled action for an asset', async () => {
@@ -151,9 +140,6 @@ describe('Scheduled actions api', async function () {
       expect(scheduledAction.scheduledFor).to.deep.equal({
         datetime,
       })
-
-      // cleanup
-      await scheduledAction.delete()
     })
 
     test('create invalid scheduled action', async () => {
@@ -207,12 +193,10 @@ describe('Scheduled actions api', async function () {
         },
       })
 
-      const actions = await testSpace.getScheduledActions({
-        'environment.sys.id': payload.environment.sys.id,
-        'sys.status': 'scheduled',
-        'sys.id[in]': scheduledAction.sys.id,
+      const updatedAction = await testSpace.getScheduledAction({
+        environmentId: payload.environment.sys.id,
+        scheduledActionId: scheduledAction.sys.id,
       })
-      const updatedAction = actions.items[0]
 
       expect(updatedAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
       expect(updatedAction.action).to.eql('unpublish')
@@ -248,12 +232,10 @@ describe('Scheduled actions api', async function () {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { sys, ...payload } = await scheduledAction.update()
 
-      const actions = await testSpace.getScheduledActions({
-        'environment.sys.id': payload.environment.sys.id,
-        'sys.status': 'scheduled',
-        'sys.id[in]': scheduledAction.sys.id,
+      const updatedAction = await testSpace.getScheduledAction({
+        environmentId: payload.environment.sys.id,
+        scheduledActionId: scheduledAction.sys.id,
       })
-      const updatedAction = actions.items[0]
 
       expect(updatedAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
       expect(updatedAction.action).to.eql('unpublish')
@@ -261,54 +243,6 @@ describe('Scheduled actions api', async function () {
         datetime: updatedSchedule,
         timezone: 'Europe/Kiev',
       })
-
-      // cleanup
-      await updatedAction.delete()
-    })
-
-    test('fails to update unsupported property of scheduled actions', async () => {
-      const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
-
-      const scheduledAction = await testSpace.createScheduledAction({
-        entity: makeLink('Asset', asset.sys.id),
-        environment: makeLink('Environment', environment.sys.id),
-        action: 'unpublish',
-        scheduledFor: {
-          datetime,
-        },
-      })
-
-      expect(scheduledAction.entity).to.eql(makeLink('Asset', asset.sys.id))
-      expect(scheduledAction.scheduledFor).to.deep.equal({
-        datetime,
-      })
-
-      const { sys } = scheduledAction
-
-      try {
-        await testSpace.updateScheduledAction({
-          scheduledActionId: sys.id,
-          version: sys.version,
-          payload: {
-            entity: makeLink('Entry', TestDefaults.entry.testEntryId),
-            environment: makeLink('Environment', environment.sys.id),
-            action: 'publish',
-            scheduledFor: {
-              datetime: updatedSchedule,
-            },
-          },
-        })
-      } catch (error) {
-        const parsedError = JSON.parse(error.message)
-        expect(parsedError.status).to.eql(400)
-        expect(parsedError.statusText).to.eql('Bad Request'),
-          expect(parsedError.message).to.eql(
-            'Can only update scheduleFor.datetime and scheduleFor.timezone properties'
-          )
-      }
-
-      // cleanup
-      await scheduledAction.delete()
     })
 
     test('delete scheduled action', async () => {
@@ -321,13 +255,18 @@ describe('Scheduled actions api', async function () {
         },
       })
 
-      await scheduledAction.delete()
-
-      const response = await testSpace.getScheduledActions({
-        'environment.sys.id': scheduledAction.environment.sys.id,
-        'sys.status': 'scheduled',
+      // Calling delete will cancel the scheduled action (not actually delete it)
+      await testSpace.deleteScheduledAction({
+        environmentId: environment.sys.id,
+        scheduledActionId: scheduledAction.sys.id,
       })
-      expect(response.items.length).to.equal(0)
+
+      const deletedScheduledAction = await testSpace.getScheduledAction({
+        environmentId: scheduledAction.environment.sys.id,
+        scheduledActionId: scheduledAction.sys.id,
+      })
+
+      expect(deletedScheduledAction.sys.status).to.eql('canceled')
     })
   })
 
@@ -337,7 +276,7 @@ describe('Scheduled actions api', async function () {
       spaceId: TestDefaults.spaceId,
     }
 
-    test('lifecycle', async () => {
+    test('lifecycle of a scheduled action (create, read, update, delete)', async () => {
       const plainClient = getPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
@@ -355,14 +294,12 @@ describe('Scheduled actions api', async function () {
         }
       )
 
-      const scheduledActions = await plainClient.scheduledActions.getMany({
-        query: {
-          'environment.sys.id': environment.sys.id,
-          'sys.status': 'scheduled',
-        },
+      const scheduledAction = await plainClient.scheduledActions.get({
+        environmentId: environment.sys.id,
+        scheduledActionId: action.sys.id,
       })
-      expect(scheduledActions.items.length).to.equal(1)
-      expect(scheduledActions.items[0].sys.id).to.equal(action.sys.id)
+
+      expect(scheduledAction.sys.id).to.equal(action.sys.id)
 
       const { sys, ...payload } = action
       const updatedAction = await plainClient.scheduledActions.update(
@@ -371,18 +308,12 @@ describe('Scheduled actions api', async function () {
           ...payload,
           scheduledFor: {
             ...payload.scheduledFor,
-            timezone: 'Europe/Berlin',
+            timezone: 'Europe/Berlin', // adds timezone
           },
         }
       )
 
       expect(updatedAction.scheduledFor.timezone).to.equal('Europe/Berlin')
-
-      // cleanup
-      await plainClient.scheduledActions.delete({
-        scheduledActionId: action.sys.id,
-        environmentId: action.environment.sys.id,
-      })
     })
   })
 })

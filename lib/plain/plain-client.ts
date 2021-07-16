@@ -231,6 +231,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Role', 'delete'),
     },
     scheduledActions: {
+      get: wrap(wrapParams, 'ScheduledAction', 'get'),
       getMany: wrap(wrapParams, 'ScheduledAction', 'getMany'),
       create: wrap(wrapParams, 'ScheduledAction', 'create'),
       delete: wrap(wrapParams, 'ScheduledAction', 'delete'),
