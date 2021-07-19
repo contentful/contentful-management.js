@@ -42,7 +42,7 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import { ContentTypeProps } from '../entities/content-type'
+import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
@@ -226,6 +226,14 @@ export type PlainClientAPI = {
       rawData: ContentTypeProps
     ): Promise<ContentTypeProps>
     unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      rawData: CreateContentTypeProps
+    ): Promise<ContentTypeProps>
+    createWithId(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
+      rawData: CreateContentTypeProps
+    ): Promise<ContentTypeProps>
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
@@ -458,6 +466,12 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
   }
   scheduledActions: {
+    get(
+      params: OptionalDefaults<GetSpaceParams> & {
+        scheduledActionId: string
+        environmentId: string
+      }
+    ): Promise<ScheduledActionProps>
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>

@@ -100,6 +100,8 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
+      create: wrap(wrapParams, 'ContentType', 'create'),
+      createWithId: wrap(wrapParams, 'ContentType', 'createWithId'),
       omitAndDeleteField: (params, contentType, fieldId) =>
         omitAndDeleteField(
           makeRequest,
@@ -229,6 +231,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Role', 'delete'),
     },
     scheduledActions: {
+      get: wrap(wrapParams, 'ScheduledAction', 'get'),
       getMany: wrap(wrapParams, 'ScheduledAction', 'getMany'),
       create: wrap(wrapParams, 'ScheduledAction', 'create'),
       delete: wrap(wrapParams, 'ScheduledAction', 'delete'),
