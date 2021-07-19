@@ -3,7 +3,7 @@
 > JavaScript SDK for [Contentful's](https://www.contentful.com) Content Management API.
 
 [![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
-[![Build Status](https://travis-ci.org/contentful/contentful-management.js.svg?branch=master)](https://travis-ci.org/contentful/contentful-management.js)
+[![Build Status](https://circleci.com/gh/contentful/contentful-management.js.svg?style=svg)](https://circleci.com/gh/contentful/contentful-management.js)
 [![Dependency Status](https://david-dm.org/contentful/contentful-management.js.svg)](https://david-dm.org/contentful/contentful-management.js)
 [![devDependency Status](https://david-dm.org/contentful/contentful-management.js/dev-status.svg)](https://david-dm.org/contentful/contentful-management.js#info=devDependencies)
 
