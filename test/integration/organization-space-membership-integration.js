@@ -1,6 +1,6 @@
 import { before, describe, test } from 'mocha'
 import { expect } from 'chai'
-import { initClient } from '../helpers'
+import { getTestOrganization } from '../helpers'
 import { TestDefaults } from '../defaults'
 
 const { organizationSpaceMembershipId } = TestDefaults
@@ -9,9 +9,7 @@ describe('OrganizationSpaceMembership Api', function () {
   let organization
 
   before(async () => {
-    organization = await initClient()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    organization = await getTestOrganization()
   })
 
   test('Gets organizationSpaceMemberships', async () => {

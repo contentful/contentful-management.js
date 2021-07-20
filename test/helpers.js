@@ -31,6 +31,12 @@ export const initPlainClient = (defaults = {}) => {
   )
 }
 
+export async function getTestOrganization() {
+  const testOrgId = env.CONTENTFUL_ORGANIZATION_ID
+  const organizations = await initClient().getOrganizations()
+  return organizations.items.find(({ sys: { id } }) => id === testOrgId)
+}
+
 export async function getDefaultSpace() {
   const { spaceId } = TestDefaults
   return initClient().getSpace(spaceId)
