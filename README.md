@@ -245,6 +245,12 @@ contentfulApp.init((sdk) => {
 })
 ```
 
+> **Please Note**
+>
+> Requests issued by means of App SDK's adapter will count towards the same rate limiting quota as the ones issued by
+> other APIs (e.g., Space API). Ultimately, they will all fall into the same bucket as the calls performed by the
+> host app (i.e., Contentful web app, Compose, or Launch).
+
 ## Troubleshooting
 
 - **I can't Install the package via npm** - Check your internet connection - It is called `contentful-management` and not `contenful-management` ¯\\\_(ツ)\_/¯
