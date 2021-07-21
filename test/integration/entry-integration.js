@@ -1,6 +1,12 @@
 import { expect } from 'chai'
 import { after, afterEach, beforeEach, before, describe, test } from 'mocha'
-import { client, createTestEnvironment, createTestSpace, generateRandomId } from '../helpers'
+import {
+  initClient,
+  createTestEnvironment,
+  createTestSpace,
+  generateRandomId,
+  getDefaultSpace,
+} from '../helpers'
 
 describe('Entry Api', () => {
   describe('read', () => {
@@ -8,7 +14,7 @@ describe('Entry Api', () => {
     let space
     let environment
     before(async () => {
-      space = await client().getSpace('ezs1swce23xe')
+      space = await getDefaultSpace()
       environment = await space.getEnvironment('master')
     })
 
@@ -293,7 +299,7 @@ describe('Entry Api', () => {
     let contentType
 
     before(async () => {
-      space = await createTestSpace(client(), 'Entry')
+      space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
     })
 

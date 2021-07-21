@@ -5,7 +5,7 @@ import { Asset } from '../../lib/entities/asset'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, getPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
 const ONE_DAY_MS = 3600 * 1000 * 24
@@ -277,7 +277,7 @@ describe('Scheduled Actions API', async function () {
     }
 
     test('lifecycle of a scheduled action (create, read, update, delete)', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
       })

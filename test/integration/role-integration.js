@@ -1,4 +1,4 @@
-import { client, createTestSpace, generateRandomId } from '../helpers'
+import { initClient, createTestSpace, generateRandomId } from '../helpers'
 import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
@@ -28,7 +28,7 @@ describe('Role Api', function () {
   let space
 
   before(async () => {
-    space = await createTestSpace(client(), 'Role')
+    space = await createTestSpace(initClient(), 'Role')
   })
 
   after(async () => {

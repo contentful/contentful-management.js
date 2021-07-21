@@ -1,14 +1,15 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getTestOrganization } from '../helpers'
 import { expect } from 'chai'
+import { TestDefaults } from '../defaults'
+
+const { teamId, teamMembershipId, organizationMembershipId2 } = TestDefaults
 
 describe('TeamMembership Api', function () {
   let organization
-  let teamId = '1aBQyG9AVlWLIephQlT0jN'
 
   before(async () => {
-    const organizations = await client().getOrganizations()
-    organization = organizations.items[0]
+    organization = await getTestOrganization()
   })
 
   test('Gets teamMemberships for team', async () => {
@@ -20,9 +21,9 @@ describe('TeamMembership Api', function () {
   })
 
   test('Gets one teamMembership', async () => {
-    return organization.getTeamMembership(teamId, '1yH0IzZFF816c7uk0dRTNk').then((response) => {
+    return organization.getTeamMembership(teamId, teamMembershipId).then((response) => {
       expect(response.sys, 'sys').ok
-      expect(response.sys.id).equals('1yH0IzZFF816c7uk0dRTNk')
+      expect(response.sys.id).equals(teamMembershipId)
       expect(response.sys.type).equals('TeamMembership')
     })
   })
@@ -31,7 +32,7 @@ describe('TeamMembership Api', function () {
     return organization
       .createTeamMembership(teamId, {
         admin: true,
-        organizationMembershipId: '5mDCHGHvePI8NOzw0WaY2Z',
+        organizationMembershipId: organizationMembershipId2,
       })
       .then(async (teamMembership) => {
         expect(teamMembership.sys, 'sys').ok

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
 import {
-  client,
+  initClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
@@ -20,7 +20,7 @@ describe('ContentType Api', async function () {
     readEnvironment = await readSpace.getEnvironment('master')
     readContentType = await readEnvironment.getContentType('vxVZs5JbhI9MwMupax3dm')
 
-    writeSpace = await createTestSpace(client(), 'ContentType')
+    writeSpace = await createTestSpace(initClient(), 'ContentType')
     writeEnvironment = await createTestEnvironment(writeSpace, 'Testing Environment')
   })
 

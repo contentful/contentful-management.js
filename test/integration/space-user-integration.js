@@ -1,12 +1,15 @@
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getDefaultSpace } from '../helpers'
+import { TestDefaults } from '../defaults'
+
+const { userId } = TestDefaults
 
 describe('SpaceUser Api', () => {
   let space
 
   before(async () => {
-    space = await client(true).getSpace('w6xueg32zr68')
+    space = await getDefaultSpace()
   })
 
   test('Gets users', async () => {
@@ -18,9 +21,9 @@ describe('SpaceUser Api', () => {
   })
 
   test('Gets user by id', async () => {
-    return space.getSpaceUser('4grQr6pMEy51ppQTRoQQDz').then((response) => {
+    return space.getSpaceUser(userId).then((response) => {
       expect(response.sys, 'sys').ok
-      expect(response.sys.id).equals('4grQr6pMEy51ppQTRoQQDz')
+      expect(response.sys.id).equals(userId)
       expect(response.sys.type).equals('User')
     })
   })

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
-import { client, createTestEnvironment, createTestSpace } from '../helpers'
+import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
 
 describe('Task Api', () => {
   let space
@@ -8,7 +8,7 @@ describe('Task Api', () => {
   let entry
 
   before(async () => {
-    space = await createTestSpace(client(), 'Task')
+    space = await createTestSpace(initClient(), 'Task')
     environment = await createTestEnvironment(space, 'Task Testing Environment')
     const contentType = await environment.createContentType({ name: 'Content Type' })
     await contentType.publish()
