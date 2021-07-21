@@ -1,5 +1,6 @@
 import { createClient } from '../lib/contentful-management'
-import { sleep } from '../lib/methods/utils'
+import * as testUtils from '@contentful/integration-test-utils'
+import { TestDefaults } from './defaults'
 
 const params = {}
 
@@ -8,20 +9,16 @@ if (process.env.API_INTEGRATION_TESTS) {
   params.insecure = true
 }
 
-const env = process.env.CONTENTFUL_ACCESS_TOKEN !== undefined ? process.env : window.__env__
+const env = process.env !== undefined ? process.env : window.__env__
 
-export const client = (isV2 = false) =>
-  createClient({
-    accessToken: isV2 ? env.CONTENTFUL_V2_ACCESS_TOKEN : env.CONTENTFUL_ACCESS_TOKEN,
-    ...params,
-  })
+export const initClient = () => testUtils.initClient()
 
 /**
  *
  * @returns {import('../lib/contentful-management').PlainClientAPI}
  */
-export const getPlainClient = (defaults = {}, isV2 = false) => {
-  const accessToken = isV2 ? env.CONTENTFUL_V2_ACCESS_TOKEN : env.CONTENTFUL_ACCESS_TOKEN
+export const initPlainClient = (defaults = {}) => {
+  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   return createClient(
     {
       accessToken,
@@ -34,62 +31,48 @@ export const getPlainClient = (defaults = {}, isV2 = false) => {
   )
 }
 
-export const createTestSpace = async (client, spacePrefix = '') => {
-  let space
-  let spaceName = 'CMA JS SDK [AUTO]'
-  if (spacePrefix.length > 0) {
-    spaceName += ' ' + spacePrefix
+export async function getTestOrganization() {
+  const testOrgId = env.CONTENTFUL_ORGANIZATION_ID
+  const organizations = await initClient().getOrganizations()
+  return organizations.items.find(({ sys: { id } }) => id === testOrgId)
+}
+
+export async function getDefaultSpace() {
+  const { spaceId } = TestDefaults
+  return initClient().getSpace(spaceId)
+}
+
+export async function getSpecialSpace(feature) {
+  const { spaceWithAliasesAndEmbargoedAssetsId } = TestDefaults
+  if (['alias', 'embargoedAssets'].includes(feature)) {
+    return initClient().getSpace(spaceWithAliasesAndEmbargoedAssetsId)
+  } else {
+    return getDefaultSpace()
   }
-  try {
-    space = await client.createSpace(
-      {
-        name: spaceName,
-      },
-      env.CONTENTFUL_ORGANIZATION
-    )
-  } catch (e) {
-    console.error(e)
-  }
-  if (!space) {
-    throw new Error('Test space creation failed for ' + spaceName)
-  }
-  return space
+}
+
+export const createTestSpace = async (client, testSuiteName = '') => {
+  return testUtils.createTestSpace({
+    client,
+    organizationId: env.CONTENTFUL_ORGANIZATION_ID,
+    repo: 'CMA',
+    language: 'JS',
+    testSuiteName,
+  })
 }
 
 export const createTestEnvironment = async (space, environmentName) => {
-  const environment = await space.createEnvironment({
-    name: environmentName,
-  })
-  await waitForEnvironmentToBeReady(space, environment)
-  return environment
+  return await testUtils.createTestEnvironment(space, environmentName)
 }
 
-export function waitForEnvironmentToBeReady(space, environment) {
-  return space.getEnvironment(environment.sys.id).then((env) => {
-    if (env.sys.status.sys.id !== 'ready') {
-      console.log(`Environment ${environment.sys.id} is not ready yet. Waiting 1000ms...`)
-      return sleep(1000).then(() => waitForEnvironmentToBeReady(space, env))
-    }
-    return env
-  })
+export const waitForEnvironmentToBeReady = async (space, environment) => {
+  return testUtils.waitForEnvironmentToBeReady(space, environment)
 }
 
-export function generateRandomId(prefix = 'randomId') {
-  return prefix + Math.ceil(Math.random() * 1e8)
+export const generateRandomId = (prefix = 'randomId') => {
+  return testUtils.generateRandomIdWithPrefix(prefix)
 }
 
-export const DEFAULT_SPACE_ID = 'ezs1swce23xe'
-export const ALTERNATIVE_SPACE_ID = '7dh3w86is8ls'
-export const V2_SPACE_ID = 'w6xueg32zr68'
-
-export async function getDefaultSpace() {
-  return await client().getSpace(DEFAULT_SPACE_ID)
-}
-
-export async function getAlternativeSpace() {
-  return await client().getSpace(ALTERNATIVE_SPACE_ID)
-}
-
-export async function getV2Space() {
-  return await client(true).getSpace(V2_SPACE_ID)
+export const cleanupTestSpaces = async (dryRun = false) => {
+  return testUtils.cleanUpTestSpaces({ threshold: 60 * 60 * 1000, dryRun })
 }

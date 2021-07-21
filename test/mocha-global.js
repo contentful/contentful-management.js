@@ -1,6 +1,6 @@
 import { after } from 'mocha'
-import { cleanupSpaces } from './cleanup-spaces'
+import { cleanupTestSpaces } from './helpers'
 
 after(async () => {
-  await cleanupSpaces()
+  await cleanupTestSpaces()
 })

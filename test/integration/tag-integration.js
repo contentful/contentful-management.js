@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { after, afterEach, before, describe, it } from 'mocha'
-import { client, generateRandomId, createTestSpace } from '../helpers'
+import { initClient, generateRandomId, createTestSpace } from '../helpers'
 
 function randomTagId() {
   const id = generateRandomId('test-tag')
@@ -18,7 +18,7 @@ describe('Tags api', function () {
   let environment
 
   before(async () => {
-    space = await createTestSpace(client(), 'Tags Api')
+    space = await createTestSpace(initClient(), 'Tags Api')
     environment = await space.getEnvironment('master')
   })
 

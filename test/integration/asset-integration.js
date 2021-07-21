@@ -3,7 +3,7 @@ const TEST_IMAGE_SOURCE_URL =
 
 import { expect } from 'chai'
 import { after, before, describe, test } from 'mocha'
-import { getDefaultSpace, createTestSpace, client } from '../helpers'
+import { initClient, getDefaultSpace, createTestSpace } from '../helpers'
 
 describe('Asset api', function () {
   describe('Read', () => {
@@ -45,7 +45,7 @@ describe('Asset api', function () {
     let environment
 
     before(async () => {
-      space = await createTestSpace(client(), 'Assets')
+      space = await createTestSpace(initClient(), 'Assets')
       environment = await space.getEnvironment('master')
       await environment.createLocale({
         name: 'German (Germany)',

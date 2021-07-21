@@ -1,15 +1,13 @@
 import { expect } from 'chai'
 import { readFileSync } from 'fs'
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getTestOrganization } from '../helpers'
 
 describe('AppUpload api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    organization = await getTestOrganization()
   })
 
   test('createAppUpload', async () => {

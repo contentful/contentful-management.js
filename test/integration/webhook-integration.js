@@ -1,12 +1,12 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
+import { initClient, createTestSpace } from '../helpers'
 import { expect } from 'chai'
 
 describe('Webhook Api', function () {
   let space
 
   before(async () => {
-    space = await createTestSpace(client(true), 'Webhook')
+    space = await createTestSpace(initClient(), 'Webhook')
   })
 
   after(async () => {

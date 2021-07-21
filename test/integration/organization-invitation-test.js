@@ -1,14 +1,12 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
+import { getTestOrganization } from '../helpers'
 import { expect } from 'chai'
 
 describe('OrganizationMembership Invitation Api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    organization = await getTestOrganization()
   })
 
   test('Creates, gets an invitation in the organization and remove membership after test', async () => {

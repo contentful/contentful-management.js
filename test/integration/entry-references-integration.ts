@@ -3,7 +3,7 @@ import { before, describe, test } from 'mocha'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, getPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient } from '../helpers'
 
 const ENTRY_WITH_REFERENCES_ID = TestDefaults.entry.testEntryReferenceId
 const WRONG_ENTRY_ID = `123123XD`
@@ -54,7 +54,7 @@ describe('Entry References', async function () {
     let entryWithReferences
 
     before(async () => {
-      plainClient = getPlainClient(defaultParams)
+      plainClient = initPlainClient(defaultParams)
 
       entry = await plainClient.entry.get({
         entryId: ENTRY_WITH_REFERENCES_ID,

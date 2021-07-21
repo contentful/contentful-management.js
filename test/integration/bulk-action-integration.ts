@@ -13,7 +13,7 @@ import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, getPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
 describe('BulkActions Api', async function () {
@@ -140,7 +140,7 @@ describe('BulkActions Api', async function () {
     }
 
     test('bulkAction.publish', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryBulkActionId,
       })
@@ -163,7 +163,7 @@ describe('BulkActions Api', async function () {
     })
 
     test('bulkAction.unpublish', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
       const bulkActionInProgress = await plainClient.bulkAction.unpublish(defaultParams, {
@@ -184,7 +184,7 @@ describe('BulkActions Api', async function () {
     })
 
     test('bulkAction.validate', async () => {
-      const plainClient = getPlainClient(defaultParams)
+      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
       const bulkActionInProgress = await plainClient.bulkAction.validate(defaultParams, {

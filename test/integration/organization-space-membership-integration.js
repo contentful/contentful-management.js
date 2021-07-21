@@ -1,14 +1,15 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
 import { expect } from 'chai'
+import { getTestOrganization } from '../helpers'
+import { TestDefaults } from '../defaults'
+
+const { organizationSpaceMembershipId } = TestDefaults
 
 describe('OrganizationSpaceMembership Api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    organization = await getTestOrganization()
   })
 
   test('Gets organizationSpaceMemberships', async () => {
@@ -20,13 +21,12 @@ describe('OrganizationSpaceMembership Api', function () {
 
   test('Gets organizationSpaceMembership', async () => {
     return organization
-      .getOrganizationSpaceMembership('527cW1W5JNlOlJq38lfr1k')
+      .getOrganizationSpaceMembership(organizationSpaceMembershipId)
       .then((response) => {
         expect(response.sys, 'sys').ok
-        expect(response.sys.id).equal('527cW1W5JNlOlJq38lfr1k', 'id')
+        expect(response.sys.id).equal(organizationSpaceMembershipId, 'id')
         expect(response.sys.type).equal('SpaceMembership', 'type')
         expect(response.user.sys.linkType).equal('User', 'user')
-        expect(response.roles).eql([], 'roles')
       })
   })
 })
