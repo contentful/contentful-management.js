@@ -218,11 +218,11 @@ The benefits of using the plain version of SDK are:
 
 ### App Framework
 
-Starting [`@contentful/app-sdk@4`](https://github.com/contentful/app-sdk) you can use this client to issue requests
-from your [Contentful app](https://www.contentful.com/developers/docs/extensibility/app-framework/).
+Starting [`@contentful/app-sdk@4`](https://github.com/contentful/app-sdk) you can use this client to make requests
+from your [apps built for Contentful](https://www.contentful.com/developers/docs/extensibility/app-framework/).
 
 A dedicated [Adapter](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495)
-grants your app access to the supported space-environment scoped entities without compromising on security as you won't
+grants your apps access to the supported space-environment scoped entities without compromising on security as you won't
 need to expose a management token, and without coding any additional backend middleware.
 
 ```javascript
@@ -247,9 +247,9 @@ contentfulApp.init((sdk) => {
 
 > **Please Note**
 >
-> Requests issued by means of App SDK's adapter will count towards the same rate limiting quota as the ones issued by
-> other APIs (e.g., Space API). Ultimately, they will all fall into the same bucket as the calls performed by the
-> host app (i.e., Contentful web app, Compose, or Launch).
+> Requests issued by the App SDK adapter will count towards the same rate limiting quota as the ones made by other APIs
+> exposed by App SDK (e.g., Space API). Ultimately, they will all fall into the same bucket as the calls performed by
+> the host app (i.e., Contentful web app, Compose, or Launch).
 
 ## Troubleshooting
 
@@ -333,8 +333,8 @@ initialized with provided configuration.
 
 > **Please Note**
 >
-> The Adapter will take precedence over the other options. Therefore, ensure your providing the Adapter all the
-> information it needs to issue the request (e.g., host, auth headers...)
+> The Adapter will take precedence over the other options. Therefore, ensure you're providing the Adapter all the
+> information it needs to issue the request (e.g., host or auth headers)
 
 ### Reference documentation
 
