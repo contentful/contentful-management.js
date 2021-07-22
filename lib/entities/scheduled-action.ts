@@ -91,6 +91,8 @@ export type ScheduledActionProps = {
   error?: ScheduledActionFailedError
 }
 
+export type CreateUpdateScheduledActionProps = Omit<ScheduledActionProps, 'sys' | 'error'>
+
 export interface ScheduledActionCollection {
   sys: {
     type: 'Array'
