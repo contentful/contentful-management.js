@@ -327,8 +327,8 @@ Interceptor called on every response. Takes Axios response object as an arg. Def
 
 #### apiAdapter (default: `new RestAdapter(configuration)`)
 
-An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495) used to
-issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
+An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495) 
+that can be utilized to issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
 initialized with provided configuration.
 
 > **Please Note**
