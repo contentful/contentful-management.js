@@ -31,6 +31,16 @@ enum ScheduledActionStatus {
 type SchedulableEntityType = 'Entry' | 'Asset' | 'Release'
 type SchedulableActionType = 'publish' | 'unpublish'
 
+type ErrorDetail = { error: any }
+interface ScheduledActionFailedError {
+  sys: {
+    type: 'Error'
+    id: string
+  }
+  message?: string
+  details?: { errors: ErrorDetail[] }
+}
+
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
@@ -62,7 +72,28 @@ export type ScheduledActionProps = {
      */
     timezone?: string
   }
+  /**
+   * The Contentful-style error that occurred during execution if sys.status is failed
+   *
+   * @example
+   * {
+   *   sys: {
+   *     type: 'Error',
+   *     id: 'InvalidEntry'
+   *   },
+   *   message: 'Entry is invalid',
+   *   details: {
+   *     errors: [...]
+   *   }
+   * }
+   */
+  error?: ScheduledActionFailedError
 }
+
+export type CreateUpdateScheduledActionProps = Pick<
+  ScheduledActionProps,
+  'action' | 'entity' | 'environment' | 'scheduledFor'
+>
 
 export interface ScheduledActionCollection {
   sys: {
