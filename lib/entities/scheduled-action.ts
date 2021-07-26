@@ -39,7 +39,7 @@ interface ScheduledActionFailedError {
     id: string
   }
   message?: string
-  details?: { errors: Collection<ErrorDetail> }
+  details?: { errors: ErrorDetail[] }
 }
 
 export type ScheduledActionSysProps = {
@@ -91,7 +91,10 @@ export type ScheduledActionProps = {
   error?: ScheduledActionFailedError
 }
 
-export type CreateUpdateScheduledActionProps = Omit<ScheduledActionProps, 'sys' | 'error'>
+export type CreateUpdateScheduledActionProps = Pick<
+  ScheduledActionProps,
+  'action' | 'entity' | 'environment' | 'scheduledFor'
+>
 
 export interface ScheduledActionCollection {
   sys: {
