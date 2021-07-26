@@ -31,7 +31,6 @@ enum ScheduledActionStatus {
 type SchedulableEntityType = 'Entry' | 'Asset' | 'Release'
 type SchedulableActionType = 'publish' | 'unpublish'
 
-type Collection<T> = Array<T>
 type ErrorDetail = { error: any }
 interface ScheduledActionFailedError {
   sys: {
