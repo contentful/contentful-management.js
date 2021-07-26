@@ -60,7 +60,10 @@ import {
 } from '../entities/personal-access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
 import { CreateRoleProps, RoleProps } from '../entities/role'
-import { ScheduledActionProps } from '../entities/scheduled-action'
+import {
+  ScheduledActionProps,
+  CreateUpdateScheduledActionProps,
+} from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
 import { SpaceProps } from '../entities/space'
 import { SpaceMemberProps } from '../entities/space-member'
@@ -477,14 +480,14 @@ export type PlainClientAPI = {
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
-      data: Omit<ScheduledActionProps, 'sys'>
+      data: CreateUpdateScheduledActionProps
     ): Promise<ScheduledActionProps>
     delete(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>
     ): Promise<ScheduledActionProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string; version: number }>,
-      data: Omit<ScheduledActionProps, 'sys'>
+      data: CreateUpdateScheduledActionProps
     ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
