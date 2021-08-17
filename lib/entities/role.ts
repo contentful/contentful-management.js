@@ -32,6 +32,7 @@ export type RoleProps = {
     EnvironmentAliases: string[] | string
     Environments: string[] | string
     Settings: string[] | string
+    Tags: string[] | string
   }
   policies: {
     effect: string
