@@ -158,7 +158,7 @@ You can try and change the above example at [Tonic](https://tonicdev.com/npm/con
 
 ### Alternative plain API
 
-Starting `contentful-management@7` this library provides an alternative plain library which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
+Starting `contentful-management@7` this library provides an alternative plain client which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
 
 ```javascript
 const contentful = require('contentful-management')
