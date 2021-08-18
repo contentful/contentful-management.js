@@ -208,7 +208,7 @@ const entries = await scopedPlainClient.entry.getMany({
 })
 ```
 
-The benefits of using the plain version of library are:
+The benefits of using the plain version of the library are:
 
 - The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
