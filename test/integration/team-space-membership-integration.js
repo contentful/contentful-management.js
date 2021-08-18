@@ -1,13 +1,15 @@
 import { after, before, describe, test } from 'mocha'
-import { client, createTestSpace } from '../helpers'
 import { expect } from 'chai'
+import { initClient, createTestSpace } from '../helpers'
+import { TestDefaults } from '../defaults'
 
-// Skipping the while suite for now to not create unused spaces.
-describe.skip('TeamSpaceMembership api', function () {
+const { teamId } = TestDefaults
+
+describe('TeamSpaceMembership Api', function () {
   let space
 
   before(async () => {
-    space = await createTestSpace(client(), 'TSM')
+    space = await createTestSpace(initClient(), 'TSM')
   })
 
   after(async () => {
@@ -16,48 +18,51 @@ describe.skip('TeamSpaceMembership api', function () {
     }
   })
 
-  /*
-  TODO: To make this test work, we first need to put the space in the required state.
-  - create a team, receive id, and use this id for this test.
-  - pull role id's dynamically from roles.
-   */
-  test.skip('Create, update and delete teamSpaceMembership', async () => {
+  test('Create, update and delete teamSpaceMembership', async () => {
+    const roles = await space.getRoles()
+    const roleIds = roles.items.map(({ sys: { id } }) => id)
+    const initialRole = {
+      sys: {
+        type: 'Link',
+        linkType: 'Role',
+        id: roleIds[0],
+      },
+    }
+    const updatedRole = {
+      sys: {
+        type: 'Link',
+        linkType: 'Role',
+        id: roleIds[1],
+      },
+    }
     return space
-      .createTeamSpaceMembership('5vllqmpyrhlgaz0xb2S90C', {
+      .createTeamSpaceMembership(teamId, {
         admin: false,
-        roles: [
-          {
-            sys: {
-              type: 'Link',
-              linkType: 'Role',
-              id: '6YFO0dKMUjeXB5OPoWnoNm', // role developer
-            },
-          },
-        ],
+        roles: [initialRole],
       })
-      .then((response) => space.getTeamSpaceMembership(response.sys.id))
       .then((teamMembership) => {
-        teamMembership.roles = [
-          {
-            sys: {
-              type: 'Link',
-              linkType: 'Role',
-              id: '6YFc9mw7PREXh5FQ1lKSN6', // change role to author
-            },
-          },
-        ]
+        expect(teamMembership.sys.type).equals('TeamSpaceMembership', 'type')
+        expect(teamMembership.sys.team, 'team').ok
+        expect(teamMembership.roles).to.deep.equal([initialRole], 'roles')
+        return space.getTeamSpaceMembership(teamMembership.sys.id)
+      })
+      .then((teamMembership) => {
+        teamMembership.roles = [updatedRole]
         teamMembership.update()
         return teamMembership
       })
       .then((teamMembership) => {
         expect(teamMembership.sys.type).equals('TeamSpaceMembership', 'type')
         expect(teamMembership.sys.team, 'team').ok
-        expect(teamMembership.roles, 'roles').ok
+        expect(teamMembership.roles).to.deep.equal([updatedRole], 'roles')
         return space.getTeamSpaceMembership(teamMembership.sys.id)
       })
       .then((membership) => {
-        // delete team space membership
-        membership.delete()
+        return membership.delete()
+      })
+      .then(() => {
+        space.delete()
+        space = null
       })
   })
 })

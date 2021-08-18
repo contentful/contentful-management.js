@@ -7,6 +7,7 @@ import {
   MetaLinkProps,
   Link,
   MakeRequest,
+  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -30,16 +31,30 @@ enum ScheduledActionStatus {
 type SchedulableEntityType = 'Entry' | 'Asset' | 'Release'
 type SchedulableActionType = 'publish' | 'unpublish'
 
+type ErrorDetail = { error: any }
+interface ScheduledActionFailedError {
+  sys: {
+    type: 'Error'
+    id: string
+  }
+  message?: string
+  details?: { errors: ErrorDetail[] }
+}
+
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
-  space: { sys: MetaLinkProps }
+  version: number
+  space: SysLink
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
-  createdBy: { sys: MetaLinkProps }
+  createdBy: SysLink
   /** an ISO8601 date string representing when an action was moved to canceled */
   canceledAt?: ISO8601Timestamp
-  canceledBy?: { sys: MetaLinkProps }
+  canceledBy?: SysLink
+  /** an ISO8601 date string representing when an action was updated */
+  updatedAt: ISO8601Timestamp
+  updatedBy: Link<'User'>
 }
 
 export type ScheduledActionProps = {
@@ -49,8 +64,36 @@ export type ScheduledActionProps = {
   environment?: { sys: MetaLinkProps }
   scheduledFor: {
     datetime: ISO8601Timestamp
+    /**
+     * A valid IANA timezone Olson identifier
+     *
+     * @see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * @example 'Asia/Kolkata'
+     */
+    timezone?: string
   }
+  /**
+   * The Contentful-style error that occurred during execution if sys.status is failed
+   *
+   * @example
+   * {
+   *   sys: {
+   *     type: 'Error',
+   *     id: 'InvalidEntry'
+   *   },
+   *   message: 'Entry is invalid',
+   *   details: {
+   *     errors: [...]
+   *   }
+   * }
+   */
+  error?: ScheduledActionFailedError
 }
+
+export type CreateUpdateScheduledActionProps = Pick<
+  ScheduledActionProps,
+  'action' | 'entity' | 'environment' | 'scheduledFor'
+>
 
 export interface ScheduledActionCollection {
   sys: {
@@ -67,8 +110,9 @@ export interface ScheduledActionQueryOptions extends BasicCursorPaginationOption
   [key: string]: any
 }
 
-type ScheduledActionApi = {
+export type ScheduledActionApi = {
   delete(): Promise<ScheduledAction>
+  update(): Promise<ScheduledAction>
 }
 
 export interface ScheduledAction
@@ -76,25 +120,115 @@ export interface ScheduledAction
     DefaultElements<ScheduledActionProps>,
     ScheduledActionApi {}
 
-export function createDeleteScheduledAction(
-  makeRequest: MakeRequest
-): () => Promise<ScheduledAction> {
-  return function (): Promise<ScheduledAction> {
-    const data = this.toPlainObject() as ScheduledActionProps
-    return makeRequest({
-      entityType: 'ScheduledAction',
-      action: 'delete',
-      params: {
-        spaceId: data.sys.space.sys.id,
-        scheduledActionId: data.sys.id,
-      },
-    }).then((data) => wrapScheduledAction(makeRequest, data))
+export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledActionApi {
+  const getParams = (self: ScheduledAction) => {
+    const scheduledAction = self.toPlainObject()
+    return {
+      spaceId: scheduledAction.sys.space.sys.id,
+      environmentId: scheduledAction.environment?.sys.id as string,
+      scheduledActionId: scheduledAction.sys.id,
+      version: scheduledAction.sys.version,
+    }
   }
-}
 
-export default function createScheduledActionApi(makeRequest: MakeRequest): ScheduledActionApi {
   return {
-    delete: createDeleteScheduledAction(makeRequest),
+    /**
+     * Cancels the current Scheduled Action schedule.
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *    .then((scheduledAction) => scheduledAction.delete())
+     *    .then((deletedScheduledAction) => console.log(deletedScheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
+    async delete(): Promise<ScheduledAction> {
+      const params = getParams(this)
+
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'delete',
+        params,
+      }).then((data) => wrapScheduledAction(makeRequest, data))
+    },
+    /**
+     * Update the current scheduled action. Currently, only changes made to the `scheduledFor` property will be saved.
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *    .then((scheduledAction) => {
+     *      scheduledAction.scheduledFor.timezone = 'Europe/Paris';
+     *      return scheduledAction.update();
+     *    })
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
+    async update(): Promise<ScheduledAction> {
+      const params = getParams(this)
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { sys, ...payload } = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'update',
+        params,
+        payload,
+      }).then((data) => wrapScheduledAction(makeRequest, data))
+    },
   }
 }
 
@@ -105,7 +239,7 @@ export function wrapScheduledAction(
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    createScheduledActionApi(makeRequest)
+    getInstanceMethods(makeRequest)
   )
   return freezeSys(scheduledActionWithMethods)
 }

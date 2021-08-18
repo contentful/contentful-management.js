@@ -1,12 +1,15 @@
 import { before, describe, test } from 'mocha'
-import { getV2Space } from '../helpers'
 import { expect } from 'chai'
+import { getDefaultSpace } from '../helpers'
+import { TestDefaults } from '../defaults'
 
-describe('SpaceMembers Api', () => {
+const { spaceId, userId } = TestDefaults
+
+describe('SpaceMember Api', () => {
   let space
 
   before(async () => {
-    space = await getV2Space()
+    space = await getDefaultSpace()
   })
 
   test('Gets spaceMembers', async () => {
@@ -19,10 +22,10 @@ describe('SpaceMembers Api', () => {
   })
 
   test('Gets spaceMember', async () => {
-    return space.getSpaceMember('0PCYk22mt1xD7gTKZhHycN').then((response) => {
+    return space.getSpaceMember(userId).then((response) => {
       expect(response.sys, 'sys').ok
       expect(response.sys.type).equals('SpaceMember')
-      expect(response.sys.id).equal('w6xueg32zr68-0PCYk22mt1xD7gTKZhHycN')
+      expect(response.sys.id).equal(`${spaceId}-${userId}`)
     })
   })
 })

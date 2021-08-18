@@ -1,14 +1,12 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
-import { client } from '../helpers'
+import { getTestOrganization } from '../helpers'
 
 describe('AppDefinition api', function () {
   let organization
 
   before(async () => {
-    organization = await client()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    organization = await getTestOrganization()
   })
 
   after(async () => {

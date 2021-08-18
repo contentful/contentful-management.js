@@ -10,7 +10,7 @@ import {
 function setup(promise) {
   return {
     makeRequest: setupMakeRequest(promise),
-    entityMock: cloneMock('spaceMembership'),
+    entityMock: cloneMock('spaceMember'),
   }
 }
 

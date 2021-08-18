@@ -74,6 +74,21 @@ export type {
   CreatePersonalAccessTokenProps,
 } from './entities/personal-access-token'
 export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
+export type {
+  Release,
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseSysProps,
+  ReleaseValidateOptions,
+} from './entities/release'
+export type {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+  ReleaseActionSysProps,
+  ReleaseActionTypes,
+} from './entities/release-action'
 export type { Role, RoleProps, CreateRoleProps } from './entities/role'
 export type {
   ScheduledAction,
@@ -94,7 +109,8 @@ export type {
   TeamMembershipProps,
   CreateTeamMembershipProps,
 } from './entities/team-membership'
-export type { Tag, TagProps, CreateTagProps } from './entities/tag'
+export type { Tag, TagProps, CreateTagProps, TagVisibility } from './entities/tag'
+export type { Task, TaskProps, CreateTaskProps, UpdateTaskProps } from './entities/task'
 export type {
   TeamSpaceMembership,
   TeamSpaceMembershipProps,

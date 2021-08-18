@@ -28,6 +28,10 @@ import {
   GetAppUploadParams,
   GetAppBundleParams,
   GetBulkActionParams,
+  GetReleaseParams,
+  GetTaskParams,
+  GetEntryParams,
+  CursorPaginatedCollectionProp,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -38,9 +42,9 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import { ContentTypeProps } from '../entities/content-type'
+import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
-import { CreateEntryProps, EntryProps } from '../entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from '../entities/locale'
@@ -56,7 +60,10 @@ import {
 } from '../entities/personal-access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
 import { CreateRoleProps, RoleProps } from '../entities/role'
-import { ScheduledActionProps } from '../entities/scheduled-action'
+import {
+  ScheduledActionProps,
+  CreateUpdateScheduledActionProps,
+} from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
 import { SpaceProps } from '../entities/space'
 import { SpaceMemberProps } from '../entities/space-member'
@@ -89,6 +96,21 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
+import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from '../entities/release'
+import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
+import {
+  CreateTaskParams,
+  CreateTaskProps,
+  DeleteTaskParams,
+  TaskProps,
+  UpdateTaskParams,
+  UpdateTaskProps,
+} from '../entities/task'
 
 export type PlainClientAPI = {
   raw: {
@@ -207,6 +229,14 @@ export type PlainClientAPI = {
       rawData: ContentTypeProps
     ): Promise<ContentTypeProps>
     unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      rawData: CreateContentTypeProps
+    ): Promise<ContentTypeProps>
+    createWithId(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
+      rawData: CreateContentTypeProps
+    ): Promise<ContentTypeProps>
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
@@ -269,6 +299,9 @@ export type PlainClientAPI = {
       >,
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
+    references(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }>
+    ): Promise<EntryReferenceProps>
   }
   asset: {
     getMany(
@@ -380,6 +413,39 @@ export type PlainClientAPI = {
       params: OptionalDefaults<{ organizationId: string } & QueryParams>
     ): Promise<CollectionProp<UsageProps>>
   }
+  release: {
+    get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
+    query(
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
+    ): Promise<CollectionProp<ReleaseProps>>
+    create(
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    update(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
+      data: ReleasePayload
+    ): Promise<ReleaseProps>
+    delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
+    publish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'publish'>>
+    unpublish(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseActionProps<'unpublish'>>
+    validate(
+      params: OptionalDefaults<GetReleaseParams>,
+      data?: ReleaseValidatePayload
+    ): Promise<ReleaseActionProps<'validate'>>
+  }
+  releaseAction: {
+    get(
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+    ): Promise<ReleaseActionProps>
+    queryForRelease(
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
+  }
   role: {
     get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
     getMany(
@@ -403,14 +469,26 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
   }
   scheduledActions: {
+    get(
+      params: OptionalDefaults<GetSpaceParams> & {
+        scheduledActionId: string
+        environmentId: string
+      }
+    ): Promise<ScheduledActionProps>
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<ScheduledActionProps>>
+    ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
-      data: Omit<ScheduledActionProps, 'sys'>
+      data: CreateUpdateScheduledActionProps
     ): Promise<ScheduledActionProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string }>): Promise<any>
+    delete(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>
+    ): Promise<ScheduledActionProps>
+    update(
+      params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string; version: number }>,
+      data: CreateUpdateScheduledActionProps
+    ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
     get(
@@ -609,10 +687,28 @@ export type PlainClientAPI = {
     ): Promise<SpaceMembershipProps>
     delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
   }
+  task: {
+    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
+    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<TaskProps>>
+    create(
+      params: OptionalDefaults<CreateTaskParams>,
+      rawData: CreateTaskProps,
+      headers?: Record<string, unknown>
+    ): Promise<TaskProps>
+    update(
+      params: OptionalDefaults<UpdateTaskParams>,
+      rawData: UpdateTaskProps,
+      headers?: Record<string, unknown>
+    ): Promise<TaskProps>
+    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
+  }
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
     getMany(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    ): Promise<CollectionProp<TeamProps>>
+    getManyForSpace(
+      params: OptionalDefaults<GetSpaceParams & QueryParams>
     ): Promise<CollectionProp<TeamProps>>
     create(
       params: OptionalDefaults<GetOrganizationParams>,

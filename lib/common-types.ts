@@ -13,7 +13,7 @@ import {
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import { EditorInterfaceProps } from './entities/editor-interface'
-import { CreateEntryProps, EntryProps } from './entities/entry'
+import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
@@ -59,6 +59,26 @@ import {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
+import {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from './entities/release'
+import {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
+
+import {
+  CreateTaskParams,
+  CreateTaskProps,
+  DeleteTaskParams,
+  TaskProps,
+  UpdateTaskParams,
+  UpdateTaskProps,
+} from './entities/task'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -83,6 +103,12 @@ export interface VersionedLink<T extends string> {
     version: number
   }
 }
+
+export interface BaseCollection<T> {
+  sys: { type: 'Array' }
+  items: T[]
+}
+
 /** String will be in ISO8601 datetime format e.g. 2013-06-26T13:57:24Z */
 export type ISO8601Timestamp = string
 
@@ -156,9 +182,18 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
+
+export interface CursorPaginatedCollection<T, TPlain>
+  extends CursorPaginatedCollectionProp<T>,
+    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -276,6 +311,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Entry', 'unarchive', UA>): MRReturn<'Entry', 'unarchive'>
   (opts: MROpts<'Entry', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Entry', 'createWithId', UA>): MRReturn<'Entry', 'createWithId'>
+  (opts: MROpts<'Entry', 'references', UA>): MRReturn<'Entry', 'references'>
 
   (opts: MROpts<'Extension', 'get', UA>): MRReturn<'Extension', 'get'>
   (opts: MROpts<'Extension', 'getMany', UA>): MRReturn<'Extension', 'getMany'>
@@ -321,6 +357,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
 
+  (opts: MROpts<'Release', 'get', UA>): MRReturn<'Release', 'get'>
+  (opts: MROpts<'Release', 'query', UA>): MRReturn<'Release', 'query'>
+  (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
+  (opts: MROpts<'Release', 'update', UA>): MRReturn<'Release', 'update'>
+  (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
+  (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
+  (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
+
+  (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
+    'ReleaseAction',
+    'queryForRelease'
+  >
+
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
   (opts: MROpts<'Role', 'create', UA>): MRReturn<'Role', 'create'>
@@ -328,8 +379,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Role', 'update', UA>): MRReturn<'Role', 'update'>
   (opts: MROpts<'Role', 'delete', UA>): MRReturn<'Role', 'delete'>
 
+  (opts: MROpts<'ScheduledAction', 'get', UA>): MRReturn<'ScheduledAction', 'get'>
   (opts: MROpts<'ScheduledAction', 'getMany', UA>): MRReturn<'ScheduledAction', 'getMany'>
   (opts: MROpts<'ScheduledAction', 'create', UA>): MRReturn<'ScheduledAction', 'create'>
+  (opts: MROpts<'ScheduledAction', 'update', UA>): MRReturn<'ScheduledAction', 'update'>
   (opts: MROpts<'ScheduledAction', 'delete', UA>): MRReturn<'ScheduledAction', 'delete'>
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
@@ -370,8 +423,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Tag', 'update', UA>): MRReturn<'Tag', 'update'>
   (opts: MROpts<'Tag', 'delete', UA>): MRReturn<'Tag', 'delete'>
 
+  (opts: MROpts<'Task', 'get', UA>): MRReturn<'Task', 'get'>
+  (opts: MROpts<'Task', 'getAll', UA>): MRReturn<'Task', 'getAll'>
+  (opts: MROpts<'Task', 'create', UA>): MRReturn<'Task', 'create'>
+  (opts: MROpts<'Task', 'update', UA>): MRReturn<'Task', 'update'>
+  (opts: MROpts<'Task', 'delete', UA>): MRReturn<'Task', 'delete'>
+
   (opts: MROpts<'Team', 'get', UA>): MRReturn<'Team', 'get'>
   (opts: MROpts<'Team', 'getMany', UA>): MRReturn<'Team', 'getMany'>
+  (opts: MROpts<'Team', 'getManyForSpace', UA>): MRReturn<'Team', 'getManyForSpace'>
   (opts: MROpts<'Team', 'create', UA>): MRReturn<'Team', 'create'>
   (opts: MROpts<'Team', 'update', UA>): MRReturn<'Team', 'update'>
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
@@ -740,6 +800,10 @@ export type MRActions = {
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
+    references: {
+      params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
+      return: EntryReferenceProps
+    }
   }
   Extension: {
     get: { params: GetExtensionParams & QueryParams; return: ExtensionProps }
@@ -833,6 +897,53 @@ export type MRActions = {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
   }
+  Release: {
+    get: {
+      params: GetReleaseParams
+      return: ReleaseProps
+    }
+    query: {
+      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      return: CollectionProp<ReleaseProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    update: {
+      params: GetReleaseParams & { version: number }
+      payload: ReleasePayload
+      return: ReleaseProps
+    }
+    delete: {
+      params: GetReleaseParams
+      return: void
+    }
+    publish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'publish'>
+    }
+    unpublish: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseActionProps<'unpublish'>
+    }
+    validate: {
+      params: GetReleaseParams
+      payload?: ReleaseValidatePayload
+      return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAction: {
+    get: {
+      params: GetReleaseParams & { actionId: string }
+      return: ReleaseAction
+    }
+    queryForRelease: {
+      params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
+    }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -857,13 +968,22 @@ export type MRActions = {
     delete: { params: GetSpaceParams & { roleId: string }; return: any }
   }
   ScheduledAction: {
+    get: {
+      params: GetSpaceParams & { scheduledActionId: string; environmentId: string }
+      return: ScheduledActionProps
+    }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ScheduledActionProps> }
     create: {
       params: GetSpaceParams
       payload: Omit<ScheduledActionProps, 'sys'>
       return: ScheduledActionProps
     }
-    delete: { params: GetSpaceParams & { scheduledActionId: string }; return: any }
+    update: {
+      params: GetSpaceParams & { scheduledActionId: string; version: number }
+      payload: Omit<ScheduledActionProps, 'sys'>
+      return: ScheduledActionProps
+    }
+    delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
   }
   Snapshot: {
     getManyForEntry: {
@@ -947,9 +1067,22 @@ export type MRActions = {
     }
     delete: { params: DeleteTagParams; return: any }
   }
+  Task: {
+    get: { params: GetTaskParams; return: TaskProps }
+    getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
+    create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
+    update: {
+      params: UpdateTaskParams
+      payload: UpdateTaskProps
+      headers?: Record<string, unknown>
+      return: TaskProps
+    }
+    delete: { params: DeleteTaskParams; return: void }
+  }
   Team: {
     get: { params: GetTeamParams; return: TeamProps }
     getMany: { params: GetOrganizationParams & QueryParams; return: CollectionProp<TeamProps> }
+    getManyForSpace: { params: GetSpaceParams & QueryParams; return: CollectionProp<TeamProps> }
     create: {
       params: GetOrganizationParams
       payload: CreateTeamProps
@@ -1119,8 +1252,10 @@ export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefiniti
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetOrganizationParams = { organizationId: string }
+export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
@@ -1128,6 +1263,7 @@ export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 export type GetSpaceParams = { spaceId: string }
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+export type GetTaskParams = GetEntryParams & { taskId: string }
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
 export type GetTeamParams = { organizationId: string; teamId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }

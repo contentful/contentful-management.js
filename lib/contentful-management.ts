@@ -12,12 +12,15 @@ import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type { PlainClientAPI } from './plain/common-types'
 import type { DefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
+import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
+export { RestAdapter } from './adapters/REST/rest-adapter'
+export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 
 interface UserAgentParams {

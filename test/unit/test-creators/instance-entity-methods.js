@@ -140,3 +140,9 @@ export async function failingOmitAndDeleteFieldTest(setup, { wrapperMethod }) {
     expect(r, "throws an error when field doesn't exist").to.be.ok
   })
 }
+
+export async function entityReferenceCollectionTest(setup, { wrapperMethod }) {
+  const { makeRequest, entityMock } = setup()
+  const entity = wrapperMethod(makeRequest, entityMock)
+  expect(entity.includes).not.to.be.empty
+}

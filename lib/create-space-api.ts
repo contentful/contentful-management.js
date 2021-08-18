@@ -35,6 +35,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     wrapTeamSpaceMembership,
     wrapTeamSpaceMembershipCollection,
   } = entities.teamSpaceMembership
+  const { wrapTeamCollection } = entities.team
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
@@ -541,6 +542,31 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapUserCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of teams for a space
+     * @param query
+     * @return Promise for a collection of teams for a space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getTeams())
+     * .then((teamsCollection) => console.log(teamsCollection))
+     * .catch(console.error)
+     * ```
+     */
+    getTeams(query: QueryOptions = { limit: 100 }) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Team',
+        action: 'getManyForSpace',
+        params: {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapTeamCollection(makeRequest, data))
     },
     /**
      * Gets a Space Member
@@ -1079,6 +1105,22 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Query for scheduled actions in space.
      * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
      * @return Promise for the scheduled actions query
+     *
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.getScheduledActions({
+     *      'environment.sys.id': '<environment_id>',
+     *      'sys.status': 'scheduled'
+     *    }))
+     *    .then((scheduledActionCollection) => console.log(scheduledActionCollection.items))
+     *    .catch(console.error)
+     * ```
      */
     getScheduledActions(query: ScheduledActionQueryOptions) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1089,9 +1131,80 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       }).then((response) => wrapScheduledActionCollection(makeRequest, response))
     },
     /**
+     * Get a Scheduled Action in the current space by environment and ID.
+     *
+     * @throws if the Scheduled Action cannot be found or the user doesn't have permission to read schedules from the entity of the scheduled action itself.
+     * @returns Promise with the Scheduled Action
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.getScheduledAction({
+     *      scheduledActionId: '<scheduled-action-id>',
+     *      environmentId: '<environmentId>'
+     *    }))
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error)
+     * ```
+     */
+    getScheduledAction({
+      scheduledActionId,
+      environmentId,
+    }: {
+      scheduledActionId: string
+      environmentId: string
+    }) {
+      const space = this.toPlainObject() as SpaceProps
+
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'get',
+        params: {
+          spaceId: space.sys.id,
+          environmentId,
+          scheduledActionId,
+        },
+      }).then((scheduledAction) => wrapScheduledAction(makeRequest, scheduledAction))
+    },
+
+    /**
      * Creates a scheduled action
      * @param data - Object representation of the scheduled action to be created
      * @return Promise for the newly created scheduled actions
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.createScheduledAction({
+     *      entity: {
+     *        sys: {
+     *          type: 'Link',
+     *          linkType: 'Entry',
+     *          id: '<entry_id>'
+     *        }
+     *      },
+     *      environment: {
+     *        type: 'Link',
+     *        linkType: 'Environment',
+     *        id: '<environment_id>'
+     *      },
+     *      action: 'publish',
+     *      scheduledFor: {
+     *        dateTime: <ISO_date_string>,
+     *        timezone: 'Europe/Berlin'
+     *      }
+     *    }))
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error)
+     * ```
      */
     createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1100,6 +1213,121 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'create',
         params: { spaceId: raw.sys.id },
         payload: data,
+      }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
+    /**
+     * Update a scheduled action
+     * @param {object} options
+     * @param options.scheduledActionId the id of the scheduled action to update
+     * @param options.version the sys.version of the scheduled action to be updated
+     * @param payload the scheduled actions object with updates, omitting sys object
+     * @returns Promise containing a wrapped scheduled action with helper methods
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  client.getSpace('<space_id>')
+     *    .then((space) => {
+     *      return space.createScheduledAction({
+     *        entity: {
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Entry',
+     *            id: '<entry_id>'
+     *          }
+     *        },
+     *        environment: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        },
+     *        action: 'publish',
+     *        scheduledFor: {
+     *          dateTime: <ISO_date_string>,
+     *          timezone: 'Europe/Berlin'
+     *        }
+     *      })
+     *      .then((scheduledAction) => {
+     *        const { _sys, ...payload } = scheduledAction;
+     *        return space.updateScheduledAction({
+     *          ...payload,
+     *          scheduledFor: {
+     *            ...payload.scheduledFor,
+     *            timezone: 'Europe/Paris'
+     *          }
+     *        })
+     *      })
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
+    updateScheduledAction({
+      scheduledActionId,
+      payload,
+      version,
+    }: {
+      scheduledActionId: string
+      payload: Omit<ScheduledActionProps, 'sys'>
+      version: number
+    }) {
+      const spaceProps = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'update',
+        params: {
+          spaceId: spaceProps.sys.id,
+          version,
+          scheduledActionId,
+        },
+        payload,
+      }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
+    /**
+     * Cancels a Scheduled Action.
+     * Only cancels actions that have not yet executed.
+     *
+     * @param {object} options
+     * @param options.scheduledActionId the id of the scheduled action to be canceled
+     * @param options.environmentId the environment ID of the scheduled action to be canceled
+     * @throws if the Scheduled Action cannot be found or the user doesn't have permissions in the entity in the action.
+     * @returns Promise containing a wrapped Scheduled Action with helper methods
+     * @example ```javascript
+     *  const contentful = require('contentful-management');
+     *
+     *  const client = contentful.createClient({
+     *    accessToken: '<content_management_api_key>'
+     *  })
+     *
+     *  // Given that an Scheduled Action is scheduled
+     *  client.getSpace('<space_id>')
+     *    .then((space) => space.deleteScheduledAction({
+     *        environmentId: '<environment-id>',
+     *        scheduledActionId: '<scheduled-action-id>'
+     *     }))
+     *     // The scheduled Action sys.status is now 'canceled'
+     *    .then((scheduledAction) => console.log(scheduledAction))
+     *    .catch(console.error);
+     * ```
+     */
+    deleteScheduledAction({
+      scheduledActionId,
+      environmentId,
+    }: {
+      scheduledActionId: string
+      environmentId: string
+    }) {
+      const spaceProps = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'ScheduledAction',
+        action: 'delete',
+        params: {
+          spaceId: spaceProps.sys.id,
+          environmentId,
+          scheduledActionId,
+        },
       }).then((response) => wrapScheduledAction(makeRequest, response))
     },
   }

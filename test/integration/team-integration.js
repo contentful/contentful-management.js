@@ -1,13 +1,15 @@
 import { before, describe, test } from 'mocha'
-import { client } from '../helpers'
 import { expect } from 'chai'
+import { getTestOrganization } from '../helpers'
+import { TestDefaults } from '../defaults'
 
-describe('Team api', function () {
+const { teamId, teamName } = TestDefaults
+
+describe('Team Api', function () {
   let organization
 
   before(async () => {
-    const organizations = await client().getOrganizations()
-    organization = organizations.items[0]
+    organization = await getTestOrganization()
   })
 
   test('Gets teams', async () => {
@@ -19,11 +21,11 @@ describe('Team api', function () {
   })
 
   test('Gets team', async () => {
-    return organization.getTeam('1aBQyG9AVlWLIephQlT0jN').then((response) => {
+    return organization.getTeam(teamId).then((response) => {
       expect(response.sys, 'sys').to.be.ok
-      expect(response.sys.id).equal('1aBQyG9AVlWLIephQlT0jN')
+      expect(response.sys.id).equal(teamId)
       expect(response.sys.type).equal('Team')
-      expect(response.name).equal('SDK test team [DO NOT DELETE]')
+      expect(response.name).equal(teamName)
     })
   })
   test('Create, update and delete team', async () => {

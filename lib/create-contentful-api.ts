@@ -18,6 +18,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     wrapPersonalAccessTokenCollection,
   } = entities.personalAccessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
+  const { wrapTeamCollection } = entities.team
   const { wrapUsageCollection } = entities.usage
 
   return {

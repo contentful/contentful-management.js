@@ -1,18 +1,17 @@
 // To test creating spaceMemberships user has to exist in the organization. Organization membership is produced also within invitation process.
-import { client, createTestSpace, generateRandomId } from '../helpers'
+import { initClient, createTestSpace, generateRandomId } from '../helpers'
+import { TestDefaults } from '../defaults'
+
+const { userEmail } = TestDefaults
 
 import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
-describe('SpaceMembers Api', function () {
+describe('SpaceMembership Api', function () {
   let space
-  let organization
 
   before(async () => {
-    space = await createTestSpace(client(true), 'SMembership')
-    organization = await client()
-      .getOrganizations()
-      .then((response) => response.items[0])
+    space = await createTestSpace(initClient(), 'SMembership')
   })
 
   after(async () => {
@@ -28,86 +27,50 @@ describe('SpaceMembers Api', function () {
     })
   })
 
-  test('Create spaceMembership with id', async () => {
-    return organization
-      .createOrganizationInvitation({
-        email: 'test-spaceMembership-id.user@contentful.com',
-        firstName: 'Test',
-        lastName: 'User',
-        role: 'developer',
-      })
-      .then((response) => organization.getOrganizationInvitation(response.sys.id))
-      .then((invitation) =>
-        organization.getOrganizationMembership(invitation.sys.organizationMembership.sys.id)
-      )
-      .then((membership) => {
-        const id = generateRandomId('spaceMembership')
-        space.getRoles().then((roles) => {
-          return space
-            .createSpaceMembershipWithId(id, {
-              admin: false,
-              email: 'test-spaceMembership-id.user@contentful.com',
-              roles: [
-                {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Role',
-                    id: roles.items[0].sys.id,
-                  },
-                },
-              ],
-            })
-            .then((spaceMembership) => {
-              expect(spaceMembership.sys.id).equals(id, 'id')
-              return spaceMembership.delete()
-            })
-            .then(() => {
-              // delete organization membership
-              membership.delete()
-            })
-        })
-      })
+  test('Create spaceMembership', async () => {
+    const roles = await space.getRoles()
+    const roleId = roles.items[0].sys.id
+    const spaceMembership = await space.createSpaceMembership({
+      admin: false,
+      email: userEmail,
+      roles: [
+        {
+          sys: {
+            type: 'Link',
+            linkType: 'Role',
+            id: roleId,
+          },
+        },
+      ],
+    })
+
+    expect(spaceMembership.user, 'user').ok
+    expect(spaceMembership.admin, 'admin').not.ok
+    expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
+    return spaceMembership.delete()
   })
 
-  test('Create spaceMembership', async () => {
-    return organization
-      .createOrganizationInvitation({
-        email: 'test-spaceMembership.user@contentful.com',
-        firstName: 'Test',
-        lastName: 'User',
-        role: 'developer',
-      })
-      .then((response) => organization.getOrganizationInvitation(response.sys.id))
-      .then((invitation) =>
-        organization.getOrganizationMembership(invitation.sys.organizationMembership.sys.id)
-      )
-      .then((membership) => {
-        space.getRoles().then((roles) => {
-          return space
-            .createSpaceMembership({
-              admin: false,
-              email: 'test-spaceMembership.user@contentful.com',
-              roles: [
-                {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Role',
-                    id: roles.items[0].sys.id,
-                  },
-                },
-              ],
-            })
-            .then((spaceMembership) => {
-              expect(spaceMembership.user, 'user').ok
-              expect(spaceMembership.admin, 'admin').not.ok
-              expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
-              return spaceMembership.delete()
-            })
-            .then(() => {
-              // delete organization membership
-              membership.delete()
-            })
-        })
-      })
+  test('Create spaceMembership with explicit id', async () => {
+    const id = generateRandomId('spaceMembership')
+    const roles = await space.getRoles()
+    const roleId = roles.items[0].sys.id
+    const spaceMembership = await space.createSpaceMembershipWithId(id, {
+      admin: false,
+      email: userEmail,
+      roles: [
+        {
+          sys: {
+            type: 'Link',
+            linkType: 'Role',
+            id: roleId,
+          },
+        },
+      ],
+    })
+    expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
+    expect(spaceMembership.user, 'user').ok
+    expect(spaceMembership.admin, 'admin').not.ok
+    expect(spaceMembership.sys.id).equals(id, 'id')
+    return spaceMembership.delete()
   })
 })

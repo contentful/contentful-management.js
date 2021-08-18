@@ -389,6 +389,46 @@ const roleMock = {
   }),
 }
 
+const releaseMock = {
+  sys: {
+    ...sysMock,
+    type: 'Release',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    version: 1,
+  },
+  entities: {
+    sys: { type: 'Array' },
+    items: [makeLink('Entry', 'entry-id'), makeLink('Asset', 'asset-id')],
+  },
+  title: 'Release Mock',
+}
+
+const releaseActionMock = {
+  sys: {
+    ...sysMock,
+    type: 'ReleaseAction',
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    completedAt: '2021-05-18T10:00:00Z',
+    release: makeLink('Release', 'release-id'),
+    status: 'created',
+  },
+  action: 'publish',
+}
+
+const releaseActionValidateMock = {
+  ...releaseActionMock,
+  action: 'validate',
+}
+
+const releaseActionUnpublishMock = {
+  ...releaseActionMock,
+  action: 'unpublish',
+}
+
 const apiKeyMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -448,6 +488,41 @@ const environmentAliasMock = {
   environment: environmentMock,
 }
 
+const taskMock = {
+  sys: {
+    id: 'task-id',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    version: 1,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'Task',
+    environment: {
+      sys: {
+        id: 'environment-id',
+        type: 'Link',
+        linkType: 'Environment',
+      },
+    },
+    parentEntity: {
+      sys: {
+        id: 'entry-id',
+        type: 'Link',
+        linkType: 'Entry',
+      },
+    },
+  },
+  body: 'Body',
+  assignedTo: {
+    sys: {
+      id: 'user-id',
+      type: 'User',
+    },
+  },
+  status: 'active',
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -487,6 +562,7 @@ export const scheduledActionMock = {
     space: {
       sys: cloneDeep(linkMock),
     },
+    version: 1,
     createdAt: 'createdAt',
     createdBy: 'createdBy',
     type: 'ScheduledAction',
@@ -496,7 +572,8 @@ export const scheduledActionMock = {
   entity: { sys: cloneDeep(linkMock) },
   environment: { sys: cloneDeep(linkMock) },
   scheduledFor: {
-    datetime: 'scheduledFor',
+    datetime: '2006-01-02T15:04:05-0700',
+    timezone: 'Asia/Kolkata',
   },
 }
 
@@ -507,6 +584,22 @@ export const scheduledActionCollectionMock = {
   pages: {},
   limit: 1,
   items: [cloneDeep(scheduledActionMock)],
+}
+
+const entryWithReferencesMock = {
+  sys: {
+    type: 'Array',
+  },
+  items: [entryMock],
+}
+
+const entryReferencesCollectionMock = {
+  sys: {
+    type: 'Array',
+  },
+  limit: 1,
+  items: [cloneDeep(entryWithReferencesMock)],
+  includes: [makeLink('Entry', 'entry-1'), makeLink('Entry', 'entry-2')],
 }
 
 const mocks = {
@@ -524,6 +617,8 @@ const mocks = {
   editorInterface: editorInterfaceMock,
   entry: entryMock,
   entryWithTags: entryMockWithTags,
+  entryWithReferences: entryWithReferencesMock,
+  entryReferencesCollection: entryReferencesCollectionMock,
   environmentAlias: environmentAliasMock,
   error: errorMock,
   extension: extensionMock,
@@ -535,12 +630,17 @@ const mocks = {
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
+  release: releaseMock,
+  releaseAction: releaseActionMock,
+  releaseActionValidate: releaseActionValidateMock,
+  releaseActionUnpublish: releaseActionUnpublishMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
   sys: sysMock,
   tag: tagMock,
+  task: taskMock,
   team: teamMock,
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
@@ -642,6 +742,13 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapRole: sinon.stub(),
       wrapRoleCollection: sinon.stub(),
     },
+    release: {
+      wrapRelease: sinon.stub(),
+      wrapReleaseCollection: sinon.stub(),
+    },
+    releaseAction: {
+      wrapReleaseAction: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -692,6 +799,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapScheduledAction: sinon.stub(),
       wrapScheduledActionCollection: sinon.stub(),
     },
+    task: {
+      wrapTask: sinon.stub(),
+      wrapTaskCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -710,6 +821,8 @@ export {
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
+  entryWithReferencesMock,
+  entryReferencesCollectionMock,
   extensionMock,
   assetMock,
   assetWithFilesMock,
@@ -723,6 +836,7 @@ export {
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
+  releaseMock,
   roleMock,
   apiKeyMock,
   previewApiKeyMock,
@@ -738,4 +852,5 @@ export {
   environmentMock,
   usageMock,
   environmentAliasMock,
+  taskMock,
 }

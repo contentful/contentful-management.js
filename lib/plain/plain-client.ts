@@ -100,6 +100,8 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
       unpublish: wrap(wrapParams, 'ContentType', 'unpublish'),
+      create: wrap(wrapParams, 'ContentType', 'create'),
+      createWithId: wrap(wrapParams, 'ContentType', 'createWithId'),
       omitAndDeleteField: (params, contentType, fieldId) =>
         omitAndDeleteField(
           makeRequest,
@@ -114,6 +116,13 @@ export const createPlainClient = (
       getForOrganization: wrap(wrapParams, 'User', 'getForOrganization'),
       getManyForOrganization: wrap(wrapParams, 'User', 'getManyForOrganization'),
     },
+    task: {
+      get: wrap(wrapParams, 'Task', 'get'),
+      getAll: wrap(wrapParams, 'Task', 'getAll'),
+      create: wrap(wrapParams, 'Task', 'create'),
+      update: wrap(wrapParams, 'Task', 'update'),
+      delete: wrap(wrapParams, 'Task', 'delete'),
+    },
     entry: {
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
@@ -126,6 +135,7 @@ export const createPlainClient = (
       unarchive: wrap(wrapParams, 'Entry', 'unarchive'),
       create: wrap(wrapParams, 'Entry', 'create'),
       createWithId: wrap(wrapParams, 'Entry', 'createWithId'),
+      references: wrap(wrapParams, 'Entry', 'references'),
     },
     asset: {
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
@@ -198,6 +208,20 @@ export const createPlainClient = (
       getManyForSpace: wrap(wrapParams, 'Usage', 'getManyForSpace'),
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
+    release: {
+      get: wrap(wrapParams, 'Release', 'get'),
+      query: wrap(wrapParams, 'Release', 'query'),
+      create: wrap(wrapParams, 'Release', 'create'),
+      update: wrap(wrapParams, 'Release', 'update'),
+      delete: wrap(wrapParams, 'Release', 'delete'),
+      publish: wrap(wrapParams, 'Release', 'publish'),
+      unpublish: wrap(wrapParams, 'Release', 'unpublish'),
+      validate: wrap(wrapParams, 'Release', 'validate'),
+    },
+    releaseAction: {
+      get: wrap(wrapParams, 'ReleaseAction', 'get'),
+      queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
+    },
     role: {
       get: wrap(wrapParams, 'Role', 'get'),
       getMany: wrap(wrapParams, 'Role', 'getMany'),
@@ -207,9 +231,11 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Role', 'delete'),
     },
     scheduledActions: {
+      get: wrap(wrapParams, 'ScheduledAction', 'get'),
       getMany: wrap(wrapParams, 'ScheduledAction', 'getMany'),
       create: wrap(wrapParams, 'ScheduledAction', 'create'),
       delete: wrap(wrapParams, 'ScheduledAction', 'delete'),
+      update: wrap(wrapParams, 'ScheduledAction', 'update'),
     },
     previewApiKey: {
       get: wrap(wrapParams, 'PreviewApiKey', 'get'),
@@ -298,6 +324,7 @@ export const createPlainClient = (
     team: {
       get: wrap(wrapParams, 'Team', 'get'),
       getMany: wrap(wrapParams, 'Team', 'getMany'),
+      getManyForSpace: wrap(wrapParams, 'Team', 'getManyForSpace'),
       create: wrap(wrapParams, 'Team', 'create'),
       update: wrap(wrapParams, 'Team', 'update'),
       delete: wrap(wrapParams, 'Team', 'delete'),

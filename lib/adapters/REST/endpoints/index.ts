@@ -19,6 +19,8 @@ import * as OrganizationInvitation from './organization-invitation'
 import * as OrganizationMembership from './organization-membership'
 import * as PersonalAccessToken from './personal-access-token'
 import * as PreviewApiKey from './preview-api-key'
+import * as Release from './release'
+import * as ReleaseAction from './release-action'
 import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
 import * as Snapshot from './snapshot'
@@ -26,6 +28,7 @@ import * as Space from './space'
 import * as SpaceMember from './space-member'
 import * as SpaceMembership from './space-membership'
 import * as Tag from './tag'
+import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
@@ -56,6 +59,8 @@ export default {
   OrganizationMembership,
   PersonalAccessToken,
   PreviewApiKey,
+  Release,
+  ReleaseAction,
   Role,
   ScheduledAction,
   Snapshot,
@@ -63,6 +68,7 @@ export default {
   SpaceMember,
   SpaceMembership,
   Tag,
+  Task,
   Team,
   TeamMembership,
   TeamSpaceMembership,
