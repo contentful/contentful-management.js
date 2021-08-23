@@ -50,5 +50,5 @@ export interface ContentFields<T = KeyValueMap> extends Item {
   deleted?: boolean
   items?: Item
   apiName?: string
-  initialValue?: T
+  defaultValue?: T
 }
