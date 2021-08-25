@@ -5,11 +5,7 @@ import { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../co
 import { wrapCollection } from '../common-utils'
 import { DefinedParameters } from './widget-parameters'
 
-export interface Control {
-  /**
-   * ID of the customized field
-   */
-  fieldId: string
+interface WidgetConfig {
   /**
    * Type of the widget used
    */
@@ -22,6 +18,31 @@ export interface Control {
    * Instance parameter values
    */
   settings?: DefinedParameters
+}
+
+export interface Control extends WidgetConfig {
+  /**
+   * ID of the customized field
+   */
+  fieldId: string
+}
+
+export interface GroupControl extends WidgetConfig {
+  /**
+   * ID of the customized group
+   */
+  groupId: string
+}
+
+export interface EditorLayoutItem {
+  groupId: string
+  name: string
+  items: Array<EditorLayoutItem | FieldItem>
+  default?: boolean
+}
+
+export interface FieldItem {
+  fieldId: string
 }
 
 export interface Editor {
@@ -69,9 +90,13 @@ export type EditorInterfaceProps = {
     contentType: { sys: MetaLinkProps }
   }
   /**
-   * Array of fields and it's associated widgetId
+   * Array of fields and their associated widgetId
    */
   controls?: Control[]
+  /**
+   * Array of groups and their associated widgetId
+   */
+  groupControls?: GroupControl[]
   /**
    * Array of editors. Defaults will be used if property is missing.
    */
@@ -81,7 +106,11 @@ export type EditorInterfaceProps = {
    */
   editor?: Editor
   /**
-   * Array of sidebar widgerts. Defaults will be used if property is missing.
+   * Array of editor layout groups
+   */
+  editorLayout?: EditorLayoutItem[]
+  /**
+   * Array of sidebar widgets. Defaults will be used if property is missing.
    */
   sidebar?: SidebarItem[]
 }

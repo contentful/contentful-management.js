@@ -41,7 +41,10 @@ export type {
   EditorInterface,
   EditorInterfaceProps,
   Control,
+  GroupControl,
   Editor,
+  EditorLayoutItem,
+  FieldItem,
   SidebarItem,
 } from './entities/editor-interface'
 export type { FieldType } from './entities/field-type'
