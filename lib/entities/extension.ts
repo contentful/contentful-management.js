@@ -50,10 +50,12 @@ export type ExtensionProps = {
   parameters?: DefinedParameters
 }
 
-export type CreateExtensionProps = RequireExactlyOne<
-  SetRequired<ExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
-  'src' | 'srcdoc'
->
+export type CreateExtensionProps = {
+  extension: RequireExactlyOne<
+    SetRequired<ExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
+    'src' | 'srcdoc'
+  >
+}
 
 export interface Extension extends ExtensionProps, DefaultElements<ExtensionProps> {
   /**
