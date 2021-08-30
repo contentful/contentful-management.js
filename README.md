@@ -1,6 +1,6 @@
     # contentful-management.js
 
-> JavaScript SDK for [Contentful's](https://www.contentful.com) Content Management API.
+> JavaScript Library for [Contentful's](https://www.contentful.com) Content Management API.
 
 [![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
 [![Build Status](https://circleci.com/gh/contentful/contentful-management.js.svg?style=svg)](https://circleci.com/gh/contentful/contentful-management.js)
@@ -35,7 +35,7 @@ Other browsers should also work, but at the moment we're only running automated 
 
 # Getting started
 
-To get started with the Contentful Management JS SDK you'll need to install it, and then get credentials which will allow you to access your content in Contentful.
+To get started with the Contentful Management JS library you'll need to install it, and then get credentials which will allow you to access your content in Contentful.
 
 - [Installation](#installation)
 - [Authentication](#authentication)
@@ -62,7 +62,7 @@ yarn add contentful-management
 
 ### Browser:
 
-For browsers, we recommend to download the SDK via npm or yarn to ensure 100% availability.
+For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
 
 If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
 
@@ -80,7 +80,7 @@ Using `contentful@latest` will always get you the latest version, but you can al
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
 ```
 
-The Contentful Management SDK will be accessible via the `contentfulManagement` global variable.
+The Contentful Management library will be accessible via the `contentfulManagement` global variable.
 
 Check the [releases](https://github.com/contentful/contentful-management.js/releases) page to know which versions are available.
 
@@ -92,13 +92,13 @@ This library also comes with typings to use with typescript.
 
 To get content from Contentful, an app should authenticate with an OAuth bearer token.
 
-If you want to use this SDK for a simple tool or a local app that you won't redistribute or make available to other users, you can get an API key for the Management API at our [Authentication page](https://www.contentful.com/developers/docs/references/authentication/).
+If you want to use this library for a simple tool or a local app that you won't redistribute or make available to other users, you can get an API key for the Management API at our [Authentication page](https://www.contentful.com/developers/docs/references/authentication/).
 
-If you'd like to create an app which would make use of this SDK but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about [Creating an OAuth Application](https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application)
+If you'd like to create an app which would make use of this library but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about [Creating an OAuth Application](https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application)
 
 ## Using ES6 import
 
-You can use the es6 import with the SDK as follow
+You can use the es6 import with the library as follow
 
 ```js
 // import createClient directly
@@ -124,7 +124,7 @@ const client = contentful.createClient({
 
 ## Your first request
 
-The following code snippet is the most basic one you can use to get content from Contentful with this SDK:
+The following code snippet is the most basic one you can use to get content from Contentful with this library:
 
 ```js
 const contentful = require('contentful-management')
@@ -158,7 +158,7 @@ You can try and change the above example at [Tonic](https://tonicdev.com/npm/con
 
 ### Alternative plain API
 
-Starting `contentful-management@7` this library provides an alternative plain SDK which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
+Starting `contentful-management@7` this library provides an alternative plain client which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
 
 ```javascript
 const contentful = require('contentful-management')
@@ -208,7 +208,7 @@ const entries = await scopedPlainClient.entry.getMany({
 })
 ```
 
-The benefits of using the plain version of SDK are:
+The benefits of using the plain version of the library are:
 
 - The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
@@ -219,14 +219,14 @@ The benefits of using the plain version of SDK are:
 ## Troubleshooting
 
 - **I can't Install the package via npm** - Check your internet connection - It is called `contentful-management` and not `contenful-management` ¯\\\_(ツ)\_/¯
-- **Can I use the SDK in react native projects** - Yes it is possible
-- **I get the error: Unable to resolve module `http`** - Our SDK is supplied as node and browser version. Most non-node environments, like React Native, act like a browser. To force using of the browser version, you can require it via: `const { createClient } = require('contentful-management/dist/contentful-management.browser.min.js')`
+- **Can I use the library in react native projects** - Yes it is possible
+- **I get the error: Unable to resolve module `http`** - Our library is supplied as node and browser version. Most non-node environments, like React Native, act like a browser. To force using of the browser version, you can require it via: `const { createClient } = require('contentful-management/dist/contentful-management.browser.min.js')`
 - **I am not sure what payload to send when creating and entity (Asset/Entity/ContentType etc...)** - Check the Content Management API [docs](https://www.contentful.com/developers/docs/references/content-management-api/) or the examples in the reference [docs](https://contentful.github.io/contentful-management.js) - Feel free to open an issue if you didn't find what you need in the above links
 - 😱 **something is wrong what should I do** - If it is a bug related to the code create a GitHub issue and make sure to remove any credential for your code before sharing it. - If you need to share your credentials, for example you have an issue with your space, please create a support ticket. - Please **do not** share your management token in a GitHub issue
 
 ## Documentation/References
 
-To help you get the most out of this SDK, we've prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.
+To help you get the most out of this library, we've prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.
 
 ### Configuration
 
@@ -276,7 +276,7 @@ Axios proxy configuration. See the [axios request config documentation](https://
 
 #### retryOnError (default: `true`)
 
-By default, this SDK is retrying requests which resulted in a 500 server error and 429 rate limit response. Set this to `false` to disable this behavior.
+By default, this library is retrying requests which resulted in a 500 server error and 429 rate limit response. Set this to `false` to disable this behavior.
 
 #### logHandler (default: `function (level, data) {}`)
 
@@ -292,7 +292,7 @@ Interceptor called on every response. Takes Axios response object as an arg. Def
 
 ### Reference documentation
 
-The [Contentful's JS SDK reference](https://contentful.github.io/contentful-management.js) documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.
+The [Contentful's JS library reference](https://contentful.github.io/contentful-management.js) documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.
 
 Most methods also have examples which show you how to use them.
 
