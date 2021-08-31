@@ -35,7 +35,10 @@ export type AppDefinitionProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { organization: SysLink }
+  sys: BasicMetaSysProps & {
+    organization: SysLink
+    shared: boolean
+  }
   /**
    * App name
    */
