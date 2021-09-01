@@ -19,40 +19,46 @@ const getContentTypeUrl = (params: GetContentTypeParams) =>
 
 export const get: RestEndpoint<'ContentType', 'get'> = (
   http: AxiosInstance,
-  params: GetContentTypeParams & QueryParams
+  params: GetContentTypeParams & QueryParams,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<ContentTypeProps>(http, getContentTypeUrl(params), {
     params: normalizeSelect(params.query),
+    headers,
   })
 }
 
 export const getMany: RestEndpoint<'ContentType', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
+  headers?: Record<string, unknown>
 ) => {
   return raw.get<CollectionProp<ContentTypeProps>>(http, getBaseUrl(params), {
     params: params.query,
+    headers,
   })
 }
 
 export const create: RestEndpoint<'ContentType', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  rawData: CreateContentTypeProps
+  rawData: CreateContentTypeProps,
+  headers?: Record<string, unknown>
 ) => {
   const data = copy(rawData)
 
-  return raw.post<ContentTypeProps>(http, getBaseUrl(params), data)
+  return raw.post<ContentTypeProps>(http, getBaseUrl(params), data, { headers })
 }
 
 export const createWithId: RestEndpoint<'ContentType', 'createWithId'> = (
   http: AxiosInstance,
   params: GetContentTypeParams,
-  rawData: CreateContentTypeProps
+  rawData: CreateContentTypeProps,
+  headers?: Record<string, unknown>
 ) => {
   const data = copy(rawData)
 
-  return raw.put<ContentTypeProps>(http, getContentTypeUrl(params), data)
+  return raw.put<ContentTypeProps>(http, getContentTypeUrl(params), data, { headers })
 }
 
 export const update: RestEndpoint<'ContentType', 'update'> = (
@@ -73,26 +79,30 @@ export const update: RestEndpoint<'ContentType', 'update'> = (
 
 export const del: RestEndpoint<'ContentType', 'delete'> = (
   http: AxiosInstance,
-  params: GetContentTypeParams
+  params: GetContentTypeParams,
+  headers?: Record<string, unknown>
 ) => {
-  return raw.del(http, getContentTypeUrl(params))
+  return raw.del(http, getContentTypeUrl(params), { headers })
 }
 
 export const publish: RestEndpoint<'ContentType', 'publish'> = (
   http: AxiosInstance,
   params: GetContentTypeParams,
-  rawData: ContentTypeProps
+  rawData: ContentTypeProps,
+  headers?: Record<string, unknown>
 ) => {
   return raw.put<ContentTypeProps>(http, getContentTypeUrl(params) + '/published', null, {
     headers: {
       'X-Contentful-Version': rawData.sys.version,
+      ...headers,
     },
   })
 }
 
 export const unpublish: RestEndpoint<'ContentType', 'unpublish'> = (
   http: AxiosInstance,
-  params: GetContentTypeParams
+  params: GetContentTypeParams,
+  headers?: Record<string, unknown>
 ) => {
-  return raw.del<ContentTypeProps>(http, getContentTypeUrl(params) + '/published')
+  return raw.del<ContentTypeProps>(http, getContentTypeUrl(params) + '/published', { headers })
 }
