@@ -216,6 +216,41 @@ The benefits of using the plain version of the library are:
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
+### App Framework
+
+Starting [`@contentful/app-sdk@4`](https://github.com/contentful/app-sdk) you can use this client to make requests
+from your [apps built for Contentful](https://www.contentful.com/developers/docs/extensibility/app-framework/).
+
+A dedicated [Adapter](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495)
+grants your apps access to the supported space-environment scoped entities without compromising on security as you won't
+need to expose a management token, and without coding any additional backend middleware.
+
+```javascript
+const contentfulApp = require('@contentfu/app-sdk')
+const contentful = require('contentful-management')
+
+contentfulApp.init((sdk) => {
+  const cma = contentful.createClient(
+    { apiAdapter: sdk.cmaAdapter },
+    {
+      type: 'plain',
+      defaults: {
+        environmentId: sdk.ids.environment,
+        spaceId: sdk.ids.space,
+      },
+    }
+  )
+
+  // ...rest of initialization code
+})
+```
+
+> **Please Note**
+>
+> Requests issued by the App SDK adapter will count towards the same rate limiting quota as the ones made by other APIs
+> exposed by App SDK (e.g., Space API). Ultimately, they will all fall into the same bucket as the calls performed by
+> the host app (i.e., Contentful web app, Compose, or Launch).
+
 ## Troubleshooting
 
 - **I can't Install the package via npm** - Check your internet connection - It is called `contentful-management` and not `contenful-management` ¯\\\_(ツ)\_/¯
@@ -238,7 +273,7 @@ contentful.createClient({
 })
 ```
 
-#### accessToken (required)
+#### accessToken (required, when `apiAdapter` is not set)
 
 Your CMA access token.
 
@@ -289,6 +324,17 @@ Interceptor called on every request. Takes Axios request config as an arg. Defau
 #### responseLogger (default: `function (response) {}`)
 
 Interceptor called on every response. Takes Axios response object as an arg. Default does nothing. Pass your own function to log any desired data.
+
+#### apiAdapter (default: `new RestAdapter(configuration)`)
+
+An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495) 
+that can be utilized to issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
+initialized with provided configuration.
+
+> **Please Note**
+>
+> The Adapter will take precedence over the other options. Therefore, ensure you're providing the Adapter all the
+> information it needs to issue the request (e.g., host or auth headers)
 
 ### Reference documentation
 
