@@ -26,6 +26,8 @@ export interface ReleaseQueryOptions {
   'entities.sys.id[in]'?: string
   /** Find releases by using a comma-separated list of Ids */
   'sys.id[in]'?: string
+  /** Find releases using full text phrase and term matching */
+  'title[match]'?: string
   /** If present, will return results based on a pagination cursor */
   pageNext?: string
   /**
