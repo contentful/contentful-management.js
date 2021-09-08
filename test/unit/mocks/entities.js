@@ -100,6 +100,22 @@ const appUploadMock = {
   }),
 }
 
+const appSignedRequestMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppSignedRequest',
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  additionalHeaders: {
+    'x-contentful-signature': '9b78a9203175d414b70b5b259b56f5d5507f6920997054533fd1da9b1eb442d6',
+    'x-contentful-signed-headers':
+      'x-contentful-environment-id,x-contentful-signed-headers,x-contentful-space-id,x-contentful-timestamp,x-contentful-user-id',
+    'x-contentful-timestamp': '1631112126937',
+    'x-contentful-space-id': 'space-id',
+    'x-contentful-environment-id': 'master',
+    'x-contentful-user-id': 'user-id',
+  },
+}
+
 const bulkActionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'BulkAction',
@@ -608,6 +624,7 @@ const mocks = {
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   appUpload: appUploadMock,
+  appSignedRequest: appSignedRequestMock,
   asset: assetMock,
   assetKey: assetKeyMock,
   assetWithTags: assetMockWithTags,
@@ -676,6 +693,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     appBundle: {
       wrapAppBundle: sinon.stub(),
       wrapAppBundleCollection: sinon.stub(),
+    },
+    appSignedRequest: {
+      wrapAppSignedRequest: sinon.stub(),
     },
     space: {
       wrapSpace: sinon.stub(),
@@ -814,6 +834,7 @@ export {
   appInstallationMock,
   appDefinitionMock,
   appUploadMock,
+  appSignedRequestMock,
   linkMock,
   sysMock,
   spaceMock,

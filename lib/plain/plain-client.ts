@@ -60,6 +60,9 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'AppBundle', 'delete'),
       create: wrap(wrapParams, 'AppBundle', 'create'),
     },
+    appSignedRequest: {
+      create: wrap(wrapParams, 'AppSignedRequest', 'create'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),

@@ -89,6 +89,7 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
+import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -132,6 +133,12 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppDefinitionParams>,
       payload: CreateAppBundleProps
     ): Promise<AppBundleProps>
+  }
+  appSignedRequest: {
+    create(
+      params: OptionalDefaults<GetAppInstallationParams>,
+      payload: CreateAppSignedRequestProps
+    ): Promise<AppSignedRequestProps>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>
