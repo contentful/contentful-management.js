@@ -12,9 +12,9 @@ export const create: RestEndpoint<'AppSigningSecret', 'create'> = (
   params: GetAppDefinitionParams,
   data: CreateAppSigningSecretProps
 ) => {
-  return raw.post<AppSigningSecretProps>(
+  return raw.put<AppSigningSecretProps>(
     http,
-    `/organization/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
     data
   )
 }

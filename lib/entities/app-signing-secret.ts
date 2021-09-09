@@ -9,17 +9,17 @@ type AppSigningSecretSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
 }
 
 export type AppSigningSecretProps = {
-  /** A 64 character matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
-  value: string
-}
-
-export type CreateAppSigningSecretProps = {
   /**
    * System metadata
    */
   sys: AppSigningSecretSys
   /** The last four characters of the signing secret */
   redactedValue: string
+}
+
+export type CreateAppSigningSecretProps = {
+  /** A 64 character matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
+  value: string
 }
 
 export interface AppSigningSecret

@@ -4,6 +4,7 @@ import createOrganizationApi, {
 import {
   appDefinitionMock,
   appUploadMock,
+  appSigningSecretMock,
   cloneMock,
   organizationInvitationMock,
   organizationMembershipMock,
@@ -421,6 +422,28 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
 
     api['createAppUpload']('content-of-zip-file').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createSigningSecret', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(appSigningSecretMock)
+    return api['createAppSigningSecret']('app_def_id', { method: 'GET', path: '/some_path' }).then(
+      (result) => {
+        expect(result).eql(appSigningSecretMock)
+      }
+    )
+  })
+
+  test('API call createAppUpload fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['createAppSigningSecret']('app_def_id', { method: 'GET', path: '/some_path' }).then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)

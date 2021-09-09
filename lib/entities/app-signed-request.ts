@@ -10,17 +10,6 @@ type AppSignedRequestSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
 }
 
 export type AppSignedRequestProps = {
-  /** the request method */
-  method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD'
-  /** the path of the request method */
-  path: string
-  /** optional stringified body of the request */
-  body?: string
-  /** optional headers of the request */
-  headers?: Record<string, string>
-}
-
-export type CreateAppSignedRequestProps = {
   /**
    * System metadata
    */
@@ -34,6 +23,17 @@ export type CreateAppSignedRequestProps = {
     'x-contentful-environment-id': string
     'x-contentful-user-id': string
   }
+}
+
+export type CreateAppSignedRequestProps = {
+  /** the request method */
+  method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD'
+  /** the path of the request method */
+  path: string
+  /** optional stringified body of the request */
+  body?: string
+  /** optional headers of the request */
+  headers?: Record<string, string>
 }
 
 export interface AppSignedRequest

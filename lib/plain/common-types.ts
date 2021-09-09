@@ -143,7 +143,7 @@ export type PlainClientAPI = {
   }
   appSigningSecret: {
     create(
-      params: OptionalDefaults<GetAppInstallationParams>,
+      params: OptionalDefaults<GetAppDefinitionParams>,
       payload: CreateAppSigningSecretProps
     ): Promise<AppSigningSecretProps>
   }

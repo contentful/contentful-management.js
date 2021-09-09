@@ -1468,7 +1468,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * const data = {
      *   method: 'POST',
      *   path: '/request_path',
-     *   body: '{ "key": "data" }'
+     *   body: '{ "key": "data" }',
      *   headers: {
      *     'x-my-header': 'some-value'
      *   },
