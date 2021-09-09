@@ -90,6 +90,7 @@ import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
+import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -139,6 +140,12 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppInstallationParams>,
       payload: CreateAppSignedRequestProps
     ): Promise<AppSignedRequestProps>
+  }
+  appSigningSecret: {
+    create(
+      params: OptionalDefaults<GetAppInstallationParams>,
+      payload: CreateAppSigningSecretProps
+    ): Promise<AppSigningSecretProps>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>

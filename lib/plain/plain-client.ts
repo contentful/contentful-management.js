@@ -63,6 +63,9 @@ export const createPlainClient = (
     appSignedRequest: {
       create: wrap(wrapParams, 'AppSignedRequest', 'create'),
     },
+    appSigningSecret: {
+      create: wrap(wrapParams, 'AppSigningSecret', 'create'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),

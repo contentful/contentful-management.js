@@ -4,6 +4,7 @@ import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
 import * as appUpload from './app-upload'
 import * as appSignedRequest from './app-signed-request'
+import * as appSigningSecret from './app-signing-secret'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
 import * as bulkAction from './bulk-action'
@@ -44,6 +45,7 @@ export default {
   appInstallation,
   appUpload,
   appSignedRequest,
+  appSigningSecret,
   asset,
   assetKey,
   bulkAction,
