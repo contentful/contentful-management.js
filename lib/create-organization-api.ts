@@ -630,5 +630,80 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         payload: data,
       }).then((payload) => wrapAppSigningSecret(makeRequest, payload))
     },
+    /**
+     * Updates an app signing secret
+     * @return Promise for an App SigningSecret
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.updateAppSigningSecret('app_definition_id', { value: 'tsren3s1....wn1e' }))
+     * .then((appSigningSecret) => console.log(appSigningSecret))
+     * .catch(console.error)
+     * ```
+     */
+    updateAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppSigningSecret',
+        action: 'update',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppSigningSecret(makeRequest, payload))
+    },
+    /**
+     * Gets an app signing secret
+     * @return Promise for an App SigningSecret
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppSigningSecret('app_definition_id'))
+     * .then((appSigningSecret) => console.log(appSigningSecret))
+     * .catch(console.error)
+     * ```
+     */
+    getAppSigningSecret(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppSigningSecret',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapAppSigningSecret(makeRequest, payload))
+    },
+    /**
+     * Deletes an app signing secret
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppSigningSecret('app_definition_id'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppSigningSecret(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppSigningSecret',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then(() => {
+        /* noop*/
+      })
+    },
   }
 }

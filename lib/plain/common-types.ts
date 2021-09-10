@@ -146,6 +146,12 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppDefinitionParams>,
       payload: CreateAppSigningSecretProps
     ): Promise<AppSigningSecretProps>
+    update(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppSigningSecretProps
+    ): Promise<AppSigningSecretProps>
+    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppSigningSecretProps>
+    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>

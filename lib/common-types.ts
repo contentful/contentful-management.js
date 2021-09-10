@@ -269,6 +269,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppSignedRequest', 'create', UA>): MRReturn<'AppSignedRequest', 'create'>
 
   (opts: MROpts<'AppSigningSecret', 'create', UA>): MRReturn<'AppSigningSecret', 'create'>
+  (opts: MROpts<'AppSigningSecret', 'update', UA>): MRReturn<'AppSigningSecret', 'update'>
+  (opts: MROpts<'AppSigningSecret', 'get', UA>): MRReturn<'AppSigningSecret', 'get'>
+  (opts: MROpts<'AppSigningSecret', 'delete', UA>): MRReturn<'AppSigningSecret', 'delete'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -608,6 +611,19 @@ export type MRActions = {
       params: GetAppDefinitionParams
       payload: CreateAppSigningSecretProps
       return: AppSigningSecretProps
+    }
+    update: {
+      params: GetAppDefinitionParams
+      payload: CreateAppSigningSecretProps
+      return: AppSigningSecretProps
+    }
+    get: {
+      params: GetAppDefinitionParams
+      return: AppSigningSecretProps
+    }
+    delete: {
+      params: GetAppDefinitionParams
+      return: void
     }
   }
   Asset: {

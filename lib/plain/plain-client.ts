@@ -65,6 +65,9 @@ export const createPlainClient = (
     },
     appSigningSecret: {
       create: wrap(wrapParams, 'AppSigningSecret', 'create'),
+      update: wrap(wrapParams, 'AppSigningSecret', 'update'),
+      get: wrap(wrapParams, 'AppSigningSecret', 'get'),
+      delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
