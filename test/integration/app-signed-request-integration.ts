@@ -25,7 +25,7 @@ describe('AppSignedRequest api', function () {
 
     client = initPlainClient()
 
-    await client.appSigningSecret.create(
+    await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
     )
@@ -59,7 +59,7 @@ describe('AppSignedRequest api', function () {
   })
 
   test('createAppSignedRequest', async () => {
-    const signedRequest = await client.appSignedRequest.create(
+    const signedRequest = await client.appSignedRequest.upsert(
       {
         spaceId: space.sys.id,
         environmentId: environment.sys.id,
