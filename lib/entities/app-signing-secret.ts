@@ -2,6 +2,7 @@ import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
 import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
 
 type AppSigningSecretSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   appDefinition: SysLink
@@ -24,7 +25,43 @@ export type CreateAppSigningSecretProps = {
 
 export interface AppSigningSecret
   extends AppSigningSecretProps,
-    DefaultElements<AppSigningSecretProps> {}
+    DefaultElements<AppSigningSecretProps> {
+  /**
+   * Deletes this object on the server.
+   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example ```javascript
+   * const contentful = require('contentful-management')
+   *
+   * const client = contentful.createClient({
+   *   accessToken: '<content_management_api_key>'
+   * })
+   * client.getOrganization('<organization_id>')
+   * .then((organization) => organization.getAppSigningSecret(<api-key-id>))
+   * .then((signingSecret) => signingSecret.delete())
+   * .then(() => console.log('signingSecret deleted'))
+   * .catch(console.error)
+   * ```
+   */
+  delete(): Promise<void>
+}
+
+function createSigningSecretApi(makeRequest: MakeRequest) {
+  const getParams = (data: AppSigningSecretProps) => ({
+    organizationId: data.sys.organization.sys.id,
+    appDefinitionId: data.sys.appDefinition.sys.id,
+  })
+
+  return {
+    delete: function del() {
+      const self = this as AppSigningSecretProps
+      return makeRequest({
+        entityType: 'AppSigningSecret',
+        action: 'delete',
+        params: getParams(self),
+      })
+    },
+  }
+}
 
 /**
  * @private
@@ -33,9 +70,9 @@ export interface AppSigningSecret
  * @return Wrapped AppSigningSecret data
  */
 export function wrapAppSigningSecret(
-  _makeRequest: MakeRequest,
+  makeRequest: MakeRequest,
   data: AppSigningSecretProps
 ): AppSigningSecret {
-  const signedRequest = toPlainObject(copy(data))
-  return signedRequest
+  const signingSecret = toPlainObject(copy(data))
+  return enhanceWithMethods(signingSecret, createSigningSecretApi(makeRequest))
 }
