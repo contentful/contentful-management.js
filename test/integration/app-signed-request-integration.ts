@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
+import { before, after, describe, test } from 'mocha'
 import {
   initClient,
   initPlainClient,
@@ -10,12 +10,14 @@ import {
 
 describe('AppSignedRequest api', function () {
   let appDefinition
+  let appInstallation
   let environment
   let space
   let client
+  let organization
 
   before(async () => {
-    const organization = await getTestOrganization()
+    organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
       name: 'Test AppSignedRequest',
@@ -30,7 +32,28 @@ describe('AppSignedRequest api', function () {
 
     space = await createTestSpace(initClient(), 'SignedRequest')
     environment = await createTestEnvironment(space, 'Testing Environment')
-    await environment.createAppInstallation(appDefinition.sys.id, {})
+    appInstallation = await environment.createAppInstallation(appDefinition.sys.id, {})
+  })
+
+  after(async () => {
+    if (appInstallation) {
+      await appInstallation.delete()
+    }
+    if (appDefinition) {
+      await appDefinition.delete()
+    }
+
+    await client.appSigningSecret.delete({
+      organizationId: organization.sys.id,
+      appDefinitionId: appDefinition.sys.id,
+    })
+
+    if (environment) {
+      await environment.delete()
+    }
+    if (space) {
+      await space.delete()
+    }
   })
 
   test('createAppSignedRequest', async () => {
