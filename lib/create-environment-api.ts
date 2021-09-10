@@ -1454,7 +1454,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapAppInstallationCollection(makeRequest, data))
     },
     /**
-     * Creates an signed request
+     * Creates an app signed request
      * @param appDefinitionId - AppDefinition ID
      * @param data - SignedRequest data
      * @return Promise for a Signed Request
