@@ -36,21 +36,23 @@ describe('AppSignedRequest api', function () {
   })
 
   after(async () => {
-    if (appInstallation) {
-      await appInstallation.delete()
-    }
-    if (appDefinition) {
-      await appDefinition.delete()
-    }
-
     await client.appSigningSecret.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
 
+    if (appInstallation) {
+      await appInstallation.delete()
+    }
+
+    if (appDefinition) {
+      await appDefinition.delete()
+    }
+
     if (environment) {
       await environment.delete()
     }
+
     if (space) {
       await space.delete()
     }

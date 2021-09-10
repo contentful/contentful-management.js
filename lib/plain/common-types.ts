@@ -142,11 +142,7 @@ export type PlainClientAPI = {
     ): Promise<AppSignedRequestProps>
   }
   appSigningSecret: {
-    create(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppSigningSecretProps
-    ): Promise<AppSigningSecretProps>
-    update(
+    upsert(
       params: OptionalDefaults<GetAppDefinitionParams>,
       payload: CreateAppSigningSecretProps
     ): Promise<AppSigningSecretProps>

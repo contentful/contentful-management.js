@@ -18,10 +18,6 @@ describe('AppSigningSecret api', function () {
   })
 
   after(async () => {
-    await client.appSigningSecret.delete({
-      organizationId: organization.sys.id,
-      appDefinitionId: appDefinition.sys.id,
-    })
     if (appDefinition) {
       await appDefinition.delete()
     }
@@ -59,17 +55,19 @@ describe('AppSigningSecret api', function () {
   })
 
   test('updateAppSigningSecret', async () => {
-    await client.appSigningSecret.create(
+    const signingSecret = await client.appSigningSecret.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
     )
 
-    const signingSecret = await client.appSigningSecret.update(
+    expect(signingSecret.redactedValue).equals('wI74')
+
+    const updatedSigningSecret = await client.appSigningSecret.update(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI76' }
     )
 
-    expect(signingSecret.redactedValue).equals('wI76')
+    expect(updatedSigningSecret.redactedValue).equals('wI76')
 
     await client.appSigningSecret.delete({
       organizationId: organization.sys.id,

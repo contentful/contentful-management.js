@@ -64,8 +64,7 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppSignedRequest', 'create'),
     },
     appSigningSecret: {
-      create: wrap(wrapParams, 'AppSigningSecret', 'create'),
-      update: wrap(wrapParams, 'AppSigningSecret', 'update'),
+      upsert: wrap(wrapParams, 'AppSigningSecret', 'upsert'),
       get: wrap(wrapParams, 'AppSigningSecret', 'get'),
       delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
     },

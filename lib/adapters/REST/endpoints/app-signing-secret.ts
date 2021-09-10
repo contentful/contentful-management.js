@@ -17,18 +17,7 @@ export const get: RestEndpoint<'AppSigningSecret', 'get'> = (
   )
 }
 
-export const create: RestEndpoint<'AppSigningSecret', 'create'> = (
-  http: AxiosInstance,
-  params: GetAppDefinitionParams,
-  data: CreateAppSigningSecretProps
-) => {
-  return raw.put<AppSigningSecretProps>(
-    http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
-    data
-  )
-}
-export const update: RestEndpoint<'AppSigningSecret', 'update'> = (
+export const upsert: RestEndpoint<'AppSigningSecret', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   data: CreateAppSigningSecretProps

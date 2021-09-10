@@ -606,7 +606,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then((data) => wrapAppUpload(makeRequest, data))
     },
     /**
-     * Creates an app signing secret
+     * Creates or updates an app signing secret
      * @return Promise for an App SigningSecret
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -615,42 +615,17 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.createAppSigningSecret('app_definition_id', { value: 'tsren3s1....wn1e' }))
+     * .then((org) => org.upsertAppSigningSecret('app_definition_id', { value: 'tsren3s1....wn1e' }))
      * .then((appSigningSecret) => console.log(appSigningSecret))
      * .catch(console.error)
      * ```
      */
-    createAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
+    upsertAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
       const raw = this.toPlainObject() as OrganizationProp
 
       return makeRequest({
         entityType: 'AppSigningSecret',
-        action: 'create',
-        params: { organizationId: raw.sys.id, appDefinitionId },
-        payload: data,
-      }).then((payload) => wrapAppSigningSecret(makeRequest, payload))
-    },
-    /**
-     * Updates an app signing secret
-     * @return Promise for an App SigningSecret
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getOrganization('<org_id>')
-     * .then((org) => org.updateAppSigningSecret('app_definition_id', { value: 'tsren3s1....wn1e' }))
-     * .then((appSigningSecret) => console.log(appSigningSecret))
-     * .catch(console.error)
-     * ```
-     */
-    updateAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
-      const raw = this.toPlainObject() as OrganizationProp
-
-      return makeRequest({
-        entityType: 'AppSigningSecret',
-        action: 'update',
+        action: 'upsert',
         params: { organizationId: raw.sys.id, appDefinitionId },
         payload: data,
       }).then((payload) => wrapAppSigningSecret(makeRequest, payload))
