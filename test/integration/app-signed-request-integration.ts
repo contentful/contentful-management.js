@@ -59,7 +59,7 @@ describe('AppSignedRequest api', function () {
   })
 
   test('createAppSignedRequest', async () => {
-    const signedRequest = await client.appSignedRequest.upsert(
+    const signedRequest = await client.appSignedRequest.create(
       {
         spaceId: space.sys.id,
         environmentId: environment.sys.id,
