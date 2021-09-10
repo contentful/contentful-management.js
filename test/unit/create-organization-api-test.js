@@ -432,18 +432,58 @@ describe('A createOrganizationApi', () => {
   test('API call createSigningSecret', async () => {
     const { api, entitiesMock } = setup(Promise.resolve({}))
     entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(appSigningSecretMock)
-    return api['createAppSigningSecret']('app_def_id', { method: 'GET', path: '/some_path' }).then(
+    return api['upsertAppSigningSecret']('app-def-id', { method: 'GET', path: '/some_path' }).then(
       (result) => {
         expect(result).eql(appSigningSecretMock)
       }
     )
   })
 
-  test('API call createAppUpload fails', async () => {
+  test('API call createSigningSecret fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['createAppSigningSecret']('app_def_id', { method: 'GET', path: '/some_path' }).then(
+    api['upsertAppSigningSecret']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppSigningSecret', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(appSigningSecretMock)
+    return api['getAppSigningSecret']('app-def-id').then((result) => {
+      expect(result).eql(appSigningSecretMock)
+    })
+  })
+
+  test('API call getAppSigningSecret fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppSigningSecret']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call deleteAppSigningSecret', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(undefined)
+    return api['deleteAppSigningSecret']('app-def-id').then((result) => {
+      expect(result).eql(undefined)
+    })
+  })
+
+  test('API call deleteAppSigningSecret fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['deleteAppSigningSecret']('app-def-id').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
