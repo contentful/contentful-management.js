@@ -154,7 +154,9 @@ function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string) 
   return defaultWidget
 }
 
-// Given our internal identifier returns a minimal API field object.
+/**
+ * Given our internal identifier returns a minimal API field object.
+ */
 export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
   return INTERNAL_TO_API[internal]
 }

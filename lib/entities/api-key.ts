@@ -58,6 +58,9 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   update(): Promise<ApiKey>
 }
 
+/**
+ * @private
+ */
 function createApiKeyApi(makeRequest: MakeRequest) {
   const getParams = (data: ApiKeyProps) => ({
     spaceId: data.sys.space?.sys.id ?? '',

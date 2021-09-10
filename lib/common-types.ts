@@ -215,6 +215,9 @@ export interface BasicCursorPaginationOptions {
 
 export type KeyValueMap = Record<string, any>
 
+/**
+ * @private
+ */
 type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
   (opts: MROpts<'Http', 'patch', UA>): MRReturn<'Http', 'patch'>
@@ -487,13 +490,23 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
 }
 
+/**
+ * @private
+ */
 export type MakeRequestWithUserAgent = MRInternal<true>
+
+/**
+ * @private
+ */
 export type MakeRequest = MRInternal<false>
 
 export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
 }
 
+/**
+ * @private
+ */
 export type MRActions = {
   Http: {
     get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
@@ -1204,6 +1217,9 @@ export type MRActions = {
   }
 }
 
+/**
+ * @private
+ */
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
@@ -1228,6 +1244,9 @@ export type MROpts<
       : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
+/**
+ * @private
+ */
 export type MRReturn<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET]

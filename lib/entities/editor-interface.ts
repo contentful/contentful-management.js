@@ -167,6 +167,9 @@ export interface EditorInterface
   update(): Promise<EditorInterface>
 }
 
+/**
+ * @private
+ */
 function createEditorInterfaceApi(makeRequest: MakeRequest) {
   return {
     update: function () {

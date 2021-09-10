@@ -10,6 +10,9 @@ import { UserProps } from './entities/user'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 
+/**
+ * @private
+ */
 export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapSpace, wrapSpaceCollection } = entities.space
   const { wrapUser } = entities.user
@@ -18,7 +21,6 @@ export default function createClientApi(makeRequest: MakeRequest) {
     wrapPersonalAccessTokenCollection,
   } = entities.personalAccessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
-  const { wrapTeamCollection } = entities.team
   const { wrapUsageCollection } = entities.usage
 
   return {

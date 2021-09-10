@@ -8,12 +8,16 @@ import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 
+/**
+ * @private
+ */
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
  * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulOrganizationAPI}
+ * @private
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition

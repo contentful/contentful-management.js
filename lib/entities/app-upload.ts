@@ -35,6 +35,9 @@ export interface AppUpload extends AppUploadProps, DefaultElements<AppUploadProp
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createAppUploadApi(makeRequest: MakeRequest) {
   const getParams = (data: AppUploadProps) => ({
     organizationId: data.sys.organization.sys.id,
