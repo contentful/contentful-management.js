@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
+import { before, after, describe, test } from 'mocha'
 import { initPlainClient, getTestOrganization } from '../helpers'
 
 describe('AppSigningSecret api', function () {
@@ -15,6 +15,16 @@ describe('AppSigningSecret api', function () {
     })
 
     client = initPlainClient()
+  })
+
+  after(async () => {
+    await client.appSigningSecret.delete({
+      organizationId: organization.sys.id,
+      appDefinitionId: appDefinition.sys.id,
+    })
+    if (appDefinition) {
+      await appDefinition.delete()
+    }
   })
 
   test('createAppSigningSecret', async () => {
