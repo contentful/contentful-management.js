@@ -32,6 +32,8 @@
       "AppDefinition",
       "AppInstalation",
       "AppBundle",
+      "AppSignedRequest",
+      "AppSigningSecret",
       "Asset",
       "AssetKey",
       "ContentType",

@@ -4,6 +4,7 @@ import type { QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
+import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
@@ -59,6 +60,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapUpload } = entities.upload
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
+  const { wrapAppSignedRequest } = entities.appSignedRequest
   const { wrapBulkAction } = entities.bulkAction
 
   return {
@@ -1358,7 +1360,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets an App Installation
+     * Creates an App Installation
      * @param appDefinitionId - AppDefinition ID
      * @param data - AppInstallation data
      * @return Promise for an App Installation
@@ -1450,6 +1452,47 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
       }).then((data) => wrapAppInstallationCollection(makeRequest, data))
+    },
+    /**
+     * Creates an app signed request
+     * @param appDefinitionId - AppDefinition ID
+     * @param data - SignedRequest data
+     * @return Promise for a Signed Request
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const data = {
+     *   method: 'POST',
+     *   path: '/request_path',
+     *   body: '{ "key": "data" }',
+     *   headers: {
+     *     'x-my-header': 'some-value'
+     *   },
+     * }
+     *
+     * client.getSpace('<space_id>')
+     *  .then((space) => space.getEnvironment('<environment-id>'))
+     *  .then((environment) => environment.createAppSignedRequest('<app_definition_id>', data)
+     *  .then((signedRequest) => console.log(signedRequest))
+     *  .catch(console.error)
+     *  ```
+     */
+    createAppSignedRequest(appDefinitionId: string, data: CreateAppSignedRequestProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppSignedRequest',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+        },
+        payload: data,
+      }).then((payload) => wrapAppSignedRequest(makeRequest, payload))
     },
     /**
      * Gets all snapshots of an entry
