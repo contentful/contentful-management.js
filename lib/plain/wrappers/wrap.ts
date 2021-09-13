@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
@@ -8,16 +6,25 @@ export type DefaultParams = {
   organizationId?: string
 }
 
+/**
+ * @private
+ */
 export type OptionalDefaults<T> = Omit<T, keyof DefaultParams> &
   ('organizationId' extends keyof T ? { organizationId?: string } : {}) &
   ('spaceId' extends keyof T ? { spaceId?: string } : {}) &
   ('environmentId' extends keyof T ? { environmentId?: string } : {})
 
+/**
+ * @private
+ */
 export type WrapParams = {
   makeRequest: MakeRequest
   defaults?: DefaultParams
 }
 
+/**
+ * @private
+ */
 export type WrapFn<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
@@ -39,6 +46,9 @@ export type WrapFn<
   ? (params: Params, payload: Payload) => Return
   : (params: Params, payload: Payload, headers: Headers) => Return
 
+/**
+ * @private
+ */
 export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
   { makeRequest, defaults }: WrapParams,
   entityType: ET,

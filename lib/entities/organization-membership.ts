@@ -64,6 +64,9 @@ export interface OrganizationMembership
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationId: string) {
   const getParams = (data: OrganizationMembershipProps) => ({
     organizationMembershipId: data.sys.id,

@@ -208,6 +208,9 @@ export interface ContentType
     DefaultElements<ContentTypeProps>,
     ContentTypeApi {}
 
+/**
+ * @private
+ */
 function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
     const contentType = self.toPlainObject() as ContentTypeProps

@@ -44,6 +44,9 @@ export interface ReleaseActionApiMethods {
   waitProcessing(options?: AsyncActionProcessingOptions): ReleaseActionProps
 }
 
+/**
+ * @private
+ */
 function createReleaseActionApi(makeRequest: MakeRequest) {
   const getParams = (self: ReleaseAction) => {
     const action = self.toPlainObject()
@@ -79,6 +82,7 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
     DefaultElements<ReleaseActionProps<T>> {}
 
 /**
+ * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @return Wrapped Release data
@@ -95,4 +99,7 @@ export function wrapReleaseAction(
   return freezeSys(releaseActionWithApiMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapReleaseActionCollection = wrapCollection(wrapReleaseAction)

@@ -5,6 +5,9 @@ import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
+/**
+ * @private
+ */
 export const createPlainClient = (
   makeRequest: MakeRequest,
   defaults: DefaultParams | undefined

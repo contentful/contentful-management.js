@@ -58,6 +58,9 @@ export interface SpaceMembership
   update(): Promise<SpaceMembership>
 }
 
+/**
+ * @private
+ */
 function createSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: SpaceMembershipProps) => ({
     spaceId: data.sys.space.sys.id,

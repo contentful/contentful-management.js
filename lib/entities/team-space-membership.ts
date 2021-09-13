@@ -86,6 +86,9 @@ export interface TeamSpaceMembership
   update(): Promise<TeamSpaceMembership>
 }
 
+/**
+ * @private
+ */
 function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamSpaceMembershipProps) => ({
     teamSpaceMembershipId: data.sys.id,

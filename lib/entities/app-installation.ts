@@ -66,6 +66,9 @@ export interface AppInstallation
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createAppInstallationApi(makeRequest: MakeRequest) {
   const getParams = (data: AppInstallationProps) => ({
     spaceId: data.sys.space.sys.id,

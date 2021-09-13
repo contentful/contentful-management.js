@@ -31,6 +31,9 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createUploadApi(makeRequest: MakeRequest) {
   return {
     delete: async function del() {

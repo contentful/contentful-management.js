@@ -12,6 +12,9 @@ export type PreviewApiKeyProps = {
 
 export interface PreviewApiKey extends PreviewApiKeyProps, DefaultElements<PreviewApiKeyProps> {}
 
+/**
+ * @private
+ */
 function createPreviewApiKeyApi() {
   return {}
 }

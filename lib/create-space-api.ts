@@ -16,12 +16,16 @@ import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
 import { CreateWebhooksProps } from './entities/webhook'
 
+/**
+ * @private
+ */
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
 /**
  * Creates API object with methods to access the Space API
  * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
+ * @private
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapSpace } = entities.space

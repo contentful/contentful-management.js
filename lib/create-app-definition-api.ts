@@ -3,8 +3,14 @@ import entities from './entities'
 import { CreateAppBundleProps } from './entities/app-bundle'
 import { AppDefinitionProps, wrapAppDefinition } from './entities/app-definition'
 
+/**
+ * @private
+ */
 export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionApi>
 
+/**
+ * @private
+ */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
   const { wrapAppBundle, wrapAppBundleCollection } = entities.appBundle
 

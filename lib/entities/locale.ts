@@ -93,6 +93,9 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   update(): Promise<Locale>
 }
 
+/**
+ * @private
+ */
 function createLocaleApi(makeRequest: MakeRequest) {
   const getParams = (locale: LocaleProps) => ({
     spaceId: locale.sys.space.sys.id,

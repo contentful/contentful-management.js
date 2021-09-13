@@ -4,6 +4,9 @@ import { toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { Collection, CollectionProp, MakeRequest } from './common-types'
 
+/**
+ * @private
+ */
 export const wrapCollection = <R, T, Rest extends any[]>(
   fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R
 ) => (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {

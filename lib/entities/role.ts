@@ -87,6 +87,9 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
   update(): Promise<Role>
 }
 
+/**
+ * @private
+ */
 function createRoleApi(makeRequest: MakeRequest) {
   const getParams = (data: RoleProps) => ({
     spaceId: data.sys.space.sys.id,

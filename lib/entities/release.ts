@@ -90,6 +90,9 @@ export interface ReleaseApiMethods {
   }): Promise<ReleaseActionProps<'validate'>>
 }
 
+/**
+ * @private
+ */
 function createReleaseApi(makeRequest: MakeRequest) {
   const getParams = (self: Release) => {
     const release = self.toPlainObject()
@@ -166,6 +169,7 @@ export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElement
 
 /**
  * Return a Release object enhanced with its own API helper functions.
+ * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @return Wrapped Release data
@@ -176,6 +180,9 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   return freezeSys(releaseWithApiMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
   data: CollectionProp<ReleaseProps>

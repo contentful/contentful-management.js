@@ -46,6 +46,9 @@ type TaskApi = {
 
 export interface Task extends TaskProps, DefaultElements<TaskProps>, TaskApi {}
 
+/**
+ * @private
+ */
 export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
   const getParams = (task: TaskProps): GetTaskParams => ({
     spaceId: task.sys.space.sys.id,
@@ -83,10 +86,16 @@ export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
   }
 }
 
+/**
+ * @private
+ */
 export function wrapTask(makeRequest: MakeRequest, data: TaskProps): Task {
   const task = toPlainObject(copy(data))
   const taskWithMethods = enhanceWithMethods(task, createTaskApi(makeRequest))
   return freezeSys(taskWithMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapTaskCollection = wrapCollection(wrapTask)
