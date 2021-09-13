@@ -46,6 +46,9 @@ type TagApi = {
 
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
+/**
+ * @private
+ */
 export default function createTagApi(makeRequest: MakeRequest): TagApi {
   const getParams = (tag: TagProps) => ({
     spaceId: tag.sys.space.sys.id,
@@ -82,10 +85,16 @@ export default function createTagApi(makeRequest: MakeRequest): TagApi {
   }
 }
 
+/**
+ * @private
+ */
 export function wrapTag(makeRequest: MakeRequest, data: TagProps): Tag {
   const tag = toPlainObject(copy(data))
   const tagWithMethods = enhanceWithMethods(tag, createTagApi(makeRequest))
   return freezeSys(tagWithMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapTagCollection = wrapCollection(wrapTag)

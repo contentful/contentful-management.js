@@ -23,7 +23,10 @@ export type RestAdapterParams = CreateHttpClientParams & {
   hostUpload?: string
 }
 
-export const defaultHostParameters = {
+/**
+ * @private
+ */
+const defaultHostParameters = {
   defaultHostname: 'api.contentful.com',
   defaultHostnameUpload: 'upload.contentful.com',
 }

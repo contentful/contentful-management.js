@@ -232,6 +232,9 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
   }
 }
 
+/**
+ * @private
+ */
 export function wrapScheduledAction(
   makeRequest: MakeRequest,
   data: ScheduledActionProps
@@ -244,4 +247,7 @@ export function wrapScheduledAction(
   return freezeSys(scheduledActionWithMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapScheduledActionCollection = wrapCollection(wrapScheduledAction)

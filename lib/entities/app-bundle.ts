@@ -57,6 +57,9 @@ export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProp
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createAppBundleApi(makeRequest: MakeRequest) {
   const getParams = (data: AppBundleProps) => ({
     organizationId: data.sys.organization.sys.id,

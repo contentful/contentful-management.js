@@ -5,8 +5,14 @@ import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
 import entities from './entities'
 
+/**
+ * @private
+ */
 export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
 
+/**
+ * @private
+ */
 export default function createEntryApi(makeRequest: MakeRequest) {
   const { wrapEntry, wrapEntryCollection } = entities.entry
   const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
