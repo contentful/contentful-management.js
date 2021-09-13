@@ -23,6 +23,16 @@ export type {
   AppInstallationProps,
   CreateAppInstallationProps,
 } from './entities/app-installation'
+export type {
+  AppSignedRequest,
+  AppSignedRequestProps,
+  CreateAppSignedRequestProps,
+} from './entities/app-signed-request'
+export type {
+  AppSigningSecret,
+  AppSigningSecretProps,
+  CreateAppSigningSecretProps,
+} from './entities/app-signing-secret'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 export type {
