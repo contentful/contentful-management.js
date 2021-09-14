@@ -101,6 +101,9 @@ export interface Extension extends ExtensionProps, DefaultElements<ExtensionProp
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createExtensionApi(makeRequest: MakeRequest) {
   const getParams = (data: ExtensionProps) => ({
     spaceId: data.sys.space.sys.id,

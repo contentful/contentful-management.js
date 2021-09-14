@@ -1,6 +1,9 @@
 import { AxiosInstance } from 'contentful-sdk-core'
 import { MRActions, MROpts, MRReturn } from '../../common-types'
 
+/**
+ * @private
+ */
 export type RestEndpoint<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],

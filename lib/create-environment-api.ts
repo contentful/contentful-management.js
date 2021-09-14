@@ -41,12 +41,16 @@ import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 
+/**
+ * @private
+ */
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
 /**
  * Creates API object with methods to access the Environment API
  * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
+ * @private
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment

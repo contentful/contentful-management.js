@@ -96,6 +96,9 @@ export interface BulkActionApiMethods {
   waitProcessing(options?: AsyncActionProcessingOptions): Promise<BulkAction>
 }
 
+/**
+ * @private
+ */
 function createBulkActionApi(makeRequest: MakeRequest) {
   const getParams = (self: BulkAction) => {
     const bulkAction = self.toPlainObject()
@@ -130,6 +133,7 @@ export interface BulkAction<T extends BulkActionPayload = any>
     DefaultElements<BulkActionProps<T>> {}
 
 /**
+ * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw BulkAction data
  * @return Wrapped BulkAction data
