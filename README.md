@@ -226,7 +226,7 @@ grants your apps access to the supported space-environment scoped entities witho
 need to expose a management token, and without coding any additional backend middleware.
 
 ```javascript
-const contentfulApp = require('@contentfu/app-sdk')
+const contentfulApp = require('@contentful/app-sdk')
 const contentful = require('contentful-management')
 
 contentfulApp.init((sdk) => {
