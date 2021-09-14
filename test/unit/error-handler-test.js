@@ -1,4 +1,4 @@
-import errorHandler from '../../lib/error-handler'
+import { errorHandler } from 'contentful-sdk-core'
 import { cloneMock } from './mocks/entities'
 import { describe, test } from 'mocha'
 import { expect } from 'chai'
