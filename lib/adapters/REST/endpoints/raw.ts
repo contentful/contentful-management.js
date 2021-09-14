@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import errorHandler from '../../../error-handler'
+import { errorHandler } from 'contentful-sdk-core'
 
 function getBaseUrl(http: AxiosInstance) {
   return http.defaults.baseURL?.split('/spaces')[0]
