@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ValidateTimestampOptions | contentful-management.js - v7.38.0</title>
-	<meta name="description" content="Documentation for contentful-management.js - v7.38.0">
+	<title>Editor | contentful-management.js - v7.38.1</title>
+	<meta name="description" content="Documentation for contentful-management.js - v7.38.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">contentful-management.js - v7.38.0</a>
+					<a href="../index.html" class="title">contentful-management.js - v7.38.1</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,10 +54,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="validatetimestampoptions.html">ValidateTimestampOptions</a>
+					<a href="editor.html">Editor</a>
 				</li>
 			</ul>
-			<h1>Interface ValidateTimestampOptions</h1>
+			<h1>Interface Editor</h1>
 		</div>
 	</div>
 </header>
@@ -68,7 +68,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ValidateTimestampOptions</span>
+						<span class="target">Editor</span>
 					</li>
 				</ul>
 			</section>
@@ -79,8 +79,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="validatetimestampoptions.html#maximum" class="tsd-kind-icon">maximum</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="validatetimestampoptions.html#now" class="tsd-kind-icon">now</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.html#disabled" class="tsd-kind-icon">disabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.html#settings" class="tsd-kind-icon">settings</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.html#widgetid" class="tsd-kind-icon">widget<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="editor.html#widgetnamespace" class="tsd-kind-icon">widget<wbr>Namespace</a></li>
 							</ul>
 						</section>
 					</div>
@@ -89,24 +91,64 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="maximum" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> maximum</h3>
-					<div class="tsd-signature tsd-kind-icon">maximum<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="disabled" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> disabled</h3>
+					<div class="tsd-signature tsd-kind-icon">disabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/3dc6f64e/lib/adapters/REST/endpoints/asset-key.ts#L17">lib/adapters/REST/endpoints/asset-key.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/9375128d/lib/entities/editor-interface.ts#L60">lib/entities/editor-interface.ts:60</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will be enabled if disabled property is missing</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="now" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> now</h3>
-					<div class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="settings" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> settings</h3>
+					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="../globals.html#definedparameters" class="tsd-signature-type">DefinedParameters</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/3dc6f64e/lib/adapters/REST/endpoints/asset-key.ts#L18">lib/adapters/REST/endpoints/asset-key.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/9375128d/lib/entities/editor-interface.ts#L64">lib/entities/editor-interface.ts:64</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Instance parameter values</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="widgetid" class="tsd-anchor"></a>
+					<h3>widget<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">widget<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/9375128d/lib/entities/editor-interface.ts#L56">lib/entities/editor-interface.ts:56</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>ID of the widget used</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="widgetnamespace" class="tsd-anchor"></a>
+					<h3>widget<wbr>Namespace</h3>
+					<div class="tsd-signature tsd-kind-icon">widget<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/contentful/contentful-management.js/blob/9375128d/lib/entities/editor-interface.ts#L52">lib/entities/editor-interface.ts:52</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type of the widget used</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -123,13 +165,19 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface">
-						<a href="validatetimestampoptions.html" class="tsd-kind-icon">Validate<wbr>Timestamp<wbr>Options</a>
+						<a href="editor.html" class="tsd-kind-icon">Editor</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="validatetimestampoptions.html#maximum" class="tsd-kind-icon">maximum</a>
+								<a href="editor.html#disabled" class="tsd-kind-icon">disabled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="validatetimestampoptions.html#now" class="tsd-kind-icon">now</a>
+								<a href="editor.html#settings" class="tsd-kind-icon">settings</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="editor.html#widgetid" class="tsd-kind-icon">widget<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="editor.html#widgetnamespace" class="tsd-kind-icon">widget<wbr>Namespace</a>
 							</li>
 						</ul>
 					</li>
