@@ -83,6 +83,6 @@ export class RestAdapter implements Adapter {
       'X-Contentful-User-Agent': userAgent,
     }
 
-    return await endpoint(this.http, params, payload, {...headers, ...requiredHeaders})
+    return await endpoint(this.http, params, payload, {...requiredHeaders, ...headers})
   }
 }
