@@ -55,6 +55,7 @@ import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from './entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from './entities/app-signing-secret'
+import { AppMetadataProps, CreateAppMetadataProps } from './entities/app-metadata'
 import {
   BulkActionProps,
   BulkActionPublishPayload,
@@ -274,6 +275,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppSigningSecret', 'upsert', UA>): MRReturn<'AppSigningSecret', 'upsert'>
   (opts: MROpts<'AppSigningSecret', 'get', UA>): MRReturn<'AppSigningSecret', 'get'>
   (opts: MROpts<'AppSigningSecret', 'delete', UA>): MRReturn<'AppSigningSecret', 'delete'>
+
+  (opts: MROpts<'AppMetadata', 'upsert', UA>): MRReturn<'AppMetadata', 'upsert'>
+  (opts: MROpts<'AppMetadata', 'get', UA>): MRReturn<'AppMetadata', 'get'>
+  (opts: MROpts<'AppMetadata', 'delete', UA>): MRReturn<'AppMetadata', 'delete'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -627,6 +632,21 @@ export type MRActions = {
     get: {
       params: GetAppDefinitionParams
       return: AppSigningSecretProps
+    }
+    delete: {
+      params: GetAppDefinitionParams
+      return: void
+    }
+  }
+  AppMetadata: {
+    upsert: {
+      params: GetAppDefinitionParams
+      payload: CreateAppMetadataProps
+      return: AppMetadataProps
+    }
+    get: {
+      params: GetAppDefinitionParams
+      return: AppMetadataProps
     }
     delete: {
       params: GetAppDefinitionParams

@@ -7,6 +7,7 @@ import { CreateOrganizationInvitationProps } from './entities/organization-invit
 import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
+import { CreateAppMetadataProps } from './entities/app-metadata'
 import { OrganizationProp } from './entities/organization'
 
 /**
@@ -37,6 +38,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapOrganizationInvitation } = entities.organizationInvitation
   const { wrapAppUpload } = entities.appUpload
   const { wrapAppSigningSecret } = entities.appSigningSecret
+  const { wrapAppMetadata } = entities.appMetadata
 
   return {
     /**
@@ -678,6 +680,81 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
 
       return makeRequest({
         entityType: 'AppSigningSecret',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then(() => {
+        /* noop*/
+      })
+    },
+    /**
+     * Creates or updates an app signing secret
+     * @return Promise for an App Metadata
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.upsertAppMetadata('app_definition_id', { value: 'tsren3s1....wn1e' }))
+     * .then((appMetadata) => console.log(appMetadata))
+     * .catch(console.error)
+     * ```
+     */
+    upsertAppMetadata(appDefinitionId: string, data: CreateAppMetadataProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppMetadata',
+        action: 'upsert',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppMetadata(makeRequest, payload))
+    },
+    /**
+     * Gets an app signing secret
+     * @return Promise for an App Metadata
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppMetadata('app_definition_id'))
+     * .then((appMetadata) => console.log(appMetadata))
+     * .catch(console.error)
+     * ```
+     */
+    getAppMetadata(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppMetadata',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapAppMetadata(makeRequest, payload))
+    },
+    /**
+     * Deletes an app signing secret
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppMetadata('app_definition_id'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppMetadata(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppMetadata',
         action: 'delete',
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then(() => {

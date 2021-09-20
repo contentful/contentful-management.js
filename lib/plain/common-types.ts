@@ -91,6 +91,7 @@ import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
+import { AppMetadataProps, CreateAppMetadataProps } from '../entities/app-metadata'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -147,6 +148,14 @@ export type PlainClientAPI = {
       payload: CreateAppSigningSecretProps
     ): Promise<AppSigningSecretProps>
     get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppSigningSecretProps>
+    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
+  }
+  appMetadata: {
+    upsert(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppMetadataProps
+    ): Promise<AppMetadataProps>
+    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppMetadataProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
   }
   editorInterface: {

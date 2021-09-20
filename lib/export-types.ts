@@ -33,6 +33,7 @@ export type {
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
 } from './entities/app-signing-secret'
+export type { AppMetadata, AppMetadataProps, CreateAppMetadataProps } from './entities/app-metadata'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 export type {
