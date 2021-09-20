@@ -47,9 +47,6 @@ export class RestAdapter implements Adapter {
 
     this.http = createHttpClient(axios, {
       ...this.params,
-      headers: {
-        ...this.params.headers,
-      },
     })
   }
 
@@ -83,6 +80,10 @@ export class RestAdapter implements Adapter {
       'X-Contentful-User-Agent': userAgent,
     }
 
-    return await endpoint(this.http, params, payload, {...requiredHeaders, ...headers})
+    return await endpoint(this.http, params, payload, {
+      ...requiredHeaders,
+      ...this.params.headers,
+      ...headers,
+    })
   }
 }
