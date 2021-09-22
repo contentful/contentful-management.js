@@ -7,7 +7,7 @@ import { CreateOrganizationInvitationProps } from './entities/organization-invit
 import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
-import { CreateAppMetadataProps } from './entities/app-metadata'
+import { CreateAppDetailsProps } from './entities/app-details'
 import { OrganizationProp } from './entities/organization'
 
 /**
@@ -38,7 +38,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapOrganizationInvitation } = entities.organizationInvitation
   const { wrapAppUpload } = entities.appUpload
   const { wrapAppSigningSecret } = entities.appSigningSecret
-  const { wrapAppMetadata } = entities.appMetadata
+  const { wrapAppDetails } = entities.appDetails
 
   return {
     /**
@@ -688,7 +688,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates or updates an app signing secret
-     * @return Promise for an App Metadata
+     * @return Promise for an App Details
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
@@ -696,24 +696,24 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.upsertAppMetadata('app_definition_id', { value: 'tsren3s1....wn1e' }))
-     * .then((appMetadata) => console.log(appMetadata))
+     * .then((org) => org.upsertAppDetails('app_definition_id', { value: 'tsren3s1....wn1e' }))
+     * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
      */
-    upsertAppMetadata(appDefinitionId: string, data: CreateAppMetadataProps) {
+    upsertAppDetails(appDefinitionId: string, data: CreateAppDetailsProps) {
       const raw = this.toPlainObject() as OrganizationProp
 
       return makeRequest({
-        entityType: 'AppMetadata',
+        entityType: 'AppDetails',
         action: 'upsert',
         params: { organizationId: raw.sys.id, appDefinitionId },
         payload: data,
-      }).then((payload) => wrapAppMetadata(makeRequest, payload))
+      }).then((payload) => wrapAppDetails(makeRequest, payload))
     },
     /**
      * Gets an app signing secret
-     * @return Promise for an App Metadata
+     * @return Promise for an App Details
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
@@ -721,19 +721,19 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.getAppMetadata('app_definition_id'))
-     * .then((appMetadata) => console.log(appMetadata))
+     * .then((org) => org.getAppDetails('app_definition_id'))
+     * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
      */
-    getAppMetadata(appDefinitionId: string) {
+    getAppDetails(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
       return makeRequest({
-        entityType: 'AppMetadata',
+        entityType: 'AppDetails',
         action: 'get',
         params: { organizationId: raw.sys.id, appDefinitionId },
-      }).then((payload) => wrapAppMetadata(makeRequest, payload))
+      }).then((payload) => wrapAppDetails(makeRequest, payload))
     },
     /**
      * Deletes an app signing secret
@@ -745,16 +745,16 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.deleteAppMetadata('app_definition_id'))
+     * .then((org) => org.deleteAppDetails('app_definition_id'))
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
      */
-    deleteAppMetadata(appDefinitionId: string) {
+    deleteAppDetails(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
 
       return makeRequest({
-        entityType: 'AppMetadata',
+        entityType: 'AppDetails',
         action: 'delete',
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then(() => {

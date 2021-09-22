@@ -71,10 +71,10 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'AppSigningSecret', 'get'),
       delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
     },
-    appMetadata: {
-      upsert: wrap(wrapParams, 'AppMetadata', 'upsert'),
-      get: wrap(wrapParams, 'AppMetadata', 'get'),
-      delete: wrap(wrapParams, 'AppMetadata', 'delete'),
+    appDetails: {
+      upsert: wrap(wrapParams, 'AppDetails', 'upsert'),
+      get: wrap(wrapParams, 'AppDetails', 'get'),
+      delete: wrap(wrapParams, 'AppDetails', 'delete'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),

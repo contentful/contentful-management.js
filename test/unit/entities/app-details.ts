@@ -1,36 +1,36 @@
 import setupHttpMock from '../mocks/http'
-import { wrapAppMetadata } from '../../../lib/entities/app-metadata'
+import { wrapAppDetails } from '../../../lib/entities/app-details'
 import {
   entityWrappedTest,
   entityDeleteTest,
   failingActionTest,
 } from '../test-creators/instance-entity-methods'
-import { appMetadataMock } from '../mocks/entities'
+import { appDetailsMock } from '../mocks/entities'
 import { describe, test } from 'mocha'
 
 function setup(promise) {
   return {
     httpMock: setupHttpMock(promise),
-    entityMock: appMetadataMock,
+    entityMock: appDetailsMock,
   }
 }
 
-describe('App Metadata', () => {
-  test('Metadata is wrapped', async () => {
+describe('App Details', () => {
+  test('Details is wrapped', async () => {
     return entityWrappedTest(setup, {
-      wrapperMethod: wrapAppMetadata,
+      wrapperMethod: wrapAppDetails,
     })
   })
 
-  test('Metadata delete', async () => {
+  test('Details delete', async () => {
     return entityDeleteTest(setup, {
-      wrapperMethod: wrapAppMetadata,
+      wrapperMethod: wrapAppDetails,
     })
   })
 
-  test('Metadata delete fails', async () => {
+  test('Details delete fails', async () => {
     return failingActionTest(setup, {
-      wrapperMethod: wrapAppMetadata,
+      wrapperMethod: wrapAppDetails,
       actionMethod: 'delete',
     })
   })

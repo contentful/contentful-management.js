@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
 import { initPlainClient, getTestOrganization } from '../helpers'
 
-describe('AppMetadata api', function () {
+describe('AppDetails api', function () {
   let appDefinition
   let client
   let organization
@@ -13,7 +13,7 @@ describe('AppMetadata api', function () {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppMetadata',
+      name: 'Test AppDetails',
     })
 
     client = initPlainClient()
@@ -25,71 +25,71 @@ describe('AppMetadata api', function () {
     }
   })
 
-  test('createAppMetadata', async () => {
-    const metadata = await client.appMetadata.upsert(
+  test('createAppDetails', async () => {
+    const details = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageOne }
     )
 
-    expect(metadata.icon).equals(imageOne)
+    expect(details.icon).equals(imageOne)
 
-    await client.appMetadata.delete({
+    await client.appDetails.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
   })
 
-  test('getAppMetadata', async () => {
-    await client.appMetadata.upsert(
+  test('getAppDetails', async () => {
+    await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageOne }
     )
-    const metadata = await client.appMetadata.get({
+    const details = await client.appDetails.get({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
 
-    expect(metadata.icon).equals(imageOne)
-    await client.appMetadata.delete({
+    expect(details.icon).equals(imageOne)
+    await client.appDetails.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
   })
 
-  test('updateAppMetadata', async () => {
-    const metadata = await client.appMetadata.upsert(
+  test('updateAppDetails', async () => {
+    const details = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageOne }
     )
 
-    expect(metadata.icon).equals(imageOne)
+    expect(details.icon).equals(imageOne)
 
-    const updatedMetadata = await client.appMetadata.upsert(
+    const updatedDetails = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageTwo }
     )
 
-    expect(updatedMetadata.icon).equals(imageTwo)
+    expect(updatedDetails.icon).equals(imageTwo)
 
-    await client.appMetadata.delete({
+    await client.appDetails.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
   })
 
-  test('deleteAppMetadata', async () => {
-    await client.appMetadata.upsert(
+  test('deleteAppDetails', async () => {
+    await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageOne }
     )
 
-    await client.appMetadata.delete({
+    await client.appDetails.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     })
 
     await expect(
-      client.appMetadata.get({
+      client.appDetails.get({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
       })

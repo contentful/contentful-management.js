@@ -5,7 +5,7 @@ import {
   appDefinitionMock,
   appUploadMock,
   appSigningSecretMock,
-  appMetadataMock,
+  appDetailsMock,
   cloneMock,
   organizationInvitationMock,
   organizationMembershipMock,
@@ -492,21 +492,21 @@ describe('A createOrganizationApi', () => {
     )
   })
 
-  test('API call createAppMetadata', async () => {
+  test('API call createAppDetails', async () => {
     const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appMetadata']['wrapAppMetadata'].returns(appMetadataMock)
-    return api['upsertAppMetadata']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+    entitiesMock['appDetails']['wrapAppDetails'].returns(appDetailsMock)
+    return api['upsertAppDetails']('app-def-id', { method: 'GET', path: '/some_path' }).then(
       (result) => {
-        expect(result).eql(appMetadataMock)
+        expect(result).eql(appDetailsMock)
       }
     )
   })
 
-  test('API call createAppMetadata fails', async () => {
+  test('API call createAppDetails fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['upsertAppMetadata']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+    api['upsertAppDetails']('app-def-id', { method: 'GET', path: '/some_path' }).then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
@@ -514,19 +514,19 @@ describe('A createOrganizationApi', () => {
     )
   })
 
-  test('API call getAppMetadata', async () => {
+  test('API call getAppDetails', async () => {
     const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appMetadata']['wrapAppMetadata'].returns(appMetadataMock)
-    return api['getAppMetadata']('app-def-id').then((result) => {
-      expect(result).eql(appMetadataMock)
+    entitiesMock['appDetails']['wrapAppDetails'].returns(appDetailsMock)
+    return api['getAppDetails']('app-def-id').then((result) => {
+      expect(result).eql(appDetailsMock)
     })
   })
 
-  test('API call getAppMetadata fails', async () => {
+  test('API call getAppDetails fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['getAppMetadata']('app-def-id').then(
+    api['getAppDetails']('app-def-id').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
@@ -534,19 +534,19 @@ describe('A createOrganizationApi', () => {
     )
   })
 
-  test('API call deleteAppMetadata', async () => {
+  test('API call deleteAppDetails', async () => {
     const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appMetadata']['wrapAppMetadata'].returns(undefined)
-    return api['deleteAppMetadata']('app-def-id').then((result) => {
+    entitiesMock['appDetails']['wrapAppDetails'].returns(undefined)
+    return api['deleteAppDetails']('app-def-id').then((result) => {
       expect(result).eql(undefined)
     })
   })
 
-  test('API call deleteAppMetadata fails', async () => {
+  test('API call deleteAppDetails fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['deleteAppMetadata']('app-def-id').then(
+    api['deleteAppDetails']('app-def-id').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
