@@ -9,11 +9,10 @@ type AppDetailsSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
-// TODO should these be exported?
-enum IconType {
+export enum IconType {
   Base64 = 'base64',
 }
-interface AppIcon {
+export interface AppIcon {
   value: string
   type: IconType
 }
@@ -56,7 +55,12 @@ export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsP
   delete(): Promise<void>
 }
 
-function createDetailsApi(makeRequest: MakeRequest) {
+/**
+ * @private
+ * @param makeRequest - function to make requests via an adapter
+ * @return Wrapped App Details data
+ */
+function createAppDetailsApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDetailsProps) => ({
     organizationId: data.sys.organization.sys.id,
     appDefinitionId: data.sys.appDefinition.sys.id,
@@ -81,6 +85,6 @@ function createDetailsApi(makeRequest: MakeRequest) {
  * @return Wrapped AppDetails data
  */
 export function wrapAppDetails(makeRequest: MakeRequest, data: AppDetailsProps): AppDetails {
-  const signingSecret = toPlainObject(copy(data))
-  return enhanceWithMethods(signingSecret, createDetailsApi(makeRequest))
+  const appDetails = toPlainObject(copy(data))
+  return enhanceWithMethods(appDetails, createAppDetailsApi(makeRequest))
 }
