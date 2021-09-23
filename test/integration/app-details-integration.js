@@ -39,7 +39,7 @@ describe('AppDetails api', function () {
       { icon: imageOne }
     )
 
-    expect(details.icon).equals(imageOne)
+    expect(details.icon).to.deep.equal(imageOne)
 
     await client.appDetails.delete({
       organizationId: organization.sys.id,
@@ -57,7 +57,7 @@ describe('AppDetails api', function () {
       appDefinitionId: appDefinition.sys.id,
     })
 
-    expect(details.icon).equals(imageOne)
+    expect(details.icon).to.deep.equal(imageOne)
     await client.appDetails.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
@@ -70,14 +70,14 @@ describe('AppDetails api', function () {
       { icon: imageOne }
     )
 
-    expect(details.icon).equals(imageOne)
+    expect(details.icon).to.deep.equal(imageOne)
 
     const updatedDetails = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { icon: imageTwo }
     )
 
-    expect(updatedDetails.icon).equals(imageTwo)
+    expect(updatedDetails.icon).to.deep.equal(imageTwo)
 
     await client.appDetails.delete({
       organizationId: organization.sys.id,
