@@ -129,7 +129,7 @@ const appDetailsMock = {
     type: 'AppDetails',
     appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
   }),
-  icon: 'some_image',
+  icon: { value: 'some_image', type: 'base64' },
 }
 
 const bulkActionMock = {

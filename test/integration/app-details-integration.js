@@ -6,8 +6,14 @@ describe('AppDetails api', function () {
   let appDefinition
   let client
   let organization
-  const imageOne = 'some image in base 64'
-  const imageTwo = 'some other image in base 64'
+  const imageOne = {
+    value: 'some image in base 64',
+    type: 'base64',
+  }
+  const imageTwo = {
+    value: 'some other image in base 64',
+    type: 'base64',
+  }
 
   before(async () => {
     organization = await getTestOrganization()

@@ -696,7 +696,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.upsertAppDetails('app_definition_id', { icon: 'base_64_image' }))
+     * .then((org) => org.upsertAppDetails('app_definition_id',
+     *   { icon: { value: 'base_64_image', type: 'base64' }}
+     *  ))
      * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
