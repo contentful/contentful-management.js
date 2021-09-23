@@ -89,9 +89,9 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
+import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
-import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -136,6 +136,14 @@ export type PlainClientAPI = {
       payload: CreateAppBundleProps
     ): Promise<AppBundleProps>
   }
+  appDetails: {
+    upsert(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppDetailsProps
+    ): Promise<AppDetailsProps>
+    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
+    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
+  }
   appSignedRequest: {
     create(
       params: OptionalDefaults<GetAppInstallationParams>,
@@ -148,14 +156,6 @@ export type PlainClientAPI = {
       payload: CreateAppSigningSecretProps
     ): Promise<AppSigningSecretProps>
     get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppSigningSecretProps>
-    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
-  }
-  appDetails: {
-    upsert(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppDetailsProps
-    ): Promise<AppDetailsProps>
-    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
   }
   editorInterface: {
