@@ -687,7 +687,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       })
     },
     /**
-     * Creates or updates an app signing secret
+     * Creates or updates an app details entity
      * @return Promise for an App Details
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -696,7 +696,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganization('<org_id>')
-     * .then((org) => org.upsertAppDetails('app_definition_id', { value: 'tsren3s1....wn1e' }))
+     * .then((org) => org.upsertAppDetails('app_definition_id', { icon: 'base_64_image' }))
      * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
@@ -712,7 +712,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then((payload) => wrapAppDetails(makeRequest, payload))
     },
     /**
-     * Gets an app signing secret
+     * Gets an app details entity
      * @return Promise for an App Details
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -736,7 +736,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then((payload) => wrapAppDetails(makeRequest, payload))
     },
     /**
-     * Deletes an app signing secret
+     * Deletes an app details entity.
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
      * const contentful = require('contentful-management')
