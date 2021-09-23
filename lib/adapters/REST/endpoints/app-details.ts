@@ -10,7 +10,7 @@ export const get: RestEndpoint<'AppDetails', 'get'> = (
 ) => {
   return raw.get<AppDetailsProps>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/app_details`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/details`
   )
 }
 
@@ -21,7 +21,7 @@ export const upsert: RestEndpoint<'AppDetails', 'upsert'> = (
 ) => {
   return raw.put<AppDetailsProps>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/app_details`,
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/details`,
     data
   )
 }
@@ -32,6 +32,6 @@ export const del: RestEndpoint<'AppDetails', 'delete'> = (
 ) => {
   return raw.del(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/app_details`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/details`
   )
 }
