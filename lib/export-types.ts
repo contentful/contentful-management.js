@@ -24,6 +24,13 @@ export type {
   CreateAppInstallationProps,
 } from './entities/app-installation'
 export type {
+  AppDetails,
+  AppDetailsProps,
+  CreateAppDetailsProps,
+  IconType,
+  AppIcon,
+} from './entities/app-details'
+export type {
   AppSignedRequest,
   AppSignedRequestProps,
   CreateAppSignedRequestProps,

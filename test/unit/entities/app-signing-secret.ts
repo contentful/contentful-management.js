@@ -1,5 +1,5 @@
 import setupHttpMock from '../mocks/http'
-import { wrapAppSignedRequest } from '../../../lib/entities/app-signed-request'
+import { wrapAppSigningSecret } from '../../../lib/entities/app-signing-secret'
 import {
   entityWrappedTest,
   entityDeleteTest,
@@ -18,19 +18,19 @@ function setup(promise) {
 describe('App SigningSecret', () => {
   test('SigningSecret is wrapped', async () => {
     return entityWrappedTest(setup, {
-      wrapperMethod: wrapAppSignedRequest,
+      wrapperMethod: wrapAppSigningSecret,
     })
   })
 
   test('SigningSecret delete', async () => {
     return entityDeleteTest(setup, {
-      wrapperMethod: wrapAppSignedRequest,
+      wrapperMethod: wrapAppSigningSecret,
     })
   })
 
   test('SigningSecret delete fails', async () => {
     return failingActionTest(setup, {
-      wrapperMethod: wrapAppSignedRequest,
+      wrapperMethod: wrapAppSigningSecret,
       actionMethod: 'delete',
     })
   })
