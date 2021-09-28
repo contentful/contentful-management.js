@@ -124,6 +124,14 @@ const appSigningSecretMock = {
   redactedValue: 'wI74',
 }
 
+const appDetailsMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppDetails',
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  icon: { value: 'some_image', type: 'base64' },
+}
+
 const bulkActionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'BulkAction',
@@ -634,6 +642,7 @@ const mocks = {
   appUpload: appUploadMock,
   appSignedRequest: appSignedRequestMock,
   appSigningSecret: appSigningSecretMock,
+  appDetails: appDetailsMock,
   asset: assetMock,
   assetKey: assetKeyMock,
   assetWithTags: assetMockWithTags,
@@ -708,6 +717,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     appSigningSecret: {
       wrapAppSigningSecret: sinon.stub(),
+    },
+    appDetails: {
+      wrapAppDetails: sinon.stub(),
     },
     space: {
       wrapSpace: sinon.stub(),
@@ -848,6 +860,7 @@ export {
   appUploadMock,
   appSignedRequestMock,
   appSigningSecretMock,
+  appDetailsMock,
   linkMock,
   sysMock,
   spaceMock,

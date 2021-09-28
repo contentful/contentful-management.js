@@ -3,6 +3,7 @@ import * as AppBundle from './app-bundle'
 import * as AppDefinition from './app-definition'
 import * as AppInstallation from './app-installation'
 import * as AppUpload from './app-upload'
+import * as AppDetails from './app-details'
 import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
 import * as Asset from './asset'
@@ -47,6 +48,7 @@ export default {
   AppUpload,
   AppSignedRequest,
   AppSigningSecret,
+  AppDetails,
   Asset,
   AssetKey,
   BulkAction,

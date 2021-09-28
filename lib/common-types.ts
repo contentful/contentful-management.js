@@ -53,6 +53,7 @@ import {
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
+import { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from './entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from './entities/app-signing-secret'
 import {
@@ -268,6 +269,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppUpload', 'get', UA>): MRReturn<'AppUpload', 'get'>
   (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
   (opts: MROpts<'AppUpload', 'create', UA>): MRReturn<'AppUpload', 'create'>
+
+  (opts: MROpts<'AppDetails', 'upsert', UA>): MRReturn<'AppDetails', 'upsert'>
+  (opts: MROpts<'AppDetails', 'get', UA>): MRReturn<'AppDetails', 'get'>
+  (opts: MROpts<'AppDetails', 'delete', UA>): MRReturn<'AppDetails', 'delete'>
 
   (opts: MROpts<'AppSignedRequest', 'create', UA>): MRReturn<'AppSignedRequest', 'create'>
 
@@ -609,6 +614,21 @@ export type MRActions = {
       params: GetOrganizationParams
       payload: { file: string | ArrayBuffer | Stream }
       return: AppUploadProps
+    }
+  }
+  AppDetails: {
+    upsert: {
+      params: GetAppDefinitionParams
+      payload: CreateAppDetailsProps
+      return: AppDetailsProps
+    }
+    get: {
+      params: GetAppDefinitionParams
+      return: AppDetailsProps
+    }
+    delete: {
+      params: GetAppDefinitionParams
+      return: void
     }
   }
   AppSignedRequest: {
