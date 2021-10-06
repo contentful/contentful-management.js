@@ -17,7 +17,7 @@ interface RegExp {
 
 export interface ContentTypeFieldValidation {
   linkContentType?: string[]
-  in?: string[]
+  in?: (string | number)[]
   linkMimetypeGroup?: string[]
   enabledNodeTypes?: string[]
   enabledMarks?: string[]
