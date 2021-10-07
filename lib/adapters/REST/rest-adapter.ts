@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { OpPatch } from 'json-patch'
@@ -80,10 +80,21 @@ export class RestAdapter implements Adapter {
       'X-Contentful-User-Agent': userAgent,
     }
 
-    return await endpoint(this.http, params, payload, {
+    const mergedHeaders = {
       ...requiredHeaders,
+      ...params?.config?.headers,
       ...this.params.headers,
       ...headers,
-    })
+    }
+
+    const mergedParams = copy(params) || {}
+
+    if (!mergedParams.config) {
+      mergedParams.config = {}
+    }
+
+    mergedParams.config.headers = mergedHeaders
+
+    return await endpoint(this.http, mergedParams, payload, mergedHeaders)
   }
 }

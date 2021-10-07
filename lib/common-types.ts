@@ -1309,7 +1309,7 @@ export interface MakeRequestPayload {}
 export interface MakeRequestOptions {
   entityType: keyof MRActions
   action: string
-  params?: Record<string, unknown>
+  params?: Record<string, unknown> & { config?: AxiosRequestConfig }
   payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload
   headers?: Record<string, unknown>
   userAgent: string
