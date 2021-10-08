@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
-import { initClient, createTestEnvironment, createTestSpace, getTestOrganization } from '../helpers'
+import { initClient, createTestEnvironment, createTestSpace, getTestUser } from '../helpers'
 
 describe('Task Api', () => {
   let space
@@ -10,8 +10,7 @@ describe('Task Api', () => {
   const taskBody = 'JS SDK Task Integration Test'
 
   before('Load test organization and user', async () => {
-    const organization = await getTestOrganization()
-    const testUser = await organization.getUsers().then((response) => response.items[0])
+    const testUser = await getTestUser()
     assignee = { sys: { id: testUser.sys.id, linkType: 'User', type: 'Link' } }
   })
 
@@ -47,11 +46,7 @@ describe('Task Api', () => {
     await task.delete()
   })
 
-  // Tasks API now throws a 500 when you update a task
-  // with a user that does not exists on the space
-  // (even though the update gets applied).
-  // Skipping until there's a fix.
-  test.skip('Create, update, delete task', async () => {
+  test('Create, update, delete task', async () => {
     const task = await entry.createTask({
       body: taskBody,
       status: 'active',
