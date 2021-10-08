@@ -18,7 +18,7 @@ export type EnvironmentProps = {
    */
   sys: EnvironmentMetaSys
   /**
-   * Environment name
+   * Name of the environment
    */
   name: string
 }
