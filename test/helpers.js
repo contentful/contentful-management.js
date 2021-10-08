@@ -37,6 +37,12 @@ export async function getTestOrganization() {
   return organizations.items.find(({ sys: { id } }) => id === testOrgId)
 }
 
+export async function getTestUser() {
+  const { userId } = TestDefaults
+  const organization = await getTestOrganization()
+  return organization.getUser(userId)
+}
+
 export async function getDefaultSpace() {
   const { spaceId } = TestDefaults
   return initClient().getSpace(spaceId)
