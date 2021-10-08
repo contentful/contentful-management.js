@@ -12,7 +12,7 @@ export const TestDefaults = {
     testEntryBulkActionId: '375PMdQrwWOsifPJYP5Bb9',
   },
   userId: '0DdCYLZI33Oe1uZ0FLpCzw',
-  userEmail: '[for_tests]_contentful-management.js@contentful.com',
+  userEmail: 'for_tests_contentful-management.js@contentful.com',
   teamId: '4XQ2AGpitUAECQf7EPP392',
   teamName: '[FOR TESTS] contentful-management.js',
   teamMembershipId: '6vuRqhFc875EEIJ50lSMYG',
