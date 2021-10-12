@@ -29,7 +29,7 @@ describe('Comment Api', () => {
       body: commentBody,
     })
 
-    const response = await entry.getComment()
+    const response = await entry.getComments()
     expect(response.items).to.be.an('array')
     expect(response.items.map((item) => item.sys.id)).to.include(id)
 
