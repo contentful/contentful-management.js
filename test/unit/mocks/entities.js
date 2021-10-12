@@ -555,6 +555,34 @@ const taskMock = {
   status: 'active',
 }
 
+const commentMock = {
+  sys: {
+    id: 'comment-id',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    version: 1,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'Comment',
+    environment: {
+      sys: {
+        id: 'environment-id',
+        type: 'Link',
+        linkType: 'Environment',
+      },
+    },
+    parentEntity: {
+      sys: {
+        id: 'entry-id',
+        type: 'Link',
+        linkType: 'Entry',
+      },
+    },
+  },
+  body: 'Body',
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -648,6 +676,7 @@ const mocks = {
   assetWithTags: assetMockWithTags,
   bulkAction: bulkActionMock,
   bulkActionPublish: bulkActionPublishMock,
+  comment: commentMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
@@ -847,6 +876,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapTask: sinon.stub(),
       wrapTaskCollection: sinon.stub(),
     },
+    comment: {
+      wrapComment: sinon.stub(),
+      wrapCommentCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -865,6 +898,7 @@ export {
   sysMock,
   spaceMock,
   bulkActionMock,
+  commentMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
