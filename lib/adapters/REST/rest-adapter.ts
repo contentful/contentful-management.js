@@ -46,13 +46,13 @@ export class RestAdapter implements Adapter {
   }
 
   public async makeRequest<R>({
-                                entityType,
-                                action: actionInput,
-                                params,
-                                payload,
-                                headers,
-                                userAgent,
-                              }: MakeRequestOptions): Promise<R> {
+    entityType,
+    action: actionInput,
+    params,
+    payload,
+    headers,
+    userAgent,
+  }: MakeRequestOptions): Promise<R> {
     // `delete` is a reserved keyword. Therefore, the methods are called `del`.
     const action = actionInput === 'delete' ? 'del' : actionInput
 
