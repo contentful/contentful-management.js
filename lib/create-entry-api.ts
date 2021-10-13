@@ -1,5 +1,6 @@
 import type { OpPatch } from 'json-patch'
 import { MakeRequest } from './common-types'
+import { CreateCommentProps } from './entities/comment'
 import { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
@@ -17,6 +18,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
   const { wrapEntry, wrapEntryCollection } = entities.entry
   const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
   const { wrapTask, wrapTaskCollection } = entities.task
+  const { wrapComment, wrapCommentCollection } = entities.comment
 
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
@@ -292,6 +294,92 @@ export default function createEntryApi(makeRequest: MakeRequest) {
         action: 'getForEntry',
         params: { ...params, snapshotId },
       }).then((data) => wrapSnapshot<EntryProps>(makeRequest, data))
+    },
+
+    /**
+     * Creates a new comment for an entry
+     * @param data Object representation of the Comment to be created
+     * @returns Promise for the newly created Comment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntry('<entry-id>'))
+     * .then((entry) => entry.createComment({
+     *   body: 'Something left to do'
+     * }))
+     * .then((comment) => console.log(comment))
+     * .catch(console.error)
+     * ```
+     */
+    createComment: function (data: CreateCommentProps) {
+      const { params } = getParams(this)
+      return makeRequest({
+        entityType: 'Comment',
+        action: 'create',
+        params,
+        payload: data,
+      }).then((data) => wrapComment(makeRequest, data))
+    },
+
+    /**
+     * Gets all comments of an entry
+     * @returns
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntry('<entry-id>'))
+     * .then((entry) => entry.getComments())
+     * .then((comments) => console.log(comments))
+     * .catch(console.error)
+     * ```
+     */
+    getComments: function () {
+      const { params } = getParams(this)
+      return makeRequest({
+        entityType: 'Comment',
+        action: 'getAll',
+        params,
+      }).then((data) => wrapCommentCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a comment of an entry
+     * @returns
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntry('<entry-id>'))
+     * .then((entry) => entry.getComment(`<comment-id>`))
+     * .then((comment) => console.log(comment))
+     * .catch(console.error)
+     * ```
+     */
+    getComment: function (id: string) {
+      const { params } = getParams(this)
+      return makeRequest({
+        entityType: 'Comment',
+        action: 'get',
+        params: {
+          ...params,
+          commentId: id,
+        },
+      }).then((data) => wrapComment(makeRequest, data))
     },
 
     /**
