@@ -5,6 +5,7 @@ import {
   CollectionProp,
   GetAppDefinitionParams,
   GetAppInstallationParams,
+  GetCommentParams,
   GetContentTypeParams,
   GetEditorInterfaceParams,
   GetOrganizationMembershipProps,
@@ -42,6 +43,14 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
+import {
+  CreateCommentParams,
+  CreateCommentProps,
+  DeleteCommentParams,
+  CommentProps,
+  UpdateCommentParams,
+  UpdateCommentProps,
+} from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
@@ -237,6 +246,21 @@ export type PlainClientAPI = {
       params: GetSpaceEnvironmentParams,
       payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
+  }
+  comment: {
+    get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
+    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<CommentProps>>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: CreateCommentProps,
+      headers?: Record<string, unknown>
+    ): Promise<CommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: UpdateCommentProps,
+      headers?: Record<string, unknown>
+    ): Promise<CommentProps>
+    delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>

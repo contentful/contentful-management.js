@@ -109,6 +109,13 @@ export const createPlainClient = (
       unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
     },
+    comment: {
+      get: wrap(wrapParams, 'Comment', 'get'),
+      getAll: wrap(wrapParams, 'Comment', 'getAll'),
+      create: wrap(wrapParams, 'Comment', 'create'),
+      update: wrap(wrapParams, 'Comment', 'update'),
+      delete: wrap(wrapParams, 'Comment', 'delete'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
