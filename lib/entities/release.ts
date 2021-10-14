@@ -43,8 +43,8 @@ export type ReleaseSysProps = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  createdBy: Link<'User'>
-  updatedBy: Link<'User'>
+  createdBy: Link<'User'> | Link<'AppDefinition'>
+  updatedBy: Link<'User'> | Link<'AppDefinition'>
   createdAt: ISO8601Timestamp
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
