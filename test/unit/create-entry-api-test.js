@@ -4,7 +4,7 @@ import createEntryApi, {
   __RewireAPI__ as createEntryApiRewireApi,
 } from '../../lib/create-entry-api'
 import { wrapEntry, wrapEntryCollection } from './../../lib/entities/entry'
-import { commentMock, cloneMock, setupEntitiesMock, taskMock } from './mocks/entities'
+import { cloneMock, setupEntitiesMock, taskMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
   entityActionTest,
@@ -197,23 +197,6 @@ describe('createEntryApi', () => {
   test('Entry createTask fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createTask',
-    })
-  })
-
-  test('Entry createComment', async () => {
-    const entitiesMock = setupEntitiesMock(createEntryApiRewireApi)
-    entitiesMock.comment.wrapComment.returns(commentMock)
-
-    const { api, makeRequest } = setup(Promise.resolve({}))
-    return api.createComment(commentMock).then((r) => {
-      expect(r).to.eql(commentMock)
-      expect(makeRequest.args[0][0].payload).to.eql(commentMock, 'data is sent')
-    })
-  })
-
-  test('Entry createComment fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
-      methodToTest: 'createComment',
     })
   })
 })
