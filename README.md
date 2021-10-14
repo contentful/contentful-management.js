@@ -336,6 +336,12 @@ initialized with provided configuration.
 > The Adapter will take precedence over the other options. Therefore, ensure you're providing the Adapter all the
 > information it needs to issue the request (e.g., host or auth headers)
 
+#### throttle (default: `0`)
+Maximum number of requests per second.
+- `1`-`30` (fixed number of limit), 
+- `'auto'` (calculated limit based on your plan), 
+- `'0%'` - `'100%'` (calculated % limit based on your plan)
+
 ### Reference documentation
 
 The [Contentful's JS library reference](https://contentful.github.io/contentful-management.js) documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.

@@ -33,7 +33,6 @@ const defaultHostParameters = {
 
 export class RestAdapter implements Adapter {
   private readonly params: RestAdapterParams
-  private readonly http: AxiosInstance
 
   public constructor(params: RestAdapterParams) {
     if (!params.accessToken) {
@@ -44,10 +43,6 @@ export class RestAdapter implements Adapter {
       ...defaultHostParameters,
       ...copy(params),
     }
-
-    this.http = createHttpClient(axios, {
-      ...this.params,
-    })
   }
 
   public async makeRequest<R>({
@@ -80,10 +75,15 @@ export class RestAdapter implements Adapter {
       'X-Contentful-User-Agent': userAgent,
     }
 
-    return await endpoint(this.http, params, payload, {
-      ...requiredHeaders,
-      ...this.params.headers,
-      ...headers,
+    // TODO: maybe we can avoid creating a new axios instance for each request
+    const axiosInstance = createHttpClient(axios, {
+      ...this.params,
+      headers: {
+        ...requiredHeaders,
+        ...this.params.headers,
+      },
     })
+
+    return await endpoint(axiosInstance, params, payload, headers)
   }
 }

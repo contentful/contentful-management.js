@@ -57,7 +57,7 @@
   "dependencies": {
     "@types/json-patch": "0.0.30",
     "axios": "^0.21.4",
-    "contentful-sdk-core": "^6.9.0",
+    "contentful-sdk-core": "^6.10.1",
     "fast-copy": "^2.1.0",
     "lodash.isplainobject": "^4.0.6",
     "type-fest": "^0.21.3"
@@ -105,7 +105,7 @@
     "husky": "^4.3.8",
     "in-publish": "^2.0.1",
     "istanbul": "^1.0.0-alpha.2",
-    "json": "^9.0.3",
+    "json": "^11.0.0",
     "karma": "^6.3.4",
     "karma-chrome-launcher": "^3.1.0",
     "karma-env-preprocessor": "^0.1.1",

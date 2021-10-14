@@ -9,6 +9,7 @@ import * as AppSigningSecret from './app-signing-secret'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
+import * as Comment from './comment'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -52,6 +53,7 @@ export default {
   Asset,
   AssetKey,
   BulkAction,
+  Comment,
   ContentType,
   EditorInterface,
   Entry,
