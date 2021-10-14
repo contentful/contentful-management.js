@@ -48,13 +48,13 @@ export type ScheduledActionSysProps = {
   space: SysLink
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
-  createdBy: SysLink
+  createdBy: Link<'User'> | Link<'AppDefinition'>
   /** an ISO8601 date string representing when an action was moved to canceled */
   canceledAt?: ISO8601Timestamp
-  canceledBy?: SysLink
+  canceledBy?: Link<'User'> | Link<'AppDefinition'>
   /** an ISO8601 date string representing when an action was updated */
   updatedAt: ISO8601Timestamp
-  updatedBy: Link<'User'>
+  updatedBy: Link<'User'> | Link<'AppDefinition'>
 }
 
 export type ScheduledActionProps = {
