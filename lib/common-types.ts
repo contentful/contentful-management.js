@@ -155,7 +155,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   space: SysLink
   contentType: SysLink
   environment: SysLink
-  publishedBy?: SysLink
+  publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
   publishedCounter?: number
