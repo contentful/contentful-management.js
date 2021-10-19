@@ -167,6 +167,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedAt?: string
   firstPublishedAt?: string
   publishedCounter?: number
+  locale?: string
 }
 
 export interface MetaLinkProps {
