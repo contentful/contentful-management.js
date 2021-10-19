@@ -5,6 +5,7 @@ import {
   CollectionProp,
   GetAppDefinitionParams,
   GetAppInstallationParams,
+  GetCommentParams,
   GetContentTypeParams,
   GetEditorInterfaceParams,
   GetOrganizationMembershipProps,
@@ -42,6 +43,14 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
+import {
+  CreateCommentParams,
+  CreateCommentProps,
+  DeleteCommentParams,
+  CommentProps,
+  UpdateCommentParams,
+  UpdateCommentProps,
+} from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
@@ -89,6 +98,7 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
+import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
 import {
@@ -134,6 +144,14 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppDefinitionParams>,
       payload: CreateAppBundleProps
     ): Promise<AppBundleProps>
+  }
+  appDetails: {
+    upsert(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppDetailsProps
+    ): Promise<AppDetailsProps>
+    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
+    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
   }
   appSignedRequest: {
     create(
@@ -228,6 +246,21 @@ export type PlainClientAPI = {
       params: GetSpaceEnvironmentParams,
       payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
+  }
+  comment: {
+    get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
+    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<CommentProps>>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: CreateCommentProps,
+      headers?: Record<string, unknown>
+    ): Promise<CommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: UpdateCommentProps,
+      headers?: Record<string, unknown>
+    ): Promise<CommentProps>
+    delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>

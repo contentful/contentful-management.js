@@ -63,6 +63,11 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'AppBundle', 'delete'),
       create: wrap(wrapParams, 'AppBundle', 'create'),
     },
+    appDetails: {
+      upsert: wrap(wrapParams, 'AppDetails', 'upsert'),
+      get: wrap(wrapParams, 'AppDetails', 'get'),
+      delete: wrap(wrapParams, 'AppDetails', 'delete'),
+    },
     appSignedRequest: {
       create: wrap(wrapParams, 'AppSignedRequest', 'create'),
     },
@@ -103,6 +108,13 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'BulkAction', 'publish'),
       unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
+    },
+    comment: {
+      get: wrap(wrapParams, 'Comment', 'get'),
+      getAll: wrap(wrapParams, 'Comment', 'getAll'),
+      create: wrap(wrapParams, 'Comment', 'create'),
+      update: wrap(wrapParams, 'Comment', 'update'),
+      delete: wrap(wrapParams, 'Comment', 'delete'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),

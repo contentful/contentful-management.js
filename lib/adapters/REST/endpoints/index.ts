@@ -3,11 +3,13 @@ import * as AppBundle from './app-bundle'
 import * as AppDefinition from './app-definition'
 import * as AppInstallation from './app-installation'
 import * as AppUpload from './app-upload'
+import * as AppDetails from './app-details'
 import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
+import * as Comment from './comment'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -47,9 +49,11 @@ export default {
   AppUpload,
   AppSignedRequest,
   AppSigningSecret,
+  AppDetails,
   Asset,
   AssetKey,
   BulkAction,
+  Comment,
   ContentType,
   EditorInterface,
   Entry,

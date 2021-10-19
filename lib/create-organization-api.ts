@@ -7,6 +7,7 @@ import { CreateOrganizationInvitationProps } from './entities/organization-invit
 import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
+import { CreateAppDetailsProps } from './entities/app-details'
 import { OrganizationProp } from './entities/organization'
 
 /**
@@ -37,6 +38,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapOrganizationInvitation } = entities.organizationInvitation
   const { wrapAppUpload } = entities.appUpload
   const { wrapAppSigningSecret } = entities.appSigningSecret
+  const { wrapAppDetails } = entities.appDetails
 
   return {
     /**
@@ -678,6 +680,83 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
 
       return makeRequest({
         entityType: 'AppSigningSecret',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then(() => {
+        /* noop*/
+      })
+    },
+    /**
+     * Creates or updates an app details entity
+     * @return Promise for an App Details
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.upsertAppDetails('app_definition_id',
+     *   { icon: { value: 'base_64_image', type: 'base64' }}
+     *  ))
+     * .then((appDetails) => console.log(appDetails))
+     * .catch(console.error)
+     * ```
+     */
+    upsertAppDetails(appDefinitionId: string, data: CreateAppDetailsProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppDetails',
+        action: 'upsert',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppDetails(makeRequest, payload))
+    },
+    /**
+     * Gets an app details entity
+     * @return Promise for an App Details
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppDetails('app_definition_id'))
+     * .then((appDetails) => console.log(appDetails))
+     * .catch(console.error)
+     * ```
+     */
+    getAppDetails(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppDetails',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapAppDetails(makeRequest, payload))
+    },
+    /**
+     * Deletes an app details entity.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppDetails('app_definition_id'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppDetails(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppDetails',
         action: 'delete',
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then(() => {

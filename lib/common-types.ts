@@ -12,6 +12,14 @@ import {
   CreateAssetProps,
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import {
+  CreateCommentParams,
+  CreateCommentProps,
+  DeleteCommentParams,
+  CommentProps,
+  UpdateCommentParams,
+  UpdateCommentProps,
+} from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
@@ -53,6 +61,7 @@ import {
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
+import { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from './entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from './entities/app-signing-secret'
 import {
@@ -154,7 +163,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   space: SysLink
   contentType: SysLink
   environment: SysLink
-  publishedBy?: SysLink
+  publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
   publishedCounter?: number
@@ -270,6 +279,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppUpload', 'delete', UA>): MRReturn<'AppUpload', 'delete'>
   (opts: MROpts<'AppUpload', 'create', UA>): MRReturn<'AppUpload', 'create'>
 
+  (opts: MROpts<'AppDetails', 'upsert', UA>): MRReturn<'AppDetails', 'upsert'>
+  (opts: MROpts<'AppDetails', 'get', UA>): MRReturn<'AppDetails', 'get'>
+  (opts: MROpts<'AppDetails', 'delete', UA>): MRReturn<'AppDetails', 'delete'>
+
   (opts: MROpts<'AppSignedRequest', 'create', UA>): MRReturn<'AppSignedRequest', 'create'>
 
   (opts: MROpts<'AppSigningSecret', 'upsert', UA>): MRReturn<'AppSigningSecret', 'upsert'>
@@ -282,6 +295,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
+
+  (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
+  (opts: MROpts<'Comment', 'getAll', UA>): MRReturn<'Comment', 'getAll'>
+  (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
+  (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
+  (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -612,6 +631,21 @@ export type MRActions = {
       return: AppUploadProps
     }
   }
+  AppDetails: {
+    upsert: {
+      params: GetAppDefinitionParams
+      payload: CreateAppDetailsProps
+      return: AppDetailsProps
+    }
+    get: {
+      params: GetAppDefinitionParams
+      return: AppDetailsProps
+    }
+    delete: {
+      params: GetAppDefinitionParams
+      return: void
+    }
+  }
   AppSignedRequest: {
     create: {
       params: GetAppInstallationParams
@@ -709,6 +743,18 @@ export type MRActions = {
       payload: BulkActionValidatePayload
       return: BulkActionProps<BulkActionValidatePayload>
     }
+  }
+  Comment: {
+    get: { params: GetCommentParams; return: CommentProps }
+    getAll: { params: GetEntryParams; return: CollectionProp<CommentProps> }
+    create: { params: CreateCommentParams; payload: CreateCommentProps; return: CommentProps }
+    update: {
+      params: UpdateCommentParams
+      payload: UpdateCommentProps
+      headers?: Record<string, unknown>
+      return: CommentProps
+    }
+    delete: { params: DeleteCommentParams; return: void }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1300,6 +1346,7 @@ export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string 
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
+export type GetCommentParams = GetEntryParams & { commentId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
