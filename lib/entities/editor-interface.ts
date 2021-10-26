@@ -37,12 +37,14 @@ export interface GroupControl extends WidgetConfig {
 export interface FieldGroupItem {
   groupId: string
   name: string
-  items: Array<FieldGroupItem | FieldItem>
+  items: EditorLayoutItem[]
 }
 
 export interface FieldItem {
   fieldId: string
 }
+
+export type EditorLayoutItem = FieldItem[] | FieldGroupItem[]
 
 export interface Editor {
   /**
@@ -107,7 +109,7 @@ export type EditorInterfaceProps = {
   /**
    * Array of editor layout field groups
    */
-  editorLayout?: FieldItem[] | FieldGroupItem[]
+  editorLayout?: FieldGroupItem[]
   /**
    * Array of sidebar widgets. Defaults will be used if property is missing.
    */
