@@ -44,7 +44,7 @@ export interface FieldItem {
   fieldId: string
 }
 
-export type EditorLayoutItem = FieldItem[] | FieldGroupItem[]
+export type EditorLayoutItem = FieldItem | FieldGroupItem
 
 export interface Editor {
   /**
