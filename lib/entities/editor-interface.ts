@@ -37,7 +37,6 @@ export interface GroupControl extends WidgetConfig {
 export interface FieldGroupItem {
   groupId: string
   name: string
-  default?: boolean
   items: Array<FieldGroupItem | FieldItem>
 }
 
