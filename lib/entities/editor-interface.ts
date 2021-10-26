@@ -29,16 +29,16 @@ export interface Control extends WidgetConfig {
 
 export interface GroupControl extends WidgetConfig {
   /**
-   * ID of the customized group
+   * ID of the customized field group
    */
   groupId: string
 }
 
-export interface EditorLayoutItem {
+export interface FieldGroupItem {
   groupId: string
   name: string
-  items: Array<EditorLayoutItem | FieldItem>
   default?: boolean
+  items: Array<FieldGroupItem | FieldItem>
 }
 
 export interface FieldItem {
@@ -94,7 +94,7 @@ export type EditorInterfaceProps = {
    */
   controls?: Control[]
   /**
-   * Array of groups and their associated widgetId
+   * Array of field groups and their associated widgetId
    */
   groupControls?: GroupControl[]
   /**
@@ -106,9 +106,9 @@ export type EditorInterfaceProps = {
    */
   editor?: Editor
   /**
-   * Array of editor layout groups
+   * Array of editor layout field groups
    */
-  editorLayout?: EditorLayoutItem[]
+  editorLayout?: FieldItem[] | FieldGroupItem[]
   /**
    * Array of sidebar widgets. Defaults will be used if property is missing.
    */
