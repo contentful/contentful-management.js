@@ -67,6 +67,7 @@ export type {
   GroupControl,
   Editor,
   EditorLayoutItem,
+  FieldGroupItem,
   FieldItem,
   SidebarItem,
 } from './entities/editor-interface'
