@@ -23,6 +23,23 @@ export type {
   AppInstallationProps,
   CreateAppInstallationProps,
 } from './entities/app-installation'
+export type {
+  AppDetails,
+  AppDetailsProps,
+  CreateAppDetailsProps,
+  IconType,
+  AppIcon,
+} from './entities/app-details'
+export type {
+  AppSignedRequest,
+  AppSignedRequestProps,
+  CreateAppSignedRequestProps,
+} from './entities/app-signed-request'
+export type {
+  AppSigningSecret,
+  AppSigningSecretProps,
+  CreateAppSigningSecretProps,
+} from './entities/app-signing-secret'
 export type { Asset, AssetProps, CreateAssetProps, AssetFileProp } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 export type {
@@ -35,6 +52,12 @@ export type {
   BulkActionType,
   BulkActionProps,
 } from './entities/bulk-action'
+export type {
+  Comment,
+  CommentProps,
+  CreateCommentProps,
+  UpdateCommentProps,
+} from './entities/comment'
 export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
@@ -44,6 +67,7 @@ export type {
   GroupControl,
   Editor,
   EditorLayoutItem,
+  FieldGroupItem,
   FieldItem,
   SidebarItem,
 } from './entities/editor-interface'

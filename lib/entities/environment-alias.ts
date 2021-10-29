@@ -71,6 +71,9 @@ export interface EnvironmentAlias
   delete(): Promise<void>
 }
 
+/**
+ * @private
+ */
 function createEnvironmentAliasApi(makeRequest: MakeRequest) {
   const getParams = (alias: EnvironmentAliasProps) => ({
     spaceId: alias.sys.space.sys.id,

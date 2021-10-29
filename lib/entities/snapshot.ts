@@ -14,6 +14,9 @@ export type SnapshotProps<T> = {
 
 export interface Snapshot<T> extends SnapshotProps<T>, DefaultElements<SnapshotProps<T>> {}
 
+/**
+ * @private
+ */
 function createSnapshotApi() {
   return {
     /* In case the snapshot object evolve later */

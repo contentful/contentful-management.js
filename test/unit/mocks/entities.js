@@ -100,6 +100,38 @@ const appUploadMock = {
   }),
 }
 
+const appSignedRequestMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppSignedRequest',
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  additionalHeaders: {
+    'x-contentful-signature': '9b78a9203175d414b70b5b259b56f5d5507f6920997054533fd1da9b1eb442d6',
+    'x-contentful-signed-headers':
+      'x-contentful-environment-id,x-contentful-signed-headers,x-contentful-space-id,x-contentful-timestamp,x-contentful-user-id',
+    'x-contentful-timestamp': '1631112126937',
+    'x-contentful-space-id': 'space-id',
+    'x-contentful-environment-id': 'master',
+    'x-contentful-user-id': 'user-id',
+  },
+}
+
+const appSigningSecretMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppSigningSecret',
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  redactedValue: 'wI74',
+}
+
+const appDetailsMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppDetails',
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  icon: { value: 'some_image', type: 'base64' },
+}
+
 const bulkActionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'BulkAction',
@@ -523,6 +555,34 @@ const taskMock = {
   status: 'active',
 }
 
+const commentMock = {
+  sys: {
+    id: 'comment-id',
+    space: {
+      sys: cloneDeep(linkMock),
+    },
+    version: 1,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    type: 'Comment',
+    environment: {
+      sys: {
+        id: 'environment-id',
+        type: 'Link',
+        linkType: 'Environment',
+      },
+    },
+    parentEntity: {
+      sys: {
+        id: 'entry-id',
+        type: 'Link',
+        linkType: 'Entry',
+      },
+    },
+  },
+  body: 'Body',
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -608,11 +668,15 @@ const mocks = {
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
   appUpload: appUploadMock,
+  appSignedRequest: appSignedRequestMock,
+  appSigningSecret: appSigningSecretMock,
+  appDetails: appDetailsMock,
   asset: assetMock,
   assetKey: assetKeyMock,
   assetWithTags: assetMockWithTags,
   bulkAction: bulkActionMock,
   bulkActionPublish: bulkActionPublishMock,
+  comment: commentMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
@@ -676,6 +740,15 @@ function setupEntitiesMock(rewiredModuleApi) {
     appBundle: {
       wrapAppBundle: sinon.stub(),
       wrapAppBundleCollection: sinon.stub(),
+    },
+    appSignedRequest: {
+      wrapAppSignedRequest: sinon.stub(),
+    },
+    appSigningSecret: {
+      wrapAppSigningSecret: sinon.stub(),
+    },
+    appDetails: {
+      wrapAppDetails: sinon.stub(),
     },
     space: {
       wrapSpace: sinon.stub(),
@@ -803,6 +876,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapTask: sinon.stub(),
       wrapTaskCollection: sinon.stub(),
     },
+    comment: {
+      wrapComment: sinon.stub(),
+      wrapCommentCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -814,10 +891,14 @@ export {
   appInstallationMock,
   appDefinitionMock,
   appUploadMock,
+  appSignedRequestMock,
+  appSigningSecretMock,
+  appDetailsMock,
   linkMock,
   sysMock,
   spaceMock,
   bulkActionMock,
+  commentMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,

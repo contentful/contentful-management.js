@@ -284,6 +284,9 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   getHealth(): Promise<WebhookHealthProps>
 }
 
+/**
+ * @private
+ */
 function createWebhookApi(makeRequest: MakeRequest) {
   const getParams = (data: WebhookProps) => ({
     spaceId: data.sys.space.sys.id,

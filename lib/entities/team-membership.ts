@@ -70,6 +70,9 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
   update(): Promise<TeamMembership>
 }
 
+/**
+ * @private
+ */
 function createTeamMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamMembershipProps) => ({
     teamMembershipId: data.sys.id,
@@ -98,6 +101,7 @@ function createTeamMembershipApi(makeRequest: MakeRequest) {
     },
   }
 }
+
 /**
  * @private
  * @param makeRequest - function to make requests via an adapter

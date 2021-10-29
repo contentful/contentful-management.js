@@ -1,4 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
+import { errorHandler } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
 import {
@@ -7,7 +8,6 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
-import errorHandler from '../../../error-handler'
 import { getUploadHttpClient } from '../../../upload-http-client'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'

@@ -26,6 +26,8 @@ export interface ReleaseQueryOptions {
   'entities.sys.id[in]'?: string
   /** Find releases by using a comma-separated list of Ids */
   'sys.id[in]'?: string
+  /** Find releases using full text phrase and term matching */
+  'title[match]'?: string
   /** If present, will return results based on a pagination cursor */
   pageNext?: string
   /**
@@ -41,8 +43,8 @@ export type ReleaseSysProps = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  createdBy: Link<'User'>
-  updatedBy: Link<'User'>
+  createdBy: Link<'User'> | Link<'AppDefinition'>
+  updatedBy: Link<'User'> | Link<'AppDefinition'>
   createdAt: ISO8601Timestamp
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
@@ -88,6 +90,9 @@ export interface ReleaseApiMethods {
   }): Promise<ReleaseActionProps<'validate'>>
 }
 
+/**
+ * @private
+ */
 function createReleaseApi(makeRequest: MakeRequest) {
   const getParams = (self: Release) => {
     const release = self.toPlainObject()
@@ -164,6 +169,7 @@ export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElement
 
 /**
  * Return a Release object enhanced with its own API helper functions.
+ * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @return Wrapped Release data
@@ -174,6 +180,9 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   return freezeSys(releaseWithApiMethods)
 }
 
+/**
+ * @private
+ */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
   data: CollectionProp<ReleaseProps>
