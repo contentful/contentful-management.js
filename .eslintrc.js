@@ -31,6 +31,8 @@ module.exports = {
         __VERSION__: true,
       },
       rules: {
+        '@typescript-eslint/ban-types': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'warn',
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-use-before-define': 'off',
         '@typescript-eslint/no-this-alias': [
