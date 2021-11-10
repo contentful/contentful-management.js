@@ -5,6 +5,7 @@ import { normalizeSelect } from './utils'
 import { GetAppDefinitionParams, GetOrganizationParams, QueryParams } from '../../../common-types'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../../../entities/app-definition'
 import { RestEndpoint } from '../types'
+import { SetOptional } from 'type-fest'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_definitions`
@@ -46,7 +47,7 @@ export const update: RestEndpoint<'AppDefinition', 'update'> = (
   rawData: AppDefinitionProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 
   delete data.sys
 

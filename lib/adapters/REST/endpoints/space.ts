@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { SpaceProps } from '../../../entities/space'
 import { RestEndpoint } from '../types'
@@ -32,15 +33,15 @@ export const create: RestEndpoint<'Space', 'create'> = (
 export const update: RestEndpoint<'Space', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
-  payload: SpaceProps,
+  rawData: SpaceProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(payload)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
 
   return raw.put<SpaceProps>(http, `/spaces/${params.spaceId}`, data, {
     headers: {
-      'X-Contentful-Version': payload.sys.version ?? 0,
+      'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
   })
