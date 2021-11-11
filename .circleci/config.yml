@@ -22,9 +22,9 @@ jobs:
       - run: npm run build
       - run: npm run test:cover-unit
       - store_test_results:
-              path: coverage
+              path: reports
       - store_artifacts:
-          path: ./coverage/unit/clover.xml
+          path: ./reports/unit-results.xml
   integration:
     docker:
       - image: cimg/node:16.11
@@ -36,9 +36,9 @@ jobs:
       - run: npm run build
       - run: npm run test:cover-integration
       - store_test_results:
-              path: coverage
+              path: reports
       - store_artifacts:
-          path: ./coverage/integration/clover.xml
+          path: ./reports/integration-results.xml
   release:
     docker:
       - image: cimg/node:16.11
