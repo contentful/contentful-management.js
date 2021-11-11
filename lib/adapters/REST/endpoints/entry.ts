@@ -1,6 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { OpPatch } from 'json-patch'
+import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
   GetSpaceEnvironmentParams,
@@ -67,7 +68,7 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
   rawData: EntryProps<T>,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<EntryProps<T>>(
     http,

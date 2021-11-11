@@ -62,7 +62,7 @@ export class RestAdapter implements Adapter {
       payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload,
       headers?: Record<string, unknown>
     ) => Promise<R> =
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       endpoints[entityType]?.[action]
 

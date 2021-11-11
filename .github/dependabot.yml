@@ -15,9 +15,6 @@ updates:
     - dependency-name: typedoc
       versions:
         - '>= 0'
-    - dependency-name: type-fest
-      versions:
-        - '>= 1'
     commit-message:
       prefix: build
       include: scope

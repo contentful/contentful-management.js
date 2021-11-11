@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { CreateRoleProps, RoleProps } from '../../../entities/role'
 import { RestEndpoint } from '../types'
@@ -50,7 +51,7 @@ export const update: RestEndpoint<'Role', 'update'> = (
   rawData: RoleProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`, data, {
     headers: {

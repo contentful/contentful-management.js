@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
