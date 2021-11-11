@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
 import { CreateLocaleProps, LocaleProps } from '../../../entities/locale'
 import { RestEndpoint } from '../types'
@@ -51,7 +52,7 @@ export const update: RestEndpoint<'Locale', 'update'> = (
   rawData: LocaleProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'default' | 'sys'> = copy(rawData)
   delete data.sys
   delete data.default // we should not send this back
   return raw.put<LocaleProps>(

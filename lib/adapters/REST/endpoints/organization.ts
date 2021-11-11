@@ -20,10 +20,10 @@ export const get: RestEndpoint<'Organization', 'get'> = (
           params.organizationId
         } instead got ${JSON.stringify(data)}`
       )
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       error.status = 404
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       error.statusText = 'Not Found'
       return Promise.reject(error)
