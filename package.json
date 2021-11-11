@@ -1,6 +1,6 @@
 {
   "name": "contentful-management",
-  "version": "5.12.0",
+  "version": "0.0.0-determined-by-semantic-release",
   "description": "Client for Contentful's Content Management API",
   "homepage": "https://www.contentful.com/developers/documentation/content-management-api/",
   "main": "./dist/contentful-management.node.js",
@@ -60,7 +60,7 @@
     "contentful-sdk-core": "^6.10.1",
     "fast-copy": "^2.1.0",
     "lodash.isplainobject": "^4.0.6",
-    "type-fest": "^0.21.3"
+    "type-fest": "^2.5.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.7",
@@ -80,8 +80,8 @@
     "@types/lodash.isplainobject": "^4.0.6",
     "@types/node": "^16.7.10",
     "@types/sinon": "10.0.6",
-    "@typescript-eslint/eslint-plugin": "2.34.0",
-    "@typescript-eslint/parser": "2.34.0",
+    "@typescript-eslint/eslint-plugin": "4.33.0",
+    "@typescript-eslint/parser": "4.33.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.1",
     "babel-minify-webpack-plugin": "^0.3.1",
@@ -124,8 +124,8 @@
     "rimraf": "^3.0.2",
     "semantic-release": "^18.0.0",
     "sinon": "^11.1.2",
-    "typedoc": "0.19.2",
-    "typescript": "^3.9.3",
+    "typedoc": "0.22.8",
+    "typescript": "^4.1.2",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.8.0"

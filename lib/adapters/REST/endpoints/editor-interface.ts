@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
   GetEditorInterfaceParams,
@@ -36,7 +37,7 @@ export const update: RestEndpoint<'EditorInterface', 'update'> = (
   rawData: EditorInterfaceProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
 
   return raw.put<EditorInterfaceProps>(http, getBaseUrl(params), data, {
