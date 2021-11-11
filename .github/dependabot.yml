@@ -15,6 +15,9 @@ updates:
     - dependency-name: typedoc
       versions:
         - '>= 0'
+    - dependency-name: webpack
+      versions:
+        - '>= 5.0.0'
     commit-message:
       prefix: build
       include: scope
