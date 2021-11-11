@@ -21,6 +21,10 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test:cover-unit
+      - store_test_results:
+              path: reports
+      - store_artifacts:
+          path: ./reports/unit-results.xml
   integration:
     docker:
       - image: cimg/node:16.11
@@ -31,6 +35,10 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: npm run test:cover-integration
+      - store_test_results:
+              path: reports
+      - store_artifacts:
+          path: ./reports/integration-results.xml
   release:
     docker:
       - image: cimg/node:16.11
