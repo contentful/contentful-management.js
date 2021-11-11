@@ -10,7 +10,6 @@ const SidebarWidgetTypes = {
   VERSIONS: 'versions-widget',
   INFO_PANEL: 'info-panel',
   JOBS: 'jobs-widget',
-  TASKS: 'content-workflows-tasks-widget',
   COMMENTS_PANEL: 'comments-panel',
 }
 
@@ -26,14 +25,6 @@ const Releases = {
   widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
   name: 'Release',
   description: 'Built-in - View release, add to it, etc.',
-}
-
-const Tasks = {
-  widgetId: SidebarWidgetTypes.TASKS,
-  widgetNamespace: WidgetNamespace.SIDEBAR_BUILTIN,
-  name: 'Tasks',
-  description:
-    'Built-in - Assign tasks to be completed before publishing. Currently only supported for master environment.',
 }
 
 const ContentPreview = {
@@ -75,7 +66,6 @@ const Users = {
 export const SidebarEntryConfiguration = [
   Publication,
   Releases,
-  Tasks,
   ContentPreview,
   Links,
   Translation,
