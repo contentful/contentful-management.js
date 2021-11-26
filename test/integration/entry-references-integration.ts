@@ -18,22 +18,40 @@ describe('Entry References', async function () {
   })
 
   describe('Environment Scoped', () => {
-    let entryWithReferences
+    let entryWithReferencesViaMaxDepth
+    let entryWithReferencesViaInclude
+
     before(async () => {
-      entryWithReferences = await testEnvironment.getEntryReferences(ENTRY_WITH_REFERENCES_ID, {
-        maxDepth: 2,
-      })
+      entryWithReferencesViaMaxDepth = await testEnvironment.getEntryReferences(
+        ENTRY_WITH_REFERENCES_ID,
+        {
+          maxDepth: 2,
+        }
+      )
+
+      entryWithReferencesViaInclude = await testEnvironment.getEntryReferences(
+        ENTRY_WITH_REFERENCES_ID,
+        {
+          include: 2,
+        }
+      )
+    })
+
+    test('response after using maxDepth parameter equals response after using include', () => {
+      expect(entryWithReferencesViaMaxDepth).to.eql(entryWithReferencesViaInclude)
     })
 
     test('Get the correct entry with references', () => {
-      expect(entryWithReferences.items[0].sys.id).to.eql(ENTRY_WITH_REFERENCES_ID)
-      expect(entryWithReferences.includes).not.to.be.empty
-      expect(entryWithReferences.includes.Entry.length).above(0)
+      expect(entryWithReferencesViaMaxDepth.items[0].sys.id).to.eql(ENTRY_WITH_REFERENCES_ID)
+      expect(entryWithReferencesViaMaxDepth.includes).not.to.be.empty
+      expect(entryWithReferencesViaMaxDepth.includes.Entry.length).above(0)
     })
 
     test('Should return the correct cities', () => {
-      const cities = entryWithReferences.includes.Entry.map((entry) => entry.fields.name['en-US'])
-      expect(cities).to.have.members(['Berlin', 'London', 'San Francisco', 'Paris'])
+      const citiesMaxDepth = entryWithReferencesViaMaxDepth.includes.Entry.map(
+        (entry) => entry.fields.name['en-US']
+      )
+      expect(citiesMaxDepth).to.have.members(['Berlin', 'London', 'San Francisco', 'Paris'])
     })
 
     test('Should not return any references', async () => {
@@ -41,6 +59,11 @@ describe('Entry References', async function () {
         maxDepth: 2,
       })
       expect(noEntryReferences.items).to.be.empty
+
+      const noEntryReferencesInclude = await testEnvironment.getEntryReferences(WRONG_ENTRY_ID, {
+        include: 2,
+      })
+      expect(noEntryReferences).to.eql(noEntryReferencesInclude)
     })
   })
 
@@ -51,7 +74,8 @@ describe('Entry References', async function () {
     }
     let plainClient
     let entry
-    let entryWithReferences
+    let entryWithReferencesViaMaxDepth
+    let entryWithReferencesViaInclude
 
     before(async () => {
       plainClient = initPlainClient(defaultParams)
@@ -60,29 +84,45 @@ describe('Entry References', async function () {
         entryId: ENTRY_WITH_REFERENCES_ID,
       })
 
-      entryWithReferences = await plainClient.entry.references({
+      entryWithReferencesViaMaxDepth = await plainClient.entry.references({
         entryId: entry.sys.id,
         maxDepth: 5,
       })
+
+      entryWithReferencesViaInclude = await plainClient.entry.references({
+        entryId: entry.sys.id,
+        include: 5,
+      })
+    })
+
+    test('response after using maxDepth parameter equals response after using include', () => {
+      expect(entryWithReferencesViaMaxDepth).to.eql(entryWithReferencesViaInclude)
     })
 
     test('Get the correct entry with references', () => {
-      expect(entryWithReferences.items[0].sys.id).to.eql(ENTRY_WITH_REFERENCES_ID)
-      expect(entryWithReferences.includes).not.to.be.empty
-      expect(entryWithReferences.includes.Entry.length).above(0)
+      expect(entryWithReferencesViaMaxDepth.items[0].sys.id).to.eql(ENTRY_WITH_REFERENCES_ID)
+      expect(entryWithReferencesViaMaxDepth.includes).not.to.be.empty
+      expect(entryWithReferencesViaMaxDepth.includes.Entry.length).above(0)
     })
 
     test('Should return the correct cities', () => {
-      const cities = entryWithReferences.includes.Entry.map((entry) => entry.fields.name['en-US'])
+      const cities = entryWithReferencesViaMaxDepth.includes.Entry.map(
+        (entry) => entry.fields.name['en-US']
+      )
       expect(cities).to.have.members(['Berlin', 'London', 'San Francisco', 'Paris'])
     })
 
     test('Should not return any references', async () => {
-      const noEntryReferences = await await plainClient.entry.references({
+      const noEntryReferences = await plainClient.entry.references({
         entryId: WRONG_ENTRY_ID,
         maxDepth: 2,
       })
+      const noEntryReferencesInclude = await plainClient.entry.references({
+        entryId: WRONG_ENTRY_ID,
+        include: 2,
+      })
       expect(noEntryReferences.items).to.be.empty
+      expect(noEntryReferences).to.eql(noEntryReferencesInclude)
     })
   })
 })

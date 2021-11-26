@@ -11,7 +11,7 @@ import {
 import { wrapCollection } from '../common-utils'
 import createEntryApi, { ContentfulEntryApi } from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AssetProps } from './asset'
+import { Asset, AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
@@ -24,13 +24,17 @@ export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 
 
 export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   includes?: {
-    Entry?: CollectionProp<EntryProps>
-    Asset?: CollectionProp<AssetProps>
+    Entry?: EntryProps[]
+    Asset?: AssetProps[]
   }
 }
 
 export type EntryReferenceOptionsProps = {
+  /**
+   * @deprecated use `include` param instead
+   */
   maxDepth?: number
+  include?: number
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}

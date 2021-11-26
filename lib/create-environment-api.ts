@@ -799,7 +799,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Get entry references
      * @param entryId - Entry ID
-     * @param {Object} options.maxDepth - Level of the entry descendants from 1 up to 10 maximum
+     * @deprecated @param {Object} options.maxDepth - alias for `include`
+     * @param {Object} options.include - Level of the entry descendants from 1 up to 10 maximum
      * @returns Promise of Entry references
      * @example ```javascript
      * const contentful = require('contentful-management');
@@ -811,10 +812,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * // Get entry references
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
-     * .then((environment) => environment.getEntryReferences('<entry_id>', {maxDepth: number}))
+     * .then((environment) => environment.getEntryReferences('<entry_id>', {include: number}))
      * .then((entry) => console.log(entry.includes))
      * // or
-     * .then((environment) => environment.getEntry('<entry_id>')).then((entry) => entry.references({maxDepth: number}))
+     * .then((environment) => environment.getEntry('<entry_id>')).then((entry) => entry.references({include: number}))
      * .catch(console.error)
      * ```
      */
@@ -827,7 +828,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: entryId,
-          maxDepth: options?.maxDepth,
+          maxDepth: options?.include || options?.maxDepth,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response) as EntryReferenceProps)
     },
