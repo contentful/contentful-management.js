@@ -24,15 +24,11 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
   const { wrapUser, wrapUserCollection } = entities.user
-  const {
-    wrapOrganizationMembership,
-    wrapOrganizationMembershipCollection,
-  } = entities.organizationMembership
+  const { wrapOrganizationMembership, wrapOrganizationMembershipCollection } =
+    entities.organizationMembership
   const { wrapTeamMembership, wrapTeamMembershipCollection } = entities.teamMembership
-  const {
-    wrapTeamSpaceMembership,
-    wrapTeamSpaceMembershipCollection,
-  } = entities.teamSpaceMembership
+  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
+    entities.teamSpaceMembership
   const { wrapTeam, wrapTeamCollection } = entities.team
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
   const { wrapOrganizationInvitation } = entities.organizationInvitation
