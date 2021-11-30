@@ -180,9 +180,6 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
   )
 }
 
-/**
- * @deprecated @param ma
- */
 export const references: RestEndpoint<'Entry', 'references'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & {
