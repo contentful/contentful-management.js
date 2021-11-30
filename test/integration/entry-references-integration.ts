@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
+import { PlainClientAPI } from '../../lib/contentful-management'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
@@ -72,7 +73,7 @@ describe('Entry References', async function () {
       environmentId: TestDefaults.environmentId,
       spaceId: TestDefaults.spaceId,
     }
-    let plainClient
+    let plainClient: PlainClientAPI
     let entry
     let entryWithReferencesViaMaxDepth
     let entryWithReferencesViaInclude

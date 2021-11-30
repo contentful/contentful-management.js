@@ -11,7 +11,7 @@ import {
 import { wrapCollection } from '../common-utils'
 import createEntryApi, { ContentfulEntryApi } from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
-import { Asset, AssetProps } from './asset'
+import { AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntityMetaSysProps
