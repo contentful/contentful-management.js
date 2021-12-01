@@ -1,10 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
 import copy from 'fast-copy'
-import { GetSpaceParams, QueryParams } from '../../../common-types'
+import { SetOptional } from 'type-fest'
+import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../../../entities/api-key'
-import { CollectionProp } from '../../../common-types'
 import { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 export const get: RestEndpoint<'ApiKey', 'get'> = (
   http: AxiosInstance,
@@ -48,7 +48,8 @@ export const update: RestEndpoint<'ApiKey', 'update'> = (
   rawData: ApiKeyProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'accessToken' | 'preview_api_key' | 'policies' | 'sys'> =
+    copy(rawData)
   if ('accessToken' in data) {
     delete data.accessToken
   }

@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
   GetOrganizationParams,
@@ -95,7 +96,7 @@ export const update: RestEndpoint<'SpaceMembership', 'update'> = (
   rawData: SpaceMembershipProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<SpaceMembershipProps>(http, getEntityUrl(params), data, {
     headers: {

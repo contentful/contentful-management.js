@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
   GetOrganizationParams,
@@ -42,22 +43,20 @@ export const getForOrganization: RestEndpoint<'TeamSpaceMembership', 'getForOrga
   )
 }
 
-export const getManyForOrganization: RestEndpoint<
-  'TeamSpaceMembership',
-  'getManyForOrganization'
-> = (http: AxiosInstance, params: GetOrganizationParams & QueryParams & { teamId?: string }) => {
-  const query = params.query || {}
-  if (params.teamId) {
-    query['sys.team.sys.id'] = params.teamId
-  }
-  return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
-    http,
-    `/organizations/${params.organizationId}/team_space_memberships`,
-    {
-      params: params.query,
+export const getManyForOrganization: RestEndpoint<'TeamSpaceMembership', 'getManyForOrganization'> =
+  (http: AxiosInstance, params: GetOrganizationParams & QueryParams & { teamId?: string }) => {
+    const query = params.query || {}
+    if (params.teamId) {
+      query['sys.team.sys.id'] = params.teamId
     }
-  )
-}
+    return raw.get<CollectionProp<TeamSpaceMembershipProps>>(
+      http,
+      `/organizations/${params.organizationId}/team_space_memberships`,
+      {
+        params: params.query,
+      }
+    )
+  }
 
 export const create: RestEndpoint<'TeamSpaceMembership', 'create'> = (
   http: AxiosInstance,
@@ -79,7 +78,7 @@ export const update: RestEndpoint<'TeamSpaceMembership', 'update'> = (
   rawData: TeamSpaceMembershipProps,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
 
   return raw.put<TeamSpaceMembershipProps>(http, getEntityUrl(params), data, {
