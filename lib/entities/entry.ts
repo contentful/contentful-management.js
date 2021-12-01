@@ -24,13 +24,17 @@ export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 
 
 export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   includes?: {
-    Entry?: CollectionProp<EntryProps>
-    Asset?: CollectionProp<AssetProps>
+    Entry?: EntryProps[]
+    Asset?: AssetProps[]
   }
 }
 
 export type EntryReferenceOptionsProps = {
+  /**
+   * @deprecated use `include` param instead
+   */
   maxDepth?: number
+  include?: number
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}

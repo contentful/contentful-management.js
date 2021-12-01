@@ -514,7 +514,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.environment.sys.id,
           entryId: raw.sys.id,
-          maxDepth: options?.maxDepth,
+          maxDepth: options?.include || options?.maxDepth,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response))
     },
