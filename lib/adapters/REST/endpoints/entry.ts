@@ -182,12 +182,21 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
 
 export const references: RestEndpoint<'Entry', 'references'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
+  params: GetSpaceEnvironmentParams & {
+    entryId: string
+    /**
+     * @deprecated use `include` param instead
+     */
+    maxDepth?: number
+    include?: number
+  }
 ): Promise<EntryReferenceProps> => {
-  const { spaceId, environmentId, entryId, maxDepth = 2 } = params
+  const { spaceId, environmentId, entryId, maxDepth, include } = params
+
+  const level = include || maxDepth || 2
 
   return raw.get<EntryReferenceProps>(
     http,
-    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${maxDepth}`
+    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${level}`
   )
 }
