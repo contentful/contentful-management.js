@@ -48,10 +48,8 @@ export const update: RestEndpoint<'ApiKey', 'update'> = (
   rawData: ApiKeyProps,
   headers?: Record<string, unknown>
 ) => {
-  const data: SetOptional<
-    typeof rawData,
-    'accessToken' | 'preview_api_key' | 'policies' | 'sys'
-  > = copy(rawData)
+  const data: SetOptional<typeof rawData, 'accessToken' | 'preview_api_key' | 'policies' | 'sys'> =
+    copy(rawData)
   if ('accessToken' in data) {
     delete data.accessToken
   }
