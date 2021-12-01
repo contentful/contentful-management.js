@@ -35,10 +35,8 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const {
-    wrapTeamSpaceMembership,
-    wrapTeamSpaceMembershipCollection,
-  } = entities.teamSpaceMembership
+  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
+    entities.teamSpaceMembership
   const { wrapTeamCollection } = entities.team
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
