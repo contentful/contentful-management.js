@@ -93,7 +93,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
     "contentful-sdk-jsdoc": "^2.2.0",
-    "core-js": "^2.6.12",
+    "core-js": "^3.19.2",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.15.0",
