@@ -8,6 +8,7 @@ export type PreviewApiKeyProps = {
   sys: MetaSysProps
   name: string
   description: string
+  accessToken: string
 }
 
 export interface PreviewApiKey extends PreviewApiKeyProps, DefaultElements<PreviewApiKeyProps> {}
