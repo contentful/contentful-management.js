@@ -35,10 +35,8 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapUser, wrapUserCollection } = entities.user
   const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
   const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const {
-    wrapTeamSpaceMembership,
-    wrapTeamSpaceMembershipCollection,
-  } = entities.teamSpaceMembership
+  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
+    entities.teamSpaceMembership
   const { wrapTeamCollection } = entities.team
   const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
@@ -1196,13 +1194,15 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *        }
      *      },
      *      environment: {
-     *        type: 'Link',
-     *        linkType: 'Environment',
-     *        id: '<environment_id>'
+     *        sys: {
+     *          type: 'Link',
+     *          linkType: 'Environment',
+     *          id: '<environment_id>'
+     *        }
      *      },
      *      action: 'publish',
      *      scheduledFor: {
-     *        dateTime: <ISO_date_string>,
+     *        datetime: <ISO_date_string>,
      *        timezone: 'Europe/Berlin'
      *      }
      *    }))
@@ -1244,13 +1244,15 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *          }
      *        },
      *        environment: {
-     *          type: 'Link',
-     *          linkType: 'Environment',
-     *          id: '<environment_id>'
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Environment',
+     *            id: '<environment_id>'
+     *          }
      *        },
      *        action: 'publish',
      *        scheduledFor: {
-     *          dateTime: <ISO_date_string>,
+     *          datetime: <ISO_date_string>,
      *          timezone: 'Europe/Berlin'
      *        }
      *      })

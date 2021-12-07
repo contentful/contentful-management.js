@@ -17,7 +17,7 @@ export const asIterator = <P extends QueryParams, T, F extends IterableFn<P, T>>
       return {
         current: 0,
         async next() {
-          const { total, items, skip, limit } = await currentResult
+          const { total = 0, items = [], skip = 0, limit = 100 } = await currentResult
 
           if (total === this.current) {
             return { done: true, value: null }

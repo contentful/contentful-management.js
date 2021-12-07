@@ -268,14 +268,12 @@ describe('Rest Asset', async () => {
               locale: {
                 contentType: 'image/svg+xml',
                 fileName: 'filename.svg',
-                file:
-                  '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+                file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
               },
               locale2: {
                 contentType: 'image/svg+xml',
                 fileName: 'filename.svg',
-                file:
-                  '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+                file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
               },
             },
           },

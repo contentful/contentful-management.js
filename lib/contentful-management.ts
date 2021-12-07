@@ -22,6 +22,7 @@ export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
+export * from './export-types'
 
 interface UserAgentParams {
   /**

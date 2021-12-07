@@ -1,6 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { OpPatch } from 'json-patch'
+import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
   GetSpaceEnvironmentParams,
@@ -67,7 +68,7 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
   rawData: EntryProps<T>,
   headers?: Record<string, unknown>
 ) => {
-  const data = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<EntryProps<T>>(
     http,
@@ -181,12 +182,21 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
 
 export const references: RestEndpoint<'Entry', 'references'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; maxDepth?: number }
+  params: GetSpaceEnvironmentParams & {
+    entryId: string
+    /**
+     * @deprecated use `include` param instead
+     */
+    maxDepth?: number
+    include?: number
+  }
 ): Promise<EntryReferenceProps> => {
-  const { spaceId, environmentId, entryId, maxDepth = 2 } = params
+  const { spaceId, environmentId, entryId, maxDepth, include } = params
+
+  const level = include || maxDepth || 2
 
   return raw.get<EntryReferenceProps>(
     http,
-    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${maxDepth}`
+    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${level}`
   )
 }

@@ -153,13 +153,15 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
      *          }
      *        },
      *        environment: {
-     *          type: 'Link',
-     *          linkType: 'Environment',
-     *          id: '<environment_id>'
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Environment',
+     *            id: '<environment_id>'
+     *          }
      *        },
      *        action: 'publish',
      *        scheduledFor: {
-     *          dateTime: <ISO_date_string>,
+     *          datetime: <ISO_date_string>,
      *          timezone: 'Europe/Berlin'
      *        }
      *      })
@@ -198,13 +200,15 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
      *          }
      *        },
      *        environment: {
-     *          type: 'Link',
-     *          linkType: 'Environment',
-     *          id: '<environment_id>'
+     *          sys: {
+     *            type: 'Link',
+     *            linkType: 'Environment',
+     *            id: '<environment_id>'
+     *          }
      *        },
      *        action: 'publish',
      *        scheduledFor: {
-     *          dateTime: <ISO_date_string>,
+     *          datetime: <ISO_date_string>,
      *          timezone: 'Europe/Berlin'
      *        }
      *      })
