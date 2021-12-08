@@ -475,7 +475,7 @@ export type PlainClientAPI = {
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
-    ): Promise<CollectionProp<ReleaseProps>>
+    ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: ReleasePayload

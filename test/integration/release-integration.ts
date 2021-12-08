@@ -72,13 +72,15 @@ describe('Release Api', async function () {
 
       const queryLimit = 1
       const queryResult = await testEnvironment.getReleases({
-        'entities.sys.id': TestDefaults.entry.testEntryReleasesId,
+        'entities.sys.id[in]': TestDefaults.entry.testEntryReleasesId,
+        'entities.sys.linkType': 'Entry',
         limit: queryLimit,
       })
 
       // Returns the filtered results based on the limit
       expect(queryResult.items.length).to.eql(queryLimit)
       expect(queryResult).to.have.property('pages')
+      expect(queryResult.pages.next).to.be.a.string
 
       // cleanup
       await Promise.all([
@@ -384,6 +386,28 @@ describe('Release Api', async function () {
       await plainClient.release.delete({
         releaseId: createdRelease.sys.id,
       })
+    })
+
+    test('release.query', async () => {
+      const plainClient = initPlainClient(defaultParams)
+      const release = await plainClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+        },
+      })
+
+      const releases = await plainClient.release.query({
+        query: {
+          'sys.id[in]': release.sys.id,
+        },
+      })
+      expect(releases.items).to.deep.equal([release])
+      expect(releases.pages).not.to.be.undefined
+      expect(releases.pages.next).to.be.a.string
     })
   })
 })

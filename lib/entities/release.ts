@@ -3,15 +3,15 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import {
   BaseCollection,
-  Collection,
-  CollectionProp,
+  CursorPaginatedCollection,
+  CursorPaginatedCollectionProp,
   DefaultElements,
   ISO8601Timestamp,
   Link,
   MakeRequest,
   MakeRequestPayload,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { AsyncActionProcessingOptions } from '../methods/action'
 import { ReleaseActionProps, wrapReleaseAction } from './release-action'
@@ -185,5 +185,5 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
  */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
-  data: CollectionProp<ReleaseProps>
-) => Collection<Release, ReleaseProps> & { pages?: { next: string } } = wrapCollection(wrapRelease)
+  data: CursorPaginatedCollectionProp<ReleaseProps>
+) => CursorPaginatedCollection<Release, ReleaseProps> = wrapCursorPaginatedCollection(wrapRelease)
