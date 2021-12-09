@@ -687,6 +687,7 @@ export const workflowDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'WorkflowDefinition',
     version: 1,
+    environment: makeLink('Environment', 'master'),
   }),
   name: 'Test WorkflowDefinition',
   appliesTo: [
