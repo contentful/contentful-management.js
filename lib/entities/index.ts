@@ -39,6 +39,7 @@ import * as upload from './upload'
 import * as usage from './usage'
 import * as user from './user'
 import * as webhook from './webhook'
+import * as workflowDefinition from './workflow-definition'
 
 export default {
   appBundle,
@@ -82,4 +83,5 @@ export default {
   usage,
   user,
   webhook,
+  workflowDefinition,
 }

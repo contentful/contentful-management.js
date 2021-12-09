@@ -91,6 +91,13 @@ import {
   UpdateTaskProps,
 } from './entities/task'
 
+import {
+  CreateWorkflowDefinitionParams,
+  CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
+  WorkflowDefinitionProps,
+} from './entities/workflow-definition'
+
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
 }
@@ -516,6 +523,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Webhook', 'createWithId', UA>): MRReturn<'Webhook', 'createWithId'>
   (opts: MROpts<'Webhook', 'update', UA>): MRReturn<'Webhook', 'update'>
   (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
+
+  (opts: MROpts<'WorkflowDefinition', 'get', UA>): MRReturn<'WorkflowDefinition', 'get'>
+  (opts: MROpts<'WorkflowDefinition', 'create', UA>): MRReturn<'WorkflowDefinition', 'create'>
+  (opts: MROpts<'WorkflowDefinition', 'update', UA>): MRReturn<'WorkflowDefinition', 'update'>
+  (opts: MROpts<'WorkflowDefinition', 'delete', UA>): MRReturn<'WorkflowDefinition', 'delete'>
 }
 
 /**
@@ -1299,6 +1311,30 @@ export type MRActions = {
     update: { params: GetWebhookParams; payload: WebhookProps; return: WebhookProps }
     delete: { params: GetWebhookParams; return: void }
   }
+  WorkflowDefinition: {
+    get: {
+      params: GetWorkflowDefinitionParams
+      headers?: Record<string, unknown>
+      return: WorkflowDefinitionProps
+    }
+    create: {
+      params: CreateWorkflowDefinitionParams
+      payload: CreateWorkflowDefinitionProps
+      headers?: Record<string, unknown>
+      return: WorkflowDefinitionProps
+    }
+    update: {
+      params: GetWorkflowDefinitionParams
+      payload: WorkflowDefinitionProps
+      headers?: Record<string, unknown>
+      return: WorkflowDefinitionProps
+    }
+    delete: {
+      params: DeleteWorkflowDefinitionParams
+      headers?: Record<string, unknown>
+      return: void
+    }
+  }
 }
 
 /**
@@ -1377,6 +1413,9 @@ export type GetOrganizationMembershipProps = GetOrganizationParams & {
   organizationMembershipId: string
 }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
+  workflowDefinitionId: string
+}
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

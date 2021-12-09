@@ -9,7 +9,7 @@ import type { RestAdapterParams } from './adapters/REST/rest-adapter'
 import type { MakeRequest } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
-import type { PlainClientAPI } from './plain/common-types'
+import type { AlphaPlainClientAPI, PlainClientAPI } from './plain/common-types'
 import type { DefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
@@ -64,10 +64,19 @@ function createClient(
 function createClient(
   params: ClientOptions,
   opts: {
+    type: 'plain'
+    alphaFeature: string[]
+    defaults?: DefaultParams
+  }
+): AlphaPlainClientAPI
+function createClient(
+  params: ClientOptions,
+  opts: {
     type?: 'plain'
+    alphaFeature?: string[]
     defaults?: DefaultParams
   } = {}
-): ClientAPI | PlainClientAPI {
+): ClientAPI | PlainClientAPI | AlphaPlainClientAPI {
   const sdkMain =
     opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
@@ -87,7 +96,7 @@ function createClient(
     adapter.makeRequest({ ...options, userAgent })
 
   if (opts.type === 'plain') {
-    return createPlainClient(makeRequest, opts.defaults)
+    return createPlainClient(makeRequest, opts.defaults, opts.alphaFeature)
   } else {
     return createContentfulApi(makeRequest) as ClientAPI
   }
