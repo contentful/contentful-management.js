@@ -1,5 +1,5 @@
 import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
-import { ALPHA_HEADER_WORKFLOW_DEFINITION } from '../adapters/REST/endpoints/workflow-definition'
+import { ALPHA_FEATURE_WORKFLOWS } from '../adapters/REST/endpoints/workflow-definition'
 import { omitAndDeleteField } from '../methods/content-type'
 import { AlphaExtensions, AlphaPlainClientAPI, PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
@@ -12,7 +12,7 @@ export type { DefaultParams } from './wrappers/wrap'
 export const createPlainClient = (
   makeRequest: MakeRequest,
   defaults: DefaultParams | undefined,
-  alphaFeature?: string[]
+  alphaFeatures?: string[]
 ): PlainClientAPI | AlphaPlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
@@ -371,19 +371,19 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
-    ...addAlphaFeatures(makeRequest, defaults, alphaFeature),
+    ...addAlphaFeatures(makeRequest, defaults, alphaFeatures),
   }
 }
 
 const addAlphaFeatures = (
   makeRequest: MakeRequest,
   defaults: DefaultParams | undefined,
-  alphaFeature?: string[]
+  alphaFeatures?: string[]
 ): AlphaExtensions | {} => {
   const wrapParams = { makeRequest, defaults }
   const alphaInterface: AlphaExtensions = {} as AlphaExtensions
 
-  if (alphaFeature?.includes(ALPHA_HEADER_WORKFLOW_DEFINITION)) {
+  if (alphaFeatures?.includes(ALPHA_FEATURE_WORKFLOWS)) {
     alphaInterface.workflowDefinition = {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
       create: wrap(wrapParams, 'WorkflowDefinition', 'create'),

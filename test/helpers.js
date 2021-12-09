@@ -37,7 +37,7 @@ export const initPlainClient = (defaults = {}) => {
  */
 export const initAlphaPlainClient = (defaults = {}) => {
   const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
-  const alphaFeature = ['cf-hidden-workflow-alpha-flag']
+  const alphaFeature = ['workflows']
   return createClient(
     {
       accessToken,

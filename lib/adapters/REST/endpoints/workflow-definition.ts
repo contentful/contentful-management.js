@@ -17,11 +17,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getWorkflowDefinitionUrl = (params: GetWorkflowDefinitionParams) =>
   `${getBaseUrl(params)}/${params.workflowDefinitionId}`
 
-export const ALPHA_HEADER_WORKFLOW_DEFINITION = 'cf-hidden-workflow-alpha-flag'
-
-const defaultHeaders = {
-  'x-contentful-enable-alpha-feature': ALPHA_HEADER_WORKFLOW_DEFINITION,
-}
+export const ALPHA_FEATURE_WORKFLOWS = 'workflows'
 
 export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
   http: AxiosInstance,
@@ -29,7 +25,7 @@ export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
   headers?: Record<string, unknown>
 ) =>
   raw.get<WorkflowDefinitionProps>(http, getWorkflowDefinitionUrl(params), {
-    headers: { ...defaultHeaders, ...headers },
+    headers,
   })
 
 export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
@@ -40,7 +36,7 @@ export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
 ) => {
   const data = copy(rawData)
   return raw.post<WorkflowDefinitionProps>(http, getBaseUrl(params), data.name, {
-    headers: { ...defaultHeaders, ...headers },
+    headers,
   })
 }
 
@@ -55,7 +51,6 @@ export const update: RestEndpoint<'WorkflowDefinition', 'update'> = (
 
   return raw.put<WorkflowDefinitionProps>(http, getWorkflowDefinitionUrl(params), data, {
     headers: {
-      ...defaultHeaders,
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
@@ -68,6 +63,6 @@ export const del: RestEndpoint<'WorkflowDefinition', 'delete'> = (
   headers?: Record<string, unknown>
 ) => {
   return raw.del(http, getWorkflowDefinitionUrl(params), {
-    headers: { ...defaultHeaders, 'X-Contentful-Version': version, ...headers },
+    headers: { 'X-Contentful-Version': version, ...headers },
   })
 }
