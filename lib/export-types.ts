@@ -160,3 +160,9 @@ export type {
   CreateWebhooksProps,
   UpdateWebhookProps,
 } from './entities/webhook'
+export type {
+  WorkflowDefinition,
+  WorkflowDefinitionProps,
+  CreateWorkflowDefinitionProps,
+  UpdateWorkflowDefinitionProps,
+} from './entities/workflow-definition'
