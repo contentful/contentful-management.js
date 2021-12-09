@@ -690,7 +690,8 @@ export const workflowDefinitionMock = {
     environment: makeLink('Environment', 'master'),
   }),
   name: 'Test WorkflowDefinition',
-  appliesTo: [
+  description: 'this is a definition of a workflow',
+  applicableEntities: [
     {
       type: 'Link',
       validations: [

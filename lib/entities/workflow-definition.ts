@@ -10,6 +10,7 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
+import { ActionType } from './role'
 
 export type WorkflowDefinitionSysProps = Pick<
   BasicMetaSysProps,
@@ -20,16 +21,42 @@ export type WorkflowDefinitionSysProps = Pick<
   environment: SysLink
 }
 
+type ValidationLink = {
+  type: 'Link'
+  validations: [
+    {
+      linkContentType: string[]
+    }
+  ]
+  linkType: 'Entry'
+}
+
+type WorkflowStep = {
+  id: string
+  name: string
+  description?: string
+  annotations?: string[]
+}
+
+type Permission = {
+  effect: string
+  action: ActionType | 'all'
+  actor: {
+    sys: {
+      type: 'Link'
+      linkType: 'User' | 'Team'
+      id: string
+    }
+  }
+}
+
 export type WorkflowDefinitionProps = {
   sys: WorkflowDefinitionSysProps
   name: string
-  // TODO: Add new type for 'ValidatedLink' with validations property
-  appliesTo: any[]
-  // TODO: Use WorkflowStep as soon as it was added
-  // Require length min. 1 with `steps: [any, ...any[]]`
-  steps: any[]
-  // TODO: Add new type for 'Permission'
-  permissions: any[]
+  description: string
+  applicableEntities: ValidationLink[]
+  steps: WorkflowStep[]
+  permissions: Permission[]
 }
 
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys'>

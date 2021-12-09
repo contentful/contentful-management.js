@@ -65,7 +65,7 @@ function createClient(
   params: ClientOptions,
   opts: {
     type: 'plain'
-    alphaFeature: string[]
+    alphaFeatures: string[]
     defaults?: DefaultParams
   }
 ): AlphaPlainClientAPI
@@ -73,7 +73,7 @@ function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
-    alphaFeature?: string[]
+    alphaFeatures?: string[]
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI | AlphaPlainClientAPI {
@@ -96,7 +96,7 @@ function createClient(
     adapter.makeRequest({ ...options, userAgent })
 
   if (opts.type === 'plain') {
-    return createPlainClient(makeRequest, opts.defaults, opts.alphaFeature)
+    return createPlainClient(makeRequest, opts.defaults, opts.alphaFeatures)
   } else {
     return createContentfulApi(makeRequest) as ClientAPI
   }
