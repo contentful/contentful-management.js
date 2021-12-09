@@ -31,6 +31,26 @@ export const initPlainClient = (defaults = {}) => {
   )
 }
 
+/**
+ *
+ * @returns {import('../lib/contentful-management').AlphaPlainClientAPI}
+ */
+export const initAlphaPlainClient = (defaults = {}) => {
+  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+  const alphaFeature = ['cf-hidden-workflow-alpha-flag']
+  return createClient(
+    {
+      accessToken,
+      ...params,
+    },
+    {
+      type: 'plain',
+      alphaFeature,
+      defaults,
+    }
+  )
+}
+
 export async function getTestOrganization() {
   const testOrgId = env.CONTENTFUL_ORGANIZATION_ID
   const organizations = await initClient().getOrganizations()
