@@ -35,7 +35,8 @@ type ValidationLink = {
 type WorkflowStepProps = {
   id: string
   name: string
-  actions: Array<{
+  description?: string
+  actions?: Array<{
     action: Link<'AppAction'>
     body: string
     headers: Record<string, unknown>
