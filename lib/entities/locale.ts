@@ -134,9 +134,7 @@ function createLocaleApi(makeRequest: MakeRequest) {
  * @return Wrapped locale data
  */
 export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  delete data.internal_code
+  delete (data as SetOptional<LocaleProps, 'internal_code'>).internal_code
   const locale = toPlainObject(copy(data))
   const localeWithMethods = enhanceWithMethods(locale, createLocaleApi(makeRequest))
   return freezeSys(localeWithMethods)

@@ -662,6 +662,65 @@ const entryReferencesCollectionMock = {
   includes: [makeLink('Entry', 'entry-1'), makeLink('Entry', 'entry-2')],
 }
 
+export const workflowStepMock = {
+  id: sysMock.id,
+  name: 'In review',
+  description: 'Test WorkflowStep',
+  actions: [
+    {
+      action: {
+        sys: {
+          type: 'Link',
+          linkType: 'AppAction',
+          id: 'some-app-action-id',
+        },
+      },
+      body: 'some-body',
+      headers: [
+        {
+          key: 'value',
+        },
+      ],
+    },
+  ],
+  annotations: ['cf-color-blue', 'cf-icon-research'],
+}
+
+export const workflowDefinitionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'WorkflowDefinition',
+    version: 1,
+    environment: makeLink('Environment', 'master'),
+  }),
+  name: 'Test WorkflowDefinition',
+  description: 'this is a definition of a workflow',
+  applicableEntities: [
+    {
+      type: 'Link',
+      validations: [
+        {
+          linkContentType: ['ct-name'],
+        },
+      ],
+      linkType: 'Entry',
+    },
+  ],
+  steps: [cloneDeep(workflowStepMock)],
+  permissions: [
+    {
+      action: 'publish',
+      effect: 'deny',
+      actor: {
+        sys: {
+          type: 'Link',
+          linkType: 'User',
+          id: 'some-user-id',
+        },
+      },
+    },
+  ],
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appBundle: appBundleMock,
@@ -712,6 +771,8 @@ const mocks = {
   usage: usageMock,
   user: userMock,
   webhook: webhookMock,
+  workflowStep: workflowStepMock,
+  workflowDefinition: workflowDefinitionMock,
 }
 
 function cloneMock(name) {
@@ -879,6 +940,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     comment: {
       wrapComment: sinon.stub(),
       wrapCommentCollection: sinon.stub(),
+    },
+    workflowDefinition: {
+      wrapWorkflowDefinition: sinon.stub(),
+      wrapWorkflowDefinitionCollection: sinon.stub(),
     },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)

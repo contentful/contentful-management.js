@@ -33,6 +33,7 @@ import {
   GetTaskParams,
   GetEntryParams,
   CursorPaginatedCollectionProp,
+  GetWorkflowDefinitionParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -123,6 +124,14 @@ import {
   UpdateTaskParams,
   UpdateTaskProps,
 } from '../entities/task'
+import {
+  CreateWorkflowDefinitionParams,
+  CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionProps,
+  WorkflowDefinitionProps,
+} from '../entities/workflow-definition'
 
 export type PlainClientAPI = {
   raw: {
@@ -824,3 +833,28 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
 }
+
+export type AlphaExtensions = {
+  workflowDefinition: {
+    get(
+      params: OptionalDefaults<GetWorkflowDefinitionParams>,
+      headers?: Record<string, unknown>
+    ): Promise<WorkflowDefinitionProps>
+    create(
+      params: OptionalDefaults<CreateWorkflowDefinitionParams>,
+      rawData: CreateWorkflowDefinitionProps,
+      headers?: Record<string, unknown>
+    ): Promise<WorkflowDefinitionProps>
+    update(
+      params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
+      rawData: UpdateWorkflowDefinitionProps,
+      headers?: Record<string, unknown>
+    ): Promise<WorkflowDefinitionProps>
+    delete(
+      params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
+      headers?: Record<string, unknown>
+    ): Promise<any>
+  }
+}
+
+export type AlphaPlainClientAPI = PlainClientAPI & AlphaExtensions

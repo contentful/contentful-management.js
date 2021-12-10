@@ -77,6 +77,8 @@ export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[
       // @ts-expect-error
       params: { ...defaults, ...params },
       payload,
+      // Required after adding optional headers to a delete method for the first time
+      // @ts-expect-error
       headers,
     })
 }
