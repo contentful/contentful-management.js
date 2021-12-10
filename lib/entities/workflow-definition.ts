@@ -5,6 +5,7 @@ import {
   DefaultElements,
   GetSpaceEnvironmentParams,
   GetWorkflowDefinitionParams,
+  Link,
   MakeRequest,
   SysLink,
 } from '../common-types'
@@ -31,23 +32,23 @@ type ValidationLink = {
   linkType: 'Entry'
 }
 
-type WorkflowStep = {
+type WorkflowStepProps = {
   id: string
   name: string
-  description?: string
+  actions: Array<{
+    action: Link<'AppAction'>
+    body: string
+    headers: Record<string, unknown>
+  }>
   annotations?: string[]
 }
+
+type CreateWorkflowStepProps = Omit<WorkflowStepProps, 'sys'>
 
 type Permission = {
   effect: string
   action: ActionType | 'all'
-  actor: {
-    sys: {
-      type: 'Link'
-      linkType: 'User' | 'Team'
-      id: string
-    }
-  }
+  actor: Link<'User' | 'Team'>
 }
 
 export type WorkflowDefinitionProps = {
@@ -55,13 +56,16 @@ export type WorkflowDefinitionProps = {
   name: string
   description: string
   applicableEntities: ValidationLink[]
-  steps: WorkflowStep[]
+  steps: WorkflowStepProps[]
   permissions: Permission[]
 }
 
-export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys'>
-export type UpdateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys'> & {
+export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
+  steps: CreateWorkflowStepProps[]
+}
+export type UpdateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
   sys: Pick<WorkflowDefinitionSysProps, 'version'>
+  steps: Array<CreateWorkflowStepProps | WorkflowStepProps>
 }
 
 export type CreateWorkflowDefinitionParams = GetSpaceEnvironmentParams
