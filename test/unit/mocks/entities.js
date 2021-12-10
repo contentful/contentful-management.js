@@ -663,7 +663,9 @@ const entryReferencesCollectionMock = {
 }
 
 export const workflowStepMock = {
+  id: sysMock.id,
   name: 'In review',
+  description: 'Test WorkflowStep',
   actions: [
     {
       action: {
@@ -681,6 +683,7 @@ export const workflowStepMock = {
       ],
     },
   ],
+  annotations: ['cf-color-blue', 'cf-icon-research'],
 }
 
 export const workflowDefinitionMock = {

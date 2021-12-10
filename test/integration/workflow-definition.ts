@@ -10,6 +10,9 @@ const workflowDefinitionPayload = cloneDeep(
   workflowDefinitionMock
 ) as unknown as CreateWorkflowDefinitionProps
 delete (workflowDefinitionPayload as any).sys
+workflowDefinitionPayload.steps.forEach((workflowStep) => {
+  delete (workflowStep as any).id
+})
 
 describe('WorkflowDefinition Api', async function () {
   describe('AlphaPlainClient', () => {
