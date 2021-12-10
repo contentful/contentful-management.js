@@ -35,7 +35,7 @@ export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
   headers?: Record<string, unknown>
 ) => {
   const data = copy(rawData)
-  return raw.post<WorkflowDefinitionProps>(http, getBaseUrl(params), data.name, {
+  return raw.post<WorkflowDefinitionProps>(http, getBaseUrl(params), data, {
     headers,
   })
 }
