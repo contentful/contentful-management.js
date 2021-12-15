@@ -61,6 +61,18 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
+function createClient<
+  // T describes an array that contains the string "workflows" at any point in the list.
+  T extends (ReadonlyArray<string> | readonly ['workflows']) &
+    { [K in keyof T]: { [P in K]: 'workflows' } }[number]
+>(
+  params: ClientOptions,
+  opts: {
+    type: 'plain'
+    alphaFeatures: T
+    defaults?: DefaultParams
+  }
+): AlphaPlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
@@ -68,7 +80,7 @@ function createClient(
     alphaFeatures: string[]
     defaults?: DefaultParams
   }
-): AlphaPlainClientAPI
+): PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {

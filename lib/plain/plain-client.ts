@@ -379,7 +379,7 @@ const addAlphaFeatures = (
   makeRequest: MakeRequest,
   defaults: DefaultParams | undefined,
   alphaFeatures?: string[]
-): AlphaExtensions | {} => {
+): AlphaExtensions | Record<string, never> => {
   const wrapParams = { makeRequest, defaults }
   const alphaInterface: AlphaExtensions = {} as AlphaExtensions
 
