@@ -859,4 +859,4 @@ export type AlphaWorkflowExtension = {
 
 export type AlphaExtensions = AlphaWorkflowExtension
 
-export type AlphaPlainClientAPI = PlainClientAPI & AlphaExtensions
+export type AlphaPlainClientAPI = PlainClientAPI & AlphaWorkflowExtension
