@@ -9,7 +9,11 @@ import type { RestAdapterParams } from './adapters/REST/rest-adapter'
 import type { MakeRequest } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
-import type { AlphaPlainClientAPI, PlainClientAPI } from './plain/common-types'
+import type {
+  AlphaPlainClientAPI,
+  AlphaWorkflowExtension,
+  PlainClientAPI,
+} from './plain/common-types'
 import type { DefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
@@ -61,6 +65,17 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
+function createClient<
+  T extends (ReadonlyArray<string> | readonly ['workflows']) &
+    { [K in keyof T]: { [P in K]: 'workflows' } }[number]
+>(
+  params: ClientOptions,
+  opts: {
+    type: 'plain'
+    alphaFeatures: T
+    defaults?: DefaultParams
+  }
+): PlainClientAPI & AlphaWorkflowExtension
 function createClient(
   params: ClientOptions,
   opts: {
@@ -68,7 +83,7 @@ function createClient(
     alphaFeatures: string[]
     defaults?: DefaultParams
   }
-): AlphaPlainClientAPI
+): PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
