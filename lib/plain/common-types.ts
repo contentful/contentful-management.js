@@ -834,7 +834,7 @@ export type PlainClientAPI = {
   }
 }
 
-export type AlphaExtensions = {
+export type AlphaWorkflowExtension = {
   workflowDefinition: {
     get(
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
@@ -857,4 +857,6 @@ export type AlphaExtensions = {
   }
 }
 
-export type AlphaPlainClientAPI = PlainClientAPI & AlphaExtensions
+export type AlphaExtensions = AlphaWorkflowExtension
+
+export type AlphaPlainClientAPI = PlainClientAPI & AlphaWorkflowExtension
