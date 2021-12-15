@@ -64,7 +64,7 @@ describe('Scheduled Actions API', async function () {
       expect(fetchedAction.entity).to.eql(createdAction.entity)
     })
 
-    test('Query Scheduled Actions', async function () {
+    test.skip('Query Scheduled Actions', async function () {
       this.timeout(180000)
       // Creates 2 scheduled actions
       const [action1, action2] = await Promise.all([
