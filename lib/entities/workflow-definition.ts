@@ -24,11 +24,9 @@ export type WorkflowDefinitionSysProps = Pick<
 
 type ValidationLink = {
   type: 'Link'
-  validations: [
-    {
-      linkContentType: string[]
-    }
-  ]
+  validations: Array<{
+    linkContentType: string[]
+  }>
   linkType: 'Entry'
 }
 
