@@ -62,7 +62,7 @@ export type WorkflowDefinitionProps = {
   sys: WorkflowDefinitionSysProps
   name: string
   description?: string
-  applicableEntities?: WorkflowDefinitionValidationLink[]
+  appliesTo?: WorkflowDefinitionValidationLink[]
   steps: WorkflowStepProps[]
 }
 
