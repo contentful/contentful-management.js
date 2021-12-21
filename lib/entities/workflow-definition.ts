@@ -13,6 +13,34 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { ActionType } from './role'
 
+/* Workflow Step */
+
+export type WorkflowStepAction = {
+  action: Link<'AppAction'>
+  body: string
+  headers: Record<string, unknown>
+}
+
+export type WorkflowStepPermission = {
+  effect: string
+  action: ActionType | 'all'
+  actor: Link<'User' | 'Team'>
+}
+
+export type WorkflowStepProps = {
+  id: string
+  name: string
+  description?: string
+  actions?: WorkflowStepAction[]
+  annotations?: string[]
+  permissions?: WorkflowStepPermission[]
+}
+
+export type UpdateWorkflowStepProps = WorkflowStepProps
+export type CreateWorkflowStepProps = Omit<WorkflowStepProps, 'id'>
+
+/* Workflow Definition */
+
 export type WorkflowDefinitionSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -22,7 +50,7 @@ export type WorkflowDefinitionSysProps = Pick<
   environment: SysLink
 }
 
-type ValidationLink = {
+export type WorkflowDefinitionValidationLink = {
   type: 'Link'
   validations: Array<{
     linkContentType: string[]
@@ -30,33 +58,12 @@ type ValidationLink = {
   linkType: 'Entry'
 }
 
-type WorkflowStepProps = {
-  id: string
-  name: string
-  description?: string
-  actions?: Array<{
-    action: Link<'AppAction'>
-    body: string
-    headers: Record<string, unknown>
-  }>
-  annotations?: string[]
-}
-
-type CreateWorkflowStepProps = Omit<WorkflowStepProps, 'sys'>
-
-type Permission = {
-  effect: string
-  action: ActionType | 'all'
-  actor: Link<'User' | 'Team'>
-}
-
 export type WorkflowDefinitionProps = {
   sys: WorkflowDefinitionSysProps
   name: string
-  description: string
-  applicableEntities: ValidationLink[]
+  description?: string
+  appliesTo?: WorkflowDefinitionValidationLink[]
   steps: WorkflowStepProps[]
-  permissions: Permission[]
 }
 
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
@@ -64,7 +71,7 @@ export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' 
 }
 export type UpdateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
   sys: Pick<WorkflowDefinitionSysProps, 'version'>
-  steps: Array<CreateWorkflowStepProps | WorkflowStepProps>
+  steps: Array<CreateWorkflowStepProps | UpdateWorkflowStepProps>
 }
 
 export type CreateWorkflowDefinitionParams = GetSpaceEnvironmentParams
