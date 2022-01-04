@@ -33,7 +33,7 @@ export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
     headers,
   })
 
-export const getAll: RestEndpoint<'WorkflowDefinition', 'getAll'> = (
+export const getMany: RestEndpoint<'WorkflowDefinition', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions },
   headers?: Record<string, unknown>

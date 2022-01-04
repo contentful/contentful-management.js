@@ -841,7 +841,7 @@ export type AlphaWorkflowExtension = {
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
       headers?: Record<string, unknown>
     ): Promise<WorkflowDefinitionProps>
-    getAll(
+    getMany(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
       >,

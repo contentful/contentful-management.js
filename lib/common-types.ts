@@ -526,7 +526,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
 
   (opts: MROpts<'WorkflowDefinition', 'get', UA>): MRReturn<'WorkflowDefinition', 'get'>
-  (opts: MROpts<'WorkflowDefinition', 'getAll', UA>): MRReturn<'WorkflowDefinition', 'getAll'>
+  (opts: MROpts<'WorkflowDefinition', 'getMany', UA>): MRReturn<'WorkflowDefinition', 'getMany'>
   (opts: MROpts<'WorkflowDefinition', 'create', UA>): MRReturn<'WorkflowDefinition', 'create'>
   (opts: MROpts<'WorkflowDefinition', 'update', UA>): MRReturn<'WorkflowDefinition', 'update'>
   (opts: MROpts<'WorkflowDefinition', 'delete', UA>): MRReturn<'WorkflowDefinition', 'delete'>
@@ -1319,7 +1319,7 @@ export type MRActions = {
       headers?: Record<string, unknown>
       return: WorkflowDefinitionProps
     }
-    getAll: {
+    getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
       headers?: Record<string, unknown>
       return: CollectionProp<WorkflowDefinitionProps>
