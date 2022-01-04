@@ -386,6 +386,7 @@ const addAlphaFeatures = (
   if (alphaFeatures?.includes(ALPHA_FEATURE_WORKFLOWS)) {
     alphaInterface.workflowDefinition = {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
+      getAll: wrap(wrapParams, 'WorkflowDefinition', 'getAll'),
       create: wrap(wrapParams, 'WorkflowDefinition', 'create'),
       update: wrap(wrapParams, 'WorkflowDefinition', 'update'),
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),

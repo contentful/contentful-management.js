@@ -131,6 +131,7 @@ import {
   UpdateWorkflowDefinitionParams,
   UpdateWorkflowDefinitionProps,
   WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
 } from '../entities/workflow-definition'
 
 export type PlainClientAPI = {
@@ -840,6 +841,12 @@ export type AlphaWorkflowExtension = {
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
       headers?: Record<string, unknown>
     ): Promise<WorkflowDefinitionProps>
+    getAll(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
+      >,
+      headers?: Record<string, unknown>
+    ): Promise<CollectionProp<WorkflowDefinitionProps>>
     create(
       params: OptionalDefaults<CreateWorkflowDefinitionParams>,
       rawData: CreateWorkflowDefinitionProps,

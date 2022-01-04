@@ -1,13 +1,18 @@
 import { AxiosInstance } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
-import { GetSpaceEnvironmentParams, GetWorkflowDefinitionParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetWorkflowDefinitionParams,
+} from '../../../common-types'
 import {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
   UpdateWorkflowDefinitionProps,
   WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
 } from '../../../entities/workflow-definition'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -26,6 +31,16 @@ export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
 ) =>
   raw.get<WorkflowDefinitionProps>(http, getWorkflowDefinitionUrl(params), {
     headers,
+  })
+
+export const getAll: RestEndpoint<'WorkflowDefinition', 'getAll'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions },
+  headers?: Record<string, unknown>
+) =>
+  raw.get<CollectionProp<WorkflowDefinitionProps>>(http, getBaseUrl(params), {
+    headers,
+    params: params.query,
   })
 
 export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
