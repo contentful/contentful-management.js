@@ -7,6 +7,7 @@ import {
   GetWorkflowDefinitionParams,
   Link,
   MakeRequest,
+  PaginationQueryOptions,
   SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
@@ -87,6 +88,8 @@ export interface WorkflowDefinition
   extends WorkflowDefinitionProps,
     DefaultElements<WorkflowDefinitionProps>,
     WorkflowDefinitionApi {}
+
+export type WorkflowDefinitionQueryOptions = Omit<PaginationQueryOptions, 'order'>
 
 /**
  * @private
