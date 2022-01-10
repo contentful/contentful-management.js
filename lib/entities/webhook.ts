@@ -182,6 +182,11 @@ export type WebhookProps = {
    * Transformation to apply
    */
   transformation?: WebhookTransformation
+
+  /**
+   * Whether the Webhook is active. If set to false, no calls will be made
+   */
+  active?: boolean
 }
 
 export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
