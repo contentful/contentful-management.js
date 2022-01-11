@@ -63,4 +63,23 @@ describe('Webhook Api', function () {
         })
       })
   })
+
+  test('Create disabled webhook', async () => {
+    return space
+      .createWebhook({
+        name: 'testname',
+        url: 'http://localhost:8080',
+        topics: ['Entry.publish'],
+        active: false,
+      })
+      .then((webhook) => {
+        expect(webhook.active).equals(false, 'active')
+        expect(webhook.url, 'url').ok
+        webhook.active = true
+        return webhook.update().then((updatedWebhook) => {
+          expect(updatedWebhook.active).equals(true, 'active')
+          return updatedWebhook.delete()
+        })
+      })
+  })
 })
