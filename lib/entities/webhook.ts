@@ -73,11 +73,11 @@ export type WebhookTransformation = {
   body?: JsonValue
 }
 
-export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers'>
+export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers' | 'active'>
 
 export type UpdateWebhookProps = SetOptional<
   Except<WebhookProps, 'sys'>,
-  'headers' | 'name' | 'topics' | 'url'
+  'headers' | 'name' | 'topics' | 'url' | 'active'
 >
 
 export type WebhookCallDetailsProps = {
@@ -182,6 +182,11 @@ export type WebhookProps = {
    * Transformation to apply
    */
   transformation?: WebhookTransformation
+
+  /**
+   * Whether the Webhook is active. If set to false, no calls will be made
+   */
+  active: boolean
 }
 
 export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
