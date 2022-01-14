@@ -691,7 +691,9 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetTagParams>, version: number): Promise<any>
   }
   organization: {
-    getAll(): Promise<CollectionProp<OrganizationProp>>
+    getAll(
+      params?: OptionalDefaults<PaginationQueryParams>
+    ): Promise<CollectionProp<OrganizationProp>>
     get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
   }
   organizationInvitation: {

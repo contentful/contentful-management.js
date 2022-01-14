@@ -1,18 +1,23 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp, GetOrganizationParams } from '../../../common-types'
+import { CollectionProp, GetOrganizationParams, PaginationQueryParams } from '../../../common-types'
 import { OrganizationProp } from '../../../entities/organization'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const getMany: RestEndpoint<'Organization', 'getMany'> = (http: AxiosInstance) => {
-  return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`)
+export const getMany: RestEndpoint<'Organization', 'getMany'> = (
+  http: AxiosInstance,
+  params?: PaginationQueryParams
+) => {
+  return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`, {
+    params: params?.query,
+  })
 }
 
 export const get: RestEndpoint<'Organization', 'get'> = (
   http: AxiosInstance,
   params: GetOrganizationParams
 ) => {
-  return getMany(http).then((data) => {
+  return getMany(http, { query: { limit: 100 } }).then((data) => {
     const org = data.items.find((org) => org.sys.id === params.organizationId)
     if (!org) {
       const error = new Error(
