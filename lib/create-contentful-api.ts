@@ -1,6 +1,12 @@
 import { AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
-import { Collection, MakeRequest, QueryOptions, QueryParams } from './common-types'
+import {
+  Collection,
+  MakeRequest,
+  PaginationQueryParams,
+  QueryOptions,
+  QueryParams,
+} from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
@@ -141,12 +147,13 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getOrganizations: function getOrganizations(): Promise<
-      Collection<Organization, OrganizationProp>
-    > {
+    getOrganizations: function getOrganizations(
+      query: PaginationQueryParams['query'] = {}
+    ): Promise<Collection<Organization, OrganizationProp>> {
       return makeRequest({
         entityType: 'Organization',
         action: 'getMany',
+        params: { query: createRequestConfig({ query }).params },
       }).then((data) => wrapOrganizationCollection(makeRequest, data))
     },
 
