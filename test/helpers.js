@@ -11,7 +11,13 @@ if (process.env.API_INTEGRATION_TESTS) {
 
 const env = process.env !== undefined ? process.env : window.__env__
 
-export const initClient = () => testUtils.initClient()
+export const initClient = () => {
+  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+  return createClient({
+    accessToken,
+    ...params,
+  })
+}
 
 /**
  *
