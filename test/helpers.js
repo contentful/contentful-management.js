@@ -11,6 +11,11 @@ if (process.env.API_INTEGRATION_TESTS) {
 
 const env = process.env !== undefined ? process.env : window.__env__
 
+// Please do not replace it with testUtils.initClient(), becuase test-utils repo has contentful-management
+// as dependency and will make it impossible to test new changes to client's api.
+// Eg: getAll() fn in prod doesn't have any args. I change it in my PR to getAll({ query })
+// if I used testUtils.initClient(), it would have the version of cma repo that would still have getAll() without args
+// making it impossible for me to cover my changes with tests
 export const initClient = () => {
   const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   return createClient({
