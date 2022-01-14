@@ -963,7 +963,7 @@ export type MRActions = {
     }
   }
   Organization: {
-    getMany: { return: CollectionProp<OrganizationProp> }
+    getMany: { params: PaginationQueryParams; return: CollectionProp<OrganizationProp> }
     get: { params: GetOrganizationParams; return: OrganizationProp }
   }
   OrganizationInvitation: {
