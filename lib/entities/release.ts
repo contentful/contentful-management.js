@@ -40,6 +40,10 @@ export interface ReleaseQueryOptions {
    * @default -sys.updatedAt
    * */
   order?: string
+  /**
+   * Filters by creator of release
+   */
+  'sys.createdBy.sys.id'?: string
 }
 
 export type ReleaseSysProps = {
