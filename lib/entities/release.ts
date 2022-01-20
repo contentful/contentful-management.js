@@ -43,7 +43,7 @@ export interface ReleaseQueryOptions {
   /**
    * Filters by creator of release
    */
-  'sys.createdBy.sys.id'?: string
+  'sys.createdBy.sys.id[in]'?: string
 }
 
 export type ReleaseSysProps = {
