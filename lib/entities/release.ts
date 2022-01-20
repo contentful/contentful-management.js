@@ -35,6 +35,15 @@ export interface ReleaseQueryOptions {
    * @default 100
    * */
   limit?: number
+  /**
+   * Order releases by
+   * @default -sys.updatedAt
+   * */
+  order?: string
+  /**
+   * Filters by creator of release
+   */
+  'sys.createdBy.sys.id[in]'?: string
 }
 
 export type ReleaseSysProps = {
