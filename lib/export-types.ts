@@ -166,3 +166,9 @@ export type {
   CreateWorkflowDefinitionProps,
   UpdateWorkflowDefinitionProps,
 } from './entities/workflow-definition'
+export type {
+  Workflow,
+  WorkflowProps,
+  CreateWorkflowProps,
+  UpdateWorkflowProps,
+} from './entities/workflow'
