@@ -721,6 +721,18 @@ export const workflowDefinitionMock = {
   ],
 }
 
+export const workflowMock = {
+  stepId: 'some-step-id',
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'Workflow',
+    version: 1,
+    environment: makeLink('Environment', 'master'),
+    createdBy: makeLink('User', 'user-id'),
+    updatedBy: makeLink('User', 'user-id'),
+    workflowDefinition: makeLink('WorkflowDefinition', 'wf-def-id'),
+  }),
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appBundle: appBundleMock,
@@ -773,6 +785,7 @@ const mocks = {
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
+  workflow: workflowMock,
 }
 
 function cloneMock(name) {
@@ -944,6 +957,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     workflowDefinition: {
       wrapWorkflowDefinition: sinon.stub(),
       wrapWorkflowDefinitionCollection: sinon.stub(),
+    },
+    workflow: {
+      wrapWorkflow: sinon.stub(),
+      wrapWorkflowCollection: sinon.stub(),
     },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)

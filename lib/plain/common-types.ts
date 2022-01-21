@@ -133,6 +133,16 @@ import {
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
 } from '../entities/workflow-definition'
+import {
+  CompleteWorkflowParams,
+  CreateWorkflowParams,
+  CreateWorkflowProps,
+  DeleteWorkflowParams,
+  UpdateWorkflowParams,
+  UpdateWorkflowProps,
+  WorkflowProps,
+  WorkflowQueryOptions,
+} from '../entities/workflow'
 
 export type PlainClientAPI = {
   raw: {
@@ -863,6 +873,30 @@ export type AlphaWorkflowExtension = {
       params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
       headers?: Record<string, unknown>
     ): Promise<any>
+  }
+  workflow: {
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
+      headers?: Record<string, unknown>
+    ): Promise<CollectionProp<WorkflowProps>>
+    create(
+      params: OptionalDefaults<CreateWorkflowParams>,
+      rawData: CreateWorkflowProps,
+      headers?: Record<string, unknown>
+    ): Promise<WorkflowProps>
+    update(
+      params: OptionalDefaults<UpdateWorkflowParams>,
+      rawData: UpdateWorkflowProps,
+      headers?: Record<string, unknown>
+    ): Promise<WorkflowProps>
+    delete(
+      params: OptionalDefaults<DeleteWorkflowParams>,
+      headers?: Record<string, unknown>
+    ): Promise<void>
+    complete(
+      params: OptionalDefaults<CompleteWorkflowParams>,
+      headers?: Record<string, unknown>
+    ): Promise<void>
   }
 }
 

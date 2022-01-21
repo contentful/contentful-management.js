@@ -98,6 +98,14 @@ import {
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
 } from './entities/workflow-definition'
+import {
+  CompleteWorkflowParams,
+  CreateWorkflowParams,
+  CreateWorkflowProps,
+  DeleteWorkflowParams,
+  WorkflowProps,
+  WorkflowQueryOptions,
+} from './entities/workflow'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -530,6 +538,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'WorkflowDefinition', 'create', UA>): MRReturn<'WorkflowDefinition', 'create'>
   (opts: MROpts<'WorkflowDefinition', 'update', UA>): MRReturn<'WorkflowDefinition', 'update'>
   (opts: MROpts<'WorkflowDefinition', 'delete', UA>): MRReturn<'WorkflowDefinition', 'delete'>
+
+  (opts: MROpts<'Workflow', 'getMany', UA>): MRReturn<'Workflow', 'getMany'>
+  (opts: MROpts<'Workflow', 'create', UA>): MRReturn<'Workflow', 'create'>
+  (opts: MROpts<'Workflow', 'update', UA>): MRReturn<'Workflow', 'update'>
+  (opts: MROpts<'Workflow', 'delete', UA>): MRReturn<'Workflow', 'delete'>
+  (opts: MROpts<'Workflow', 'complete', UA>): MRReturn<'Workflow', 'complete'>
 }
 
 /**
@@ -1342,6 +1356,35 @@ export type MRActions = {
       return: void
     }
   }
+  Workflow: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
+      headers?: Record<string, unknown>
+      return: CollectionProp<WorkflowProps>
+    }
+    create: {
+      params: CreateWorkflowParams
+      payload: CreateWorkflowProps
+      headers?: Record<string, unknown>
+      return: WorkflowProps
+    }
+    update: {
+      params: GetWorkflowParams
+      payload: WorkflowProps
+      headers?: Record<string, unknown>
+      return: WorkflowProps
+    }
+    delete: {
+      params: DeleteWorkflowParams
+      headers?: Record<string, unknown>
+      return: void
+    }
+    complete: {
+      params: CompleteWorkflowParams
+      headers?: Record<string, unknown>
+      return: void
+    }
+  }
 }
 
 /**
@@ -1422,6 +1465,9 @@ export type GetOrganizationMembershipProps = GetOrganizationParams & {
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
+}
+export type GetWorkflowParams = GetSpaceEnvironmentParams & {
+  workflowId: string
 }
 
 export type QueryParams = { query?: QueryOptions }
