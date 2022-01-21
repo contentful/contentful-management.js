@@ -7,6 +7,7 @@ import {
   CreateWorkflowParams,
   CreateWorkflowProps,
   DeleteWorkflowParams,
+  UpdateWorkflowParams,
   UpdateWorkflowProps,
   WorkflowProps,
   WorkflowQueryOptions,
@@ -45,7 +46,7 @@ export const create: RestEndpoint<'Workflow', 'create'> = (
 
 export const update: RestEndpoint<'Workflow', 'update'> = (
   http: AxiosInstance,
-  params: GetWorkflowParams,
+  params: UpdateWorkflowParams,
   rawData: UpdateWorkflowProps,
   headers?: Record<string, unknown>
 ) => {
