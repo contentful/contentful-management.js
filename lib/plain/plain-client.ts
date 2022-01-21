@@ -391,6 +391,13 @@ const addAlphaFeatures = (
       update: wrap(wrapParams, 'WorkflowDefinition', 'update'),
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),
     }
+    alphaInterface.workflow = {
+      getMany: wrap(wrapParams, 'Workflow', 'getMany'),
+      create: wrap(wrapParams, 'Workflow', 'create'),
+      update: wrap(wrapParams, 'Workflow', 'update'),
+      delete: wrap(wrapParams, 'Workflow', 'delete'),
+      complete: wrap(wrapParams, 'Workflow', 'complete'),
+    }
   }
 
   return alphaInterface
