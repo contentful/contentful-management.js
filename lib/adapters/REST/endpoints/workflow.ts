@@ -16,7 +16,7 @@ import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/workflow`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/workflows`
 
 const getWorkflowUrl = (params: GetWorkflowParams) => `${getBaseUrl(params)}/${params.workflowId}`
 
