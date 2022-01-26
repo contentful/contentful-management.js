@@ -57,9 +57,9 @@ export interface Workflow extends WorkflowProps, DefaultElements<WorkflowProps>,
 export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   'stepId[in]'?: string
   /** Find workflows filtered by the Entity type (Entry) */
-  'sys.entities.sys.linkType'?: string
-  /** Find workflows containing the specified, comma-separated entities. Requires `entities.sys.linkType` */
-  'sys.entities.sys.id[in]'?: string
+  'sys.entity.sys.linkType'?: string
+  /** Find workflows containing the specified, comma-separated entities. Requires `sys.entity.sys.linkType` */
+  'sys.entity.sys.id[in]'?: string
   'sys.workflowDefinition.sys.id'?: string
 }
 
