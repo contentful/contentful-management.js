@@ -1392,7 +1392,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .catch(console.error)
      *  ```
      */
-    createAppInstallation(appDefinitionId: string, data: CreateAppInstallationProps) {
+    createAppInstallation(
+      appDefinitionId: string,
+      data: CreateAppInstallationProps,
+      headers?: Record<string, unknown>
+    ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'AppInstallation',
@@ -1403,6 +1407,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           appDefinitionId,
         },
         payload: data,
+        headers,
       }).then((payload) => wrapAppInstallation(makeRequest, payload))
     },
     /**
