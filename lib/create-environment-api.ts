@@ -1393,7 +1393,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppInstallation(
       appDefinitionId: string,
       data: CreateAppInstallationProps,
-      headers?: Record<string, unknown>
+      { acceptMarketplaceTerms }: { acceptMarketplaceTerms?: boolean } = {}
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1403,9 +1403,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           appDefinitionId,
+          acceptMarketplaceTerms,
         },
         payload: data,
-        headers,
       }).then((payload) => wrapAppInstallation(makeRequest, payload))
     },
     /**
