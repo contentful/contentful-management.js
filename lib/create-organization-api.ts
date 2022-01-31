@@ -6,6 +6,7 @@ import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
 import { MakeRequest, QueryOptions } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
+import { CreateAppActionProps } from './entities/app-action'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
 import { CreateAppDetailsProps } from './entities/app-details'
 import { OrganizationProp } from './entities/organization'
@@ -35,6 +36,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppUpload } = entities.appUpload
   const { wrapAppSigningSecret } = entities.appSigningSecret
   const { wrapAppDetails } = entities.appDetails
+  const { wrapAppAction, wrapAppActionCollection } = entities.appAction
 
   return {
     /**
@@ -758,6 +760,138 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then(() => {
         /* noop*/
       })
+    },
+    /**
+     * Creates an app action entity.
+     * @return Promise that resolves an App Action entity
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.createAppAction('app_definition_id', {
+     *    type: 'endpoint',
+     *    name: 'my nice new app action',
+     *    url: 'https://www.somewhere.com/action'
+     *  }))
+     * .then((appAction) => console.log(appAction))
+     * .catch(console.error)
+     * ```
+     */
+    createAppAction(appDefinitionId: string, data: CreateAppActionProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppAction',
+        action: 'create',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppAction(makeRequest, payload))
+    },
+    /**
+     * Updates an existing app action entity.
+     * @return Promise that resolves an App Action entity
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.updateAppAction('app_definition_id', 'app_action_id', {
+     *    type: 'endpoint',
+     *    name: 'my nice updated app action',
+     *    url: 'https://www.somewhere-else.com/action'
+     *  }))
+     * .then((appAction) => console.log(appAction))
+     * .catch(console.error)
+     * ```
+     */
+    updateAppAction(appDefinitionId: string, appActionId: string, data: CreateAppActionProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppAction',
+        action: 'update',
+        params: { organizationId: raw.sys.id, appDefinitionId, appActionId },
+        payload: data,
+      }).then((payload) => wrapAppAction(makeRequest, payload))
+    },
+    /**
+     * Deletes an app action entity.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppAction('app_definition_id', 'app_action_id'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppAction(appDefinitionId: string, appActionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppAction',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId, appActionId },
+      }).then((payload) => {
+        /* noop*/
+      })
+    },
+    /**
+     * Gets an existing app action entity.
+     * @return Promise that resolves an App Action entity
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppAction('app_definition_id', 'app_action_id'))
+     * .then((appAction) => console.log(appAction))
+     * .catch(console.error)
+     * ```
+     */
+    getAppAction(appDefinitionId: string, appActionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppAction',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId, appActionId },
+      }).then((payload) => wrapAppAction(makeRequest, payload))
+    },
+    /**
+     * Gets existing app actions for an App Definition.
+     * @return Promise that resolves an App Action entity
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppActions('app_definition_id'))
+     * .then((appActions) => console.log(appActions))
+     * .catch(console.error)
+     * ```
+     */
+    getAppActions(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppAction',
+        action: 'getMany',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapAppActionCollection(makeRequest, payload))
     },
   }
 }
