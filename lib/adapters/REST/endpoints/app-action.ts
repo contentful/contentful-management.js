@@ -52,5 +52,5 @@ export const update: RestEndpoint<'AppAction', 'update'> = (
   params: GetAppActionParams,
   data: CreateAppActionProps
 ) => {
-  return raw.post<AppActionProps>(http, getAppActionUrl(params), data)
+  return raw.put<AppActionProps>(http, getAppActionUrl(params), data)
 }
