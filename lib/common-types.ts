@@ -672,7 +672,7 @@ export type MRActions = {
       return: CollectionProp<AppInstallationProps>
     }
     upsert: {
-      params: GetAppInstallationParams & { acceptMarketplaceTerms?: boolean }
+      params: GetAppInstallationParams & { acceptAllTerms?: boolean }
       payload: CreateAppInstallationProps
       headers?: Record<string, unknown>
       return: AppInstallationProps

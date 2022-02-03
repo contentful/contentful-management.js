@@ -40,7 +40,7 @@ export const getMany: RestEndpoint<'AppInstallation', 'getMany'> = (
 
 export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
   http: AxiosInstance,
-  params: GetAppInstallationParams & { acceptMarketplaceTerms?: boolean },
+  params: GetAppInstallationParams & { acceptAllTerms?: boolean },
   rawData: CreateAppInstallationProps,
   headers?: Record<string, unknown>
 ) => {
@@ -49,7 +49,7 @@ export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
   return raw.put<AppInstallationProps>(http, getAppInstallationUrl(params), data, {
     headers: {
       ...headers,
-      ...(params.acceptMarketplaceTerms && {
+      ...(params.acceptAllTerms && {
         'X-Contentful-Marketplace':
           'i-accept-end-user-license-agreement,i-accept-marketplace-terms-of-service,i-accept-privacy-policy',
       }),
