@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
+import { AppActionProps, CreateAppActionProps } from './entities/app-action'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
@@ -253,6 +254,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'put', UA>): MRReturn<'Http', 'put'>
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
   (opts: MROpts<'Http', 'request', UA>): MRReturn<'Http', 'request'>
+
+  (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
+  (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
+  (opts: MROpts<'AppAction', 'delete', UA>): MRReturn<'AppAction', 'delete'>
+  (opts: MROpts<'AppAction', 'create', UA>): MRReturn<'AppAction', 'create'>
+  (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -571,6 +578,24 @@ export type MRActions = {
     put: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: AxiosRequestConfig }; return: any }
+  }
+  AppAction: {
+    get: { params: GetAppActionParams; return: AppActionProps }
+    getMany: {
+      params: GetAppDefinitionParams & QueryParams
+      return: CollectionProp<AppActionProps>
+    }
+    delete: { params: GetAppActionParams; return: void }
+    create: {
+      params: GetAppDefinitionParams
+      payload: CreateAppActionProps
+      return: AppActionProps
+    }
+    update: {
+      params: GetAppActionParams
+      payload: CreateAppActionProps
+      return: AppActionProps
+    }
   }
   AppBundle: {
     get: { params: GetAppBundleParams; return: AppBundleProps }
@@ -1435,6 +1460,7 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }

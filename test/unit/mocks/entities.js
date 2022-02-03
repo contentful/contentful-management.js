@@ -75,6 +75,17 @@ const appBundleMock = {
   ],
 }
 
+const appActionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppAction',
+    organization: { sys: { id: 'organziation-id' } },
+    appDefinition: { sys: { id: 'app-definiton-id' } },
+  }),
+  name: 'nice app action',
+  url: 'https://www.example.com',
+  type: 'endpoint',
+}
+
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
@@ -735,6 +746,7 @@ export const workflowMock = {
 
 const mocks = {
   apiKey: apiKeyMock,
+  appAction: appActionMock,
   appBundle: appBundleMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
@@ -803,6 +815,10 @@ function mockCollection(entityMock) {
 
 function setupEntitiesMock(rewiredModuleApi) {
   const entitiesMock = {
+    appAction: {
+      wrapAppAction: sinon.stub(),
+      wrapAppActionCollection: sinon.stub(),
+    },
     appDefinition: {
       wrapAppDefinition: sinon.stub(),
       wrapAppDefinitionCollection: sinon.stub(),
@@ -969,6 +985,7 @@ function setupEntitiesMock(rewiredModuleApi) {
 }
 
 export {
+  appActionMock,
   appBundleMock,
   appInstallationMock,
   appDefinitionMock,

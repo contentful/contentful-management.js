@@ -1,4 +1,5 @@
 import * as ApiKey from './api-key'
+import * as AppAction from './app-action'
 import * as AppBundle from './app-bundle'
 import * as AppDefinition from './app-definition'
 import * as AppInstallation from './app-installation'
@@ -45,6 +46,7 @@ import * as Workflow from './workflow'
 
 export default {
   ApiKey,
+  AppAction,
   AppBundle,
   AppDefinition,
   AppInstallation,
