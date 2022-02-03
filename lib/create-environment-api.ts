@@ -1371,6 +1371,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates an App Installation
      * @param appDefinitionId - AppDefinition ID
      * @param data - AppInstallation data
+     * @param options.acceptAllTerms - Flag for accepting Apps' Marketplace EULA, Terms, and Privacy policy (need to pass `{acceptAllTerms: true}` to install a marketplace app)
      * @return Promise for an App Installation
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -1393,7 +1394,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppInstallation(
       appDefinitionId: string,
       data: CreateAppInstallationProps,
-      { acceptMarketplaceTerms }: { acceptMarketplaceTerms?: boolean } = {}
+      { acceptAllTerms }: { acceptAllTerms?: boolean } = {}
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1403,7 +1404,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           appDefinitionId,
-          acceptMarketplaceTerms,
+          acceptAllTerms,
         },
         payload: data,
       }).then((payload) => wrapAppInstallation(makeRequest, payload))
