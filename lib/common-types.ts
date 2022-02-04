@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
+import { AppActionCallProps, CreateAppActionCallProps } from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
@@ -260,6 +261,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'delete', UA>): MRReturn<'AppAction', 'delete'>
   (opts: MROpts<'AppAction', 'create', UA>): MRReturn<'AppAction', 'create'>
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
+
+  (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -595,6 +598,13 @@ export type MRActions = {
       params: GetAppActionParams
       payload: CreateAppActionProps
       return: AppActionProps
+    }
+  }
+  AppActionCall: {
+    create: {
+      params: GetAppActionCallParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallProps
     }
   }
   AppBundle: {
@@ -1461,6 +1471,7 @@ export interface MakeRequestOptions {
 }
 
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }

@@ -8,6 +8,11 @@ export type {
   ActionTypes,
 } from './entities/app-action'
 export type {
+  AppActionCall,
+  AppActionCallProps,
+  CreateAppActionCallProps,
+} from './entities/app-action-call'
+export type {
   AppBundle,
   AppBundleProps,
   AppBundleFile,
