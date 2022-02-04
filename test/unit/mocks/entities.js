@@ -86,6 +86,16 @@ const appActionMock = {
   type: 'endpoint',
 }
 
+const appActionCallMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppActionCall',
+    appDefinition: { sys: { id: 'app-definiton-id' } },
+    action: { sys: { id: 'app-action-id' } },
+    space: { sys: { id: 'space-id' } },
+    environment: { sys: { id: 'environment-id' } },
+  }),
+}
+
 const appDefinitionMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
@@ -747,6 +757,7 @@ export const workflowMock = {
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
+  appActionCall: appActionCallMock,
   appBundle: appBundleMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
@@ -818,6 +829,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     appAction: {
       wrapAppAction: sinon.stub(),
       wrapAppActionCollection: sinon.stub(),
+    },
+    appActionCall: {
+      wrapAppActionCall: sinon.stub(),
     },
     appDefinition: {
       wrapAppDefinition: sinon.stub(),
@@ -986,6 +1000,7 @@ function setupEntitiesMock(rewiredModuleApi) {
 
 export {
   appActionMock,
+  appActionCallMock,
   appBundleMock,
   appInstallationMock,
   appDefinitionMock,

@@ -508,6 +508,26 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
+  test('API call createAppActionCall', async () => {
+    const responseData = {
+      sys: { id: 'id', type: 'AppActionCall', space: { sys: { id: 'spaceId' } } },
+    }
+    let { api, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.appActionCall.wrapAppActionCall.returns(responseData)
+
+    return api
+      .createAppActionCall('app_definition_id', 'action_id', { body: { value: 'something' } })
+      .then((r) => {
+        expect(r).to.eql(responseData)
+      })
+  })
+
+  test('API call createAppActionCall fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'createAppActionCall',
+    })
+  })
+
   test('API call getAppInstallation', async () => {
     return makeGetEntityTest(setup, {
       entityType: 'appInstallation',
