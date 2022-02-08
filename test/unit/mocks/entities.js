@@ -754,6 +754,18 @@ export const workflowMock = {
   }),
 }
 
+export const workflowsChangelogEntryMock = {
+  event: 'stepChanged',
+  eventBy: makeLink('User', 'user-id'),
+  eventAt: 'eventatdate',
+  workflow: makeLink('Workflow', 'workflow-id'),
+  workflowDefinition: makeLink('WorkflowDefinition', 'workflow-definition-id'),
+  entity: makeLink('Entity', 'entity-id'),
+  stepId: sysMock.id,
+  stepAnnotations: ['cf-color-blue', 'cf-icon-research'],
+  stepName: 'In review',
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -809,6 +821,7 @@ const mocks = {
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
   workflow: workflowMock,
+  workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
 function cloneMock(name) {
@@ -991,6 +1004,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     workflow: {
       wrapWorkflow: sinon.stub(),
       wrapWorkflowCollection: sinon.stub(),
+    },
+    workflowsChangelogEntry: {
+      wrapWorkflowsChangelogEntry: sinon.stub(),
+      wrapWorkflowsChangelogEntryCollection: sinon.stub(),
     },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)

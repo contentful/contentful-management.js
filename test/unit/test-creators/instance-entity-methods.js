@@ -34,11 +34,19 @@ export async function entityCollectionActionTest(setup, { wrapperMethod, actionM
   })
 }
 
-export async function entityActionTest(setup, { wrapperMethod, actionMethod }) {
+export async function entityActionTest(
+  setup,
+  { wrapperMethod, actionMethod },
+  checkResponse = true
+) {
   const { makeRequest, entityMock } = setup()
   const entity = wrapperMethod(makeRequest, entityMock)
-  const response = await entity[actionMethod]()
-  expect(response.toPlainObject, 'response is wrapped').to.be.ok
+  if (checkResponse) {
+    const response = await entity[actionMethod]()
+    expect(response.toPlainObject, 'response is wrapped').to.be.ok
+  } else {
+    expect(await entity[actionMethod]()).to.not.throw
+  }
 }
 
 export async function entityDeleteTest(setup, { wrapperMethod }) {

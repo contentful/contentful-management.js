@@ -177,10 +177,17 @@ export type {
   WorkflowDefinitionProps,
   CreateWorkflowDefinitionProps,
   UpdateWorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
 } from './entities/workflow-definition'
 export type {
   Workflow,
   WorkflowProps,
   CreateWorkflowProps,
   UpdateWorkflowProps,
+  WorkflowQueryOptions,
 } from './entities/workflow'
+export type {
+  WorkflowsChangelogEntry,
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from './entities/workflows-changelog-entry'
