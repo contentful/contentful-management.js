@@ -59,10 +59,14 @@ describe('Entity Workflow', () => {
   })
 
   test('Workflow complete', async () => {
-    return entityActionTest(setup, {
-      wrapperMethod: wrapWorkflow,
-      actionMethod: 'complete',
-    })
+    return entityActionTest(
+      setup,
+      {
+        wrapperMethod: wrapWorkflow,
+        actionMethod: 'complete',
+      },
+      false
+    )
   })
 
   test('Workflow complete fails', async () => {

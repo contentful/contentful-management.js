@@ -821,6 +821,7 @@ const mocks = {
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
   workflow: workflowMock,
+  workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
 function cloneMock(name) {
@@ -1003,6 +1004,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     workflow: {
       wrapWorkflow: sinon.stub(),
       wrapWorkflowCollection: sinon.stub(),
+    },
+    workflowsChangelogEntry: {
+      wrapWorkflowsChangelogEntry: sinon.stub(),
+      wrapWorkflowsChangelogEntryCollection: sinon.stub(),
     },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
