@@ -108,6 +108,10 @@ import {
   WorkflowProps,
   WorkflowQueryOptions,
 } from './entities/workflow'
+import {
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from './entities/workflows-changelog-entry'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -554,6 +558,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Workflow', 'update', UA>): MRReturn<'Workflow', 'update'>
   (opts: MROpts<'Workflow', 'delete', UA>): MRReturn<'Workflow', 'delete'>
   (opts: MROpts<'Workflow', 'complete', UA>): MRReturn<'Workflow', 'complete'>
+
+  (opts: MROpts<'WorkflowsChangelog', 'getMany', UA>): MRReturn<'WorkflowsChangelog', 'getMany'>
 }
 
 /**
@@ -1418,6 +1424,13 @@ export type MRActions = {
       params: CompleteWorkflowParams
       headers?: Record<string, unknown>
       return: void
+    }
+  }
+  WorkflowsChangelog: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: WorkflowsChangelogQueryOptions }
+      headers?: Record<string, unknown>
+      return: CollectionProp<WorkflowsChangelogEntryProps>
     }
   }
 }

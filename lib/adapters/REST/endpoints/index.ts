@@ -44,6 +44,7 @@ import * as User from './user'
 import * as Webhook from './webhook'
 import * as WorkflowDefinition from './workflow-definition'
 import * as Workflow from './workflow'
+import * as WorkflowsChangelog from './workflows-changelog'
 
 export default {
   ApiKey,
@@ -92,4 +93,5 @@ export default {
   Webhook,
   WorkflowDefinition,
   Workflow,
+  WorkflowsChangelog,
 }
