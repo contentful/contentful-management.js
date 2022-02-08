@@ -10,7 +10,7 @@ import {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
-export type WorkflowsChangelogQueryOptions = PaginationQueryOptions & {
+export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /** Find workflows changelog entries filtered by the Entity type (Entry) */
   'entity.sys.linkType'?: string
   /** Find workflows changelog entries containing the specified, comma-separated entities. Requires `sys.entity.sys.linkType` */
