@@ -754,6 +754,18 @@ export const workflowMock = {
   }),
 }
 
+export const workflowsChangelogEntryMock = {
+  event: 'stepChanged',
+  eventBy: makeLink('User', 'user-id'),
+  eventAt: 'eventatdate',
+  workflow: makeLink('Workflow', 'workflow-id'),
+  workflowDefinition: makeLink('WorkflowDefinition', 'workflow-definition-id'),
+  entity: makeLink('Entity', 'entity-id'),
+  stepId: sysMock.id,
+  stepAnnotations: ['cf-color-blue', 'cf-icon-research'],
+  stepName: 'In review',
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
