@@ -8,11 +8,11 @@ import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/workflows-changelog`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/workflows_changelog`
 
 export const getMany: RestEndpoint<'WorkflowsChangelog', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { query?: WorkflowsChangelogQueryOptions },
+  params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions },
   headers?: Record<string, unknown>
 ) =>
   raw.get<CollectionProp<WorkflowsChangelogEntryProps>>(http, getBaseUrl(params), {
