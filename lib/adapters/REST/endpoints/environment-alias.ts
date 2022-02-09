@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -47,7 +48,7 @@ export const createWithId: RestEndpoint<'EnvironmentAlias', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: CreateEnvironmentAliasProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
   return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
@@ -59,7 +60,7 @@ export const update: RestEndpoint<'EnvironmentAlias', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: EnvironmentAliasProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

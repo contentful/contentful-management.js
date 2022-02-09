@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
 import {
   WorkflowsChangelogQueryOptions,
@@ -13,7 +13,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 export const getMany: RestEndpoint<'WorkflowsChangelog', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) =>
   raw.get<CollectionProp<WorkflowsChangelogEntryProps>>(http, getBaseUrl(params), {
     headers,
