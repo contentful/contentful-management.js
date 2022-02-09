@@ -24,7 +24,7 @@ export type WorkflowsChangelogEntryProps = {
   eventAt: string
   workflow: Link<'Workflow'>
   workflowDefinition: Link<'WorkflowDefinition'>
-  entity: Link<'Entity'>
+  entity: Link<'Entry'>
   stepId: string
   stepAnnotations: string[]
   stepName: string
