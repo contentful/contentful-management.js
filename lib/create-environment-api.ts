@@ -5,6 +5,7 @@ import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
+import type { CreateAppActionCallProps } from './entities/app-action-call'
 import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
@@ -65,6 +66,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapExtension, wrapExtensionCollection } = entities.extension
   const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
   const { wrapAppSignedRequest } = entities.appSignedRequest
+  const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
 
   return {
@@ -1466,6 +1468,53 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
       }).then((data) => wrapAppInstallationCollection(makeRequest, data))
+    },
+    /**
+     * Creates an app action call
+     * @param appDefinitionId - AppDefinition ID
+     * @param appActionId - action ID
+     * @param data - App Action Call data
+     * @return Promise for an App Action Call
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const data = {
+     *   headers: {
+     *     'x-my-header': 'some-value'
+     *   },
+     *   body: {
+     *     'some-body-value': true
+     *   }
+     * }
+     *
+     * client.getSpace('<space_id>')
+     *  .then((space) => space.getEnvironment('<environment-id>'))
+     *  .then((environment) => environment.createAppActionCall('<app_definition_id>', '<action_id>', data)
+     *  .then((appActionCall) => console.log(appActionCall))
+     *  .catch(console.error)
+     *  ```
+     */
+    createAppActionCall(
+      appDefinitionId: string,
+      appActionId: string,
+      data: CreateAppActionCallProps
+    ) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+          appActionId,
+        },
+        payload: data,
+      }).then((payload) => wrapAppActionCall(makeRequest, payload))
     },
     /**
      * Creates an app signed request

@@ -27,6 +27,8 @@ import {
   PaginationQueryParams,
   QueryParams,
   GetAppUploadParams,
+  GetAppActionParams,
+  GetAppActionCallParams,
   GetAppBundleParams,
   GetBulkActionParams,
   GetReleaseParams,
@@ -98,6 +100,8 @@ import {
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
+import { AppActionProps, CreateAppActionProps } from '../entities/app-action'
+import { AppActionCallProps, CreateAppActionCallProps } from '../entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
@@ -153,6 +157,27 @@ export type PlainClientAPI = {
     put<T = unknown>(url: string, payload?: any, config?: AxiosRequestConfig): Promise<T>
     delete<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T>
+  }
+  appAction: {
+    get(params: OptionalDefaults<GetAppActionParams>): Promise<AppActionProps>
+    getMany(
+      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    ): Promise<CollectionProp<AppActionProps>>
+    delete(params: OptionalDefaults<GetAppActionParams>): Promise<void>
+    create(
+      params: OptionalDefaults<GetAppDefinitionParams>,
+      payload: CreateAppActionProps
+    ): Promise<AppActionProps>
+    update(
+      params: OptionalDefaults<GetAppActionParams>,
+      payload: CreateAppActionProps
+    ): Promise<AppActionProps>
+  }
+  appActionCall: {
+    create(
+      params: OptionalDefaults<GetAppActionCallParams>,
+      payload: CreateAppActionCallProps
+    ): Promise<AppActionCallProps>
   }
   appBundle: {
     get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>

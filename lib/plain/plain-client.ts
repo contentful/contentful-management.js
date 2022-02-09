@@ -59,6 +59,16 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    appAction: {
+      get: wrap(wrapParams, 'AppAction', 'get'),
+      getMany: wrap(wrapParams, 'AppAction', 'getMany'),
+      delete: wrap(wrapParams, 'AppAction', 'delete'),
+      create: wrap(wrapParams, 'AppAction', 'create'),
+      update: wrap(wrapParams, 'AppAction', 'update'),
+    },
+    appActionCall: {
+      create: wrap(wrapParams, 'AppActionCall', 'create'),
+    },
     appBundle: {
       get: wrap(wrapParams, 'AppBundle', 'get'),
       getMany: wrap(wrapParams, 'AppBundle', 'getMany'),

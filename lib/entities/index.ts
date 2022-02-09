@@ -1,4 +1,6 @@
 import * as apiKey from './api-key'
+import * as appAction from './app-action'
+import * as appActionCall from './app-action-call'
 import * as appBundle from './app-bundle'
 import * as appDefinition from './app-definition'
 import * as appInstallation from './app-installation'
@@ -42,6 +44,8 @@ import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
 
 export default {
+  appAction,
+  appActionCall,
   appBundle,
   apiKey,
   appDefinition,

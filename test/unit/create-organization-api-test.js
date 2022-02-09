@@ -2,6 +2,7 @@ import createOrganizationApi, {
   __RewireAPI__ as createOrganizationApiRewireApi,
 } from '../../lib/create-organization-api'
 import {
+  appActionMock,
   appDefinitionMock,
   appUploadMock,
   appSigningSecretMock,
@@ -423,6 +424,122 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
 
     api['createAppUpload']('content-of-zip-file').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createAppAction', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    return api['createAppAction']('app-def-id', {
+      type: 'endpoint',
+      name: 'name',
+      url: 'https://www.example.com',
+    }).then((result) => {
+      expect(result).eql(appActionMock)
+    })
+  })
+
+  test('API call createAppAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    return api['createAppAction']('app-def-id', {
+      type: 'endpoint',
+      name: 'name',
+      url: 'https://www.example.com',
+    }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call updateAppAction', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    return api['updateAppAction']('app-def-id', 'app-action-id', {
+      type: 'endpoint',
+      name: 'name',
+      url: 'https://www.example.com',
+    }).then((result) => {
+      expect(result).eql(appActionMock)
+    })
+  })
+
+  test('API call updateAppAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    return api['updateAppAction']('app-def-id', 'app-action-id', {
+      type: 'endpoint',
+      name: 'name',
+      url: 'https://www.example.com',
+    }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppAction', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    return api['getAppAction']('app-def-id', 'app-action-id').then((result) => {
+      expect(result).eql(appActionMock)
+    })
+  })
+
+  test('API call getAppAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    return api['getAppAction']('app-def-id', 'app-action-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppActions', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appAction']['wrapAppActionCollection'].returns(appActionMock)
+    return api['getAppActions']('app-def-id').then((result) => {
+      expect(result).eql(appActionMock)
+    })
+  })
+
+  test('API call getAppActions fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    return api['getAppActions']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call deleteAppAction', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    return api['deleteAppAction']('app-def-id', 'app-action-id').then((result) => {
+      expect(result).eql(undefined)
+    })
+  })
+
+  test('API call deleteAppAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    return api['deleteAppAction']('app-def-id', 'app-action-id').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)

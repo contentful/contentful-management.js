@@ -1,6 +1,18 @@
 export * from './common-types'
 
 export type {
+  AppAction,
+  AppActionProps,
+  CreateAppActionProps,
+  BodyDefinition,
+  ActionTypes,
+} from './entities/app-action'
+export type {
+  AppActionCall,
+  AppActionCallProps,
+  CreateAppActionCallProps,
+} from './entities/app-action-call'
+export type {
   AppBundle,
   AppBundleProps,
   AppBundleFile,
