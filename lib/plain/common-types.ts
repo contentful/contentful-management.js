@@ -147,6 +147,10 @@ import {
   WorkflowProps,
   WorkflowQueryOptions,
 } from '../entities/workflow'
+import {
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from '../entities/workflows-changelog-entry'
 
 export type PlainClientAPI = {
   raw: {
@@ -922,6 +926,14 @@ export type AlphaWorkflowExtension = {
       params: OptionalDefaults<CompleteWorkflowParams>,
       headers?: Record<string, unknown>
     ): Promise<void>
+  }
+  workflowsChangelog: {
+    getMany(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
+      >,
+      headers?: Record<string, unknown>
+    ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
   }
 }
 
