@@ -930,7 +930,7 @@ export type AlphaWorkflowExtension = {
   workflowsChangelog: {
     getMany(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { query?: WorkflowsChangelogQueryOptions }
+        GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
       >,
       headers?: Record<string, unknown>
     ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>

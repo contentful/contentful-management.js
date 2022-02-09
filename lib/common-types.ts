@@ -1428,7 +1428,7 @@ export type MRActions = {
   }
   WorkflowsChangelog: {
     getMany: {
-      params: GetSpaceEnvironmentParams & { query?: WorkflowsChangelogQueryOptions }
+      params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
       headers?: Record<string, unknown>
       return: CollectionProp<WorkflowsChangelogEntryProps>
     }
