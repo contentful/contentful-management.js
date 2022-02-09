@@ -57,7 +57,7 @@
   "dependencies": {
     "@types/json-patch": "0.0.30",
     "axios": "^0.25.0",
-    "contentful-sdk-core": "^6.11.0",
+    "contentful-sdk-core": "^7.0.1",
     "fast-copy": "^2.1.1",
     "lodash.isplainobject": "^4.0.6"
   },
