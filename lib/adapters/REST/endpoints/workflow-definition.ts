@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
 import {
@@ -27,7 +27,7 @@ export const ALPHA_FEATURE_WORKFLOWS = 'workflows'
 export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
   http: AxiosInstance,
   params: GetWorkflowDefinitionParams,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) =>
   raw.get<WorkflowDefinitionProps>(http, getWorkflowDefinitionUrl(params), {
     headers,
@@ -36,7 +36,7 @@ export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
 export const getMany: RestEndpoint<'WorkflowDefinition', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) =>
   raw.get<CollectionProp<WorkflowDefinitionProps>>(http, getBaseUrl(params), {
     headers,
@@ -47,7 +47,7 @@ export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
   http: AxiosInstance,
   params: CreateWorkflowDefinitionParams,
   rawData: CreateWorkflowDefinitionProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
   return raw.post<WorkflowDefinitionProps>(http, getBaseUrl(params), data, {
@@ -59,7 +59,7 @@ export const update: RestEndpoint<'WorkflowDefinition', 'update'> = (
   http: AxiosInstance,
   params: GetWorkflowDefinitionParams,
   rawData: UpdateWorkflowDefinitionProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -75,7 +75,7 @@ export const update: RestEndpoint<'WorkflowDefinition', 'update'> = (
 export const del: RestEndpoint<'WorkflowDefinition', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteWorkflowDefinitionParams,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.del(http, getWorkflowDefinitionUrl(params), {
     headers: { 'X-Contentful-Version': version, ...headers },

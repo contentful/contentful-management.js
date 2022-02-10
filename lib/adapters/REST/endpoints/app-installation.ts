@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
@@ -42,7 +43,7 @@ export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams & { acceptAllTerms?: boolean },
   rawData: CreateAppInstallationProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
 

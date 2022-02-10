@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import {
@@ -44,7 +45,7 @@ export const update: RestEndpoint<'Release', 'update'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { version: number },
   payload: ReleasePayload,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.put(
     http,
@@ -72,7 +73,7 @@ export const del: RestEndpoint<'Release', 'delete'> = (
 export const publish: RestEndpoint<'Release', 'publish'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { version: number },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.put(
     http,
@@ -90,7 +91,7 @@ export const publish: RestEndpoint<'Release', 'publish'> = (
 export const unpublish: RestEndpoint<'Release', 'unpublish'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { version: number },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.del(
     http,

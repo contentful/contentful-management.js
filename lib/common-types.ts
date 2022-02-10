@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
@@ -632,19 +632,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateApiKeyProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ApiKeyProps
     }
     createWithId: {
       params: GetSpaceParams & { apiKeyId: string }
       payload: CreateApiKeyProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ApiKeyProps
     }
     update: {
       params: GetSpaceParams & { apiKeyId: string }
       payload: ApiKeyProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ApiKeyProps
     }
     delete: { params: GetSpaceParams & { apiKeyId: string }; return: any }
@@ -666,7 +666,7 @@ export type MRActions = {
     update: {
       params: GetAppDefinitionParams
       payload: AppDefinitionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: AppDefinitionProps
     }
     delete: { params: GetAppDefinitionParams; return: any }
@@ -680,7 +680,7 @@ export type MRActions = {
     upsert: {
       params: GetAppInstallationParams & { acceptAllTerms?: boolean }
       payload: CreateAppInstallationProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
@@ -746,7 +746,7 @@ export type MRActions = {
     update: {
       params: GetSpaceEnvironmentParams & { assetId: string }
       payload: AssetProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: AssetProps
     }
     delete: { params: GetSpaceEnvironmentParams & { assetId: string }; return: any }
@@ -820,7 +820,7 @@ export type MRActions = {
     update: {
       params: UpdateCommentParams
       payload: UpdateCommentProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: CommentProps
     }
     delete: { params: DeleteCommentParams; return: void }
@@ -844,7 +844,7 @@ export type MRActions = {
     update: {
       params: GetContentTypeParams
       payload: ContentTypeProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ContentTypeProps
     }
     delete: { params: GetContentTypeParams; return: any }
@@ -860,7 +860,7 @@ export type MRActions = {
     update: {
       params: GetEditorInterfaceParams
       payload: EditorInterfaceProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EditorInterfaceProps
     }
   }
@@ -873,19 +873,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: Partial<Pick<EnvironmentProps, 'name'>>
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EnvironmentProps
     }
     createWithId: {
       params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }
       payload: CreateEnvironmentProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EnvironmentProps
     }
     update: {
       params: GetSpaceEnvironmentParams
       payload: EnvironmentProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EnvironmentProps
     }
     delete: { params: GetSpaceEnvironmentParams; return: any }
@@ -899,13 +899,13 @@ export type MRActions = {
     createWithId: {
       params: GetSpaceEnvAliasParams
       payload: CreateEnvironmentAliasProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EnvironmentAliasProps
     }
     update: {
       params: GetSpaceEnvAliasParams
       payload: EnvironmentAliasProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EnvironmentAliasProps
     }
     delete: { params: GetSpaceEnvAliasParams; return: any }
@@ -922,13 +922,13 @@ export type MRActions = {
     patch: {
       params: GetSpaceEnvironmentParams & { entryId: string; version: number }
       payload: OpPatch[]
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
       params: GetSpaceEnvironmentParams & { entryId: string }
       payload: EntryProps<any>
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: EntryProps<any>
     }
     delete: { params: GetSpaceEnvironmentParams & { entryId: string }; return: any }
@@ -980,19 +980,19 @@ export type MRActions = {
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateExtensionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ExtensionProps
     }
     createWithId: {
       params: GetExtensionParams
       payload: CreateExtensionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ExtensionProps
     }
     update: {
       params: GetExtensionParams
       payload: ExtensionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: ExtensionProps
     }
     delete: { params: GetExtensionParams; return: any }
@@ -1007,13 +1007,13 @@ export type MRActions = {
     update: {
       params: GetSpaceEnvironmentParams & { localeId: string }
       payload: LocaleProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: LocaleProps
     }
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateLocaleProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: LocaleProps
     }
   }
@@ -1024,13 +1024,13 @@ export type MRActions = {
   OrganizationInvitation: {
     get: {
       params: { organizationId: string; invitationId: string }
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: OrganizationInvitationProps
     }
     create: {
       params: { organizationId: string }
       payload: CreateOrganizationInvitationProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: OrganizationInvitationProps
     }
   }
@@ -1043,7 +1043,7 @@ export type MRActions = {
     update: {
       params: GetOrganizationMembershipProps
       payload: OrganizationMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: OrganizationMembershipProps
     }
     delete: { params: GetOrganizationMembershipProps; return: any }
@@ -1054,7 +1054,7 @@ export type MRActions = {
     create: {
       params: {}
       payload: CreatePersonalAccessTokenProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: PersonalAccessTokenProp
     }
     revoke: { params: { tokenId: string }; return: PersonalAccessTokenProp }
@@ -1116,19 +1116,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateRoleProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: RoleProps
     }
     createWithId: {
       params: GetSpaceParams & { roleId: string }
       payload: CreateRoleProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: RoleProps
     }
     update: {
       params: GetSpaceParams & { roleId: string }
       payload: RoleProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: RoleProps
     }
     delete: { params: GetSpaceParams & { roleId: string }; return: any }
@@ -1175,13 +1175,13 @@ export type MRActions = {
     create: {
       params: { organizationId?: string }
       payload: Omit<SpaceProps, 'sys'>
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: any
     }
     update: {
       params: GetSpaceParams
       payload: SpaceProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: SpaceProps
     }
     delete: { params: GetSpaceParams; return: void }
@@ -1204,19 +1204,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateSpaceMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: SpaceMembershipProps
     }
     createWithId: {
       params: GetSpaceMembershipProps
       payload: CreateSpaceMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: SpaceMembershipProps
     }
     update: {
       params: GetSpaceMembershipProps
       payload: SpaceMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: SpaceMembershipProps
     }
     delete: { params: GetSpaceMembershipProps; return: any }
@@ -1228,7 +1228,7 @@ export type MRActions = {
     update: {
       params: GetTagParams
       payload: UpdateTagProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TagProps
     }
     delete: { params: DeleteTagParams; return: any }
@@ -1240,7 +1240,7 @@ export type MRActions = {
     update: {
       params: UpdateTaskParams
       payload: UpdateTaskProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TaskProps
     }
     delete: { params: DeleteTaskParams; return: void }
@@ -1252,13 +1252,13 @@ export type MRActions = {
     create: {
       params: GetOrganizationParams
       payload: CreateTeamProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: any
     }
     update: {
       params: GetTeamParams
       payload: TeamProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TeamProps
     }
     delete: { params: GetTeamParams; return: any }
@@ -1276,13 +1276,13 @@ export type MRActions = {
     create: {
       params: GetTeamParams
       payload: CreateTeamMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TeamMembershipProps
     }
     update: {
       params: GetTeamMembershipParams
       payload: TeamMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TeamMembershipProps
     }
     delete: { params: GetTeamMembershipParams; return: any }
@@ -1304,13 +1304,13 @@ export type MRActions = {
     create: {
       params: GetSpaceParams & { teamId: string }
       payload: CreateTeamSpaceMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TeamSpaceMembershipProps
     }
     update: {
       params: GetTeamSpaceMembershipParams
       payload: TeamSpaceMembershipProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: TeamSpaceMembershipProps
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
@@ -1356,13 +1356,13 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateWebhooksProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WebhookProps
     }
     createWithId: {
       params: GetWebhookParams
       payload: CreateWebhooksProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WebhookProps
     }
     update: { params: GetWebhookParams; payload: WebhookProps; return: WebhookProps }
@@ -1371,65 +1371,65 @@ export type MRActions = {
   WorkflowDefinition: {
     get: {
       params: GetWorkflowDefinitionParams
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: CollectionProp<WorkflowDefinitionProps>
     }
     create: {
       params: CreateWorkflowDefinitionParams
       payload: CreateWorkflowDefinitionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     update: {
       params: GetWorkflowDefinitionParams
       payload: WorkflowDefinitionProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     delete: {
       params: DeleteWorkflowDefinitionParams
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: void
     }
   }
   Workflow: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: CollectionProp<WorkflowProps>
     }
     create: {
       params: CreateWorkflowParams
       payload: CreateWorkflowProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WorkflowProps
     }
     update: {
       params: GetWorkflowParams
       payload: WorkflowProps
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: WorkflowProps
     }
     delete: {
       params: DeleteWorkflowParams
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: void
     }
     complete: {
       params: CompleteWorkflowParams
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: void
     }
   }
   WorkflowsChangelog: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
       return: CollectionProp<WorkflowsChangelogEntryProps>
     }
   }
@@ -1479,7 +1479,7 @@ export interface MakeRequestOptions {
   action: string
   params?: Record<string, unknown>
   payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
   userAgent: string
 }
 
