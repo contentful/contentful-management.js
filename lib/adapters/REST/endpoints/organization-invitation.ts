@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import {
   CreateOrganizationInvitationProps,
@@ -18,7 +19,7 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
   http: AxiosInstance,
   params: { organizationId: string },
   data: CreateOrganizationInvitationProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.post<OrganizationInvitationProps>(
     http,
@@ -36,7 +37,7 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
 export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
   http: AxiosInstance,
   params: { organizationId: string; invitationId: string },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.get<OrganizationInvitationProps>(
     http,

@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -21,7 +22,7 @@ export const create: RestEndpoint<'Space', 'create'> = (
   http: AxiosInstance,
   params: { organizationId?: string },
   payload: Omit<SpaceProps, 'sys'>,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.post(http, `/spaces`, payload, {
     headers: params.organizationId
@@ -34,7 +35,7 @@ export const update: RestEndpoint<'Space', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: SpaceProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
