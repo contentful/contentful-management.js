@@ -1210,12 +1210,15 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .catch(console.error)
      * ```
      */
-    createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
+    createScheduledAction(
+      data: Omit<ScheduledActionProps, 'sys'>,
+      headers?: Record<string, string>
+    ) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'ScheduledAction',
         action: 'create',
-        params: { spaceId: raw.sys.id },
+        params: { spaceId: raw.sys.id, headers },
         payload: data,
       }).then((response) => wrapScheduledAction(makeRequest, response))
     },

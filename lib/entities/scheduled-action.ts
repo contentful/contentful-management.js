@@ -62,6 +62,7 @@ export type ScheduledActionProps = {
   action: SchedulableActionType
   entity: Link<SchedulableEntityType>
   environment?: { sys: MetaLinkProps }
+  payload?: Record<string, any>
   scheduledFor: {
     datetime: ISO8601Timestamp
     /**

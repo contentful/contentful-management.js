@@ -586,7 +586,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceParams & QueryParams>
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
-      params: OptionalDefaults<GetSpaceParams>,
+      params: OptionalDefaults<GetSpaceParams> & { headers?: Record<string, string> },
       data: CreateUpdateScheduledActionProps
     ): Promise<ScheduledActionProps>
     delete(

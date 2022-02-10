@@ -1140,7 +1140,7 @@ export type MRActions = {
     }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<ScheduledActionProps> }
     create: {
-      params: GetSpaceParams
+      params: GetSpaceParams & { headers?: Record<string, string> }
       payload: Omit<ScheduledActionProps, 'sys'>
       return: ScheduledActionProps
     }

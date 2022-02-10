@@ -40,10 +40,12 @@ export const getMany: RestEndpoint<'ScheduledAction', 'getMany'> = (
 
 export const create: RestEndpoint<'ScheduledAction', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceParams,
+  params: GetSpaceParams & { headers?: Record<string, string> },
   data: Omit<ScheduledActionProps, 'sys'>
 ) => {
-  return raw.post<ScheduledActionProps>(http, `/spaces/${params.spaceId}/scheduled_actions`, data)
+  return raw.post<ScheduledActionProps>(http, `/spaces/${params.spaceId}/scheduled_actions`, data, {
+    headers: params.headers,
+  })
 }
 
 export const del: RestEndpoint<'ScheduledAction', 'delete'> = (
