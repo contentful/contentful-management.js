@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -26,7 +27,7 @@ export const create: RestEndpoint<'ApiKey', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateApiKeyProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.post<ApiKeyProps>(http, `/spaces/${params.spaceId}/api_keys`, data, { headers })
 }
@@ -35,7 +36,7 @@ export const createWithId: RestEndpoint<'ApiKey', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { apiKeyId: string },
   data: CreateApiKeyProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.put<ApiKeyProps>(http, `/spaces/${params.spaceId}/api_keys/${params.apiKeyId}`, data, {
     headers,
@@ -46,7 +47,7 @@ export const update: RestEndpoint<'ApiKey', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { apiKeyId: string },
   rawData: ApiKeyProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'accessToken' | 'preview_api_key' | 'policies' | 'sys'> =
     copy(rawData)

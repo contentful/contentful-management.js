@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios'
+import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import {
@@ -224,7 +224,7 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetEditorInterfaceParams>,
       rawData: EditorInterfaceProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EditorInterfaceProps>
   }
   space: {
@@ -233,12 +233,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<{ organizationId?: string }>,
       payload: Omit<SpaceProps, 'sys'>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<any>
     update(
       params: OptionalDefaults<GetSpaceParams>,
       payload: SpaceProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<SpaceProps>
     delete(params: OptionalDefaults<GetSpaceParams>): Promise<any>
   }
@@ -250,17 +250,17 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams>,
       rawData: Partial<Pick<EnvironmentProps, 'name'>>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EnvironmentProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
       rawData: CreateEnvironmentProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EnvironmentProps>
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       rawData: EnvironmentProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EnvironmentProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<any>
   }
@@ -272,12 +272,12 @@ export type PlainClientAPI = {
     createWithId(
       params: OptionalDefaults<GetSpaceEnvAliasParams>,
       rawData: CreateEnvironmentAliasProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EnvironmentAliasProps>
     update(
       params: OptionalDefaults<GetSpaceEnvAliasParams>,
       rawData: EnvironmentAliasProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EnvironmentAliasProps>
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
   }
@@ -302,12 +302,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
       rawData: UpdateCommentProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
     delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
@@ -319,7 +319,7 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ContentTypeProps>
     delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
     publish(
@@ -361,17 +361,17 @@ export type PlainClientAPI = {
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData?: unknown,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: OpPatch[],
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
@@ -417,12 +417,12 @@ export type PlainClientAPI = {
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
       rawData?: unknown,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<AssetProps>
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: AssetProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<AssetProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
@@ -495,12 +495,12 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
       rawData: LocaleProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<LocaleProps>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: CreateLocaleProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<LocaleProps>
   }
   personalAccessToken: {
@@ -508,7 +508,7 @@ export type PlainClientAPI = {
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
     create(
       rawData: CreatePersonalAccessTokenProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<PersonalAccessTokenProp>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
   }
@@ -561,17 +561,17 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateRoleProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<RoleProps>
     createWithId(
       params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
       data: CreateRoleProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<RoleProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
       rawData: RoleProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<RoleProps>
     delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
   }
@@ -613,17 +613,17 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateApiKeyProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ApiKeyProps>
     createWithId(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       data: CreateApiKeyProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ApiKeyProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       rawData: ApiKeyProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ApiKeyProps>
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
@@ -641,7 +641,7 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetAppDefinitionParams>,
       rawData: AppDefinitionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
   }
@@ -653,7 +653,7 @@ export type PlainClientAPI = {
     upsert(
       params: OptionalDefaults<GetAppInstallationParams>,
       rawData: CreateAppInstallationProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<AppInstallationProps>
     delete(params: OptionalDefaults<GetAppInstallationParams>): Promise<any>
   }
@@ -665,17 +665,17 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       rawData: CreateExtensionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ExtensionProps>
     createWithId(
       params: OptionalDefaults<GetExtensionParams>,
       rawData: CreateExtensionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ExtensionProps>
     update(
       params: OptionalDefaults<GetExtensionParams>,
       rawData: ExtensionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<ExtensionProps>
     delete(params: OptionalDefaults<GetExtensionParams>): Promise<any>
   }
@@ -694,7 +694,7 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams>,
       rawData: CreateWebhooksProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WebhookProps>
     update(
       params: OptionalDefaults<GetWebhookParams>,
@@ -725,7 +725,7 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetTagParams>,
       rawData: UpdateTagProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TagProps>
     delete(params: OptionalDefaults<GetTagParams>, version: number): Promise<any>
   }
@@ -738,12 +738,12 @@ export type PlainClientAPI = {
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<OrganizationInvitationProps>
     create(
       params: OptionalDefaults<{ organizationId: string }>,
       data: CreateOrganizationInvitationProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<OrganizationInvitationProps>
   }
   organizationMembership: {
@@ -756,7 +756,7 @@ export type PlainClientAPI = {
     update(
       params: OptionalDefaults<GetOrganizationMembershipProps>,
       rawData: OrganizationMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
   }
@@ -782,17 +782,17 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateSpaceMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<SpaceMembershipProps>
     createWithId(
       params: OptionalDefaults<GetSpaceMembershipProps>,
       data: CreateSpaceMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<SpaceMembershipProps>
     update(
       params: OptionalDefaults<GetSpaceMembershipProps>,
       rawData: SpaceMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<SpaceMembershipProps>
     delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
   }
@@ -802,12 +802,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<CreateTaskParams>,
       rawData: CreateTaskProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TaskProps>
     update(
       params: OptionalDefaults<UpdateTaskParams>,
       rawData: UpdateTaskProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TaskProps>
     delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
   }
@@ -822,12 +822,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetOrganizationParams>,
       rawData: CreateTeamProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<any>
     update(
       params: OptionalDefaults<GetTeamParams>,
       rawData: TeamProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TeamProps>
     delete(params: OptionalDefaults<GetTeamParams>): Promise<any>
   }
@@ -842,12 +842,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetTeamParams>,
       rawData: CreateTeamMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TeamMembershipProps>
     update(
       params: OptionalDefaults<GetTeamMembershipParams>,
       rawData: TeamMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TeamMembershipProps>
     delete(params: OptionalDefaults<GetTeamMembershipParams>): Promise<any>
   }
@@ -865,12 +865,12 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
       rawData: CreateTeamSpaceMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TeamSpaceMembershipProps>
     update(
       params: OptionalDefaults<GetTeamSpaceMembershipParams>,
       rawData: TeamSpaceMembershipProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<TeamSpaceMembershipProps>
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
@@ -880,51 +880,51 @@ export type AlphaWorkflowExtension = {
   workflowDefinition: {
     get(
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WorkflowDefinitionProps>
     getMany(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
       >,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<WorkflowDefinitionProps>>
     create(
       params: OptionalDefaults<CreateWorkflowDefinitionParams>,
       rawData: CreateWorkflowDefinitionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WorkflowDefinitionProps>
     update(
       params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
       rawData: UpdateWorkflowDefinitionProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WorkflowDefinitionProps>
     delete(
       params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<any>
   }
   workflow: {
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<WorkflowProps>>
     create(
       params: OptionalDefaults<CreateWorkflowParams>,
       rawData: CreateWorkflowProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WorkflowProps>
     update(
       params: OptionalDefaults<UpdateWorkflowParams>,
       rawData: UpdateWorkflowProps,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<WorkflowProps>
     delete(
       params: OptionalDefaults<DeleteWorkflowParams>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<void>
     complete(
       params: OptionalDefaults<CompleteWorkflowParams>,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<void>
   }
   workflowsChangelog: {
@@ -932,7 +932,7 @@ export type AlphaWorkflowExtension = {
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
       >,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
   }
 }

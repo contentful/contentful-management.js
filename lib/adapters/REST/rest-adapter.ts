@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { OpPatch } from 'json-patch'
@@ -60,7 +60,7 @@ export class RestAdapter implements Adapter {
       http: AxiosInstance,
       params?: Record<string, unknown>,
       payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload,
-      headers?: Record<string, unknown>
+      headers?: AxiosRequestHeaders
     ) => Promise<R> =
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

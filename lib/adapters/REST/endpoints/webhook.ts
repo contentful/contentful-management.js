@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -71,7 +72,7 @@ export const create: RestEndpoint<'Webhook', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: CreateWebhooksProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
 
@@ -82,7 +83,7 @@ export const createWithId = (
   http: AxiosInstance,
   params: GetWebhookParams,
   rawData: CreateWebhooksProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
 
@@ -93,7 +94,7 @@ export const update: RestEndpoint<'Webhook', 'update'> = async (
   http: AxiosInstance,
   params: GetWebhookParams,
   rawData: WebhookProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 

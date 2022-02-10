@@ -1,3 +1,4 @@
+import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -34,7 +35,7 @@ export const create: RestEndpoint<'Locale', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   data: CreateLocaleProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.post<LocaleProps>(
     http,
@@ -50,7 +51,7 @@ export const update: RestEndpoint<'Locale', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string },
   rawData: LocaleProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'default' | 'sys'> = copy(rawData)
   delete data.sys

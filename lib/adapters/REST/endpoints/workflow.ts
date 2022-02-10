@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios'
+import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
 import { CollectionProp, GetSpaceEnvironmentParams, GetWorkflowParams } from '../../../common-types'
@@ -25,7 +25,7 @@ const completeWorkflowUrl = (params: GetWorkflowParams) => `${getWorkflowUrl(par
 export const getMany: RestEndpoint<'Workflow', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions },
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) =>
   raw.get<CollectionProp<WorkflowProps>>(http, getBaseUrl(params), {
     headers,
@@ -36,7 +36,7 @@ export const create: RestEndpoint<'Workflow', 'create'> = (
   http: AxiosInstance,
   params: CreateWorkflowParams,
   rawData: CreateWorkflowProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data = copy(rawData)
   return raw.post<WorkflowProps>(http, getBaseUrl(params), data, {
@@ -48,7 +48,7 @@ export const update: RestEndpoint<'Workflow', 'update'> = (
   http: AxiosInstance,
   params: UpdateWorkflowParams,
   rawData: UpdateWorkflowProps,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -64,7 +64,7 @@ export const update: RestEndpoint<'Workflow', 'update'> = (
 export const del: RestEndpoint<'Workflow', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteWorkflowParams,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.del(http, getWorkflowUrl(params), {
     headers: { 'X-Contentful-Version': version, ...headers },
@@ -74,7 +74,7 @@ export const del: RestEndpoint<'Workflow', 'delete'> = (
 export const complete: RestEndpoint<'Workflow', 'complete'> = (
   http: AxiosInstance,
   { version, ...params }: CompleteWorkflowParams,
-  headers?: Record<string, unknown>
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.put(http, completeWorkflowUrl(params), {
     headers: { 'X-Contentful-Version': version, ...headers },
