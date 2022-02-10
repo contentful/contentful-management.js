@@ -678,7 +678,7 @@ export type MRActions = {
       return: CollectionProp<AppInstallationProps>
     }
     upsert: {
-      params: GetAppInstallationParams
+      params: GetAppInstallationParams & { acceptAllTerms?: boolean }
       payload: CreateAppInstallationProps
       headers?: AxiosRequestHeaders
       return: AppInstallationProps
