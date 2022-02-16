@@ -102,24 +102,12 @@ You can use the es6 import with the library as follow
 
 ```js
 // import createClient directly
-import { createClient } from 'contentful-management'
-const client = createClient({
-  // This is the access token for this space. Normally you get the token in the Contentful web app
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
-//....
-```
-
-OR
-
-```js
-// import everything from contentful
-import * as contentful from 'contentful-management'
+import contentful from 'contentful-management'
 const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
-// ....
+//....
 ```
 
 ## Your first request
@@ -327,7 +315,7 @@ Interceptor called on every response. Takes Axios response object as an arg. Def
 
 #### apiAdapter (default: `new RestAdapter(configuration)`)
 
-An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495) 
+An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495)
 that can be utilized to issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
 initialized with provided configuration.
 
@@ -337,9 +325,11 @@ initialized with provided configuration.
 > information it needs to issue the request (e.g., host or auth headers)
 
 #### throttle (default: `0`)
+
 Maximum number of requests per second.
-- `1`-`30` (fixed number of limit), 
-- `'auto'` (calculated limit based on your plan), 
+
+- `1`-`30` (fixed number of limit),
+- `'auto'` (calculated limit based on your plan),
 - `'0%'` - `'100%'` (calculated % limit based on your plan)
 
 ### Reference documentation
