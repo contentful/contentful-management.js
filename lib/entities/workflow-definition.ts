@@ -14,14 +14,32 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { ActionType } from './role'
 
-/* Workflow Step */
-
-export type WorkflowStepAction = {
-  action: Link<'AppAction'>
-  body: string
-  headers: Record<string, unknown>
+/* Workflow Step Action */
+export enum WorkflowStepActionType {
+  App = 'app',
+  Email = 'email',
+  Task = 'task',
+}
+export interface WorkflowStepAction<T = Record<string, any>> {
+  appId?: string
+  appActionId?: string
+  type: WorkflowStepActionType
+  configuration?: T
 }
 
+type EmailActionRecipient = string | Link<'User'> | Link<'Team'>
+
+export type WorkflowStepEmailActionConfiguration = {
+  recipients: EmailActionRecipient[]
+}
+
+export type WorkflowStepTaskActionConfiguration = {
+  assignee: Link<'User'> | Link<'Team'>
+  body: string
+  dueDate: number
+}
+
+/* Workflow Step */
 export type WorkflowStepPermission = {
   effect: string
   action: ActionType | 'all'
