@@ -36,7 +36,12 @@ export type WorkflowStepEmailActionConfiguration = {
 export type WorkflowStepTaskActionConfiguration = {
   assignee: Link<'User'> | Link<'Team'>
   body: string
-  dueDate: number
+  dueDate?: number
+}
+
+export type WorkflowStepAppActionConfiguration = {
+  body: Record<string, any>
+  headers: Record<string, any>
 }
 
 /* Workflow Step */
