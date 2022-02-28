@@ -29,14 +29,14 @@ type EmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
 type WorkflowStepEmailAction = {
   type: 'email'
-  configuration?: {
+  configuration: {
     recipients: EmailActionRecipient[]
   }
 }
 
 type WorkflowStepTaskAction = {
   type: 'task'
-  configuration?: {
+  configuration: {
     assignee: Link<'User'> | Link<'Team'>
     body: string
     dueDate?: number
