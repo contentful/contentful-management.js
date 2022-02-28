@@ -21,20 +21,20 @@ export enum WorkflowStepActionType {
   Task = 'task',
 }
 export type WorkflowStepAction =
-  | WorkflowStepEmailActionConfiguration
-  | WorkflowStepTaskActionConfiguration
-  | WorkflowStepAppActionConfiguration
+  | WorkflowStepEmailAction
+  | WorkflowStepTaskAction
+  | WorkflowStepAppAction
 
 type EmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
-type WorkflowStepEmailActionConfiguration = {
+type WorkflowStepEmailAction = {
   type: 'email'
   configuration?: {
     recipients: EmailActionRecipient[]
   }
 }
 
-type WorkflowStepTaskActionConfiguration = {
+type WorkflowStepTaskAction = {
   type: 'task'
   configuration?: {
     assignee: Link<'User'> | Link<'Team'>
@@ -43,7 +43,7 @@ type WorkflowStepTaskActionConfiguration = {
   }
 }
 
-type WorkflowStepAppActionConfiguration = {
+type WorkflowStepAppAction = {
   type: 'app'
   appId: string
   appActionId: string
