@@ -20,28 +20,37 @@ export enum WorkflowStepActionType {
   Email = 'email',
   Task = 'task',
 }
-export interface WorkflowStepAction<T = Record<string, any>> {
-  appId?: string
-  appActionId?: string
-  type: WorkflowStepActionType
-  configuration?: T
-}
+export type WorkflowStepAction =
+  | WorkflowStepEmailActionConfiguration
+  | WorkflowStepTaskActionConfiguration
+  | WorkflowStepAppActionConfiguration
 
 type EmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
-export type WorkflowStepEmailActionConfiguration = {
-  recipients: EmailActionRecipient[]
+type WorkflowStepEmailActionConfiguration = {
+  type: 'email'
+  configuration?: {
+    recipients: EmailActionRecipient[]
+  }
 }
 
-export type WorkflowStepTaskActionConfiguration = {
-  assignee: Link<'User'> | Link<'Team'>
-  body: string
-  dueDate?: number
+type WorkflowStepTaskActionConfiguration = {
+  type: 'task'
+  configuration?: {
+    assignee: Link<'User'> | Link<'Team'>
+    body: string
+    dueDate?: number
+  }
 }
 
-export type WorkflowStepAppActionConfiguration = {
-  body?: Record<string, any>
-  headers?: Record<string, any>
+type WorkflowStepAppActionConfiguration = {
+  type: 'app'
+  appId: string
+  appActionId: string
+  configuration?: {
+    body?: Record<string, any>
+    headers?: Record<string, any>
+  }
 }
 
 /* Workflow Step */
