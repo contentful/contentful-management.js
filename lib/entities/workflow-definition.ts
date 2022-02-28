@@ -49,7 +49,7 @@ type WorkflowStepAppAction = {
   appActionId: string
   configuration?: {
     body?: Record<string, any>
-    headers?: Record<string, any>
+    headers?: Record<string, string>
   }
 }
 
