@@ -40,8 +40,8 @@ export type WorkflowStepTaskActionConfiguration = {
 }
 
 export type WorkflowStepAppActionConfiguration = {
-  body: Record<string, any>
-  headers: Record<string, any>
+  body?: Record<string, any>
+  headers?: Record<string, any>
 }
 
 /* Workflow Step */
