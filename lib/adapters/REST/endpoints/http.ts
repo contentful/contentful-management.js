@@ -26,6 +26,14 @@ export const put: RestEndpoint<'Http', 'put'> = <T = any>(
   return raw.put<T>(http, url, payload, config)
 }
 
+export const patch: RestEndpoint<'Http', 'patch'> = <T = any>(
+  http: AxiosInstance,
+  { url, config }: { url: string; config?: AxiosRequestConfig },
+  payload?: any
+) => {
+  return raw.patch<T>(http, url, payload, config)
+}
+
 export const del: RestEndpoint<'Http', 'delete'> = <T = any>(
   http: AxiosInstance,
   { url, config }: { url: string; config?: AxiosRequestConfig }

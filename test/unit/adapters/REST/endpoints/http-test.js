@@ -58,6 +58,21 @@ describe('Rest Http', () => {
     expect(httpMock.put.args[0][2]).to.contain(CONFIG)
   })
 
+  test('patch', async () => {
+    const { httpMock, adapterMock: adapter } = setup()
+
+    await adapter.makeRequest({
+      entityType: 'Http',
+      action: 'patch',
+      params: { url: URL, config: CONFIG },
+      payload: PAYLOAD,
+    })
+
+    expect(httpMock.patch.args[0][0]).to.equal(URL)
+    expect(httpMock.patch.args[0][1]).to.equal(PAYLOAD)
+    expect(httpMock.patch.args[0][2]).to.contain(CONFIG)
+  })
+
   test('delete', async () => {
     const { httpMock, adapterMock: adapter } = setup()
 
