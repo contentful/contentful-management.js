@@ -1236,6 +1236,10 @@ export type MRActions = {
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
     getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
+    getManyForEntry: {
+      params: GetEntryParams & QueryParams
+      return: CollectionProp<TaskProps>
+    }
     create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
     update: {
       params: UpdateTaskParams

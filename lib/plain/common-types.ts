@@ -799,6 +799,9 @@ export type PlainClientAPI = {
   task: {
     get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
     getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<TaskProps>>
+    getManyForEntry(
+      params: OptionalDefaults<GetEntryParams & QueryParams>
+    ): Promise<CollectionProp<TaskProps>>
     create(
       params: OptionalDefaults<CreateTaskParams>,
       rawData: CreateTaskProps,

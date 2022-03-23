@@ -154,6 +154,7 @@ export const createPlainClient = (
     task: {
       get: wrap(wrapParams, 'Task', 'get'),
       getAll: wrap(wrapParams, 'Task', 'getAll'),
+      getManyForEntry: wrap(wrapParams, 'Task', 'getManyForEntry'),
       create: wrap(wrapParams, 'Task', 'create'),
       update: wrap(wrapParams, 'Task', 'update'),
       delete: wrap(wrapParams, 'Task', 'delete'),
