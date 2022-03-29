@@ -1,7 +1,12 @@
 import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
-import { CollectionProp, GetEntryParams, GetCommentParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetEntryParams,
+  GetCommentParams,
+  QueryParams,
+} from '../../../common-types'
 import {
   CreateCommentParams,
   CreateCommentProps,
@@ -11,6 +16,7 @@ import {
 } from '../../../entities/comment'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/comments`
@@ -21,10 +27,13 @@ export const get: RestEndpoint<'Comment', 'get'> = (
   params: GetCommentParams
 ) => raw.get<CommentProps>(http, getCommentUrl(params))
 
-export const getAll: RestEndpoint<'Comment', 'getAll'> = (
+export const getManyForEntry: RestEndpoint<'Comment', 'getManyForEntry'> = (
   http: AxiosInstance,
-  params: GetEntryParams
-) => raw.get<CollectionProp<CommentProps>>(http, getBaseUrl(params))
+  params: GetEntryParams & QueryParams
+) =>
+  raw.get<CollectionProp<CommentProps>>(http, getBaseUrl(params), {
+    params: normalizeSelect(params.query),
+  })
 
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
