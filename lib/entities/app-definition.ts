@@ -13,7 +13,13 @@ export interface NavigationItem {
   path: string
 }
 
-type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
+type LocationType =
+  | 'app-config'
+  | 'entry-sidebar'
+  | 'entry-editor'
+  | 'dialog'
+  | 'page'
+  | 'entry-list'
 
 export interface SimpleLocation {
   location: LocationType
