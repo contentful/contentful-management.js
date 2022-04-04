@@ -35,6 +35,11 @@ export const getManyForEntry: RestEndpoint<'Comment', 'getManyForEntry'> = (
     params: normalizeSelect(params.query),
   })
 
+/**
+ * @deprecated use `getManyForEntry` instead. `getAll` may never be removed for app compatibility reasons.
+ */
+export const getAll: RestEndpoint<'Comment', 'getAll'> = getManyForEntry
+
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
   params: CreateCommentParams,

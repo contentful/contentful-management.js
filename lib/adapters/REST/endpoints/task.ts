@@ -28,6 +28,11 @@ export const getManyForEntry: RestEndpoint<'Task', 'getManyForEntry'> = (
     params: normalizeSelect(params.query),
   })
 
+/**
+ * @deprecated use `getManyForEntry` instead. `getAll` may never be removed for app compatibility reasons.
+ */
+export const getAll: RestEndpoint<'Task', 'getAll'> = getManyForEntry
+
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
   params: CreateTaskParams,
