@@ -298,7 +298,7 @@ export type PlainClientAPI = {
   }
   comment: {
     get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
-    getManyForEntry(
+    getMany(
       params: OptionalDefaults<GetEntryParams & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
     create(
@@ -800,7 +800,7 @@ export type PlainClientAPI = {
   }
   task: {
     get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
-    getManyForEntry(
+    getMany(
       params: OptionalDefaults<GetEntryParams & QueryParams>
     ): Promise<CollectionProp<TaskProps>>
     create(

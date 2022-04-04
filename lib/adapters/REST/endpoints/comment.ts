@@ -27,7 +27,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
   params: GetCommentParams
 ) => raw.get<CommentProps>(http, getCommentUrl(params))
 
-export const getManyForEntry: RestEndpoint<'Comment', 'getManyForEntry'> = (
+export const getMany: RestEndpoint<'Comment', 'getMany'> = (
   http: AxiosInstance,
   params: GetEntryParams & QueryParams
 ) =>
@@ -36,9 +36,9 @@ export const getManyForEntry: RestEndpoint<'Comment', 'getManyForEntry'> = (
   })
 
 /**
- * @deprecated use `getManyForEntry` instead. `getAll` may never be removed for app compatibility reasons.
+ * @deprecated use `getMany` instead. `getAll` may never be removed for app compatibility reasons.
  */
-export const getAll: RestEndpoint<'Comment', 'getAll'> = getManyForEntry
+export const getAll: RestEndpoint<'Comment', 'getAll'> = getMany
 
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,

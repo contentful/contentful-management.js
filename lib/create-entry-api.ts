@@ -348,7 +348,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Comment',
-        action: 'getManyForEntry',
+        action: 'getMany',
         params,
       }).then((data) => wrapCommentCollection(makeRequest, data))
     },
@@ -436,7 +436,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Task',
-        action: 'getManyForEntry',
+        action: 'getMany',
         params,
       }).then((data) => wrapTaskCollection(makeRequest, data))
     },

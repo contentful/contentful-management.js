@@ -123,7 +123,7 @@ export const createPlainClient = (
     },
     comment: {
       get: wrap(wrapParams, 'Comment', 'get'),
-      getManyForEntry: wrap(wrapParams, 'Comment', 'getManyForEntry'),
+      getMany: wrap(wrapParams, 'Comment', 'getMany'),
       create: wrap(wrapParams, 'Comment', 'create'),
       update: wrap(wrapParams, 'Comment', 'update'),
       delete: wrap(wrapParams, 'Comment', 'delete'),
@@ -153,7 +153,7 @@ export const createPlainClient = (
     },
     task: {
       get: wrap(wrapParams, 'Task', 'get'),
-      getManyForEntry: wrap(wrapParams, 'Task', 'getManyForEntry'),
+      getMany: wrap(wrapParams, 'Task', 'getMany'),
       create: wrap(wrapParams, 'Task', 'create'),
       update: wrap(wrapParams, 'Task', 'update'),
       delete: wrap(wrapParams, 'Task', 'delete'),

@@ -327,7 +327,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
 
   (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
-  (opts: MROpts<'Comment', 'getManyForEntry', UA>): MRReturn<'Comment', 'getManyForEntry'>
+  (opts: MROpts<'Comment', 'getMany', UA>): MRReturn<'Comment', 'getMany'>
   (opts: MROpts<'Comment', 'getAll', UA>): MRReturn<'Comment', 'getAll'>
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
@@ -486,7 +486,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Tag', 'delete', UA>): MRReturn<'Tag', 'delete'>
 
   (opts: MROpts<'Task', 'get', UA>): MRReturn<'Task', 'get'>
-  (opts: MROpts<'Task', 'getManyForEntry', UA>): MRReturn<'Task', 'getManyForEntry'>
+  (opts: MROpts<'Task', 'getMany', UA>): MRReturn<'Task', 'getMany'>
   (opts: MROpts<'Task', 'getAll', UA>): MRReturn<'Task', 'getAll'>
   (opts: MROpts<'Task', 'create', UA>): MRReturn<'Task', 'create'>
   (opts: MROpts<'Task', 'update', UA>): MRReturn<'Task', 'update'>
@@ -817,7 +817,7 @@ export type MRActions = {
   }
   Comment: {
     get: { params: GetCommentParams; return: CommentProps }
-    getManyForEntry: {
+    getMany: {
       params: GetEntryParams & QueryParams
       return: CollectionProp<CommentProps>
     }
@@ -1244,7 +1244,7 @@ export type MRActions = {
   }
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
-    getManyForEntry: {
+    getMany: {
       params: GetEntryParams & QueryParams
       return: CollectionProp<TaskProps>
     }

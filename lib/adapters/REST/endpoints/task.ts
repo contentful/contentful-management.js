@@ -20,7 +20,7 @@ const getTaskUrl = (params: GetTaskParams) => `${getBaseUrl(params)}/${params.ta
 export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: GetTaskParams) =>
   raw.get<TaskProps>(http, getTaskUrl(params))
 
-export const getManyForEntry: RestEndpoint<'Task', 'getManyForEntry'> = (
+export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
   params: GetEntryParams & QueryParams
 ) =>
@@ -29,9 +29,9 @@ export const getManyForEntry: RestEndpoint<'Task', 'getManyForEntry'> = (
   })
 
 /**
- * @deprecated use `getManyForEntry` instead. `getAll` may never be removed for app compatibility reasons.
+ * @deprecated use `getMany` instead. `getAll` may never be removed for app compatibility reasons.
  */
-export const getAll: RestEndpoint<'Task', 'getAll'> = getManyForEntry
+export const getAll: RestEndpoint<'Task', 'getAll'> = getMany
 
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
