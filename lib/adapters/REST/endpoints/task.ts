@@ -1,7 +1,7 @@
 import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
-import { CollectionProp, GetEntryParams, GetTaskParams } from '../../../common-types'
+import { CollectionProp, GetEntryParams, GetTaskParams, QueryParams } from '../../../common-types'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -11,6 +11,7 @@ import {
 } from '../../../entities/task'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/tasks`
@@ -19,10 +20,18 @@ const getTaskUrl = (params: GetTaskParams) => `${getBaseUrl(params)}/${params.ta
 export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: GetTaskParams) =>
   raw.get<TaskProps>(http, getTaskUrl(params))
 
-export const getAll: RestEndpoint<'Task', 'getAll'> = (
+export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
-  params: GetEntryParams
-) => raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params))
+  params: GetEntryParams & QueryParams
+) =>
+  raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params), {
+    params: normalizeSelect(params.query),
+  })
+
+/**
+ * @deprecated use `getMany` instead. `getAll` may never be removed for app compatibility reasons.
+ */
+export const getAll: RestEndpoint<'Task', 'getAll'> = getMany
 
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
