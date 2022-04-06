@@ -16,7 +16,7 @@ import { ActionType } from './role'
 
 /* Workflow Step Permission */
 
-export type WorkflowStepPermissionActors = 'all' | Link<'User'>[] | Link<'Team'>[]
+export type WorkflowStepPermissionActors = 'all' | Array<Link<'User'> | Link<'Team'>>
 
 export enum WorkflowStepPermissionType {
   EntityPermission = 'entity_permission',
