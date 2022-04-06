@@ -12,11 +12,10 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionType } from './role'
 
 /* Workflow Step Permission */
-
-export type WorkflowStepPermissionActors = 'all' | Array<Link<'User'> | Link<'Team'>>
+type NonEmptyArray<T> = [T, ...T[]]
+export type WorkflowStepPermissionActors = 'all' | NonEmptyArray<Link<'User'> | Link<'Team'>>
 
 export enum WorkflowStepPermissionType {
   EntityPermission = 'entity_permission',
