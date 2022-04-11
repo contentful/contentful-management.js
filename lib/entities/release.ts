@@ -32,7 +32,7 @@ export interface ReleaseQueryOptions {
   /** Comma-separated  list of Ids to find (inclusion)  */
   'sys.id[in]'?: string
 
-  /** Filters by creator of release  */
+  /** Comma-separated list of user Ids to find releases by creator  */
   'sys.createdBy.sys.id[in]'?: string
 
   /** Comma-separated filter (inclusion) by Release status (active, archived) */
