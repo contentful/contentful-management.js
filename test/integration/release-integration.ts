@@ -88,6 +88,43 @@ describe('Release Api', async function () {
         testEnvironment.deleteRelease(release2.sys.id),
       ])
     })
+
+    test('Get Releases with query filters', async () => {
+      // Creates 2 releases, 1 empty and 1 containing a test entry
+      const [release1, release2] = await Promise.all([
+        testEnvironment.createRelease({
+          title: 'First release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)], // empty release
+          },
+        }),
+        testEnvironment.createRelease({
+          title: 'Second release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [],
+          },
+        }),
+      ])
+
+      const queryResult = await testEnvironment.getReleases({
+        'entities[exists]': true,
+        'sys.status[in]': 'active',
+        limit: 1000,
+        order: '-title',
+      })
+
+      // Returns the filtered results -- considering only non-empty releases
+      expect(queryResult.items.length).to.eql(1)
+      expect(queryResult.items[0].title).to.eql('First release')
+
+      // cleanup
+      await Promise.all([
+        testEnvironment.deleteRelease(release1.sys.id),
+        testEnvironment.deleteRelease(release2.sys.id),
+      ])
+    })
   })
 
   describe('Write', () => {
