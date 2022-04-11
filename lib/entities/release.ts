@@ -69,6 +69,7 @@ export type ReleaseSysProps = {
   id: string
   type: 'Release'
   version: number
+  status: ReleaseStatus
   space: Link<'Space'>
   environment: Link<'Environment'>
   createdBy: Link<'User'> | Link<'AppDefinition'>
@@ -100,6 +101,18 @@ export interface ReleaseValidateOptions {
 }
 
 export interface ReleaseApiMethods {
+  /**
+   * Archives a release and locks any actions such as adding new entities or publishing/unpublishing.
+   * This operation increases the sys.version property
+   * @throws {BadRequest} if the release is already archived
+   * */
+
+  archive(): Promise<Release>
+  /**
+   * Unarchives an `archived` release and unlocks operations on the Release. This operation increases the sys.version property
+   * @throws {BadRequest} if the release is not archived
+   * */
+  unarchive(): Promise<Release>
   /** Updates a Release and returns the updated Release object */
   update(payload: ReleasePayload): Promise<Release>
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
@@ -121,7 +134,7 @@ export interface ReleaseApiMethods {
 /**
  * @private
  */
-function createReleaseApi(makeRequest: MakeRequest) {
+function createReleaseApi(makeRequest: MakeRequest): ReleaseApiMethods {
   const getParams = (self: Release) => {
     const release = self.toPlainObject()
 
@@ -134,6 +147,24 @@ function createReleaseApi(makeRequest: MakeRequest) {
   }
 
   return {
+    async archive() {
+      const params = getParams(this)
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'archive',
+        params,
+      }).then((release) => wrapRelease(makeRequest, release))
+    },
+    async unarchive() {
+      const params = getParams(this)
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'unarchive',
+        params,
+      }).then((release) => wrapRelease(makeRequest, release))
+    },
     async update(payload: ReleasePayload) {
       const params = getParams(this)
 
@@ -204,7 +235,10 @@ export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElement
  */
 export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Release {
   const release = toPlainObject(copy(data))
-  const releaseWithApiMethods = enhanceWithMethods(release as any, createReleaseApi(makeRequest))
+  const releaseWithApiMethods = enhanceWithMethods(
+    release as any,
+    createReleaseApi(makeRequest) as any
+  )
   return freezeSys(releaseWithApiMethods)
 }
 

@@ -344,6 +344,91 @@ describe('Release Api', async function () {
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
     })
+
+    test('archive Release', async () => {
+      let release = await testEnvironment.createRelease({
+        title: 'Release (test)',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      release = await testEnvironment.archiveRelease({
+        releaseId: release.sys.id,
+        version: release.sys.version,
+      })
+      expect(release.sys.status).to.eql('archived')
+
+      // cleanup
+      await testEnvironment.deleteRelease(release.sys.id)
+    })
+
+    test('archive a release thats already archived', async () => {
+      const release = await testEnvironment.createRelease({
+        title: 'Release (test)',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      // Unarchiving a non-archived will thrown an error
+      try {
+        await release.archive()
+        await release.archive()
+      } catch (err) {
+        const parsedError = JSON.parse(err?.message)
+        expect(err?.name).to.eql('BadRequest')
+        expect(parsedError.message).to.eql('This release is already archived.')
+      }
+
+      // cleanup
+      await testEnvironment.deleteRelease(release.sys.id)
+    })
+
+    test('unarchive a non-archived Release', async () => {
+      const release = await testEnvironment.createRelease({
+        title: 'Release (test)',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      // Unarchiving a non-archived will thrown an error
+      try {
+        await release.unarchive()
+      } catch (err) {
+        const parsedError = JSON.parse(err?.message)
+        expect(err?.name).to.eql('BadRequest')
+        expect(parsedError.message).to.eql('This release is not archived.')
+      }
+
+      // cleanup
+      await testEnvironment.deleteRelease(release.sys.id)
+    })
+
+    test('unarchive an archived Release', async () => {
+      let release = await testEnvironment.createRelease({
+        title: 'Release (test)',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      // Archiving and Unarchiving change the release version
+      release = await release.archive()
+      release = await await testEnvironment.unarchiveRelease({
+        releaseId: release.sys.id,
+        version: release.sys.version,
+      })
+      expect(release.sys.status).to.eql('active')
+
+      // cleanup
+      await testEnvironment.deleteRelease(release.sys.id)
+    })
   })
 
   describe('PlainClient', () => {
@@ -470,6 +555,48 @@ describe('Release Api', async function () {
       expect(releases.items).to.deep.equal([release])
       expect(releases.pages).not.to.be.undefined
       expect(releases.pages.next).to.be.a.string
+    })
+
+    test('release.archive', async () => {
+      const plainClient = initPlainClient(defaultParams)
+      const release = await plainClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      const releaseResult = await plainClient.release.archive({
+        releaseId: release.sys.id,
+        version: release.sys.version,
+      })
+      expect(releaseResult.sys.status).to.eql('archived')
+    })
+
+    test('release.unarchive', async () => {
+      const plainClient = initPlainClient(defaultParams)
+      const release = await plainClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+
+      const releaseParams = { releaseId: release.sys.id, version: release.sys.version }
+
+      const updatedRelease = await plainClient.release.archive(releaseParams)
+
+      const releaseResult = await plainClient.release.unarchive({
+        ...releaseParams,
+        version: updatedRelease.sys.version,
+      })
+      expect(releaseResult.sys.status).to.eql('active')
     })
   })
 })
