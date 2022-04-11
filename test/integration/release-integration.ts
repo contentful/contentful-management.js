@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { after, before, describe, test } from 'mocha'
+import { before, describe, test } from 'mocha'
 import { Environment, Space } from '../../lib/export-types'
 
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
@@ -7,8 +7,7 @@ import { TestDefaults } from '../defaults'
 import { createTestSpace, initPlainClient, initClient } from '../helpers'
 import { makeLink } from '../utils'
 
-// eslint-disable-next-line no-only-tests/no-only-tests
-describe.only('Release Api', async function () {
+describe('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
