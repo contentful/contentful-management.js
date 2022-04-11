@@ -1,20 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
-import { Environment } from '../../lib/entities/environment'
-import { Space } from '../../lib/entities/space'
+import { after, before, describe, test } from 'mocha'
+import { Environment, Space } from '../../lib/export-types'
+
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient } from '../helpers'
+import { createTestSpace, initPlainClient, initClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe('Release Api', async function () {
+// eslint-disable-next-line no-only-tests/no-only-tests
+describe.only('Release Api', async function () {
   let testSpace: Space
   let testEnvironment: Environment
 
   before(async () => {
-    testSpace = await getDefaultSpace()
-    testEnvironment = await testSpace.getEnvironment('master')
+    try {
+      testSpace = (await createTestSpace(initClient(), 'Releases')) as unknown as Space
+      testEnvironment = (await testSpace.getEnvironment('master')) as unknown as Environment
+      const contentType = await testEnvironment.createContentTypeWithId('testContentType', {
+        name: 'testContentType',
+        fields: [
+          {
+            id: 'title',
+            name: 'Title',
+            localized: false,
+            required: false,
+            type: 'Symbol',
+          },
+        ],
+      })
+      await contentType.publish()
+      await testEnvironment.createEntryWithId(
+        'testContentType',
+        TestDefaults.entry.testEntryReleasesId,
+        {
+          fields: {
+            title: { 'en-US': 'Non-localized value' },
+          },
+        }
+      )
+    } catch (err) {
+      console.error('Error running <before> setup: ', err)
+    }
   })
 
   describe('Read', () => {
@@ -81,6 +107,43 @@ describe('Release Api', async function () {
       expect(queryResult.items.length).to.eql(queryLimit)
       expect(queryResult).to.have.property('pages')
       expect(queryResult.pages.next).to.be.a.string
+
+      // cleanup
+      await Promise.all([
+        testEnvironment.deleteRelease(release1.sys.id),
+        testEnvironment.deleteRelease(release2.sys.id),
+      ])
+    })
+
+    test('Get Releases with query filters', async () => {
+      // Creates 2 releases, 1 empty and 1 containing a test entry
+      const [release1, release2] = await Promise.all([
+        testEnvironment.createRelease({
+          title: 'First release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)], // empty release
+          },
+        }),
+        testEnvironment.createRelease({
+          title: 'Second release',
+          entities: {
+            sys: { type: 'Array' },
+            items: [],
+          },
+        }),
+      ])
+
+      const queryResult = await testEnvironment.getReleases({
+        'entities[exists]': true,
+        'sys.status[in]': 'active',
+        limit: 1,
+        order: '-sys.createdAt',
+      })
+
+      // Returns the filtered results -- considering only non-empty releases
+      expect(queryResult.items.length).to.eql(1)
+      expect(queryResult.items[0].title).to.eql('First release')
 
       // cleanup
       await Promise.all([
@@ -222,18 +285,18 @@ describe('Release Api', async function () {
 
     test('publish Release', async () => {
       // keeps original version
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
 
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
       const publishAction = await release.publish()
-      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
 
       expect(publishAction.sys.status).to.eql('succeeded')
 
@@ -245,18 +308,18 @@ describe('Release Api', async function () {
     })
 
     test('unpublish Release', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
 
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
       const unpublishAction = await release.unpublish()
-      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReferenceId)
+      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
 
       expect(unpublishAction.sys.status).to.eql('succeeded')
 
@@ -272,7 +335,7 @@ describe('Release Api', async function () {
         title: 'Release (test)',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
@@ -293,7 +356,7 @@ describe('Release Api', async function () {
     test('release.publish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
-        entryId: TestDefaults.entry.testEntryReferenceId,
+        entryId: TestDefaults.entry.testEntryReleasesId,
       })
 
       const createdRelease = await plainClient.release.create(defaultParams, {
@@ -331,7 +394,7 @@ describe('Release Api', async function () {
         title: 'Test Release',
         entities: {
           sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 
@@ -357,7 +420,7 @@ describe('Release Api', async function () {
     test('release.unpublish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
-        entryId: TestDefaults.entry.testEntryReferenceId,
+        entryId: TestDefaults.entry.testEntryReleasesId,
       })
 
       const createdRelease = await plainClient.release.create(defaultParams, {
@@ -396,7 +459,7 @@ describe('Release Api', async function () {
           sys: {
             type: 'Array',
           },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReferenceId)],
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
         },
       })
 

@@ -18,16 +18,35 @@ import { ReleaseActionProps, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
+type ReleaseStatus = 'active' | 'archived'
 
 export interface ReleaseQueryOptions {
   /** Find releases filtered by the Entity type (Asset, Entry) */
   'entities.sys.linkType'?: string
   /** Find releases containing the specified, comma-separated entities. Requires `entities.sys.linkType` */
   'entities.sys.id[in]'?: string
-  /** Find releases by using a comma-separated list of Ids */
+
+  /** Comma-separated list of ids to exclude from the query */
+  'sys.id[nin]'?: string
+
+  /** Comma-separated  list of Ids to find (inclusion)  */
   'sys.id[in]'?: string
+
+  /** Comma-separated list of user Ids to find releases by creator  */
+  'sys.createdBy.sys.id[in]'?: string
+
+  /** Comma-separated filter (inclusion) by Release status (active, archived) */
+  'sys.status[in]'?: ReleaseStatus
+
+  /** Comma-separated filter (exclusion) by Release status (active, archived) */
+  'sys.status[nin]'?: ReleaseStatus
+
   /** Find releases using full text phrase and term matching */
   'title[match]'?: string
+
+  /** Filter by empty Releases (exists=false) or Releases with items (exists=true) */
+  'entities[exists]'?: boolean
+
   /** If present, will return results based on a pagination cursor */
   pageNext?: string
   /**
@@ -36,14 +55,14 @@ export interface ReleaseQueryOptions {
    * */
   limit?: number
   /**
-   * Order releases by
+   * Order releases
+   *  Supported values include
+   *  - `title`, `-title`
+   *  - `sys.updatedAt`, `-sys.updatedAt`
+   *  - `sys.createdAt`, `-sys.createdAt`
    * @default -sys.updatedAt
    * */
   order?: string
-  /**
-   * Filters by creator of release
-   */
-  'sys.createdBy.sys.id[in]'?: string
 }
 
 export type ReleaseSysProps = {
