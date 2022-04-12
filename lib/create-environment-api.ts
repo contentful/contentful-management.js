@@ -1974,6 +1974,74 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Archives a Release and prevents new operations (publishing, unpublishing adding new entities etc).
+     * @param options.releaseId the ID of the release
+     * @param options.version the version of the release that is to be archived
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.archiveRelease({ releaseId: '<release_id>', version: 1 }))
+     * .catch(console.error)
+     * ```
+     */
+    archiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'archive',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Unarchives a previously archived Release - this enables the release to be published, unpublished etc.
+     * @param options.releaseId the ID of the release
+     * @param options.version the version of the release that is to be unarchived
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.unarchiveRelease({ releaseId: '<release_id>', version: 1 }))
+     * .catch(console.error)
+     * ```
+     */
+    unarchiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'unarchive',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
      * Retrieves a ReleaseAction by ID
      * @param params.releaseId The ID of a Release
      * @param params.actionId The ID of a Release Action
