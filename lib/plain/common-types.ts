@@ -523,6 +523,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UsageProps>>
   }
   release: {
+    archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
@@ -539,6 +540,9 @@ export type PlainClientAPI = {
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'publish'>>
+    unarchive(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseProps>
     unpublish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'unpublish'>>
