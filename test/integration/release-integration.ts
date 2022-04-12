@@ -359,7 +359,7 @@ describe('Release Api', async function () {
         version: release.sys.version,
       })
       expect(release.sys.status).to.eql('archived')
-
+      expect(release.sys.archivedBy).to.not.be.undefined
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
     })
@@ -425,6 +425,7 @@ describe('Release Api', async function () {
         version: release.sys.version,
       })
       expect(release.sys.status).to.eql('active')
+      expect(release.sys.archivedBy).to.be.undefined
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
@@ -574,6 +575,7 @@ describe('Release Api', async function () {
         version: release.sys.version,
       })
       expect(releaseResult.sys.status).to.eql('archived')
+      expect(releaseResult.sys.archivedBy).to.not.be.undefined
     })
 
     test('release.unarchive', async () => {
@@ -597,6 +599,7 @@ describe('Release Api', async function () {
         version: updatedRelease.sys.version,
       })
       expect(releaseResult.sys.status).to.eql('active')
+      expect(releaseResult.sys.archivedBy).to.be.undefined
     })
   })
 })

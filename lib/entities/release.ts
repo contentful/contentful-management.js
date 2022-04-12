@@ -72,6 +72,8 @@ export type ReleaseSysProps = {
   status: ReleaseStatus
   space: Link<'Space'>
   environment: Link<'Environment'>
+  archivedBy?: Link<'User'>
+  archivedAt: ISO8601Timestamp
   createdBy: Link<'User'> | Link<'AppDefinition'>
   updatedBy: Link<'User'> | Link<'AppDefinition'>
   createdAt: ISO8601Timestamp
