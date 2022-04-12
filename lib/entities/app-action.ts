@@ -11,17 +11,18 @@ type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
-export type BodyDefinition = Omit<ParameterDefinition, 'labels'>
+export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>
 
-export enum ActionTypes {
-  Endpoint = 'endpoint',
+export enum AppActionCategory {
+  EntryListV1Beta = 'EntryList.v1.0-beta',
+  NotificationV1Beta = 'Notification.v1.0-beta',
+  Custom = 'Custom',
 }
 
 export type CreateAppActionProps = {
-  type: ActionTypes.Endpoint
   url: string
-  body?: BodyDefinition[]
-  headers?: string[]
+  category: AppActionCategory
+  parameters?: AppActionParameterDefinition[]
   name: string
 }
 
@@ -31,9 +32,9 @@ export type AppActionProps = {
    */
   sys: AppActionSys
   /**
-   * Type of the action
+   * Category identifying the shape of the action. Choose "Custom" for custom schema
    */
-  type: ActionTypes
+  category: AppActionCategory
   /**
    * Url that will be called when the action is invoked
    */
@@ -41,11 +42,7 @@ export type AppActionProps = {
   /**
    * An optional schema for which body parameters need to be provided when calling the action
    */
-  body?: BodyDefinition[]
-  /**
-   * An optional schema for which headers need to be provided hen calling the action
-   */
-  headers?: string[]
+  parameters?: AppActionParameterDefinition[]
   /**
    * Human readable name for the action
    */
@@ -65,7 +62,7 @@ export interface AppAction extends AppActionProps, DefaultElements<AppActionProp
    *
    * client.getOrganization('<org_id>')
    * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => appDefinition.getAppAction('<app-bundle-id>'))
+   * .then((appDefinition) => appDefinition.getAppAction('<app-action-id>'))
    * .then((appAction) => appAction.delete())
    * .catch(console.error)
    * ```
