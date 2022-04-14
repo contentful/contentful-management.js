@@ -1,10 +1,11 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Except, SetOptional } from 'type-fest'
+import { Except, SetOptional, RequireAtLeastOne } from 'type-fest'
 import {
   BasicMetaSysProps,
   Collection,
   DefaultElements,
+  Link,
   MakeRequest,
   QueryOptions,
   SysLink,
@@ -16,6 +17,16 @@ import { ContentFields } from './content-type-fields'
 import { EditorInterface, wrapEditorInterface } from './editor-interface'
 import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
 import { omitAndDeleteField } from '../methods/content-type'
+
+export type ContentTypeMetadata = {
+  annotations?: RequireAtLeastOne<
+    {
+      ContentType?: Link<'Annotation'>[]
+      ContentTypeField?: Record<string, Link<'Annotation'>[]>
+    },
+    'ContentType' | 'ContentTypeField'
+  >
+}
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
@@ -31,6 +42,7 @@ export type ContentTypeProps = {
   displayField: string
   /** All the fields contained in this Content Type */
   fields: ContentFields[]
+  metadata?: ContentTypeMetadata
 }
 
 export type CreateContentTypeProps = SetOptional<
