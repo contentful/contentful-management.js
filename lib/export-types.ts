@@ -70,7 +70,12 @@ export type {
   CreateCommentProps,
   UpdateCommentProps,
 } from './entities/comment'
-export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+export type {
+  ContentType,
+  ContentTypeProps,
+  CreateContentTypeProps,
+  ContentTypeMetadata,
+} from './entities/content-type'
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
   EditorInterface,
