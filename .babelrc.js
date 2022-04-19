@@ -16,13 +16,6 @@ const browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfi
   },
 })
 
-// Legacy browsers
-const legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
-  targets: {
-    browsers: ['last 5 versions', 'not ie < 10'],
-  },
-})
-
 // Node
 const nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: {
@@ -32,7 +25,7 @@ const nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, 
 
 // Combined node and browser environment for es6 modules version and tests
 const modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
-  targets: Object.assign(legacyBabelPresetEnvConfig.targets, nodeBabelPresetEnvConfig.targets),
+  targets: Object.assign(nodeBabelPresetEnvConfig.targets),
 })
 
 const testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
@@ -63,12 +56,6 @@ let babelConfig = {
 if (env === 'browser') {
   babelConfig = Object.assign(babelConfig, {
     presets: [['@babel/preset-env', browserBabelPresetEnvConfig], '@babel/typescript'],
-  })
-}
-
-if (env === 'legacy') {
-  babelConfig = Object.assign(babelConfig, {
-    presets: [['@babel/preset-env', legacyBabelPresetEnvConfig], '@babel/typescript'],
   })
 }
 
