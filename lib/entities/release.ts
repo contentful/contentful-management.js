@@ -14,7 +14,7 @@ import {
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { AsyncActionProcessingOptions } from '../methods/action'
-import { ReleaseActionProps, wrapReleaseAction } from './release-action'
+import { ReleaseAction, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
@@ -120,9 +120,9 @@ export interface ReleaseApiMethods {
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
   /** Publishes a Release and waits until the asynchronous action is completed */
-  publish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'publish'>>
+  publish(options?: AsyncActionProcessingOptions): Promise<ReleaseAction<'publish'>>
   /** Unpublishes a Release and waits until the asynchronous action is completed */
-  unpublish(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps<'unpublish'>>
+  unpublish(options?: AsyncActionProcessingOptions): Promise<ReleaseAction<'unpublish'>>
   /** Validates a Release and waits until the asynchronous action is completed */
   validate({
     payload,
@@ -130,7 +130,7 @@ export interface ReleaseApiMethods {
   }?: {
     payload?: ReleaseValidatePayload
     options?: AsyncActionProcessingOptions
-  }): Promise<ReleaseActionProps<'validate'>>
+  }): Promise<ReleaseAction<'validate'>>
 }
 
 /**
