@@ -186,14 +186,6 @@
       "maxSize": "30Kb"
     },
     {
-      "path": "./dist/contentful-management.legacy.js",
-      "maxSize": "91Kb"
-    },
-    {
-      "path": "./dist/contentful-management.legacy.min.js",
-      "maxSize": "40Kb"
-    },
-    {
       "path": "./dist/contentful-management.node.js",
       "maxSize": "85Kb"
     },

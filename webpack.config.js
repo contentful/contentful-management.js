@@ -80,32 +80,6 @@ browserBundle.module.rules = [
 ]
 browserBundle.output.filename = `${baseFileName}.browser${PROD ? '.min' : ''}.js`
 
-// Legacy browsers like IE11
-const legacyBundle = clone(baseBundleConfig)
-legacyBundle.module.rules = [
-  Object.assign({}, defaultBabelLoader, {
-    options: Object.assign({}, defaultBabelLoader.options, {
-      envName: 'legacy',
-      presets: presets({
-        browsers: ['last 5 versions', 'not ie < 10'],
-      }),
-    }),
-  }),
-]
-
-// To be replaced with babel-polyfill with babel-preset-env 2.0:
-// https://github.com/babel/babel-preset-env#usebuiltins
-// https://github.com/babel/babel-preset-env/pull/241
-legacyBundle.entry = [
-  'core-js/fn/promise',
-  'core-js/fn/object/assign',
-  'core-js/fn/array/from',
-  'core-js/es6/symbol',
-  'core-js/fn/symbol/async-iterator',
-].concat(legacyBundle.entry)
-
-legacyBundle.output.filename = `${baseFileName}.legacy${PROD ? '.min' : ''}.js`
-
 // Node
 const nodeBundle = clone(baseBundleConfig)
 nodeBundle.module.rules = [
@@ -123,4 +97,4 @@ nodeBundle.output.libraryTarget = 'commonjs2'
 nodeBundle.output.filename = `${baseFileName}.node${PROD ? '.min' : ''}.js`
 delete nodeBundle.node
 
-module.exports = [browserBundle, legacyBundle, nodeBundle]
+module.exports = [browserBundle, nodeBundle]
