@@ -12,7 +12,33 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionType } from './role'
+
+/* Workflow Step Permission */
+type NonEmptyArray<T> = [T, ...T[]]
+export type WorkflowStepPermissionActors = 'all' | NonEmptyArray<Link<'User'> | Link<'Team'>>
+
+export enum WorkflowStepPermissionType {
+  EntityPermission = 'entity_permission',
+}
+
+export enum WorkflowStepPermissionAction {
+  Edit = 'edit',
+  Publish = 'publish',
+}
+
+export enum WorkflowStepPermissionEffect {
+  Allow = 'allow',
+  Deny = 'deny',
+}
+
+export interface WorkflowStepPermission {
+  type: WorkflowStepPermissionType
+  configuration: {
+    actors: WorkflowStepPermissionActors
+    action: WorkflowStepPermissionAction
+    effect: WorkflowStepPermissionEffect
+  }
+}
 
 /* Workflow Step Action */
 export enum WorkflowStepActionType {
@@ -54,12 +80,6 @@ type WorkflowStepAppAction = {
 }
 
 /* Workflow Step */
-export type WorkflowStepPermission = {
-  effect: string
-  action: ActionType | 'all'
-  actor: Link<'User' | 'Team'>
-}
-
 export type WorkflowStepProps = {
   id: string
   name: string
