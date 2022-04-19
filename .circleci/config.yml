@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   lint:
     docker:
-      - image: cimg/node:16.11
+      - image: cimg/node:16.12
     steps:
       - checkout
       - restore_cache:
@@ -13,7 +13,7 @@ jobs:
       - run: npm run check-types
   unit:
     docker:
-      - image: cimg/node:16.11
+      - image: cimg/node:16.12
     steps:
       - checkout
       - restore_cache:
@@ -27,7 +27,7 @@ jobs:
           path: ./reports/unit-results.xml
   integration:
     docker:
-      - image: cimg/node:16.11
+      - image: cimg/node:16.12
     steps:
       - checkout
       - restore_cache:
@@ -41,7 +41,7 @@ jobs:
           path: ./reports/integration-results.xml
   release:
     docker:
-      - image: cimg/node:16.11
+      - image: cimg/node:16.12
     steps:
       - checkout
       - run: npm install
