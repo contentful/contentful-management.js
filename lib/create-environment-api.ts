@@ -830,10 +830,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: entryId,
-          /**
-           * @deprecated use `include` instead
-           */
-          maxDepth: options?.include || options?.maxDepth,
+          include: options?.include,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response) as EntryReferenceProps)
     },
