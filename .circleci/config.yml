@@ -4,7 +4,7 @@ orbs:
 jobs:
   lint:
     docker:
-      - image: cimg/node:16.12
+      - image: cimg/base:stable
     steps:
       - checkout
       - node/install
@@ -17,7 +17,7 @@ jobs:
       - run: npm run check-types
   unit:
     docker:
-      - image: cimg/node:16.12
+      - image: cimg/base:stable
     steps:
       - checkout
       - node/install
@@ -32,7 +32,7 @@ jobs:
           path: ./reports/unit-results.xml
   integration:
     docker:
-      - image: cimg/node:16.12
+      - image: cimg/base:stable
     steps:
       - checkout
       - node/install
@@ -47,7 +47,7 @@ jobs:
           path: ./reports/integration-results.xml
   release:
     docker:
-      - image: cimg/node:16.12
+      - image: cimg/base:stable
     steps:
       - checkout
       - run: npm install
