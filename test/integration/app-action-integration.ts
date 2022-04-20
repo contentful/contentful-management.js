@@ -32,6 +32,7 @@ describe('AppAction api', function () {
         category: 'Custom' as AppActionCategory,
         name: 'my test action',
         url: 'https://www.somewhere.com',
+        parameters: [],
       }
     )
 
@@ -53,6 +54,7 @@ describe('AppAction api', function () {
         category: 'Custom' as AppActionCategory,
         name: 'my test action',
         url: 'https://www.somewhere.com',
+        parameters: [],
       }
     )
 
@@ -66,6 +68,7 @@ describe('AppAction api', function () {
         category: 'Custom' as AppActionCategory,
         name: 'my updated action',
         url: 'https://www.elsewhere.com',
+        parameters: [],
       }
     )
 
@@ -87,6 +90,7 @@ describe('AppAction api', function () {
         category: 'Custom' as AppActionCategory,
         name: 'my test action',
         url: 'https://www.somewhere.com',
+        parameters: [],
       }
     )
 
@@ -114,6 +118,7 @@ describe('AppAction api', function () {
         category: 'Custom' as AppActionCategory,
         name: 'my test action',
         url: 'https://www.somewhere.com',
+        parameters: [],
       }
     )
 
