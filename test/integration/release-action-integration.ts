@@ -53,8 +53,8 @@ describe('ReleaseAction Api', async () => {
     }
 
     ;[testRelease, testRelease2] = await Promise.all([
-      await testEnvironment.createRelease(releasePayload),
-      await testEnvironment.createRelease(releasePayload),
+      testEnvironment.createRelease(releasePayload),
+      testEnvironment.createRelease(releasePayload),
     ])
 
     /**

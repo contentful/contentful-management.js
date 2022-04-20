@@ -2086,7 +2086,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.getReleaseActions({ releaseId: '<release_id>', query: { 'sys.id[in]': '<id_1>,<id_2>' } }))
+     * .then((environment) => environment.getReleaseActions({ query: { 'sys.id[in]': '<id_1>,<id_2>', 'sys.release.sys.id[in]': '<id1>,<id2>' } }))
      * .then((releaseActions) => console.log(releaseActions))
      * .catch(console.error)
      * ```
