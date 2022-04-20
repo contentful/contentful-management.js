@@ -802,7 +802,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Get entry references
      * @param entryId - Entry ID
      * @param {Object} options.include - Level of the entry descendants from 1 up to 10 maximum
-     * @param {Object} options.maxDepth - alias for `include`. Deprecated, please use `include`
      * @returns Promise of Entry references
      * @example ```javascript
      * const contentful = require('contentful-management');
