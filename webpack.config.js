@@ -87,7 +87,7 @@ nodeBundle.module.rules = [
     options: Object.assign({}, defaultBabelLoader.options, {
       envName: 'node',
       presets: presets({
-        node: '16',
+        node: '14',
       }),
     }),
   }),
