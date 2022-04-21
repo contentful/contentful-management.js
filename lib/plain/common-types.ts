@@ -403,10 +403,6 @@ export type PlainClientAPI = {
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & {
           entryId: string
-          /**
-           * @deprecated use `include` param instead
-           */
-          maxDepth?: number
           include?: number
         }
       >

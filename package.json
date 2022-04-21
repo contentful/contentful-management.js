@@ -7,7 +7,7 @@
   "types": "./dist/typings/contentful-management.d.ts",
   "module": "./dist/es-modules/contentful-management.js",
   "engines": {
-    "node": ">=6"
+    "node": ">=14"
   },
   "repository": {
     "type": "git",
@@ -93,7 +93,6 @@
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
     "contentful-sdk-jsdoc": "^2.2.0",
-    "core-js": "^2.6.12",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
@@ -184,14 +183,6 @@
     {
       "path": "./dist/contentful-management.browser.min.js",
       "maxSize": "30Kb"
-    },
-    {
-      "path": "./dist/contentful-management.legacy.js",
-      "maxSize": "91Kb"
-    },
-    {
-      "path": "./dist/contentful-management.legacy.min.js",
-      "maxSize": "40Kb"
     },
     {
       "path": "./dist/contentful-management.node.js",
