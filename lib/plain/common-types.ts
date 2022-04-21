@@ -552,7 +552,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { actionId: string }
     ): Promise<ReleaseActionProps>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
     queryForRelease(
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }

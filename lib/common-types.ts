@@ -1122,7 +1122,7 @@ export type MRActions = {
       return: ReleaseAction
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & { query: ReleaseActionQueryOptions }
+      params: GetSpaceEnvironmentParams & { query?: ReleaseActionQueryOptions }
       return: Collection<ReleaseAction, ReleaseActionProps>
     }
     queryForRelease: {

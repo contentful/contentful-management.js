@@ -2091,32 +2091,17 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getReleaseActions({
-      releaseId,
-      query,
-    }: {
-      /** @deprecated use the query options object with `sys.release.sys.id[in]` */
-      releaseId?: string
-      query?: ReleaseActionQueryOptions
-    }) {
+    getReleaseActions({ query }: { query?: ReleaseActionQueryOptions }) {
       const raw: EnvironmentProps = this.toPlainObject()
-      const queryParams: ReleaseActionQueryOptions = query ?? {}
-      const params = {
-        spaceId: raw.sys.space.sys.id,
-        environmentId: raw.sys.id,
-        query: queryParams,
-      }
-
-      if (releaseId) {
-        queryParams['sys.release.sys.id[in]'] = releaseId
-      }
-
-      params.query = queryParams
 
       return makeRequest({
         entityType: 'ReleaseAction',
         action: 'getMany',
-        params,
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
       }).then((data) => wrapReleaseActionCollection(makeRequest, data))
     },
   }

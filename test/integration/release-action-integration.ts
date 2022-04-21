@@ -104,18 +104,6 @@ describe('ReleaseAction Api', async () => {
       }
     })
 
-    test('Get ReleaseActions (deprecated param `releaseId`)', async () => {
-      const queryLimit = 1
-      const queryResult = await testEnvironment.getReleaseActions({
-        query: { limit: queryLimit },
-        releaseId: testRelease.sys.id,
-      })
-
-      // Returns the filtered results based on the limit
-      expect(queryResult.items.length).to.eql(queryLimit)
-      expect(queryResult.items[0].sys.release.sys.id).to.eql(testRelease.sys.id)
-    })
-
     test('Get ReleaseActions with query options', async () => {
       const queryLimit = 1
       const queryResult = await testEnvironment.getReleaseActions({
