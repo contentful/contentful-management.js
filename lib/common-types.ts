@@ -973,10 +973,6 @@ export type MRActions = {
     references: {
       params: GetSpaceEnvironmentParams & {
         entryId: string
-        /**
-         * @deprecated use `include` param instead
-         */
-        maxDepth?: number
         include?: number
       }
       return: EntryReferenceProps

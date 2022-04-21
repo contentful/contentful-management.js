@@ -30,10 +30,6 @@ export interface EntryReferenceProps extends CollectionProp<EntryProps> {
 }
 
 export type EntryReferenceOptionsProps = {
-  /**
-   * @deprecated use `include` param instead
-   */
-  maxDepth?: number
   include?: number
 }
 
