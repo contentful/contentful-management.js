@@ -50,6 +50,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - node/install
       - run: npm install
       - run: npm run semantic-release
 workflows:
