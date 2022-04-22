@@ -23,31 +23,22 @@ describe('Environment Api', function () {
   test('creates an environment', async () => {
     const envName = 'test-env'
 
-    return space
-      .createEnvironment({ name: envName })
-      .then(async (env) => {
-        await waitForEnvironmentToBeReady(space, env)
-        return env
-      })
-      .then((response) => {
-        expect(response.sys.type).equals('Environment', 'env is created')
-        expect(response.name).equals(envName, 'env is created with name')
-      })
+    const environment = await space.createEnvironment({ name: envName })
+    await waitForEnvironmentToBeReady(space, environment)
+
+    expect(environment.sys.type).equals('Environment', 'env is created')
+    expect(environment.name).equals(envName, 'env is created with name')
   })
 
   test('creates an environment with an id', async () => {
     const envName = 'env-name'
     const envId = generateRandomId('env')
-    return space
-      .createEnvironmentWithId(envId, { name: envName })
-      .then(async (env) => {
-        await waitForEnvironmentToBeReady(space, env)
-        return env
-      })
-      .then((response) => {
-        expect(response.sys.type).equals('Environment', 'env is created')
-        expect(response.name).equals(envName, 'env was created with correct name')
-        expect(response.sys.id).equals(envId, 'env was created with correct id')
-      })
+
+    const environment = await space.createEnvironmentWithId(envId, { name: envName })
+    await waitForEnvironmentToBeReady(space, environment)
+
+    expect(environment.sys.type).equals('Environment', 'env is created')
+    expect(environment.name).equals(envName, 'env was created with correct name')
+    expect(environment.sys.id).equals(envId, 'env was created with correct id')
   })
 })
