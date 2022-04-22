@@ -28,7 +28,6 @@ export const getMany: RestEndpoint<'ReleaseAction', 'getMany'> = (
   )
 }
 
-/** @deprecated use getMany with `sys.release.sys.id[in]` */
 export const queryForRelease: RestEndpoint<'ReleaseAction', 'queryForRelease'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
