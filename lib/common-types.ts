@@ -431,6 +431,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
   (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
     'ReleaseAction',
     'queryForRelease'
@@ -1119,6 +1120,10 @@ export type MRActions = {
     get: {
       params: GetReleaseParams & { actionId: string }
       return: ReleaseAction
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
     }
     queryForRelease: {
       params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
