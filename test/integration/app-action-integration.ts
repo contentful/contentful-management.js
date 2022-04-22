@@ -115,7 +115,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom' as AppActionCategory.Custom,
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
