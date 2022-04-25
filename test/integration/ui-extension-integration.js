@@ -1,5 +1,10 @@
 import { after, before, describe, test } from 'mocha'
-import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
+import {
+  initClient,
+  createTestEnvironment,
+  createTestSpace,
+  waitForEnvironmentToBeReady,
+} from '../helpers'
 import { expect } from 'chai'
 
 describe('Extension api', function () {
@@ -9,6 +14,7 @@ describe('Extension api', function () {
   before(async () => {
     space = await createTestSpace(initClient(), 'TSM')
     environment = await createTestEnvironment(space, 'Test')
+    await waitForEnvironmentToBeReady(space, environment)
   })
 
   after(async () => {

@@ -6,6 +6,7 @@ import {
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('ContentType Api', async function () {
@@ -22,6 +23,7 @@ describe('ContentType Api', async function () {
 
     writeSpace = await createTestSpace(initClient(), 'ContentType')
     writeEnvironment = await createTestEnvironment(writeSpace, 'Testing Environment')
+    await waitForEnvironmentToBeReady(writeSpace, writeEnvironment)
   })
 
   after(async () => {

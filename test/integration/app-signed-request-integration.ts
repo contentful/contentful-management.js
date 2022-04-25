@@ -6,6 +6,7 @@ import {
   createTestEnvironment,
   getTestOrganization,
   createTestSpace,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('AppSignedRequest api', function () {
@@ -32,6 +33,7 @@ describe('AppSignedRequest api', function () {
 
     space = await createTestSpace(initClient(), 'SignedRequest')
     environment = await createTestEnvironment(space, 'Testing Environment')
+    await waitForEnvironmentToBeReady(space, environment)
     appInstallation = await environment.createAppInstallation(appDefinition.sys.id, {})
   })
 
