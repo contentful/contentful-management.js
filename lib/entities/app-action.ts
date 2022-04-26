@@ -19,56 +19,64 @@ export enum AppActionCategory {
   Custom = 'Custom',
 }
 
-export type CreateAppActionProps = {
+type BuiltInCategoriesProps = {
+  /**
+   * Category identifying the shape of the action.
+   */
+  category: AppActionCategory.EntryListV1Beta | AppActionCategory.NotificationV1Beta
+}
+
+type CustomAppActionProps = {
+  /**
+   * "Custom" category requires "parameters"
+   */
+  category: AppActionCategory.Custom
+  parameters: AppActionParameterDefinition[]
+}
+
+type AppActionCategoryProps = BuiltInCategoriesProps | CustomAppActionProps
+
+export type CreateAppActionProps = AppActionCategoryProps & {
   url: string
-  category: AppActionCategory
-  parameters?: AppActionParameterDefinition[]
   name: string
 }
 
-export type AppActionProps = {
+export type AppActionProps = AppActionCategoryProps & {
   /**
    * System metadata
    */
   sys: AppActionSys
   /**
-   * Category identifying the shape of the action. Choose "Custom" for custom schema
-   */
-  category: AppActionCategory
-  /**
    * Url that will be called when the action is invoked
    */
   url: string
-  /**
-   * An optional schema for which body parameters need to be provided when calling the action
-   */
-  parameters?: AppActionParameterDefinition[]
   /**
    * Human readable name for the action
    */
   name: string
 }
 
-export interface AppAction extends AppActionProps, DefaultElements<AppActionProps> {
-  /**
-   * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('<org_id>')
-   * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => appDefinition.getAppAction('<app-action-id>'))
-   * .then((appAction) => appAction.delete())
-   * .catch(console.error)
-   * ```
-   */
-  delete(): Promise<void>
-}
+export type AppAction = AppActionProps &
+  DefaultElements<AppActionProps> & {
+    /**
+     * Deletes this object on the server.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppDefinition('<app_def_id>'))
+     * .then((appDefinition) => appDefinition.getAppAction('<app-action-id>'))
+     * .then((appAction) => appAction.delete())
+     * .catch(console.error)
+     * ```
+     */
+    delete(): Promise<void>
+  }
 
 /**
  * @private
