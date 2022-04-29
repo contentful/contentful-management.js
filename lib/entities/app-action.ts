@@ -19,6 +19,17 @@ export enum AppActionCategory {
   Custom = 'Custom',
 }
 
+export type ApiAppActionCategory = {
+  sys: {
+    id: AppActionCategory
+    type: 'AppActionCategory'
+    version: string
+  }
+  name: string
+  description: string
+  parameters?: AppActionParameterDefinition[]
+}
+
 type BuiltInCategoriesProps = {
   /**
    * Category identifying the shape of the action.
