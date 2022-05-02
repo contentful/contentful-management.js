@@ -1,18 +1,13 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
-import {
-  initClient,
-  initPlainClient,
-  createTestEnvironment,
-  getTestOrganization,
-  createTestSpace,
-} from '../helpers'
+import { AppActionCategory, AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
+import { initPlainClient, getTestOrganization } from '../helpers'
 
 describe('AppAction api', function () {
   let appDefinition
-  let client
+  let client: PlainClientAPI
   let organization
-  let appAction
+  let appAction: AppActionProps
 
   before(async () => {
     organization = await getTestOrganization()
@@ -33,11 +28,16 @@ describe('AppAction api', function () {
   test('createAppAction', async () => {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { type: 'endpoint', name: 'my test action', url: 'https://www.somewhere.com' }
+      {
+        category: 'Custom' as AppActionCategory,
+        name: 'my test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
     )
 
     expect(appAction.sys.type).equals('AppAction', 'type')
-    expect(appAction.type).equals('endpoint', 'action type')
+    expect(appAction.category).equals('Custom', 'app category')
     expect(appAction.name).equals('my test action', 'name')
     expect(appAction.url).equals('https://www.somewhere.com', 'url')
     await client.appAction.delete({
@@ -50,7 +50,12 @@ describe('AppAction api', function () {
   test('updateAppAction', async () => {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { type: 'endpoint', name: 'my test action', url: 'https://www.somewhere.com' }
+      {
+        category: 'Custom' as AppActionCategory,
+        name: 'my test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
     )
 
     const updated = await client.appAction.update(
@@ -59,11 +64,16 @@ describe('AppAction api', function () {
         appDefinitionId: appDefinition.sys.id,
         appActionId: appAction.sys.id,
       },
-      { type: 'endpoint', name: 'my updated action', url: 'https://www.elsewhere.com' }
+      {
+        category: 'Custom' as AppActionCategory,
+        name: 'my updated action',
+        url: 'https://www.elsewhere.com',
+        parameters: [],
+      }
     )
 
     expect(updated.sys.type).equals('AppAction', 'type')
-    expect(updated.type).equals('endpoint', 'action type')
+    expect(appAction.category).equals('Custom', 'app category')
     expect(updated.name).equals('my updated action', 'name')
     expect(updated.url).equals('https://www.elsewhere.com', 'url')
     await client.appAction.delete({
@@ -76,7 +86,12 @@ describe('AppAction api', function () {
   test('getAppAction', async () => {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { type: 'endpoint', name: 'my test action', url: 'https://www.somewhere.com' }
+      {
+        category: 'Custom' as AppActionCategory,
+        name: 'my test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
     )
 
     const gotAppAction = await client.appAction.get({
@@ -86,7 +101,7 @@ describe('AppAction api', function () {
     })
 
     expect(gotAppAction.sys.type).equals('AppAction', 'type')
-    expect(gotAppAction.type).equals('endpoint', 'action type')
+    expect(appAction.category).equals('Custom', 'app category')
     expect(gotAppAction.name).equals('my test action', 'name')
     expect(gotAppAction.url).equals('https://www.somewhere.com', 'url')
     await client.appAction.delete({
@@ -99,7 +114,12 @@ describe('AppAction api', function () {
   test('getAppActions', async () => {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { type: 'endpoint', name: 'my test action', url: 'https://www.somewhere.com' }
+      {
+        category: 'Custom' as AppActionCategory.Custom,
+        name: 'my test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
     )
 
     const gotAppActions = await client.appAction.getMany({

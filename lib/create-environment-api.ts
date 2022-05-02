@@ -802,7 +802,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Get entry references
      * @param entryId - Entry ID
      * @param {Object} options.include - Level of the entry descendants from 1 up to 10 maximum
-     * @param {Object} options.maxDepth - alias for `include`. Deprecated, please use `include`
      * @returns Promise of Entry references
      * @example ```javascript
      * const contentful = require('contentful-management');
@@ -830,10 +829,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           entryId: entryId,
-          /**
-           * @deprecated use `include` instead
-           */
-          maxDepth: options?.include || options?.maxDepth,
+          include: options?.include,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response) as EntryReferenceProps)
     },
@@ -1974,6 +1970,74 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Archives a Release and prevents new operations (publishing, unpublishing adding new entities etc).
+     * @param options.releaseId the ID of the release
+     * @param options.version the version of the release that is to be archived
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.archiveRelease({ releaseId: '<release_id>', version: 1 }))
+     * .catch(console.error)
+     * ```
+     */
+    archiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'archive',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
+     * Unarchives a previously archived Release - this enables the release to be published, unpublished etc.
+     * @param options.releaseId the ID of the release
+     * @param options.version the version of the release that is to be unarchived
+     * @returns Promise containing a wrapped Release, that has helper methods within.
+     *
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.unarchiveRelease({ releaseId: '<release_id>', version: 1 }))
+     * .catch(console.error)
+     * ```
+     */
+    unarchiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Release',
+        action: 'unarchive',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          releaseId,
+          version,
+        },
+      }).then((data) => wrapRelease(makeRequest, data))
+    },
+
+    /**
      * Retrieves a ReleaseAction by ID
      * @param params.releaseId The ID of a Release
      * @param params.actionId The ID of a Release Action
@@ -2022,27 +2086,20 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.getReleaseActions({ releaseId: '<release_id>', query: { 'sys.id[in]': '<id_1>,<id_2>' } }))
+     * .then((environment) => environment.getReleaseActions({ query: { 'sys.id[in]': '<id_1>,<id_2>', 'sys.release.sys.id[in]': '<id1>,<id2>' } }))
      * .then((releaseActions) => console.log(releaseActions))
      * .catch(console.error)
      * ```
      */
-    getReleaseActions({
-      releaseId,
-      query,
-    }: {
-      releaseId: string
-      query?: ReleaseActionQueryOptions
-    }) {
+    getReleaseActions({ query }: { query?: ReleaseActionQueryOptions }) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
         entityType: 'ReleaseAction',
-        action: 'queryForRelease',
+        action: 'getMany',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-          releaseId,
           query,
         },
       }).then((data) => wrapReleaseActionCollection(makeRequest, data))

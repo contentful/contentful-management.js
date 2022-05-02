@@ -19,9 +19,7 @@ export type AppActionCallProps = {
 
 export type CreateAppActionCallProps = {
   /** The body for the call */
-  body: { [key: string]: any }
-  /** The headers for the call*/
-  headers: { [key: string]: any }
+  parameters: { [key: string]: any }
 }
 
 export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}

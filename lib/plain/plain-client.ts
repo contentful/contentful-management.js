@@ -244,17 +244,20 @@ export const createPlainClient = (
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
     release: {
+      archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),
       create: wrap(wrapParams, 'Release', 'create'),
       update: wrap(wrapParams, 'Release', 'update'),
       delete: wrap(wrapParams, 'Release', 'delete'),
       publish: wrap(wrapParams, 'Release', 'publish'),
+      unarchive: wrap(wrapParams, 'Release', 'unarchive'),
       unpublish: wrap(wrapParams, 'Release', 'unpublish'),
       validate: wrap(wrapParams, 'Release', 'validate'),
     },
     releaseAction: {
       get: wrap(wrapParams, 'ReleaseAction', 'get'),
+      getMany: wrap(wrapParams, 'ReleaseAction', 'getMany'),
       queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
     },
     role: {

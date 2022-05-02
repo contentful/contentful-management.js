@@ -403,10 +403,6 @@ export type PlainClientAPI = {
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & {
           entryId: string
-          /**
-           * @deprecated use `include` param instead
-           */
-          maxDepth?: number
           include?: number
         }
       >
@@ -523,6 +519,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UsageProps>>
   }
   release: {
+    archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
@@ -539,6 +536,9 @@ export type PlainClientAPI = {
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'publish'>>
+    unarchive(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseProps>
     unpublish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'unpublish'>>
@@ -551,6 +551,9 @@ export type PlainClientAPI = {
     get(
       params: OptionalDefaults<GetReleaseParams> & { actionId: string }
     ): Promise<ReleaseActionProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
     queryForRelease(
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>

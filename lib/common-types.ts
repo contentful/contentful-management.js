@@ -419,6 +419,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
 
+  (opts: MROpts<'Release', 'archive', UA>): MRReturn<'Release', 'archive'>
   (opts: MROpts<'Release', 'get', UA>): MRReturn<'Release', 'get'>
   (opts: MROpts<'Release', 'query', UA>): MRReturn<'Release', 'query'>
   (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
@@ -426,9 +427,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
   (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
   (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'unarchive', UA>): MRReturn<'Release', 'unarchive'>
   (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
   (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
     'ReleaseAction',
     'queryForRelease'
@@ -971,10 +974,6 @@ export type MRActions = {
     references: {
       params: GetSpaceEnvironmentParams & {
         entryId: string
-        /**
-         * @deprecated use `include` param instead
-         */
-        maxDepth?: number
         include?: number
       }
       return: EntryReferenceProps
@@ -1073,6 +1072,10 @@ export type MRActions = {
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
   }
   Release: {
+    archive: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseProps
+    }
     get: {
       params: GetReleaseParams
       return: ReleaseProps
@@ -1099,6 +1102,10 @@ export type MRActions = {
       params: GetReleaseParams & { version: number }
       return: ReleaseActionProps<'publish'>
     }
+    unarchive: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseProps
+    }
     unpublish: {
       params: GetReleaseParams & { version: number }
       return: ReleaseActionProps<'unpublish'>
@@ -1113,6 +1120,10 @@ export type MRActions = {
     get: {
       params: GetReleaseParams & { actionId: string }
       return: ReleaseAction
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
     }
     queryForRelease: {
       params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
