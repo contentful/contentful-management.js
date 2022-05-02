@@ -61,6 +61,11 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /** Find workflows containing the specified, comma-separated entities. Requires `sys.entity.sys.linkType` */
   'sys.entity.sys.id[in]'?: string
   'sys.workflowDefinition.sys.id'?: string
+  /**
+   * Order releases by
+   * @default -sys.createdAt
+   * */
+  order?: string
 }
 
 /**
