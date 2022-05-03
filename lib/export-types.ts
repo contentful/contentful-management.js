@@ -5,8 +5,8 @@ export type {
   AppActionProps,
   CreateAppActionProps,
   AppActionParameterDefinition,
+  AppActionCategoryType,
   AppActionCategory,
-  ApiAppActionCategory,
 } from './entities/app-action'
 export type {
   AppActionCall,
