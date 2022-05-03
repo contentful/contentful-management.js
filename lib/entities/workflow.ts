@@ -64,7 +64,7 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   'sys.entity.sys.id[in]'?: string
   'sys.workflowDefinition.sys.id'?: string
   /**
-   * Order releases by
+   * Order workflows by
    * @default -sys.createdAt
    * */
   order?: OrderQueryParam
