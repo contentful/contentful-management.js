@@ -52,6 +52,8 @@ type WorkflowApi = {
   complete(): Promise<void>
 }
 
+type OrderQueryParam = 'sys.updatedAt' | '-sys.updatedAt' | 'sys.createdAt' | '-sys.createdAt'
+
 export interface Workflow extends WorkflowProps, DefaultElements<WorkflowProps>, WorkflowApi {}
 
 export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
@@ -65,7 +67,7 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
    * Order releases by
    * @default -sys.createdAt
    * */
-  order?: string
+  order?: OrderQueryParam
 }
 
 /**
