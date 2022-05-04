@@ -19,7 +19,7 @@ export enum AppActionCategoryType {
   Custom = 'Custom',
 }
 
-export type AppActionCategory = {
+export type AppActionCategoryProps = {
   sys: {
     id: AppActionCategoryType
     type: 'AppActionCategory'
@@ -45,14 +45,14 @@ type CustomAppActionProps = {
   parameters: AppActionParameterDefinition[]
 }
 
-type AppActionCategoryProps = BuiltInCategoriesProps | CustomAppActionProps
+type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
 
-export type CreateAppActionProps = AppActionCategoryProps & {
+export type CreateAppActionProps = AppActionCategory & {
   url: string
   name: string
 }
 
-export type AppActionProps = AppActionCategoryProps & {
+export type AppActionProps = AppActionCategory & {
   /**
    * System metadata
    */
