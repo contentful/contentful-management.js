@@ -36,6 +36,7 @@ import {
   GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
+  GetOrgAppInstallationParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
@@ -60,6 +61,7 @@ import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/e
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from '../entities/locale'
+import { OrgAppInstallationProps } from '../entities/org-app-installation'
 import { OrganizationProp } from '../entities/organization'
 import {
   CreateOrganizationInvitationProps,
@@ -661,6 +663,11 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppInstallationProps>
     delete(params: OptionalDefaults<GetAppInstallationParams>): Promise<any>
+  }
+  orgAppInstallation: {
+    getMany(
+      params: OptionalDefaults<GetOrgAppInstallationParams & PaginationQueryParams>
+    ): Promise<CollectionProp<OrgAppInstallationProps>>
   }
   extension: {
     get(params: OptionalDefaults<GetExtensionParams & QueryParams>): Promise<ExtensionProps>
