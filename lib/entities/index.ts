@@ -22,6 +22,7 @@ import * as locale from './locale'
 import * as organization from './organization'
 import * as organizationInvitation from './organization-invitation'
 import * as organizationMembership from './organization-membership'
+import * as organizationAppInstallations from './org-app-installation'
 import * as personalAccessToken from './personal-access-token'
 import * as previewApiKey from './preview-api-key'
 import * as release from './release'
@@ -68,6 +69,7 @@ export default {
   organization,
   organizationInvitation,
   organizationMembership,
+  organizationAppInstallations,
   personalAccessToken,
   previewApiKey,
   release,

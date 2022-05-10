@@ -534,6 +534,22 @@ const appInstallationMock = {
   }),
 }
 
+const appInstallationsForOrgMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'array',
+  }),
+  items: [
+    cloneDeep(appInstallationMock),
+    {
+      space: {
+        sys: {
+          id: 'aspace',
+        },
+      },
+    },
+  ],
+}
+
 const environmentAliasMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EnvironmentAlias',
@@ -797,6 +813,7 @@ const mocks = {
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
+  appInstallationsForOrgMock: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
@@ -916,6 +933,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     organizationMembership: {
       wrapOrganizationMembership: sinon.stub(),
       wrapOrganizationMembershipCollection: sinon.stub(),
+    },
+    organizationAppInstallations: {
+      wrapOrganizationAppInstallations: sinon.stub(),
+      wrapOrganizationAppInstallationsCollection: sinon.stub(),
     },
     team: {
       wrapTeam: sinon.stub(),
@@ -1048,6 +1069,7 @@ export {
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
+  appInstallationsForOrgMock,
   releaseMock,
   roleMock,
   apiKeyMock,

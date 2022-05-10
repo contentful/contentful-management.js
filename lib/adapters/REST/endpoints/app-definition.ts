@@ -3,8 +3,18 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
 import { normalizeSelect } from './utils'
-import { GetAppDefinitionParams, GetOrganizationParams, QueryParams } from '../../../common-types'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../../../entities/app-definition'
+import {
+  GetAppDefinitionParams,
+  GetOrganizationParams,
+  QueryParams,
+  GetAppInstallationsForOrgParams,
+  PaginationQueryParams,
+} from '../../../common-types'
+import {
+  AppDefinitionProps,
+  CreateAppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+} from '../../../entities/app-definition'
 import { RestEndpoint } from '../types'
 import { SetOptional } from 'type-fest'
 
@@ -13,6 +23,9 @@ const getBaseUrl = (params: GetOrganizationParams) =>
 
 export const getAppDefinitionUrl = (params: GetAppDefinitionParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
+
+const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
+  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id=${params.organizationId}`
 
 export const get: RestEndpoint<'AppDefinition', 'get'> = (
   http: AxiosInstance,
@@ -65,4 +78,17 @@ export const del: RestEndpoint<'AppDefinition', 'delete'> = (
   params: GetAppDefinitionParams
 ) => {
   return raw.del(http, getAppDefinitionUrl(params))
+}
+
+export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallationsForOrg'> = (
+  http: AxiosInstance,
+  params: GetAppInstallationsForOrgParams & PaginationQueryParams
+) => {
+  return raw.get<AppInstallationsForOrganizationProps>(
+    http,
+    getBaseUrlForOrgInstallations(params),
+    {
+      params: normalizeSelect(params.query),
+    }
+  )
 }

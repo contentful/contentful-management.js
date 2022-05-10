@@ -1,8 +1,6 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import entities from './entities'
 import { Stream } from 'stream'
-import { wrapAppInstallationCollection } from './entities/app-installation'
-import { EnvironmentProps } from './entities/environment'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
@@ -894,34 +892,6 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then((payload) => wrapAppActionCollection(makeRequest, payload))
-    },
-    /**
-     * Gets a collection of App Installation
-     * @return Promise for a collection of App Installations
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     *  .then((space) => space.getEnvironment('<environment-id>'))
-     *  .then((environment) => environment.getAppInstallations()
-     *  .then((response) => console.log(response.items))
-     *  .catch(console.error)
-     *  ```
-     */
-    getOrgAppInstallations(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
-      return makeRequest({
-        entityType: 'OrgAppInstallation',
-        action: 'getMany',
-        params: {
-          appDefinitionId,
-          organizationId: raw.sys.id,
-        },
-      })
     },
   }
 }

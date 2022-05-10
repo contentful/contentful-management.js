@@ -160,5 +160,16 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
         payload: data,
       }).then((data) => wrapAppBundle(makeRequest, data))
     },
+
+    getInstallationsForOrg(organizationId: string, appDefinitionId: string) {
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'getInstallationsForOrg',
+        params: {
+          appDefinitionId,
+          organizationId,
+        },
+      })
+    },
   }
 }

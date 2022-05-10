@@ -293,15 +293,13 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppDefinition', 'create'),
       update: wrap(wrapParams, 'AppDefinition', 'update'),
       delete: wrap(wrapParams, 'AppDefinition', 'delete'),
+      getInstallationsForOrg: wrap(wrapParams, 'AppDefinition', 'getInstallationsForOrg'),
     },
     appInstallation: {
       get: wrap(wrapParams, 'AppInstallation', 'get'),
       getMany: wrap(wrapParams, 'AppInstallation', 'getMany'),
       upsert: wrap(wrapParams, 'AppInstallation', 'upsert'),
       delete: wrap(wrapParams, 'AppInstallation', 'delete'),
-    },
-    orgAppInstallation: {
-      getMany: wrap(wrapParams, 'OrgAppInstallation', 'getMany'),
     },
     extension: {
       get: wrap(wrapParams, 'Extension', 'get'),

@@ -27,7 +27,7 @@ import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/en
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
-import { OrgAppInstallationProps } from './entities/org-app-installation'
+import { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 import {
   CreateOrganizationInvitationProps,
@@ -286,13 +286,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
+  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
+    'AppDefinition',
+    'getInstallationsForOrg'
+  >
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
-
-  (opts: MROpts<'OrgAppInstallation', 'getMany', UA>): MRReturn<'OrgAppInstallation', 'getMany'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
@@ -678,6 +680,10 @@ export type MRActions = {
       return: AppDefinitionProps
     }
     delete: { params: GetAppDefinitionParams; return: any }
+    getInstallationsForOrg: {
+      params: GetOrganizationParams & { appDefinitionId: string }
+      return: AppInstallationsForOrganizationProps
+    }
   }
   AppInstallation: {
     get: { params: GetAppInstallationParams; return: AppInstallationProps }
@@ -692,12 +698,6 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
-  }
-  OrgAppInstallation: {
-    getMany: {
-      params: GetOrgAppInstallationParams & PaginationQueryParams
-      return: CollectionProp<OrgAppInstallationProps>
-    }
   }
   AppUpload: {
     get: {
@@ -1523,7 +1523,7 @@ export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string 
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
-export type GetOrgAppInstallationParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetCommentParams = GetEntryParams & { commentId: string }
