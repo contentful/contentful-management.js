@@ -1,6 +1,11 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
-import { getTestOrganization } from '../helpers'
+import {
+  createAppDefinition,
+  getAppDefinition,
+  getTestOrganization,
+  createAppInstallation,
+} from '../helpers'
 
 describe('AppDefinition api', function () {
   let organization
@@ -94,5 +99,75 @@ describe('AppDefinition api', function () {
     expect(appDefinition.name).equals('Test App Updated', 'name')
 
     await appDefinition.delete()
+  })
+
+  test('top level getAppDefinition', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+
+    expect(appDefinition.sys.organization.sys.id).equals(orgId)
+    expect(appDefinition.sys.id).equals(appId)
+
+    await appDefinition.delete()
+  })
+
+  test('getInstallationsForOrg returns', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const installationsForOrg = await appDefinition.getInstallationsForOrg({
+      organizationId: orgId,
+      appDefinitionId: appId,
+    })
+    expect(installationsForOrg.sys.type).equals('Array')
+
+    appDefinition.delete()
+  })
+
+  test('getInstallationsForOrg throws if missing org Id', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+
+    try {
+      await appDefinition.getInstallationsForOrg({
+        appDefinitionId: appId,
+      })
+    } catch (e) {
+      expect(e.toString()).to.equal(
+        'ValidationError: Invalid "organizationId" provided, Please provide an object with the shape { appDefinitionId: string, organizationId: string } as argument when calling the getInstallationsForOrg method'
+      )
+    }
+
+    appDefinition.delete()
+  })
+
+  test('getInstallationsForOrg throws if missing app Id', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+
+    try {
+      await appDefinition.getInstallationsForOrg({
+        organizationId: orgId,
+      })
+    } catch (e) {
+      expect(e.toString()).to.equal(
+        'ValidationError: Invalid "appDefinitionId" provided, Please provide argument of { appDefinitionId: string, organizationId: string } for the getInstallationsForOrg method'
+      )
+    }
+
+    appDefinition.delete()
+  })
+
+  test('getInstallationsForOrg returns installations', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appInstallation = await createAppInstallation(appId)
+
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const appInstallationsForOrg = await appDefinition.getInstallationsForOrg({
+      appDefinitionId: appId,
+      organizationId: orgId,
+    })
+
+    expect(appInstallationsForOrg.items.length).to.equal(1)
+    appInstallation.delete()
   })
 })

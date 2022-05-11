@@ -161,7 +161,13 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
       }).then((data) => wrapAppBundle(makeRequest, data))
     },
 
-    getInstallationsForOrg(organizationId: string, appDefinitionId: string) {
+    getInstallationsForOrg({
+      organizationId,
+      appDefinitionId,
+    }: {
+      organizationId: string
+      appDefinitionId: string
+    }) {
       return makeRequest({
         entityType: 'AppDefinition',
         action: 'getInstallationsForOrg',

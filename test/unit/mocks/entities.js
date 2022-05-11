@@ -813,7 +813,7 @@ const mocks = {
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
-  appInstallationsForOrgMock: appInstallationsForOrgMock,
+  appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
