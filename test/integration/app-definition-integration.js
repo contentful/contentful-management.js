@@ -34,8 +34,6 @@ describe('AppDefinition api', function () {
 
     expect(appDefinition.sys.type).equals('AppDefinition', 'type')
     expect(appDefinition.name).equals('Test App', 'name')
-
-    await appDefinition.delete()
   })
 
   test('getAppDefintion', async () => {
@@ -52,8 +50,6 @@ describe('AppDefinition api', function () {
     const fetchedAppDefinition = await organization.getAppDefinition(appDefinition.sys.id)
 
     expect(appDefinition.sys.id).equals(fetchedAppDefinition.sys.id)
-
-    await appDefinition.delete()
   })
 
   test('getAppDefinitions', async () => {
@@ -97,18 +93,14 @@ describe('AppDefinition api', function () {
     await appDefinition.update()
 
     expect(appDefinition.name).equals('Test App Updated', 'name')
-
-    await appDefinition.delete()
   })
 
-  test('top level getAppDefinition', async () => {
+  test('getAppDefinition (top level)', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
 
     expect(appDefinition.sys.organization.sys.id).equals(orgId)
     expect(appDefinition.sys.id).equals(appId)
-
-    await appDefinition.delete()
   })
 
   test('getInstallationsForOrg returns', async () => {
@@ -119,8 +111,6 @@ describe('AppDefinition api', function () {
       appDefinitionId: appId,
     })
     expect(installationsForOrg.sys.type).equals('Array')
-
-    appDefinition.delete()
   })
 
   test('getInstallationsForOrg throws if missing org Id', async () => {
@@ -136,8 +126,6 @@ describe('AppDefinition api', function () {
         'ValidationError: Invalid "organizationId" provided, Please provide an object with the shape { appDefinitionId: string, organizationId: string } as argument when calling the getInstallationsForOrg method'
       )
     }
-
-    appDefinition.delete()
   })
 
   test('getInstallationsForOrg throws if missing app Id', async () => {
@@ -153,14 +141,11 @@ describe('AppDefinition api', function () {
         'ValidationError: Invalid "appDefinitionId" provided, Please provide argument of { appDefinitionId: string, organizationId: string } for the getInstallationsForOrg method'
       )
     }
-
-    appDefinition.delete()
   })
 
   test('getInstallationsForOrg returns installations', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appInstallation = await createAppInstallation(appId)
-
     const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
     const appInstallationsForOrg = await appDefinition.getInstallationsForOrg({
       appDefinitionId: appId,
@@ -168,6 +153,6 @@ describe('AppDefinition api', function () {
     })
 
     expect(appInstallationsForOrg.items.length).to.equal(1)
-    appInstallation.delete()
+    await appInstallation.delete()
   })
 })

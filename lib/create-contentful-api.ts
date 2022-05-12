@@ -183,7 +183,23 @@ export default function createClientApi(makeRequest: MakeRequest) {
       }).then((data) => wrapUser<T>(makeRequest, data))
     },
 
-    //TODO add usage example
+    /**
+     * Gets App Definition
+     * @return Promise for App Definition
+     * @param organizationId - Id of the organization where the app is installed
+     * @param appDefinitionId - Id of the app that will be returned
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getAppDefinition(<'org_id'>, <'app_id'>)
+     * .then(appDefinition => console.log(appDefinition.name))
+     * .catch(console.error)
+     * ```
+     */
 
     getAppDefinition: function getAppDefinition(
       params: GetAppDefinitionParams

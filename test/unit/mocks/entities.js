@@ -548,6 +548,9 @@ const appInstallationsForOrgMock = {
       },
     },
   ],
+  includes: {
+    Environment: [cloneDeep(environmentMock)],
+  },
 }
 
 const environmentAliasMock = {
