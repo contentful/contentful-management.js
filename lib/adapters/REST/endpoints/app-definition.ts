@@ -18,13 +18,6 @@ import {
 import { RestEndpoint } from '../types'
 import { SetOptional } from 'type-fest'
 
-export class ValidationError extends Error {
-  constructor(name: string, message: string) {
-    super(`Invalid "${name}" provided, ` + message)
-    this.name = 'ValidationError'
-  }
-}
-
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_definitions`
 
@@ -32,7 +25,9 @@ export const getAppDefinitionUrl = (params: GetAppDefinitionParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
 
 const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
-  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${params.organizationId}`
+  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
+    params.organizationId || ''
+  }`
 
 export const get: RestEndpoint<'AppDefinition', 'get'> = (
   http: AxiosInstance,
@@ -91,18 +86,6 @@ export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallat
   http: AxiosInstance,
   params: GetAppInstallationsForOrgParams & PaginationQueryParams
 ) => {
-  if (!params.appDefinitionId) {
-    throw new ValidationError(
-      'appDefinitionId',
-      'Please provide argument of { appDefinitionId: string, organizationId: string } for the getInstallationsForOrg method'
-    )
-  }
-  if (!params.organizationId) {
-    throw new ValidationError(
-      'organizationId',
-      'Please provide an object with the shape { appDefinitionId: string, organizationId: string } as argument when calling the getInstallationsForOrg method'
-    )
-  }
   return raw.get<AppInstallationsForOrganizationProps>(
     http,
     getBaseUrlForOrgInstallations(params),

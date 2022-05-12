@@ -122,9 +122,8 @@ describe('AppDefinition api', function () {
         appDefinitionId: appId,
       })
     } catch (e) {
-      expect(e.toString()).to.equal(
-        'ValidationError: Invalid "organizationId" provided, Please provide an object with the shape { appDefinitionId: string, organizationId: string } as argument when calling the getInstallationsForOrg method'
-      )
+      const errorObject = JSON.parse(e.message)
+      expect(errorObject.status).to.equal(400)
     }
   })
 
@@ -137,9 +136,8 @@ describe('AppDefinition api', function () {
         organizationId: orgId,
       })
     } catch (e) {
-      expect(e.toString()).to.equal(
-        'ValidationError: Invalid "appDefinitionId" provided, Please provide argument of { appDefinitionId: string, organizationId: string } for the getInstallationsForOrg method'
-      )
+      const errorObject = JSON.parse(e.message)
+      expect(errorObject.status).to.equal(400)
     }
   })
 
