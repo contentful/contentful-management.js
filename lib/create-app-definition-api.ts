@@ -177,19 +177,14 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getInstallationsForOrg({
-      organizationId,
-      appDefinitionId,
-    }: {
-      organizationId: string
-      appDefinitionId: string
-    }) {
+    getInstallationsForOrg() {
+      const raw = this.toPlainObject() as AppDefinitionProps
       return makeRequest({
         entityType: 'AppDefinition',
         action: 'getInstallationsForOrg',
         params: {
-          appDefinitionId,
-          organizationId,
+          appDefinitionId: raw.sys.id,
+          organizationId: raw.sys.organization.sys.id,
         },
       })
     },

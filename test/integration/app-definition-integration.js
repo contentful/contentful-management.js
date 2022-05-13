@@ -145,10 +145,7 @@ describe('AppDefinition api', function () {
     const { orgId, appId } = await createAppDefinition()
     const appInstallation = await createAppInstallation(appId)
     const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
-    const appInstallationsForOrg = await appDefinition.getInstallationsForOrg({
-      appDefinitionId: appId,
-      organizationId: orgId,
-    })
+    const appInstallationsForOrg = await appDefinition.getInstallationsForOrg()
 
     expect(appInstallationsForOrg.items.length).to.equal(1)
     await appInstallation.delete()
