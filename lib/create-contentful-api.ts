@@ -6,11 +6,13 @@ import {
   PaginationQueryParams,
   QueryOptions,
   QueryParams,
+  GetAppDefinitionParams,
 } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
 import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import { Space, SpaceProps } from './entities/space'
+import { AppDefinition } from './entities/app-definition'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 
@@ -26,6 +28,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     entities.personalAccessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
   const { wrapUsageCollection } = entities.usage
+  const { wrapAppDefinition } = entities.appDefinition
 
   return {
     /**
@@ -178,6 +181,34 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'getCurrent',
         params,
       }).then((data) => wrapUser<T>(makeRequest, data))
+    },
+
+    /**
+     * Gets App Definition
+     * @return Promise for App Definition
+     * @param organizationId - Id of the organization where the app is installed
+     * @param appDefinitionId - Id of the app that will be returned
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getAppDefinition(<'org_id'>, <'app_id'>)
+     * .then(appDefinition => console.log(appDefinition.name))
+     * .catch(console.error)
+     * ```
+     */
+
+    getAppDefinition: function getAppDefinition(
+      params: GetAppDefinitionParams
+    ): Promise<AppDefinition> {
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'get',
+        params,
+      }).then((data) => wrapAppDefinition(makeRequest, data))
     },
 
     /**

@@ -4,7 +4,12 @@ import { toPlainObject } from 'contentful-sdk-core'
 import createAppDefinitionApi, {
   __RewireAPI__ as createAppDefinitionApiRewireApi,
 } from '../../lib/create-app-definition-api'
-import { appBundleMock, appDefinitionMock, setupEntitiesMock } from './mocks/entities'
+import {
+  appBundleMock,
+  appDefinitionMock,
+  setupEntitiesMock,
+  appInstallationsForOrgMock,
+} from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
   makeGetCollectionTest,
@@ -75,6 +80,11 @@ describe('createAppDefinitionApi', () => {
       expect(r).eql(responseData, 'app definition is wrapped')
       expect(makeRequest.args[0][0].payload.name).equals('Updated Name', 'data is sent')
     })
+  })
+
+  test('API call getInstallationsForOrg', async () => {
+    const { api } = setup(Promise.resolve(appInstallationsForOrgMock))
+    expect(await api.getInstallationsForOrg('orgId', 'appId')).to.equal(appInstallationsForOrgMock)
   })
 
   test('API call getAppBundle', async () => {

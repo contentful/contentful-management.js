@@ -38,7 +38,11 @@ import {
   GetWorkflowDefinitionParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
+import {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from '../entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
 import {
   AssetFileProp,
@@ -649,6 +653,9 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
+    getInstallationsForOrg(
+      params: OptionalDefaults<GetAppDefinitionParams>
+    ): Promise<AppInstallationsForOrganizationProps>
   }
   appInstallation: {
     get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>

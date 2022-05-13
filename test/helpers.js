@@ -87,6 +87,31 @@ export async function getSpecialSpace(feature) {
   }
 }
 
+export async function getAppDefinition(orgId, appId) {
+  const appDefinition = await initClient().getAppDefinition(orgId, appId)
+  return appDefinition
+}
+
+export async function createAppDefinition() {
+  const organization = await getTestOrganization()
+  const appDefinition = await organization.createAppDefinition({
+    name: 'Test App',
+    src: 'http://localhost:3000',
+    locations: [
+      {
+        location: 'app-config',
+      },
+    ],
+  })
+  return { orgId: appDefinition.sys.organization.sys.id, appId: appDefinition.sys.id }
+}
+
+export async function createAppInstallation(appDefinitionId) {
+  const space = await getDefaultSpace()
+  const env = await space.getEnvironment('master')
+  return await env.createAppInstallation(appDefinitionId, {}, { acceptAllTerms: true })
+}
+
 export const createTestSpace = async (client, testSuiteName = '') => {
   return testUtils.createTestSpace({
     client,
