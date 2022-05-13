@@ -106,39 +106,8 @@ describe('AppDefinition api', function () {
   test('getInstallationsForOrg returns', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
-    const installationsForOrg = await appDefinition.getInstallationsForOrg({
-      organizationId: orgId,
-      appDefinitionId: appId,
-    })
+    const installationsForOrg = await appDefinition.getInstallationsForOrg()
     expect(installationsForOrg.sys.type).equals('Array')
-  })
-
-  test('getInstallationsForOrg throws if missing org Id', async () => {
-    const { orgId, appId } = await createAppDefinition()
-    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
-
-    try {
-      await appDefinition.getInstallationsForOrg({
-        appDefinitionId: appId,
-      })
-    } catch (e) {
-      const errorObject = JSON.parse(e.message)
-      expect(errorObject.status).to.equal(400)
-    }
-  })
-
-  test('getInstallationsForOrg throws if missing app Id', async () => {
-    const { orgId, appId } = await createAppDefinition()
-    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
-
-    try {
-      await appDefinition.getInstallationsForOrg({
-        organizationId: orgId,
-      })
-    } catch (e) {
-      const errorObject = JSON.parse(e.message)
-      expect(errorObject.status).to.equal(400)
-    }
   })
 
   test('getInstallationsForOrg returns installations', async () => {
