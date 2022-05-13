@@ -538,16 +538,7 @@ const appInstallationsForOrgMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'array',
   }),
-  items: [
-    cloneDeep(appInstallationMock),
-    {
-      space: {
-        sys: {
-          id: 'aspace',
-        },
-      },
-    },
-  ],
+  items: [cloneDeep(appInstallationMock)],
   includes: {
     Environment: [cloneDeep(environmentMock)],
   },
