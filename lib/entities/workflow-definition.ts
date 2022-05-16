@@ -101,6 +101,7 @@ export type WorkflowDefinitionSysProps = Pick<
   type: 'WorkflowDefinition'
   space: SysLink
   environment: SysLink
+  isLocked: boolean
 }
 
 export type WorkflowDefinitionValidationLink = {

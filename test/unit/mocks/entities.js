@@ -722,6 +722,7 @@ export const workflowDefinitionMock = {
     type: 'WorkflowDefinition',
     version: 1,
     environment: makeLink('Environment', 'master'),
+    isLocked: false,
   }),
   name: 'Test WorkflowDefinition',
   description: 'this is a definition of a workflow',
