@@ -62,6 +62,7 @@ export const createPlainClient = (
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'AppAction', 'getManyForEnvironment'),
       delete: wrap(wrapParams, 'AppAction', 'delete'),
       create: wrap(wrapParams, 'AppAction', 'create'),
       update: wrap(wrapParams, 'AppAction', 'update'),

@@ -604,6 +604,10 @@ export type MRActions = {
       params: GetAppDefinitionParams & QueryParams
       return: CollectionProp<AppActionProps>
     }
+    getManyForEnvironment: {
+      params: GetAppActionsForEnvParams & QueryParams
+      return: CollectionProp<AppActionProps>
+    }
     delete: { params: GetAppActionParams; return: void }
     create: {
       params: GetAppDefinitionParams
@@ -1520,6 +1524,7 @@ export interface MakeRequestOptions {
 }
 
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
