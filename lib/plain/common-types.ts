@@ -36,6 +36,7 @@ import {
   GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
+  GetAppActionsForEnvParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -172,7 +173,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
     ): Promise<CollectionProp<AppActionProps>>
     getManyForEnvironment(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>
     ): Promise<CollectionProp<AppActionProps>>
     delete(params: OptionalDefaults<GetAppActionParams>): Promise<void>
     create(

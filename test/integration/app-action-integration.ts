@@ -69,7 +69,6 @@ describe('AppAction api', function () {
 
     const actions = await client.appAction.getManyForEnvironment({
       spaceId: space.sys.id,
-      environmentId: 'master',
     })
 
     expect(actions.items.length).equals(1)
