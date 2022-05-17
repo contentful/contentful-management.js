@@ -1,16 +1,23 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
 import { AppActionCategory, AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
-import { initPlainClient, getTestOrganization } from '../helpers'
+import {
+  initPlainClient,
+  getTestOrganization,
+  getDefaultSpace,
+  createAppInstallation,
+} from '../helpers'
 
 describe('AppAction api', function () {
   let appDefinition
   let client: PlainClientAPI
   let organization
+  let space
   let appAction: AppActionProps
 
   before(async () => {
     organization = await getTestOrganization()
+    space = await getDefaultSpace()
 
     appDefinition = await organization.createAppDefinition({
       name: 'Test AppAction',
@@ -40,6 +47,35 @@ describe('AppAction api', function () {
     expect(appAction.category).equals('Custom', 'app category')
     expect(appAction.name).equals('my test action', 'name')
     expect(appAction.url).equals('https://www.somewhere.com', 'url')
+    await client.appAction.delete({
+      organizationId: organization.sys.id,
+      appDefinitionId: appDefinition.sys.id,
+      appActionId: appAction.sys.id,
+    })
+  })
+
+  test('listAppActionInEnv', async () => {
+    appAction = await client.appAction.create(
+      { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
+      {
+        category: 'Custom' as AppActionCategory,
+        name: 'my test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
+    )
+
+    await createAppInstallation(appDefinition.sys.id)
+
+    const actions = await client.appAction.getManyForEnvironment({
+      spaceId: space.sys.id,
+      environmentId: 'master',
+    })
+
+    expect(actions.items.length).equals(1)
+    const action = actions.items[0]
+
+    expect(action.name).equals('my test action', 'name')
     await client.appAction.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,

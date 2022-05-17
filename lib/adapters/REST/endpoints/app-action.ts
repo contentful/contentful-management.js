@@ -3,8 +3,11 @@ import * as raw from './raw'
 import { normalizeSelect } from './utils'
 import {
   CollectionProp,
+  GetAppActionCallParams,
   GetAppActionParams,
   GetAppDefinitionParams,
+  GetSpaceEnvironmentParams,
+  GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
 import { RestEndpoint } from '../types'
@@ -15,6 +18,9 @@ const getBaseUrl = (params: GetAppDefinitionParams) =>
 
 const getAppActionUrl = (params: GetAppActionParams) =>
   `${getBaseUrl(params)}/${params.appActionId}`
+
+const getAppActionsEnvUrl = (params: GetSpaceEnvironmentParams) =>
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/actions`
 
 export const get: RestEndpoint<'AppAction', 'get'> = (
   http: AxiosInstance,
@@ -28,6 +34,15 @@ export const getMany: RestEndpoint<'AppAction', 'getMany'> = (
   params: GetAppDefinitionParams & QueryParams
 ) => {
   return raw.get<CollectionProp<AppActionProps>>(http, getBaseUrl(params), {
+    params: normalizeSelect(params.query),
+  })
+}
+
+export const getManyForEnvironment: RestEndpoint<'AppAction', 'getManyForEnvironment'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams
+) => {
+  return raw.get<CollectionProp<AppActionProps>>(http, getAppActionsEnvUrl(params), {
     params: normalizeSelect(params.query),
   })
 }

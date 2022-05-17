@@ -171,6 +171,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
     ): Promise<CollectionProp<AppActionProps>>
+    getManyForEnvironment(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    ): Promise<CollectionProp<AppActionProps>>
     delete(params: OptionalDefaults<GetAppActionParams>): Promise<void>
     create(
       params: OptionalDefaults<GetAppDefinitionParams>,
