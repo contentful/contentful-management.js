@@ -3,11 +3,9 @@ import * as raw from './raw'
 import { normalizeSelect } from './utils'
 import {
   CollectionProp,
-  GetAppActionCallParams,
   GetAppActionParams,
   GetAppDefinitionParams,
   GetSpaceEnvironmentParams,
-  GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
 import { RestEndpoint } from '../types'

@@ -605,7 +605,7 @@ export type MRActions = {
       return: CollectionProp<AppActionProps>
     }
     getManyForEnvironment: {
-      params: GetAppDefinitionParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<AppActionProps>
     }
     delete: { params: GetAppActionParams; return: void }
