@@ -601,11 +601,11 @@ export type MRActions = {
   AppAction: {
     get: { params: GetAppActionParams; return: AppActionProps }
     getMany: {
-      params: GetAppActionsForEnvParams & QueryParams
+      params: GetAppDefinitionParams & QueryParams
       return: CollectionProp<AppActionProps>
     }
     getManyForEnvironment: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetAppActionsForEnvParams & QueryParams
       return: CollectionProp<AppActionProps>
     }
     delete: { params: GetAppActionParams; return: void }
