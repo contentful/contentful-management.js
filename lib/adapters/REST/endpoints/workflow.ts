@@ -76,7 +76,7 @@ export const complete: RestEndpoint<'Workflow', 'complete'> = (
   { version, ...params }: CompleteWorkflowParams,
   headers?: AxiosRequestHeaders
 ) => {
-  return raw.put(http, completeWorkflowUrl(params), {
+  return raw.put(http, completeWorkflowUrl(params), null, {
     headers: { 'X-Contentful-Version': version, ...headers },
   })
 }
