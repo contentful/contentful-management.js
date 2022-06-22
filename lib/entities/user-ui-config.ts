@@ -36,7 +36,6 @@ interface View {
   contentTypeId: string | null
   searchText?: string
   searchFilters?: [string, string, string][]
-  roles: string[]
 }
 
 export interface UserUIConfig extends UserUIConfigProps, DefaultElements<UserUIConfigProps> {}
