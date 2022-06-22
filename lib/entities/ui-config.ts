@@ -22,8 +22,6 @@ export interface UIConfigSysProps extends BasicMetaSysProps {
 interface ViewFolder {
   id: string
   title: string
-  folderId?: string
-  isFolder?: boolean
   views: View[]
 }
 
@@ -34,7 +32,6 @@ interface View {
     fieldId: string
     direction: 'ascending' | 'descending'
   }
-  folderId?: string
   displayedFieldIds?: string[]
   contentTypeId: string | null
   searchText?: string
