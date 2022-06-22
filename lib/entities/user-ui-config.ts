@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { DefaultElements, MakeRequest, UserUIConfigSysProps } from '../common-types'
+import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 import createUserUIConfigApi from '../create-user-ui-config'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -12,6 +12,11 @@ export type UserUIConfigProps = {
 
   assetListViews: ViewFolder[]
   entryListViews: ViewFolder[]
+}
+
+export interface UserUIConfigSysProps extends BasicMetaSysProps {
+  space: SysLink
+  environment: SysLink
 }
 
 interface ViewFolder {

@@ -195,13 +195,6 @@ export interface EntityMetaSysProps extends MetaSysProps {
   locale?: string
 }
 
-export interface UIConfigSysProps extends BasicMetaSysProps {
-  space: SysLink
-  environment: SysLink
-}
-
-export type UserUIConfigSysProps = UIConfigSysProps
-
 export interface MetaLinkProps {
   type: string
   linkType: string
