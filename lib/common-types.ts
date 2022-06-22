@@ -113,6 +113,8 @@ import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import { UIConfigProps } from './entities/ui-config'
+import { UserUIConfigProps } from './entities/user-ui-config'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -192,6 +194,13 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
 }
+
+export interface UIConfigSysProps extends BasicMetaSysProps {
+  space: SysLink
+  environment: SysLink
+}
+
+export type UserUIConfigSysProps = UIConfigSysProps
 
 export interface MetaLinkProps {
   type: string
@@ -534,6 +543,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
 
+  (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
+  (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
+
   (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
@@ -546,6 +558,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'User', 'getCurrent', UA>): MRReturn<'User', 'getCurrent'>
   (opts: MROpts<'User', 'getForOrganization', UA>): MRReturn<'User', 'getForOrganization'>
   (opts: MROpts<'User', 'getManyForOrganization', UA>): MRReturn<'User', 'getManyForOrganization'>
+
+  (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
+  (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -1355,6 +1370,10 @@ export type MRActions = {
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
   }
+  UIConfig: {
+    get: { params: GetUIConfigParams; return: UIConfigProps }
+    update: { params: GetUIConfigParams; payload: UIConfigProps; return: UIConfigProps }
+  }
   Upload: {
     get: { params: GetSpaceParams & { uploadId: string }; return: any }
     create: {
@@ -1383,6 +1402,10 @@ export type MRActions = {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<UserProps>
     }
+  }
+  UserUIConfig: {
+    get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
+    update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
@@ -1561,6 +1584,8 @@ export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
 export type GetWorkflowParams = GetSpaceEnvironmentParams & {
   workflowId: string
 }
+export type GetUIConfigParams = GetSpaceEnvironmentParams
+export type GetUserUIConfigParams = GetUIConfigParams
 
 export type QueryParams = { query?: QueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

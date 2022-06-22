@@ -41,6 +41,8 @@ import { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import { wrapUIConfig } from './entities/ui-config'
+import { wrapUserUIConfig } from './entities/user-ui-config'
 
 /**
  * @private
@@ -2103,6 +2105,34 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query,
         },
       }).then((data) => wrapReleaseActionCollection(makeRequest, data))
+    },
+
+    async getUIConfig() {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      const data = await makeRequest({
+        entityType: 'UIConfig',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      })
+      return wrapUIConfig(makeRequest, data)
+    },
+
+    async getUserUIConfig() {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      const data = await makeRequest({
+        entityType: 'UserUIConfig',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      })
+      return wrapUserUIConfig(makeRequest, data)
     },
   }
 }
