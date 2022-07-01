@@ -38,7 +38,7 @@ export default function createUIConfigApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
-     * .then((environment) => environment.getUIConfig('<entry_id>'))
+     * .then((environment) => environment.getUIConfig())
      * .then((uiConfig) => {
      *   uiConfig.entryListViews = [...]
      *   return uiConfig.update()

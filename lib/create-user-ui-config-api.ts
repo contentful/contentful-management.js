@@ -39,12 +39,12 @@ export default function createUserUIConfigApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
-     * .then((environment) => environment.getUserUIConfig('<entry_id>'))
+     * .then((environment) => environment.getUserUIConfig())
      * .then((uiConfig) => {
      *   uiConfig.entryListViews = [...]
      *   return uiConfig.update()
      * })
-     * .then((uiConfig) => console.log(`UIConfig updated.`))
+     * .then((uiConfig) => console.log(`UserUIConfig updated.`))
      * .catch(console.error)
      * ```
      */
