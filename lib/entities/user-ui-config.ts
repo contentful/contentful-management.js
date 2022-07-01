@@ -32,6 +32,7 @@ interface View {
     fieldId: string
     direction: 'ascending' | 'descending'
   }
+  page?: number
   displayedFieldIds?: string[]
   contentTypeId: string | null
   searchText?: string

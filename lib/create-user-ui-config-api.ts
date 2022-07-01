@@ -1,6 +1,5 @@
 import { MakeRequest } from './common-types'
 import entities from './entities'
-import { UIConfig } from './entities/ui-config'
 import { UserUIConfig } from './entities/user-ui-config'
 
 /**
