@@ -179,17 +179,43 @@ export type {
   UpdateWebhookProps,
 } from './entities/webhook'
 export type {
+  // General typings (props, params, options)
   WorkflowDefinition,
+  WorkflowDefinitionSysProps,
   WorkflowDefinitionProps,
   CreateWorkflowDefinitionProps,
   UpdateWorkflowDefinitionProps,
+  CreateWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionParams,
+  DeleteWorkflowDefinitionParams,
+  WorkflowStepProps,
+  UpdateWorkflowStepProps,
+  CreateWorkflowStepProps,
   WorkflowDefinitionQueryOptions,
+  // Property: appliesTo
+  WorkflowDefinitionValidationLink,
+  // Property: step.actions
+  WorkflowStepAction,
+  WorkflowStepActionType,
+  // Property: step.permissions
+  WorkflowStepPermission,
+  WorkflowStepPermissionType,
+  WorkflowStepPermissionAction,
+  WorkflowStepPermissionEffect,
+  WorkflowStepPermissionActors,
+  WorkflowStepEmailActionRecipient,
+  WorkflowStepEmailAction,
+  WorkflowStepTaskAction,
+  WorkflowStepAppAction,
 } from './entities/workflow-definition'
 export type {
   Workflow,
   WorkflowProps,
   CreateWorkflowProps,
   UpdateWorkflowProps,
+  CreateWorkflowParams,
+  UpdateWorkflowParams,
+  DeleteWorkflowParams,
   WorkflowQueryOptions,
 } from './entities/workflow'
 export type {
