@@ -51,16 +51,16 @@ export type WorkflowStepAction =
   | WorkflowStepTaskAction
   | WorkflowStepAppAction
 
-type EmailActionRecipient = string | Link<'User'> | Link<'Team'>
+export type WorkflowStepEmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
-type WorkflowStepEmailAction = {
+export type WorkflowStepEmailAction = {
   type: 'email'
   configuration: {
-    recipients: EmailActionRecipient[]
+    recipients: WorkflowStepEmailActionRecipient[]
   }
 }
 
-type WorkflowStepTaskAction = {
+export type WorkflowStepTaskAction = {
   type: 'task'
   configuration: {
     assignee: Link<'User'> | Link<'Team'>
@@ -69,7 +69,7 @@ type WorkflowStepTaskAction = {
   }
 }
 
-type WorkflowStepAppAction = {
+export type WorkflowStepAppAction = {
   type: 'app'
   appId: string
   appActionId: string
@@ -118,6 +118,7 @@ export type WorkflowDefinitionProps = {
   description?: string
   appliesTo?: WorkflowDefinitionValidationLink[]
   steps: WorkflowStepProps[]
+  startOnEntityCreation?: boolean
 }
 
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
