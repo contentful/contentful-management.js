@@ -119,6 +119,7 @@ export type WorkflowDefinitionProps = {
   appliesTo?: WorkflowDefinitionValidationLink[]
   steps: WorkflowStepProps[]
   startOnEntityCreation?: boolean
+  flowType?: 'no_restriction' | 'strict_neighbor'
 }
 
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
