@@ -27,6 +27,7 @@ import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/en
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
+import { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 import {
   CreateOrganizationInvitationProps,
@@ -285,6 +286,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
+  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
+    'AppDefinition',
+    'getInstallationsForOrg'
+  >
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
@@ -327,6 +332,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
 
   (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
+  (opts: MROpts<'Comment', 'getMany', UA>): MRReturn<'Comment', 'getMany'>
   (opts: MROpts<'Comment', 'getAll', UA>): MRReturn<'Comment', 'getAll'>
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
@@ -418,6 +424,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
 
+  (opts: MROpts<'Release', 'archive', UA>): MRReturn<'Release', 'archive'>
   (opts: MROpts<'Release', 'get', UA>): MRReturn<'Release', 'get'>
   (opts: MROpts<'Release', 'query', UA>): MRReturn<'Release', 'query'>
   (opts: MROpts<'Release', 'create', UA>): MRReturn<'Release', 'create'>
@@ -425,9 +432,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Release', 'delete', UA>): MRReturn<'Release', 'delete'>
   (opts: MROpts<'Release', 'publish', UA>): MRReturn<'Release', 'publish'>
   (opts: MROpts<'Release', 'unpublish', UA>): MRReturn<'Release', 'unpublish'>
+  (opts: MROpts<'Release', 'unarchive', UA>): MRReturn<'Release', 'unarchive'>
   (opts: MROpts<'Release', 'validate', UA>): MRReturn<'Release', 'validate'>
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
+  (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
   (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
     'ReleaseAction',
     'queryForRelease'
@@ -485,6 +494,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Tag', 'delete', UA>): MRReturn<'Tag', 'delete'>
 
   (opts: MROpts<'Task', 'get', UA>): MRReturn<'Task', 'get'>
+  (opts: MROpts<'Task', 'getMany', UA>): MRReturn<'Task', 'getMany'>
   (opts: MROpts<'Task', 'getAll', UA>): MRReturn<'Task', 'getAll'>
   (opts: MROpts<'Task', 'create', UA>): MRReturn<'Task', 'create'>
   (opts: MROpts<'Task', 'update', UA>): MRReturn<'Task', 'update'>
@@ -594,6 +604,10 @@ export type MRActions = {
       params: GetAppDefinitionParams & QueryParams
       return: CollectionProp<AppActionProps>
     }
+    getManyForEnvironment: {
+      params: GetAppActionsForEnvParams & QueryParams
+      return: CollectionProp<AppActionProps>
+    }
     delete: { params: GetAppActionParams; return: void }
     create: {
       params: GetAppDefinitionParams
@@ -670,6 +684,10 @@ export type MRActions = {
       return: AppDefinitionProps
     }
     delete: { params: GetAppDefinitionParams; return: any }
+    getInstallationsForOrg: {
+      params: GetOrganizationParams & { appDefinitionId: string }
+      return: AppInstallationsForOrganizationProps
+    }
   }
   AppInstallation: {
     get: { params: GetAppInstallationParams; return: AppInstallationProps }
@@ -678,7 +696,7 @@ export type MRActions = {
       return: CollectionProp<AppInstallationProps>
     }
     upsert: {
-      params: GetAppInstallationParams
+      params: GetAppInstallationParams & { acceptAllTerms?: boolean }
       payload: CreateAppInstallationProps
       headers?: AxiosRequestHeaders
       return: AppInstallationProps
@@ -815,7 +833,14 @@ export type MRActions = {
   }
   Comment: {
     get: { params: GetCommentParams; return: CommentProps }
-    getAll: { params: GetEntryParams; return: CollectionProp<CommentProps> }
+    getMany: {
+      params: GetEntryParams & QueryParams
+      return: CollectionProp<CommentProps>
+    }
+    getAll: {
+      params: GetEntryParams & QueryParams
+      return: CollectionProp<CommentProps>
+    }
     create: { params: CreateCommentParams; payload: CreateCommentProps; return: CommentProps }
     update: {
       params: UpdateCommentParams
@@ -962,10 +987,6 @@ export type MRActions = {
     references: {
       params: GetSpaceEnvironmentParams & {
         entryId: string
-        /**
-         * @deprecated use `include` param instead
-         */
-        maxDepth?: number
         include?: number
       }
       return: EntryReferenceProps
@@ -1064,6 +1085,10 @@ export type MRActions = {
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
   }
   Release: {
+    archive: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseProps
+    }
     get: {
       params: GetReleaseParams
       return: ReleaseProps
@@ -1090,6 +1115,10 @@ export type MRActions = {
       params: GetReleaseParams & { version: number }
       return: ReleaseActionProps<'publish'>
     }
+    unarchive: {
+      params: GetReleaseParams & { version: number }
+      return: ReleaseProps
+    }
     unpublish: {
       params: GetReleaseParams & { version: number }
       return: ReleaseActionProps<'unpublish'>
@@ -1104,6 +1133,10 @@ export type MRActions = {
     get: {
       params: GetReleaseParams & { actionId: string }
       return: ReleaseAction
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: ReleaseActionQueryOptions }
+      return: Collection<ReleaseAction, ReleaseActionProps>
     }
     queryForRelease: {
       params: GetReleaseParams & { query?: ReleaseActionQueryOptions }
@@ -1235,7 +1268,14 @@ export type MRActions = {
   }
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
-    getAll: { params: GetEntryParams; return: CollectionProp<TaskProps> }
+    getMany: {
+      params: GetEntryParams & QueryParams
+      return: CollectionProp<TaskProps>
+    }
+    getAll: {
+      params: GetEntryParams & QueryParams
+      return: CollectionProp<TaskProps>
+    }
     create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
     update: {
       params: UpdateTaskParams
@@ -1484,9 +1524,11 @@ export interface MakeRequestOptions {
 }
 
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetCommentParams = GetEntryParams & { commentId: string }

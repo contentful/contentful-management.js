@@ -534,6 +534,16 @@ const appInstallationMock = {
   }),
 }
 
+const appInstallationsForOrgMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'array',
+  }),
+  items: [cloneDeep(appInstallationMock)],
+  includes: {
+    Environment: [cloneDeep(environmentMock)],
+  },
+}
+
 const environmentAliasMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EnvironmentAlias',
@@ -712,6 +722,7 @@ export const workflowDefinitionMock = {
     type: 'WorkflowDefinition',
     version: 1,
     environment: makeLink('Environment', 'master'),
+    isLocked: false,
   }),
   name: 'Test WorkflowDefinition',
   description: 'this is a definition of a workflow',
@@ -797,6 +808,7 @@ const mocks = {
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
+  appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
@@ -916,6 +928,10 @@ function setupEntitiesMock(rewiredModuleApi) {
     organizationMembership: {
       wrapOrganizationMembership: sinon.stub(),
       wrapOrganizationMembershipCollection: sinon.stub(),
+    },
+    organizationAppInstallations: {
+      wrapOrganizationAppInstallations: sinon.stub(),
+      wrapOrganizationAppInstallationsCollection: sinon.stub(),
     },
     team: {
       wrapTeam: sinon.stub(),
@@ -1048,6 +1064,7 @@ export {
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
+  appInstallationsForOrgMock,
   releaseMock,
   roleMock,
   apiKeyMock,

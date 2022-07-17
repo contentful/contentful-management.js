@@ -89,7 +89,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      *
      * client.getOrganization('<org_id>')
      * .then((org) => org.getAppDefinition('<app_def_id>'))
-     * .then((appDefinition) => appDefinition.getAppBundle('<app_upload_id>')
+     * .then((appDefinition) => appDefinition.getAppBundle('<app_upload_id>'))
      * .then((appBundle) => console.log(appBundle))
      * .catch(console.error)
      * ```
@@ -118,7 +118,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      *
      * client.getOrganization('<org_id>')
      * .then((org) => org.getAppDefinition('<app_def_id>'))
-     * .then((appDefinition) => appDefinition.getAppBundles()
+     * .then((appDefinition) => appDefinition.getAppBundles())
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
@@ -143,7 +143,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * })
      * client.getOrganization('<org_id>')
      * .then((org) => org.getAppDefinition('<app_def_id>'))
-     * .then((appDefinition) => appDefinition.createAppBundle('<app_upload_id>')
+     * .then((appDefinition) => appDefinition.createAppBundle('<app_upload_id>'))
      * .then((appBundle) => console.log(appBundle))
      * .catch(console.error)
      * ```
@@ -159,6 +159,34 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((data) => wrapAppBundle(makeRequest, data))
+    },
+
+    /**
+     * Gets a list of App Installations across an org for given App Definition Id
+     * Can be any organizationId the user has access to, where the App is installed
+     * @param Object - organizationId and appDefinitionId
+     * @return Promise for the newly created AppBundle
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * client.getAppDefinition('<organizationId>', '<appDefinitionId>')
+     * .then((appDefinition) => appDefinition.getInstallationsForOrg(<{organizationId: string, appDefinitionId: string}>))
+     * .then((appInstallationsForOrg) => console.log(appInstallationsForOrg.items))
+     * .catch(console.error)
+     * ```
+     */
+    getInstallationsForOrg() {
+      const raw = this.toPlainObject() as AppDefinitionProps
+      return makeRequest({
+        entityType: 'AppDefinition',
+        action: 'getInstallationsForOrg',
+        params: {
+          appDefinitionId: raw.sys.id,
+          organizationId: raw.sys.organization.sys.id,
+        },
+      })
     },
   }
 }

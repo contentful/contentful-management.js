@@ -29,7 +29,6 @@ Browsers and Node.js:
 - Edge
 - Safari
 - node.js (LTS)
-- IE11 (with [legacy version](#legacy-contentful-managementjs) of the library)
 
 Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
 
@@ -67,7 +66,6 @@ For browsers, we recommend to download the library via npm or yarn to ensure 100
 If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/regenerator-runtime@latest/runtime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
 ```
 
@@ -102,24 +100,12 @@ You can use the es6 import with the library as follow
 
 ```js
 // import createClient directly
-import { createClient } from 'contentful-management'
-const client = createClient({
-  // This is the access token for this space. Normally you get the token in the Contentful web app
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
-//....
-```
-
-OR
-
-```js
-// import everything from contentful
-import * as contentful from 'contentful-management'
+import contentful from 'contentful-management'
 const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
-// ....
+//....
 ```
 
 ## Your first request
@@ -327,7 +313,7 @@ Interceptor called on every response. Takes Axios response object as an arg. Def
 
 #### apiAdapter (default: `new RestAdapter(configuration)`)
 
-An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495) 
+An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495)
 that can be utilized to issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
 initialized with provided configuration.
 
@@ -337,9 +323,11 @@ initialized with provided configuration.
 > information it needs to issue the request (e.g., host or auth headers)
 
 #### throttle (default: `0`)
+
 Maximum number of requests per second.
-- `1`-`30` (fixed number of limit), 
-- `'auto'` (calculated limit based on your plan), 
+
+- `1`-`30` (fixed number of limit),
+- `'auto'` (calculated limit based on your plan),
 - `'0%'` - `'100%'` (calculated % limit based on your plan)
 
 ### Reference documentation
@@ -366,10 +354,6 @@ Read the [Contentful for JavaScript](https://www.contentful.com/developers/docs/
 
 This library is a wrapper around our Contentful Management REST API. Some more specific details such as search parameters and pagination are better explained on the [REST API reference](https://www.contentful.com/developers/docs/references/content-management-api/), and you can also get a better understanding of how the requests look under the hood.
 
-### Legacy contentful-management.js
-
-For versions prior to 1.0.0, you can access documentation at [https://github.com/contentful/contentful-management.js/tree/legacy](https://github.com/contentful/contentful.js/tree/legacy)
-
 ## Versioning
 
 This project strictly follows [Semantic Versioning](http://semver.org/) by use of [semantic-release](https://github.com/semantic-release/semantic-release).
@@ -377,12 +361,6 @@ This project strictly follows [Semantic Versioning](http://semver.org/) by use o
 This means that new versions are released automatically as fixes, features or breaking changes are released.
 
 You can check the changelog on the [releases](https://github.com/contentful/contentful-management.js/releases) page.
-
-## Migration from contentful-management.js 3.x
-
-The bundle for browsers is now called `contentful-management.browser.min.js` to mark it clearly as browser only bundle. If you need to support IE 11 or other old browsers, you may use the `contentful-management.legacy.min.js`. Node will automatically use the `contentful-management.node.min.js` while bundlers like Webpack will resolve to the new ES-modules version of the library.
-
-No changes to the API of the library were made.
 
 ## Migration from contentful-management.js 1.x and older
 

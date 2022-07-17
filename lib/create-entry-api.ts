@@ -348,7 +348,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Comment',
-        action: 'getAll',
+        action: 'getMany',
         params,
       }).then((data) => wrapCommentCollection(makeRequest, data))
     },
@@ -436,7 +436,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Task',
-        action: 'getAll',
+        action: 'getMany',
         params,
       }).then((data) => wrapTaskCollection(makeRequest, data))
     },
@@ -514,7 +514,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.environment.sys.id,
           entryId: raw.sys.id,
-          maxDepth: options?.include || options?.maxDepth,
+          include: options?.include,
         },
       }).then((response) => wrapEntryCollection(makeRequest, response))
     },

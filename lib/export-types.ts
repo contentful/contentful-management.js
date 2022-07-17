@@ -4,8 +4,9 @@ export type {
   AppAction,
   AppActionProps,
   CreateAppActionProps,
-  BodyDefinition,
-  ActionTypes,
+  AppActionParameterDefinition,
+  AppActionCategoryType,
+  AppActionCategoryProps,
 } from './entities/app-action'
 export type {
   AppActionCall,
@@ -70,7 +71,12 @@ export type {
   CreateCommentProps,
   UpdateCommentProps,
 } from './entities/comment'
-export type { ContentType, ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+export type {
+  ContentType,
+  ContentTypeProps,
+  CreateContentTypeProps,
+  ContentTypeMetadata,
+} from './entities/content-type'
 export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
 export type {
   EditorInterface,
@@ -173,17 +179,43 @@ export type {
   UpdateWebhookProps,
 } from './entities/webhook'
 export type {
+  // General typings (props, params, options)
   WorkflowDefinition,
+  WorkflowDefinitionSysProps,
   WorkflowDefinitionProps,
   CreateWorkflowDefinitionProps,
   UpdateWorkflowDefinitionProps,
+  CreateWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionParams,
+  DeleteWorkflowDefinitionParams,
+  WorkflowStepProps,
+  UpdateWorkflowStepProps,
+  CreateWorkflowStepProps,
   WorkflowDefinitionQueryOptions,
+  // Property: appliesTo
+  WorkflowDefinitionValidationLink,
+  // Property: step.actions
+  WorkflowStepAction,
+  WorkflowStepActionType,
+  // Property: step.permissions
+  WorkflowStepPermission,
+  WorkflowStepPermissionType,
+  WorkflowStepPermissionAction,
+  WorkflowStepPermissionEffect,
+  WorkflowStepPermissionActors,
+  WorkflowStepEmailActionRecipient,
+  WorkflowStepEmailAction,
+  WorkflowStepTaskAction,
+  WorkflowStepAppAction,
 } from './entities/workflow-definition'
 export type {
   Workflow,
   WorkflowProps,
   CreateWorkflowProps,
   UpdateWorkflowProps,
+  CreateWorkflowParams,
+  UpdateWorkflowParams,
+  DeleteWorkflowParams,
   WorkflowQueryOptions,
 } from './entities/workflow'
 export type {

@@ -30,6 +30,15 @@ export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
 export interface ReleaseActionQueryOptions {
   /** Find Release Actions by using a comma-separated list of Ids */
   'sys.id[in]'?: string
+  'sys.release.sys.id[in]'?: string
+  'sys.status[in]'?: string
+  'sys.status[nin]'?: string
+  action?: ReleaseActionTypes
+  /** Get unique results by this field. Currently supports `sys.release.sys.id` */
+  uniqueBy?: string
+
+  /** @default -sys.updatedAt */
+  order?: string
   /**
    * Limit of how many records are returned in the query result
    * @default 100
@@ -41,7 +50,7 @@ export interface ReleaseActionApiMethods {
   /** Performs a new GET request and returns the wrapper Release */
   get(): ReleaseAction
   /** Waits until the Release Action has either succeeded or failed */
-  waitProcessing(options?: AsyncActionProcessingOptions): ReleaseActionProps
+  waitProcessing(options?: AsyncActionProcessingOptions): ReleaseAction
 }
 
 /**
@@ -70,8 +79,8 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
     },
 
     /** Waits for a Release Action to complete */
-    async waitProcessing(options?: AsyncActionProcessingOptions): Promise<ReleaseActionProps> {
-      return pollAsyncActionStatus<ReleaseActionProps>(async () => this.get(), options)
+    async waitProcessing(options?: AsyncActionProcessingOptions): Promise<ReleaseAction> {
+      return pollAsyncActionStatus<ReleaseAction>(async () => this.get(), options)
     },
   }
 }

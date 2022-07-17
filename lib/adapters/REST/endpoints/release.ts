@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
@@ -114,5 +113,36 @@ export const validate: RestEndpoint<'Release', 'validate'> = (
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/validate`,
     payload
+  )
+}
+
+export const archive: RestEndpoint<'Release', 'archive'> = (
+  http: AxiosInstance,
+  params: GetReleaseParams & { version: string | number }
+) => {
+  return raw.put(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/archived`,
+    null,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+      },
+    }
+  )
+}
+
+export const unarchive: RestEndpoint<'Release', 'unarchive'> = (
+  http: AxiosInstance,
+  params: GetReleaseParams & { version: string | number }
+) => {
+  return raw.del(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/archived`,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+      },
+    }
   )
 }

@@ -62,6 +62,7 @@ export const createPlainClient = (
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'AppAction', 'getManyForEnvironment'),
       delete: wrap(wrapParams, 'AppAction', 'delete'),
       create: wrap(wrapParams, 'AppAction', 'create'),
       update: wrap(wrapParams, 'AppAction', 'update'),
@@ -123,7 +124,7 @@ export const createPlainClient = (
     },
     comment: {
       get: wrap(wrapParams, 'Comment', 'get'),
-      getAll: wrap(wrapParams, 'Comment', 'getAll'),
+      getMany: wrap(wrapParams, 'Comment', 'getMany'),
       create: wrap(wrapParams, 'Comment', 'create'),
       update: wrap(wrapParams, 'Comment', 'update'),
       delete: wrap(wrapParams, 'Comment', 'delete'),
@@ -153,7 +154,7 @@ export const createPlainClient = (
     },
     task: {
       get: wrap(wrapParams, 'Task', 'get'),
-      getAll: wrap(wrapParams, 'Task', 'getAll'),
+      getMany: wrap(wrapParams, 'Task', 'getMany'),
       create: wrap(wrapParams, 'Task', 'create'),
       update: wrap(wrapParams, 'Task', 'update'),
       delete: wrap(wrapParams, 'Task', 'delete'),
@@ -244,17 +245,20 @@ export const createPlainClient = (
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
     release: {
+      archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),
       create: wrap(wrapParams, 'Release', 'create'),
       update: wrap(wrapParams, 'Release', 'update'),
       delete: wrap(wrapParams, 'Release', 'delete'),
       publish: wrap(wrapParams, 'Release', 'publish'),
+      unarchive: wrap(wrapParams, 'Release', 'unarchive'),
       unpublish: wrap(wrapParams, 'Release', 'unpublish'),
       validate: wrap(wrapParams, 'Release', 'validate'),
     },
     releaseAction: {
       get: wrap(wrapParams, 'ReleaseAction', 'get'),
+      getMany: wrap(wrapParams, 'ReleaseAction', 'getMany'),
       queryForRelease: wrap(wrapParams, 'ReleaseAction', 'queryForRelease'),
     },
     role: {
@@ -290,6 +294,7 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppDefinition', 'create'),
       update: wrap(wrapParams, 'AppDefinition', 'update'),
       delete: wrap(wrapParams, 'AppDefinition', 'delete'),
+      getInstallationsForOrg: wrap(wrapParams, 'AppDefinition', 'getInstallationsForOrg'),
     },
     appInstallation: {
       get: wrap(wrapParams, 'AppInstallation', 'get'),

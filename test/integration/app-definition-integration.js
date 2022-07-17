@@ -1,6 +1,11 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
-import { getTestOrganization } from '../helpers'
+import {
+  createAppDefinition,
+  getAppDefinition,
+  getTestOrganization,
+  createAppInstallation,
+} from '../helpers'
 
 describe('AppDefinition api', function () {
   let organization
@@ -29,8 +34,6 @@ describe('AppDefinition api', function () {
 
     expect(appDefinition.sys.type).equals('AppDefinition', 'type')
     expect(appDefinition.name).equals('Test App', 'name')
-
-    await appDefinition.delete()
   })
 
   test('getAppDefintion', async () => {
@@ -47,8 +50,6 @@ describe('AppDefinition api', function () {
     const fetchedAppDefinition = await organization.getAppDefinition(appDefinition.sys.id)
 
     expect(appDefinition.sys.id).equals(fetchedAppDefinition.sys.id)
-
-    await appDefinition.delete()
   })
 
   test('getAppDefinitions', async () => {
@@ -92,7 +93,30 @@ describe('AppDefinition api', function () {
     await appDefinition.update()
 
     expect(appDefinition.name).equals('Test App Updated', 'name')
+  })
 
-    await appDefinition.delete()
+  test('getAppDefinition (top level)', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+
+    expect(appDefinition.sys.organization.sys.id).equals(orgId)
+    expect(appDefinition.sys.id).equals(appId)
+  })
+
+  test('getInstallationsForOrg returns', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const installationsForOrg = await appDefinition.getInstallationsForOrg()
+    expect(installationsForOrg.sys.type).equals('Array')
+  })
+
+  test('getInstallationsForOrg returns installations', async () => {
+    const { orgId, appId } = await createAppDefinition()
+    const appInstallation = await createAppInstallation(appId)
+    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const appInstallationsForOrg = await appDefinition.getInstallationsForOrg()
+
+    expect(appInstallationsForOrg.items.length).to.equal(1)
+    await appInstallation.delete()
   })
 })

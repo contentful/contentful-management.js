@@ -36,9 +36,14 @@ import {
   GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
+  GetAppActionsForEnvParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from '../entities/app-definition'
+import {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from '../entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
 import {
   AssetFileProp,
@@ -166,6 +171,9 @@ export type PlainClientAPI = {
     get(params: OptionalDefaults<GetAppActionParams>): Promise<AppActionProps>
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    ): Promise<CollectionProp<AppActionProps>>
+    getManyForEnvironment(
+      params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>
     ): Promise<CollectionProp<AppActionProps>>
     delete(params: OptionalDefaults<GetAppActionParams>): Promise<void>
     create(
@@ -298,7 +306,9 @@ export type PlainClientAPI = {
   }
   comment: {
     get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
-    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<CommentProps>>
+    getMany(
+      params: OptionalDefaults<GetEntryParams & QueryParams>
+    ): Promise<CollectionProp<CommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
@@ -401,10 +411,6 @@ export type PlainClientAPI = {
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & {
           entryId: string
-          /**
-           * @deprecated use `include` param instead
-           */
-          maxDepth?: number
           include?: number
         }
       >
@@ -521,6 +527,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UsageProps>>
   }
   release: {
+    archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
@@ -537,6 +544,9 @@ export type PlainClientAPI = {
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'publish'>>
+    unarchive(
+      params: OptionalDefaults<GetReleaseParams & { version: number }>
+    ): Promise<ReleaseProps>
     unpublish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>
     ): Promise<ReleaseActionProps<'unpublish'>>
@@ -549,6 +559,9 @@ export type PlainClientAPI = {
     get(
       params: OptionalDefaults<GetReleaseParams> & { actionId: string }
     ): Promise<ReleaseActionProps>
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions }
+    ): Promise<CollectionProp<ReleaseActionProps>>
     queryForRelease(
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
@@ -644,6 +657,9 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
+    getInstallationsForOrg(
+      params: OptionalDefaults<GetAppDefinitionParams>
+    ): Promise<AppInstallationsForOrganizationProps>
   }
   appInstallation: {
     get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
@@ -798,7 +814,9 @@ export type PlainClientAPI = {
   }
   task: {
     get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
-    getAll(params: OptionalDefaults<GetEntryParams>): Promise<CollectionProp<TaskProps>>
+    getMany(
+      params: OptionalDefaults<GetEntryParams & QueryParams>
+    ): Promise<CollectionProp<TaskProps>>
     create(
       params: OptionalDefaults<CreateTaskParams>,
       rawData: CreateTaskProps,

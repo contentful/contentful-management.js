@@ -7,13 +7,21 @@ import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-ap
 import { SetOptional, Except } from 'type-fest'
 import { FieldType } from './field-type'
 import { ParameterDefinition } from './widget-parameters'
+import { AppInstallationProps } from './app-installation'
+import { EnvironmentProps } from './environment'
 
 export interface NavigationItem {
   name: string
   path: string
 }
 
-type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page'
+type LocationType =
+  | 'app-config'
+  | 'entry-sidebar'
+  | 'entry-editor'
+  | 'dialog'
+  | 'page'
+  | 'entry-list'
 
 export interface SimpleLocation {
   location: LocationType
@@ -71,6 +79,16 @@ export type CreateAppDefinitionProps = SetOptional<
 export type AppDefinition = ContentfulAppDefinitionAPI &
   AppDefinitionProps &
   DefaultElements<AppDefinitionProps>
+
+export type AppInstallationsForOrganizationProps = {
+  sys: {
+    type: 'Array'
+  }
+  items: AppInstallationProps[]
+  includes: {
+    Environment: EnvironmentProps[]
+  }
+}
 
 /**
  * @private

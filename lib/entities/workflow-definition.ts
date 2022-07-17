@@ -12,22 +12,74 @@ import {
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ActionType } from './role'
+
+/* Workflow Step Permission */
+type NonEmptyArray<T> = [T, ...T[]]
+export type WorkflowStepPermissionActors = 'all' | NonEmptyArray<Link<'User'> | Link<'Team'>>
+
+export enum WorkflowStepPermissionType {
+  EntityPermission = 'entity_permission',
+}
+
+export enum WorkflowStepPermissionAction {
+  Edit = 'edit',
+  Publish = 'publish',
+}
+
+export enum WorkflowStepPermissionEffect {
+  Allow = 'allow',
+  Deny = 'deny',
+}
+
+export interface WorkflowStepPermission {
+  type: WorkflowStepPermissionType
+  configuration: {
+    actors: WorkflowStepPermissionActors
+    action: WorkflowStepPermissionAction
+    effect: WorkflowStepPermissionEffect
+  }
+}
+
+/* Workflow Step Action */
+export enum WorkflowStepActionType {
+  App = 'app',
+  Email = 'email',
+  Task = 'task',
+}
+export type WorkflowStepAction =
+  | WorkflowStepEmailAction
+  | WorkflowStepTaskAction
+  | WorkflowStepAppAction
+
+export type WorkflowStepEmailActionRecipient = string | Link<'User'> | Link<'Team'>
+
+export type WorkflowStepEmailAction = {
+  type: 'email'
+  configuration: {
+    recipients: WorkflowStepEmailActionRecipient[]
+  }
+}
+
+export type WorkflowStepTaskAction = {
+  type: 'task'
+  configuration: {
+    assignee: Link<'User'> | Link<'Team'>
+    body: string
+    dueDate?: number
+  }
+}
+
+export type WorkflowStepAppAction = {
+  type: 'app'
+  appId: string
+  appActionId: string
+  configuration?: {
+    body?: Record<string, any>
+    headers?: Record<string, string>
+  }
+}
 
 /* Workflow Step */
-
-export type WorkflowStepAction = {
-  action: Link<'AppAction'>
-  body: string
-  headers: Record<string, unknown>
-}
-
-export type WorkflowStepPermission = {
-  effect: string
-  action: ActionType | 'all'
-  actor: Link<'User' | 'Team'>
-}
-
 export type WorkflowStepProps = {
   id: string
   name: string
@@ -49,6 +101,7 @@ export type WorkflowDefinitionSysProps = Pick<
   type: 'WorkflowDefinition'
   space: SysLink
   environment: SysLink
+  isLocked: boolean
 }
 
 export type WorkflowDefinitionValidationLink = {
@@ -65,6 +118,8 @@ export type WorkflowDefinitionProps = {
   description?: string
   appliesTo?: WorkflowDefinitionValidationLink[]
   steps: WorkflowStepProps[]
+  startOnEntityCreation?: boolean
+  flowType?: 'no_restriction' | 'strict_neighbor'
 }
 
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {

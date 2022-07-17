@@ -11,67 +11,83 @@ type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
-export type BodyDefinition = Omit<ParameterDefinition, 'labels'>
+export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>
 
-export enum ActionTypes {
-  Endpoint = 'endpoint',
+export enum AppActionCategoryType {
+  EntryListV1Beta = 'EntryList.v1.0-beta',
+  NotificationV1Beta = 'Notification.v1.0-beta',
+  Custom = 'Custom',
 }
 
-export type CreateAppActionProps = {
-  type: ActionTypes.Endpoint
+export type AppActionCategoryProps = {
+  sys: {
+    id: AppActionCategoryType
+    type: 'AppActionCategory'
+    version: string
+  }
+  name: string
+  description: string
+  parameters?: AppActionParameterDefinition[]
+}
+
+type BuiltInCategoriesProps = {
+  /**
+   * Category identifying the shape of the action.
+   */
+  category: AppActionCategoryType.EntryListV1Beta | AppActionCategoryType.NotificationV1Beta
+}
+
+type CustomAppActionProps = {
+  /**
+   * "Custom" category requires "parameters"
+   */
+  category: AppActionCategoryType.Custom
+  parameters: AppActionParameterDefinition[]
+}
+
+type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
+
+export type CreateAppActionProps = AppActionCategory & {
   url: string
-  body?: BodyDefinition[]
-  headers?: string[]
   name: string
 }
 
-export type AppActionProps = {
+export type AppActionProps = AppActionCategory & {
   /**
    * System metadata
    */
   sys: AppActionSys
   /**
-   * Type of the action
-   */
-  type: ActionTypes
-  /**
    * Url that will be called when the action is invoked
    */
   url: string
-  /**
-   * An optional schema for which body parameters need to be provided when calling the action
-   */
-  body?: BodyDefinition[]
-  /**
-   * An optional schema for which headers need to be provided hen calling the action
-   */
-  headers?: string[]
   /**
    * Human readable name for the action
    */
   name: string
 }
 
-export interface AppAction extends AppActionProps, DefaultElements<AppActionProps> {
-  /**
-   * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
-   * const contentful = require('contentful-management')
-   *
-   * const client = contentful.createClient({
-   *   accessToken: '<content_management_api_key>'
-   * })
-   *
-   * client.getOrganization('<org_id>')
-   * .then((org) => org.getAppDefinition('<app_def_id>'))
-   * .then((appDefinition) => appDefinition.getAppAction('<app-bundle-id>'))
-   * .then((appAction) => appAction.delete())
-   * .catch(console.error)
-   * ```
-   */
-  delete(): Promise<void>
-}
+export type AppAction = AppActionProps &
+  DefaultElements<AppActionProps> & {
+    /**
+     * Deletes this object on the server.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppDefinition('<app_def_id>'))
+     * .then((appDefinition) => appDefinition.getAppAction('<app-action-id>'))
+     * .then((appAction) => appAction.delete())
+     * .catch(console.error)
+     * ```
+     */
+    delete(): Promise<void>
+  }
 
 /**
  * @private
