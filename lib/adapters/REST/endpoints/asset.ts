@@ -224,7 +224,7 @@ function checkIfAssetHasUrl(
     } else if (checkCount === processingCheckRetries) {
       const error = new Error()
       error.name = 'AssetProcessingTimeout'
-      error.message = 'Asset is taking longer then expected to process.'
+      error.message = 'Asset is taking longer than expected to process.'
       reject(error)
     } else {
       checkCount++
