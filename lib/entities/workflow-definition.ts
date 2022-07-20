@@ -19,6 +19,7 @@ export type WorkflowStepPermissionActors = 'all' | NonEmptyArray<Link<'User'> | 
 
 export enum WorkflowStepPermissionType {
   EntityPermission = 'entity_permission',
+  WorkflowPermission = 'workflow_permission',
 }
 
 export enum WorkflowStepPermissionAction {
