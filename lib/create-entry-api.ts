@@ -432,12 +432,12 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getTasks: function () {
+    getTasks: function (query = {}) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Task',
         action: 'getMany',
-        params,
+        params: { ...params, query },
       }).then((data) => wrapTaskCollection(makeRequest, data))
     },
 
