@@ -32,13 +32,16 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
+  rawData?: unknown,
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
     {
       params: normalizeSelect(params.query),
+      headers: { ...headers },
     }
   )
 }
