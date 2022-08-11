@@ -366,7 +366,9 @@ export type PlainClientAPI = {
   }
   entry: {
     getMany<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
