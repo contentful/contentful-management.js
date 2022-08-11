@@ -22,6 +22,7 @@ type LocationType =
   | 'dialog'
   | 'page'
   | 'entry-list'
+  | 'home'
 
 export interface SimpleLocation {
   location: LocationType
