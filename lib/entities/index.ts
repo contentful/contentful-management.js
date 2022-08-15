@@ -3,11 +3,11 @@ import * as appAction from './app-action'
 import * as appActionCall from './app-action-call'
 import * as appBundle from './app-bundle'
 import * as appDefinition from './app-definition'
-import * as appInstallation from './app-installation'
-import * as appUpload from './app-upload'
 import * as appDetails from './app-details'
+import * as appInstallation from './app-installation'
 import * as appSignedRequest from './app-signed-request'
 import * as appSigningSecret from './app-signing-secret'
+import * as appUpload from './app-upload'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
 import * as bulkAction from './bulk-action'
@@ -32,14 +32,16 @@ import * as snapshot from './snapshot'
 import * as space from './space'
 import * as spaceMember from './space-member'
 import * as spaceMembership from './space-membership'
-import * as team from './team'
-import * as teamMembership from './team-membership'
 import * as tag from './tag'
 import * as task from './task'
+import * as team from './team'
+import * as teamMembership from './team-membership'
 import * as teamSpaceMembership from './team-space-membership'
+import * as uiConfig from './ui-config'
 import * as upload from './upload'
 import * as usage from './usage'
 import * as user from './user'
+import * as userUIConfig from './user-ui-config'
 import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
 
@@ -83,9 +85,11 @@ export default {
   team,
   teamMembership,
   teamSpaceMembership,
+  uiConfig,
   upload,
   usage,
   user,
+  userUIConfig,
   webhook,
   workflowDefinition,
 }

@@ -3,11 +3,11 @@ import * as AppAction from './app-action'
 import * as AppActionCall from './app-action-call'
 import * as AppBundle from './app-bundle'
 import * as AppDefinition from './app-definition'
-import * as AppInstallation from './app-installation'
-import * as AppUpload from './app-upload'
 import * as AppDetails from './app-details'
+import * as AppInstallation from './app-installation'
 import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
+import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
@@ -38,12 +38,14 @@ import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
+import * as UIConfig from './ui-config'
 import * as Upload from './upload'
 import * as Usage from './usage'
 import * as User from './user'
+import * as UserUIConfig from './user-ui-config'
 import * as Webhook from './webhook'
-import * as WorkflowDefinition from './workflow-definition'
 import * as Workflow from './workflow'
+import * as WorkflowDefinition from './workflow-definition'
 import * as WorkflowsChangelog from './workflows-changelog'
 
 export default {
@@ -87,9 +89,11 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
+  UIConfig,
   Upload,
   Usage,
   User,
+  UserUIConfig,
   Webhook,
   WorkflowDefinition,
   Workflow,

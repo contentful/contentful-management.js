@@ -593,6 +593,22 @@ describe('A createEnvironmentApi', () => {
       expect(r).to.equals(error)
     })
   })
+
+  test('API call getUIConfig', async () => {
+    const uiConfig = cloneMock('uiConfig')
+    const { api } = setup(Promise.resolve(cloneMock('uiConfig')))
+    return api.getUIConfig().then((r) => {
+      expect(r).eql(uiConfig)
+    })
+  })
+
+  test('API call getUserUIConfig', async () => {
+    const userUIConfig = cloneMock('userUIConfig')
+    const { api } = setup(Promise.resolve(cloneMock('userUIConfig')))
+    return api.getUserUIConfig().then((r) => {
+      expect(r).eql(userUIConfig)
+    })
+  })
 })
 
 // Embargoed Assets

@@ -37,6 +37,8 @@ import {
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
   GetAppActionsForEnvParams,
+  GetUserUIConfigParams,
+  GetUIConfigParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -156,6 +158,8 @@ import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from '../entities/workflows-changelog-entry'
+import { UserUIConfigProps } from '../entities/user-ui-config'
+import { UIConfigProps } from '../entities/ui-config'
 
 export type PlainClientAPI = {
   raw: {
@@ -893,6 +897,20 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<TeamSpaceMembershipProps>
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
+  }
+  uiConfig: {
+    get(params: OptionalDefaults<GetUIConfigParams>): Promise<UIConfigProps>
+    update(
+      params: OptionalDefaults<GetUIConfigParams>,
+      rawData: UIConfigProps
+    ): Promise<UIConfigProps>
+  }
+  userUIConfig: {
+    get(params: OptionalDefaults<GetUserUIConfigParams>): Promise<UserUIConfigProps>
+    update(
+      params: OptionalDefaults<GetUserUIConfigParams>,
+      rawData: UserUIConfigProps
+    ): Promise<UserUIConfigProps>
   }
 }
 

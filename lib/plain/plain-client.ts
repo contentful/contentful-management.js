@@ -386,6 +386,14 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
+    uiConfig: {
+      get: wrap(wrapParams, 'UIConfig', 'get'),
+      update: wrap(wrapParams, 'UIConfig', 'update'),
+    },
+    userUIConfig: {
+      get: wrap(wrapParams, 'UserUIConfig', 'get'),
+      update: wrap(wrapParams, 'UserUIConfig', 'update'),
+    },
     ...addAlphaFeatures(makeRequest, defaults, alphaFeatures),
   }
 }
