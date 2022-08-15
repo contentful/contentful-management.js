@@ -777,6 +777,34 @@ export const workflowsChangelogEntryMock = {
   stepName: 'In review',
 }
 
+export const uiConfigMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UIConfig',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
+  }),
+  assetListViews: [],
+  entryListViews: [],
+}
+
+export const userUIConfigMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UserUIConfig',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
+  }),
+  assetListViews: [],
+  entryListViews: [],
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -828,7 +856,9 @@ const mocks = {
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
   usage: usageMock,
+  uiConfig: uiConfigMock,
   user: userMock,
+  userUIConfig: userUIConfigMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
