@@ -663,15 +663,18 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
-    getInstallationsForOrg(
-      params: OptionalDefaults<GetAppDefinitionParams>
-    ): Promise<AppInstallationsForOrganizationProps>
+    // getInstallationsForOrg(
+    //   params: OptionalDefaults<GetAppDefinitionParams>
+    // ): Promise<AppInstallationsForOrganizationProps>
   }
   appInstallation: {
     get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
     ): Promise<CollectionProp<AppInstallationProps>>
+    getForOrganization(
+      params: OptionalDefaults<GetAppDefinitionParams>
+    ): Promise<AppInstallationsForOrganizationProps>
     upsert(
       params: OptionalDefaults<GetAppInstallationParams>,
       rawData: CreateAppInstallationProps,
