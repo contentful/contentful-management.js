@@ -175,6 +175,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
+
+    
     unpublish: function unpublish() {
       const { params } = getParams(this)
 
