@@ -294,7 +294,9 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppDefinition', 'create'),
       update: wrap(wrapParams, 'AppDefinition', 'update'),
       delete: wrap(wrapParams, 'AppDefinition', 'delete'),
-      //todo - remove after change in merge app
+      /**
+       * @deprecated
+       */
       getInstallationsForOrg: wrap(wrapParams, 'AppDefinition', 'getInstallationsForOrg'),
     },
     appInstallation: {

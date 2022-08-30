@@ -81,7 +81,10 @@ export const del: RestEndpoint<'AppDefinition', 'delete'> = (
 ) => {
   return raw.del(http, getAppDefinitionUrl(params))
 }
-//todo - remove it after change in merge app
+
+/**
+ * @deprecated
+ */
 export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallationsForOrg'> = (
   http: AxiosInstance,
   params: GetAppInstallationsForOrgParams & PaginationQueryParams
