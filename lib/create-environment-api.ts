@@ -734,12 +734,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.queryPublished({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((environment) => environment.getPublishedEntries{'content_type': 'foo'})) // you can add more queries as 'key': 'value'
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
      */
-     queryPublished(query: QueryOptions = {}) {
+    getPublishedEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Entry',
@@ -751,7 +751,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
     },
-
 
     /**
      * Creates a Entry

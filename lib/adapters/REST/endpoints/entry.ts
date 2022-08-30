@@ -30,7 +30,7 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   )
 }
 
-export const queryPublished:RestEndpoint<'Entry', 'queryPublished'> = <T extends KeyValueMap = KeyValueMap>(
+export const getPublishedEntries:RestEndpoint<'Entry', 'getPublishedEntries'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
