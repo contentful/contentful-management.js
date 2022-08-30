@@ -338,7 +338,7 @@ describe('Entry Api', () => {
         .then((entry) => {
           expect(entry.isDraft(), 'entry is in draft').ok
           expect(entry.fields.title['en-US']).equals('this is the title', 'original title')
-          return blish().then((publishedEntry) => {
+          return entry.publish().then((publishedEntry) => {
             expect(publishedEntry.isPublished(), 'entry is published').ok
             publishedEntry.fields.title['en-US'] = 'title has changed'
             return publishedEntry.update().then((updatedEntry) => {
