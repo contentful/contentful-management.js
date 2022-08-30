@@ -710,6 +710,10 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
+    getForOrganization: {
+      params: GetOrganizationParams & { appDefinitionId: string }
+      return: AppInstallationsForOrganizationProps
+    }
   }
   AppUpload: {
     get: {
