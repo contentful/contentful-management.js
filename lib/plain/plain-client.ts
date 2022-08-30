@@ -160,7 +160,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Task', 'delete'),
     },
     entry: {
-      queryPublished: wrap(wrapParams, 'Entry', 'queryPublished'),
+      getPublishedEntries: wrap(wrapParams, 'Entry', 'getPublishedEntries'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),

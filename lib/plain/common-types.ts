@@ -369,7 +369,7 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UserProps>>
   }
   entry: {
-    queryPublished<T extends KeyValueMap = KeyValueMap>(
+    getPublishedEntries<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams >,
       rawData?: unknown,
       headers?: AxiosRequestHeaders

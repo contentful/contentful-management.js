@@ -256,7 +256,6 @@ export type KeyValueMap = Record<string, any>
  * @private
  */
 type MRInternal<UA extends boolean> = {
-  (opts: MROpts<'Http', 'queryPublished', UA>): MRReturn<'Http', 'queryPublished'>
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
   (opts: MROpts<'Http', 'patch', UA>): MRReturn<'Http', 'patch'>
   (opts: MROpts<'Http', 'post', UA>): MRReturn<'Http', 'post'>
@@ -600,7 +599,6 @@ export interface Adapter {
  */
 export type MRActions = {
   Http: {
-    queryPublished: { params: { url: string; config?: AxiosRequestConfig }; return: any }
     get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
     patch: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
     post: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
@@ -609,10 +607,6 @@ export type MRActions = {
     request: { params: { url: string; config?: AxiosRequestConfig }; return: any }
   }
   AppAction: {
-    queryPublished: {
-      params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<AppActionProps>
-    }
     get: { params: GetAppActionParams; return: AppActionProps }
     getMany: {
       params: GetAppDefinitionParams & QueryParams
@@ -1460,6 +1454,11 @@ export type MRActions = {
     }
   }
   Workflow: {
+    queryPublished: {
+      params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
+      headers?: AxiosRequestHeaders
+      return: CollectionProp<WorkflowProps>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
       headers?: AxiosRequestHeaders
