@@ -944,6 +944,11 @@ export type MRActions = {
     delete: { params: GetSpaceEnvAliasParams; return: any }
   }
   Entry: {
+    queryPublished: {
+      params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
+      headers?: AxiosRequestHeaders
+      return: CollectionProp<WorkflowProps>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
@@ -1454,11 +1459,6 @@ export type MRActions = {
     }
   }
   Workflow: {
-    queryPublished: {
-      params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
-      headers?: AxiosRequestHeaders
-      return: CollectionProp<WorkflowProps>
-    }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
       headers?: AxiosRequestHeaders
