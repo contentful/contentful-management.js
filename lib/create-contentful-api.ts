@@ -17,6 +17,7 @@ import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
+type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 
 /**
  * @private
@@ -100,7 +101,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     createSpace: function createSpace(
-      spaceData: Omit<SpaceProps, 'sys'>,
+      spaceData: CreateSpaceProps,
       organizationId: string
     ): Promise<Space> {
       return makeRequest({
