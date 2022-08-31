@@ -663,6 +663,9 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
+    /**
+     * @deprecated
+     */
     getInstallationsForOrg(
       params: OptionalDefaults<GetAppDefinitionParams>
     ): Promise<AppInstallationsForOrganizationProps>
