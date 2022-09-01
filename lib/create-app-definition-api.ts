@@ -185,6 +185,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
         params: {
           appDefinitionId: raw.sys.id,
           organizationId: raw.sys.organization.sys.id,
+          skipCache: raw.skipCache,
         },
       })
     },

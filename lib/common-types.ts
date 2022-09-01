@@ -693,7 +693,7 @@ export type MRActions = {
     }
     delete: { params: GetAppDefinitionParams; return: any }
     getInstallationsForOrg: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string; skipCache?: boolean }
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -711,7 +711,7 @@ export type MRActions = {
     }
     delete: { params: GetAppInstallationParams; return: any }
     getForOrganization: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string; skipCache?: boolean }
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -1547,7 +1547,10 @@ export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string 
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
-export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppDefinitionParams = GetOrganizationParams & {
+  appDefinitionId: string
+  skipCache?: boolean
+}
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }

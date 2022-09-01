@@ -58,6 +58,10 @@ export type AppDefinitionProps = {
    */
   locations?: AppLocation[]
   /**
+   * Goes directly to database to return cross env installations
+   */
+  skipCache?: boolean
+  /**
    * Instance parameter definitions
    */
   parameters?: {
