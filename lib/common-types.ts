@@ -1549,7 +1549,6 @@ export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: s
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & {
   appDefinitionId: string
-  skipCache?: boolean
 }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }

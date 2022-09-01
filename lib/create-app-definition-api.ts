@@ -177,7 +177,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getInstallationsForOrg() {
+    getInstallationsForOrg(options: { skipCache: boolean }) {
       const raw = this.toPlainObject() as AppDefinitionProps
       return makeRequest({
         entityType: 'AppDefinition',
@@ -185,7 +185,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
         params: {
           appDefinitionId: raw.sys.id,
           organizationId: raw.sys.organization.sys.id,
-          skipCache: raw.skipCache,
+          skipCache: options.skipCache || false,
         },
       })
     },
