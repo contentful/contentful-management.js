@@ -172,7 +172,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      * client.getAppDefinition('<organizationId>', '<appDefinitionId>')
-     * .then((appDefinition) => appDefinition.getInstallationsForOrg(<{organizationId: string, appDefinitionId: string}>))
+     * .then((appDefinition) => appDefinition.getInstallationsForOrg()
      * .then((appInstallationsForOrg) => console.log(appInstallationsForOrg.items))
      * .catch(console.error)
      * ```
