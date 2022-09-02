@@ -82,6 +82,9 @@ export const del: RestEndpoint<'AppDefinition', 'delete'> = (
   return raw.del(http, getAppDefinitionUrl(params))
 }
 
+/**
+ * @deprecated
+ */
 export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallationsForOrg'> = (
   http: AxiosInstance,
   params: GetAppInstallationsForOrgParams & PaginationQueryParams

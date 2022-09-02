@@ -7,16 +7,23 @@ import {
   GetAppInstallationParams,
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
+  GetAppInstallationsForOrgParams,
 } from '../../../common-types'
 import {
   AppInstallationProps,
   CreateAppInstallationProps,
 } from '../../../entities/app-installation'
+import { AppInstallationsForOrganizationProps } from '../../../entities/app-definition'
 import { CollectionProp } from '../../../common-types'
 import { RestEndpoint } from '../types'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`
+
+const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
+  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
+    params.organizationId || ''
+  }`
 
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
@@ -63,4 +70,17 @@ export const del: RestEndpoint<'AppInstallation', 'delete'> = (
   params: GetAppInstallationParams
 ) => {
   return raw.del(http, getAppInstallationUrl(params))
+}
+
+export const getForOrganization: RestEndpoint<'AppInstallation', 'getForOrganization'> = (
+  http: AxiosInstance,
+  params: GetAppInstallationsForOrgParams & PaginationQueryParams
+) => {
+  return raw.get<AppInstallationsForOrganizationProps>(
+    http,
+    getBaseUrlForOrgInstallations(params),
+    {
+      params: normalizeSelect(params.query),
+    }
+  )
 }
