@@ -34,6 +34,12 @@ describe('Entry Api', () => {
       })
     })
 
+    test('Gets entries versions', async () => {
+      return environment.getEntries.isPublished().then((response) => {
+        expect(response.items, 'items').ok
+      })
+    })
+
     test('Gets entries', async () => {
       return environment.getEntries().then((response) => {
         expect(response.items, 'items').ok
