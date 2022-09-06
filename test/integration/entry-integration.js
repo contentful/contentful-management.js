@@ -24,19 +24,19 @@ describe('Entry Api', () => {
         expect(response.fields, 'fields').to.be.ok
       })
     })
-
+    test('Gets published entries', async () => {
+      return environment.getPublishedEntries().then((response) => {
+        expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+        expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+        expect(response.items[0].sys.publishedAt).to.not.be.undefined
+      })
+    })
     test('Gets Entry snapshots', async () => {
       return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
         return entry.getSnapshots().then((response) => {
           expect(response, 'entry snapshots').ok
           expect(response.items, 'entry snapshots items').ok
         })
-      })
-    })
-
-    test('Gets entries versions', async () => {
-      return environment.getEntries.isPublished().then((response) => {
-        expect(response.items, 'items').ok
       })
     })
 
@@ -399,6 +399,22 @@ describe('Entry Api', () => {
         .then(() => {
           return environment.deleteEntry('entryid')
         })
+    })
+  })
+
+  describe('read plainClientApi', () => {
+    /**
+     * @type {import('../../lib/contentful-management').PlainClientAPI}
+     */
+    let plainClient
+    before(async () => {
+      plainClient = await getDefaultSpace(true)
+    })
+    test('getPublished', async () => {
+      const response = await plainClient.entry.getPublished({ environmentId: 'master' })
+      expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+      expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+      expect(response.items[0].sys.publishedAt).to.not.be.undefined
     })
   })
 })

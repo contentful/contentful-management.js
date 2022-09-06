@@ -40,7 +40,7 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/public/entries`,
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },

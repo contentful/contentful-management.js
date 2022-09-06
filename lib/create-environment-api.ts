@@ -720,11 +720,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets a collection of Entries
-     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
-     * from your entry in the backend
+     * Gets a collection of published Entries
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Entries
+     * @return Promise for a collection of published Entries
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -734,7 +732,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment-id>'))
-     * .then((environment) => environment.queryPublished({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((environment) => environment.getPublishedEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
