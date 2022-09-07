@@ -720,6 +720,37 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets a collection of published Entries
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of published Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedEntries(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapEntryCollection(makeRequest, data))
+    },
+
+    /**
      * Creates a Entry
      * @param contentTypeId - The Content Type ID of the newly created Entry
      * @param data - Object representation of the Entry to be created

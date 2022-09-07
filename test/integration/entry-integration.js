@@ -1,11 +1,13 @@
 import { expect } from 'chai'
 import { after, afterEach, beforeEach, before, describe, test } from 'mocha'
+import { TestDefaults } from '../defaults'
 import {
   initClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  initPlainClient,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -24,7 +26,13 @@ describe('Entry Api', () => {
         expect(response.fields, 'fields').to.be.ok
       })
     })
-
+    test('Gets published entries', async () => {
+      return environment.getPublishedEntries().then((response) => {
+        expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+        expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+        expect(response.items[0].sys.publishedAt).to.not.be.undefined
+      })
+    })
     test('Gets Entry snapshots', async () => {
       return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
         return entry.getSnapshots().then((response) => {
@@ -393,6 +401,22 @@ describe('Entry Api', () => {
         .then(() => {
           return environment.deleteEntry('entryid')
         })
+    })
+  })
+
+  describe('read plainClientApi', () => {
+    /**
+     * @type {import('../../lib/contentful-management').PlainClientAPI}
+     */
+    let plainClient
+    before(async () => {
+      plainClient = initPlainClient({ spaceId: TestDefaults.spaceId })
+    })
+    test('getPublished', async () => {
+      const response = await plainClient.entry.getPublished({ environmentId: 'master' })
+      expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+      expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+      expect(response.items[0].sys.publishedAt).to.not.be.undefined
     })
   })
 })

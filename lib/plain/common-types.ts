@@ -369,6 +369,11 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UserProps>>
   }
   entry: {
+    getPublished<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: AxiosRequestHeaders
+    ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,

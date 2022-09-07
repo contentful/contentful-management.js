@@ -370,6 +370,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
+  (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
@@ -948,6 +949,10 @@ export type MRActions = {
     delete: { params: GetSpaceEnvAliasParams; return: any }
   }
   Entry: {
+    getPublished: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      return: CollectionProp<EntryProps<any>>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
