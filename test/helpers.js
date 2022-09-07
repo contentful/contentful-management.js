@@ -73,12 +73,8 @@ export async function getTestUser() {
   return organization.getUser(userId)
 }
 
-export async function getDefaultSpace(plainClient = false) {
+export async function getDefaultSpace() {
   const { spaceId } = TestDefaults
-
-  if (plainClient) {
-    return initPlainClient({ spaceId })
-  }
   return initClient().getSpace(spaceId)
 }
 

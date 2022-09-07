@@ -1,11 +1,13 @@
 import { expect } from 'chai'
 import { after, afterEach, beforeEach, before, describe, test } from 'mocha'
+import { TestDefaults } from '../defaults'
 import {
   initClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  initPlainClient,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -408,7 +410,7 @@ describe('Entry Api', () => {
      */
     let plainClient
     before(async () => {
-      plainClient = await getDefaultSpace(true)
+      plainClient = initPlainClient({ spaceId: TestDefaults.spaceId })
     })
     test('getPublished', async () => {
       const response = await plainClient.entry.getPublished({ environmentId: 'master' })
