@@ -135,5 +135,5 @@ export const generateRandomId = (prefix = 'randomId') => {
 }
 
 export const cleanupTestSpaces = async (dryRun = false) => {
-  return testUtils.cleanUpTestSpaces({ threshold: 60 * 60 * 1000, dryRun })
+  return testUtils.cleanUpTestSpaces({ threshold: 10 * 60 * 1000, dryRun })
 }
