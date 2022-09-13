@@ -65,6 +65,12 @@ describe('ReleaseAction Api', async () => {
     testReleaseAction2 = await testRelease2.validate()
   })
 
+  after(async () => {
+    if (testSpace) {
+      return testSpace.delete()
+    }
+  })
+
   describe('Read', () => {
     test('Get ReleaseAction', async () => {
       const releaseAction = await testEnvironment.getReleaseAction({
