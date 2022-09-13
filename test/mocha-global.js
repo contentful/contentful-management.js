@@ -4,8 +4,12 @@ import { cleanupTestSpaces } from './helpers'
 const housekeeping = async () => {
   try {
     await cleanupTestSpaces()
-  } catch {
-    // ignore if the cleanup fails. Usually fails locally due to missing credentials
+  } catch (err) {
+    if (err.message === 'Missing credential') {
+      console.log('Skipped deletion of old test spaces due to missing credentials.')
+    } else {
+      console.log('Skipped deletion of old test spaces. Error:', err.message)
+    }
   }
 }
 
