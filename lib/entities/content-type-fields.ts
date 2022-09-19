@@ -40,6 +40,12 @@ interface Item {
   validations?: ContentTypeFieldValidation[]
 }
 
+interface ContentTypeAllowedResources {
+  type: string
+  source: string
+  contentTypes: string[]
+}
+
 export interface ContentFields<T = KeyValueMap> extends Item {
   id: string
   name: string
@@ -51,4 +57,5 @@ export interface ContentFields<T = KeyValueMap> extends Item {
   items?: Item
   apiName?: string
   defaultValue?: T
+  allowedResources?: ContentTypeAllowedResources[]
 }
