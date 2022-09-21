@@ -4,7 +4,7 @@ import { Stream } from 'stream'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
-import { MakeRequest, QueryOptions } from './common-types'
+import { MakeRequest, QueryOptions, QueryParams } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { CreateAppActionProps } from './entities/app-action'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
@@ -119,7 +119,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets a collection of Organization Memberships
-     * @param  query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @param  params - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @return Promise for a collection of Organization Memberships
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -133,17 +133,17 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getOrganizationMemberships(query: QueryOptions = {}) {
+
+    getOrganizationMemberships(params: QueryParams = {}) {
       const raw = this.toPlainObject() as OrganizationProp
-      const organizationId = raw.sys.id
       return makeRequest({
         entityType: 'OrganizationMembership',
         action: 'getMany',
         params: {
-          organizationId,
-          query: createRequestConfig({ query }).params,
+          organizationId: raw.sys.id,
+          ...params,
         },
-      }).then((data) => wrapOrganizationMembershipCollection(makeRequest, data, organizationId))
+      }).then((data) => wrapOrganizationMembershipCollection(makeRequest, data, raw.sys.id))
     },
     /**
      * Creates a Team

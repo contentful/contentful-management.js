@@ -159,6 +159,7 @@ export interface QueryOptions extends PaginationQueryOptions {
   include?: number
   select?: string
   links_to_entry?: string
+
   [key: string]: any
 }
 
@@ -242,6 +243,7 @@ export interface QueryOptions extends BasicQueryOptions {
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
+
   [key: string]: any
 }
 
@@ -1073,18 +1075,18 @@ export type MRActions = {
     }
   }
   OrganizationMembership: {
-    get: { params: GetOrganizationMembershipProps; return: OrganizationMembershipProps }
+    get: { params: GetOrganizationMembershipParams; return: OrganizationMembershipProps }
     getMany: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<OrganizationMembershipProps>
     }
     update: {
-      params: GetOrganizationMembershipProps
+      params: GetOrganizationMembershipParams
       payload: OrganizationMembershipProps
       headers?: AxiosRequestHeaders
       return: OrganizationMembershipProps
     }
-    delete: { params: GetOrganizationMembershipProps; return: any }
+    delete: { params: GetOrganizationMembershipParams; return: any }
   }
   PersonalAccessToken: {
     get: { params: { tokenId: string }; return: PersonalAccessTokenProp }
@@ -1576,9 +1578,10 @@ export type GetTeamParams = { organizationId: string; teamId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
-export type GetOrganizationMembershipProps = GetOrganizationParams & {
+export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string

@@ -8,7 +8,7 @@ import {
   GetCommentParams,
   GetContentTypeParams,
   GetEditorInterfaceParams,
-  GetOrganizationMembershipProps,
+  GetOrganizationMembershipParams,
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
@@ -781,17 +781,17 @@ export type PlainClientAPI = {
   }
   organizationMembership: {
     get(
-      params: OptionalDefaults<GetOrganizationMembershipProps>
+      params: OptionalDefaults<GetOrganizationMembershipParams>
     ): Promise<OrganizationMembershipProps>
     getMany(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<OrganizationMembershipProps>>
     update(
-      params: OptionalDefaults<GetOrganizationMembershipProps>,
+      params: OptionalDefaults<GetOrganizationMembershipParams>,
       rawData: OrganizationMembershipProps,
       headers?: AxiosRequestHeaders
     ): Promise<OrganizationMembershipProps>
-    delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
+    delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
   spaceMember: {
     get(
