@@ -42,6 +42,12 @@ describe('Release Api', async function () {
     }
   })
 
+  after(async () => {
+    if (testSpace) {
+      return testSpace.delete()
+    }
+  })
+
   describe('Read', () => {
     test('Get Release', async () => {
       const createdRelease = await testEnvironment.createRelease({
