@@ -11,6 +11,7 @@ import {
   editorInterfaceMock,
   entryMock,
   environmentMock,
+  environmentTemplateInstallationMock,
   localeMock,
   mockCollection,
   setupEntitiesMock,
@@ -608,6 +609,29 @@ describe('A createEnvironmentApi', () => {
     return api.getUserUIConfig().then((r) => {
       expect(r).eql(userUIConfig)
     })
+  })
+
+  test('API call getEnvironmentTemplateInstallations', async () => {
+    const templateId = 'mockEnvironmentTemplateId'
+    const { api, makeRequest } = setup(
+      Promise.resolve({ items: [environmentTemplateInstallationMock] })
+    )
+    const installations = (await api.getEnvironmentTemplateInstallations(templateId)).items
+
+    expect(installations).to.be.eql([environmentTemplateInstallationMock])
+
+    expect(
+      makeRequest.calledOnceWith({
+        entityType: 'EnvironmentTemplateInstallation',
+        action: 'getForEnvironment',
+        params: {
+          templateId,
+          query: {},
+          spaceId: environmentMock.sys.space.sys.id,
+          environmentId: environmentMock.sys.id,
+        },
+      })
+    ).to.be.ok
   })
 })
 

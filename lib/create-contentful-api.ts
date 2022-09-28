@@ -7,6 +7,8 @@ import {
   QueryOptions,
   QueryParams,
   GetAppDefinitionParams,
+  PaginationQueryOptions,
+  CursorPaginatedCollection,
 } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
@@ -15,6 +17,11 @@ import { Space, SpaceProps } from './entities/space'
 import { AppDefinition } from './entities/app-definition'
 import { UsageQuery } from './entities/usage'
 import { UserProps } from './entities/user'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplate,
+  EnvironmentTemplateProps,
+} from './entities/environment-template'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -30,8 +37,93 @@ export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
   const { wrapUsageCollection } = entities.usage
   const { wrapAppDefinition } = entities.appDefinition
+  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
+    entities.environmentTemplate
 
   return {
+    /**
+     * Gets all environment templates for a given organization
+     * @param organizationId - Organization ID
+     * @return Promise for a collection of EnvironmentTemplates
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getEnvironmentTemplates('<organization_id>')
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironmentTemplates: function getEnvironmentTemplates(
+      organizationId: string,
+      query: PaginationQueryOptions = {}
+    ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
+      return makeRequest({
+        entityType: 'EnvironmentTemplate',
+        action: 'getMany',
+        params: { organizationId, query: createRequestConfig({ query }).params },
+      }).then((data) => wrapEnvironmentTemplateCollection(makeRequest, data, organizationId))
+    },
+    /**
+     * Gets an environment template
+     * @param organizationId - Organization ID
+     * @param templateId - Environment template ID
+     * @param [version] - Template version number
+     * @return Promise for a EnvironmentTemplate
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getEnvironmentTemplate('<organization_id>', '<template_id>', '<version>')
+     * .then((space) => console.log(space))
+     * .catch(console.error)
+     * ```
+     */
+    getEnvironmentTemplate: function getEnvironmentTemplate(
+      organizationId: string,
+      templateId: string,
+      version?: number
+    ): Promise<EnvironmentTemplate> {
+      return makeRequest({
+        entityType: 'EnvironmentTemplate',
+        action: 'get',
+        params: { organizationId, templateId, version },
+      }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
+    },
+    /**
+     * Creates an environment template
+     * @param environmentTemplateData - Object representation of the environment template to be created
+     * @param organizationId - Organization ID
+     * @return Promise for the newly created EnvironmentTemplate
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.createEnvironmentTemplate({<environment_template_date>}, '<organization_id>')
+     * .then((space) => console.log(space))
+     * .catch(console.error)
+     * ```
+     */
+    createEnvironmentTemplate: function createEnvironmentTemplate(
+      environmentTemplateData: CreateEnvironmentTemplateProps,
+      organizationId: string
+    ): Promise<EnvironmentTemplate> {
+      return makeRequest({
+        entityType: 'EnvironmentTemplate',
+        action: 'create',
+        params: { organizationId },
+        payload: environmentTemplateData,
+      }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
+    },
     /**
      * Gets all spaces
      * @return Promise for a collection of Spaces

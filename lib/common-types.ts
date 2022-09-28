@@ -115,6 +115,16 @@ import {
 } from './entities/workflows-changelog-entry'
 import { UIConfigProps } from './entities/ui-config'
 import { UserUIConfigProps } from './entities/user-ui-config'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from './entities/environment-template'
+import {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+  ValidationProps,
+} from './entities/environment-template-installation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -245,7 +255,7 @@ export interface BasicQueryOptions {
   [key: string]: any
 }
 
-export interface BasicCursorPaginationOptions {
+export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
   prev?: string
   next?: string
 }
@@ -368,6 +378,32 @@ type MRInternal<UA extends boolean> = {
   >
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
+
+  (opts: MROpts<'EnvironmentTemplate', 'get', UA>): MRReturn<'EnvironmentTemplate', 'get'>
+  (opts: MROpts<'EnvironmentTemplate', 'getMany', UA>): MRReturn<'EnvironmentTemplate', 'getMany'>
+  (opts: MROpts<'EnvironmentTemplate', 'create', UA>): MRReturn<'EnvironmentTemplate', 'create'>
+  (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
+  (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
+  (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
+  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'versionUpdate'
+  >
+  (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
+  (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
+  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'disconnect'
+  >
+
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getMany'
+  >
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getForEnvironment'
+  >
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
@@ -947,6 +983,110 @@ export type MRActions = {
       return: EnvironmentAliasProps
     }
     delete: { params: GetSpaceEnvAliasParams; return: any }
+  }
+  EnvironmentTemplate: {
+    get: {
+      params: {
+        version?: number
+        templateId: string
+        organizationId: string
+      }
+      return: EnvironmentTemplateProps
+    }
+    getMany: {
+      params: BasicCursorPaginationOptions & {
+        organizationId: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    create: {
+      payload: CreateEnvironmentTemplateProps
+      params: {
+        organizationId: string
+      }
+      return: EnvironmentTemplateProps
+    }
+    versionUpdate: {
+      params: {
+        version: number
+        organizationId: string
+        templateId: string
+      }
+      payload: {
+        versionName: string
+        versionDescription: string
+      }
+      return: EnvironmentTemplateProps
+    }
+    update: {
+      params: {
+        organizationId: string
+        templateId: string
+      }
+      payload: EnvironmentTemplateProps
+      return: EnvironmentTemplateProps
+    }
+    delete: {
+      params: {
+        organizationId: string
+        templateId: string
+      }
+      return: void
+    }
+    versions: {
+      params: BasicCursorPaginationOptions & {
+        organizationId: string
+        templateId: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    validate: {
+      params: {
+        spaceId: string
+        environmentId: string
+        templateId: string
+        version?: number
+      }
+      payload: ValidateEnvironmentTemplateInstallationProps
+      return: ValidationProps
+    }
+    install: {
+      params: {
+        spaceId: string
+        environmentId: string
+        templateId: string
+      }
+      payload: CreateEnvironmentTemplateInstallationProps
+      return: EnvironmentTemplateInstallationProps
+    }
+    disconnect: {
+      params: {
+        spaceId: string
+        environmentId: string
+        templateId: string
+      }
+      return: void
+    }
+  }
+  EnvironmentTemplateInstallation: {
+    getMany: {
+      params: BasicCursorPaginationOptions & {
+        organizationId: string
+        templateId: string
+        spaceId?: string
+        environmentId?: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
+    getForEnvironment: {
+      params: BasicCursorPaginationOptions & {
+        spaceId: string
+        environmentId: string
+        templateId: string
+        installationId?: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
   }
   Entry: {
     getPublished: {
