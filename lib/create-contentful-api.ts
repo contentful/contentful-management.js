@@ -69,9 +69,9 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets an environment template
-     * @param organizationId - Organization ID
-     * @param templateId - Environment template ID
-     * @param [version] - Template version number
+     * @param params.organizationId - Organization ID
+     * @param params.templateId - Environment template ID
+     * @param [params.version] - Template version number
      * @return Promise for a EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
@@ -85,11 +85,15 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getEnvironmentTemplate: function getEnvironmentTemplate(
-      organizationId: string,
-      templateId: string,
+    getEnvironmentTemplate: function getEnvironmentTemplate({
+      organizationId,
+      templateId,
+      version,
+    }: {
+      organizationId: string
+      templateId: string
       version?: number
-    ): Promise<EnvironmentTemplate> {
+    }): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'get',
