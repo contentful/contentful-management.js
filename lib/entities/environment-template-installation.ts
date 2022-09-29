@@ -58,7 +58,7 @@ export type ValidationFinding = {
   details: Record<string, unknown>
 }
 
-export type ValidationProps = {
+export type EnvironmentTemplateValidationProps = {
   sys: {
     type: 'Array'
     environment: Link<'Environment'>

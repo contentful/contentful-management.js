@@ -38,14 +38,16 @@ const environmentTemplateMock = {
   description: 'This is a mock template',
   sys: { id: 'mockEnvironmentTemplateId', version: 1 },
   entities: {
-    contentTypeTemplates: {
-      id: 'mockContentTypeTemplatesId',
-      basedOn: {
-        space: makeLink('space', 'mockSpaceId'),
-        contentType: makeLink('ContentType', 'mockContentTypeId'),
-        environment: makeLink('Environment', 'mockEnvironmentId'),
+    contentTypeTemplates: [
+      {
+        id: 'mockContentTypeTemplatesId',
+        basedOn: {
+          space: makeLink('space', 'mockSpaceId'),
+          contentType: makeLink('ContentType', 'mockContentTypeId'),
+          environment: makeLink('Environment', 'mockEnvironmentId'),
+        },
       },
-    },
+    ],
     editorInterfaceTemplates: [
       {
         contentTypeTemplate: {

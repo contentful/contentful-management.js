@@ -266,18 +266,23 @@ describe('A createContentfulApi', () => {
     })
 
     test('API call getEnvironmentTemplate', async () => {
-      const templateId = environmentTemplateMock.sys.id
+      const environmentTemplateId = environmentTemplateMock.sys.id
       const version = environmentTemplateMock.sys.version
       const makeRequest = sinon.stub().resolves(environmentTemplateMock)
       const api = createContentfulApi(makeRequest)
-      const template = await api.getEnvironmentTemplate({ organizationId, templateId, version })
+      const template = await api.getEnvironmentTemplate({
+        organizationId,
+        environmentTemplateId,
+        version,
+      })
 
       expect(template.toPlainObject()).to.eql(environmentTemplateMock)
+      console.log(makeRequest.getCalls()[0].firstArg)
       expect(
         makeRequest.calledOnceWith({
           entityType: 'EnvironmentTemplate',
           action: 'get',
-          params: { organizationId, templateId, version },
+          params: { organizationId, environmentTemplateId, version },
         })
       ).to.be.ok
     })

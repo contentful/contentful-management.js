@@ -26,16 +26,17 @@ function setup<T>(promise: Promise<T>) {
   }
 }
 
-describe('A createEnvironmentTemplateApi', () => {
+describe('createEnvironmentTemplateApi', () => {
   test('API call update', async () => {
     const { api, makeRequest } = setup(Promise.resolve(environmentTemplateMock))
     const template = await api.update()
     expect(template.toPlainObject()).to.eql(environmentTemplateMock)
+
     expect(
       makeRequest.calledOnceWith({
         entityType: 'EnvironmentTemplate',
         action: 'update',
-        params: { organizationId, templateId: environmentTemplateMock.sys.id },
+        params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
         payload: environmentTemplateMock,
       })
     ).to.be.ok
@@ -56,7 +57,7 @@ describe('A createEnvironmentTemplateApi', () => {
         action: 'versionUpdate',
         params: {
           organizationId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
           version: environmentTemplateMock.sys.version,
         },
         payload: { versionName, versionDescription },
@@ -71,7 +72,7 @@ describe('A createEnvironmentTemplateApi', () => {
       makeRequest.calledOnceWith({
         entityType: 'EnvironmentTemplate',
         action: 'delete',
-        params: { organizationId, templateId: environmentTemplateMock.sys.id },
+        params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
       })
     ).to.be.ok
   })
@@ -83,7 +84,7 @@ describe('A createEnvironmentTemplateApi', () => {
     ]
 
     const { api, makeRequest } = setup(Promise.resolve({ items: versions }))
-    const [version1, version2] = (await api.versions()).items
+    const [version1, version2] = (await api.getVersions()).items
     expect(version1.toPlainObject()).to.eql(versions[0])
     expect(version2.toPlainObject()).to.eql(versions[1])
     expect(
@@ -92,7 +93,7 @@ describe('A createEnvironmentTemplateApi', () => {
         action: 'versions',
         params: {
           organizationId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
         },
       })
     ).to.be.ok
@@ -110,7 +111,7 @@ describe('A createEnvironmentTemplateApi', () => {
     ]
 
     const { api, makeRequest } = setup(Promise.resolve({ items: installations }))
-    const [installation1, installation2] = (await api.installations()).items
+    const [installation1, installation2] = (await api.getInstallations()).items
     expect(installation1.toPlainObject()).to.eql(installations[0])
     expect(installation2.toPlainObject()).to.eql(installations[1])
     expect(
@@ -119,9 +120,40 @@ describe('A createEnvironmentTemplateApi', () => {
         action: 'getMany',
         params: {
           organizationId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
           spaceId: undefined,
           environmentId: undefined,
+          query: {},
+        },
+      })
+    ).to.be.ok
+  })
+
+  test('API call installations with spaceId and environmentId', async () => {
+    const installations = [
+      environmentTemplateInstallationMock,
+      {
+        sys: {
+          ...environmentTemplateInstallationMock.sys,
+          space: makeLink('Space', 'anotherMockSpaceId'),
+        },
+      },
+    ]
+
+    const { api, makeRequest } = setup(Promise.resolve({ items: installations }))
+    const [installation1, installation2] = (await api.getInstallations({ spaceId, environmentId }))
+      .items
+    expect(installation1.toPlainObject()).to.eql(installations[0])
+    expect(installation2.toPlainObject()).to.eql(installations[1])
+    expect(
+      makeRequest.calledOnceWith({
+        entityType: 'EnvironmentTemplateInstallation',
+        action: 'getMany',
+        params: {
+          organizationId,
+          environmentTemplateId: environmentTemplateMock.sys.id,
+          spaceId,
+          environmentId,
           query: {},
         },
       })
@@ -131,13 +163,13 @@ describe('A createEnvironmentTemplateApi', () => {
   test('API call validate', async () => {
     const version = 1
     const { api, makeRequest } = setup(Promise.resolve(environmentTemplateValidationMock))
-    const installation = await api.validate({
+    const validationResult = await api.validate({
       spaceId,
       environmentId,
       version,
     })
 
-    expect(installation).to.eql(environmentTemplateValidationMock)
+    expect(validationResult).to.eql(environmentTemplateValidationMock)
     expect(
       makeRequest.calledOnceWith({
         entityType: 'EnvironmentTemplate',
@@ -145,7 +177,7 @@ describe('A createEnvironmentTemplateApi', () => {
         params: {
           spaceId,
           environmentId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
           version,
         },
         payload: {},
@@ -153,9 +185,9 @@ describe('A createEnvironmentTemplateApi', () => {
     ).to.be.ok
   })
 
-  test('API call install environment template', async () => {
+  test('API call install', async () => {
     const version = 1
-    const { api, makeRequest } = setup(Promise.resolve(environmentTemplateMock))
+    const { api, makeRequest } = setup(Promise.resolve(environmentTemplateInstallationMock))
     const installation = await api.install({
       spaceId,
       environmentId,
@@ -164,7 +196,7 @@ describe('A createEnvironmentTemplateApi', () => {
       },
     })
 
-    expect(installation).to.eql(environmentTemplateMock)
+    expect(installation).to.eql(environmentTemplateInstallationMock)
     expect(
       makeRequest.calledOnceWith({
         entityType: 'EnvironmentTemplate',
@@ -172,7 +204,7 @@ describe('A createEnvironmentTemplateApi', () => {
         params: {
           spaceId,
           environmentId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
         },
         payload: {
           version,
@@ -192,7 +224,7 @@ describe('A createEnvironmentTemplateApi', () => {
         params: {
           spaceId,
           environmentId,
-          templateId: environmentTemplateMock.sys.id,
+          environmentTemplateId: environmentTemplateMock.sys.id,
         },
       })
     ).to.be.ok

@@ -41,7 +41,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'update',
-        params: { organizationId, templateId: raw.sys.id },
+        params: { organizationId, environmentTemplateId: raw.sys.id },
         payload: raw,
       }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
     },
@@ -80,7 +80,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'versionUpdate',
-        params: { organizationId, templateId: raw.sys.id, version: raw.sys.version },
+        params: { organizationId, environmentTemplateId: raw.sys.id, version: raw.sys.version },
         payload: { versionName, versionDescription },
       }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
     },
@@ -105,7 +105,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'delete',
-        params: { organizationId, templateId: raw.sys.id },
+        params: { organizationId, environmentTemplateId: raw.sys.id },
       })
     },
     /**
@@ -117,8 +117,8 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
-     *
-     * client.getVersions()
+     * client.getEnvironmentTemplate('<organization_id>', '<environment_template_id>')
+     * .then((environmentTemplate) => environmentTemplate.getVersions())
      * .then((environmentTemplateVersions) => console.log(environmentTemplateVersions.items))
      * .catch(console.error)
      * ```
@@ -130,15 +130,15 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
         action: 'versions',
         params: {
           organizationId,
-          templateId: raw.sys.id,
+          environmentTemplateId: raw.sys.id,
         },
       }).then((data) => wrapEnvironmentTemplateCollection(makeRequest, data, organizationId))
     },
     /**
-     * Gets a collection of all installation for the environment template
+     * Gets a collection of all installations for the environment template
      * @param [installationParams.spaceId] - Space ID to filter installations by space and environment
      * @param [installationParams.environmentId] - Environment ID to filter installations by space and environment
-     * @return Promise for a EnvironmentTemplate
+     * @return Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -146,8 +146,11 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.('<organization_id>', '<template_id>', '<version>')
-     * .then((environmentTemplate) => console.log(environmentTemplate))
+     * client.getEnvironmentTemplate('<organization_id>', '<environment_template_id>')
+     * .then((environmentTemplate) => environmentTemplate.getInstallations())
+     * .then((environmentTemplateInstallations) =>
+     *   console.log(environmentTemplateInstallations.items)
+     * )
      * .catch(console.error)
      * ```
      */
@@ -165,7 +168,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
         action: 'getMany',
         params: {
           organizationId,
-          templateId: raw.sys.id,
+          environmentTemplateId: raw.sys.id,
           query: { ...createRequestConfig({ query }).params },
           spaceId,
           environmentId,
@@ -173,12 +176,12 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
     },
     /**
-     * Validates a template against a given space and environment
-     * @param installationParams.spaceId - Space ID where the template should be installed into
-     * @param installationParams.environmentId - Environment ID where the template should be installed into
-     * @param [installationParams.version] - Version of the template
-     * @param [installationParams.installation.takeover] - Already existing Content types tp takeover in the target environment
-     * @param [installationParams.changeSet] - Change set which should be applied
+     * Validates an environment template against a given space and environment
+     * @param params.spaceId - Space ID where the template should be installed into
+     * @param params.environmentId - Environment ID where the template should be installed into
+     * @param [params.version] - Version of the template
+     * @param [params.installation.takeover] - Already existing Content types to takeover in the target environment
+     * @param [params.changeSet] - Change set which should be applied
      * @return Promise for a EnvironmentTemplateValidation
      * ```javascript
      * const contentful = require('contentful-management')
@@ -187,11 +190,12 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.validate({
+     * client.getEnvironmentTemplate('<organization_id>', '<environment_template_id>')
+     * .then((environmentTemplate) => environmentTemplate.validate({
      *   spaceId: '<space_id>',
      *   environmentId: '<environment_id>',
      *   version: <version>,
-     * })
+     * }))
      * .then((validationResult) => console.log(validationResult))
      * .catch(console.error)
      * ```
@@ -200,13 +204,13 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       spaceId,
       environmentId,
       version,
-      installation = {},
+      takeover,
+      changeSet,
     }: {
       spaceId: string
       environmentId: string
       version?: number
-      installation?: ValidateEnvironmentTemplateInstallationProps
-    }) {
+    } & ValidateEnvironmentTemplateInstallationProps) {
       const raw: EnvironmentTemplateProps = this.toPlainObject()
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -215,18 +219,21 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
           spaceId,
           version,
           environmentId,
-          templateId: raw.sys.id,
+          environmentTemplateId: raw.sys.id,
         },
-        payload: installation,
+        payload: {
+          ...(takeover && { takeover }),
+          ...(changeSet && { changeSet }),
+        },
       })
     },
     /**
      * Installs a template against a given space and environment
-     * @param installationParams.spaceId - Space ID where the template should be installed into
-     * @param installationParams.environmentId - Environment ID where the template should be installed into
-     * @param installationParams.installation.version- Template version which should be installed
-     * @param [installationParams.installation.takeover] - Already existing Content types tp takeover in the target environment
-     * @param [installationParams.changeSet] - Change set which should be applied
+     * @param params.spaceId - Space ID where the template should be installed into
+     * @param params.environmentId - Environment ID where the template should be installed into
+     * @param params.installation.version- Template version which should be installed
+     * @param [params.installation.takeover] - Already existing Content types tp takeover in the target environment
+     * @param [params.changeSet] - Change set which should be applied
      * @return Promise for a EnvironmentTemplateInstallation
      * ```javascript
      * const contentful = require('contentful-management')
@@ -235,13 +242,14 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.validate({
+     * client.getEnvironmentTemplate('<organization_id>', '<environment_template_id>')
+     * .then((environmentTemplate) => environmentTemplate.validate({
      *   spaceId: '<space_id>',
      *   environmentId: '<environment_id>',
      *   installation: {
      *     version: <version>,
      *   }
-     * })
+     * }))
      * .then((installation) => console.log(installation))
      * .catch(console.error)
      * ```
@@ -262,15 +270,15 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
         params: {
           spaceId,
           environmentId,
-          templateId: raw.sys.id,
+          environmentTemplateId: raw.sys.id,
         },
         payload: installation,
       })
     },
     /**
      * Disconnects the template from a given environment
-     * @param installationParams.spaceId - Space ID where the template should be installed into
-     * @param installationParams.environmentId - Environment ID where the template should be installed into
+     * @param params.spaceId - Space ID where the template should be installed into
+     * @param params.environmentId - Environment ID where the template should be installed into
      * @return Promise for the disconnection with no data
      * ```javascript
      * const contentful = require('contentful-management')
@@ -279,7 +287,8 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.disconnected()
+     * client.getEnvironmentTemplate('<organization_id>', '<environment_template_id>')
+     * .then(environmentTemplate) => environmentTemplate.disconnected())
      * .then(() => console.log('Template disconnected'))
      * .catch(console.error)
      * ```
@@ -298,7 +307,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
         params: {
           spaceId,
           environmentId,
-          templateId: raw.sys.id,
+          environmentTemplateId: raw.sys.id,
         },
       })
     },

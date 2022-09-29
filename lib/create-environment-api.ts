@@ -2169,7 +2169,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of all environment template installations in the environment for a given template
-     * @param templateId - Template ID to return installations for
+     * @param environmentTemplateId - Environment template ID to return installations for
      * @param [options.installationId] - Installation ID to filter for a specific installation
      * @return Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
@@ -2187,7 +2187,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * ```
      */
     async getEnvironmentTemplateInstallations(
-      templateId: string,
+      environmentTemplateId: string,
       { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {}
     ) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2196,7 +2196,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         entityType: 'EnvironmentTemplateInstallation',
         action: 'getForEnvironment',
         params: {
-          templateId,
+          environmentTemplateId,
           ...(installationId && { installationId }),
           query: { ...createRequestConfig({ query }).params },
           spaceId: raw.sys.space.sys.id,

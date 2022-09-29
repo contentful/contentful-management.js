@@ -6,9 +6,9 @@ const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =
 
 export const getMany: RestEndpoint<'EnvironmentTemplateInstallation', 'getMany'> = (
   http,
-  { organizationId, templateId, spaceId, environmentId, ...paginationProps }
+  { organizationId, environmentTemplateId, spaceId, environmentId, ...paginationProps }
 ) =>
-  raw.get(http, apiPath(organizationId, templateId, 'template_installations'), {
+  raw.get(http, apiPath(organizationId, environmentTemplateId, 'template_installations'), {
     params: {
       ...paginationProps,
       ...(environmentId && { 'environment.sys.id': environmentId }),
@@ -19,10 +19,10 @@ export const getMany: RestEndpoint<'EnvironmentTemplateInstallation', 'getMany'>
 export const getForEnvironment: RestEndpoint<
   'EnvironmentTemplateInstallation',
   'getForEnvironment'
-> = (http, { spaceId, environmentId, templateId, installationId, ...paginationProps }) =>
+> = (http, { spaceId, environmentId, environmentTemplateId, installationId, ...paginationProps }) =>
   raw.get(
     http,
-    `/spaces/${spaceId}/environments/${environmentId}/template_installations/${templateId}`,
+    `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}`,
     {
       params: {
         ...(installationId && { 'sys.id': installationId }),

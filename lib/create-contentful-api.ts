@@ -70,7 +70,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets an environment template
      * @param params.organizationId - Organization ID
-     * @param params.templateId - Environment template ID
+     * @param params.environmentTemplateId - Environment template ID
      * @param [params.version] - Template version number
      * @return Promise for a EnvironmentTemplate
      * ```javascript
@@ -80,24 +80,28 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.getEnvironmentTemplate('<organization_id>', '<template_id>', '<version>')
+     * client.getEnvironmentTemplate({
+     *   organizationId: '<organization_id>',
+     *   environmentTemplateId: '<environment_template_id>',
+     *   version: version>
+     * })
      * .then((space) => console.log(space))
      * .catch(console.error)
      * ```
      */
     getEnvironmentTemplate: function getEnvironmentTemplate({
       organizationId,
-      templateId,
+      environmentTemplateId,
       version,
     }: {
       organizationId: string
-      templateId: string
+      environmentTemplateId: string
       version?: number
     }): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'get',
-        params: { organizationId, templateId, version },
+        params: { organizationId, environmentTemplateId, version },
       }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
     },
     /**

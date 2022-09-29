@@ -123,7 +123,7 @@ import {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   ValidateEnvironmentTemplateInstallationProps,
-  ValidationProps,
+  EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
@@ -988,7 +988,7 @@ export type MRActions = {
     get: {
       params: {
         version?: number
-        templateId: string
+        environmentTemplateId: string
         organizationId: string
       }
       return: EnvironmentTemplateProps
@@ -1010,7 +1010,7 @@ export type MRActions = {
       params: {
         version: number
         organizationId: string
-        templateId: string
+        environmentTemplateId: string
       }
       payload: {
         versionName: string
@@ -1021,7 +1021,7 @@ export type MRActions = {
     update: {
       params: {
         organizationId: string
-        templateId: string
+        environmentTemplateId: string
       }
       payload: EnvironmentTemplateProps
       return: EnvironmentTemplateProps
@@ -1029,14 +1029,14 @@ export type MRActions = {
     delete: {
       params: {
         organizationId: string
-        templateId: string
+        environmentTemplateId: string
       }
       return: void
     }
     versions: {
       params: BasicCursorPaginationOptions & {
         organizationId: string
-        templateId: string
+        environmentTemplateId: string
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1044,17 +1044,17 @@ export type MRActions = {
       params: {
         spaceId: string
         environmentId: string
-        templateId: string
+        environmentTemplateId: string
         version?: number
       }
       payload: ValidateEnvironmentTemplateInstallationProps
-      return: ValidationProps
+      return: EnvironmentTemplateValidationProps
     }
     install: {
       params: {
         spaceId: string
         environmentId: string
-        templateId: string
+        environmentTemplateId: string
       }
       payload: CreateEnvironmentTemplateInstallationProps
       return: EnvironmentTemplateInstallationProps
@@ -1063,7 +1063,7 @@ export type MRActions = {
       params: {
         spaceId: string
         environmentId: string
-        templateId: string
+        environmentTemplateId: string
       }
       return: void
     }
@@ -1072,7 +1072,7 @@ export type MRActions = {
     getMany: {
       params: BasicCursorPaginationOptions & {
         organizationId: string
-        templateId: string
+        environmentTemplateId: string
         spaceId?: string
         environmentId?: string
       }
@@ -1082,7 +1082,7 @@ export type MRActions = {
       params: BasicCursorPaginationOptions & {
         spaceId: string
         environmentId: string
-        templateId: string
+        environmentTemplateId: string
         installationId?: string
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>

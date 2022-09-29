@@ -612,11 +612,12 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call getEnvironmentTemplateInstallations', async () => {
-    const templateId = 'mockEnvironmentTemplateId'
+    const environmentTemplateId = 'mockEnvironmentTemplateId'
     const { api, makeRequest } = setup(
       Promise.resolve({ items: [environmentTemplateInstallationMock] })
     )
-    const installations = (await api.getEnvironmentTemplateInstallations(templateId)).items
+    const installations = (await api.getEnvironmentTemplateInstallations(environmentTemplateId))
+      .items
 
     expect(installations).to.be.eql([environmentTemplateInstallationMock])
 
@@ -625,7 +626,7 @@ describe('A createEnvironmentApi', () => {
         entityType: 'EnvironmentTemplateInstallation',
         action: 'getForEnvironment',
         params: {
-          templateId,
+          environmentTemplateId,
           query: {},
           spaceId: environmentMock.sys.space.sys.id,
           environmentId: environmentMock.sys.id,
