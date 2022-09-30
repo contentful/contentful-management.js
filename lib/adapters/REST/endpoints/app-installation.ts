@@ -23,7 +23,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
   `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
     params.organizationId || ''
-  }`
+  }${params.spaceId ? '&sys.space.sys.id[in]=' + params.spaceId : ''}`
 
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
