@@ -117,7 +117,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.createEnvironmentTemplate({<environment_template_date>}, '<organization_id>')
-     * .then((space) => console.log(space))
+     * .then((environmentTemplate) => console.log(environmentTemplate))
      * .catch(console.error)
      * ```
      */

@@ -2181,7 +2181,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
-     * .then((environment) => environment.getEnvironmentTemplateInstallations('<template_id>'))
+     * .then((environment) => environment.getEnvironmentTemplateInstallations('<environment_template_id>'))
      * .then((installations) => console.log(installations.items))
      * .catch(console.error)
      * ```

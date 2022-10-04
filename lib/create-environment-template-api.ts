@@ -18,7 +18,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
   return {
     /**
      * Updates a environment template
-     * @return Promise for an updated EnvironmentTemplate
+     * @return Promise for new version of the template
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -46,7 +46,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
       }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
     },
     /**
-     * Updates a environment template version
+     * Updates environment template version data
      * @param version.versionName - Name of the environment template version
      * @param version.versionDescription - Description of the environment template version
      * @return Promise for an updated EnvironmentTemplate
@@ -154,7 +154,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * .catch(console.error)
      * ```
      */
-    getInstallations: function environmentTemplateInstallations({
+    getInstallations: function getEnvironmentTemplateInstallations({
       spaceId,
       environmentId,
       ...query
