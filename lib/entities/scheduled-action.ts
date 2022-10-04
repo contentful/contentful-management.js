@@ -57,10 +57,11 @@ export type ScheduledActionSysProps = {
   updatedBy: Link<'User'> | Link<'AppDefinition'>
 }
 
-type ScheduledActionReferenceFilters = 'sys.contentType.metadata.annotations.ContentType[nin]'
+export const ScheduledActionReferenceFilters =
+  'sys.contentType.metadata.annotations.ContentType[nin]'
 
 export type ScheduledActionPayloadProps = {
-  withReferences: Record<ScheduledActionReferenceFilters, string[]>
+  withReferences: Record<typeof ScheduledActionReferenceFilters, string[]>
 }
 
 export type ScheduledActionProps = {
