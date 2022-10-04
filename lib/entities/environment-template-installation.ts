@@ -21,7 +21,7 @@ enum EnvironmentTemplateInstallationStatuses {
   disconnected = 'disconnected',
   inRetry = 'inRetry',
 }
-// WARNING: This is using 'keyof' which looks at the left hand name, not the right hand value
+
 export type EnvironmentTemplateInstallationStatus =
   keyof typeof EnvironmentTemplateInstallationStatuses
 
