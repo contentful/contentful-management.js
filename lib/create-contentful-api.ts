@@ -42,7 +42,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
   return {
     /**
-     * Gets all environment templates for a given organization
+     * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID
      * @return Promise for a collection of EnvironmentTemplates
      * ```javascript
@@ -68,10 +68,10 @@ export default function createClientApi(makeRequest: MakeRequest) {
       }).then((data) => wrapEnvironmentTemplateCollection(makeRequest, data, organizationId))
     },
     /**
-     * Gets an environment template
+     * Gets the lasted version environment template if params.version is not specified
      * @param params.organizationId - Organization ID
      * @param params.environmentTemplateId - Environment template ID
-     * @param [params.version] - Template version number
+     * @param [params.version] - Template version number to return a specific version of the environment template
      * @return Promise for a EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
