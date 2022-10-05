@@ -4,9 +4,12 @@ import { before, after, describe, test, beforeEach, afterEach } from 'mocha'
 import { Asset } from '../../lib/entities/asset'
 import { Entry } from '../../lib/entities/entry'
 import { Environment } from '../../lib/entities/environment'
-import { ScheduledActionReferenceFilters } from '../../lib/entities/scheduled-action'
 import { Space } from '../../lib/entities/space'
-import { ContentType, ContentTypeMetadata } from '../../lib/export-types'
+import {
+  ContentType,
+  ContentTypeMetadata,
+  ScheduledActionReferenceFilters,
+} from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'
@@ -32,7 +35,7 @@ describe('Scheduled Actions API', async function () {
 
   const aggregateRootPayload = {
     withReferences: {
-      [ScheduledActionReferenceFilters]: ['Contentful:AggregateRoot'],
+      [ScheduledActionReferenceFilters.contentTypeAnnotationNotIn]: ['Contentful:AggregateRoot'],
     },
   }
 
@@ -167,9 +170,7 @@ describe('Scheduled Actions API', async function () {
       beforeEach(async () => {
         const aggregateRootAnnotation: ContentTypeMetadata = {
           annotations: {
-            ContentType: [
-              { sys: { id: 'Contentful:AggregateRoot', type: 'Link', linkType: 'Annotation' } },
-            ],
+            ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
           },
         }
         const environment = await testSpace.getEnvironment('master')
@@ -203,7 +204,7 @@ describe('Scheduled Actions API', async function () {
         const scheduledAction = await testSpace.createScheduledAction({
           entity: makeLink('Entry', entry.sys.id),
           environment: makeLink('Environment', environment.sys.id),
-          action: 'unpublish',
+          action: 'publish',
           scheduledFor: {
             datetime,
           },
@@ -211,7 +212,7 @@ describe('Scheduled Actions API', async function () {
         })
 
         expect(scheduledAction.entity).to.deep.equal(makeLink('Entry', entry.sys.id))
-        expect(scheduledAction.action).to.eql('unpublish')
+        expect(scheduledAction.action).to.eql('publish')
         expect(scheduledAction.scheduledFor).to.deep.equal({
           datetime,
         })
@@ -397,9 +398,7 @@ describe('Scheduled Actions API', async function () {
       beforeEach(async () => {
         const aggregateRootAnnotation: ContentTypeMetadata = {
           annotations: {
-            ContentType: [
-              { sys: { id: 'Contentful:AggregateRoot', type: 'Link', linkType: 'Annotation' } },
-            ],
+            ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
           },
         }
         const environment = await testSpace.getEnvironment('master')
@@ -436,7 +435,7 @@ describe('Scheduled Actions API', async function () {
           {},
           {
             entity: makeLink('Entry', entry.sys.id),
-            action: 'unpublish',
+            action: 'publish',
             environment: makeLink('Environment', environment.sys.id),
             scheduledFor: {
               datetime,

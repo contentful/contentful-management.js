@@ -8,6 +8,7 @@ import {
   Link,
   MakeRequest,
   SysLink,
+  ScheduledActionReferenceFilters,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -57,11 +58,8 @@ export type ScheduledActionSysProps = {
   updatedBy: Link<'User'> | Link<'AppDefinition'>
 }
 
-export const ScheduledActionReferenceFilters =
-  'sys.contentType.metadata.annotations.ContentType[nin]'
-
 export type ScheduledActionPayloadProps = {
-  withReferences?: Record<typeof ScheduledActionReferenceFilters, string[]>
+  withReferences?: Record<ScheduledActionReferenceFilters, string[]>
 }
 
 export type ScheduledActionProps = {
