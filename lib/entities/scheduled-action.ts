@@ -61,7 +61,7 @@ export const ScheduledActionReferenceFilters =
   'sys.contentType.metadata.annotations.ContentType[nin]'
 
 export type ScheduledActionPayloadProps = {
-  withReferences: Record<typeof ScheduledActionReferenceFilters, string[]>
+  withReferences?: Record<typeof ScheduledActionReferenceFilters, string[]>
 }
 
 export type ScheduledActionProps = {
