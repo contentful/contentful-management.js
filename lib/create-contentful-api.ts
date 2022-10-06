@@ -9,6 +9,7 @@ import {
   GetAppDefinitionParams,
   PaginationQueryOptions,
   CursorPaginatedCollection,
+  GetEnvironmentTemplateParams,
 } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
@@ -93,9 +94,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
       organizationId,
       environmentTemplateId,
       version,
-    }: {
-      organizationId: string
-      environmentTemplateId: string
+    }: GetEnvironmentTemplateParams & {
       version?: number
     }): Promise<EnvironmentTemplate> {
       return makeRequest({
@@ -106,8 +105,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates an environment template
-     * @param environmentTemplateData - Object representation of the environment template to be created
      * @param organizationId - Organization ID
+     * @param environmentTemplateData - Object representation of the environment template to be created
      * @return Promise for the newly created EnvironmentTemplate
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -116,14 +115,14 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.createEnvironmentTemplate({<environment_template_date>}, '<organization_id>')
+     * client.createEnvironmentTemplate('<organization_id>', {<environment_template_date>})
      * .then((environmentTemplate) => console.log(environmentTemplate))
      * .catch(console.error)
      * ```
      */
     createEnvironmentTemplate: function createEnvironmentTemplate(
-      environmentTemplateData: CreateEnvironmentTemplateProps,
-      organizationId: string
+      organizationId: string,
+      environmentTemplateData: CreateEnvironmentTemplateProps
     ): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',

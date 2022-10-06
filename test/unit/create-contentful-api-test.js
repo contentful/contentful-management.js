@@ -277,7 +277,6 @@ describe('A createContentfulApi', () => {
       })
 
       expect(template.toPlainObject()).to.eql(environmentTemplateMock)
-      console.log(makeRequest.getCalls()[0].firstArg)
       expect(
         makeRequest.calledOnceWith({
           entityType: 'EnvironmentTemplate',
@@ -291,7 +290,7 @@ describe('A createContentfulApi', () => {
       const makeRequest = sinon.stub().resolves(environmentTemplateMock)
       const api = createContentfulApi(makeRequest)
       const template = { ...environmentTemplateMock, sys: undefined }
-      const newTemplate = await api.createEnvironmentTemplate(organizationId, template)
+      const newTemplate = await api.createEnvironmentTemplate(template, organizationId)
 
       expect(newTemplate.toPlainObject()).to.eql(environmentTemplateMock)
       expect(

@@ -986,31 +986,23 @@ export type MRActions = {
   }
   EnvironmentTemplate: {
     get: {
-      params: {
+      params: GetEnvironmentTemplateParams & {
         version?: number
-        environmentTemplateId: string
-        organizationId: string
       }
       return: EnvironmentTemplateProps
     }
     getMany: {
-      params: BasicCursorPaginationOptions & {
-        organizationId: string
-      }
+      params: BasicCursorPaginationOptions & GetOrganizationParams
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
     create: {
       payload: CreateEnvironmentTemplateProps
-      params: {
-        organizationId: string
-      }
+      params: GetOrganizationParams
       return: EnvironmentTemplateProps
     }
     versionUpdate: {
-      params: {
+      params: GetEnvironmentTemplateParams & {
         version: number
-        organizationId: string
-        environmentTemplateId: string
       }
       payload: {
         versionName: string
@@ -1019,72 +1011,50 @@ export type MRActions = {
       return: EnvironmentTemplateProps
     }
     update: {
-      params: {
-        organizationId: string
-        environmentTemplateId: string
-      }
+      params: GetEnvironmentTemplateParams
       payload: EnvironmentTemplateProps
       return: EnvironmentTemplateProps
     }
     delete: {
-      params: {
-        organizationId: string
-        environmentTemplateId: string
-      }
+      params: GetEnvironmentTemplateParams
       return: void
     }
     versions: {
-      params: BasicCursorPaginationOptions & {
-        organizationId: string
-        environmentTemplateId: string
-      }
+      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
     validate: {
-      params: {
-        spaceId: string
-        environmentId: string
-        environmentTemplateId: string
+      params: EnvironmentTemplateParams & {
         version?: number
       }
       payload: ValidateEnvironmentTemplateInstallationProps
       return: EnvironmentTemplateValidationProps
     }
     install: {
-      params: {
-        spaceId: string
-        environmentId: string
-        environmentTemplateId: string
-      }
+      params: EnvironmentTemplateParams
       payload: CreateEnvironmentTemplateInstallationProps
       return: EnvironmentTemplateInstallationProps
     }
     disconnect: {
-      params: {
-        spaceId: string
-        environmentId: string
-        environmentTemplateId: string
-      }
+      params: EnvironmentTemplateParams
       return: void
     }
   }
   EnvironmentTemplateInstallation: {
     getMany: {
       params: BasicCursorPaginationOptions & {
-        organizationId: string
-        environmentTemplateId: string
-        spaceId?: string
         environmentId?: string
+        environmentTemplateId: string
+        organizationId: string
+        spaceId?: string
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
     getForEnvironment: {
-      params: BasicCursorPaginationOptions & {
-        spaceId: string
-        environmentId: string
-        environmentTemplateId: string
-        installationId?: string
-      }
+      params: BasicCursorPaginationOptions &
+        EnvironmentTemplateParams & {
+          installationId?: string
+        }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
   }
@@ -1688,6 +1658,12 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+export type EnvironmentTemplateParams = {
+  spaceId: string
+  environmentId: string
+  environmentTemplateId: string
+}
+
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
@@ -1701,6 +1677,7 @@ export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: 
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
