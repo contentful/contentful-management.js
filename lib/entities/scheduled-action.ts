@@ -8,6 +8,7 @@ import {
   Link,
   MakeRequest,
   SysLink,
+  ScheduledActionReferenceFilters,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -57,6 +58,10 @@ export type ScheduledActionSysProps = {
   updatedBy: Link<'User'> | Link<'AppDefinition'>
 }
 
+export type ScheduledActionPayloadProps = {
+  withReferences?: Record<ScheduledActionReferenceFilters, string[]>
+}
+
 export type ScheduledActionProps = {
   sys: ScheduledActionSysProps
   action: SchedulableActionType
@@ -88,11 +93,12 @@ export type ScheduledActionProps = {
    * }
    */
   error?: ScheduledActionFailedError
+  payload?: ScheduledActionPayloadProps
 }
 
 export type CreateUpdateScheduledActionProps = Pick<
   ScheduledActionProps,
-  'action' | 'entity' | 'environment' | 'scheduledFor'
+  'action' | 'entity' | 'environment' | 'scheduledFor' | 'payload'
 >
 
 export interface ScheduledActionCollection {
