@@ -93,7 +93,7 @@
     "bundlesize": "^0.18.1",
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
-    "contentful-sdk-jsdoc": "^2.2.0",
+    "contentful-sdk-jsdoc": "^3.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
