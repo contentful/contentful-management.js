@@ -1,6 +1,8 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
+  vault: contentful/vault@1
+  
 jobs:
   lint:
     docker:
@@ -27,7 +29,7 @@ jobs:
       - run: npm run build
       - run: npm run test:cover-unit
       - store_test_results:
-              path: reports
+          path: reports
       - store_artifacts:
           path: ./reports/unit-results.xml
   integration:
@@ -42,7 +44,7 @@ jobs:
       - run: npm run build
       - run: npm run test:cover-integration
       - store_test_results:
-              path: reports
+          path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
   release:
@@ -50,6 +52,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
+      - vault/get-secrets: # Loads vault secrets
+          template-preset: 'semantic-release-ecosystem'
       - node/install
       - run: npm install
       - run: npm run semantic-release
@@ -64,7 +68,7 @@ workflows:
             - unit
             - lint
       - release:
-          context: dev-workflows-release
+          context: vault
           requires:
             - unit
             - integration

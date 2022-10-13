@@ -1605,3 +1605,6 @@ export type GetUserUIConfigParams = GetUIConfigParams
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export enum ScheduledActionReferenceFilters {
+  contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
+}

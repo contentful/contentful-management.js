@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
-import { before, after, describe, test } from 'mocha'
+import { before, after, describe, test, beforeEach, afterEach } from 'mocha'
 import { Asset } from '../../lib/entities/asset'
+import { Entry } from '../../lib/entities/entry'
 import { Environment } from '../../lib/entities/environment'
 import { Space } from '../../lib/entities/space'
+import {
+  ContentType,
+  ContentTypeMetadata,
+  ScheduledActionReferenceFilters,
+} from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'
@@ -23,7 +29,15 @@ describe('Scheduled Actions API', async function () {
   let testSpace: Space
   let asset: Asset
   let environment: Environment
+  let contentType: ContentType
+  let entry: Entry
   const datetime = new Date(Date.now() + ONE_DAY_MS).toISOString()
+
+  const aggregateRootPayload = {
+    withReferences: {
+      [ScheduledActionReferenceFilters.contentTypeAnnotationNotIn]: ['Contentful:AggregateRoot'],
+    },
+  }
 
   before(async () => {
     testSpace = (await getDefaultSpace()) as unknown as Space
@@ -149,6 +163,60 @@ describe('Scheduled Actions API', async function () {
       expect(scheduledAction.action).to.eql('unpublish')
       expect(scheduledAction.scheduledFor).to.deep.equal({
         datetime,
+      })
+    })
+
+    describe('for AggregateRoot annotated entry', () => {
+      beforeEach(async () => {
+        const aggregateRootAnnotation: ContentTypeMetadata = {
+          annotations: {
+            ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
+          },
+        }
+        const environment = await testSpace.getEnvironment('master')
+        contentType = await environment.createContentType({
+          name: 'Page',
+          fields: [
+            {
+              id: 'title',
+              name: 'title',
+              type: 'Symbol',
+              localized: false,
+              required: false,
+            },
+          ],
+          metadata: aggregateRootAnnotation,
+        })
+        await contentType.publish()
+      })
+
+      afterEach(async () => {
+        await entry.delete()
+        await contentType.unpublish()
+        await contentType.delete()
+      })
+
+      test('create scheduled action for an aggregate root entry', async () => {
+        entry = await environment.createEntry(contentType.sys.id, {
+          fields: { title: { 'en-US': 'this is the title' } },
+        })
+
+        const scheduledAction = await testSpace.createScheduledAction({
+          entity: makeLink('Entry', entry.sys.id),
+          environment: makeLink('Environment', environment.sys.id),
+          action: 'publish',
+          scheduledFor: {
+            datetime,
+          },
+          payload: aggregateRootPayload,
+        })
+
+        expect(scheduledAction.entity).to.deep.equal(makeLink('Entry', entry.sys.id))
+        expect(scheduledAction.action).to.eql('publish')
+        expect(scheduledAction.scheduledFor).to.deep.equal({
+          datetime,
+        })
+        expect(scheduledAction.payload).to.deep.equal(aggregateRootPayload)
       })
     })
 
@@ -324,6 +392,66 @@ describe('Scheduled Actions API', async function () {
       )
 
       expect(updatedAction.scheduledFor.timezone).to.equal('Europe/Berlin')
+    })
+
+    describe('for AggregateRoot annotated entry', () => {
+      beforeEach(async () => {
+        const aggregateRootAnnotation: ContentTypeMetadata = {
+          annotations: {
+            ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
+          },
+        }
+        const environment = await testSpace.getEnvironment('master')
+        contentType = await environment.createContentType({
+          name: 'Page',
+          fields: [
+            {
+              id: 'title',
+              name: 'title',
+              type: 'Symbol',
+              localized: false,
+              required: false,
+            },
+          ],
+          metadata: aggregateRootAnnotation,
+        })
+        await contentType.publish()
+      })
+
+      afterEach(async () => {
+        await entry.delete()
+        await contentType.unpublish()
+        await contentType.delete()
+      })
+
+      test('create and read with payload', async () => {
+        const plainClient = initPlainClient(defaultParams)
+
+        entry = await environment.createEntry(contentType.sys.id, {
+          fields: { title: { 'en-US': 'this is the title' } },
+        })
+
+        const action = await plainClient.scheduledActions.create(
+          {},
+          {
+            entity: makeLink('Entry', entry.sys.id),
+            action: 'publish',
+            environment: makeLink('Environment', environment.sys.id),
+            scheduledFor: {
+              datetime,
+            },
+            payload: aggregateRootPayload,
+          }
+        )
+
+        const scheduledAction = await plainClient.scheduledActions.get({
+          environmentId: environment.sys.id,
+          scheduledActionId: action.sys.id,
+        })
+
+        expect(scheduledAction.sys.id).to.equal(action.sys.id)
+        expect(scheduledAction.payload).to.deep.equal(aggregateRootPayload)
+      })
     })
   })
 })
