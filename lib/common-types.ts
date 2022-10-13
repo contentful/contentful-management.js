@@ -173,6 +173,10 @@ export interface QueryOptions extends PaginationQueryOptions {
   [key: string]: any
 }
 
+export interface SpaceQueryOptions extends PaginationQueryOptions {
+  spaceId?: string
+}
+
 export interface BasicMetaSysProps {
   type: string
   id: string
@@ -309,6 +313,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
+  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
+    'AppInstallation',
+    'getForOrganization'
+  >
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
@@ -732,7 +740,7 @@ export type MRActions = {
     }
     delete: { params: GetAppDefinitionParams; return: any }
     getInstallationsForOrg: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string } & SpaceQueryParams
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -750,7 +758,7 @@ export type MRActions = {
     }
     delete: { params: GetAppInstallationParams; return: any }
     getForOrganization: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string; spaceId?: string }
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -1671,7 +1679,9 @@ export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: strin
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
-export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
+  appDefinitionId: string
+}
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetCommentParams = GetEntryParams & { commentId: string }
@@ -1710,6 +1720,7 @@ export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
 
 export type QueryParams = { query?: QueryOptions }
+export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
