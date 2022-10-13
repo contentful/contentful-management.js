@@ -670,6 +670,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
     /**
      * @deprecated
+     * Please use please use appInstallations.getForOrganization instead
      */
     getInstallationsForOrg(
       params: OptionalDefaults<GetAppDefinitionParams>

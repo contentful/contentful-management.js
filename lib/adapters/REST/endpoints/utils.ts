@@ -9,3 +9,13 @@ export function normalizeSelect(query?: QueryOptions): QueryOptions | undefined 
   }
   return query
 }
+
+export function normalizeSpaceId(query?: QueryOptions): QueryOptions | undefined {
+  if (query && query.spaceId) {
+    return {
+      ...query,
+      'sys.space.sys.id[in]': query.spaceId,
+    }
+  }
+  return query
+}

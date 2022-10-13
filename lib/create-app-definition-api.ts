@@ -1,4 +1,4 @@
-import { MakeRequest, QueryOptions } from './common-types'
+import { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types'
 import entities from './entities'
 import { CreateAppBundleProps } from './entities/app-bundle'
 import { AppDefinitionProps, wrapAppDefinition } from './entities/app-definition'
@@ -162,22 +162,23 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets a list of App Installations across an org for given App Definition Id
-     * Can be any organizationId the user has access to, where the App is installed
-     * @param Object - organizationId and appDefinitionId
+     * Gets a list of App Installations across an org for given organization and App Definition
+     * If a spaceId is provided in the query object, it will return the App Installations for that specific space.
      * @return Promise for the newly created AppBundle
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
-     * client.getAppDefinition('<organizationId>', '<appDefinitionId>')
-     * .then((appDefinition) => appDefinition.getInstallationsForOrg()
+     * client.getAppDefinition('<organization_id>', '<app_definition_id>'))
+     * .then((appDefinition) => appDefinition.getInstallationsForOrg(
+     *   { spaceId: '<space_id>' } // optional
+     * ))
      * .then((appInstallationsForOrg) => console.log(appInstallationsForOrg.items))
      * .catch(console.error)
      * ```
      */
-    getInstallationsForOrg() {
+    getInstallationsForOrg(query: SpaceQueryOptions = {}) {
       const raw = this.toPlainObject() as AppDefinitionProps
       return makeRequest({
         entityType: 'AppDefinition',
@@ -185,6 +186,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
         params: {
           appDefinitionId: raw.sys.id,
           organizationId: raw.sys.organization.sys.id,
+          query,
         },
       })
     },
