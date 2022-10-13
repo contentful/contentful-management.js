@@ -163,6 +163,10 @@ export interface QueryOptions extends PaginationQueryOptions {
   [key: string]: any
 }
 
+export interface SpaceQueryOptions extends PaginationQueryOptions {
+  spaceId?: string
+}
+
 export interface BasicMetaSysProps {
   type: string
   id: string
@@ -700,7 +704,7 @@ export type MRActions = {
     }
     delete: { params: GetAppDefinitionParams; return: any }
     getInstallationsForOrg: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string } & SpaceQueryParams
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -1561,7 +1565,6 @@ export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string 
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
   appDefinitionId: string
-  spaceId?: string
 }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
@@ -1600,4 +1603,5 @@ export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
 
 export type QueryParams = { query?: QueryOptions }
+export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }

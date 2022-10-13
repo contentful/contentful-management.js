@@ -1,13 +1,14 @@
 import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { normalizeSelect } from './utils'
+import { normalizeSelect, normalizeSpaceId } from './utils'
 import copy from 'fast-copy'
 import {
   GetAppInstallationParams,
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
   GetAppInstallationsForOrgParams,
+  SpaceQueryParams,
 } from '../../../common-types'
 import {
   AppInstallationProps,
@@ -23,7 +24,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
   `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
     params.organizationId || ''
-  }${params.spaceId ? '&sys.space.sys.id[in]=' + params.spaceId : ''}`
+  }`
 
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
@@ -74,13 +75,13 @@ export const del: RestEndpoint<'AppInstallation', 'delete'> = (
 
 export const getForOrganization: RestEndpoint<'AppInstallation', 'getForOrganization'> = (
   http: AxiosInstance,
-  params: GetAppInstallationsForOrgParams & PaginationQueryParams
+  params: GetAppInstallationsForOrgParams & SpaceQueryParams
 ) => {
   return raw.get<AppInstallationsForOrganizationProps>(
     http,
     getBaseUrlForOrgInstallations(params),
     {
-      params: normalizeSelect(params.query),
+      params: normalizeSpaceId(normalizeSelect(params.query)),
     }
   )
 }

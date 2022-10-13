@@ -2,7 +2,7 @@ import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import { normalizeSelect } from './utils'
+import { normalizeSelect, normalizeSpaceId } from './utils'
 import {
   GetAppDefinitionParams,
   GetOrganizationParams,
@@ -82,9 +82,6 @@ export const del: RestEndpoint<'AppDefinition', 'delete'> = (
   return raw.del(http, getAppDefinitionUrl(params))
 }
 
-/**
- * @deprecated
- */
 export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallationsForOrg'> = (
   http: AxiosInstance,
   params: GetAppInstallationsForOrgParams & PaginationQueryParams
@@ -93,7 +90,7 @@ export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallat
     http,
     getBaseUrlForOrgInstallations(params),
     {
-      params: normalizeSelect(params.query),
+      params: normalizeSpaceId(normalizeSelect(params.query)),
     }
   )
 }
