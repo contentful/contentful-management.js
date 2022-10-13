@@ -26,4 +26,20 @@ describe('OrganizationMembership Api', function () {
       expect(response.sys.type).equals('OrganizationMembership')
     })
   })
+
+  test('Gets organizationMemberships paged', async () => {
+    return organization
+      .getOrganizationMemberships({
+        query: {
+          limit: 1,
+          skip: 1,
+        },
+      })
+      .then((response) => {
+        expect(response.sys, 'sys').ok
+        expect(response.limit).equals(1)
+        expect(response.skip).equals(1)
+        expect(response.items.length).equals(1)
+      })
+  })
 })

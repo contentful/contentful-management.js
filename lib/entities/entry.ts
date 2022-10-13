@@ -35,6 +35,12 @@ export type EntryReferenceOptionsProps = {
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
 
+export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
+  ? Omit<T, 'sys'> & {
+      sys: Sys & { urn: string }
+    }
+  : never
+
 /**
  * @private
  * @param makeRequest - function to make requests via an adapter
