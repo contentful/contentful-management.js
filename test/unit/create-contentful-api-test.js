@@ -5,6 +5,7 @@ import {
   spaceMock,
   usageMock,
   userMock,
+  environmentTemplateMock,
 } from './mocks/entities'
 import createContentfulApi, {
   __RewireAPI__ as createContentfulApiRewireApi,
@@ -242,6 +243,64 @@ describe('A createContentfulApi', () => {
           opts: true,
         },
       })
+    })
+  })
+
+  describe('with environment template api', () => {
+    const organizationId = 'mockOrganizationId'
+
+    test('API call getEnvironmentTemplates', async () => {
+      const templates = [environmentTemplateMock]
+      const makeRequest = sinon.stub().resolves({ items: templates })
+      const api = createContentfulApi(makeRequest)
+
+      const [template] = (await api.getEnvironmentTemplates(organizationId)).items
+      expect(template.toPlainObject()).to.eql(templates[0])
+      expect(
+        makeRequest.calledOnceWith({
+          entityType: 'EnvironmentTemplate',
+          action: 'getMany',
+          params: { organizationId, query: {} },
+        })
+      ).to.be.ok
+    })
+
+    test('API call getEnvironmentTemplate', async () => {
+      const environmentTemplateId = environmentTemplateMock.sys.id
+      const version = environmentTemplateMock.sys.version
+      const makeRequest = sinon.stub().resolves(environmentTemplateMock)
+      const api = createContentfulApi(makeRequest)
+      const template = await api.getEnvironmentTemplate({
+        organizationId,
+        environmentTemplateId,
+        version,
+      })
+
+      expect(template.toPlainObject()).to.eql(environmentTemplateMock)
+      expect(
+        makeRequest.calledOnceWith({
+          entityType: 'EnvironmentTemplate',
+          action: 'get',
+          params: { organizationId, environmentTemplateId, version },
+        })
+      ).to.be.ok
+    })
+
+    test('API call createEnvironmentTemplate', async () => {
+      const makeRequest = sinon.stub().resolves(environmentTemplateMock)
+      const api = createContentfulApi(makeRequest)
+      const template = { ...environmentTemplateMock, sys: undefined }
+      const newTemplate = await api.createEnvironmentTemplate(template, organizationId)
+
+      expect(newTemplate.toPlainObject()).to.eql(environmentTemplateMock)
+      expect(
+        makeRequest.calledOnceWith({
+          entityType: 'EnvironmentTemplate',
+          action: 'create',
+          params: { organizationId },
+          payload: template,
+        })
+      )
     })
   })
 })

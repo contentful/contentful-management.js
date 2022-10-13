@@ -96,6 +96,23 @@ export type {
   EnvironmentAliasProps,
 } from './entities/environment-alias'
 export type {
+  ContentTypeTemplate,
+  CreateEnvironmentTemplateProps,
+  EditorInterfaceTemplate,
+  EnvironmentTemplate,
+  EnvironmentTemplateProps,
+  Hint,
+} from './entities/environment-template'
+export type {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallation,
+  EnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationStatus,
+  EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+  ValidationFinding,
+} from './entities/environment-template-installation'
+export type {
   CreateExtensionProps as CreateUIExtensionProps,
   Extension as UIExtension,
   ExtensionProps as UIExtensionProps,
