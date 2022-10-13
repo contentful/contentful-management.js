@@ -33,6 +33,59 @@ const environmentMock = {
   name: 'name',
 }
 
+const environmentTemplateMock = {
+  name: 'Mock Environment Template',
+  description: 'This is a mock template',
+  sys: { id: 'mockEnvironmentTemplateId', version: 1 },
+  entities: {
+    contentTypeTemplates: [
+      {
+        id: 'mockContentTypeTemplatesId',
+        basedOn: {
+          space: makeLink('space', 'mockSpaceId'),
+          contentType: makeLink('ContentType', 'mockContentTypeId'),
+          environment: makeLink('Environment', 'mockEnvironmentId'),
+        },
+      },
+    ],
+    editorInterfaceTemplates: [
+      {
+        contentTypeTemplate: {
+          ...makeLink('ContentTypeTemplate', 'mockContentTypeTemplatesId'),
+        },
+        controls: [{ fieldId: 'testApp', widgetNamespace: 'app', widgetId: 'private-app-id' }],
+      },
+    ],
+  },
+}
+
+const environmentTemplateInstallationMock = {
+  sys: {
+    id: 'mockEnvironmentTemplateInstallationId',
+    type: 'EnvironmentTemplateInstallation',
+    space: makeLink('Space', 'mockSpaceId'),
+    environment: makeLink('Environments', 'mockEnvironmentId'),
+    template: makeLink('EnvironmentTemplate', 'mockEnvironmentTemplateId'),
+    status: 'succeeded',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdBy: makeLink('User', 'mockUserId'),
+    updatedBy: makeLink('User', 'mockUserId'),
+  },
+}
+
+const environmentTemplateValidationMock = {
+  sys: {
+    type: 'Array',
+    environment: { sys: { type: 'Link', linkType: 'Environment', id: 'mockEnvironmentId' } },
+    space: { sys: { type: 'Link', linkType: 'Space', id: 'mockSpaceId' } },
+    changeSet: {
+      sys: { type: 'Link', linkType: 'ChangeSet', id: 'mockChangeSetId' },
+    },
+  },
+  items: [],
+}
+
 const userMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'User',
@@ -1055,6 +1108,14 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapWorkflowsChangelogEntry: sinon.stub(),
       wrapWorkflowsChangelogEntryCollection: sinon.stub(),
     },
+    environmentTemplate: {
+      wrapEnvironmentTemplate: sinon.stub(),
+      wrapEnvironmentTemplateCollection: sinon.stub(),
+    },
+    EnvironmentTemplateInstallation: {
+      wrapEnvironmentTemplateInstallation: sinon.stub(),
+      wrapEnvironmentTemplateInstallationCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -1111,5 +1172,8 @@ export {
   environmentMock,
   usageMock,
   environmentAliasMock,
+  environmentTemplateMock,
+  environmentTemplateInstallationMock,
+  environmentTemplateValidationMock,
   taskMock,
 }
