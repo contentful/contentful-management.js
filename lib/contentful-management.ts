@@ -62,9 +62,9 @@ function createClient(
   }
 ): PlainClientAPI
 function createClient<
-  // T describes an array that contains the string "workflows" at any point in the list.
-  T extends (ReadonlyArray<string> | readonly ['workflows']) &
-    { [K in keyof T]: { [P in K]: 'workflows' } }[number]
+  // Originally, we used a magic expression from here: https://stackoverflow.com/a/57958451/4816930
+  // Right now it's fixed to this specific array until there is a need to revisit this.
+  T extends ['workflows']
 >(
   params: ClientOptions,
   opts: {
