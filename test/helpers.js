@@ -75,13 +75,15 @@ export async function getTestUser() {
 
 export async function getDefaultSpace() {
   const { spaceId } = TestDefaults
-  const space = initClient().getSpace(spaceId)
-  return {
-    ...space,
-    delete() {
-      throw new Error('Can not delete default space')
+  const space = await initClient().getSpace(spaceId)
+
+  Object.defineProperty(space, 'delete', {
+    value: function () {
+      throw new Error("Can't delete default test space")
     },
-  }
+  })
+
+  return space
 }
 
 export async function getSpecialSpace(feature) {
