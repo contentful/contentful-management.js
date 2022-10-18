@@ -61,8 +61,12 @@ export const initAlphaPlainClient = (alphaFeatures = [], defaults = {}) => {
   )
 }
 
+export function getTestOrganizationId() {
+  return env.CONTENTFUL_ORGANIZATION_ID
+}
+
 export async function getTestOrganization() {
-  const testOrgId = env.CONTENTFUL_ORGANIZATION_ID
+  const testOrgId = getTestOrganizationId()
   const organizations = await initClient().getOrganizations()
   return organizations.items.find(({ sys: { id } }) => id === testOrgId)
 }
