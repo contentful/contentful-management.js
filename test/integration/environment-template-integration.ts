@@ -7,10 +7,12 @@ import {
   createTestSpace,
   createTestEnvironment,
   generateRandomId,
+  baseEnvironmentTemplateDescription,
 } from '../helpers'
 import type {
   CreateEnvironmentTemplateProps,
   Environment,
+  EnvironmentTemplate,
   EnvironmentTemplateInstallationProps,
   Space,
 } from '../../lib/export-types'
@@ -20,25 +22,13 @@ type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
 describe('Environment template Api', () => {
   const client = initClient()
   const orgId = getTestOrganizationId()
-  const templateDescription = `Integration test run ${generateRandomId()}`
-  function createDraftTemplate(): CreateEnvironmentTemplateProps {
-    return {
-      name: `Environment template ${generateRandomId()}`,
-      description: templateDescription,
-      versionName: 'Version 1',
-      versionDescription: 'Version 1 description',
-      entities: {
-        contentTypeTemplates: [],
-        editorInterfaceTemplates: [],
-      },
-    }
-  }
+  const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
+
+  afterEach(async () => {
+    await clearEnvironmentTemplates(client, orgId, templateDescription)
+  })
 
   describe('Environment template', () => {
-    afterEach(async () => {
-      await clearEnvironmentTemplates(client, orgId, templateDescription)
-    })
-
     test('creates an environment template', async () => {
       const draftTemplate = createDraftTemplate()
       const { sys, ...template } = await client.createEnvironmentTemplate(orgId, draftTemplate)
@@ -203,6 +193,19 @@ describe('Environment template Api', () => {
       ).not.to.throw
     })
   })
+
+  function createDraftTemplate(): CreateEnvironmentTemplateProps {
+    return {
+      name: `Environment template ${generateRandomId()}`,
+      description: templateDescription,
+      versionName: 'Version 1',
+      versionDescription: 'Version 1 description',
+      entities: {
+        contentTypeTemplates: [],
+        editorInterfaceTemplates: [],
+      },
+    }
+  }
 })
 
 function createInstallTemplate({
@@ -267,9 +270,10 @@ async function clearEnvironmentTemplates(
   templateDescription: string
 ): Promise<void> {
   const { items: templates } = await client.getEnvironmentTemplates(orgId)
-  await Promise.all(
-    templates
-      .filter(({ description }) => description === templateDescription)
-      .map((template) => template.delete())
-  )
+
+  function filterByDescription({ description }: EnvironmentTemplate): boolean {
+    return description === templateDescription
+  }
+
+  await Promise.all(templates.filter(filterByDescription).map((template) => template.delete()))
 }

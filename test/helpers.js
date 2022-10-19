@@ -141,3 +141,16 @@ export const generateRandomId = (prefix = 'randomId') => {
 export const cleanupTestSpaces = async (dryRun = false) => {
   return testUtils.cleanUpTestSpaces({ threshold: 10 * 60 * 1000, dryRun })
 }
+
+export const baseEnvironmentTemplateDescription = 'Integration test run'
+export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60) => {
+  const client = initClient()
+  const { items: templates } = await client.getEnvironmentTemplates(getTestOrganizationId())
+
+  const filterTemplate = (template) =>
+    template.name.startsWith(baseEnvironmentTemplateDescription) &&
+    Date.parse(template.sys.updatedAt) + olderThan < Date.now()
+
+  const cleanUpTemplates = templates.filter(filterTemplate).map((templates) => templates.delete())
+  await Promise.all(cleanUpTemplates)
+}
