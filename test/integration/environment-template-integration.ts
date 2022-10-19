@@ -8,37 +8,46 @@ import {
   createTestEnvironment,
   generateRandomId,
 } from '../helpers'
-import { Environment, EnvironmentTemplateInstallationProps, Space } from '../../lib/export-types'
+import type {
+  CreateEnvironmentTemplateProps,
+  Environment,
+  EnvironmentTemplateInstallationProps,
+  Space,
+} from '../../lib/export-types'
 
 type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
-
-const draftTemplate = {
-  name: 'Test template',
-  description: 'Test template description',
-  versionName: 'Version 1',
-  versionDescription: 'Version 1 description',
-  entities: {
-    contentTypeTemplates: [],
-    editorInterfaceTemplates: [],
-  },
-}
 
 describe('Environment template Api', () => {
   const client = initClient()
   const orgId = getTestOrganizationId()
+  const templateDescription = `Integration test run ${generateRandomId()}`
+  function createDraftTemplate(): CreateEnvironmentTemplateProps {
+    return {
+      name: `Environment template ${generateRandomId()}`,
+      description: templateDescription,
+      versionName: 'Version 1',
+      versionDescription: 'Version 1 description',
+      entities: {
+        contentTypeTemplates: [],
+        editorInterfaceTemplates: [],
+      },
+    }
+  }
 
   describe('Environment template', () => {
     afterEach(async () => {
-      await clearEnvironmentTemplates(client, orgId)
+      await clearEnvironmentTemplates(client, orgId, templateDescription)
     })
 
     test('creates an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const { sys, ...template } = await client.createEnvironmentTemplate(orgId, draftTemplate)
       expect(template).to.be.eql(draftTemplate)
       expect(sys).not.to.be.undefined
     })
 
     test('gets an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const {
         sys: { id: templateId },
       } = await client.createEnvironmentTemplate(orgId, draftTemplate)
@@ -53,10 +62,13 @@ describe('Environment template Api', () => {
     })
 
     test('gets a collection of environment templates', async () => {
+      const draftTemplate = createDraftTemplate()
       await client.createEnvironmentTemplate(orgId, draftTemplate)
       const { items: templates } = await client.getEnvironmentTemplates(orgId)
 
-      expect(templates).to.have.length(1)
+      expect(
+        templates.filter(({ description }) => description === templateDescription)
+      ).to.have.length(1)
 
       const [{ sys, ...template }] = templates
       expect(template).to.be.eql(draftTemplate)
@@ -64,6 +76,7 @@ describe('Environment template Api', () => {
     })
 
     test('updates an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
 
       expect(template.sys.version).to.eq(1)
@@ -80,6 +93,7 @@ describe('Environment template Api', () => {
     })
 
     test('updates the version description and name of an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
 
       const updatedVersionName = 'Updated version name'
@@ -95,6 +109,7 @@ describe('Environment template Api', () => {
     })
 
     test('gets a version of an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
       template.name = 'Updated name'
       await template.update()
@@ -109,6 +124,7 @@ describe('Environment template Api', () => {
     })
 
     test('deletes an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
       expect(await template.delete()).not.to.throw
     })
@@ -124,12 +140,18 @@ describe('Environment template Api', () => {
       environment = (await createTestEnvironment(space, generateRandomId('env'))) as Environment
 
       await enableSpace(client, space)
-      installTemplate = createInstallTemplate({ client, orgId, space, environment })
+      installTemplate = createInstallTemplate({
+        client,
+        orgId,
+        space,
+        environment,
+        createDraftTemplate,
+      })
     })
 
     after(async () => {
-      await environment.delete()
-      await space.delete()
+      await environment?.delete()
+      await space?.delete()
     })
 
     test('installs an environment template', async () => {
@@ -137,6 +159,7 @@ describe('Environment template Api', () => {
     })
 
     test('validates an environment template', async () => {
+      const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
       const validations = await template.validate({
         spaceId: space.sys.id,
@@ -187,14 +210,16 @@ function createInstallTemplate({
   orgId,
   space,
   environment,
+  createDraftTemplate,
 }: {
   client: ClientAPI
   orgId: string
   space: Space
   environment: Environment
+  createDraftTemplate: () => CreateEnvironmentTemplateProps
 }): InstallTemplate {
   return async () => {
-    const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
+    const template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
     const installation = await template.install({
       spaceId: space.sys.id,
       environmentId: environment.sys.id,
@@ -236,7 +261,15 @@ async function enableSpace(client: ClientAPI, space: Space): Promise<void> {
   })
 }
 
-async function clearEnvironmentTemplates(client: ClientAPI, orgId: string): Promise<void> {
+async function clearEnvironmentTemplates(
+  client: ClientAPI,
+  orgId: string,
+  templateDescription: string
+): Promise<void> {
   const { items: templates } = await client.getEnvironmentTemplates(orgId)
-  await Promise.all(templates.map((template) => template.delete()))
+  await Promise.all(
+    templates
+      .filter(({ description }) => description === templateDescription)
+      .map((template) => template.delete())
+  )
 }
