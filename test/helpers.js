@@ -152,5 +152,5 @@ export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60
     Date.parse(template.sys.updatedAt) + olderThan < Date.now()
 
   const cleanUpTemplates = templates.filter(filterTemplate).map((templates) => templates.delete())
-  await Promise.all(cleanUpTemplates)
+  await Promise.allSettled(cleanUpTemplates)
 }
