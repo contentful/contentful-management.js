@@ -61,8 +61,12 @@ export const initAlphaPlainClient = (alphaFeatures = [], defaults = {}) => {
   )
 }
 
+export function getTestOrganizationId() {
+  return env.CONTENTFUL_ORGANIZATION_ID
+}
+
 export async function getTestOrganization() {
-  const testOrgId = env.CONTENTFUL_ORGANIZATION_ID
+  const testOrgId = getTestOrganizationId()
   const organizations = await initClient().getOrganizations()
   return organizations.items.find(({ sys: { id } }) => id === testOrgId)
 }
@@ -136,4 +140,17 @@ export const generateRandomId = (prefix = 'randomId') => {
 
 export const cleanupTestSpaces = async (dryRun = false) => {
   return testUtils.cleanUpTestSpaces({ threshold: 10 * 60 * 1000, dryRun })
+}
+
+export const baseEnvironmentTemplateDescription = 'Integration test run'
+export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60) => {
+  const client = initClient()
+  const { items: templates } = await client.getEnvironmentTemplates(getTestOrganizationId())
+
+  const filterTemplate = (template) =>
+    template.name.startsWith(baseEnvironmentTemplateDescription) &&
+    Date.parse(template.sys.updatedAt) + olderThan < Date.now()
+
+  const cleanUpTemplates = templates.filter(filterTemplate).map((templates) => templates.delete())
+  await Promise.allSettled(cleanUpTemplates)
 }
