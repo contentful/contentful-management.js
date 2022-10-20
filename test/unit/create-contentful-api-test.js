@@ -290,7 +290,7 @@ describe('A createContentfulApi', () => {
       const makeRequest = sinon.stub().resolves(environmentTemplateMock)
       const api = createContentfulApi(makeRequest)
       const template = { ...environmentTemplateMock, sys: undefined }
-      const newTemplate = await api.createEnvironmentTemplate(template, organizationId)
+      const newTemplate = await api.createEnvironmentTemplate(organizationId, template)
 
       expect(newTemplate.toPlainObject()).to.eql(environmentTemplateMock)
       expect(

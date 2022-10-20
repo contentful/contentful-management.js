@@ -1,9 +1,9 @@
 import { before, after } from 'mocha'
-import { cleanupTestSpaces } from './helpers'
+import { cleanupTestSpaces, cleanupTestEnvironmentTemplates } from './helpers'
 
 const housekeeping = async () => {
   try {
-    await cleanupTestSpaces()
+    await Promise.all([cleanupTestSpaces(), cleanupTestEnvironmentTemplates()])
   } catch (err) {
     if (err.message === 'Missing credential') {
       console.log('Skipped deletion of old test spaces due to missing credentials.')
