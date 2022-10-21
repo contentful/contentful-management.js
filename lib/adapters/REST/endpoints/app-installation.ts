@@ -22,9 +22,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`
 
 const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
-  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
-    params.organizationId || ''
-  }`
+  `/app_definitions/${params.appDefinitionId}/app_installations`
 
 export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
@@ -81,7 +79,10 @@ export const getForOrganization: RestEndpoint<'AppInstallation', 'getForOrganiza
     http,
     getBaseUrlForOrgInstallations(params),
     {
-      params: normalizeSpaceId(normalizeSelect(params.query)),
+      params: {
+        ...normalizeSpaceId(normalizeSelect(params.query)),
+        'sys.organization.sys.id[in]': params.organizationId,
+      },
     }
   )
 }

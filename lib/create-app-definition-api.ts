@@ -170,7 +170,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
-     * client.getAppDefinition('<organization_id>', '<app_definition_id>'))
+     * client.getAppDefinition('<organization_id>', '<app_definition_id>')
      * .then((appDefinition) => appDefinition.getInstallationsForOrg(
      *   { spaceId: '<space_id>' } // optional
      * ))
