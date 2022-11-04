@@ -16,7 +16,7 @@ import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
-export { isDraft, isPublished, isUpdated } from './plain/checks'
+export * from './plain/checks'
 export type { PlainClientAPI, AlphaPlainClientAPI } from './plain/common-types'
 export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
