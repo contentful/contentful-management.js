@@ -236,7 +236,10 @@ export interface CollectionProp<TObj> {
 
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
-  pages?: BasicCursorPaginationOptions
+  pages?: {
+    next?: string
+    prev?: string
+  }
 }
 
 export interface Collection<T, TPlain>
