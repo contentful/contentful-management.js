@@ -96,9 +96,9 @@ export type {
   EnvironmentAliasProps,
 } from './entities/environment-alias'
 export type {
-  ContentTypeTemplate,
+  ContentTypeTemplateProps,
   CreateEnvironmentTemplateProps,
-  EditorInterfaceTemplate,
+  EditorInterfaceTemplateProps,
   EnvironmentTemplate,
   EnvironmentTemplateProps,
   Hint,
