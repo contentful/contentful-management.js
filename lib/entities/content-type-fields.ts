@@ -26,7 +26,6 @@ export interface ContentTypeFieldValidation {
   range?: NumRange
   dateRange?: DateRange
   regexp?: RegExp
-  message?: string
   prohibitRegexp?: RegExp
   assetImageDimensions?: {
     width?: NumRange
