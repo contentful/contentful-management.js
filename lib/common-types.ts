@@ -262,8 +262,8 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
-  prev?: string
-  next?: string
+  pageNext?: string
+  pagePrev?: string
 }
 
 export type KeyValueMap = Record<string, any>
