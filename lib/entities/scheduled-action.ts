@@ -8,7 +8,8 @@ import {
   MakeRequest,
   SysLink,
   ScheduledActionReferenceFilters,
-  CursorPaginatedCollectionProp,
+  BasicCursorPaginationOptions,
+  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -40,6 +41,11 @@ interface ScheduledActionFailedError {
   }
   message?: string
   details?: { errors: ErrorDetail[] }
+}
+
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
 }
 
 export type ScheduledActionSysProps = {
