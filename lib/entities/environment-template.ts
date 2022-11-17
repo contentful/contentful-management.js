@@ -7,8 +7,8 @@ import {
   createEnvironmentTemplateApi,
 } from '../create-environment-template-api'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ContentType } from './content-type'
-import { EditorInterface } from './editor-interface'
+import { ContentTypeProps } from './content-type'
+import { EditorInterfaceProps } from './editor-interface'
 
 export type Hint = {
   operation: 'renameFieldId'
@@ -16,11 +16,11 @@ export type Hint = {
   previousFieldId: string
 }
 
-export interface EditorInterfaceTemplate extends Omit<EditorInterface, 'sys'> {
+export interface EditorInterfaceTemplateProps extends Omit<EditorInterfaceProps, 'sys'> {
   contentTypeTemplate: Link<'ContentTypeTemplate'>
 }
 
-export interface ContentTypeTemplate extends Omit<ContentType, 'sys'> {
+export interface ContentTypeTemplateProps extends Omit<ContentTypeProps, 'sys'> {
   id: string
   basedOn?: {
     space: Link<'Space'>
@@ -31,14 +31,14 @@ export interface ContentTypeTemplate extends Omit<ContentType, 'sys'> {
 }
 
 export type EnvironmentTemplateProps = {
-  sys: BasicMetaSysProps & { version: number }
+  sys: BasicMetaSysProps & { version: number; organization: Link<'Organization'> }
   name: string
   description?: string
   versionName: string
   versionDescription?: string
   entities: {
-    contentTypeTemplates: Array<ContentTypeTemplate>
-    editorInterfaceTemplates: Array<EditorInterfaceTemplate>
+    contentTypeTemplates: Array<ContentTypeTemplateProps>
+    editorInterfaceTemplates: Array<EditorInterfaceTemplateProps>
   }
 }
 
