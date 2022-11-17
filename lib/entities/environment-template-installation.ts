@@ -13,6 +13,7 @@ import { wrapCursorPaginatedCollection } from '../common-utils'
 type JsonObject = { [Key in string]?: JsonValue }
 type JsonArray = Array<JsonValue>
 type JsonValue = string | number | boolean | JsonObject | JsonArray | null
+
 enum EnvironmentTemplateInstallationStatuses {
   created = 'created',
   inProgress = 'inProgress',
@@ -44,7 +45,9 @@ export type EnvironmentTemplateInstallationProps = {
 
 export type CreateEnvironmentTemplateInstallationProps = {
   version: number
-  takeover?: Link<'ContentType'>[]
+  takeover?: {
+    items: Link<'ContentType'>[]
+  }
   changeSet?: Link<'ChangeSet'>
 }
 
@@ -58,14 +61,14 @@ export type ValidationFinding = {
   details: Record<string, unknown>
 }
 
-export type EnvironmentTemplateValidationProps = {
+export type EnvironmentTemplateValidationProps<T = ValidationFinding> = {
   sys: {
     type: 'Array'
     environment: Link<'Environment'>
     space: Link<'Space'>
     changeSet: Link<'ChangeSet'>
   }
-  items: ValidationFinding[]
+  items: T[]
 }
 
 export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationProps &

@@ -116,6 +116,22 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'EnvironmentAlias', 'update'),
       delete: wrap(wrapParams, 'EnvironmentAlias', 'delete'),
     },
+    environmentTemplate: {
+      get: wrap(wrapParams, 'EnvironmentTemplate', 'get'),
+      getMany: wrap(wrapParams, 'EnvironmentTemplate', 'getMany'),
+      create: wrap(wrapParams, 'EnvironmentTemplate', 'create'),
+      versionUpdate: wrap(wrapParams, 'EnvironmentTemplate', 'versionUpdate'),
+      update: wrap(wrapParams, 'EnvironmentTemplate', 'update'),
+      install: wrap(wrapParams, 'EnvironmentTemplate', 'install'),
+      versions: wrap(wrapParams, 'EnvironmentTemplate', 'versions'),
+      validate: wrap(wrapParams, 'EnvironmentTemplate', 'validate'),
+      disconnect: wrap(wrapParams, 'EnvironmentTemplate', 'disconnect'),
+      delete: wrap(wrapParams, 'EnvironmentTemplate', 'delete'),
+    },
+    environmentTemplateInstallation: {
+      getMany: wrap(wrapParams, 'EnvironmentTemplateInstallation', 'getMany'),
+      getForEnvironment: wrap(wrapParams, 'EnvironmentTemplateInstallation', 'getForEnvironment'),
+    },
     bulkAction: {
       get: wrap(wrapParams, 'BulkAction', 'get'),
       publish: wrap(wrapParams, 'BulkAction', 'publish'),
