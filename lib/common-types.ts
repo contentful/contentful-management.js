@@ -236,7 +236,10 @@ export interface CollectionProp<TObj> {
 
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
-  pages?: BasicCursorPaginationOptions
+  pages?: {
+    next?: string
+    prev?: string
+  }
 }
 
 export interface Collection<T, TPlain>
@@ -262,8 +265,8 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
-  prev?: string
-  next?: string
+  pageNext?: string
+  pagePrev?: string
 }
 
 export type KeyValueMap = Record<string, any>
