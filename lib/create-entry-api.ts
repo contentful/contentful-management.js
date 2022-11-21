@@ -1,6 +1,6 @@
 import type { OpPatch } from 'json-patch'
 import { MakeRequest } from './common-types'
-import { CreateCommentProps } from './entities/comment'
+import { CreateCommentParams, CreateCommentProps } from './entities/comment'
 import { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
@@ -323,7 +323,10 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Comment',
         action: 'create',
-        params,
+        params: {
+          parentEntityId: params.entryId,
+          parentEntityType: 'Entry',
+        } as CreateCommentParams,
         payload: data,
       }).then((data) => wrapComment(makeRequest, data))
     },
