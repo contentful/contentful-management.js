@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
 import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
 
-describe('Comment Api', () => {
+describe.only('Comment Api', () => {
   let space
   let environment
   let entry

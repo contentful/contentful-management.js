@@ -324,6 +324,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
         entityType: 'Comment',
         action: 'create',
         params: {
+          spaceId: params.spaceId,
+          environmentId: params.environmentId,
           parentEntityId: params.entryId,
           parentEntityType: 'Entry',
         } as CreateCommentParams,
