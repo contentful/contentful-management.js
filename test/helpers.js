@@ -16,11 +16,12 @@ const env = process.env !== undefined ? process.env : window.__env__
 // Eg: getAll() fn in prod doesn't have any args. I change it in my PR to getAll({ query })
 // if I used testUtils.initClient(), it would have the version of cma repo that would still have getAll() without args
 // making it impossible for me to cover my changes with tests
-export const initClient = () => {
+export const initClient = (options) => {
   const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   return createClient({
     accessToken,
     ...params,
+    ...options,
   })
 }
 

@@ -153,10 +153,10 @@ export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
 
 export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: GetSpaceEnvironmentParams & { uploadTimeout?: number },
   data: Omit<AssetFileProp, 'sys'>
 ) => {
-  const httpUpload = getUploadHttpClient(http)
+  const httpUpload = getUploadHttpClient(http, { uploadTimeout: params.uploadTimeout })
 
   const { file } = data.fields
   return Promise.all(
