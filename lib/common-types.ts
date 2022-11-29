@@ -845,7 +845,7 @@ export type MRActions = {
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }

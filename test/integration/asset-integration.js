@@ -45,7 +45,7 @@ describe('Asset api', function () {
     let environment
 
     before(async () => {
-      space = await createTestSpace(initClient(), 'Assets')
+      space = await createTestSpace(initClient({ retryOnError: false }), 'Assets')
       environment = await space.getEnvironment('master')
       await environment.createLocale({
         name: 'German (Germany)',
@@ -145,6 +145,32 @@ describe('Asset api', function () {
       const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
       expect(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded').to.be.ok
       expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
+    })
+
+    test('Upload and process asset with short custom timeout times out', async () => {
+      try {
+        expect(
+          await environment.createAssetFromFiles(
+            {
+              fields: {
+                title: { 'en-US': 'SVG upload test' },
+                file: {
+                  'en-US': {
+                    contentType: 'image/svg+xml',
+                    fileName: 'blue-square.svg',
+                    file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+                  },
+                },
+              },
+            },
+            {
+              uploadTimeout: 1,
+            }
+          )
+        ).to.be.rejected
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error)
+      }
     })
   })
 })

@@ -6,7 +6,12 @@ import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
-import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
+import type {
+  AssetFileProp,
+  AssetProps,
+  CreateAssetFromFilesOptions,
+  CreateAssetProps,
+} from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
   BulkAction,
@@ -1053,7 +1058,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
+    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',
@@ -1061,6 +1066,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
+          uploadTimeout: options?.uploadTimeout,
         },
         payload: data,
       }).then((response) => wrapAsset(makeRequest, response))
