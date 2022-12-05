@@ -54,7 +54,7 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
     | {
         parentEntityType: 'Workflow'
         parentEntityId: string
-        parentEntityVersion: number
+        parentEntityVersion?: number
       }
   )
 export type GetManyCommentsParams = GetEntryParams | GetCommentParentEntityParams
