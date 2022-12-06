@@ -3,12 +3,13 @@ import copy from 'fast-copy'
 import {
   DefaultElements,
   ISO8601Timestamp,
-  BasicCursorPaginationOptions,
   MetaLinkProps,
   Link,
   MakeRequest,
   SysLink,
   ScheduledActionReferenceFilters,
+  BasicCursorPaginationOptions,
+  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -40,6 +41,11 @@ interface ScheduledActionFailedError {
   }
   message?: string
   details?: { errors: ErrorDetail[] }
+}
+
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
 }
 
 export type ScheduledActionSysProps = {
@@ -101,19 +107,15 @@ export type CreateUpdateScheduledActionProps = Pick<
   'action' | 'entity' | 'environment' | 'scheduledFor' | 'payload'
 >
 
-export interface ScheduledActionCollection {
-  sys: {
-    type: 'Array'
-  }
-  pages: BasicCursorPaginationOptions
-  limit: number
-  items: ScheduledActionProps[]
-}
+export type ScheduledActionCollection = CursorPaginatedCollectionProp<ScheduledActionProps>
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export interface ScheduledActionQueryOptions extends BasicCursorPaginationOptions {
+export interface ScheduledActionQueryOptions {
   'environment.sys.id': string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
+  limit?: number
+  next?: string
+  prev?: string
 }
 
 export type ScheduledActionApi = {

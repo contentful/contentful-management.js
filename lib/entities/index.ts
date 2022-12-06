@@ -17,6 +17,8 @@ import * as editorInterface from './editor-interface'
 import * as entry from './entry'
 import * as environment from './environment'
 import * as environmentAlias from './environment-alias'
+import * as environmentTemplate from './environment-template'
+import * as environmentTemplateInstallation from './environment-template-installation'
 import * as extension from './extension'
 import * as locale from './locale'
 import * as organization from './organization'
@@ -65,6 +67,8 @@ export default {
   entry,
   environment,
   environmentAlias,
+  environmentTemplate,
+  environmentTemplateInstallation,
   extension,
   locale,
   organization,

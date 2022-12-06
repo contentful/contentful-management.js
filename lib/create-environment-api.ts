@@ -1,12 +1,17 @@
 import { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { QueryOptions } from './common-types'
+import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
-import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
+import type {
+  AssetFileProp,
+  AssetProps,
+  CreateAssetFromFilesOptions,
+  CreateAssetProps,
+} from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
   BulkAction,
@@ -43,6 +48,7 @@ import type { CreateLocaleProps } from './entities/locale'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 
 /**
  * @private
@@ -1052,7 +1058,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
+    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',
@@ -1060,6 +1066,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
+          uploadTimeout: options?.uploadTimeout,
         },
         payload: data,
       }).then((response) => wrapAsset(makeRequest, response))
@@ -2164,6 +2171,44 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       })
       return wrapUserUIConfig(makeRequest, data)
+    },
+
+    /**
+     * Gets a collection of all environment template installations in the environment for a given template
+     * @param environmentTemplateId - Environment template ID to return installations for
+     * @param [options.installationId] - Installation ID to filter for a specific installation
+     * @return Promise for a collection of EnvironmentTemplateInstallations
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEnvironmentTemplateInstallations('<environment_template_id>'))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getEnvironmentTemplateInstallations(
+      environmentTemplateId: string,
+      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {}
+    ) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'EnvironmentTemplateInstallation',
+        action: 'getForEnvironment',
+        params: {
+          environmentTemplateId,
+          ...(installationId && { installationId }),
+          query: { ...createRequestConfig({ query }).params },
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
     },
   }
 }

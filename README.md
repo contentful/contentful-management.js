@@ -221,7 +221,7 @@ contentfulApp.init((sdk) => {
     {
       type: 'plain',
       defaults: {
-        environmentId: sdk.ids.environment,
+        environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
     }

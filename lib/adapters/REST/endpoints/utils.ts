@@ -12,9 +12,10 @@ export function normalizeSelect(query?: QueryOptions): QueryOptions | undefined 
 
 export function normalizeSpaceId(query?: QueryOptions): QueryOptions | undefined {
   if (query && query.spaceId) {
+    const { spaceId, ...rest } = query
     return {
-      ...query,
-      'sys.space.sys.id[in]': query.spaceId,
+      ...rest,
+      'sys.space.sys.id[in]': spaceId,
     }
   }
   return query

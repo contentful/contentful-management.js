@@ -39,6 +39,9 @@ import {
   GetAppActionsForEnvParams,
   GetUserUIConfigParams,
   GetUIConfigParams,
+  GetEnvironmentTemplateParams,
+  BasicCursorPaginationOptions,
+  EnvironmentTemplateParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -160,6 +163,16 @@ import {
 } from '../entities/workflows-changelog-entry'
 import { UserUIConfigProps } from '../entities/user-ui-config'
 import { UIConfigProps } from '../entities/ui-config'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from '../entities/environment-template'
+import {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+} from '../entities/environment-template-installation'
 
 export type PlainClientAPI = {
   raw: {
@@ -292,6 +305,67 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<EnvironmentAliasProps>
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
+  }
+  environmentTemplate: {
+    get(
+      params: GetEnvironmentTemplateParams & { version?: number },
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    getMany(
+      params: BasicCursorPaginationOptions & GetOrganizationParams,
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    create(
+      params: GetOrganizationParams,
+      rawData: CreateEnvironmentTemplateProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    versionUpdate(
+      params: GetEnvironmentTemplateParams & { version: number },
+      rawData: { versionName?: string; versionDescription?: string },
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    update(
+      params: GetEnvironmentTemplateParams,
+      rawData: EnvironmentTemplateProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    delete(params: GetEnvironmentTemplateParams, headers?: AxiosRequestHeaders): Promise<void>
+    versions(
+      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions,
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    validate(
+      params: EnvironmentTemplateParams & {
+        version?: number
+      },
+      rawData: ValidateEnvironmentTemplateInstallationProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateValidationProps>
+    install(
+      params: EnvironmentTemplateParams,
+      rawData: CreateEnvironmentTemplateInstallationProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateInstallationProps>
+    disconnect(params: EnvironmentTemplateParams, headers?: AxiosRequestHeaders): Promise<void>
+  }
+  environmentTemplateInstallation: {
+    getMany(
+      params: BasicCursorPaginationOptions & {
+        environmentId?: string
+        environmentTemplateId: string
+        organizationId: string
+        spaceId?: string
+      },
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
+    getForEnvironment(
+      params: BasicCursorPaginationOptions &
+        EnvironmentTemplateParams & {
+          installationId?: string
+        },
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
   bulkAction: {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>

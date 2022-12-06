@@ -115,6 +115,16 @@ import {
 } from './entities/workflows-changelog-entry'
 import { UIConfigProps } from './entities/ui-config'
 import { UserUIConfigProps } from './entities/user-ui-config'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from './entities/environment-template'
+import {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateValidationProps,
+} from './entities/environment-template-installation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -226,7 +236,10 @@ export interface CollectionProp<TObj> {
 
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
-  pages?: BasicCursorPaginationOptions
+  pages?: {
+    next?: string
+    prev?: string
+  }
 }
 
 export interface Collection<T, TPlain>
@@ -251,9 +264,9 @@ export interface BasicQueryOptions {
   [key: string]: any
 }
 
-export interface BasicCursorPaginationOptions {
-  prev?: string
-  next?: string
+export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  pageNext?: string
+  pagePrev?: string
 }
 
 export type KeyValueMap = Record<string, any>
@@ -378,6 +391,32 @@ type MRInternal<UA extends boolean> = {
   >
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
+
+  (opts: MROpts<'EnvironmentTemplate', 'get', UA>): MRReturn<'EnvironmentTemplate', 'get'>
+  (opts: MROpts<'EnvironmentTemplate', 'getMany', UA>): MRReturn<'EnvironmentTemplate', 'getMany'>
+  (opts: MROpts<'EnvironmentTemplate', 'create', UA>): MRReturn<'EnvironmentTemplate', 'create'>
+  (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
+  (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
+  (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
+  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'versionUpdate'
+  >
+  (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
+  (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
+  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'disconnect'
+  >
+
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getMany'
+  >
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getForEnvironment'
+  >
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
@@ -806,7 +845,7 @@ export type MRActions = {
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -957,6 +996,80 @@ export type MRActions = {
       return: EnvironmentAliasProps
     }
     delete: { params: GetSpaceEnvAliasParams; return: any }
+  }
+  EnvironmentTemplate: {
+    get: {
+      params: GetEnvironmentTemplateParams & {
+        version?: number
+      }
+      return: EnvironmentTemplateProps
+    }
+    getMany: {
+      params: BasicCursorPaginationOptions & GetOrganizationParams
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    create: {
+      payload: CreateEnvironmentTemplateProps
+      params: GetOrganizationParams
+      return: EnvironmentTemplateProps
+    }
+    versionUpdate: {
+      params: GetEnvironmentTemplateParams & {
+        version: number
+      }
+      payload: {
+        versionName: string
+        versionDescription: string
+      }
+      return: EnvironmentTemplateProps
+    }
+    update: {
+      params: GetEnvironmentTemplateParams
+      payload: EnvironmentTemplateProps
+      return: EnvironmentTemplateProps
+    }
+    delete: {
+      params: GetEnvironmentTemplateParams
+      return: void
+    }
+    versions: {
+      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    validate: {
+      params: EnvironmentTemplateParams & {
+        version?: number
+      }
+      payload: ValidateEnvironmentTemplateInstallationProps
+      return: EnvironmentTemplateValidationProps
+    }
+    install: {
+      params: EnvironmentTemplateParams
+      payload: CreateEnvironmentTemplateInstallationProps
+      return: EnvironmentTemplateInstallationProps
+    }
+    disconnect: {
+      params: EnvironmentTemplateParams
+      return: void
+    }
+  }
+  EnvironmentTemplateInstallation: {
+    getMany: {
+      params: BasicCursorPaginationOptions & {
+        environmentId?: string
+        environmentTemplateId: string
+        organizationId: string
+        spaceId?: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
+    getForEnvironment: {
+      params: BasicCursorPaginationOptions &
+        EnvironmentTemplateParams & {
+          installationId?: string
+        }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
   }
   Entry: {
     getPublished: {
@@ -1558,6 +1671,12 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+export type EnvironmentTemplateParams = {
+  spaceId: string
+  environmentId: string
+  environmentTemplateId: string
+}
+
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
@@ -1573,6 +1692,7 @@ export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: 
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }

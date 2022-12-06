@@ -50,6 +50,7 @@ type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
 export type CreateAppActionProps = AppActionCategory & {
   url: string
   name: string
+  description?: string
 }
 
 export type AppActionProps = AppActionCategory & {
@@ -65,6 +66,10 @@ export type AppActionProps = AppActionCategory & {
    * Human readable name for the action
    */
   name: string
+  /**
+   * Human readable description of the action
+   */
+  description?: string
 }
 
 export type AppAction = AppActionProps &
