@@ -10,10 +10,10 @@ import type { MakeRequest } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type {
-  AlphaPlainClientAPI,
-  AlphaPlainClientAPIWithAdapter,
   PlainClientAPI,
   PlainClientAPIWithAdapter,
+  AlphaPlainClientAPI,
+  AlphaPlainClientAPIWithAdapter,
 } from './plain/common-types'
 import type { DefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
@@ -24,8 +24,8 @@ export { asIterator } from './plain/as-iterator'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type {
   PlainClientAPI,
-  AlphaPlainClientAPI,
   PlainClientAPIWithAdapter,
+  AlphaPlainClientAPI,
   AlphaPlainClientAPIWithAdapter,
 } from './plain/common-types'
 export { createClient }
