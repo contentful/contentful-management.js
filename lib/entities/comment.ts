@@ -5,12 +5,24 @@ import {
   DefaultElements,
   GetCommentParams,
   GetEntryParams,
+  GetSpaceEnvironmentParams,
   Link,
   MakeRequest,
+  PaginationQueryOptions,
   SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
+
+export interface LinkWithRef<T extends string> {
+  sys: {
+    type: 'Link'
+    linkType: T
+    id: string
+    // Selected `ref` over explicit `version` for the future (e.g. `fields.de-DE.foo`)
+    ref?: `versions.${number}`
+  }
+}
 
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
@@ -19,7 +31,7 @@ export type CommentSysProps = Pick<
   type: 'Comment'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'>
+  parentEntity: Link<'Entry'> | LinkWithRef<'Workflow'>
 }
 
 export type CommentProps = {
@@ -32,7 +44,21 @@ export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }
 
-export type CreateCommentParams = GetEntryParams
+// We keep this type as explicit as possible until we open up the comments entity further
+export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
+  (
+    | {
+        parentEntityType: 'Entry'
+        parentEntityId: string
+      }
+    | {
+        parentEntityType: 'Workflow'
+        parentEntityId: string
+        parentEntityVersion?: number
+      }
+  )
+export type GetManyCommentsParams = GetEntryParams | GetCommentParentEntityParams
+export type CreateCommentParams = GetEntryParams | GetCommentParentEntityParams
 export type UpdateCommentParams = GetCommentParams
 export type DeleteCommentParams = GetCommentParams & { version: number }
 
