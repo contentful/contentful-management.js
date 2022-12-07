@@ -21,6 +21,7 @@ import {
   CommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
+  GetManyCommentsParams,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -896,11 +897,11 @@ export type MRActions = {
   Comment: {
     get: { params: GetCommentParams; return: CommentProps }
     getMany: {
-      params: GetEntryParams & QueryParams
+      params: GetManyCommentsParams & QueryParams
       return: CollectionProp<CommentProps>
     }
     getAll: {
-      params: GetEntryParams & QueryParams
+      params: GetManyCommentsParams & QueryParams
       return: CollectionProp<CommentProps>
     }
     create: { params: CreateCommentParams; payload: CreateCommentProps; return: CommentProps }

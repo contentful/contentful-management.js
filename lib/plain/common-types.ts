@@ -63,6 +63,7 @@ import {
   CommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
+  GetManyCommentsParams,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
@@ -385,7 +386,7 @@ export type PlainClientAPI = {
   comment: {
     get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
     getMany(
-      params: OptionalDefaults<GetEntryParams & QueryParams>
+      params: OptionalDefaults<GetManyCommentsParams & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,

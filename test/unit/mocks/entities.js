@@ -658,9 +658,10 @@ const commentMock = {
     },
     parentEntity: {
       sys: {
-        id: 'entry-id',
+        id: 'workflow-id',
         type: 'Link',
-        linkType: 'Entry',
+        linkType: 'Workflow',
+        ref: 'versions.3',
       },
     },
   },

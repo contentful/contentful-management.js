@@ -69,6 +69,10 @@ export type {
   CommentProps,
   CreateCommentProps,
   UpdateCommentProps,
+  DeleteCommentParams,
+  GetCommentParentEntityParams,
+  GetManyCommentsParams,
+  LinkWithRef,
 } from './entities/comment'
 export type {
   ContentType,

@@ -6,7 +6,7 @@ import {
   WorkflowDefinitionProps,
   wrapWorkflowDefinition,
 } from '../../../../../lib/entities/workflow-definition'
-import { MakeRequest } from '../../../../../lib/export-types'
+import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
 function setup(params = {}) {
   const entityMock: WorkflowDefinitionProps = cloneMock('workflowDefinition')
@@ -22,8 +22,7 @@ describe('Rest Workflow Definition', () => {
     const { httpMock, adapterMock, entityMock } = setup()
     entityMock.sys.version = 2
     const entity = wrapWorkflowDefinition(
-      // @ts-ignore
-      ((...args) => adapterMock.makeRequest(...args)) as MakeRequest,
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
     entity.description = 'new description'
@@ -49,8 +48,7 @@ describe('Rest Workflow Definition', () => {
     const { httpMock, adapterMock, entityMock } = setup()
     entityMock.sys.version = 2
     const entity = wrapWorkflowDefinition(
-      // @ts-ignore
-      ((...args) => adapterMock.makeRequest(...args)) as MakeRequest,
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
     return entity.delete().then(() => {
