@@ -20,7 +20,7 @@ export interface LinkWithRef<T extends string> {
     linkType: T
     id: string
     // Selected `ref` over explicit `version` for the future (e.g. `fields.de-DE.foo`)
-    ref?: `version.${number}`
+    ref?: `versions.${number}`
   }
 }
 

@@ -41,7 +41,7 @@ const getEntityBaseUrl = (params: GetEntryParams | GetManyCommentsParams) => {
   // No need for mapping or switch-case as long as there are only two supported cases
   const parentPlural = parentEntityType === 'Workflow' ? 'workflows' : 'entries'
   const versionPath =
-    'parentEntityVersion' in params ? `/version/${params.parentEntityVersion}` : ''
+    'parentEntityVersion' in params ? `/versions/${params.parentEntityVersion}` : ''
   return `${getSpaceEnvBaseUrl(params)}/${parentPlural}/${parentEntityId}${versionPath}/comments`
 }
 
