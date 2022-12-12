@@ -70,6 +70,7 @@ export type AppActionProps = AppActionCategory & {
    * Human readable description of the action
    */
   description?: string
+  type?: 'endpoint' | 'function'
 }
 
 export type AppAction = AppActionProps &
