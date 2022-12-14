@@ -8,21 +8,11 @@ import {
   GetSpaceEnvironmentParams,
   Link,
   MakeRequest,
-  PaginationQueryOptions,
   SysLink,
+  VersionedLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-
-export interface LinkWithRef<T extends string> {
-  sys: {
-    type: 'Link'
-    linkType: T
-    id: string
-    // Selected `ref` over explicit `version` for the future (e.g. `fields.de-DE.foo`)
-    ref?: `versions.${number}`
-  }
-}
 
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
@@ -31,7 +21,7 @@ export type CommentSysProps = Pick<
   type: 'Comment'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'> | LinkWithRef<'Workflow'>
+  parentEntity: Link<'Entry'> | VersionedLink<'Workflow'>
 }
 
 export type CommentProps = {

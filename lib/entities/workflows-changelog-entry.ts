@@ -6,6 +6,7 @@ import {
   MakeRequest,
   PaginationQueryOptions,
   SysLink,
+  VersionedLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -22,7 +23,7 @@ export type WorkflowsChangelogEntryProps = {
   event: string
   eventBy: SysLink
   eventAt: string
-  workflow: Link<'Workflow'>
+  workflow: VersionedLink<'Workflow'>
   workflowDefinition: Link<'WorkflowDefinition'>
   entity: Link<'Entry'>
   stepId: string

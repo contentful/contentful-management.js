@@ -72,7 +72,6 @@ export type {
   DeleteCommentParams,
   GetCommentParentEntityParams,
   GetManyCommentsParams,
-  LinkWithRef,
 } from './entities/comment'
 export type {
   ContentType,
