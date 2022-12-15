@@ -22,11 +22,24 @@ export type EntryProps<T = KeyValueMap> = {
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
+export type EntryReferenceError = {
+  sys: {
+    type: 'error'
+    id: 'notResolvable'
+  }
+  details: {
+    type: 'Link'
+    linkType: 'Entry' | 'Asset'
+    id: string
+  }
+}
+
 export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   includes?: {
     Entry?: EntryProps[]
     Asset?: AssetProps[]
   }
+  errors?: EntryReferenceError[]
 }
 
 export type EntryReferenceOptionsProps = {
