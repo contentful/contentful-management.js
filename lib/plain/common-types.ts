@@ -42,6 +42,7 @@ import {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
+  GetAppActionCallDetailsParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -208,6 +209,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppActionCallParams>,
       payload: CreateAppActionCallProps
     ): Promise<AppActionCallProps>
+    getCallDetails(
+      params: OptionalDefaults<GetAppActionCallDetailsParams>
+    ): Promise<WebhookCallDetailsProps>
   }
   appBundle: {
     get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
