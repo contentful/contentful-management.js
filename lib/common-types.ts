@@ -685,6 +685,10 @@ export type MRActions = {
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
+    getCallDetails: {
+      params: GetAppActionCallDetailsParams
+      return: WebhookCallDetailsProps
+    }
   }
   AppBundle: {
     get: { params: GetAppBundleParams; return: AppBundleProps }
@@ -1681,6 +1685,10 @@ export type EnvironmentTemplateParams = {
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
+export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
+  appActionId: string
+  callId: string
+}
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
