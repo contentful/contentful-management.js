@@ -69,6 +69,7 @@ export const createPlainClient = (
     },
     appActionCall: {
       create: wrap(wrapParams, 'AppActionCall', 'create'),
+      getCallDetails: wrap(wrapParams, 'AppActionCall', 'getCallDetails'),
     },
     appBundle: {
       get: wrap(wrapParams, 'AppBundle', 'get'),
