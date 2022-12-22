@@ -3,11 +3,13 @@ import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
 import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 
-type AppActionCallSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
+type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
+  type: 'AppActionCall'
   appDefinition: SysLink
   space: SysLink
   environment: SysLink
   action: SysLink
+  category: SysLink
 }
 
 export type AppActionCallProps = {
