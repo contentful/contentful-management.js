@@ -190,5 +190,6 @@ export default function getDefaultControlOfField(field: ContentFields) {
       widgetNameSpace: 'builtin',
     }
   }
+
   return getDefaultWidget(fieldType, field.id)
 }
