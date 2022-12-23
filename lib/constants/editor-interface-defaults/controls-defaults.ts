@@ -17,10 +17,12 @@ const INTERNAL_TO_API = {
 
   Entry: { type: 'Link', linkType: 'Entry' },
   Asset: { type: 'Link', linkType: 'Asset' },
+  Resource: { type: 'ResourceLink' },
 
   Symbols: { type: 'Array', items: { type: 'Symbol' } },
   Entries: { type: 'Array', items: { type: 'Link', linkType: 'Entry' } },
   Assets: { type: 'Array', items: { type: 'Link', linkType: 'Asset' } },
+  Resources: { type: 'Array', items: { type: 'ResourceLink' } },
 } as const
 
 export const FIELD_TYPES = Object.keys(INTERNAL_TO_API) as Array<keyof typeof INTERNAL_TO_API>
@@ -90,6 +92,8 @@ export const DEFAULTS_WIDGET = {
   Entries: { widgetId: 'entryLinksEditor' },
   Assets: { widgetId: 'assetLinksEditor' },
   File: { widgetId: 'fileEditor' },
+  Resource: { widgetId: 'resourceLinkEditor' },
+  Resources: { widgetId: 'resourceLinksEditor' },
 }
 
 export const DEFAULTS_SETTINGS = {
