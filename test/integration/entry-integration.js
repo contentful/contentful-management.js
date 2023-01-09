@@ -281,17 +281,14 @@ describe('Entry Api', () => {
           const contentTypeOrder = response.items
             .map((item) => item.sys.contentType.sys.id)
             .filter((value, index, self) => self.indexOf(value) === index)
-          expect(contentTypeOrder).eql(
-            [
-              'contentTypeWithMetadataField',
-              'dog',
-              'human',
-              'kangaroo',
-              'test-content-type37850425',
-              'testEntryReferences',
-            ],
-            'orders'
-          )
+          expect(contentTypeOrder).eql([
+            'contentTypeWithMetadataField',
+            'dog',
+            'human',
+            'kangaroo',
+            'test-content-type37850425',
+            'testEntryReferences',
+          ])
           expect(
             response.items[0].sys.id < response.items[1].sys.id,
             'id of entry with index 1 is higher than the one of index 0 since they share content type'
