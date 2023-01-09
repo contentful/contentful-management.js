@@ -10,6 +10,8 @@ import {
   Link,
   MakeRequest,
   MakeRequestPayload,
+  MetadataAggeratedRootProps,
+  MetadataProps,
 } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -86,7 +88,7 @@ export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
   entities: BaseCollection<Link<Entity>>
-  metadata?: true
+  metadata: MetadataAggeratedRootProps
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
