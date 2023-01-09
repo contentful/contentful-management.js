@@ -283,12 +283,11 @@ describe('Entry Api', () => {
             .filter((value, index, self) => self.indexOf(value) === index)
           expect(contentTypeOrder).eql(
             [
-              '1t9IbcfdCk6m04uISSsaIK',
-              'cat',
               'contentTypeWithMetadataField',
               'dog',
               'human',
               'kangaroo',
+              'test-content-type37850425',
               'testEntryReferences',
             ],
             'orders'
