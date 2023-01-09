@@ -10,8 +10,8 @@ import {
   Link,
   MakeRequest,
   MakeRequestPayload,
-  MetadataAggeratedRootProps,
 } from '../common-types'
+import type { MetadataAggeratedRootProps } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { AsyncActionProcessingOptions } from '../methods/action'
