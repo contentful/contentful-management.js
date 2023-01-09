@@ -86,6 +86,7 @@ export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
   entities: BaseCollection<Link<Entity>>
+  metadata?: true
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
