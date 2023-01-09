@@ -11,7 +11,6 @@ import {
   MakeRequest,
   MakeRequestPayload,
   MetadataAggeratedRootProps,
-  MetadataProps,
 } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
