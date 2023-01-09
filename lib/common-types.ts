@@ -126,6 +126,7 @@ import {
   ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
+import { type } from 'os'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -221,7 +222,7 @@ export interface MetadataProps {
   tags: Link<'Tag'>[]
 }
 
-export interface MetadataAggeratedRootProps {
+export type MetadataAggeratedRootProps = {
   metadata: {
     withReferences: [
       {
