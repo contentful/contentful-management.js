@@ -289,6 +289,7 @@ describe('Entry Api', () => {
               'dog',
               'human',
               'kangaroo',
+              'testEntryReferences',
             ],
             'orders'
           )
