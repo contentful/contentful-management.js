@@ -19,7 +19,6 @@ import { ReleaseAction, wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
-type Entry = 'Entry'
 type ReleaseStatus = 'active' | 'archived'
 
 export interface ReleaseQueryOptions {
@@ -88,7 +87,7 @@ export type MetadataAggeratedRootProps = {
   metadata: {
     withReferences: [
       {
-        entity: Link<Entry>
+        entity: Link<'Entry'>
         filter: Record<ScheduledActionReferenceFilters, string[]>[]
       }
     ]
