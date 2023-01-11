@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import { Entry } from 'type-fest'
 import {
   BaseCollection,
   CursorPaginatedCollection,
@@ -10,6 +11,7 @@ import {
   Link,
   MakeRequest,
   MakeRequestPayload,
+  ScheduledActionReferenceFilters,
 } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -80,15 +82,14 @@ export type ReleaseSysProps = {
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
 }
+export type ReleasesReferenceFilters = ScheduledActionReferenceFilters
 
 export type MetadataAggeratedRootProps = {
   metadata: {
     withReferences: [
       {
-        entity: { sys: { type: 'Link'; linkType: 'Entry'; id: 'my-page-1' } }
-        filter: {
-          'sys.contentType.metadata.annotations.ContentType[nin]': ['Contentful:AggregateRoot']
-        }
+        entity: Link<Entity> // passing Entity access for Entry and Asset
+        filter: Record<ScheduledActionReferenceFilters, string[]>[]
       }
     ]
   }
