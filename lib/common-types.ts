@@ -221,19 +221,6 @@ export interface MetadataProps {
   tags: Link<'Tag'>[]
 }
 
-export type MetadataAggeratedRootProps = {
-  metadata: {
-    withReferences: [
-      {
-        entity: { sys: { type: 'Link'; linkType: 'Entry'; id: 'my-page-1' } }
-        filter: {
-          'sys.contentType.metadata.annotations.ContentType[nin]': ['Contentful:AggregateRoot']
-        }
-      }
-    ]
-  }
-}
-
 export interface SysLink {
   sys: MetaLinkProps
 }

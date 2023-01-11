@@ -11,7 +11,6 @@ import {
   MakeRequest,
   MakeRequestPayload,
 } from '../common-types'
-import type { MetadataAggeratedRootProps } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { AsyncActionProcessingOptions } from '../methods/action'
@@ -82,6 +81,18 @@ export type ReleaseSysProps = {
   lastAction?: Link<'ReleaseAction'>
 }
 
+export type MetadataAggeratedRootProps = {
+  metadata: {
+    withReferences: [
+      {
+        entity: { sys: { type: 'Link'; linkType: 'Entry'; id: 'my-page-1' } }
+        filter: {
+          'sys.contentType.metadata.annotations.ContentType[nin]': ['Contentful:AggregateRoot']
+        }
+      }
+    ]
+  }
+}
 /** The object returned by the Releases API */
 export interface ReleaseProps {
   title: string
