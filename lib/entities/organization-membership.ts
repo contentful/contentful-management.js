@@ -8,17 +8,12 @@ export type OrganizationMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { user: { sys: MetaLinkProps } }
+  sys: MetaSysProps & { user: { sys: MetaLinkProps }; status: 'active' | 'pending' }
 
   /**
    * Role
    */
   role: string
-
-  /**
-   * status
-   */
-  status: boolean
 }
 
 export interface OrganizationMembership
