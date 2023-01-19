@@ -1,61 +1,55 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.0.2
   vault: contentful/vault@1
-  
+
+executors:
+  docker-with-node:
+    docker:
+      - image: cimg/node:16.19.0
+
 jobs:
   lint:
-    docker:
-      - image: cimg/base:stable
+    executor: docker-with-node
     steps:
       - checkout
-      - node/install
       - run: node --version
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
+      - run: npm ci
       - run: npm run prettier:check
       - run: npm run lint
       - run: npm run check-types
   unit:
-    docker:
-      - image: cimg/base:stable
+    executor: docker-with-node
     steps:
       - checkout
-      - node/install
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
-      - run: npm run build
+      - run: npm ci
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/unit-results.xml
   integration:
-    docker:
-      - image: cimg/base:stable
+    executor: docker-with-node
     steps:
       - checkout
-      - node/install
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
-      - run: npm run build
+      - run: npm ci
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
   release:
-    docker:
-      - image: cimg/base:stable
+    executor: docker-with-node
     steps:
       - checkout
       - vault/get-secrets: # Loads vault secrets
           template-preset: 'semantic-release-ecosystem'
-      - node/install
-      - run: npm install
+      - run: npm ci
       - run: npm run semantic-release
 workflows:
   version: 2
