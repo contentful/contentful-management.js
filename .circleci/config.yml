@@ -2,10 +2,14 @@ version: 2.1
 orbs:
   vault: contentful/vault@1
 
-jobs:
-  lint:
+executors:
+  docker-with-node:
     docker:
       - image: cimg/node:16.19.0
+
+jobs:
+  lint:
+    executor: docker-with-node
     steps:
       - checkout
       - run: node --version
@@ -16,36 +20,31 @@ jobs:
       - run: npm run lint
       - run: npm run check-types
   unit:
-    docker:
-      - image: cimg/node:16.19.0
+    executor: docker-with-node
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm ci
-      - run: npm run build
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/unit-results.xml
   integration:
-    docker:
-      - image: cimg/node:16.19.0
+    executor: docker-with-node
     steps:
       - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run: npm ci
-      - run: npm run build
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
   release:
-    docker:
-      - image: cimg/node:16.19.0
+    executor: docker-with-node
     steps:
       - checkout
       - vault/get-secrets: # Loads vault secrets
