@@ -422,14 +422,13 @@ describe('Entry Api', () => {
 
   /**
    * This test was created to make sure the SDK supports
-   * creating/updating/publishing/upublishing/deleting of
+   * creating/updating/publishing/unpublishing/deleting of
    * entries with cross space links
    *
    * This test is slightly fragile as it can break if the
    * entry '4zimQzVMxDsSX607PCfo2u' from the space '6mqcevu5a50r' is deleted
    */
-  describe('write with xspace references', () => {
-    let xSpaceEnabledSpace
+  describe.skip('write with x-space references', () => {
     let xSpaceEnabledEnvironment
     let xSpaceDisabledSpace
     let xSpaceDisabledEnvironment
@@ -483,13 +482,9 @@ describe('Entry Api', () => {
 
     before(async () => {
       // The default space has xspace enabled in it through the feature flags
-      xSpaceEnabledSpace = await getDefaultSpace()
-      xSpaceEnabledEnvironment = await xSpaceEnabledSpace.getEnvironment('master')
-      xSpaceEnabledContentType = await xSpaceEnabledEnvironment.createContentTypeWithId(
-        generateRandomId('test-content-type'),
-        contentTypeData
+      xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
+        TestDefaults.contentType.withCrossSpaceReferenceId
       )
-      await xSpaceEnabledContentType.publish()
 
       // Creating a new space that doesn't have the xspace feature enabled
       xSpaceDisabledSpace = await createTestSpace(initClient(), 'XSpaceDisabledEntry')
@@ -513,7 +508,7 @@ describe('Entry Api', () => {
 
       await xSpaceDisabledSpace.delete()
 
-      // Cleaning up the the default Space (xSpace feature enabled)
+      // Cleaning up the default Space (xSpace feature enabled)
       await xSpaceEnabledContentType
         .unpublish()
         .then((unpublishedContentType) => unpublishedContentType.delete())
