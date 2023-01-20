@@ -7,64 +7,105 @@ executors:
     docker:
       - image: cimg/node:16.19.0
 
+commands:
+  install:
+    steps:
+      - restore_cache:
+          keys:
+            - npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+            - npm-cache
+      - run: npm ci --prefer-offline
+      - save_cache:
+          key: npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+  use-vault:
+    steps:
+      - vault/get-secrets:
+        template-preset: 'semantic-release-ecosystem'
+
 jobs:
-  lint:
+  prepare:
     executor: docker-with-node
     steps:
       - checkout
       - run: node --version
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm ci
+      - install
+
+  build:
+    executor: docker-with-node
+    steps:
+      - checkout
+      - install
+      - run: npm run build
+
+  lint:
+    executor: docker-with-node
+    steps:
+      - checkout
+      - install
       - run: npm run prettier:check
       - run: npm run lint
       - run: npm run check-types
+
   unit:
     executor: docker-with-node
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm ci
+      - install
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/unit-results.xml
+
   integration:
     executor: docker-with-node
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm ci
+      - install
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
+
   release:
     executor: docker-with-node
     steps:
       - checkout
-      - vault/get-secrets: # Loads vault secrets
-          template-preset: 'semantic-release-ecosystem'
-      - run: npm ci
+      - use-vault
+      - run: install
       - run: npm run semantic-release
+
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - lint
-      - unit
+      - prepare
+      - build:
+          requires:
+            - prepare
+      - lint:
+          requires:
+            - prepare
+      - unit:
+          requires:
+            - prepare
       - integration:
           requires:
+            - prepare
+            - build
             - unit
             - lint
+
       - release:
           context: vault
           requires:
+            - prepare
+            - build
             - unit
+            - lint
             - integration
           filters:
             branches:
