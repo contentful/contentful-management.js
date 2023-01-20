@@ -87,7 +87,7 @@ export type ReleaseMetdata = {
   withReferences: [
     {
       entity: Link<'Entry'>
-      filter: Record<ScheduledActionReferenceFilters, string[]>[]
+      filter: Record<ReleaseReferenceFilters, string[]>[]
     }
   ]
 }
