@@ -10,6 +10,7 @@ import {
   Link,
   MakeRequest,
   MakeRequestPayload,
+  ScheduledActionReferenceFilters,
 } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -80,12 +81,22 @@ export type ReleaseSysProps = {
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
 }
+export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
 
+export type ReleaseMetadata = {
+  withReferences: [
+    {
+      entity: Link<'Entry'>
+      filter: Record<ReleaseReferenceFilters, string[]>[]
+    }
+  ]
+}
 /** The object returned by the Releases API */
 export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
   entities: BaseCollection<Link<Entity>>
+  metadata?: ReleaseMetadata
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
