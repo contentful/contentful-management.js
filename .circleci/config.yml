@@ -75,7 +75,7 @@ jobs:
     steps:
       - checkout
       - use-vault
-      - run: install
+      - install
       - run: npm run semantic-release
 
 workflows:
