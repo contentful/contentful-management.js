@@ -8,6 +8,23 @@ executors:
       - image: cimg/node:16.19.0
     working_directory: ~/circleci-build
 
+commands:
+  install:
+    steps:
+      - restore_cache:
+          keys:
+            - npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+            - npm-cache
+      - run: npm ci --prefer-offline
+      - save_cache:
+          key: npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+  use-vault:
+    steps:
+      - vault/get-secrets:
+        template-preset: 'semantic-release-ecosystem'
+
 jobs:
   prepare:
     executor: docker-with-node
@@ -15,8 +32,7 @@ jobs:
     steps:
       - run: node --version
       - checkout
-      - run: npm ci
-      - run: npm run build
+      - install
       - persist_to_workspace:
           root: .
           paths:
@@ -58,8 +74,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/circleci-build
-      - vault/get-secrets: # Loads vault secrets
-          template-preset: 'semantic-release-ecosystem'
+      - use-vault
       - run: npm run semantic-release
 
 workflows:
@@ -76,6 +91,8 @@ workflows:
       - integration:
           requires:
             - prepare
+            - lint
+            - unit
       - release:
           context: vault
           requires:
