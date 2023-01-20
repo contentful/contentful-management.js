@@ -1,6 +1,6 @@
 import { Link, VersionedLink } from '../lib/common-types'
 
-export function makeLink<T extends string>(type: T, id): Link<T> {
+export function makeLink<T extends string>(type: T, id: string): Link<T> {
   return {
     sys: { id, linkType: type, type: 'Link' },
   }
