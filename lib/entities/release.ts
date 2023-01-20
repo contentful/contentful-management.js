@@ -81,24 +81,22 @@ export type ReleaseSysProps = {
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
 }
-export type ReleasesReferenceFilters = ScheduledActionReferenceFilters
+export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
 
 export type MetadataAggeratedRootProps = {
-  metadata: {
-    withReferences: [
-      {
-        entity: Link<'Entry'>
-        filter: Record<ScheduledActionReferenceFilters, string[]>[]
-      }
-    ]
-  }
+  withReferences: [
+    {
+      entity: Link<'Entry'>
+      filter: Record<ScheduledActionReferenceFilters, string[]>[]
+    }
+  ]
 }
 /** The object returned by the Releases API */
 export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
   entities: BaseCollection<Link<Entity>>
-  metadata: MetadataAggeratedRootProps
+  metadata?: MetadataAggeratedRootProps
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
