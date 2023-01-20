@@ -83,7 +83,7 @@ export type ReleaseSysProps = {
 }
 export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
 
-export type MetadataAggeratedRootProps = {
+export type ReleaseMetdata = {
   withReferences: [
     {
       entity: Link<'Entry'>
@@ -96,7 +96,7 @@ export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
   entities: BaseCollection<Link<Entity>>
-  metadata?: MetadataAggeratedRootProps
+  metadata?: ReleaseMetdata
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
