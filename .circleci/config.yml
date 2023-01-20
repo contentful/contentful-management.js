@@ -22,7 +22,7 @@ commands:
   use-vault:
     steps:
       - vault/get-secrets:
-        template-preset: 'semantic-release-ecosystem'
+          template-preset: 'semantic-release-ecosystem'
 
 jobs:
   prepare:
