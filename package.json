@@ -47,8 +47,7 @@
     "semantic-release": "semantic-release",
     "precommit": "npm run lint",
     "postpublish": "if [ \"$(git rev-parse --abbrev-ref HEAD)\" = master ] ; then npm run docs:publish && npm run clean ; else exit 0 ; fi",
-    "prepush": "npm run test:prepush",
-    "prepare": "npm run build"
+    "prepush": "npm run test:prepush"
   },
   "files": [
     "dist",
