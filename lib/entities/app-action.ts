@@ -13,12 +13,6 @@ type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
 
 export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>
 
-export enum AppActionCategoryType {
-  EntriesV1 = 'Entries.v1.0',
-  NotificationV1 = 'Notification.v1.0',
-  Custom = 'Custom',
-}
-
 export type AppActionCategoryProps = {
   sys: {
     id: AppActionCategoryType
@@ -34,18 +28,19 @@ type BuiltInCategoriesProps = {
   /**
    * Category identifying the shape of the action.
    */
-  category: AppActionCategoryType.EntriesV1 | AppActionCategoryType.NotificationV1
+  category: 'Entries.v1.0' | 'Notification.v1.0'
 }
 
 type CustomAppActionProps = {
   /**
    * "Custom" category requires "parameters"
    */
-  category: AppActionCategoryType.Custom
+  category: 'Custom'
   parameters: AppActionParameterDefinition[]
 }
 
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
+export type AppActionCategoryType = AppActionCategory['category']
 
 export type CreateAppActionProps = AppActionCategory & {
   url: string
