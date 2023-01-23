@@ -6,23 +6,40 @@ executors:
   docker-with-node:
     docker:
       - image: cimg/node:16.19.0
+    working_directory: ~/build-and-test
 
 commands:
-  install:
+  install-dependencies:
     steps:
       - restore_cache:
           keys:
-            - npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+            - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
             - npm-cache
       - run: npm ci --prefer-offline
+
+  cache-dependencies:
+    steps:
       - save_cache:
-          key: npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+          key: npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
           paths:
-            - ~/.npm
+            - node_modules
+
+  persist-workspace:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  with-workspace:
+    steps:
+      - attach_workspace:
+          at: ~/build-and-test
+
   use-vault:
     steps:
       - vault/get-secrets:
-        template-preset: 'semantic-release-ecosystem'
+          template-preset: 'semantic-release-ecosystem'
 
 jobs:
   prepare:
@@ -30,30 +47,34 @@ jobs:
     steps:
       - checkout
       - run: node --version
-      - install
+      - install-dependencies
+      - cache-dependencies
+      - persist-workspace
 
   build:
     executor: docker-with-node
     steps:
-      - checkout
-      - install
+      - with-workspace
       - run: npm run build
 
   lint:
     executor: docker-with-node
     steps:
-      - checkout
-      - install
+      - with-workspace
       - run: npm run prettier:check
       - run: npm run lint
       - run: npm run check-types
 
   unit:
     executor: docker-with-node
+    parallelism: 2
     steps:
-      - checkout
-      - install
-      - run: npm run test:cover-unit
+      - with-workspace
+      - run:
+          name: Unit Test
+          command: |
+            TEST=$(circleci tests glob "test/unit/**/*-test.[tj]s" | circleci tests split --split-by=timings --timings-type=filename)
+            npm run test:cover-unit
       - store_test_results:
           path: reports
       - store_artifacts:
@@ -61,21 +82,26 @@ jobs:
 
   integration:
     executor: docker-with-node
+    parallelism: 4
     steps:
-      - checkout
-      - install
-      - run: npm run test:cover-integration
+      - with-workspace
+      - run:
+          name: Integration Tests
+          command: |
+            TEST=$(circleci tests glob "test/integration/*.[tj]s" | circleci tests split --split-by=timings --timings-type=filename)
+            npm run test:cover-integration
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
 
+  # Do not use the workspace for the release step
   release:
     executor: docker-with-node
     steps:
       - checkout
       - use-vault
-      - run: install
+      - install-dependencies
       - run: npm run semantic-release
 
 workflows:
