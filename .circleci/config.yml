@@ -8,17 +8,21 @@ executors:
       - image: cimg/node:16.19.0
 
 commands:
-  install:
+  install-dependencies:
     steps:
       - restore_cache:
           keys:
-            - npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+            - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
             - npm-cache
-      - run: npm ci --prefer-offline
+      - run: npm install
+
+  cache-dependencies:
+    steps:
       - save_cache:
-          key: npm-cache-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+          key: npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
           paths:
-            - ~/.npm
+            - node_modules
+
   use-vault:
     steps:
       - vault/get-secrets:
@@ -30,20 +34,21 @@ jobs:
     steps:
       - checkout
       - run: node --version
-      - install
+      - install-dependencies
+      - cache-dependencies
 
   build:
     executor: docker-with-node
     steps:
       - checkout
-      - install
+      - install-dependencies
       - run: npm run build
 
   lint:
     executor: docker-with-node
     steps:
       - checkout
-      - install
+      - install-dependencies
       - run: npm run prettier:check
       - run: npm run lint
       - run: npm run check-types
@@ -52,7 +57,7 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
-      - install
+      - install-dependencies
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
@@ -63,7 +68,7 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
-      - install
+      - install-dependencies
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
@@ -75,7 +80,7 @@ jobs:
     steps:
       - checkout
       - use-vault
-      - install
+      - install-dependencies
       - run: npm run semantic-release
 
 workflows:
