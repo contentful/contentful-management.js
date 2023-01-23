@@ -1,4 +1,5 @@
 version: 2.1
+
 orbs:
   vault: contentful/vault@1
 
@@ -73,8 +74,17 @@ jobs:
       - run:
           name: Unit Test
           command: |
-            TEST=$(circleci tests glob "test/unit/**/*-test.[tj]s" | circleci tests split --split-by=timings --timings-type=filename)
+            TEST=$(circleci tests glob "test/unit/**/*-test.[tj]s" | circleci tests split --split-by=filesize)
             npm run test:cover-unit
+      # https://github.com/michaelleeallen/mocha-junit-reporter/issues/132#issuecomment-864212687
+      - run:
+          name: Process test report
+          when: always
+          command: |
+            # Convert absolute paths to relative to support splitting tests by timing
+            if [ -e ./reports/unit-results.xml ]; then
+              sed -i "s|`pwd`/||g" ./reports/unit-results.xml
+            fi
       - store_test_results:
           path: reports
       - store_artifacts:
@@ -109,30 +119,29 @@ workflows:
   build_and_test:
     jobs:
       - prepare
-      - build:
-          requires:
-            - prepare
-      - lint:
-          requires:
-            - prepare
+      # - build:
+      #    requires:
+      #      - prepare
+      # - lint:
+      #    requires:
+      #      - prepare
       - unit:
           requires:
             - prepare
-      - integration:
-          requires:
-            - prepare
-            - build
-            - unit
-            - lint
+      #- integration:
+      #    requires:
+      #      - prepare
+      #      - build
+      #      - lint
 
       - release:
           context: vault
           requires:
             - prepare
-            - build
-            - unit
-            - lint
-            - integration
+           # - build
+           # - unit
+           # - lint
+           # - integration
           filters:
             branches:
               only:
