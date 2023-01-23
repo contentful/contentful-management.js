@@ -6,6 +6,7 @@ executors:
   docker-with-node:
     docker:
       - image: cimg/node:16.19.0
+    working_directory: ~/build-and-test
 
 commands:
   install-dependencies:
@@ -14,7 +15,7 @@ commands:
           keys:
             - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
             - npm-cache
-      - run: npm install
+      - run: npm ci --prefer-offline
 
   cache-dependencies:
     steps:
@@ -22,6 +23,18 @@ commands:
           key: npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
+
+  persist-workspace:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  with-workspace:
+    steps:
+      - attach_workspace:
+          at: ~/build-and-test
 
   use-vault:
     steps:
@@ -36,19 +49,18 @@ jobs:
       - run: node --version
       - install-dependencies
       - cache-dependencies
+      - persist-workspace
 
   build:
     executor: docker-with-node
     steps:
-      - checkout
-      - install-dependencies
+      - with-workspace
       - run: npm run build
 
   lint:
     executor: docker-with-node
     steps:
-      - checkout
-      - install-dependencies
+      - with-workspace
       - run: npm run prettier:check
       - run: npm run lint
       - run: npm run check-types
@@ -56,8 +68,7 @@ jobs:
   unit:
     executor: docker-with-node
     steps:
-      - checkout
-      - install-dependencies
+      - with-workspace
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
@@ -67,14 +78,14 @@ jobs:
   integration:
     executor: docker-with-node
     steps:
-      - checkout
-      - install-dependencies
+      - with-workspace
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
       - store_artifacts:
           path: ./reports/integration-results.xml
 
+  # Do not use the workspace for the release step
   release:
     executor: docker-with-node
     steps:
