@@ -8,6 +8,7 @@ import {
   generateRandomId,
   getDefaultSpace,
   initPlainClient,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -309,6 +310,7 @@ describe('Entry Api', () => {
     before(async () => {
       space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
+      await waitForEnvironmentToBeReady(space, environment)
     })
 
     after(async () => {
@@ -482,10 +484,20 @@ describe('Entry Api', () => {
       before(async () => {
         // The default space has x-space enabled in it through the feature flags
         xSpaceEnabledSpace = await getDefaultSpace()
-        xSpaceEnabledEnvironment = await xSpaceEnabledSpace.getEnvironment('master')
+        xSpaceEnabledEnvironment = await createTestEnvironment(
+          xSpaceEnabledSpace,
+          'Test Cross Space'
+        )
+        await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
         xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
           TestDefaults.contentType.withCrossSpaceReferenceId
         )
+      })
+
+      after(async () => {
+        if (xSpaceEnabledEnvironment) {
+          await xSpaceEnabledEnvironment.delete()
+        }
       })
 
       test('can create, publish, unpublish and delete an entry with xspace references', async () => {
@@ -515,6 +527,7 @@ describe('Entry Api', () => {
         // Creating a new space that has the x-space feature disabled
         xSpaceDisabledSpace = await createTestSpace(initClient(), 'XSpaceDisabledEntry')
         xSpaceDisabledEnvironment = await xSpaceDisabledSpace.getEnvironment('master')
+        await waitForEnvironmentToBeReady(xSpaceDisabledSpace, xSpaceDisabledEnvironment)
       })
 
       beforeEach(async () => {
