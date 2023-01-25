@@ -527,7 +527,6 @@ describe('Entry Api', () => {
         // Creating a new space that has the x-space feature disabled
         xSpaceDisabledSpace = await createTestSpace(initClient(), 'XSpaceDisabledEntry')
         xSpaceDisabledEnvironment = await xSpaceDisabledSpace.getEnvironment('master')
-        await waitForEnvironmentToBeReady(xSpaceDisabledSpace, xSpaceDisabledEnvironment)
       })
 
       beforeEach(async () => {
