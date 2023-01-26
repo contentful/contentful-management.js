@@ -82,15 +82,15 @@ export type ReleaseSysProps = {
   lastAction?: Link<'ReleaseAction'>
 }
 export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
+export const ReleaseReferenceFilters = ScheduledActionReferenceFilters
 
 export type ReleaseMetadata = {
-  withReferences: [
-    {
-      entity: Link<'Entry'>
-      filter: Record<ReleaseReferenceFilters, string[]>[]
-    }
-  ]
+  withReferences: {
+    entity: Link<'Entry'>
+    filter: Record<ReleaseReferenceFilters, string[]>
+  }[]
 }
+
 /** The object returned by the Releases API */
 export interface ReleaseProps {
   title: string

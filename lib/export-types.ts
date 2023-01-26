@@ -145,6 +145,8 @@ export type {
   ReleaseQueryOptions,
   ReleaseSysProps,
   ReleaseValidateOptions,
+  ReleaseMetadata,
+  ReleaseReferenceFilters,
 } from './entities/release'
 export type {
   ReleaseAction,
