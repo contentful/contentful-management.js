@@ -8,7 +8,6 @@ import {
   generateRandomId,
   getDefaultSpace,
   initPlainClient,
-  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -310,7 +309,6 @@ describe('Entry Api', () => {
     before(async () => {
       space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
-      await waitForEnvironmentToBeReady(space, environment)
     })
 
     after(async () => {
@@ -488,7 +486,6 @@ describe('Entry Api', () => {
           xSpaceEnabledSpace,
           'Test Cross Space'
         )
-        await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
         xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
           TestDefaults.contentType.withCrossSpaceReferenceId
         )
