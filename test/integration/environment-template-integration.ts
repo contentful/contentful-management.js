@@ -126,10 +126,15 @@ describe('Environment template Api', () => {
     let installTemplate: InstallTemplate
 
     before(async () => {
-      space = (await createTestSpace(client, 'EnvironmentTemplate')) as Space
+      // Add random string to suite name to mitigate side effects
+      // with parallel running test.
+      // Slice to 22 characters to get not more then 30 chars in total.
+      const testSuitName = generateRandomId('EnvironmentTemplate').slice(0, 22)
+      space = (await createTestSpace(client, testSuitName)) as Space
       environment = (await createTestEnvironment(space, generateRandomId('env'))) as Environment
 
       await enableSpace(client, space)
+
       installTemplate = createInstallTemplate({
         client,
         orgId,
