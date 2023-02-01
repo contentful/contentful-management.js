@@ -1003,9 +1003,6 @@ export type PlainClientAPI = {
       rawData: UserUIConfigProps
     ): Promise<UserUIConfigProps>
   }
-}
-
-export type AlphaWorkflowExtension = {
   workflowDefinition: {
     get(
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
@@ -1066,6 +1063,6 @@ export type AlphaWorkflowExtension = {
   }
 }
 
-export type AlphaExtensions = AlphaWorkflowExtension
+export type AlphaExtensions = Record<string, never>
 
-export type AlphaPlainClientAPI = PlainClientAPI & AlphaWorkflowExtension
+export type AlphaPlainClientAPI = PlainClientAPI
