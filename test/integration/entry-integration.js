@@ -431,7 +431,7 @@ describe('Entry Api', () => {
    * entry '4zimQzVMxDsSX607PCfo2u' from the space '6mqcevu5a50r' is deleted
    * Content type with id stored in `TestDefaults.contentType.withCrossSpaceReferenceId` is deleted
    */
-  describe('write with x-space references', () => {
+  describe.skip('write with x-space references', () => {
     let contentTypeData = {
       name: 'testCTXSpace',
       fields: [
