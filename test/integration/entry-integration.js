@@ -8,7 +8,6 @@ import {
   generateRandomId,
   getDefaultSpace,
   initPlainClient,
-  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -310,7 +309,6 @@ describe('Entry Api', () => {
     before(async () => {
       space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
-      await waitForEnvironmentToBeReady(space, environment)
     })
 
     after(async () => {
@@ -431,7 +429,7 @@ describe('Entry Api', () => {
    * entry '4zimQzVMxDsSX607PCfo2u' from the space '6mqcevu5a50r' is deleted
    * Content type with id stored in `TestDefaults.contentType.withCrossSpaceReferenceId` is deleted
    */
-  describe.skip('write with x-space references', () => {
+  describe('write with x-space references', () => {
     let contentTypeData = {
       name: 'testCTXSpace',
       fields: [
@@ -488,7 +486,6 @@ describe('Entry Api', () => {
           xSpaceEnabledSpace,
           'Test Cross Space'
         )
-        await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
         xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
           TestDefaults.contentType.withCrossSpaceReferenceId
         )
