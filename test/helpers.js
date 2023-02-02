@@ -26,7 +26,7 @@ export const initClient = (options) => {
 }
 
 /**
- *
+ * @deprecated
  * @returns {import('../lib/contentful-management').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {

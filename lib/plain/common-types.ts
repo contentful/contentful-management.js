@@ -1062,7 +1062,3 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
   }
 }
-
-export type AlphaExtensions = Record<string, never>
-
-export type AlphaPlainClientAPI = PlainClientAPI

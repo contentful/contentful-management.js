@@ -1,6 +1,6 @@
 import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
-import { AlphaExtensions, PlainClientAPI } from './common-types'
+import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
@@ -10,8 +10,7 @@ export type { DefaultParams } from './wrappers/wrap'
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined,
-  alphaFeatures?: string[]
+  defaults: DefaultParams | undefined
 ): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
@@ -429,19 +428,5 @@ export const createPlainClient = (
     workflowsChangelog: {
       getMany: wrap(wrapParams, 'WorkflowsChangelog', 'getMany'),
     },
-    ...addAlphaFeatures(makeRequest, defaults, alphaFeatures),
   }
-}
-
-const addAlphaFeatures = (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  makeRequest: MakeRequest,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  defaults: DefaultParams | undefined,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  alphaFeatures?: string[]
-): AlphaExtensions | Record<string, never> => {
-  const alphaInterface: AlphaExtensions = {} as AlphaExtensions
-
-  return alphaInterface
 }
