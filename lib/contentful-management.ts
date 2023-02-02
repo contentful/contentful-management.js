@@ -61,11 +61,21 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
+/**
+ * @deprecated the alphaFeatures option is not longer supported
+ */
 function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
     alphaFeatures?: string[]
+    defaults?: DefaultParams
+  }
+): ClientAPI | PlainClientAPI
+function createClient(
+  params: ClientOptions,
+  opts: {
+    type?: 'plain'
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {

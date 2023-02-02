@@ -26,7 +26,6 @@ export const initClient = (options) => {
 }
 
 /**
- * @deprecated
  * @returns {import('../lib/contentful-management').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {
@@ -38,25 +37,6 @@ export const initPlainClient = (defaults = {}) => {
     },
     {
       type: 'plain',
-      defaults,
-    }
-  )
-}
-
-/**
- *
- * @returns {import('../lib/contentful-management').AlphaPlainClientAPI}
- */
-export const initAlphaPlainClient = (alphaFeatures = [], defaults = {}) => {
-  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
-  return createClient(
-    {
-      accessToken,
-      ...params,
-    },
-    {
-      type: 'plain',
-      alphaFeatures,
       defaults,
     }
   )
