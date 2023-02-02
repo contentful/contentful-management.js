@@ -68,7 +68,7 @@ function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
-    alphaFeatures?: string[]
+    alphaFeatures: string[]
     defaults?: DefaultParams
   }
 ): ClientAPI | PlainClientAPI
