@@ -1,7 +1,6 @@
 import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
-import { ALPHA_FEATURE_WORKFLOWS } from '../adapters/REST/endpoints/workflow-definition'
 import { omitAndDeleteField } from '../methods/content-type'
-import { AlphaExtensions, AlphaPlainClientAPI, PlainClientAPI } from './common-types'
+import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
@@ -11,9 +10,8 @@ export type { DefaultParams } from './wrappers/wrap'
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined,
-  alphaFeatures?: string[]
-): PlainClientAPI | AlphaPlainClientAPI => {
+  defaults: DefaultParams | undefined
+): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
   return {
@@ -413,37 +411,22 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
     },
-    ...addAlphaFeatures(makeRequest, defaults, alphaFeatures),
-  }
-}
-
-const addAlphaFeatures = (
-  makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined,
-  alphaFeatures?: string[]
-): AlphaExtensions | Record<string, never> => {
-  const wrapParams = { makeRequest, defaults }
-  const alphaInterface: AlphaExtensions = {} as AlphaExtensions
-
-  if (alphaFeatures?.includes(ALPHA_FEATURE_WORKFLOWS)) {
-    alphaInterface.workflowDefinition = {
+    workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
       getMany: wrap(wrapParams, 'WorkflowDefinition', 'getMany'),
       create: wrap(wrapParams, 'WorkflowDefinition', 'create'),
       update: wrap(wrapParams, 'WorkflowDefinition', 'update'),
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),
-    }
-    alphaInterface.workflow = {
+    },
+    workflow: {
       getMany: wrap(wrapParams, 'Workflow', 'getMany'),
       create: wrap(wrapParams, 'Workflow', 'create'),
       update: wrap(wrapParams, 'Workflow', 'update'),
       delete: wrap(wrapParams, 'Workflow', 'delete'),
       complete: wrap(wrapParams, 'Workflow', 'complete'),
-    }
-    alphaInterface.workflowsChangelog = {
+    },
+    workflowsChangelog: {
       getMany: wrap(wrapParams, 'WorkflowsChangelog', 'getMany'),
-    }
+    },
   }
-
-  return alphaInterface
 }
