@@ -4,6 +4,7 @@ import {
   CollectionProp,
   DefaultElements,
   EntityMetaSysProps,
+  EntryMetaSysProps,
   KeyValueMap,
   MakeRequest,
   MetadataProps,
@@ -14,7 +15,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
-  sys: EntityMetaSysProps
+  sys: EntryMetaSysProps
   metadata?: MetadataProps
 
   fields: T

@@ -211,6 +211,10 @@ export interface EntityMetaSysProps extends MetaSysProps {
   locale?: string
 }
 
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  automationTags: Link<'Tag'>[]
+}
+
 export interface MetaLinkProps {
   type: string
   linkType: string
