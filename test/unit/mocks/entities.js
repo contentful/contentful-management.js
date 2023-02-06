@@ -277,6 +277,7 @@ const entryMock = {
       sys: { id: 'environment-id' },
     },
     locale: 'locale',
+    automationTags: [],
   }),
   fields: {
     field1: 'str',
