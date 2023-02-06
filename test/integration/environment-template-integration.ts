@@ -120,7 +120,10 @@ describe('Environment template Api', () => {
     })
   })
 
-  describe('Template installation/validation', () => {
+  describe('Template installation/validation', function () {
+    // Increase timeout to wait for template installations to finish
+    this.timeout(5000)
+
     let space: Space
     let environment: Environment
     let installTemplate: InstallTemplate
@@ -208,6 +211,33 @@ describe('Environment template Api', () => {
   }
 })
 
+async function waitForPendingInstallation(
+  client: ClientAPI,
+  environment: Environment,
+  environmentTemplateId: string,
+  { retries = 3, timeout = 200 } = {}
+): Promise<void> {
+  while (retries > 1) {
+    const { items: installations } = await environment.getEnvironmentTemplateInstallations(
+      environmentTemplateId
+    )
+
+    const allInstallationsSuccessful = installations.every(
+      (installation) => installation.sys.status === 'succeeded'
+    )
+
+    if (allInstallationsSuccessful) {
+      return Promise.resolve()
+    }
+
+    await new Promise((res) => setTimeout(res, timeout))
+    retries--
+    timeout * 2
+  }
+
+  throw new Error('Environment template installation timeout')
+}
+
 function createInstallTemplate({
   client,
   orgId,
@@ -237,6 +267,7 @@ function createInstallTemplate({
       'Environment template installation template id mismatch'
     )
 
+    await waitForPendingInstallation(client, environment, template.sys.id)
     return installation
   }
 }
