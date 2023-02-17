@@ -8,13 +8,13 @@
 
 <h1 align='center'>Content Management API</h1>
 
-<h3 align="center">Javascript</h3>
+<h3 align="center">JavaScript</h3>
 
 <p align="center">
   <a href="README.md">Readme</a> · 
   <a href="SETUP.md">Setup</a> · 
-  <a href="MIGRATION.md">Migration</a>
-  <a href="CHANGELOG.md">Changelog</a>
+  <a href="MIGRATION.md">Migration</a> · 
+  <a href="CHANGELOG.md">Changelog</a> · 
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
@@ -91,6 +91,13 @@ Other browsers should also work, but at the moment we're only running automated 
 # Getting started
 
 To get started with the Contentful Management JS library you'll need to install it, and then get credentials which will allow you to access your content in Contentful.
+
+- [Installation](#installation)
+- [Authentication](#authentication)
+- [Using ES6 import](#using-es6-import)
+- [Your first request](#your-first-request)
+- [Troubleshooting](#troubleshooting)
+- [Documentation/References](#documentationreferences)
 
 ## Installation
 

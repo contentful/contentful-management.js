@@ -8,13 +8,13 @@
 
 <h1 align='center'>Content Management API</h1>
 
-<h3 align="center">Javascript</h3>
+<h3 align="center">JavaScript</h3>
 
 <p align="center">
   <a href="README.md">Readme</a> · 
   <a href="SETUP.md">Setup</a> · 
-  <a href="MIGRATION.md">Migration</a>
-  <a href="CHANGELOG.md">Changelog</a>
+  <a href="MIGRATION.md">Migration</a> · 
+  <a href="CHANGELOG.md">Changelog</a> · 
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
