@@ -827,9 +827,14 @@ export type MRActions = {
     }
   }
   Asset: {
-    getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
+    getMany: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      headers?: AxiosRequestHeaders
+      return: CollectionProp<AssetProps>
+    }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      headers?: AxiosRequestHeaders
       return: AssetProps
     }
     update: {
