@@ -1,18 +1,74 @@
-    # contentful-management.js
+<!-- shared header  START -->
 
-> JavaScript Library for [Contentful's](https://www.contentful.com) Content Management API.
+<p align="center">
+  <a href="https://www.contentful.com/developers/docs/references/content-management-api/">
+    <img alt="Contentful Logo" title="Contentful" src="images/contentful-icon.png" width="150">
+  </a>
+</p>
 
-[![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
+<h1 align='center'>Content Management API</h1>
+
+<h3 align="center">JavaScript</h3>
+
+<p align="center">
+  <a href="README.md">Readme</a> · 
+  <a href="SETUP.md">Setup</a> · 
+  <a href="MIGRATION.md">Migration</a> · 
+  <a href="CHANGELOG.md">Changelog</a> · 
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
+
+<p align="center">
+  <a href="https://www.contentful.com/slack/">
+    <img src="https://img.shields.io/badge/-Join%20Community%20Slack-2AB27B.svg?logo=slack&maxAge=31557600" alt="Join Contentful Community Slack">
+  </a>
+</p>
+
+<!-- shared header  END -->
+
+## Introduction
+
 [![Build Status](https://circleci.com/gh/contentful/contentful-management.js.svg?style=svg)](https://circleci.com/gh/contentful/contentful-management.js)
-[![Dependency Status](https://david-dm.org/contentful/contentful-management.js.svg)](https://david-dm.org/contentful/contentful-management.js)
-[![devDependency Status](https://david-dm.org/contentful/contentful-management.js/dev-status.svg)](https://david-dm.org/contentful/contentful-management.js#info=devDependencies)
-
+[![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![npm downloads](https://img.shields.io/npm/dm/contentful-management.svg)](http://npm-stat.com/charts.html?package=contentful-management)
 [![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js)
 
+**What is Contentful?**
+
 [Contentful](https://www.contentful.com) provides a content infrastructure for digital teams to power content in websites, apps, and devices. Unlike a CMS, Contentful was built to integrate with the modern software stack. It offers a central hub for structured content, powerful management and delivery APIs, and a customizable web app that enable developers and content creators to ship digital products faster.
+
+<details>
+<summary>Table of contents</summary>
+
+<!-- TOC -->
+
+- [Features](#features)
+- [Supported Environments](#supported-environments)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+    - [Node](#node-)
+    - [Browser](#browser-)
+    - [Typings](#typings)
+  - [Authentication](#authentication)
+  - [Using ES6 import](#using-es6-import)
+  - [Your first Request](#your-first-request)
+  - [Alternative plain API](#alternative-plain-api)
+- [App Framework](#app-framework)
+- [Troubleshooting](#troubleshooting)
+- [Documentation/References](#documentationreferences)
+  - [Configuration](#configuration)
+  - [Reference Documentation](#reference-documentation)
+  - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [REST API reference](#rest-api-reference)
+- [Versioning](#versioning)
+- [Reach out to us](#reach-out-to-us)
+- [Get involved](#get-involved)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
+
+<!-- /TOC -->
+</details>
 
 ## Features
 
@@ -362,22 +418,35 @@ This means that new versions are released automatically as fixes, features or br
 
 You can check the changelog on the [releases](https://github.com/contentful/contentful-management.js/releases) page.
 
-## Migration from contentful-management.js 1.x and older
+## Reach out to us
 
-contentful.js 1.x was a major rewrite, with some API changes. While the base functionality remains the same, some method names have changed, as well as some internal behaviors.
+### You have questions about how to use this library?
 
-See the [migration guide](MIGRATION.md) for more information.
+- Reach out to our community
+  forum: [![Contentful Community Forum](https://img.shields.io/badge/-Join%20Community%20Forum-3AB2E6.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MiA1OSI+CiAgPHBhdGggZmlsbD0iI0Y4RTQxOCIgZD0iTTE4IDQxYTE2IDE2IDAgMCAxIDAtMjMgNiA2IDAgMCAwLTktOSAyOSAyOSAwIDAgMCAwIDQxIDYgNiAwIDEgMCA5LTkiIG1hc2s9InVybCgjYikiLz4KICA8cGF0aCBmaWxsPSIjNTZBRUQyIiBkPSJNMTggMThhMTYgMTYgMCAwIDEgMjMgMCA2IDYgMCAxIDAgOS05QTI5IDI5IDAgMCAwIDkgOWE2IDYgMCAwIDAgOSA5Ii8+CiAgPHBhdGggZmlsbD0iI0UwNTM0RSIgZD0iTTQxIDQxYTE2IDE2IDAgMCAxLTIzIDAgNiA2IDAgMSAwLTkgOSAyOSAyOSAwIDAgMCA0MSAwIDYgNiAwIDAgMC05LTkiLz4KICA8cGF0aCBmaWxsPSIjMUQ3OEE0IiBkPSJNMTggMThhNiA2IDAgMSAxLTktOSA2IDYgMCAwIDEgOSA5Ii8+CiAgPHBhdGggZmlsbD0iI0JFNDMzQiIgZD0iTTE4IDUwYTYgNiAwIDEgMS05LTkgNiA2IDAgMCAxIDkgOSIvPgo8L3N2Zz4K&maxAge=31557600)](https://support.contentful.com/)
+- Jump into our community slack
+  channel: [![Contentful Community Slack](https://img.shields.io/badge/-Join%20Community%20Slack-2AB27B.svg?logo=slack&maxAge=31557600)](https://www.contentful.com/slack/)
 
-## Support
+### You found a bug or want to propose a feature?
 
-If you have a problem with this library, please file an [issue](https://github.com/contentful/contentful-management.js/issues/new) here on GitHub.
+- File an issue here on GitHub: [![File an issue](https://img.shields.io/badge/-Create%20Issue-6cc644.svg?logo=github&maxAge=31557600)](https://github.com/contentful/contentful-management.js/issues/new).
+  Make sure to remove any credential from your code before sharing it.
 
-If you have other problems with Contentful not related to this library, you can contact [Customer Support](https://support.contentful.com).
+### You need to share confidential information or have other questions?
 
-## Contributing
+- File a support ticket at our Contentful Customer
+  Support: [![File support ticket](https://img.shields.io/badge/-Submit%20Support%20Ticket-3AB2E6.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MiA1OSI+CiAgPHBhdGggZmlsbD0iI0Y4RTQxOCIgZD0iTTE4IDQxYTE2IDE2IDAgMCAxIDAtMjMgNiA2IDAgMCAwLTktOSAyOSAyOSAwIDAgMCAwIDQxIDYgNiAwIDEgMCA5LTkiIG1hc2s9InVybCgjYikiLz4KICA8cGF0aCBmaWxsPSIjNTZBRUQyIiBkPSJNMTggMThhMTYgMTYgMCAwIDEgMjMgMCA2IDYgMCAxIDAgOS05QTI5IDI5IDAgMCAwIDkgOWE2IDYgMCAwIDAgOSA5Ii8+CiAgPHBhdGggZmlsbD0iI0UwNTM0RSIgZD0iTTQxIDQxYTE2IDE2IDAgMCAxLTIzIDAgNiA2IDAgMSAwLTkgOSAyOSAyOSAwIDAgMCA0MSAwIDYgNiAwIDAgMC05LTkiLz4KICA8cGF0aCBmaWxsPSIjMUQ3OEE0IiBkPSJNMTggMThhNiA2IDAgMSAxLTktOSA2IDYgMCAwIDEgOSA5Ii8+CiAgPHBhdGggZmlsbD0iI0JFNDMzQiIgZD0iTTE4IDUwYTYgNiAwIDEgMS05LTkgNiA2IDAgMCAxIDkgOSIvPgo8L3N2Zz4K&maxAge=31557600)](https://www.contentful.com/support/)
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+## Get involved
+
+We appreciate any help on our repositories. For more details about how to contribute see our [CONTRIBUTING.md](https://github.com/contentful/contentful-management.js/blob/master/CONTRIBUTING.md) document.
 
 ## License
 
-MIT
+This repository is published under the [MIT](LICENSE) license.
+
+## Code of Conduct
+
+We want to provide a safe, inclusive, welcoming, and harassment-free space and experience for all participants, regardless of gender identity and expression, sexual orientation, disability, physical appearance, socioeconomic status, body size, ethnicity, nationality, level of experience, age, religion (or lack thereof), or other identity markers.
+
+[Read our full Code of Conduct](https://www.contentful.com/developers/code-of-conduct/).
