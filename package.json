@@ -16,7 +16,6 @@
   },
   "author": "Contentful <opensource@contentful.com>",
   "license": "MIT",
-  "tonicExampleFilename": "tonic-example.js",
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build:modules && npm run build:standalone && npm run build:types",
@@ -51,8 +50,7 @@
   },
   "files": [
     "dist",
-    "types.d.ts",
-    "tonic-example.js"
+    "types.d.ts"
   ],
   "dependencies": {
     "@types/json-patch": "0.0.30",
