@@ -1,4 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import { Node, Text } from '@contentful/rich-text-types'
+
 import copy from 'fast-copy'
 import {
   BasicMetaSysProps,
@@ -24,9 +26,30 @@ export type CommentSysProps = Pick<
   parentEntity: Link<'Entry'> | VersionedLink<'Workflow'>
 }
 
+export enum CommentNode {
+  Document = 'document',
+  Paragraph = 'paragraph',
+  Mention = 'mention',
+}
+
+export interface Mention {
+  nodeType: CommentNode.Mention
+  data: { target: Link<'User'> }
+}
+
+export interface RootParagraph extends Node {
+  nodeType: CommentNode.Paragraph
+  content: (Text | Mention)[]
+}
+
+export interface RichTextDocument extends Node {
+  nodeType: CommentNode.Document
+  content: RootParagraph[]
+}
+
 export type CommentProps = {
   sys: CommentSysProps
-  body: string
+  body: string | RichTextDocument
 }
 
 export type CreateCommentProps = Omit<CommentProps, 'sys'>
