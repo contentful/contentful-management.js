@@ -1,4 +1,5 @@
 import { MakeRequest, MRActions, MRReturn } from '../../common-types'
+import { PlainClientAPI } from '../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -62,6 +63,43 @@ export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[
     : never
   type Headers = 'headers' extends keyof MRActions[ET][Action]
     ? MRActions[ET][Action]['headers']
+    : never
+
+  // It's not really possible to make this type safe as we are overloading `makeRequest`.
+  // This missing typesafety is only within `wrap`. `wrap` has proper public types.
+  // @ts-expect-error
+  return (params?: Params, payload?: Payload, headers?: Headers): MRReturn<ET, Action> =>
+    // @ts-expect-error
+    makeRequest({
+      // @ts-expect-error
+      entityType,
+      // @ts-expect-error
+      action,
+      // @ts-expect-error
+      params: { ...defaults, ...params },
+      payload,
+      // Required after adding optional headers to a delete method for the first time
+      // @ts-expect-error
+      headers,
+    })
+}
+
+/**
+ * @private
+ */
+export const plainWrap = <ET extends keyof PlainClientAPI, Action extends keyof PlainClientAPI[ET]>(
+  { makeRequest, defaults }: WrapParams,
+  entityType: ET,
+  action: Action
+): PlainClientAPI[ET][Action] => {
+  type Params = 'params' extends keyof PlainClientAPI[ET][Action]
+    ? PlainClientAPI[ET][Action]['params']
+    : never
+  type Payload = 'payload' extends keyof PlainClientAPI[ET][Action]
+    ? PlainClientAPI[ET][Action]['payload']
+    : never
+  type Headers = 'headers' extends keyof PlainClientAPI[ET][Action]
+    ? PlainClientAPI[ET][Action]['headers']
     : never
 
   // It's not really possible to make this type safe as we are overloading `makeRequest`.
