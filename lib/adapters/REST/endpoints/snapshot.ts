@@ -25,9 +25,13 @@ export const getManyForEntry: RestEndpoint<'Snapshot', 'getManyForEntry'> = <
   http: AxiosInstance,
   params: GetSnapshotForEntryParams & QueryParams
 ) => {
-  return raw.get<CollectionProp<SnapshotProps<EntryProps<T>>>>(http, getBaseEntryUrl(params), {
-    params: normalizeSelect(params.query),
-  })
+  return raw.get<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>(
+    http,
+    getBaseEntryUrl(params),
+    {
+      params: normalizeSelect(params.query),
+    }
+  )
 }
 
 export const getForEntry: RestEndpoint<'Snapshot', 'getForEntry'> = <
@@ -36,7 +40,7 @@ export const getForEntry: RestEndpoint<'Snapshot', 'getForEntry'> = <
   http: AxiosInstance,
   params: GetSnapshotForEntryParams & { snapshotId: string }
 ) => {
-  return raw.get<SnapshotProps<EntryProps<T>>>(http, getEntryUrl(params))
+  return raw.get<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>(http, getEntryUrl(params))
 }
 
 const getBaseContentTypeUrl = (params: GetSnapshotForContentTypeParams) =>

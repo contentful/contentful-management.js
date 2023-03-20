@@ -820,10 +820,10 @@ export type PlainClientAPI = {
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
-    ): Promise<CollectionProp<SnapshotProps<EntryProps<T>>>>
+    ): Promise<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>
     getForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>
-    ): Promise<SnapshotProps<EntryProps<T>>>
+    ): Promise<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>
     getManyForContentType(
       params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>

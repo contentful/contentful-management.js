@@ -1341,11 +1341,11 @@ export type MRActions = {
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
-      return: CollectionProp<SnapshotProps<EntryProps<any>>>
+      return: CollectionProp<SnapshotProps<Omit<EntryProps<any>, 'metadata'>>>
     }
     getForEntry: {
       params: GetSnapshotForEntryParams & { snapshotId: string }
-      return: SnapshotProps<EntryProps<any>>
+      return: SnapshotProps<Omit<EntryProps<any>, 'metadata'>>
     }
     getManyForContentType: {
       params: GetSnapshotForContentTypeParams & QueryParams
