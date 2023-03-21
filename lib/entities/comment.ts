@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { Node, Text } from '@contentful/rich-text-types'
+import { Node, Text, Mark } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
 import {
   BasicMetaSysProps,
@@ -47,9 +47,16 @@ export enum CommentNode {
   Mention = 'mention',
 }
 
+export interface MentionNodeContent extends Node {
+  nodeType: 'text'
+  value: string
+  marks: Mark[]
+}
+
 export interface Mention {
   nodeType: CommentNode.Mention
   data: { target: Link<'User'> }
+  content: MentionNodeContent[]
 }
 
 export interface RootParagraph extends Node {

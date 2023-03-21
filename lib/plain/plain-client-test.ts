@@ -108,6 +108,14 @@ describe('Plain Client', () => {
                     sys: { type: 'Link', id: '123', linkType: 'User' },
                   },
                 },
+                content: [
+                  {
+                    nodeType: 'text',
+                    marks: [],
+                    data: {},
+                    value: 'My mention',
+                  },
+                ],
               },
               {
                 data: {},
