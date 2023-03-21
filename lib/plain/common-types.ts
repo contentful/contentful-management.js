@@ -65,6 +65,10 @@ import {
   UpdateCommentParams,
   UpdateCommentProps,
   GetManyCommentsParams,
+  RichTextBodyFormat,
+  RichCommentProps,
+  RichCommentBodyPayload,
+  PlainTextBodyFormat,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
@@ -388,20 +392,34 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: {
-    get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
+    get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
+    get(params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat): Promise<RichCommentProps>
     getMany(
-      params: OptionalDefaults<GetManyCommentsParams & QueryParams>
+      params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
+    getMany(
+      params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
+    ): Promise<CollectionProp<RichCommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
       headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: RichCommentBodyPayload,
+      headers?: AxiosRequestHeaders
+    ): Promise<RichCommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
       rawData: UpdateCommentProps,
       headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload,
+      headers?: AxiosRequestHeaders
+    ): Promise<RichCommentProps>
     delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
   contentType: {

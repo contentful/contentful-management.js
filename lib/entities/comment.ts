@@ -1,6 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { Node, Text } from '@contentful/rich-text-types'
-
 import copy from 'fast-copy'
 import {
   BasicMetaSysProps,
@@ -26,6 +25,22 @@ export type CommentSysProps = Pick<
   parentEntity: Link<'Entry'> | VersionedLink<'Workflow'>
 }
 
+export type PlainTextBodyProperty = 'plain-text'
+export type RichTextBodyProperty = 'rich-text'
+
+export type RichTextBodyFormat = { bodyFormat: RichTextBodyProperty }
+export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
+
+export type CommentProps = {
+  sys: CommentSysProps
+  body: string
+}
+
+export type CreateCommentProps = Omit<CommentProps, 'sys'>
+export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
+  sys: Pick<CommentSysProps, 'version'>
+}
+
 export enum CommentNode {
   Document = 'document',
   Paragraph = 'paragraph',
@@ -47,15 +62,9 @@ export interface RichTextDocument extends Node {
   content: RootParagraph[]
 }
 
-export type CommentProps = {
-  sys: CommentSysProps
-  body: string | RichTextDocument
-}
+export type RichCommentBodyPayload = { body: RichTextDocument }
 
-export type CreateCommentProps = Omit<CommentProps, 'sys'>
-export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
-  sys: Pick<CommentSysProps, 'version'>
-}
+export type RichCommentProps = Omit<CommentProps, 'body'> & RichCommentBodyPayload
 
 // We keep this type as explicit as possible until we open up the comments entity further
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
@@ -76,11 +85,17 @@ export type UpdateCommentParams = GetCommentParams
 export type DeleteCommentParams = GetCommentParams & { version: number }
 
 type CommentApi = {
-  update(): Promise<Comment>
+  update(): Promise<Comment | RichComment>
   delete(): Promise<void>
 }
 
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
+
+export interface RichComment
+  extends Omit<CommentProps, 'body'>,
+    RichCommentProps,
+    DefaultElements<CommentProps>,
+    CommentApi {}
 
 /**
  * @private
@@ -125,10 +140,13 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
 /**
  * @private
  */
-export function wrapComment(makeRequest: MakeRequest, data: CommentProps): Comment {
+export function wrapComment(
+  makeRequest: MakeRequest,
+  data: CommentProps | RichCommentProps
+): Comment | RichComment {
   const comment = toPlainObject(copy(data))
   const commentWithMethods = enhanceWithMethods(comment, createCommentApi(makeRequest))
-  return freezeSys(commentWithMethods)
+  return freezeSys(commentWithMethods) as Comment | RichComment
 }
 
 /**
