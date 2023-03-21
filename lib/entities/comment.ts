@@ -92,13 +92,13 @@ export type UpdateCommentParams = GetCommentParams
 export type DeleteCommentParams = GetCommentParams & { version: number }
 
 type CommentApi = {
-  update(): Promise<Comment | RichComment>
+  update(): Promise<Comment | RichTextComment>
   delete(): Promise<void>
 }
 
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
 
-export interface RichComment
+export interface RichTextComment
   extends Omit<CommentProps, 'body'>,
     RichCommentProps,
     DefaultElements<CommentProps>,
@@ -150,10 +150,10 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
 export function wrapComment(
   makeRequest: MakeRequest,
   data: CommentProps | RichCommentProps
-): Comment | RichComment {
+): Comment | RichTextComment {
   const comment = toPlainObject(copy(data))
   const commentWithMethods = enhanceWithMethods(comment, createCommentApi(makeRequest))
-  return freezeSys(commentWithMethods) as Comment | RichComment
+  return freezeSys(commentWithMethods) as Comment | RichTextComment
 }
 
 /**

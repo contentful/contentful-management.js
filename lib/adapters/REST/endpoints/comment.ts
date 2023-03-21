@@ -23,7 +23,7 @@ import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
-const bodyFormatHeader = 'x-contentful-comment-body-format'
+const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
 
 const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}`
@@ -58,7 +58,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
     headers:
       params.bodyFormat === 'rich-text'
         ? {
-            [bodyFormatHeader]: params.bodyFormat,
+            [BODY_FORMAT_HEADER]: params.bodyFormat,
           }
         : {},
   })
@@ -72,7 +72,7 @@ export const getMany: RestEndpoint<'Comment', 'getMany'> = (
     headers:
       params.bodyFormat === 'rich-text'
         ? {
-            [bodyFormatHeader]: params.bodyFormat,
+            [BODY_FORMAT_HEADER]: params.bodyFormat,
           }
         : {},
   })
@@ -87,7 +87,7 @@ export const create: RestEndpoint<'Comment', 'create'> = (
     headers:
       typeof rawData.body !== 'string'
         ? {
-            [bodyFormatHeader]: 'rich-text',
+            [BODY_FORMAT_HEADER]: 'rich-text',
           }
         : {},
   })
@@ -107,7 +107,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...(typeof rawData.body !== 'string'
         ? {
-            [bodyFormatHeader]: 'rich-text',
+            [BODY_FORMAT_HEADER]: 'rich-text',
           }
         : {}),
       ...headers,
