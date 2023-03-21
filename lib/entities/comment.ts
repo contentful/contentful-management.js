@@ -49,21 +49,11 @@ export interface RichTextDocument extends Node {
 
 export type CommentProps = {
   sys: CommentSysProps
-  body: string
+  body: string | RichTextDocument
 }
-
-export type RichTextBodyParam = { body: RichTextDocument }
-
-export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextBodyParam
-
-export type CommentBodyFormatHeader = Record<'x-contentful-comment-body-format', 'rich-text'>
 
 export type CreateCommentProps = Omit<CommentProps, 'sys'>
 export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
-  sys: Pick<CommentSysProps, 'version'>
-}
-
-export type UpdateRichTextCommentProps = Omit<RichTextCommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }
 

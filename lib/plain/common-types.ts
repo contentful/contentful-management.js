@@ -65,10 +65,6 @@ import {
   UpdateCommentParams,
   UpdateCommentProps,
   GetManyCommentsParams,
-  CommentBodyFormatHeader,
-  RichTextCommentProps,
-  RichTextBodyParam,
-  UpdateRichTextCommentProps,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
@@ -392,33 +388,15 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: {
-    get(
-      params: OptionalDefaults<GetCommentParams>,
-      headers: CommentBodyFormatHeader
-    ): Promise<RichTextCommentProps>
     get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
-    getMany(
-      params: OptionalDefaults<GetManyCommentsParams & QueryParams>,
-      headers: CommentBodyFormatHeader
-    ): Promise<CollectionProp<RichTextCommentProps>>
     getMany(
       params: OptionalDefaults<GetManyCommentsParams & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,
-      rawData: RichTextBodyParam,
-      headers?: AxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
-    create(
-      params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
       headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
-    update(
-      params: OptionalDefaults<UpdateCommentParams>,
-      rawData: UpdateRichTextCommentProps,
-      headers?: AxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
       rawData: UpdateCommentProps,

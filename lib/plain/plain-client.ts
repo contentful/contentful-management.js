@@ -1,7 +1,7 @@
 import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import { PlainClientAPI } from './common-types'
-import { DefaultParams, wrap, plainWrap } from './wrappers/wrap'
+import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
@@ -138,11 +138,11 @@ export const createPlainClient = (
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
     },
     comment: {
-      get: plainWrap(wrapParams, 'comment', 'get'),
-      getMany: plainWrap(wrapParams, 'comment', 'getMany'),
-      create: plainWrap(wrapParams, 'comment', 'create'),
-      update: plainWrap(wrapParams, 'comment', 'update'),
-      delete: plainWrap(wrapParams, 'comment', 'delete'),
+      get: wrap(wrapParams, 'Comment', 'get'),
+      getMany: wrap(wrapParams, 'Comment', 'getMany'),
+      create: wrap(wrapParams, 'Comment', 'create'),
+      update: wrap(wrapParams, 'Comment', 'update'),
+      delete: wrap(wrapParams, 'Comment', 'delete'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
