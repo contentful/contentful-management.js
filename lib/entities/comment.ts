@@ -47,16 +47,10 @@ export enum CommentNode {
   Mention = 'mention',
 }
 
-export interface MentionNodeContent extends Node {
-  nodeType: 'text'
-  value: string
-  marks: Mark[]
-}
-
 export interface Mention {
   nodeType: CommentNode.Mention
   data: { target: Link<'User'> }
-  content: MentionNodeContent[]
+  content: Text[]
 }
 
 export interface RootParagraph extends Node {
