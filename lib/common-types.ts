@@ -22,6 +22,10 @@ import {
   UpdateCommentParams,
   UpdateCommentProps,
   GetManyCommentsParams,
+  RichTextBodyFormat,
+  RichCommentProps,
+  PlainTextBodyFormat,
+  RichCommentBodyPayload,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -908,22 +912,51 @@ export type MRActions = {
     }
   }
   Comment: {
-    get: { params: GetCommentParams; return: CommentProps }
-    getMany: {
-      params: GetManyCommentsParams & QueryParams
-      return: CollectionProp<CommentProps>
-    }
-    getAll: {
-      params: GetManyCommentsParams & QueryParams
-      return: CollectionProp<CommentProps>
-    }
-    create: { params: CreateCommentParams; payload: CreateCommentProps; return: CommentProps }
-    update: {
-      params: UpdateCommentParams
-      payload: UpdateCommentProps
-      headers?: AxiosRequestHeaders
-      return: CommentProps
-    }
+    get:
+      | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
+      | { params: GetCommentParams & RichTextBodyFormat; return: RichCommentProps }
+    getMany:
+      | {
+          params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
+          return: CollectionProp<CommentProps>
+        }
+      | {
+          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+          return: CollectionProp<RichCommentProps>
+        }
+    getAll:
+      | {
+          params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
+          return: CollectionProp<CommentProps>
+        }
+      | {
+          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+          return: CollectionProp<RichCommentProps>
+        }
+    create:
+      | {
+          params: CreateCommentParams & PlainTextBodyFormat
+          payload: CreateCommentProps
+          return: CommentProps
+        }
+      | {
+          params: CreateCommentParams & RichTextBodyFormat
+          payload: RichCommentBodyPayload
+          return: RichCommentProps
+        }
+    update:
+      | {
+          params: UpdateCommentParams
+          payload: UpdateCommentProps
+          headers?: AxiosRequestHeaders
+          return: CommentProps
+        }
+      | {
+          params: UpdateCommentParams
+          payload: Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload
+          headers?: AxiosRequestHeaders
+          return: RichCommentProps
+        }
     delete: { params: DeleteCommentParams; return: void }
   }
   ContentType: {

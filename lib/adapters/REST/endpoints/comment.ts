@@ -15,10 +15,15 @@ import {
   CommentProps,
   UpdateCommentProps,
   GetManyCommentsParams,
+  PlainTextBodyFormat,
+  RichTextBodyFormat,
+  RichCommentBodyPayload,
 } from '../../../entities/comment'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
+
+const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
 
 const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}`
@@ -47,30 +52,51 @@ const getEntityBaseUrl = (params: GetEntryParams | GetManyCommentsParams) => {
 
 export const get: RestEndpoint<'Comment', 'get'> = (
   http: AxiosInstance,
-  params: GetCommentParams
-) => raw.get<CommentProps>(http, getEntryCommentUrl(params))
+  params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat)
+) =>
+  raw.get<CommentProps>(http, getEntryCommentUrl(params), {
+    headers:
+      params.bodyFormat === 'rich-text'
+        ? {
+            [BODY_FORMAT_HEADER]: params.bodyFormat,
+          }
+        : {},
+  })
 
 export const getMany: RestEndpoint<'Comment', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyCommentsParams & QueryParams
+  params: GetManyCommentsParams & QueryParams & (PlainTextBodyFormat | RichTextBodyFormat)
 ) =>
   raw.get<CollectionProp<CommentProps>>(http, getEntityBaseUrl(params), {
     params: normalizeSelect(params.query),
+    headers:
+      params.bodyFormat === 'rich-text'
+        ? {
+            [BODY_FORMAT_HEADER]: params.bodyFormat,
+          }
+        : {},
   })
 
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
   params: CreateCommentParams,
-  rawData: CreateCommentProps
+  rawData: CreateCommentProps | RichCommentBodyPayload
 ) => {
   const data = copy(rawData)
-  return raw.post<CommentProps>(http, getEntityBaseUrl(params), data)
+  return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
+    headers:
+      typeof rawData.body !== 'string'
+        ? {
+            [BODY_FORMAT_HEADER]: 'rich-text',
+          }
+        : {},
+  })
 }
 
 export const update: RestEndpoint<'Comment', 'update'> = (
   http: AxiosInstance,
   params: GetCommentParams,
-  rawData: UpdateCommentProps,
+  rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload),
   headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
@@ -79,6 +105,11 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   return raw.put<CommentProps>(http, getEntryCommentUrl(params), data, {
     headers: {
       'X-Contentful-Version': rawData.sys.version ?? 0,
+      ...(typeof rawData.body !== 'string'
+        ? {
+            [BODY_FORMAT_HEADER]: 'rich-text',
+          }
+        : {}),
       ...headers,
     },
   })
