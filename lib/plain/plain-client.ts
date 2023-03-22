@@ -138,10 +138,10 @@ export const createPlainClient = (
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
     },
     comment: {
-      get: wrap(wrapParams, 'Comment', 'get'),
-      getMany: wrap(wrapParams, 'Comment', 'getMany'),
-      create: wrap(wrapParams, 'Comment', 'create'),
-      update: wrap(wrapParams, 'Comment', 'update'),
+      get: wrap(wrapParams, 'Comment', 'get') as PlainClientAPI['comment']['get'],
+      getMany: wrap(wrapParams, 'Comment', 'getMany') as PlainClientAPI['comment']['getMany'],
+      create: wrap(wrapParams, 'Comment', 'create') as PlainClientAPI['comment']['create'],
+      update: wrap(wrapParams, 'Comment', 'update') as PlainClientAPI['comment']['update'],
       delete: wrap(wrapParams, 'Comment', 'delete'),
     },
     contentType: {
