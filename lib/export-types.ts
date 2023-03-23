@@ -244,3 +244,4 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+export type { RichTextDocument } from './entities/comment'
