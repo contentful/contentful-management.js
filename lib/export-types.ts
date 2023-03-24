@@ -65,6 +65,8 @@ export type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 export type {
+  RichTextDocument,
+  RichCommentProps,
   Comment,
   CommentProps,
   CreateCommentProps,
@@ -244,4 +246,3 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
-export type { RichTextDocument } from './entities/comment'
