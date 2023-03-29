@@ -23,6 +23,7 @@ export type CommentSysProps = Pick<
   space: SysLink
   environment: SysLink
   parentEntity: Link<'Entry'> | VersionedLink<'Workflow'>
+  parent: Link<'Comment'> | null
 }
 
 export type PlainTextBodyProperty = 'plain-text'
