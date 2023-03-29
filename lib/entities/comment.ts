@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { Node, Text, Mark } from '@contentful/rich-text-types'
+import { Node, Text } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
 import {
   BasicMetaSysProps,
@@ -41,12 +41,14 @@ export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }
 
+// Remove and replace with BLOCKS as soon as rich-text-types supports mentions
 export enum CommentNode {
   Document = 'document',
   Paragraph = 'paragraph',
   Mention = 'mention',
 }
 
+// Add "extends Block" as soon as rich-text-types supports mentions
 export interface Mention {
   nodeType: CommentNode.Mention
   data: { target: Link<'User'> }
@@ -58,6 +60,7 @@ export interface RootParagraph extends Node {
   content: (Text | Mention)[]
 }
 
+// Add "extends Document" as soon as rich-text-types supports mentions.
 export interface RichTextDocument extends Node {
   nodeType: CommentNode.Document
   content: RootParagraph[]
