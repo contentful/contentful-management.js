@@ -17,7 +17,7 @@ import {
   GetManyCommentsParams,
   PlainTextBodyFormat,
   RichTextBodyFormat,
-  RichCommentBodyPayload,
+  RichTextCommentBodyPayload,
 } from '../../../entities/comment'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -80,7 +80,7 @@ export const getMany: RestEndpoint<'Comment', 'getMany'> = (
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
   params: CreateCommentParams,
-  rawData: CreateCommentProps | RichCommentBodyPayload
+  rawData: CreateCommentProps | RichTextCommentBodyPayload
 ) => {
   const data = copy(rawData)
   return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
@@ -96,7 +96,7 @@ export const create: RestEndpoint<'Comment', 'create'> = (
 export const update: RestEndpoint<'Comment', 'update'> = (
   http: AxiosInstance,
   params: GetCommentParams,
-  rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload),
+  rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload),
   headers?: AxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)

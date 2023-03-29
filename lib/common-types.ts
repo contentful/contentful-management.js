@@ -23,9 +23,9 @@ import {
   UpdateCommentProps,
   GetManyCommentsParams,
   RichTextBodyFormat,
-  RichCommentProps,
+  RichTextCommentProps,
   PlainTextBodyFormat,
-  RichCommentBodyPayload,
+  RichTextCommentBodyPayload,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -914,7 +914,7 @@ export type MRActions = {
   Comment: {
     get:
       | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
-      | { params: GetCommentParams & RichTextBodyFormat; return: RichCommentProps }
+      | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
     getMany:
       | {
           params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
@@ -922,7 +922,7 @@ export type MRActions = {
         }
       | {
           params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichCommentProps>
+          return: CollectionProp<RichTextCommentProps>
         }
     getAll:
       | {
@@ -931,7 +931,7 @@ export type MRActions = {
         }
       | {
           params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichCommentProps>
+          return: CollectionProp<RichTextCommentProps>
         }
     create:
       | {
@@ -941,8 +941,8 @@ export type MRActions = {
         }
       | {
           params: CreateCommentParams & RichTextBodyFormat
-          payload: RichCommentBodyPayload
-          return: RichCommentProps
+          payload: RichTextCommentBodyPayload
+          return: RichTextCommentProps
         }
     update:
       | {
@@ -953,9 +953,9 @@ export type MRActions = {
         }
       | {
           params: UpdateCommentParams
-          payload: Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload
+          payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
           headers?: AxiosRequestHeaders
-          return: RichCommentProps
+          return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
   }

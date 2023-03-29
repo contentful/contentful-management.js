@@ -3,7 +3,7 @@ import { describe } from 'mocha'
 import Sinon from 'sinon'
 import { Adapter, createClient } from '../contentful-management'
 import sinonChai from 'sinon-chai'
-import { CommentNode, RichTextDocument } from '../entities/comment'
+import { CommentNode, RichTextCommentDocument } from '../entities/comment'
 
 chai.should()
 chai.use(sinonChai)
@@ -87,7 +87,7 @@ describe('Plain Client', () => {
     })
 
     describe('when body is rich text', () => {
-      const richTextBody: RichTextDocument = {
+      const richTextBody: RichTextCommentDocument = {
         data: {},
         nodeType: CommentNode.Document,
         content: [
