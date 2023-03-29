@@ -65,7 +65,7 @@ export type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 export type {
-  RichTextDocument,
+  RichTextCommentDocument,
   RichTextCommentProps,
   Comment,
   CommentProps,

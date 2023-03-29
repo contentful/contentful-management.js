@@ -62,12 +62,12 @@ export interface RootParagraph extends Node {
 }
 
 // Add "extends Document" as soon as rich-text-types supports mentions.
-export interface RichTextDocument extends Node {
+export interface RichTextCommentDocument extends Node {
   nodeType: CommentNode.Document
   content: RootParagraph[]
 }
 
-export type RichTextCommentBodyPayload = { body: RichTextDocument }
+export type RichTextCommentBodyPayload = { body: RichTextCommentDocument }
 
 export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentBodyPayload
 
