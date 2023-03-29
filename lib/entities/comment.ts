@@ -66,9 +66,9 @@ export interface RichTextDocument extends Node {
   content: RootParagraph[]
 }
 
-export type RichCommentBodyPayload = { body: RichTextDocument }
+export type RichTextCommentBodyPayload = { body: RichTextDocument }
 
-export type RichCommentProps = Omit<CommentProps, 'body'> & RichCommentBodyPayload
+export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentBodyPayload
 
 // We keep this type as explicit as possible until we open up the comments entity further
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
@@ -97,7 +97,7 @@ export interface Comment extends CommentProps, DefaultElements<CommentProps>, Co
 
 export interface RichTextComment
   extends Omit<CommentProps, 'body'>,
-    RichCommentProps,
+    RichTextCommentProps,
     DefaultElements<CommentProps>,
     CommentApi {}
 
@@ -146,7 +146,7 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
  */
 export function wrapComment(
   makeRequest: MakeRequest,
-  data: CommentProps | RichCommentProps
+  data: CommentProps | RichTextCommentProps
 ): Comment | RichTextComment {
   const comment = toPlainObject(copy(data))
   const commentWithMethods = enhanceWithMethods(comment, createCommentApi(makeRequest))

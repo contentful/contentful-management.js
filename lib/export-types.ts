@@ -66,7 +66,7 @@ export type {
 } from './entities/bulk-action'
 export type {
   RichTextDocument,
-  RichCommentProps,
+  RichTextCommentProps,
   Comment,
   CommentProps,
   CreateCommentProps,

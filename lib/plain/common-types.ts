@@ -66,8 +66,8 @@ import {
   UpdateCommentProps,
   GetManyCommentsParams,
   RichTextBodyFormat,
-  RichCommentProps,
-  RichCommentBodyPayload,
+  RichTextCommentProps,
+  RichTextCommentBodyPayload,
   PlainTextBodyFormat,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
@@ -393,13 +393,15 @@ export type PlainClientAPI = {
   }
   comment: {
     get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
-    get(params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat): Promise<RichCommentProps>
+    get(
+      params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
+    ): Promise<RichTextCommentProps>
     getMany(
       params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
     getMany(
       params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
-    ): Promise<CollectionProp<RichCommentProps>>
+    ): Promise<CollectionProp<RichTextCommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
@@ -407,9 +409,9 @@ export type PlainClientAPI = {
     ): Promise<CommentProps>
     create(
       params: OptionalDefaults<CreateCommentParams>,
-      rawData: RichCommentBodyPayload,
+      rawData: RichTextCommentBodyPayload,
       headers?: AxiosRequestHeaders
-    ): Promise<RichCommentProps>
+    ): Promise<RichTextCommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
       rawData: UpdateCommentProps,
@@ -417,9 +419,9 @@ export type PlainClientAPI = {
     ): Promise<CommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
-      rawData: Omit<UpdateCommentProps, 'body'> & RichCommentBodyPayload,
+      rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
       headers?: AxiosRequestHeaders
-    ): Promise<RichCommentProps>
+    ): Promise<RichTextCommentProps>
     delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
   contentType: {
