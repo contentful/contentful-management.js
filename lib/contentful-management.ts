@@ -41,10 +41,7 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-
-type ClientOptions = UserAgentParams &
-  (RestAdapterParams | AdapterParams) &
-  XOR<RestAdapterParams, AdapterParams>
+type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
  * @deprecated the alphaFeatures option is not longer supported
