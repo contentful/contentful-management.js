@@ -6,7 +6,7 @@
 
 import { getUserAgentHeader } from 'contentful-sdk-core'
 import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequest } from './common-types'
+import type { MakeRequest, XOR } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type { PlainClientAPI } from './plain/common-types'
@@ -41,9 +41,6 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-
-type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
-type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
 
 type ClientOptions = UserAgentParams &
   (RestAdapterParams | AdapterParams) &
