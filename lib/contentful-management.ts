@@ -41,7 +41,13 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-type ClientOptions = (RestAdapterParams | AdapterParams) & UserAgentParams
+
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
+type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
+
+type ClientOptions = UserAgentParams &
+  (RestAdapterParams | AdapterParams) &
+  XOR<RestAdapterParams, AdapterParams>
 
 /**
  * @deprecated the alphaFeatures option is not longer supported
