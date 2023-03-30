@@ -649,6 +649,16 @@ export type MakeRequestWithUserAgent = MRInternal<true>
  */
 export type MakeRequest = MRInternal<false>
 
+/**
+ * @private
+ */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
+
+/**
+ * @private
+ */
+export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
+
 export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
 }
