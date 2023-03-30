@@ -6,7 +6,7 @@
 
 import { getUserAgentHeader } from 'contentful-sdk-core'
 import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequest } from './common-types'
+import type { MakeRequest, XOR } from './common-types'
 import { AdapterParams, createAdapter } from './create-adapter'
 import createContentfulApi, { ClientAPI } from './create-contentful-api'
 import type { PlainClientAPI } from './plain/common-types'
@@ -41,7 +41,7 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-type ClientOptions = (RestAdapterParams | AdapterParams) & UserAgentParams
+type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
  * @deprecated the alphaFeatures option is not longer supported
