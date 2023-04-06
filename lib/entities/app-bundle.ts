@@ -15,7 +15,6 @@ interface ActionManifestProps {
   name: string
   description: string
   category: string
-  type: string
   path: string
 }
 
