@@ -10,6 +10,15 @@ type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+interface ActionManifestProps {
+  id?: string
+  name: string
+  description: string
+  category: string
+  type: string
+  path: string
+}
+
 export type AppBundleFile = {
   name: string
   size: number
@@ -19,6 +28,7 @@ export type AppBundleFile = {
 export type CreateAppBundleProps = {
   appUploadId: string
   comment?: string
+  actions?: ActionManifestProps[]
 }
 
 export type AppBundleProps = {
