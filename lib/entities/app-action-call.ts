@@ -2,6 +2,7 @@ import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
 import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import { WebhookCallDetailsProps } from './webhook'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink
@@ -22,7 +23,9 @@ export type CreateAppActionCallProps = {
   parameters: { [key: string]: any }
 }
 
-export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}
+export interface AppActionCall
+  extends WebhookCallDetailsProps,
+    DefaultElements<WebhookCallDetailsProps> {}
 
 /**
  * @private
@@ -32,7 +35,7 @@ export interface AppActionCall extends AppActionCallProps, DefaultElements<AppAc
  */
 export function wrapAppActionCall(
   _makeRequest: MakeRequest,
-  data: AppActionCallProps
+  data: WebhookCallDetailsProps
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
   return signedRequest

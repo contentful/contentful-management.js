@@ -117,7 +117,7 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppActionProps, CreateAppActionProps } from '../entities/app-action'
-import { AppActionCallProps, CreateAppActionCallProps } from '../entities/app-action-call'
+import { CreateAppActionCallProps } from '../entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
@@ -212,7 +212,7 @@ export type PlainClientAPI = {
     create(
       params: OptionalDefaults<GetAppActionCallParams>,
       payload: CreateAppActionCallProps
-    ): Promise<AppActionCallProps>
+    ): Promise<WebhookCallDetailsProps>
     getCallDetails(
       params: OptionalDefaults<GetAppActionCallDetailsParams>
     ): Promise<WebhookCallDetailsProps>
