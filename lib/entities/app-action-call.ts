@@ -41,6 +41,8 @@ export function wrapAppActionCall(
   return signedRequest
 }
 
-export async function waitFor(ms = 1000) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
+export interface FetchAppActionResponse {
+  retryInterval?: number
+  retries?: number
+  checkCount?: number
 }
