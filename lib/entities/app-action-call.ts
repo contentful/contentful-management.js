@@ -3,7 +3,7 @@ import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
 import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 
-type AppActionCallSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
+type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink
   space: SysLink
   environment: SysLink
@@ -36,4 +36,8 @@ export function wrapAppActionCall(
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
   return signedRequest
+}
+
+export async function waitFor(ms = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }

@@ -701,7 +701,7 @@ export type MRActions = {
     create: {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
-      return: AppActionCallProps
+      return: WebhookCallDetailsProps
     }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
