@@ -1,5 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CreateAppActionCallProps, FetchAppActionResponse } from '../../../entities/app-action-call'
+import {
+  AppActionCallProps,
+  AppActionCallResponse,
+  CreateAppActionCallProps,
+  FetchAppActionResponse,
+} from '../../../entities/app-action-call'
 import { WebhookCallDetailsProps } from '../../../entities/webhook'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
@@ -10,7 +15,7 @@ export const create: RestEndpoint<'AppActionCall', 'create'> = async (
   params: GetAppActionCallParams,
   data: CreateAppActionCallProps
 ) => {
-  const createResponse = await raw.post<WebhookCallDetailsProps>(
+  const createResponse = await raw.post<AppActionCallProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
     data
@@ -18,7 +23,7 @@ export const create: RestEndpoint<'AppActionCall', 'create'> = async (
 
   const callId = createResponse.sys.id
 
-  return new Promise<WebhookCallDetailsProps>((resolve, reject) =>
+  return new Promise<AppActionCallResponse>((resolve, reject) =>
     callAppActionResult(http, params, {
       resolve,
       reject,
@@ -48,7 +53,7 @@ async function callAppActionResult(
     checkCount = 0,
     callId,
   }: FetchAppActionResponse & {
-    resolve: (appActionResponse: WebhookCallDetailsProps) => unknown
+    resolve: (appActionResponse: AppActionCallResponse) => unknown
     reject: (err: Error) => unknown
     callId: string
   }
