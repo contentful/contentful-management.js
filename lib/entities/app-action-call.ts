@@ -23,9 +23,9 @@ export type CreateAppActionCallProps = {
   parameters: { [key: string]: any }
 }
 
-export interface AppActionCall
-  extends WebhookCallDetailsProps,
-    DefaultElements<WebhookCallDetailsProps> {}
+export type AppActionCallResponse = WebhookCallDetailsProps
+
+export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}
 
 /**
  * @private
@@ -35,7 +35,7 @@ export interface AppActionCall
  */
 export function wrapAppActionCall(
   _makeRequest: MakeRequest,
-  data: WebhookCallDetailsProps
+  data: AppActionCallProps
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
   return signedRequest

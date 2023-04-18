@@ -2,7 +2,11 @@ import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
-import { CreateAppActionCallProps } from './entities/app-action-call'
+import {
+  AppActionCall,
+  AppActionCallResponse,
+  CreateAppActionCallProps,
+} from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
@@ -701,7 +705,7 @@ export type MRActions = {
     create: {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
-      return: WebhookCallDetailsProps
+      return: AppActionCallResponse
     }
     getCallDetails: {
       params: GetAppActionCallDetailsParams

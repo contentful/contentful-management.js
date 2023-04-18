@@ -7,10 +7,7 @@ import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../
 
 export const create: RestEndpoint<'AppActionCall', 'create'> = async (
   http: AxiosInstance,
-  {
-    options: { retries, retryInterval } = {},
-    ...params
-  }: GetAppActionCallParams & { options?: FetchAppActionResponse },
+  params: GetAppActionCallParams,
   data: CreateAppActionCallProps
 ) => {
   const createResponse = await raw.post<WebhookCallDetailsProps>(
@@ -25,8 +22,6 @@ export const create: RestEndpoint<'AppActionCall', 'create'> = async (
     callAppActionResult(http, params, {
       resolve,
       reject,
-      retryInterval,
-      retries,
       callId,
     })
   )
@@ -58,10 +53,7 @@ async function callAppActionResult(
     callId: string
   }
 ) {
-  const appActionResponse = await raw.get<WebhookCallDetailsProps>(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/actions/${params.appActionId}/calls/${callId}`
-  )
+  const appActionResponse = await getCallDetails(http, { ...params, callId })
 
   if (appActionResponse && appActionResponse.sys && appActionResponse.sys.id) {
     resolve(appActionResponse)
