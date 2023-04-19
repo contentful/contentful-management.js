@@ -74,7 +74,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
     },
 
     getCallDetails: function getCallDetails() {
-      const getParams = (raw: GetAppActionCallDetailsParams) => ({
+      const getParams = (raw: GetAppActionCallDetailsParams): GetAppActionCallDetailsParams => ({
         spaceId: raw.spaceId,
         environmentId: raw.environmentId,
         callId: raw.callId,

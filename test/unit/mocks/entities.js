@@ -140,30 +140,20 @@ const appActionMock = {
 }
 
 const appActionCallMock = {
-  sys: sysMock,
-  request: {
-    url: 'https://example.com/webhook',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: 'Ok',
-  },
-  response: {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: 'OK',
-    url: '',
-    method: '',
-  },
-  statusCode: 200,
-  errors: [],
-  eventType: 'some-event',
-  url: 'https://example.com/webhook',
-  requestAt: '2022-04-19T12:34:56.789Z',
-  responseAt: '2022-04-19T12:35:01.234Z',
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppActionCall',
+    appDefinition: { sys: { id: 'app-definiton-id' } },
+    action: { sys: { id: 'app-action-id' } },
+    space: { sys: { id: 'space-id' } },
+    environment: { sys: { id: 'environment-id' } },
+  }),
+}
+
+const appActionCallDetailsMock = {
+  callId: 'call-id',
+  appActionId: 'app-action-id',
+  spaceId: 'space-id',
+  environmentId: 'environment-id',
 }
 
 const appDefinitionMock = {
@@ -881,6 +871,7 @@ const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
+  appActionCallDetails: appActionCallDetailsMock,
   appBundle: appBundleMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,

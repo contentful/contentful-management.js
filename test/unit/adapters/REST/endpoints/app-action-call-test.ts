@@ -10,8 +10,8 @@ import {
 } from '../../../../../lib/entities/app-action-call'
 import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
-function setup(params = {}) {
-  const entityMock: AppActionCallResponse = cloneMock('appActionCall')
+function setup(mockName, params = {}) {
+  const entityMock: AppActionCallResponse = cloneMock(mockName)
   const promise = Promise.resolve({ data: entityMock })
   return {
     ...setupRestAdapter(promise, params),
@@ -21,7 +21,7 @@ function setup(params = {}) {
 
 describe('Rest App Action Call', () => {
   it('should create a new App Action Call', async () => {
-    const { httpMock, adapterMock, entityMock } = setup()
+    const { httpMock, adapterMock, entityMock } = setup('appActionCall')
     const entity = wrapAppActionCall(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
@@ -46,7 +46,7 @@ describe('Rest App Action Call', () => {
   })
 
   it('should get details of an App Action Call', async () => {
-    const { httpMock, adapterMock, entityMock } = setup()
+    const { httpMock, adapterMock, entityMock } = setup('appActionCallDetails')
     const entity = wrapAppActionCall(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
@@ -63,9 +63,11 @@ describe('Rest App Action Call', () => {
   })
 
   it('should throw an error if maximum retries is reached', async () => {
-    const { httpMock } = setup()
+    const { httpMock } = setup('appActionCall')
 
-    const callAppActionResultStub = sinon.stub().rejects(new Error())
+    const callAppActionResultStub = sinon
+      .stub()
+      .rejects(new Error('The app action response is taking longer than expected to process.'))
 
     const params = {
       spaceId: 'space-id',
@@ -83,9 +85,8 @@ describe('Rest App Action Call', () => {
         checkCount: 2,
       })
     } catch (error) {
-      expect(error.name).to.equal('callAppActionResultTimeout')
       expect(error.message).to.equal(
-        'App Action Response is taking longer than expected to process.'
+        'The app action response is taking longer than expected to process.'
       )
     }
   })

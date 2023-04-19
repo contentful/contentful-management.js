@@ -41,14 +41,17 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
   )
 }
 
+const APP_ACTION_CALL_RETRY_INTERVAL = 2000
+const APP_ACTION_CALL_RETRIES = 10
+
 async function callAppActionResult(
   http: AxiosInstance,
   params: GetAppActionCallParams,
   {
     resolve,
     reject,
-    retryInterval = 2000,
-    retries = 10,
+    retryInterval = APP_ACTION_CALL_RETRY_INTERVAL,
+    retries = APP_ACTION_CALL_RETRIES,
     checkCount = 0,
     callId,
   }: FetchAppActionResponse & {
@@ -63,8 +66,7 @@ async function callAppActionResult(
     resolve(appActionResponse)
   } else if (checkCount === retries) {
     const error = new Error()
-    error.name = 'callAppActionResultTimeout'
-    error.message = 'App Action Response is taking longer then expected to process.'
+    error.message = 'The app action response is taking longer than expected to process.'
     reject(error)
   } else {
     checkCount++
