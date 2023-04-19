@@ -4,6 +4,7 @@ import { Except } from 'type-fest'
 import {
   BasicMetaSysProps,
   DefaultElements,
+  GetAppActionCallDetailsParams,
   GetAppActionCallParams,
   MakeRequest,
   SysLink,
@@ -32,6 +33,7 @@ export type CreateAppActionCallProps = {
 
 type AppActionCallApi = {
   create(): Promise<AppActionCallResponse>
+  getCallDetails(): Promise<AppActionCallResponse>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
@@ -68,6 +70,23 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
         action: 'create',
         params: getParams(raw),
         payload: payload,
+      }).then((data) => wrapAppActionCall(makeRequest, data))
+    },
+
+    getCallDetails: function getCallDetails() {
+      const getParams = (raw: GetAppActionCallDetailsParams) => ({
+        spaceId: raw.spaceId,
+        environmentId: raw.environmentId,
+        callId: raw.callId,
+        appActionId: raw.appActionId,
+      })
+
+      const raw = this.toPlainObject() as GetAppActionCallDetailsParams
+
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'getCallDetails',
+        params: getParams(raw),
       }).then((data) => wrapAppActionCall(makeRequest, data))
     },
   }

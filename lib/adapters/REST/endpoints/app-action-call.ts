@@ -64,7 +64,7 @@ async function callAppActionResult(
   } else if (checkCount === retries) {
     const error = new Error()
     error.name = 'callAppActionResultTimeout'
-    error.message = 'App Action Result is taking longer then expected to process.'
+    error.message = 'App Action Response is taking longer then expected to process.'
     reject(error)
   } else {
     checkCount++
