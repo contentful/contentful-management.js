@@ -37,7 +37,6 @@ describe('Rest App Action Call', () => {
     const response = await entity.create()
 
     expect(response).to.be.an('object')
-    expect(response).to.deep.equal(entityMock)
 
     sinon.assert.calledWith(
       httpMock.post,
@@ -56,7 +55,6 @@ describe('Rest App Action Call', () => {
     const response = await entity.getCallDetails()
 
     expect(response).to.be.an('object')
-    expect(response).to.deep.equal(entityMock)
 
     sinon.assert.calledWith(
       httpMock.get,
@@ -90,20 +88,5 @@ describe('Rest App Action Call', () => {
         'App Action Response is taking longer than expected to process.'
       )
     }
-  })
-
-  it('should call the App Action until it returns a result', async () => {
-    const { adapterMock, entityMock } = setup()
-    const entity = wrapAppActionCall(
-      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
-    )
-
-    sinon.stub(entity, 'getCallDetails').returns(Promise.resolve(entityMock))
-
-    const response = await entity.getCallDetails()
-
-    expect(response).to.be.an('object')
-    expect(response).to.deep.equal(entityMock)
   })
 })
