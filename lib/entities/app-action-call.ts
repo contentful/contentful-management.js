@@ -1,8 +1,15 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
-import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import {
+  BasicMetaSysProps,
+  DefaultElements,
+  GetAppActionCallParams,
+  MakeRequest,
+  SysLink,
+} from '../common-types'
 import { WebhookCallDetailsProps } from './webhook'
+import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink
@@ -23,11 +30,48 @@ export type CreateAppActionCallProps = {
   parameters: { [key: string]: any }
 }
 
+type AppActionCallApi = {
+  create(): Promise<AppActionCallResponse>
+}
+
 export type AppActionCallResponse = WebhookCallDetailsProps
 
 export interface AppActionCall
   extends AppActionCallResponse,
-    DefaultElements<AppActionCallResponse> {}
+    DefaultElements<AppActionCallResponse>,
+    AppActionCallApi {}
+
+/**
+ * @private
+ */
+export default function createAppActionCallApi(makeRequest: MakeRequest): AppActionCallApi {
+  const getParams = (raw: AppActionCallProps): GetAppActionCallParams => ({
+    spaceId: raw.sys.space.sys.id,
+    environmentId: raw.sys.environment.sys.id,
+    appDefinitionId: raw.sys.appDefinition.sys.id,
+    appActionId: raw.sys.action.sys.id,
+  })
+
+  return {
+    create: function () {
+      const raw = this.toPlainObject() as AppActionCallProps
+
+      const payload: CreateAppActionCallProps = {
+        parameters: {
+          recipient: 'Alice <alice@my-company.com>',
+          message_body: 'Hello from Bob!',
+        },
+      }
+
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'create',
+        params: getParams(raw),
+        payload: payload,
+      }).then((data) => wrapAppActionCall(makeRequest, data))
+    },
+  }
+}
 
 /**
  * @private
@@ -36,11 +80,15 @@ export interface AppActionCall
  * @return Wrapped AppActionCall data
  */
 export function wrapAppActionCall(
-  _makeRequest: MakeRequest,
+  makeRequest: MakeRequest,
   data: AppActionCallResponse
 ): AppActionCall {
-  const signedRequest = toPlainObject(copy(data))
-  return signedRequest
+  const appActionCallResponse = toPlainObject(copy(data))
+  const appActionCallResponseWithMethods = enhanceWithMethods(
+    appActionCallResponse,
+    createAppActionCallApi(makeRequest)
+  )
+  return appActionCallResponseWithMethods
 }
 
 export interface FetchAppActionResponse {

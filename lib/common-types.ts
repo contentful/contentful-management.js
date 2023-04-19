@@ -705,7 +705,7 @@ export type MRActions = {
     }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
-      return: WebhookCallDetailsProps
+      return: AppActionCallResponse
     }
   }
   AppBundle: {

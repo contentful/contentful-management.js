@@ -5,7 +5,6 @@ import {
   CreateAppActionCallProps,
   FetchAppActionResponse,
 } from '../../../entities/app-action-call'
-import { WebhookCallDetailsProps } from '../../../entities/webhook'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
 import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../common-types'
@@ -36,7 +35,7 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
   http: AxiosInstance,
   params: GetAppActionCallDetailsParams
 ) => {
-  return raw.get<WebhookCallDetailsProps>(
+  return raw.get<AppActionCallResponse>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/actions/${params.appActionId}/calls/${params.callId}`
   )

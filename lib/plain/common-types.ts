@@ -215,7 +215,7 @@ export type PlainClientAPI = {
     ): Promise<AppActionCallResponse>
     getCallDetails(
       params: OptionalDefaults<GetAppActionCallDetailsParams>
-    ): Promise<WebhookCallDetailsProps>
+    ): Promise<AppActionCallResponse>
   }
   appBundle: {
     get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
