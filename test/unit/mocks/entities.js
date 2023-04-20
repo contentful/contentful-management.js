@@ -149,6 +149,38 @@ const appActionCallMock = {
   }),
 }
 
+const appActionCallResponseMock = {
+  sys: {
+    id: 'abc123',
+    createdAt: '2022-02-20T10:00:00Z',
+    type: 'AppActionCall',
+  },
+  request: {
+    url: 'https://example.com/webhook',
+    method: '',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': 'token123',
+    },
+    body: 'OK',
+  },
+  response: {
+    url: 'https://example.com/webhook',
+    method: '',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: 'OK',
+    statusCode: 200,
+  },
+  statusCode: 200,
+  errors: [],
+  eventType: 'message.created',
+  url: 'https://example.com/webhook',
+  requestAt: '2022-02-20T10:00:00Z',
+  responseAt: '2022-02-20T10:01:00Z',
+}
+
 const appActionCallDetailsMock = {
   callId: 'call-id',
   appActionId: 'app-action-id',
@@ -872,6 +904,7 @@ const mocks = {
   appAction: appActionMock,
   appActionCall: appActionCallMock,
   appActionCallDetails: appActionCallDetailsMock,
+  appActionCallResponse: appActionCallResponseMock,
   appBundle: appBundleMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,

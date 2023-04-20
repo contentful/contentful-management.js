@@ -56,8 +56,6 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
 
   return {
     create: function () {
-      const raw = this.toPlainObject() as AppActionCallProps
-
       const payload: CreateAppActionCallProps = {
         parameters: {
           recipient: 'Alice <alice@my-company.com>',
@@ -68,7 +66,12 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'create',
-        params: getParams(raw),
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
         payload: payload,
       }).then((data) => wrapAppActionCall(makeRequest, data))
     },

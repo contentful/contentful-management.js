@@ -4,14 +4,13 @@ import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 import sinon from 'sinon'
 import {
-  AppActionCallResponse,
   CreateAppActionCallProps,
   wrapAppActionCall,
 } from '../../../../../lib/entities/app-action-call'
 import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
 function setup(mockName, params = {}) {
-  const entityMock: AppActionCallResponse = cloneMock(mockName)
+  const entityMock = cloneMock(mockName)
   const promise = Promise.resolve({ data: entityMock })
   return {
     ...setupRestAdapter(promise, params),
@@ -21,7 +20,7 @@ function setup(mockName, params = {}) {
 
 describe('Rest App Action Call', () => {
   it('should create a new App Action Call', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCall')
+    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
     const entity = wrapAppActionCall(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
@@ -37,6 +36,7 @@ describe('Rest App Action Call', () => {
     const response = await entity.create()
 
     expect(response).to.be.an('object')
+    expect(response).to.deep.equal(entityMock)
 
     sinon.assert.calledWith(
       httpMock.post,
