@@ -47,13 +47,6 @@ export interface AppActionCall
  * @private
  */
 export default function createAppActionCallApi(makeRequest: MakeRequest): AppActionCallApi {
-  const getParams = (raw: AppActionCallProps): GetAppActionCallParams => ({
-    spaceId: raw.sys.space.sys.id,
-    environmentId: raw.sys.environment.sys.id,
-    appDefinitionId: raw.sys.appDefinition.sys.id,
-    appActionId: raw.sys.action.sys.id,
-  })
-
   return {
     create: function () {
       const payload: CreateAppActionCallProps = {
