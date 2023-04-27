@@ -55,6 +55,7 @@ describe('Rest App Action Call', () => {
     const response = await entity.getCallDetails()
 
     expect(response).to.be.an('object')
+    expect(response).to.deep.equal(entityMock)
 
     sinon.assert.calledWith(
       httpMock.get,
