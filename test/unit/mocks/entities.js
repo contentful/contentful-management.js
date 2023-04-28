@@ -151,7 +151,7 @@ const appActionCallMock = {
 
 const appActionCallResponseMock = {
   sys: {
-    id: 'abc123',
+    id: 'call-id',
     createdAt: '2022-02-20T10:00:00Z',
     type: 'AppActionCall',
   },
