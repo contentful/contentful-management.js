@@ -32,7 +32,7 @@ export type CreateAppActionCallProps = {
 }
 
 type AppActionCallApi = {
-  createAppActionCall(): Promise<AppActionCallResponse>
+  createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
 }
 
@@ -50,7 +50,7 @@ export interface AppActionCall extends AppActionCallProps, DefaultElements<AppAc
  */
 export default function createAppActionCallApi(makeRequest: MakeRequest): AppActionCallApi {
   return {
-    createAppActionCall: function () {
+    createWithResponse: function () {
       const payload: CreateAppActionCallProps = {
         parameters: {
           recipient: 'Alice <alice@my-company.com>',
@@ -60,7 +60,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
 
       return makeRequest({
         entityType: 'AppActionCall',
-        action: 'createAppActionCall',
+        action: 'createWithResponse',
         params: {
           spaceId: 'space-id',
           environmentId: 'environment-id',

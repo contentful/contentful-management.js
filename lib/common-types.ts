@@ -302,9 +302,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
-  (opts: MROpts<'AppActionCall', 'createAppActionCall', UA>): MRReturn<
+  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
     'AppActionCall',
-    'createAppActionCall'
+    'createWithResponse'
   >
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
 
@@ -716,7 +716,7 @@ export type MRActions = {
       params: GetAppActionCallDetailsParams
       return: AppActionCallResponse
     }
-    createAppActionCall: {
+    createWithResponse: {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse

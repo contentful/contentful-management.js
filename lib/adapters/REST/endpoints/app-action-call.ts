@@ -75,7 +75,7 @@ async function callAppActionResult(
   }
 }
 
-export const createAppActionCall: RestEndpoint<'AppActionCall', 'createAppActionCall'> = async (
+export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
   http: AxiosInstance,
   params: GetAppActionCallParams,
   data: CreateAppActionCallProps

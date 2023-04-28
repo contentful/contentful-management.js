@@ -220,7 +220,7 @@ export type PlainClientAPI = {
     getCallDetails(
       params: OptionalDefaults<GetAppActionCallDetailsParams>
     ): Promise<AppActionCallResponse>
-    createAppActionCall(
+    createWithResponse(
       params: OptionalDefaults<GetAppActionCallParams>,
       payload: CreateAppActionCallProps
     ): Promise<AppActionCallResponse>

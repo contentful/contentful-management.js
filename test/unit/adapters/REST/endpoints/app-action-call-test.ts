@@ -33,7 +33,7 @@ describe('Rest App Action Call', () => {
       },
     }
 
-    const response = await entity.createAppActionCall()
+    const response = await entity.createWithResponse()
 
     expect(response).to.be.an('object')
     expect(response).to.deep.equal(entityMock)
