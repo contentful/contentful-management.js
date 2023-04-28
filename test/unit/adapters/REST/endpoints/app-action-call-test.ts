@@ -5,7 +5,7 @@ import setupRestAdapter from '../helpers/setupRestAdapter'
 import sinon from 'sinon'
 import {
   CreateAppActionCallProps,
-  wrapAppActionCall,
+  wrapAppActionCallResponse,
 } from '../../../../../lib/entities/app-action-call'
 import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
@@ -21,7 +21,7 @@ function setup(mockName, params = {}) {
 describe('Rest App Action Call', () => {
   it('should create a new App Action Call', async () => {
     const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
-    const entity = wrapAppActionCall(
+    const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
@@ -33,7 +33,7 @@ describe('Rest App Action Call', () => {
       },
     }
 
-    const response = await entity.create()
+    const response = await entity.createAppActionCall()
 
     expect(response).to.be.an('object')
     expect(response).to.deep.equal(entityMock)
@@ -43,11 +43,16 @@ describe('Rest App Action Call', () => {
       `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls`,
       payload
     )
+
+    sinon.assert.calledWith(
+      httpMock.get,
+      `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+    )
   })
 
   it('should get details of an App Action Call', async () => {
     const { httpMock, adapterMock, entityMock } = setup('appActionCallDetails')
-    const entity = wrapAppActionCall(
+    const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )

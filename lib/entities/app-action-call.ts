@@ -32,23 +32,25 @@ export type CreateAppActionCallProps = {
 }
 
 type AppActionCallApi = {
-  create(): Promise<AppActionCallResponse>
+  createAppActionCall(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
 
-export interface AppActionCall
+export interface AppActionCallResponseData
   extends AppActionCallResponse,
     DefaultElements<AppActionCallResponse>,
     AppActionCallApi {}
+
+export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}
 
 /**
  * @private
  */
 export default function createAppActionCallApi(makeRequest: MakeRequest): AppActionCallApi {
   return {
-    create: function () {
+    createAppActionCall: function () {
       const payload: CreateAppActionCallProps = {
         parameters: {
           recipient: 'Alice <alice@my-company.com>',
@@ -58,7 +60,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
 
       return makeRequest({
         entityType: 'AppActionCall',
-        action: 'create',
+        action: 'createAppActionCall',
         params: {
           spaceId: 'space-id',
           environmentId: 'environment-id',
@@ -66,7 +68,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
           appActionId: 'app-action-id',
         },
         payload: payload,
-      }).then((data) => wrapAppActionCall(makeRequest, data))
+      }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
 
     getCallDetails: function getCallDetails() {
@@ -83,7 +85,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
         entityType: 'AppActionCall',
         action: 'getCallDetails',
         params: getParams(raw),
-      }).then((data) => wrapAppActionCall(makeRequest, data))
+      }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
   }
 }
@@ -95,9 +97,23 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
  * @return Wrapped AppActionCall data
  */
 export function wrapAppActionCall(
+  _makeRequest: MakeRequest,
+  data: AppActionCallProps
+): AppActionCall {
+  const signedRequest = toPlainObject(copy(data))
+  return signedRequest
+}
+
+/**
+ * @private
+ * @param http - HTTP client instance
+ * @param data - Raw AppActionCall data
+ * @return Wrapped AppActionCall data
+ */
+export function wrapAppActionCallResponse(
   makeRequest: MakeRequest,
   data: AppActionCallResponse
-): AppActionCall {
+): AppActionCallResponseData {
   const appActionCallResponse = toPlainObject(copy(data))
   const appActionCallResponseWithMethods = enhanceWithMethods(
     appActionCallResponse,

@@ -9,25 +9,15 @@ import * as raw from './raw'
 import { RestEndpoint } from '../types'
 import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../common-types'
 
-export const create: RestEndpoint<'AppActionCall', 'create'> = async (
+export const create: RestEndpoint<'AppActionCall', 'create'> = (
   http: AxiosInstance,
   params: GetAppActionCallParams,
   data: CreateAppActionCallProps
 ) => {
-  const createResponse = await raw.post<AppActionCallProps>(
+  return raw.post<AppActionCallProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
     data
-  )
-
-  const callId = createResponse.sys.id
-
-  return new Promise<AppActionCallResponse>((resolve, reject) =>
-    callAppActionResult(http, params, {
-      resolve,
-      reject,
-      callId,
-    })
   )
 }
 
@@ -83,4 +73,26 @@ async function callAppActionResult(
       retryInterval
     )
   }
+}
+
+export const createAppActionCall: RestEndpoint<'AppActionCall', 'createAppActionCall'> = async (
+  http: AxiosInstance,
+  params: GetAppActionCallParams,
+  data: CreateAppActionCallProps
+) => {
+  const createResponse = await raw.post<AppActionCallProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
+    data
+  )
+
+  const callId = createResponse.sys.id
+
+  return new Promise<AppActionCallResponse>((resolve, reject) =>
+    callAppActionResult(http, params, {
+      resolve,
+      reject,
+      callId,
+    })
+  )
 }
