@@ -2,7 +2,11 @@ import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
-import { AppActionCallProps, CreateAppActionCallProps } from './entities/app-action-call'
+import {
+  AppActionCallProps,
+  AppActionCallResponse,
+  CreateAppActionCallProps,
+} from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
@@ -298,6 +302,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
+  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
+    'AppActionCall',
+    'createWithResponse'
+  >
+  (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -705,7 +714,12 @@ export type MRActions = {
     }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
-      return: WebhookCallDetailsProps
+      return: AppActionCallResponse
+    }
+    createWithResponse: {
+      params: GetAppActionCallParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallResponse
     }
   }
   AppBundle: {
