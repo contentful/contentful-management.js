@@ -15,6 +15,12 @@ import {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+interface LinkWithReference<T extends string> extends Link<T> {
+  sys: Link<T>['sys'] & {
+    ref: string
+  }
+}
+
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -22,7 +28,7 @@ export type CommentSysProps = Pick<
   type: 'Comment'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'> | VersionedLink<'Workflow'>
+  parentEntity: Link<'Entry'> | LinkWithReference<'Entry'> | VersionedLink<'Workflow'>
   parent: Link<'Comment'> | null
 }
 
