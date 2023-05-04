@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: contentful-management.js
+  description: |
+    Contentful command line interface. Use Contentful features straight from the command line.
+  annotations:
+    circleci.com/project-slug: github/contentful/contentful-management.js
+    github.com/project-slug: contentful/contentful-management.js
+    contentful.com/ci-alert-slack: prd-phoenix-ci-alerts
+spec:
+  type: cli
+  lifecycle: production
+  owner: group:team-phoenix
