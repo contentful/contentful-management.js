@@ -8,6 +8,7 @@ import {
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
 import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../common-types'
+import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
 
 export const create: RestEndpoint<'AppActionCall', 'create'> = (
   http: AxiosInstance,
@@ -50,28 +51,46 @@ async function callAppActionResult(
     callId: string
   }
 ) {
-  const appActionResponse = await getCallDetails(http, { ...params, callId })
+  const result = await getCallDetails(http, { ...params, callId })
 
-  if (appActionResponse && appActionResponse.sys && appActionResponse.sys.id) {
-    resolve(appActionResponse)
+  // The lambda failed or returned a 404, so we shouldn't re-poll anymore
+  if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
+    const error = new Error(result.response.body)
+    reject(error)
+  }
+
+  if (isSuccessful(result.statusCode)) {
+    resolve(result)
+  }
+
+  // The logs are not ready yet. Continue waiting for them
+  if (shouldRePoll(result.statusCode) && checkCount !== retries) {
+    waitFor(retryInterval)
+
+    await callAppActionResult(http, params, {
+      resolve,
+      reject,
+      retryInterval,
+      retries,
+      checkCount,
+      callId,
+    })
   } else if (checkCount === retries) {
     const error = new Error()
     error.message = 'The app action response is taking longer than expected to process.'
     reject(error)
   } else {
     checkCount++
-    setTimeout(
-      () =>
-        callAppActionResult(http, params, {
-          resolve,
-          reject,
-          retryInterval,
-          retries,
-          checkCount,
-          callId,
-        }),
-      retryInterval
-    )
+    waitFor(retryInterval)
+
+    await callAppActionResult(http, params, {
+      resolve,
+      reject,
+      retryInterval,
+      retries,
+      checkCount,
+      callId,
+    })
   }
 }
 
