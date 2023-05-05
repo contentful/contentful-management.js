@@ -51,46 +51,63 @@ async function callAppActionResult(
     callId: string
   }
 ) {
-  const result = await getCallDetails(http, { ...params, callId })
+  try {
+    const result = await getCallDetails(http, { ...params, callId })
 
-  // The lambda failed or returned a 404, so we shouldn't re-poll anymore
-  if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
-    const error = new Error(result.response.body)
-    reject(error)
-  }
+    // The lambda failed or returned a 404, so we shouldn't re-poll anymore
+    if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
+      const error = new Error(result.response.body)
+      reject(error)
+    }
 
-  if (isSuccessful(result.statusCode)) {
-    resolve(result)
-  }
+    if (isSuccessful(result.statusCode)) {
+      resolve(result)
+    }
 
-  // The logs are not ready yet. Continue waiting for them
-  if (shouldRePoll(result.statusCode) && checkCount !== retries) {
-    waitFor(retryInterval)
+    // The logs are not ready yet. Continue waiting for them
+    if (shouldRePoll(result.statusCode) && checkCount !== retries) {
+      waitFor(retryInterval)
 
-    await callAppActionResult(http, params, {
-      resolve,
-      reject,
-      retryInterval,
-      retries,
-      checkCount,
-      callId,
-    })
-  } else if (checkCount === retries) {
-    const error = new Error()
-    error.message = 'The app action response is taking longer than expected to process.'
-    reject(error)
-  } else {
+      await callAppActionResult(http, params, {
+        resolve,
+        reject,
+        retryInterval,
+        retries,
+        checkCount,
+        callId,
+      })
+    } else if (checkCount === retries) {
+      const error = new Error()
+      error.message = 'The app action response is taking longer than expected to process.'
+      reject(error)
+    } else {
+      checkCount++
+      waitFor(retryInterval)
+
+      await callAppActionResult(http, params, {
+        resolve,
+        reject,
+        retryInterval,
+        retries,
+        checkCount,
+        callId,
+      })
+    }
+  } catch (e) {
+    // If `getCallDetails` throws, we re-poll as it might mean that the lambda result is not available in the webhook logs yet
     checkCount++
     waitFor(retryInterval)
 
-    await callAppActionResult(http, params, {
-      resolve,
-      reject,
-      retryInterval,
-      retries,
-      checkCount,
-      callId,
-    })
+    if (checkCount !== retries) {
+      await callAppActionResult(http, params, {
+        resolve,
+        reject,
+        retryInterval,
+        retries,
+        checkCount,
+        callId,
+      })
+    }
   }
 }
 
