@@ -33,6 +33,7 @@ export type CreateAppActionCallProps = {
 type AppActionCallApi = {
   createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
+  callAppActionResult(): Promise<AppActionCallResponse>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
@@ -71,19 +72,29 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
     },
 
     getCallDetails: function getCallDetails() {
-      const getParams = (raw: GetAppActionCallDetailsParams): GetAppActionCallDetailsParams => ({
-        spaceId: raw.spaceId,
-        environmentId: raw.environmentId,
-        callId: raw.callId,
-        appActionId: raw.appActionId,
-      })
-
-      const raw = this.toPlainObject() as GetAppActionCallDetailsParams
-
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'getCallDetails',
-        params: getParams(raw),
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          callId: 'call-id',
+          appActionId: 'app-action-id',
+        },
+      }).then((data) => wrapAppActionCallResponse(makeRequest, data))
+    },
+
+    callAppActionResult: function callAppActionResult() {
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'callAppActionResult',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        payload: { callId: 'call-id' },
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
   }
@@ -96,11 +107,15 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
  * @return Wrapped AppActionCall data
  */
 export function wrapAppActionCall(
-  _makeRequest: MakeRequest,
+  makeRequest: MakeRequest,
   data: AppActionCallProps
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
-  return signedRequest
+  const signedRequestWithMethods = enhanceWithMethods(
+    signedRequest,
+    createAppActionCallApi(makeRequest)
+  )
+  return signedRequestWithMethods
 }
 
 /**

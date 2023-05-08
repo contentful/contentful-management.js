@@ -9,9 +9,8 @@ import {
 } from '../../../../../lib/entities/app-action-call'
 import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
-function setup(mockName, params = {}) {
+function setup(promise, mockName, params = {}) {
   const entityMock = cloneMock(mockName)
-  const promise = Promise.resolve({ data: entityMock })
   return {
     ...setupRestAdapter(promise, params),
     entityMock,
@@ -20,7 +19,13 @@ function setup(mockName, params = {}) {
 
 describe('Rest App Action Call', () => {
   it('should create a new App Action Call', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
+    const responseMock = cloneMock('appActionCallResponse')
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
+
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
@@ -51,113 +56,159 @@ describe('Rest App Action Call', () => {
   })
 
   it('re-polls if getCallDetails throws', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.reject(new Error('Something went wrong')),
+      'appActionCallResponse'
+    )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
 
-    entityMock.statusCode = 400
-
     try {
-      await entity.createWithResponse()
-
-      sinon.assert.callCount(
-        httpMock.get.withArgs(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        ),
-        10
-      )
+      await entity.callAppActionResult()
     } catch (error) {
       expect(error.message).to.equal(
         'The app action response is taking longer than expected to process.'
       )
     }
+
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      10
+    )
+  })
+
+  it('re-polls if getCallDetails returns 400', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 400
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
+
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock
+    )
+
+    try {
+      await entity.callAppActionResult()
+    } catch (error) {
+      expect(error.message).to.equal(
+        'The app action response is taking longer than expected to process.'
+      )
+    }
+
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      10
+    )
   })
 
   it('re-polls if logs are not set yet (getCallDetails returns 404)', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 404
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
 
-    entityMock.statusCode = 404
-
     try {
       await entity.createWithResponse()
-
-      sinon.assert.callCount(
-        httpMock.get.withArgs(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        ),
-        10
-      )
     } catch (error) {
       expect(error.message).to.equal(
         'The app action response is taking longer than expected to process.'
       )
     }
+
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      10
+    )
   })
 
   it('stops re-polling if app action is not found', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
-
-    const entity = wrapAppActionCallResponse(
-      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
-    )
-
-    entityMock.statusCode = 200
-    entityMock.response = {
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 200
+    responseMock.response = {
       statusCode: 404,
     }
 
-    try {
-      await entity.createWithResponse()
-
-      sinon.assert.callCount(
-        httpMock.get.withArgs(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        ),
-        1
-      )
-    } catch (error) {
-      expect(error.message).to.equal('App action not found or lambda fails')
-    }
-  })
-
-  it('stops re-polling if lambda fails', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallResponse')
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
 
-    entityMock.statusCode = 200
-    entityMock.response = {
-      statusCode: 500,
-    }
-
     try {
       await entity.createWithResponse()
-
-      sinon.assert.callCount(
-        httpMock.get.withArgs(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        ),
-        1
-      )
     } catch (error) {
       expect(error.message).to.equal('App action not found or lambda fails')
     }
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      1
+    )
+  })
+
+  it('stops re-polling if lambda fails', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 200
+    responseMock.response = {
+      statusCode: 500,
+    }
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
+
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock
+    )
+
+    try {
+      await entity.createWithResponse()
+    } catch (error) {
+      expect(error.message).to.equal('App action not found or lambda fails')
+    }
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      1
+    )
   })
 
   it('should get details of an App Action Call', async () => {
-    const { httpMock, adapterMock, entityMock } = setup('appActionCallDetails')
+    const responseMock = cloneMock('appActionCallResponse')
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock

@@ -35,7 +35,7 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
 const APP_ACTION_CALL_RETRY_INTERVAL = 2000
 const APP_ACTION_CALL_RETRIES = 10
 
-async function callAppActionResult(
+export async function callAppActionResult(
   http: AxiosInstance,
   params: GetAppActionCallParams,
   {
@@ -51,7 +51,7 @@ async function callAppActionResult(
   return new Promise((resolve, reject) => {
     const poll = async () => {
       try {
-        const result = await getCallDetails(http, { ...params, callId })
+        const result = await getCallDetails(http, { ...params, callId: callId })
 
         // The lambda failed or returned a 404, so we shouldn't re-poll anymore
         if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
@@ -68,15 +68,19 @@ async function callAppActionResult(
           poll()
         }
 
-        const error = new Error(
-          'The app action response is taking longer than expected to process.'
-        )
-        reject(error)
+        // If the response status code is not successful and is not a status code that should be repolled, reject with an error immediately
+        else {
+          const error = new Error(
+            'The app action response is taking longer than expected to process.'
+          )
+          reject(error)
+        }
       } catch (error) {
         checkCount++
 
         if (checkCount > retries) {
           reject(new Error('The app action response is taking longer than expected to process.'))
+          return
         }
         // If `appActionCalls.getCallDetails` throws, we re-poll as it might mean that the lambda result is not available in the webhook logs yet
         await waitFor(retryInterval)
