@@ -135,9 +135,3 @@ export function wrapAppActionCallResponse(
   )
   return appActionCallResponseWithMethods
 }
-
-export interface FetchAppActionResponse {
-  retryInterval?: number
-  retries?: number
-  checkCount?: number
-}

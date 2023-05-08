@@ -82,6 +82,37 @@ describe('Rest App Action Call', () => {
     )
   })
 
+  it('should successfully retry and resolve after a non-successful status code', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+
+    const errorResponseMock = { ...responseMock, statusCode: 404 }
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: errorResponseMock }),
+      'appActionCallResponse'
+    )
+
+    httpMock.get.onFirstCall().returns(Promise.resolve({ data: errorResponseMock }))
+    httpMock.get.onSecondCall().returns(Promise.resolve({ data: errorResponseMock }))
+    httpMock.get.onThirdCall().returns(Promise.resolve({ data: responseMock }))
+
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock
+    )
+
+    const result = await entity.callAppActionResult()
+
+    expect(result).to.deep.equal(responseMock)
+
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        '/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id'
+      ),
+      3
+    )
+  })
+
   it('re-polls if getCallDetails returns 400', async () => {
     const responseMock = cloneMock('appActionCallResponse')
     responseMock.statusCode = 400

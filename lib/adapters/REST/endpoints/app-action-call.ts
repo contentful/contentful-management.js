@@ -3,7 +3,6 @@ import {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
-  FetchAppActionResponse,
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
