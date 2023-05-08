@@ -173,33 +173,4 @@ describe('Rest App Action Call', () => {
       `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
     )
   })
-
-  it('should throw an error if maximum retries is reached', async () => {
-    const { httpMock } = setup('appActionCall')
-
-    const callAppActionResultStub = sinon
-      .stub()
-      .rejects(new Error('The app action response is taking longer than expected to process.'))
-
-    const params = {
-      spaceId: 'space-id',
-      environmentId: 'environment-id',
-      appDefinitionId: 'app-definition-id',
-      appActionId: 'app-action-id',
-    }
-
-    try {
-      await callAppActionResultStub(httpMock, params, {
-        resolve: sinon.fake(),
-        reject: sinon.fake(),
-        callId: 'call-id',
-        retries: 2,
-        checkCount: 2,
-      })
-    } catch (error) {
-      expect(error.message).to.equal(
-        'The app action response is taking longer than expected to process.'
-      )
-    }
-  })
 })
