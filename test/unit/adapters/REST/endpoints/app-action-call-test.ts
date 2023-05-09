@@ -101,7 +101,7 @@ describe('Rest App Action Call', () => {
       entityMock
     )
 
-    const result = await entity.callAppActionResult()
+    const result = await entity.createWithResponse()
 
     expect(result).to.deep.equal(responseMock)
 
@@ -128,7 +128,7 @@ describe('Rest App Action Call', () => {
     )
 
     try {
-      await entity.callAppActionResult()
+      await entity.createWithResponse()
     } catch (error) {
       expect(error.message).to.equal(
         'The app action response is taking longer than expected to process.'
