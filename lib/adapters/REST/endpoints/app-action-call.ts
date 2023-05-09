@@ -3,7 +3,6 @@ import {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
-  FetchAppActionResponse,
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
@@ -39,59 +38,56 @@ async function callAppActionResult(
   http: AxiosInstance,
   params: GetAppActionCallParams,
   {
-    resolve,
-    reject,
-    retryInterval = APP_ACTION_CALL_RETRY_INTERVAL,
-    retries = APP_ACTION_CALL_RETRIES,
-    checkCount = 0,
     callId,
-  }: FetchAppActionResponse & {
-    resolve: (appActionResponse: AppActionCallResponse) => unknown
-    reject: (err: Error) => unknown
+  }: {
     callId: string
   }
-) {
-  const result = await getCallDetails(http, { ...params, callId })
+): Promise<AppActionCallResponse> {
+  let checkCount = 1
+  const retryInterval = APP_ACTION_CALL_RETRY_INTERVAL
+  const retries = APP_ACTION_CALL_RETRIES
 
-  // The lambda failed or returned a 404, so we shouldn't re-poll anymore
-  if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
-    const error = new Error(result.response.body)
-    reject(error)
-  }
+  return new Promise((resolve, reject) => {
+    const poll = async () => {
+      try {
+        const result = await getCallDetails(http, { ...params, callId: callId })
+        // The lambda failed or returned a 404, so we shouldn't re-poll anymore
+        if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
+          const error = new Error('App action not found or lambda fails')
+          reject(error)
+        } else if (isSuccessful(result.statusCode)) {
+          resolve(result)
+        }
 
-  if (isSuccessful(result.statusCode)) {
-    resolve(result)
-  }
+        // The logs are not ready yet. Continue waiting for them
+        else if (shouldRePoll(result.statusCode) && checkCount < retries) {
+          checkCount++
+          await waitFor(retryInterval)
+          poll()
+        }
 
-  // The logs are not ready yet. Continue waiting for them
-  if (shouldRePoll(result.statusCode) && checkCount !== retries) {
-    waitFor(retryInterval)
+        // If the response status code is not successful and is not a status code that should be repolled, reject with an error immediately
+        else {
+          const error = new Error(
+            'The app action response is taking longer than expected to process.'
+          )
+          reject(error)
+        }
+      } catch (error) {
+        checkCount++
 
-    await callAppActionResult(http, params, {
-      resolve,
-      reject,
-      retryInterval,
-      retries,
-      checkCount,
-      callId,
-    })
-  } else if (checkCount === retries) {
-    const error = new Error()
-    error.message = 'The app action response is taking longer than expected to process.'
-    reject(error)
-  } else {
-    checkCount++
-    waitFor(retryInterval)
+        if (checkCount > retries) {
+          reject(new Error('The app action response is taking longer than expected to process.'))
+          return
+        }
+        // If `appActionCalls.getCallDetails` throws, we re-poll as it might mean that the lambda result is not available in the webhook logs yet
+        await waitFor(retryInterval)
+        poll()
+      }
+    }
 
-    await callAppActionResult(http, params, {
-      resolve,
-      reject,
-      retryInterval,
-      retries,
-      checkCount,
-      callId,
-    })
-  }
+    poll()
+  })
 }
 
 export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
@@ -107,11 +103,5 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
 
   const callId = createResponse.sys.id
 
-  return new Promise<AppActionCallResponse>((resolve, reject) =>
-    callAppActionResult(http, params, {
-      resolve,
-      reject,
-      callId,
-    })
-  )
+  return callAppActionResult(http, params, { callId })
 }
