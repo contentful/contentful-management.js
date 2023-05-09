@@ -983,6 +983,7 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     appActionCall: {
       wrapAppActionCall: sinon.stub(),
+      wrapAppActionCallResponse: sinon.stub(),
     },
     appDefinition: {
       wrapAppDefinition: sinon.stub(),

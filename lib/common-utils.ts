@@ -41,7 +41,7 @@ export function isSuccessful(statusCode: number) {
 }
 
 export function shouldRePoll(statusCode: number) {
-  return [404, 422, 429].includes(statusCode)
+  return [404, 422, 429, 400].includes(statusCode)
 }
 
 export async function waitFor(ms = 1000) {
