@@ -33,7 +33,6 @@ export type CreateAppActionCallProps = {
 type AppActionCallApi = {
   createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
-  callAppActionResult(): Promise<AppActionCallResponse>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
@@ -81,20 +80,6 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
           callId: 'call-id',
           appActionId: 'app-action-id',
         },
-      }).then((data) => wrapAppActionCallResponse(makeRequest, data))
-    },
-
-    callAppActionResult: function callAppActionResult() {
-      return makeRequest({
-        entityType: 'AppActionCall',
-        action: 'callAppActionResult',
-        params: {
-          spaceId: 'space-id',
-          environmentId: 'environment-id',
-          appDefinitionId: 'app-definiton-id',
-          appActionId: 'app-action-id',
-        },
-        payload: { callId: 'call-id' },
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
   }

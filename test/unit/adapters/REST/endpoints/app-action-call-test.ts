@@ -56,18 +56,21 @@ describe('Rest App Action Call', () => {
   })
 
   it('re-polls if getCallDetails throws', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+
     const { httpMock, adapterMock, entityMock } = setup(
-      Promise.reject(new Error('Something went wrong')),
+      Promise.resolve({ data: responseMock }),
       'appActionCallResponse'
     )
 
+    httpMock.get = sinon.stub().returns(new Error('getCallDetails error'))
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock
     )
 
     try {
-      await entity.callAppActionResult()
+      await entity.createWithResponse()
     } catch (error) {
       expect(error.message).to.equal(
         'The app action response is taking longer than expected to process.'

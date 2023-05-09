@@ -34,7 +34,7 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
 const APP_ACTION_CALL_RETRY_INTERVAL = 2000
 const APP_ACTION_CALL_RETRIES = 10
 
-export async function callAppActionResult(
+async function callAppActionResult(
   http: AxiosInstance,
   params: GetAppActionCallParams,
   {
@@ -51,7 +51,6 @@ export async function callAppActionResult(
     const poll = async () => {
       try {
         const result = await getCallDetails(http, { ...params, callId: callId })
-
         // The lambda failed or returned a 404, so we shouldn't re-poll anymore
         if (result?.response?.statusCode && !isSuccessful(result?.response?.statusCode)) {
           const error = new Error('App action not found or lambda fails')
