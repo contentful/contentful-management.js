@@ -15,6 +15,18 @@ interface RegExp {
   flags: string
 }
 
+type RichTextNode =
+  | 'embedded-entry-block'
+  | 'embedded-entry-inline'
+  | 'embedded-asset-inline'
+  | 'entry-hyperlink'
+  | 'asset-hyperlink'
+  | 'hyperlink'
+
+type NodesValidation = {
+  [k in RichTextNode]: [Pick<ContentTypeFieldValidation, 'size' | 'linkContentType' | 'message'>]
+}
+
 export interface ContentTypeFieldValidation {
   linkContentType?: string[]
   in?: (string | number)[]
@@ -33,6 +45,7 @@ export interface ContentTypeFieldValidation {
     height?: NumRange
   }
   assetFileSize?: NumRange
+  nodes?: NodesValidation
 }
 
 interface Item {
