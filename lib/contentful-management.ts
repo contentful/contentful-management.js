@@ -62,7 +62,7 @@ function createClient(
   }
 ): PlainClientAPI
 /**
- * @deprecated the alphaFeatures option is not longer supported
+ * @deprecated The `alphaFeatures` option is not longer supported. Please use the function without this option.
  */
 function createClient(
   params: ClientOptions,
