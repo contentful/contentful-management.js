@@ -44,17 +44,6 @@ export type ClientParams = RestAdapterParams & UserAgentParams
 type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
- * @deprecated the alphaFeatures option is not longer supported
- */
-function createClient(
-  params: ClientOptions,
-  opts: {
-    type?: 'plain'
-    alphaFeatures: string[]
-    defaults?: DefaultParams
-  }
-): ClientAPI | PlainClientAPI
-/**
  * Create a client instance
  * @param params - Client initialization parameters
  *
@@ -72,6 +61,17 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
+/**
+ * @deprecated the alphaFeatures option is not longer supported
+ */
+function createClient(
+  params: ClientOptions,
+  opts: {
+    type?: 'plain'
+    alphaFeatures: string[]
+    defaults?: DefaultParams
+  }
+): ClientAPI | PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
