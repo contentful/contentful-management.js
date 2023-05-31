@@ -44,17 +44,6 @@ export type ClientParams = RestAdapterParams & UserAgentParams
 type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
- * @deprecated the alphaFeatures option is not longer supported
- */
-function createClient(
-  params: ClientOptions,
-  opts: {
-    type?: 'plain'
-    alphaFeatures: string[]
-    defaults?: DefaultParams
-  }
-): ClientAPI | PlainClientAPI
-/**
  * Create a client instance
  * @param params - Client initialization parameters
  *
@@ -72,6 +61,18 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
+// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
+/**
+ * @deprecated The `alphaFeatures` option is no longer supported. Please use the function without this option.
+ */
+function createClient(
+  params: ClientOptions,
+  opts: {
+    type?: 'plain'
+    alphaFeatures: string[]
+    defaults?: DefaultParams
+  }
+): ClientAPI | PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
