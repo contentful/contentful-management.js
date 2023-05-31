@@ -1,6 +1,6 @@
 import type { OpPatch } from 'json-patch'
 import { MakeRequest } from './common-types'
-import { CreateCommentProps } from './entities/comment'
+import { CreateCommentParams, CreateCommentProps } from './entities/comment'
 import { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
@@ -175,6 +175,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
+
     unpublish: function unpublish() {
       const { params } = getParams(this)
 
@@ -322,7 +323,12 @@ export default function createEntryApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Comment',
         action: 'create',
-        params,
+        params: {
+          spaceId: params.spaceId,
+          environmentId: params.environmentId,
+          parentEntityId: params.entryId,
+          parentEntityType: 'Entry',
+        } as CreateCommentParams,
         payload: data,
       }).then((data) => wrapComment(makeRequest, data))
     },
@@ -432,12 +438,12 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getTasks: function () {
+    getTasks: function (query = {}) {
       const { params } = getParams(this)
       return makeRequest({
         entityType: 'Task',
         action: 'getMany',
-        params,
+        params: { ...params, query },
       }).then((data) => wrapTaskCollection(makeRequest, data))
     },
 

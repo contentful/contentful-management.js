@@ -22,8 +22,6 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getWorkflowDefinitionUrl = (params: GetWorkflowDefinitionParams) =>
   `${getBaseUrl(params)}/${params.workflowDefinitionId}`
 
-export const ALPHA_FEATURE_WORKFLOWS = 'workflows'
-
 export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
   http: AxiosInstance,
   params: GetWorkflowDefinitionParams,

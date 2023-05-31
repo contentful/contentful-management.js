@@ -1,7 +1,6 @@
 import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
-import { ALPHA_FEATURE_WORKFLOWS } from '../adapters/REST/endpoints/workflow-definition'
 import { omitAndDeleteField } from '../methods/content-type'
-import { AlphaExtensions, AlphaPlainClientAPI, PlainClientAPI } from './common-types'
+import { PlainClientAPI } from './common-types'
 import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
@@ -11,9 +10,8 @@ export type { DefaultParams } from './wrappers/wrap'
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined,
-  alphaFeatures?: string[]
-): PlainClientAPI | AlphaPlainClientAPI => {
+  defaults: DefaultParams | undefined
+): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
   return {
@@ -69,6 +67,8 @@ export const createPlainClient = (
     },
     appActionCall: {
       create: wrap(wrapParams, 'AppActionCall', 'create'),
+      getCallDetails: wrap(wrapParams, 'AppActionCall', 'getCallDetails'),
+      createWithResponse: wrap(wrapParams, 'AppActionCall', 'createWithResponse'),
     },
     appBundle: {
       get: wrap(wrapParams, 'AppBundle', 'get'),
@@ -116,6 +116,22 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'EnvironmentAlias', 'update'),
       delete: wrap(wrapParams, 'EnvironmentAlias', 'delete'),
     },
+    environmentTemplate: {
+      get: wrap(wrapParams, 'EnvironmentTemplate', 'get'),
+      getMany: wrap(wrapParams, 'EnvironmentTemplate', 'getMany'),
+      create: wrap(wrapParams, 'EnvironmentTemplate', 'create'),
+      versionUpdate: wrap(wrapParams, 'EnvironmentTemplate', 'versionUpdate'),
+      update: wrap(wrapParams, 'EnvironmentTemplate', 'update'),
+      install: wrap(wrapParams, 'EnvironmentTemplate', 'install'),
+      versions: wrap(wrapParams, 'EnvironmentTemplate', 'versions'),
+      validate: wrap(wrapParams, 'EnvironmentTemplate', 'validate'),
+      disconnect: wrap(wrapParams, 'EnvironmentTemplate', 'disconnect'),
+      delete: wrap(wrapParams, 'EnvironmentTemplate', 'delete'),
+    },
+    environmentTemplateInstallation: {
+      getMany: wrap(wrapParams, 'EnvironmentTemplateInstallation', 'getMany'),
+      getForEnvironment: wrap(wrapParams, 'EnvironmentTemplateInstallation', 'getForEnvironment'),
+    },
     bulkAction: {
       get: wrap(wrapParams, 'BulkAction', 'get'),
       publish: wrap(wrapParams, 'BulkAction', 'publish'),
@@ -123,10 +139,10 @@ export const createPlainClient = (
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
     },
     comment: {
-      get: wrap(wrapParams, 'Comment', 'get'),
-      getMany: wrap(wrapParams, 'Comment', 'getMany'),
-      create: wrap(wrapParams, 'Comment', 'create'),
-      update: wrap(wrapParams, 'Comment', 'update'),
+      get: wrap(wrapParams, 'Comment', 'get') as PlainClientAPI['comment']['get'],
+      getMany: wrap(wrapParams, 'Comment', 'getMany') as PlainClientAPI['comment']['getMany'],
+      create: wrap(wrapParams, 'Comment', 'create') as PlainClientAPI['comment']['create'],
+      update: wrap(wrapParams, 'Comment', 'update') as PlainClientAPI['comment']['update'],
       delete: wrap(wrapParams, 'Comment', 'delete'),
     },
     contentType: {
@@ -160,6 +176,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Task', 'delete'),
     },
     entry: {
+      getPublished: wrap(wrapParams, 'Entry', 'getPublished'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
@@ -299,6 +316,7 @@ export const createPlainClient = (
     appInstallation: {
       get: wrap(wrapParams, 'AppInstallation', 'get'),
       getMany: wrap(wrapParams, 'AppInstallation', 'getMany'),
+      getForOrganization: wrap(wrapParams, 'AppInstallation', 'getForOrganization'),
       upsert: wrap(wrapParams, 'AppInstallation', 'upsert'),
       delete: wrap(wrapParams, 'AppInstallation', 'delete'),
     },
@@ -386,37 +404,30 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
-    ...addAlphaFeatures(makeRequest, defaults, alphaFeatures),
-  }
-}
-
-const addAlphaFeatures = (
-  makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined,
-  alphaFeatures?: string[]
-): AlphaExtensions | Record<string, never> => {
-  const wrapParams = { makeRequest, defaults }
-  const alphaInterface: AlphaExtensions = {} as AlphaExtensions
-
-  if (alphaFeatures?.includes(ALPHA_FEATURE_WORKFLOWS)) {
-    alphaInterface.workflowDefinition = {
+    uiConfig: {
+      get: wrap(wrapParams, 'UIConfig', 'get'),
+      update: wrap(wrapParams, 'UIConfig', 'update'),
+    },
+    userUIConfig: {
+      get: wrap(wrapParams, 'UserUIConfig', 'get'),
+      update: wrap(wrapParams, 'UserUIConfig', 'update'),
+    },
+    workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
       getMany: wrap(wrapParams, 'WorkflowDefinition', 'getMany'),
       create: wrap(wrapParams, 'WorkflowDefinition', 'create'),
       update: wrap(wrapParams, 'WorkflowDefinition', 'update'),
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),
-    }
-    alphaInterface.workflow = {
+    },
+    workflow: {
       getMany: wrap(wrapParams, 'Workflow', 'getMany'),
       create: wrap(wrapParams, 'Workflow', 'create'),
       update: wrap(wrapParams, 'Workflow', 'update'),
       delete: wrap(wrapParams, 'Workflow', 'delete'),
       complete: wrap(wrapParams, 'Workflow', 'complete'),
-    }
-    alphaInterface.workflowsChangelog = {
+    },
+    workflowsChangelog: {
       getMany: wrap(wrapParams, 'WorkflowsChangelog', 'getMany'),
-    }
+    },
   }
-
-  return alphaInterface
 }

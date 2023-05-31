@@ -36,3 +36,14 @@ export const wrapCursorPaginatedCollection =
     // @ts-expect-error
     return collectionData
   }
+export function isSuccessful(statusCode: number) {
+  return statusCode < 300
+}
+
+export function shouldRePoll(statusCode: number) {
+  return [404, 422, 429, 400].includes(statusCode)
+}
+
+export async function waitFor(ms = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}

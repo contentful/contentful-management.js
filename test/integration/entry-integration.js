@@ -1,11 +1,14 @@
 import { expect } from 'chai'
 import { after, afterEach, beforeEach, before, describe, test } from 'mocha'
+import { TestDefaults } from '../defaults'
 import {
   initClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  initPlainClient,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 
 describe('Entry Api', () => {
@@ -24,7 +27,13 @@ describe('Entry Api', () => {
         expect(response.fields, 'fields').to.be.ok
       })
     })
-
+    test('Gets published entries', async () => {
+      return environment.getPublishedEntries().then((response) => {
+        expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+        expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+        expect(response.items[0].sys.publishedAt).to.not.be.undefined
+      })
+    })
     test('Gets Entry snapshots', async () => {
       return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
         return entry.getSnapshots().then((response) => {
@@ -293,7 +302,7 @@ describe('Entry Api', () => {
     })
   })
 
-  describe('write', function () {
+  describe('write', () => {
     let space
     let environment
     let contentType
@@ -301,6 +310,7 @@ describe('Entry Api', () => {
     before(async () => {
       space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
+      await waitForEnvironmentToBeReady(space, environment)
     })
 
     after(async () => {
@@ -393,6 +403,168 @@ describe('Entry Api', () => {
         .then(() => {
           return environment.deleteEntry('entryid')
         })
+    })
+  })
+
+  describe('read plainClientApi', () => {
+    /**
+     * @type {import('../../lib/contentful-management').PlainClientAPI}
+     */
+    let plainClient
+    before(async () => {
+      plainClient = initPlainClient({ spaceId: TestDefaults.spaceId })
+    })
+    test('getPublished', async () => {
+      const response = await plainClient.entry.getPublished({ environmentId: 'master' })
+      expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
+      expect(response.items[0].sys.publishedVersion).to.not.be.undefined
+      expect(response.items[0].sys.publishedAt).to.not.be.undefined
+    })
+  })
+
+  /**
+   * This test was created to make sure the SDK supports
+   * creating/updating/publishing/unpublishing/deleting of
+   * entries with cross space links
+   *
+   * This test is slightly fragile as it can break if the
+   * entry '4zimQzVMxDsSX607PCfo2u' from the space '6mqcevu5a50r' is deleted
+   * Content type with id stored in `TestDefaults.contentType.withCrossSpaceReferenceId` is deleted
+   */
+  describe.skip('write with x-space references', () => {
+    let contentTypeData = {
+      name: 'testCTXSpace',
+      fields: [
+        {
+          id: 'title',
+          name: 'Title',
+          type: 'Text',
+        },
+        {
+          id: 'multiRefXSpace',
+          name: 'multiRefXSpace',
+          type: 'Array',
+          items: {
+            type: 'ResourceLink',
+            validations: [],
+          },
+          allowedResources: [
+            {
+              type: 'Contentful:Entry',
+              source: 'crn:contentful:::content:spaces/6mqcevu5a50r',
+              contentTypes: ['testCtxSpace'],
+            },
+          ],
+        },
+      ],
+    }
+
+    let entryData = {
+      fields: {
+        title: { 'en-US': 'this is the title' },
+        multiRefXSpace: {
+          'en-US': [
+            {
+              sys: {
+                type: 'ResourceLink',
+                linkType: 'Contentful:Entry',
+                urn: 'crn:contentful:::content:spaces/6mqcevu5a50r/entries/4zimQzVMxDsSX607PCfo2u',
+              },
+            },
+          ],
+        },
+      },
+    }
+
+    describe('When cross-space references feature is enabled for the space', () => {
+      let xSpaceEnabledSpace
+      let xSpaceEnabledEnvironment
+      let xSpaceEnabledContentType
+
+      before(async () => {
+        // The default space has x-space enabled in it through the feature flags
+        xSpaceEnabledSpace = await getDefaultSpace()
+        xSpaceEnabledEnvironment = await createTestEnvironment(
+          xSpaceEnabledSpace,
+          'Test Cross Space'
+        )
+        await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
+        xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
+          TestDefaults.contentType.withCrossSpaceReferenceId
+        )
+      })
+
+      after(async () => {
+        if (xSpaceEnabledEnvironment) {
+          await xSpaceEnabledEnvironment.delete()
+        }
+      })
+
+      test('can create, publish, unpublish and delete an entry with xspace references', async () => {
+        return xSpaceEnabledEnvironment
+          .createEntry(xSpaceEnabledContentType.sys.id, entryData)
+          .then((entry) => {
+            expect(entry.isDraft(), 'entry is in draft').ok
+            expect(entry.fields.title['en-US']).equals('this is the title', 'original title')
+            return entry.publish().then((publishedEntry) => {
+              expect(publishedEntry.isPublished(), 'entry is published').ok
+              return publishedEntry.unpublish().then((unpublishedEntry) => {
+                expect(unpublishedEntry.isDraft(), 'entry is back in draft').ok
+                return publishedEntry.delete()
+              })
+            })
+          })
+      })
+    })
+
+    describe('When cross-space references feature is disabled for the space', () => {
+      let xSpaceDisabledSpace
+      let xSpaceDisabledEnvironment
+      let xSpaceDisabledContentType
+      let xSpaceDisabledEntryId
+
+      before(async () => {
+        // Creating a new space that has the x-space feature disabled
+        xSpaceDisabledSpace = await createTestSpace(initClient(), 'XSpaceDisabledEntry')
+        xSpaceDisabledEnvironment = await xSpaceDisabledSpace.getEnvironment('master')
+      })
+
+      beforeEach(async () => {
+        xSpaceDisabledContentType = await xSpaceDisabledEnvironment.createContentTypeWithId(
+          generateRandomId('test-content-type'),
+          contentTypeData
+        )
+        await xSpaceDisabledContentType.publish()
+      })
+
+      afterEach(async () => {
+        if (xSpaceDisabledEntryId) {
+          await xSpaceDisabledEnvironment.deleteEntry(xSpaceDisabledEntryId)
+          await xSpaceDisabledContentType.unpublish()
+          await xSpaceDisabledContentType.delete()
+        }
+      })
+
+      after(async () => {
+        if (xSpaceDisabledSpace) {
+          // Cleaning up the xSpaceDisabled Space
+          await xSpaceDisabledSpace.delete()
+        }
+      })
+
+      test('Blocks publishing an entry with x-space references', async () => {
+        return xSpaceDisabledEnvironment
+          .createEntry(xSpaceDisabledContentType.sys.id, entryData)
+          .catch((accessDeniedError) => {
+            let errorMessage = JSON.parse(accessDeniedError.message)
+            expect(accessDeniedError.name).equals('AccessDenied', 'Access Denied Error')
+            expect(errorMessage.status).equals(403, '403 forbidden status')
+            expect(errorMessage.details.reasons).equals(
+              'Cross space links feature is not enabled for this space',
+              'reason explained'
+            )
+          })
+      })
     })
   })
 })

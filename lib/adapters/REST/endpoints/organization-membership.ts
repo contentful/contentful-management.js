@@ -4,7 +4,7 @@ import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
 import {
   CollectionProp,
-  GetOrganizationMembershipProps,
+  GetOrganizationMembershipParams,
   GetOrganizationParams,
   QueryParams,
 } from '../../../common-types'
@@ -15,12 +15,12 @@ import * as raw from './raw'
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/organization_memberships`
 
-const getEntityUrl = (params: GetOrganizationMembershipProps) =>
+const getEntityUrl = (params: GetOrganizationMembershipParams) =>
   `${getBaseUrl(params)}/${params.organizationMembershipId}`
 
 export const get: RestEndpoint<'OrganizationMembership', 'get'> = (
   http: AxiosInstance,
-  params: GetOrganizationMembershipProps
+  params: GetOrganizationMembershipParams
 ) => {
   return raw.get<OrganizationMembershipProps>(http, getEntityUrl(params))
 }
@@ -29,12 +29,14 @@ export const getMany: RestEndpoint<'OrganizationMembership', 'getMany'> = (
   http: AxiosInstance,
   params: GetOrganizationParams & QueryParams
 ) => {
-  return raw.get<CollectionProp<OrganizationMembershipProps>>(http, getBaseUrl(params))
+  return raw.get<CollectionProp<OrganizationMembershipProps>>(http, getBaseUrl(params), {
+    params: params.query,
+  })
 }
 
 export const update: RestEndpoint<'OrganizationMembership', 'update'> = (
   http: AxiosInstance,
-  params: GetOrganizationMembershipProps,
+  params: GetOrganizationMembershipParams,
   rawData: OrganizationMembershipProps,
   headers?: AxiosRequestHeaders
 ) => {
@@ -57,7 +59,7 @@ export const update: RestEndpoint<'OrganizationMembership', 'update'> = (
 
 export const del: RestEndpoint<'OrganizationMembership', 'delete'> = (
   http: AxiosInstance,
-  params: GetOrganizationMembershipProps
+  params: GetOrganizationMembershipParams
 ) => {
   return raw.del(http, getEntityUrl(params))
 }

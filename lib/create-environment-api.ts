@@ -1,12 +1,17 @@
 import { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { QueryOptions } from './common-types'
+import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
 import { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
-import type { AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
+import type {
+  AssetFileProp,
+  AssetProps,
+  CreateAssetFromFilesOptions,
+  CreateAssetProps,
+} from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
   BulkAction,
@@ -41,6 +46,9 @@ import { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
 import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import { wrapUIConfig } from './entities/ui-config'
+import { wrapUserUIConfig } from './entities/user-ui-config'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 
 /**
  * @private
@@ -718,6 +726,37 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets a collection of published Entries
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise for a collection of published Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedEntries({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedEntries(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapEntryCollection(makeRequest, data))
+    },
+
+    /**
      * Creates a Entry
      * @param contentTypeId - The Content Type ID of the newly created Entry
      * @param data - Object representation of the Entry to be created
@@ -1019,7 +1058,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>) {
+    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',
@@ -1027,6 +1066,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
+          uploadTimeout: options?.uploadTimeout,
         },
         payload: data,
       }).then((response) => wrapAsset(makeRequest, response))
@@ -2103,6 +2143,72 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query,
         },
       }).then((data) => wrapReleaseActionCollection(makeRequest, data))
+    },
+
+    async getUIConfig() {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      const data = await makeRequest({
+        entityType: 'UIConfig',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      })
+      return wrapUIConfig(makeRequest, data)
+    },
+
+    async getUserUIConfig() {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      const data = await makeRequest({
+        entityType: 'UserUIConfig',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      })
+      return wrapUserUIConfig(makeRequest, data)
+    },
+
+    /**
+     * Gets a collection of all environment template installations in the environment for a given template
+     * @param environmentTemplateId - Environment template ID to return installations for
+     * @param [options.installationId] - Installation ID to filter for a specific installation
+     * @return Promise for a collection of EnvironmentTemplateInstallations
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEnvironmentTemplateInstallations('<environment_template_id>'))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getEnvironmentTemplateInstallations(
+      environmentTemplateId: string,
+      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {}
+    ) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'EnvironmentTemplateInstallation',
+        action: 'getForEnvironment',
+        params: {
+          environmentTemplateId,
+          ...(installationId && { installationId }),
+          query: { ...createRequestConfig({ query }).params },
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
     },
   }
 }

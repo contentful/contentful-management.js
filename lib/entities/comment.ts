@@ -1,16 +1,25 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
+import { Node, Text } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
 import {
   BasicMetaSysProps,
   DefaultElements,
   GetCommentParams,
   GetEntryParams,
+  GetSpaceEnvironmentParams,
   Link,
   MakeRequest,
   SysLink,
+  VersionedLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
+
+interface LinkWithReference<T extends string> extends Link<T> {
+  sys: Link<T>['sys'] & {
+    ref: string
+  }
+}
 
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
@@ -19,8 +28,15 @@ export type CommentSysProps = Pick<
   type: 'Comment'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'>
+  parentEntity: Link<'Entry'> | LinkWithReference<'Entry'> | VersionedLink<'Workflow'>
+  parent: Link<'Comment'> | null
 }
+
+export type PlainTextBodyProperty = 'plain-text'
+export type RichTextBodyProperty = 'rich-text'
+
+export type RichTextBodyFormat = { bodyFormat: RichTextBodyProperty }
+export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
 
 export type CommentProps = {
   sys: CommentSysProps
@@ -32,16 +48,65 @@ export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }
 
-export type CreateCommentParams = GetEntryParams
+// Remove and replace with BLOCKS as soon as rich-text-types supports mentions
+export enum CommentNode {
+  Document = 'document',
+  Paragraph = 'paragraph',
+  Mention = 'mention',
+}
+
+// Add "extends Block" as soon as rich-text-types supports mentions
+export interface Mention {
+  nodeType: CommentNode.Mention
+  data: { target: Link<'User'> }
+  content: Text[]
+}
+
+export interface RootParagraph extends Node {
+  nodeType: CommentNode.Paragraph
+  content: (Text | Mention)[]
+}
+
+// Add "extends Document" as soon as rich-text-types supports mentions.
+export interface RichTextCommentDocument extends Node {
+  nodeType: CommentNode.Document
+  content: RootParagraph[]
+}
+
+export type RichTextCommentBodyPayload = { body: RichTextCommentDocument }
+
+export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentBodyPayload
+
+// We keep this type as explicit as possible until we open up the comments entity further
+export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
+  (
+    | {
+        parentEntityType: 'Entry'
+        parentEntityId: string
+      }
+    | {
+        parentEntityType: 'Workflow'
+        parentEntityId: string
+        parentEntityVersion?: number
+      }
+  )
+export type GetManyCommentsParams = GetEntryParams | GetCommentParentEntityParams
+export type CreateCommentParams = GetEntryParams | GetCommentParentEntityParams
 export type UpdateCommentParams = GetCommentParams
 export type DeleteCommentParams = GetCommentParams & { version: number }
 
 type CommentApi = {
-  update(): Promise<Comment>
+  update(): Promise<Comment | RichTextComment>
   delete(): Promise<void>
 }
 
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
+
+export interface RichTextComment
+  extends Omit<CommentProps, 'body'>,
+    RichTextCommentProps,
+    DefaultElements<CommentProps>,
+    CommentApi {}
 
 /**
  * @private
@@ -86,10 +151,13 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
 /**
  * @private
  */
-export function wrapComment(makeRequest: MakeRequest, data: CommentProps): Comment {
+export function wrapComment(
+  makeRequest: MakeRequest,
+  data: CommentProps | RichTextCommentProps
+): Comment | RichTextComment {
   const comment = toPlainObject(copy(data))
   const commentWithMethods = enhanceWithMethods(comment, createCommentApi(makeRequest))
-  return freezeSys(commentWithMethods)
+  return freezeSys(commentWithMethods) as Comment | RichTextComment
 }
 
 /**

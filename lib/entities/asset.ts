@@ -39,6 +39,8 @@ export type AssetProps = {
 
 export type CreateAssetProps = Omit<AssetProps, 'sys'>
 
+export type CreateAssetFromFilesOptions = { uploadTimeout?: number }
+
 export interface AssetFileProp {
   sys: MetaSysProps
   fields: {

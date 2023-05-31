@@ -27,20 +27,23 @@ export const get: RestEndpoint<'Asset', 'get'> = (
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
     {
       params: normalizeSelect(params.query),
-      headers: { ...headers },
+      headers: headers ? { ...headers } : undefined,
     }
   )
 }
 
 export const getMany: RestEndpoint<'Asset', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
+  rawData?: unknown,
+  headers?: AxiosRequestHeaders
 ) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
     {
       params: normalizeSelect(params.query),
+      headers: headers ? { ...headers } : undefined,
     }
   )
 }
@@ -153,10 +156,10 @@ export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
 
 export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: GetSpaceEnvironmentParams & { uploadTimeout?: number },
   data: Omit<AssetFileProp, 'sys'>
 ) => {
-  const httpUpload = getUploadHttpClient(http)
+  const httpUpload = getUploadHttpClient(http, { uploadTimeout: params.uploadTimeout })
 
   const { file } = data.fields
   return Promise.all(

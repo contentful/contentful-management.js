@@ -3,11 +3,13 @@ import copy from 'fast-copy'
 import {
   DefaultElements,
   ISO8601Timestamp,
-  BasicCursorPaginationOptions,
   MetaLinkProps,
   Link,
   MakeRequest,
   SysLink,
+  ScheduledActionReferenceFilters,
+  BasicCursorPaginationOptions,
+  CollectionProp,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -41,6 +43,11 @@ interface ScheduledActionFailedError {
   details?: { errors: ErrorDetail[] }
 }
 
+export interface CursorPaginatedCollectionProp<TObj>
+  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  pages?: BasicCursorPaginationOptions
+}
+
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
@@ -55,6 +62,10 @@ export type ScheduledActionSysProps = {
   /** an ISO8601 date string representing when an action was updated */
   updatedAt: ISO8601Timestamp
   updatedBy: Link<'User'> | Link<'AppDefinition'>
+}
+
+export type ScheduledActionPayloadProps = {
+  withReferences?: Record<ScheduledActionReferenceFilters, string[]>
 }
 
 export type ScheduledActionProps = {
@@ -88,26 +99,23 @@ export type ScheduledActionProps = {
    * }
    */
   error?: ScheduledActionFailedError
+  payload?: ScheduledActionPayloadProps
 }
 
 export type CreateUpdateScheduledActionProps = Pick<
   ScheduledActionProps,
-  'action' | 'entity' | 'environment' | 'scheduledFor'
+  'action' | 'entity' | 'environment' | 'scheduledFor' | 'payload'
 >
 
-export interface ScheduledActionCollection {
-  sys: {
-    type: 'Array'
-  }
-  pages: BasicCursorPaginationOptions
-  limit: number
-  items: ScheduledActionProps[]
-}
+export type ScheduledActionCollection = CursorPaginatedCollectionProp<ScheduledActionProps>
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export interface ScheduledActionQueryOptions extends BasicCursorPaginationOptions {
+export interface ScheduledActionQueryOptions {
   'environment.sys.id': string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
+  limit?: number
+  next?: string
+  prev?: string
 }
 
 export type ScheduledActionApi = {

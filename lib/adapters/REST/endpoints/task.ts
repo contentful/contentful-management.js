@@ -1,7 +1,13 @@
 import { AxiosInstance, AxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
-import { CollectionProp, GetEntryParams, GetTaskParams, QueryParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetEntryParams,
+  GetTaskParams,
+  PaginationQueryOptions,
+  QueryParams,
+} from '../../../common-types'
 import {
   CreateTaskParams,
   CreateTaskProps,
@@ -22,7 +28,7 @@ export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: Ge
 
 export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams
+  params: GetEntryParams & QueryParams & PaginationQueryOptions
 ) =>
   raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),

@@ -2,6 +2,9 @@ export const TestDefaults = {
   spaceId: 'segpl12szpe6',
   spaceWithAliasesAndEmbargoedAssetsId: '6mqcevu5a50r',
   environmentId: 'master',
+  contentType: {
+    withCrossSpaceReferenceId: 'test-content-type33324244',
+  },
   entry: {
     testEntryId: '5ETMRzkl9KM4omyMwKAOki',
     /** Used in the entry references specs */

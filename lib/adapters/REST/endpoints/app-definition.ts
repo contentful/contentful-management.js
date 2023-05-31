@@ -2,7 +2,7 @@ import { AxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import { normalizeSelect } from './utils'
+import { normalizeSelect, normalizeSpaceId } from './utils'
 import {
   GetAppDefinitionParams,
   GetOrganizationParams,
@@ -25,9 +25,7 @@ export const getAppDefinitionUrl = (params: GetAppDefinitionParams) =>
   getBaseUrl(params) + `/${params.appDefinitionId}`
 
 const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) =>
-  `/app_definitions/${params.appDefinitionId}/app_installations?sys.organization.sys.id[in]=${
-    params.organizationId || ''
-  }`
+  `/app_definitions/${params.appDefinitionId}/app_installations`
 
 export const get: RestEndpoint<'AppDefinition', 'get'> = (
   http: AxiosInstance,
@@ -90,7 +88,10 @@ export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallat
     http,
     getBaseUrlForOrgInstallations(params),
     {
-      params: normalizeSelect(params.query),
+      params: {
+        ...normalizeSpaceId(normalizeSelect(params.query)),
+        'sys.organization.sys.id[in]': params.organizationId,
+      },
     }
   )
 }

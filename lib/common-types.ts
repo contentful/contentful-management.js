@@ -2,7 +2,11 @@ import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
-import { AppActionCallProps, CreateAppActionCallProps } from './entities/app-action-call'
+import {
+  AppActionCallProps,
+  AppActionCallResponse,
+  CreateAppActionCallProps,
+} from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
@@ -21,6 +25,11 @@ import {
   CommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
+  GetManyCommentsParams,
+  RichTextBodyFormat,
+  RichTextCommentProps,
+  PlainTextBodyFormat,
+  RichTextCommentBodyPayload,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -113,6 +122,18 @@ import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import { UIConfigProps } from './entities/ui-config'
+import { UserUIConfigProps } from './entities/user-ui-config'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from './entities/environment-template'
+import {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateValidationProps,
+} from './entities/environment-template-installation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -157,7 +178,12 @@ export interface QueryOptions extends PaginationQueryOptions {
   include?: number
   select?: string
   links_to_entry?: string
+
   [key: string]: any
+}
+
+export interface SpaceQueryOptions extends PaginationQueryOptions {
+  spaceId?: string
 }
 
 export interface BasicMetaSysProps {
@@ -193,6 +219,10 @@ export interface EntityMetaSysProps extends MetaSysProps {
   locale?: string
 }
 
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  automationTags: Link<'Tag'>[]
+}
+
 export interface MetaLinkProps {
   type: string
   linkType: string
@@ -219,7 +249,10 @@ export interface CollectionProp<TObj> {
 
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
-  pages?: BasicCursorPaginationOptions
+  pages?: {
+    next?: string
+    prev?: string
+  }
 }
 
 export interface Collection<T, TPlain>
@@ -240,12 +273,13 @@ export interface QueryOptions extends BasicQueryOptions {
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
+
   [key: string]: any
 }
 
-export interface BasicCursorPaginationOptions {
-  prev?: string
-  next?: string
+export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  pageNext?: string
+  pagePrev?: string
 }
 
 export type KeyValueMap = Record<string, any>
@@ -268,6 +302,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
+  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
+    'AppActionCall',
+    'createWithResponse'
+  >
+  (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -295,6 +334,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
+  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
+    'AppInstallation',
+    'getForOrganization'
+  >
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
@@ -367,7 +410,34 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
+  (opts: MROpts<'EnvironmentTemplate', 'get', UA>): MRReturn<'EnvironmentTemplate', 'get'>
+  (opts: MROpts<'EnvironmentTemplate', 'getMany', UA>): MRReturn<'EnvironmentTemplate', 'getMany'>
+  (opts: MROpts<'EnvironmentTemplate', 'create', UA>): MRReturn<'EnvironmentTemplate', 'create'>
+  (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
+  (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
+  (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
+  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'versionUpdate'
+  >
+  (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
+  (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
+  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
+    'EnvironmentTemplate',
+    'disconnect'
+  >
+
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getMany'
+  >
+  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
+    'EnvironmentTemplateInstallation',
+    'getForEnvironment'
+  >
+
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
+  (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
@@ -534,6 +604,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
 
+  (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
+  (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
+
   (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
@@ -546,6 +619,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'User', 'getCurrent', UA>): MRReturn<'User', 'getCurrent'>
   (opts: MROpts<'User', 'getForOrganization', UA>): MRReturn<'User', 'getForOrganization'>
   (opts: MROpts<'User', 'getManyForOrganization', UA>): MRReturn<'User', 'getManyForOrganization'>
+
+  (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
+  (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -581,6 +657,16 @@ export type MakeRequestWithUserAgent = MRInternal<true>
  * @private
  */
 export type MakeRequest = MRInternal<false>
+
+/**
+ * @private
+ */
+type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
+
+/**
+ * @private
+ */
+export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
 
 export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
@@ -625,6 +711,15 @@ export type MRActions = {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
       return: AppActionCallProps
+    }
+    getCallDetails: {
+      params: GetAppActionCallDetailsParams
+      return: AppActionCallResponse
+    }
+    createWithResponse: {
+      params: GetAppActionCallParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallResponse
     }
   }
   AppBundle: {
@@ -685,7 +780,7 @@ export type MRActions = {
     }
     delete: { params: GetAppDefinitionParams; return: any }
     getInstallationsForOrg: {
-      params: GetOrganizationParams & { appDefinitionId: string }
+      params: GetOrganizationParams & { appDefinitionId: string } & SpaceQueryParams
       return: AppInstallationsForOrganizationProps
     }
   }
@@ -702,6 +797,10 @@ export type MRActions = {
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
+    getForOrganization: {
+      params: GetOrganizationParams & { appDefinitionId: string; spaceId?: string }
+      return: AppInstallationsForOrganizationProps
+    }
   }
   AppUpload: {
     get: {
@@ -756,9 +855,14 @@ export type MRActions = {
     }
   }
   Asset: {
-    getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<AssetProps> }
+    getMany: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      headers?: AxiosRequestHeaders
+      return: CollectionProp<AssetProps>
+    }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      headers?: AxiosRequestHeaders
       return: AssetProps
     }
     update: {
@@ -783,7 +887,7 @@ export type MRActions = {
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -832,22 +936,51 @@ export type MRActions = {
     }
   }
   Comment: {
-    get: { params: GetCommentParams; return: CommentProps }
-    getMany: {
-      params: GetEntryParams & QueryParams
-      return: CollectionProp<CommentProps>
-    }
-    getAll: {
-      params: GetEntryParams & QueryParams
-      return: CollectionProp<CommentProps>
-    }
-    create: { params: CreateCommentParams; payload: CreateCommentProps; return: CommentProps }
-    update: {
-      params: UpdateCommentParams
-      payload: UpdateCommentProps
-      headers?: AxiosRequestHeaders
-      return: CommentProps
-    }
+    get:
+      | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
+      | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
+    getMany:
+      | {
+          params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
+          return: CollectionProp<CommentProps>
+        }
+      | {
+          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+          return: CollectionProp<RichTextCommentProps>
+        }
+    getAll:
+      | {
+          params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
+          return: CollectionProp<CommentProps>
+        }
+      | {
+          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+          return: CollectionProp<RichTextCommentProps>
+        }
+    create:
+      | {
+          params: CreateCommentParams & PlainTextBodyFormat
+          payload: CreateCommentProps
+          return: CommentProps
+        }
+      | {
+          params: CreateCommentParams & RichTextBodyFormat
+          payload: RichTextCommentBodyPayload
+          return: RichTextCommentProps
+        }
+    update:
+      | {
+          params: UpdateCommentParams
+          payload: UpdateCommentProps
+          headers?: AxiosRequestHeaders
+          return: CommentProps
+        }
+      | {
+          params: UpdateCommentParams
+          payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
+          headers?: AxiosRequestHeaders
+          return: RichTextCommentProps
+        }
     delete: { params: DeleteCommentParams; return: void }
   }
   ContentType: {
@@ -935,7 +1068,85 @@ export type MRActions = {
     }
     delete: { params: GetSpaceEnvAliasParams; return: any }
   }
+  EnvironmentTemplate: {
+    get: {
+      params: GetEnvironmentTemplateParams & {
+        version?: number
+      }
+      return: EnvironmentTemplateProps
+    }
+    getMany: {
+      params: BasicCursorPaginationOptions & GetOrganizationParams
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    create: {
+      payload: CreateEnvironmentTemplateProps
+      params: GetOrganizationParams
+      return: EnvironmentTemplateProps
+    }
+    versionUpdate: {
+      params: GetEnvironmentTemplateParams & {
+        version: number
+      }
+      payload: {
+        versionName: string
+        versionDescription: string
+      }
+      return: EnvironmentTemplateProps
+    }
+    update: {
+      params: GetEnvironmentTemplateParams
+      payload: EnvironmentTemplateProps
+      return: EnvironmentTemplateProps
+    }
+    delete: {
+      params: GetEnvironmentTemplateParams
+      return: void
+    }
+    versions: {
+      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
+    }
+    validate: {
+      params: EnvironmentTemplateParams & {
+        version?: number
+      }
+      payload: ValidateEnvironmentTemplateInstallationProps
+      return: EnvironmentTemplateValidationProps
+    }
+    install: {
+      params: EnvironmentTemplateParams
+      payload: CreateEnvironmentTemplateInstallationProps
+      return: EnvironmentTemplateInstallationProps
+    }
+    disconnect: {
+      params: EnvironmentTemplateParams
+      return: void
+    }
+  }
+  EnvironmentTemplateInstallation: {
+    getMany: {
+      params: BasicCursorPaginationOptions & {
+        environmentId?: string
+        environmentTemplateId: string
+        organizationId: string
+        spaceId?: string
+      }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
+    getForEnvironment: {
+      params: BasicCursorPaginationOptions &
+        EnvironmentTemplateParams & {
+          installationId?: string
+        }
+      return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
+    }
+  }
   Entry: {
+    getPublished: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      return: CollectionProp<EntryProps<any>>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
@@ -1056,18 +1267,18 @@ export type MRActions = {
     }
   }
   OrganizationMembership: {
-    get: { params: GetOrganizationMembershipProps; return: OrganizationMembershipProps }
+    get: { params: GetOrganizationMembershipParams; return: OrganizationMembershipProps }
     getMany: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<OrganizationMembershipProps>
     }
     update: {
-      params: GetOrganizationMembershipProps
+      params: GetOrganizationMembershipParams
       payload: OrganizationMembershipProps
       headers?: AxiosRequestHeaders
       return: OrganizationMembershipProps
     }
-    delete: { params: GetOrganizationMembershipProps; return: any }
+    delete: { params: GetOrganizationMembershipParams; return: any }
   }
   PersonalAccessToken: {
     get: { params: { tokenId: string }; return: PersonalAccessTokenProp }
@@ -1187,11 +1398,11 @@ export type MRActions = {
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
-      return: CollectionProp<SnapshotProps<EntryProps<any>>>
+      return: CollectionProp<SnapshotProps<Omit<EntryProps<any>, 'metadata'>>>
     }
     getForEntry: {
       params: GetSnapshotForEntryParams & { snapshotId: string }
-      return: SnapshotProps<EntryProps<any>>
+      return: SnapshotProps<Omit<EntryProps<any>, 'metadata'>>
     }
     getManyForContentType: {
       params: GetSnapshotForContentTypeParams & QueryParams
@@ -1355,6 +1566,10 @@ export type MRActions = {
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
   }
+  UIConfig: {
+    get: { params: GetUIConfigParams; return: UIConfigProps }
+    update: { params: GetUIConfigParams; payload: UIConfigProps; return: UIConfigProps }
+  }
   Upload: {
     get: { params: GetSpaceParams & { uploadId: string }; return: any }
     create: {
@@ -1383,6 +1598,10 @@ export type MRActions = {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<UserProps>
     }
+  }
+  UserUIConfig: {
+    get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
+    update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
@@ -1523,12 +1742,24 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+export type EnvironmentTemplateParams = {
+  spaceId: string
+  environmentId: string
+  environmentTemplateId: string
+}
+
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
+export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
+  appActionId: string
+  callId: string
+}
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
-export type GetAppInstallationsForOrgParams = GetOrganizationParams & { appDefinitionId: string }
+export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
+  appDefinitionId: string
+}
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
 export type GetCommentParams = GetEntryParams & { commentId: string }
@@ -1536,6 +1767,7 @@ export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: 
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
@@ -1551,9 +1783,10 @@ export type GetTeamParams = { organizationId: string; teamId: string }
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
-export type GetOrganizationMembershipProps = GetOrganizationParams & {
+export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
@@ -1561,6 +1794,12 @@ export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
 export type GetWorkflowParams = GetSpaceEnvironmentParams & {
   workflowId: string
 }
+export type GetUIConfigParams = GetSpaceEnvironmentParams
+export type GetUserUIConfigParams = GetUIConfigParams
 
 export type QueryParams = { query?: QueryOptions }
+export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export enum ScheduledActionReferenceFilters {
+  contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
+}

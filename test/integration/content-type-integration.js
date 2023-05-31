@@ -78,6 +78,22 @@ describe('ContentType Api', async function () {
                 name: 'field2delete',
                 type: 'Text',
               },
+              {
+                id: 'multiRefXSpace',
+                name: 'multiRefXSpace',
+                type: 'Array',
+                items: {
+                  type: 'ResourceLink',
+                  validations: [],
+                },
+                allowedResources: [
+                  {
+                    type: 'Contentful:Entry',
+                    source: 'crn:contentful:::content:spaces/bkg4k0bz2fhq',
+                    contentTypes: ['textBlock'],
+                  },
+                ],
+              },
             ]
             return publishedContentType
               .update() // update with fields
@@ -85,6 +101,10 @@ describe('ContentType Api', async function () {
                 expect(updatedContentType.isUpdated(), 'contentType is updated').to.be.ok
                 expect(updatedContentType.fields[0].id).equals('field', 'field id')
                 expect(updatedContentType.fields[1].id).equals('field2delete', 'field2delete id')
+                expect(updatedContentType.fields[2].id).equals(
+                  'multiRefXSpace',
+                  'multiRefXSpace id'
+                )
                 return updatedContentType
                   .omitAndDeleteField('field2delete') // omit and delete field
                   .then((deletedFieldContentType) => {

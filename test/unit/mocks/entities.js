@@ -33,6 +33,59 @@ const environmentMock = {
   name: 'name',
 }
 
+const environmentTemplateMock = {
+  name: 'Mock Environment Template',
+  description: 'This is a mock template',
+  sys: { id: 'mockEnvironmentTemplateId', version: 1 },
+  entities: {
+    contentTypeTemplates: [
+      {
+        id: 'mockContentTypeTemplatesId',
+        basedOn: {
+          space: makeLink('space', 'mockSpaceId'),
+          contentType: makeLink('ContentType', 'mockContentTypeId'),
+          environment: makeLink('Environment', 'mockEnvironmentId'),
+        },
+      },
+    ],
+    editorInterfaceTemplates: [
+      {
+        contentTypeTemplate: {
+          ...makeLink('ContentTypeTemplate', 'mockContentTypeTemplatesId'),
+        },
+        controls: [{ fieldId: 'testApp', widgetNamespace: 'app', widgetId: 'private-app-id' }],
+      },
+    ],
+  },
+}
+
+const environmentTemplateInstallationMock = {
+  sys: {
+    id: 'mockEnvironmentTemplateInstallationId',
+    type: 'EnvironmentTemplateInstallation',
+    space: makeLink('Space', 'mockSpaceId'),
+    environment: makeLink('Environments', 'mockEnvironmentId'),
+    template: makeLink('EnvironmentTemplate', 'mockEnvironmentTemplateId'),
+    status: 'succeeded',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createdBy: makeLink('User', 'mockUserId'),
+    updatedBy: makeLink('User', 'mockUserId'),
+  },
+}
+
+const environmentTemplateValidationMock = {
+  sys: {
+    type: 'Array',
+    environment: { sys: { type: 'Link', linkType: 'Environment', id: 'mockEnvironmentId' } },
+    space: { sys: { type: 'Link', linkType: 'Space', id: 'mockSpaceId' } },
+    changeSet: {
+      sys: { type: 'Link', linkType: 'ChangeSet', id: 'mockChangeSetId' },
+    },
+  },
+  items: [],
+}
+
 const userMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'User',
@@ -94,6 +147,45 @@ const appActionCallMock = {
     space: { sys: { id: 'space-id' } },
     environment: { sys: { id: 'environment-id' } },
   }),
+}
+
+const appActionCallResponseMock = {
+  sys: {
+    id: 'call-id',
+    createdAt: '2022-02-20T10:00:00Z',
+    type: 'AppActionCall',
+  },
+  request: {
+    url: 'https://example.com/webhook',
+    method: '',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Auth-Token': 'token123',
+    },
+    body: 'OK',
+  },
+  response: {
+    url: 'https://example.com/webhook',
+    method: '',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: 'OK',
+    statusCode: 200,
+  },
+  statusCode: 200,
+  errors: [],
+  eventType: 'message.created',
+  url: 'https://example.com/webhook',
+  requestAt: '2022-02-20T10:00:00Z',
+  responseAt: '2022-02-20T10:01:00Z',
+}
+
+const appActionCallDetailsMock = {
+  callId: 'call-id',
+  appActionId: 'app-action-id',
+  spaceId: 'space-id',
+  environmentId: 'environment-id',
 }
 
 const appDefinitionMock = {
@@ -224,6 +316,7 @@ const entryMock = {
       sys: { id: 'environment-id' },
     },
     locale: 'locale',
+    automationTags: [],
   }),
   fields: {
     field1: 'str',
@@ -605,9 +698,10 @@ const commentMock = {
     },
     parentEntity: {
       sys: {
-        id: 'entry-id',
+        id: 'workflow-id',
         type: 'Link',
-        linkType: 'Entry',
+        linkType: 'Workflow',
+        ref: 'versions.3',
       },
     },
   },
@@ -777,10 +871,40 @@ export const workflowsChangelogEntryMock = {
   stepName: 'In review',
 }
 
+export const uiConfigMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UIConfig',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
+  }),
+  assetListViews: [],
+  entryListViews: [],
+}
+
+export const userUIConfigMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UserUIConfig',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
+  }),
+  assetListViews: [],
+  entryListViews: [],
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
+  appActionCallDetails: appActionCallDetailsMock,
+  appActionCallResponse: appActionCallResponseMock,
   appBundle: appBundleMock,
   appDefinition: appDefinitionMock,
   appInstallation: appInstallationMock,
@@ -828,7 +952,9 @@ const mocks = {
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
   usage: usageMock,
+  uiConfig: uiConfigMock,
   user: userMock,
+  userUIConfig: userUIConfigMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
@@ -857,6 +983,7 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     appActionCall: {
       wrapAppActionCall: sinon.stub(),
+      wrapAppActionCallResponse: sinon.stub(),
     },
     appDefinition: {
       wrapAppDefinition: sinon.stub(),
@@ -1025,6 +1152,14 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapWorkflowsChangelogEntry: sinon.stub(),
       wrapWorkflowsChangelogEntryCollection: sinon.stub(),
     },
+    environmentTemplate: {
+      wrapEnvironmentTemplate: sinon.stub(),
+      wrapEnvironmentTemplateCollection: sinon.stub(),
+    },
+    EnvironmentTemplateInstallation: {
+      wrapEnvironmentTemplateInstallation: sinon.stub(),
+      wrapEnvironmentTemplateInstallationCollection: sinon.stub(),
+    },
   }
   rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
@@ -1081,5 +1216,8 @@ export {
   environmentMock,
   usageMock,
   environmentAliasMock,
+  environmentTemplateMock,
+  environmentTemplateInstallationMock,
+  environmentTemplateValidationMock,
   taskMock,
 }

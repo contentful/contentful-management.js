@@ -4,6 +4,7 @@ import {
   CollectionProp,
   DefaultElements,
   EntityMetaSysProps,
+  EntryMetaSysProps,
   KeyValueMap,
   MakeRequest,
   MetadataProps,
@@ -14,7 +15,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
-  sys: EntityMetaSysProps
+  sys: EntryMetaSysProps
   metadata?: MetadataProps
 
   fields: T
@@ -22,11 +23,24 @@ export type EntryProps<T = KeyValueMap> = {
 
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
+export type EntryReferenceError = {
+  sys: {
+    type: 'error'
+    id: 'notResolvable'
+  }
+  details: {
+    type: 'Link'
+    linkType: 'Entry' | 'Asset'
+    id: string
+  }
+}
+
 export interface EntryReferenceProps extends CollectionProp<EntryProps> {
   includes?: {
     Entry?: EntryProps[]
     Asset?: AssetProps[]
   }
+  errors?: EntryReferenceError[]
 }
 
 export type EntryReferenceOptionsProps = {
@@ -34,6 +48,12 @@ export type EntryReferenceOptionsProps = {
 }
 
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
+
+export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
+  ? Omit<T, 'sys'> & {
+      sys: Sys & { urn: string }
+    }
+  : never
 
 /**
  * @private

@@ -8,7 +8,7 @@ import {
   GetCommentParams,
   GetContentTypeParams,
   GetEditorInterfaceParams,
-  GetOrganizationMembershipProps,
+  GetOrganizationMembershipParams,
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
@@ -37,6 +37,12 @@ import {
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
   GetAppActionsForEnvParams,
+  GetUserUIConfigParams,
+  GetUIConfigParams,
+  GetEnvironmentTemplateParams,
+  BasicCursorPaginationOptions,
+  EnvironmentTemplateParams,
+  GetAppActionCallDetailsParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -58,6 +64,11 @@ import {
   CommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
+  GetManyCommentsParams,
+  RichTextBodyFormat,
+  RichTextCommentProps,
+  RichTextCommentBodyPayload,
+  PlainTextBodyFormat,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { EditorInterfaceProps } from '../entities/editor-interface'
@@ -106,7 +117,11 @@ import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
 import { AppActionProps, CreateAppActionProps } from '../entities/app-action'
-import { AppActionCallProps, CreateAppActionCallProps } from '../entities/app-action-call'
+import {
+  AppActionCallProps,
+  AppActionCallResponse,
+  CreateAppActionCallProps,
+} from '../entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
@@ -156,6 +171,18 @@ import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from '../entities/workflows-changelog-entry'
+import { UserUIConfigProps } from '../entities/user-ui-config'
+import { UIConfigProps } from '../entities/ui-config'
+import {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from '../entities/environment-template'
+import {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+} from '../entities/environment-template-installation'
 
 export type PlainClientAPI = {
   raw: {
@@ -190,6 +217,13 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppActionCallParams>,
       payload: CreateAppActionCallProps
     ): Promise<AppActionCallProps>
+    getCallDetails(
+      params: OptionalDefaults<GetAppActionCallDetailsParams>
+    ): Promise<AppActionCallResponse>
+    createWithResponse(
+      params: OptionalDefaults<GetAppActionCallParams>,
+      payload: CreateAppActionCallProps
+    ): Promise<AppActionCallResponse>
   }
   appBundle: {
     get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
@@ -289,6 +323,67 @@ export type PlainClientAPI = {
     ): Promise<EnvironmentAliasProps>
     delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
   }
+  environmentTemplate: {
+    get(
+      params: GetEnvironmentTemplateParams & { version?: number },
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    getMany(
+      params: BasicCursorPaginationOptions & GetOrganizationParams,
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    create(
+      params: GetOrganizationParams,
+      rawData: CreateEnvironmentTemplateProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    versionUpdate(
+      params: GetEnvironmentTemplateParams & { version: number },
+      rawData: { versionName?: string; versionDescription?: string },
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    update(
+      params: GetEnvironmentTemplateParams,
+      rawData: EnvironmentTemplateProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateProps>
+    delete(params: GetEnvironmentTemplateParams, headers?: AxiosRequestHeaders): Promise<void>
+    versions(
+      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions,
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    validate(
+      params: EnvironmentTemplateParams & {
+        version?: number
+      },
+      rawData: ValidateEnvironmentTemplateInstallationProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateValidationProps>
+    install(
+      params: EnvironmentTemplateParams,
+      rawData: CreateEnvironmentTemplateInstallationProps,
+      headers?: AxiosRequestHeaders
+    ): Promise<EnvironmentTemplateInstallationProps>
+    disconnect(params: EnvironmentTemplateParams, headers?: AxiosRequestHeaders): Promise<void>
+  }
+  environmentTemplateInstallation: {
+    getMany(
+      params: BasicCursorPaginationOptions & {
+        environmentId?: string
+        environmentTemplateId: string
+        organizationId: string
+        spaceId?: string
+      },
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
+    getForEnvironment(
+      params: BasicCursorPaginationOptions &
+        EnvironmentTemplateParams & {
+          installationId?: string
+        },
+      headers?: AxiosRequestHeaders
+    ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
+  }
   bulkAction: {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
@@ -305,20 +400,36 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: {
-    get(params: OptionalDefaults<GetCommentParams>): Promise<CommentProps>
+    get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
+    get(
+      params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
+    ): Promise<RichTextCommentProps>
     getMany(
-      params: OptionalDefaults<GetEntryParams & QueryParams>
+      params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
     ): Promise<CollectionProp<CommentProps>>
+    getMany(
+      params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
+    ): Promise<CollectionProp<RichTextCommentProps>>
     create(
       params: OptionalDefaults<CreateCommentParams>,
       rawData: CreateCommentProps,
       headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: RichTextCommentBodyPayload,
+      headers?: AxiosRequestHeaders
+    ): Promise<RichTextCommentProps>
     update(
       params: OptionalDefaults<UpdateCommentParams>,
       rawData: UpdateCommentProps,
       headers?: AxiosRequestHeaders
     ): Promise<CommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
+      headers?: AxiosRequestHeaders
+    ): Promise<RichTextCommentProps>
     delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
   }
   contentType: {
@@ -365,8 +476,15 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<UserProps>>
   }
   entry: {
+    getPublished<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: AxiosRequestHeaders
+    ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
@@ -418,7 +536,9 @@ export type PlainClientAPI = {
   }
   asset: {
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: AxiosRequestHeaders
     ): Promise<CollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
@@ -657,6 +777,10 @@ export type PlainClientAPI = {
       headers?: AxiosRequestHeaders
     ): Promise<AppDefinitionProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
+    /**
+     * @deprecated
+     * Please use please use appInstallations.getForOrganization instead
+     */
     getInstallationsForOrg(
       params: OptionalDefaults<GetAppDefinitionParams>
     ): Promise<AppInstallationsForOrganizationProps>
@@ -666,6 +790,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
     ): Promise<CollectionProp<AppInstallationProps>>
+    getForOrganization(
+      params: OptionalDefaults<GetAppDefinitionParams>
+    ): Promise<AppInstallationsForOrganizationProps>
     upsert(
       params: OptionalDefaults<GetAppInstallationParams>,
       rawData: CreateAppInstallationProps,
@@ -721,10 +848,10 @@ export type PlainClientAPI = {
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
-    ): Promise<CollectionProp<SnapshotProps<EntryProps<T>>>>
+    ): Promise<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>
     getForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>
-    ): Promise<SnapshotProps<EntryProps<T>>>
+    ): Promise<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>
     getManyForContentType(
       params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>
@@ -764,17 +891,17 @@ export type PlainClientAPI = {
   }
   organizationMembership: {
     get(
-      params: OptionalDefaults<GetOrganizationMembershipProps>
+      params: OptionalDefaults<GetOrganizationMembershipParams>
     ): Promise<OrganizationMembershipProps>
     getMany(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<OrganizationMembershipProps>>
     update(
-      params: OptionalDefaults<GetOrganizationMembershipProps>,
+      params: OptionalDefaults<GetOrganizationMembershipParams>,
       rawData: OrganizationMembershipProps,
       headers?: AxiosRequestHeaders
     ): Promise<OrganizationMembershipProps>
-    delete(params: OptionalDefaults<GetOrganizationMembershipProps>): Promise<any>
+    delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
   spaceMember: {
     get(
@@ -892,9 +1019,20 @@ export type PlainClientAPI = {
     ): Promise<TeamSpaceMembershipProps>
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
-}
-
-export type AlphaWorkflowExtension = {
+  uiConfig: {
+    get(params: OptionalDefaults<GetUIConfigParams>): Promise<UIConfigProps>
+    update(
+      params: OptionalDefaults<GetUIConfigParams>,
+      rawData: UIConfigProps
+    ): Promise<UIConfigProps>
+  }
+  userUIConfig: {
+    get(params: OptionalDefaults<GetUserUIConfigParams>): Promise<UserUIConfigProps>
+    update(
+      params: OptionalDefaults<GetUserUIConfigParams>,
+      rawData: UserUIConfigProps
+    ): Promise<UserUIConfigProps>
+  }
   workflowDefinition: {
     get(
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
@@ -954,7 +1092,3 @@ export type AlphaWorkflowExtension = {
     ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
   }
 }
-
-export type AlphaExtensions = AlphaWorkflowExtension
-
-export type AlphaPlainClientAPI = PlainClientAPI & AlphaWorkflowExtension

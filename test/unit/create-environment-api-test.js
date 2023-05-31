@@ -11,6 +11,7 @@ import {
   editorInterfaceMock,
   entryMock,
   environmentMock,
+  environmentTemplateInstallationMock,
   localeMock,
   mockCollection,
   setupEntitiesMock,
@@ -592,6 +593,46 @@ describe('A createEnvironmentApi', () => {
     await api.deleteEntry().catch((r) => {
       expect(r).to.equals(error)
     })
+  })
+
+  test('API call getUIConfig', async () => {
+    const uiConfig = cloneMock('uiConfig')
+    const { api } = setup(Promise.resolve(cloneMock('uiConfig')))
+    return api.getUIConfig().then((r) => {
+      expect(r).eql(uiConfig)
+    })
+  })
+
+  test('API call getUserUIConfig', async () => {
+    const userUIConfig = cloneMock('userUIConfig')
+    const { api } = setup(Promise.resolve(cloneMock('userUIConfig')))
+    return api.getUserUIConfig().then((r) => {
+      expect(r).eql(userUIConfig)
+    })
+  })
+
+  test('API call getEnvironmentTemplateInstallations', async () => {
+    const environmentTemplateId = 'mockEnvironmentTemplateId'
+    const { api, makeRequest } = setup(
+      Promise.resolve({ items: [environmentTemplateInstallationMock] })
+    )
+    const installations = (await api.getEnvironmentTemplateInstallations(environmentTemplateId))
+      .items
+
+    expect(installations).to.be.eql([environmentTemplateInstallationMock])
+
+    expect(
+      makeRequest.calledOnceWith({
+        entityType: 'EnvironmentTemplateInstallation',
+        action: 'getForEnvironment',
+        params: {
+          environmentTemplateId,
+          query: {},
+          spaceId: environmentMock.sys.space.sys.id,
+          environmentId: environmentMock.sys.id,
+        },
+      })
+    ).to.be.ok
   })
 })
 
