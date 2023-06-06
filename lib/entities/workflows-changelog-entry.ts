@@ -16,7 +16,8 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
   'entity.sys.linkType': string
   /** Find workflows changelog entries containing the specified, comma-separated entities. Requires `sys.entity.sys.linkType` */
   'entity.sys.id': string
-  'workflow.sys.id': string
+  /** workflow.sys.id is optional so all past workflows can be found */
+  'workflow.sys.id'?: string
 }
 
 export type WorkflowsChangelogEntryProps = {
