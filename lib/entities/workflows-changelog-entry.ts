@@ -18,6 +18,8 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
   'entity.sys.id': string
   /** workflow.sys.id is optional so all past workflows can be found */
   'workflow.sys.id'?: string
+  'eventAt[lte]'?: string
+  'eventAt[gte]'?: string
 }
 
 export type WorkflowsChangelogEntryProps = {
