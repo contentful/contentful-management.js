@@ -20,6 +20,9 @@ export interface ContentTypeFieldValidation {
   in?: (string | number)[]
   linkMimetypeGroup?: string[]
   enabledNodeTypes?: string[]
+  nodes?: {
+    [key: string]: Pick<ContentTypeFieldValidation, 'linkContentType' | 'message'>[];
+  }
   enabledMarks?: string[]
   unique?: boolean
   size?: NumRange
