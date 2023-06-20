@@ -46,7 +46,7 @@ export enum CommentStatus {
 export type CommentProps = {
   sys: CommentSysProps
   body: string
-  status?: CommentStatus
+  status: CommentStatus
 }
 
 export type CreateCommentProps = Omit<CommentProps, 'sys'>
