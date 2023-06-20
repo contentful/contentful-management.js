@@ -49,9 +49,13 @@ export type CommentProps = {
   status: CommentStatus
 }
 
-export type CreateCommentProps = Omit<CommentProps, 'sys'>
-export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
+export type CreateCommentProps = Omit<CommentProps, 'sys' | 'status'> & {
+  status?: CommentStatus
+}
+
+export type UpdateCommentProps = Omit<CommentProps, 'sys' | 'status'> & {
   sys: Pick<CommentSysProps, 'version'>
+  status?: CommentStatus
 }
 
 // Remove and replace with BLOCKS as soon as rich-text-types supports mentions
