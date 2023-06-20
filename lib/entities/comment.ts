@@ -38,7 +38,10 @@ export type RichTextBodyProperty = 'rich-text'
 export type RichTextBodyFormat = { bodyFormat: RichTextBodyProperty }
 export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
 
-export enum CommentStatus {'active', 'resolved'}
+export enum CommentStatus {
+  'active',
+  'resolved',
+}
 
 export type CommentProps = {
   sys: CommentSysProps
