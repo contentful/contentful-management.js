@@ -1,4 +1,5 @@
 import { KeyValueMap } from '../common-types'
+import { INLINES, BLOCKS } from '@contentful/rich-text-types'
 
 interface NumRange {
   min?: number
@@ -15,11 +16,32 @@ interface RegExp {
   flags: string
 }
 
+interface NodesValidation {
+  [BLOCKS.EMBEDDED_ENTRY]?: Pick<
+    ContentTypeFieldValidation,
+    'size' | 'linkContentType' | 'message'
+  >[]
+  [INLINES.EMBEDDED_ENTRY]?: Pick<
+    ContentTypeFieldValidation,
+    'size' | 'linkContentType' | 'message'
+  >[]
+  [INLINES.ENTRY_HYPERLINK]?: Pick<
+    ContentTypeFieldValidation,
+    'size' | 'linkContentType' | 'message'
+  >[]
+  [BLOCKS.EMBEDDED_ASSET]?: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
+  [INLINES.ASSET_HYPERLINK]?: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
+  [BLOCKS.EMBEDDED_RESOURCE]?: {
+    validations: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
+    allowedResources: ContentTypeAllowedResources[]
+  }
+}
+
 export interface ContentTypeFieldValidation {
   linkContentType?: string[]
   in?: (string | number)[]
   linkMimetypeGroup?: string[]
-  enabledNodeTypes?: string[]
+  enabledNodeTypes?: (`${BLOCKS}` | `${INLINES}`)[]
   enabledMarks?: string[]
   unique?: boolean
   size?: NumRange
@@ -33,6 +55,7 @@ export interface ContentTypeFieldValidation {
     height?: NumRange
   }
   assetFileSize?: NumRange
+  nodes?: NodesValidation
 }
 
 interface Item {
