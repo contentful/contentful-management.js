@@ -1,4 +1,5 @@
 export * from './common-types'
+export * from './plain/common-types'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 export type {
   AppAction,
