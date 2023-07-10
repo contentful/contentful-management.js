@@ -21,12 +21,14 @@ import { omitAndDeleteField } from '../methods/content-type'
 export type ContentTypeMetadata = {
   annotations?: RequireAtLeastOne<
     {
-      ContentType?: Link<'Annotation'>[]
+      ContentType?: AnnotationAssignment[]
       ContentTypeField?: Record<string, Link<'Annotation'>[]>
     },
     'ContentType' | 'ContentTypeField'
   >
 }
+
+export type AnnotationAssignment = Link<'Annotation'> & { parameters?: Record<string, string | number | boolean> }
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
