@@ -28,7 +28,9 @@ export type ContentTypeMetadata = {
   >
 }
 
-export type AnnotationAssignment = Link<'Annotation'> & { parameters?: Record<string, string | number | boolean> }
+export type AnnotationAssignment = Link<'Annotation'> & {
+  parameters?: Record<string, string | number | boolean>
+}
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
