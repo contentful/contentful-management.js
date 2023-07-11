@@ -77,6 +77,7 @@ export type {
   GetManyCommentsParams,
 } from './entities/comment'
 export type {
+  AnnotationAssignment,
   ContentType,
   ContentTypeMetadata,
   ContentTypeProps,
