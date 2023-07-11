@@ -12,11 +12,17 @@ export type UIConfigProps = {
 
   assetListViews: ViewFolder[]
   entryListViews: ViewFolder[]
+  homeViews: HomeView[]
 }
 
 export interface UIConfigSysProps extends BasicMetaSysProps {
   space: SysLink
   environment: SysLink
+}
+
+interface HomeView {
+  widgetId: string
+  widgetNamespace: string
 }
 
 interface ViewFolder {
