@@ -22,7 +22,7 @@ export type ContentTypeMetadata = {
   annotations?: RequireAtLeastOne<
     {
       ContentType?: AnnotationAssignment[]
-      ContentTypeField?: Record<string, Link<'Annotation'>[]>
+      ContentTypeField?: Record<string, AnnotationAssignment[]>
     },
     'ContentType' | 'ContentTypeField'
   >
