@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestHeaders } from 'axios'
+import { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
 import {
@@ -97,7 +97,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   http: AxiosInstance,
   params: GetCommentParams,
   rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload),
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

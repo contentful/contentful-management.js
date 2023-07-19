@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const MinifyPlugin = require('babel-minify-webpack-plugin')
+// const MinifyPlugin = require('babel-minify-webpack-plugin')
 const clone = require('lodash/cloneDeep')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
@@ -20,7 +20,8 @@ const plugins = [
 ]
 
 if (PROD) {
-  plugins.push(new MinifyPlugin())
+  //TODO: remove dev dependency
+  //plugins.push(new MinifyPlugin())
   plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,

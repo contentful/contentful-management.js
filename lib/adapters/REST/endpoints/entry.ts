@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { OpPatch } from 'json-patch'
@@ -18,7 +18,7 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
   rawData?: unknown,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.get<EntryProps<T>>(
     http,
@@ -36,7 +36,7 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
@@ -52,7 +52,7 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
@@ -68,7 +68,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; version: number },
   data: OpPatch[],
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.patch<EntryProps<T>>(
     http,
@@ -88,7 +88,7 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

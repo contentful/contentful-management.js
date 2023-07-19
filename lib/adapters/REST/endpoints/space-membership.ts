@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -71,7 +71,7 @@ export const create: RestEndpoint<'SpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateSpaceMembershipProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.post<SpaceMembershipProps>(http, getBaseUrl(params), data, {
@@ -83,7 +83,7 @@ export const createWithId: RestEndpoint<'SpaceMembership', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   data: CreateSpaceMembershipProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.put<SpaceMembershipProps>(http, getEntityUrl(params), data, {
@@ -95,7 +95,7 @@ export const update: RestEndpoint<'SpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   rawData: SpaceMembershipProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
