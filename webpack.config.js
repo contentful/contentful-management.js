@@ -22,9 +22,20 @@ if (PROD) {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-    })
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new (class {
+      apply(compiler) {
+        compiler.hooks.emit.tap('RemoveLicenseFilePlugin', (compilation) => {
+          for (let name in compilation.assets) {
+            if (name.endsWith('LICENSE.txt')) {
+              delete compilation.assets[name]
+            }
+          }
+        })
+      }
+    })()
   )
-  plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 }
 
 const baseFileName = `contentful-management`
