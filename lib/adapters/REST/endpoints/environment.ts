@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -35,7 +35,7 @@ export const update: RestEndpoint<'Environment', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: EnvironmentProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -64,7 +64,7 @@ export const create: RestEndpoint<'Environment', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: CreateEnvironmentProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data = copy(rawData)
   return raw.post<EnvironmentProps>(http, `/spaces/${params.spaceId}/environments`, data, {
@@ -76,7 +76,7 @@ export const createWithId: RestEndpoint<'Environment', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data = copy(rawData)
   return raw.put<EnvironmentProps>(

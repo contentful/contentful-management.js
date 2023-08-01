@@ -1,4 +1,3 @@
-import { AxiosRequestConfig } from 'axios'
 import { createRequestConfig } from 'contentful-sdk-core'
 import {
   Collection,
@@ -23,6 +22,7 @@ import {
   EnvironmentTemplate,
   EnvironmentTemplateProps,
 } from './entities/environment-template'
+import { RawAxiosRequestConfig } from 'axios'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -482,7 +482,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    rawRequest: function rawRequest({ url, ...config }: AxiosRequestConfig & { url: string }) {
+    rawRequest: function rawRequest({ url, ...config }: RawAxiosRequestConfig & { url: string }) {
       return makeRequest({
         entityType: 'Http',
         action: 'request',

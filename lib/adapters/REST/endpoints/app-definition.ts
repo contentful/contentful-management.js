@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
@@ -59,7 +59,7 @@ export const update: RestEndpoint<'AppDefinition', 'update'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   rawData: AppDefinitionProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 

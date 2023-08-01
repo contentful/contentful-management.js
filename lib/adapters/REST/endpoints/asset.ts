@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { errorHandler } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -20,7 +20,7 @@ export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
   rawData?: unknown,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.get<AssetProps>(
     http,
@@ -36,7 +36,7 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
@@ -52,7 +52,7 @@ export const update: RestEndpoint<'Asset', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

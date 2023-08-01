@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestHeaders } from 'axios'
+import { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
 import {
@@ -52,7 +52,7 @@ export const update: RestEndpoint<'Task', 'update'> = (
   http: AxiosInstance,
   params: GetTaskParams,
   rawData: UpdateTaskProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

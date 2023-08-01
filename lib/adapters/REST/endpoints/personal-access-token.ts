@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { CollectionProp, QueryParams } from '../../../common-types'
 import {
@@ -28,7 +28,7 @@ export const create: RestEndpoint<'PersonalAccessToken', 'create'> = (
   http: AxiosInstance,
   _params: {},
   rawData: CreatePersonalAccessTokenProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.post<PersonalAccessTokenProp>(http, '/users/me/access_tokens', rawData, {
     headers,
