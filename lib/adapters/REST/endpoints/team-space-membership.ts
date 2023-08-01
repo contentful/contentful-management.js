@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
@@ -65,7 +65,7 @@ export const create: RestEndpoint<'TeamSpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { teamId: string },
   rawData: CreateTeamSpaceMembershipProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.post<TeamSpaceMembershipProps>(http, getBaseUrl(params), rawData, {
     headers: {
@@ -79,7 +79,7 @@ export const update: RestEndpoint<'TeamSpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetTeamSpaceMembershipParams,
   rawData: TeamSpaceMembershipProps,
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
