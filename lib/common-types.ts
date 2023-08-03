@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
+import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
@@ -677,12 +677,12 @@ export interface Adapter {
  */
 export type MRActions = {
   Http: {
-    get: { params: { url: string; config?: AxiosRequestConfig }; return: any }
-    patch: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
-    post: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
-    put: { params: { url: string; config?: AxiosRequestConfig }; payload: any; return: any }
-    delete: { params: { url: string; config?: AxiosRequestConfig }; return: any }
-    request: { params: { url: string; config?: AxiosRequestConfig }; return: any }
+    get: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
+    patch: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
+    post: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
+    put: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
+    delete: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
+    request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
   }
   AppAction: {
     get: { params: GetAppActionParams; return: AppActionProps }
@@ -741,19 +741,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateApiKeyProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ApiKeyProps
     }
     createWithId: {
       params: GetSpaceParams & { apiKeyId: string }
       payload: CreateApiKeyProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ApiKeyProps
     }
     update: {
       params: GetSpaceParams & { apiKeyId: string }
       payload: ApiKeyProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ApiKeyProps
     }
     delete: { params: GetSpaceParams & { apiKeyId: string }; return: any }
@@ -775,7 +775,7 @@ export type MRActions = {
     update: {
       params: GetAppDefinitionParams
       payload: AppDefinitionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: AppDefinitionProps
     }
     delete: { params: GetAppDefinitionParams; return: any }
@@ -793,7 +793,7 @@ export type MRActions = {
     upsert: {
       params: GetAppInstallationParams & { acceptAllTerms?: boolean }
       payload: CreateAppInstallationProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: AppInstallationProps
     }
     delete: { params: GetAppInstallationParams; return: any }
@@ -857,18 +857,18 @@ export type MRActions = {
   Asset: {
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     update: {
       params: GetSpaceEnvironmentParams & { assetId: string }
       payload: AssetProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     delete: { params: GetSpaceEnvironmentParams & { assetId: string }; return: any }
@@ -972,13 +972,13 @@ export type MRActions = {
       | {
           params: UpdateCommentParams
           payload: UpdateCommentProps
-          headers?: AxiosRequestHeaders
+          headers?: RawAxiosRequestHeaders
           return: CommentProps
         }
       | {
           params: UpdateCommentParams
           payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
-          headers?: AxiosRequestHeaders
+          headers?: RawAxiosRequestHeaders
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
@@ -1002,7 +1002,7 @@ export type MRActions = {
     update: {
       params: GetContentTypeParams
       payload: ContentTypeProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ContentTypeProps
     }
     delete: { params: GetContentTypeParams; return: any }
@@ -1018,7 +1018,7 @@ export type MRActions = {
     update: {
       params: GetEditorInterfaceParams
       payload: EditorInterfaceProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EditorInterfaceProps
     }
   }
@@ -1031,19 +1031,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: Partial<Pick<EnvironmentProps, 'name'>>
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EnvironmentProps
     }
     createWithId: {
       params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }
       payload: CreateEnvironmentProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EnvironmentProps
     }
     update: {
       params: GetSpaceEnvironmentParams
       payload: EnvironmentProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EnvironmentProps
     }
     delete: { params: GetSpaceEnvironmentParams; return: any }
@@ -1057,13 +1057,13 @@ export type MRActions = {
     createWithId: {
       params: GetSpaceEnvAliasParams
       payload: CreateEnvironmentAliasProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EnvironmentAliasProps
     }
     update: {
       params: GetSpaceEnvAliasParams
       payload: EnvironmentAliasProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EnvironmentAliasProps
     }
     delete: { params: GetSpaceEnvAliasParams; return: any }
@@ -1158,13 +1158,13 @@ export type MRActions = {
     patch: {
       params: GetSpaceEnvironmentParams & { entryId: string; version: number }
       payload: OpPatch[]
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
       params: GetSpaceEnvironmentParams & { entryId: string }
       payload: EntryProps<any>
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     delete: { params: GetSpaceEnvironmentParams & { entryId: string }; return: any }
@@ -1212,19 +1212,19 @@ export type MRActions = {
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateExtensionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ExtensionProps
     }
     createWithId: {
       params: GetExtensionParams
       payload: CreateExtensionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ExtensionProps
     }
     update: {
       params: GetExtensionParams
       payload: ExtensionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: ExtensionProps
     }
     delete: { params: GetExtensionParams; return: any }
@@ -1239,13 +1239,13 @@ export type MRActions = {
     update: {
       params: GetSpaceEnvironmentParams & { localeId: string }
       payload: LocaleProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: LocaleProps
     }
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateLocaleProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: LocaleProps
     }
   }
@@ -1256,13 +1256,13 @@ export type MRActions = {
   OrganizationInvitation: {
     get: {
       params: { organizationId: string; invitationId: string }
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: OrganizationInvitationProps
     }
     create: {
       params: { organizationId: string }
       payload: CreateOrganizationInvitationProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: OrganizationInvitationProps
     }
   }
@@ -1275,7 +1275,7 @@ export type MRActions = {
     update: {
       params: GetOrganizationMembershipParams
       payload: OrganizationMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: OrganizationMembershipProps
     }
     delete: { params: GetOrganizationMembershipParams; return: any }
@@ -1286,7 +1286,7 @@ export type MRActions = {
     create: {
       params: {}
       payload: CreatePersonalAccessTokenProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: PersonalAccessTokenProp
     }
     revoke: { params: { tokenId: string }; return: PersonalAccessTokenProp }
@@ -1360,19 +1360,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateRoleProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: RoleProps
     }
     createWithId: {
       params: GetSpaceParams & { roleId: string }
       payload: CreateRoleProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: RoleProps
     }
     update: {
       params: GetSpaceParams & { roleId: string }
       payload: RoleProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: RoleProps
     }
     delete: { params: GetSpaceParams & { roleId: string }; return: any }
@@ -1419,13 +1419,13 @@ export type MRActions = {
     create: {
       params: { organizationId?: string }
       payload: Omit<SpaceProps, 'sys'>
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: any
     }
     update: {
       params: GetSpaceParams
       payload: SpaceProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }
     delete: { params: GetSpaceParams; return: void }
@@ -1448,19 +1448,19 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateSpaceMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: SpaceMembershipProps
     }
     createWithId: {
       params: GetSpaceMembershipProps
       payload: CreateSpaceMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: SpaceMembershipProps
     }
     update: {
       params: GetSpaceMembershipProps
       payload: SpaceMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: SpaceMembershipProps
     }
     delete: { params: GetSpaceMembershipProps; return: any }
@@ -1472,7 +1472,7 @@ export type MRActions = {
     update: {
       params: GetTagParams
       payload: UpdateTagProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TagProps
     }
     delete: { params: DeleteTagParams; return: any }
@@ -1491,7 +1491,7 @@ export type MRActions = {
     update: {
       params: UpdateTaskParams
       payload: UpdateTaskProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TaskProps
     }
     delete: { params: DeleteTaskParams; return: void }
@@ -1503,13 +1503,13 @@ export type MRActions = {
     create: {
       params: GetOrganizationParams
       payload: CreateTeamProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: any
     }
     update: {
       params: GetTeamParams
       payload: TeamProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TeamProps
     }
     delete: { params: GetTeamParams; return: any }
@@ -1527,13 +1527,13 @@ export type MRActions = {
     create: {
       params: GetTeamParams
       payload: CreateTeamMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TeamMembershipProps
     }
     update: {
       params: GetTeamMembershipParams
       payload: TeamMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TeamMembershipProps
     }
     delete: { params: GetTeamMembershipParams; return: any }
@@ -1555,13 +1555,13 @@ export type MRActions = {
     create: {
       params: GetSpaceParams & { teamId: string }
       payload: CreateTeamSpaceMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TeamSpaceMembershipProps
     }
     update: {
       params: GetTeamSpaceMembershipParams
       payload: TeamSpaceMembershipProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: TeamSpaceMembershipProps
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
@@ -1615,13 +1615,13 @@ export type MRActions = {
     create: {
       params: GetSpaceParams
       payload: CreateWebhooksProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WebhookProps
     }
     createWithId: {
       params: GetWebhookParams
       payload: CreateWebhooksProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WebhookProps
     }
     update: { params: GetWebhookParams; payload: WebhookProps; return: WebhookProps }
@@ -1630,65 +1630,65 @@ export type MRActions = {
   WorkflowDefinition: {
     get: {
       params: GetWorkflowDefinitionParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: CollectionProp<WorkflowDefinitionProps>
     }
     create: {
       params: CreateWorkflowDefinitionParams
       payload: CreateWorkflowDefinitionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     update: {
       params: GetWorkflowDefinitionParams
       payload: WorkflowDefinitionProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
     delete: {
       params: DeleteWorkflowDefinitionParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: void
     }
   }
   Workflow: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: CollectionProp<WorkflowProps>
     }
     create: {
       params: CreateWorkflowParams
       payload: CreateWorkflowProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WorkflowProps
     }
     update: {
       params: GetWorkflowParams
       payload: WorkflowProps
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: WorkflowProps
     }
     delete: {
       params: DeleteWorkflowParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: void
     }
     complete: {
       params: CompleteWorkflowParams
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: void
     }
   }
   WorkflowsChangelog: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
-      headers?: AxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders
       return: CollectionProp<WorkflowsChangelogEntryProps>
     }
   }
@@ -1738,7 +1738,7 @@ export interface MakeRequestOptions {
   action: string
   params?: Record<string, unknown>
   payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload
-  headers?: AxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders
   userAgent: string
 }
 
