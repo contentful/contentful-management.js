@@ -47,7 +47,6 @@ const baseBundleConfig = {
   output: {
     path: path.join(__dirname, 'dist'),
     libraryTarget: 'umd',
-    library: 'contentfulManagement',
   },
   module: {
     rules: [],
