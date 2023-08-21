@@ -18,6 +18,14 @@ interface ActionManifestProps {
   path: string
 }
 
+interface DeliveryFunctionManifestProps {
+  id: string
+  name: string
+  description: string
+  path: string
+  allowNetworks: string
+}
+
 export type AppBundleFile = {
   name: string
   size: number
@@ -28,6 +36,7 @@ export type CreateAppBundleProps = {
   appUploadId: string
   comment?: string
   actions?: ActionManifestProps[]
+  deliveryFunctions?: DeliveryFunctionManifestProps[]
 }
 
 export type AppBundleProps = {
