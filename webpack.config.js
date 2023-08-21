@@ -8,7 +8,6 @@ const PROD = process.env.NODE_ENV === 'production'
 const presets = (targets) => [['@babel/preset-env', { targets }], '@babel/typescript']
 
 const plugins = [
-  new webpack.optimize.OccurrenceOrderPlugin(),
   new webpack.EnvironmentPlugin({
     NODE_ENV: 'development',
   }),
@@ -23,9 +22,20 @@ if (PROD) {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-    })
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new (class {
+      apply(compiler) {
+        compiler.hooks.emit.tap('RemoveLicenseFilePlugin', (compilation) => {
+          for (let name in compilation.assets) {
+            if (name.endsWith('LICENSE.txt')) {
+              delete compilation.assets[name]
+            }
+          }
+        })
+      }
+    })()
   )
-  plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 }
 
 const baseFileName = `contentful-management`
@@ -37,19 +47,18 @@ const baseBundleConfig = {
   output: {
     path: path.join(__dirname, 'dist'),
     libraryTarget: 'umd',
-    library: 'contentfulManagement',
   },
   module: {
     rules: [],
   },
   resolve: {
     extensions: ['.js', '.ts'],
+    fallback: {
+      os: false,
+    },
   },
   devtool: PROD ? false : 'source-map',
   plugins,
-  node: {
-    os: 'empty',
-  },
   // Show minimal information, but all errors and warnings
   // Except for log generation which have to contain all information
   stats: process.env.WEBPACK_MODE === 'log' ? 'verbose' : 'normal',
