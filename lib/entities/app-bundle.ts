@@ -16,6 +16,7 @@ interface ActionManifestProps {
   description: string
   category: string
   path: string
+  allowNetworks?: string[]
 }
 
 interface DeliveryFunctionManifestProps {
@@ -23,7 +24,7 @@ interface DeliveryFunctionManifestProps {
   name: string
   description: string
   path: string
-  allowNetworks: string
+  allowNetworks?: string[]
 }
 
 export type AppBundleFile = {
