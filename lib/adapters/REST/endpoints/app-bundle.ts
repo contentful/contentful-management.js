@@ -44,7 +44,7 @@ export const create: RestEndpoint<'AppBundle', 'create'> = (
   params: GetAppDefinitionParams,
   payload: CreateAppBundleProps
 ) => {
-  const { appUploadId, comment, actions } = payload
+  const { appUploadId, comment, actions, deliveryFunctions } = payload
 
   const data = {
     upload: {
@@ -56,6 +56,7 @@ export const create: RestEndpoint<'AppBundle', 'create'> = (
     },
     comment,
     actions,
+    deliveryFunctions,
   }
 
   return raw.post<AppBundleProps>(http, getBaseUrl(params), data)

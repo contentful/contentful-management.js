@@ -125,6 +125,27 @@ describe('createAppDefinitionApi', () => {
     })
   })
 
+  test('API call createAppBundle with delivery functions', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    const appBundleWithDeliveryFns = {
+      ...appBundleMock,
+      deliveryFunctions: [
+        {
+          id: 'myCustomId',
+          name: 'My Delivery function',
+          description: 'Delivery function uploaded with bundle',
+          path: 'functions/test.js',
+        },
+      ],
+    }
+
+    entitiesMock['appBundle']['wrapAppBundle'].returns(appBundleWithDeliveryFns)
+
+    return api['createAppBundle']({ appBundleId: 'id' }).then((result) => {
+      expect(result).equals(appBundleWithDeliveryFns)
+    })
+  })
+
   test('API call createAppBundle fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createAppBundle',
