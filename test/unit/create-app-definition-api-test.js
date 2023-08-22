@@ -132,8 +132,8 @@ describe('createAppDefinitionApi', () => {
       deliveryFunctions: [
         {
           id: 'myCustomId',
-          name: 'My Action',
-          description: 'Action uploaded with bundle',
+          name: 'My Delivery function',
+          description: 'Delivery function uploaded with bundle',
           path: 'functions/test.js',
         },
       ],
