@@ -184,6 +184,7 @@ import {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
+import { AppActionPlainClientAPI } from './entities/app-action'
 
 export type PlainClientAPI = {
   raw: {
@@ -195,24 +196,7 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
-  appAction: {
-    get(params: OptionalDefaults<GetAppActionParams>): Promise<AppActionProps>
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<AppActionProps>>
-    getManyForEnvironment(
-      params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>
-    ): Promise<CollectionProp<AppActionProps>>
-    delete(params: OptionalDefaults<GetAppActionParams>): Promise<void>
-    create(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppActionProps
-    ): Promise<AppActionProps>
-    update(
-      params: OptionalDefaults<GetAppActionParams>,
-      payload: CreateAppActionProps
-    ): Promise<AppActionProps>
-  }
+  appAction: AppActionPlainClientAPI
   appActionCall: {
     create(
       params: OptionalDefaults<GetAppActionCallParams>,
