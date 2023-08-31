@@ -27,8 +27,6 @@ import {
   PaginationQueryParams,
   QueryParams,
   GetAppUploadParams,
-  GetAppActionParams,
-  GetAppActionCallParams,
   GetAppBundleParams,
   GetBulkActionParams,
   GetReleaseParams,
@@ -36,13 +34,11 @@ import {
   GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
-  GetAppActionsForEnvParams,
   GetUserUIConfigParams,
   GetUIConfigParams,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
-  GetAppActionCallDetailsParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -116,12 +112,6 @@ import {
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppUploadProps } from '../entities/app-upload'
-import { AppActionProps, CreateAppActionProps } from '../entities/app-action'
-import {
-  AppActionCallProps,
-  AppActionCallResponse,
-  CreateAppActionCallProps,
-} from '../entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
@@ -185,6 +175,7 @@ import {
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
 import { AppActionPlainClientAPI } from './entities/app-action'
+import { AppActionCallPlainClientAPI } from './entities/app-action-call'
 
 export type PlainClientAPI = {
   raw: {
@@ -197,19 +188,7 @@ export type PlainClientAPI = {
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
   appAction: AppActionPlainClientAPI
-  appActionCall: {
-    create(
-      params: OptionalDefaults<GetAppActionCallParams>,
-      payload: CreateAppActionCallProps
-    ): Promise<AppActionCallProps>
-    getCallDetails(
-      params: OptionalDefaults<GetAppActionCallDetailsParams>
-    ): Promise<AppActionCallResponse>
-    createWithResponse(
-      params: OptionalDefaults<GetAppActionCallParams>,
-      payload: CreateAppActionCallProps
-    ): Promise<AppActionCallResponse>
-  }
+  appActionCall: AppActionCallPlainClientAPI
   appBundle: {
     get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
     getMany(
