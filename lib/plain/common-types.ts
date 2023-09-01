@@ -33,8 +33,6 @@ import {
   GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
-  GetUserUIConfigParams,
-  GetUIConfigParams,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
@@ -160,8 +158,6 @@ import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from '../entities/workflows-changelog-entry'
-import { UserUIConfigProps } from '../entities/user-ui-config'
-import { UIConfigProps } from '../entities/ui-config'
 import {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -175,6 +171,8 @@ import {
 import { AppActionPlainClientAPI } from './entities/app-action'
 import { AppActionCallPlainClientAPI } from './entities/app-action-call'
 import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
+import { UIConfigPlainClientAPI } from './entities/ui-config'
+import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
 
 export type PlainClientAPI = {
   raw: {
@@ -978,13 +976,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
   uiConfig: UIConfigPlainClientAPI
-  userUIConfig: {
-    get(params: OptionalDefaults<GetUserUIConfigParams>): Promise<UserUIConfigProps>
-    update(
-      params: OptionalDefaults<GetUserUIConfigParams>,
-      rawData: UserUIConfigProps
-    ): Promise<UserUIConfigProps>
-  }
+  userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: {
     get(
       params: OptionalDefaults<GetWorkflowDefinitionParams>,
