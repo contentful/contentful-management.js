@@ -95,6 +95,7 @@ export type {
   GroupControl,
   SidebarItem,
 } from './entities/editor-interface'
+export type { DeliveryFunctionProps } from './entities/delivery-function'
 export type { CreateEntryProps, Entry, EntryProps, WithResourceName } from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
