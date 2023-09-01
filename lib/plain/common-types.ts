@@ -977,13 +977,7 @@ export type PlainClientAPI = {
     ): Promise<TeamSpaceMembershipProps>
     delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
   }
-  uiConfig: {
-    get(params: OptionalDefaults<GetUIConfigParams>): Promise<UIConfigProps>
-    update(
-      params: OptionalDefaults<GetUIConfigParams>,
-      rawData: UIConfigProps
-    ): Promise<UIConfigProps>
-  }
+  uiConfig: UIConfigPlainClientAPI
   userUIConfig: {
     get(params: OptionalDefaults<GetUserUIConfigParams>): Promise<UserUIConfigProps>
     update(
