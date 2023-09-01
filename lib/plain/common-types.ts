@@ -78,6 +78,10 @@ import {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProp,
 } from '../entities/personal-access-token'
+import {
+  AccessTokenProp,
+  CreatePersonalAccessTokenProps as CreatePATProps,
+} from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
 import { CreateRoleProps, RoleProps } from '../entities/role'
 import {
@@ -593,6 +597,18 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<PersonalAccessTokenProp>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
+  }
+  AccessToken: {
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
+    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProp>>
+    createPersonalAccessToken(
+      rawData: CreatePATProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<AccessTokenProp>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
+    getManyForOrganization(
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    ): Promise<CollectionProp<AccessTokenProp>>
   }
   usage: {
     getManyForSpace(

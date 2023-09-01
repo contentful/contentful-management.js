@@ -1121,6 +1121,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapPersonalAccessToken: sinon.stub(),
       wrapPersonalAccessTokenCollection: sinon.stub(),
     },
+    accessToken: {
+      wrapAccessToken: sinon.stub(),
+      wrapAccessTokenCollection: sinon.stub(),
+    },
     usage: {
       wrapUsageCollection: sinon.stub(),
     },

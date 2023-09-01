@@ -35,6 +35,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapUser } = entities.user
   const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
     entities.personalAccessToken
+  const { wrapAccessToken, wrapAccessTokenCollection } = entities.accessToken
   const { wrapOrganization, wrapOrganizationCollection } = entities.organization
   const { wrapUsageCollection } = entities.usage
   const { wrapAppDefinition } = entities.appDefinition
@@ -390,6 +391,79 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: {},
       }).then((data) => wrapPersonalAccessTokenCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a users access token
+     * @param data - users access token config
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getAccessToken(tokenId)
+     * .then(token => console.log(token.token))
+     * .catch(console.error)
+     * ```
+     */
+    getAccessToken: function getAccessToken(tokenId: string) {
+      return makeRequest({
+        entityType: 'AccessToken',
+        action: 'get',
+        params: { tokenId },
+      }).then((data) => wrapAccessToken(makeRequest, data))
+    },
+
+    /**
+     * Gets all user access tokens
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getAccessTokens()
+     * .then(response => console.log(reponse.items))
+     * .catch(console.error)
+     * ```
+     */
+    getAccessTokens: function getAccessTokens() {
+      return makeRequest({
+        entityType: 'AccessToken',
+        action: 'getMany',
+        params: {},
+      }).then((data) => wrapAccessTokenCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets all organization access tokens
+     * @return Promise for a Token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganizationAccessTokens()
+     * .then(response => console.log(reponse.items))
+     * .catch(console.error)
+     * ```
+     */
+    getOrganizationAccessTokens: function getOrganizationAccessTokens(
+      organizationId: string,
+      query: QueryOptions = {}
+    ) {
+      return makeRequest({
+        entityType: 'AccessToken',
+        action: 'getManyForOrganization',
+        params: { organizationId, query },
+      }).then((data) => wrapAccessTokenCollection(makeRequest, data))
     },
 
     /**
