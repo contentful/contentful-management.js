@@ -32,7 +32,7 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
 }
 
 const APP_ACTION_CALL_RETRY_INTERVAL = 2000
-const APP_ACTION_CALL_RETRIES = 10
+const APP_ACTION_CALL_RETRIES = 20
 
 async function callAppActionResult(
   http: AxiosInstance,
