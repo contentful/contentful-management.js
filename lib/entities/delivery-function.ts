@@ -14,5 +14,5 @@ export type DeliveryFunctionProps = {
   name: string
   description: string
   path: string
-  allowNetworks: string[]
+  allowNetworks?: string[]
 }
