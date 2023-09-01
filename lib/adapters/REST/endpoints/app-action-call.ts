@@ -9,6 +9,18 @@ import { RestEndpoint } from '../types'
 import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../common-types'
 import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
 
+interface CreateWithResponseOptions {
+  retries?: number
+  retryInterval?: number
+}
+
+type CallAppActionResultOptions = Required<CreateWithResponseOptions>
+
+const DEFAULT_CREATE_WITH_RESPONSE_OPTIONS: CallAppActionResultOptions = {
+  retries: 10,
+  retryInterval: 2000, // 2 seconds
+}
+
 export const create: RestEndpoint<'AppActionCall', 'create'> = (
   http: AxiosInstance,
   params: GetAppActionCallParams,
@@ -31,9 +43,6 @@ export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
   )
 }
 
-const APP_ACTION_CALL_RETRY_INTERVAL = 2000
-const APP_ACTION_CALL_RETRIES = 10
-
 async function callAppActionResult(
   http: AxiosInstance,
   params: GetAppActionCallParams,
@@ -41,11 +50,11 @@ async function callAppActionResult(
     callId,
   }: {
     callId: string
-  }
+  },
+  options: CallAppActionResultOptions
 ): Promise<AppActionCallResponse> {
   let checkCount = 1
-  const retryInterval = APP_ACTION_CALL_RETRY_INTERVAL
-  const retries = APP_ACTION_CALL_RETRIES
+  const { retries, retryInterval } = options
 
   return new Promise((resolve, reject) => {
     const poll = async () => {
@@ -93,7 +102,8 @@ async function callAppActionResult(
 export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
   http: AxiosInstance,
   params: GetAppActionCallParams,
-  data: CreateAppActionCallProps
+  data: CreateAppActionCallProps,
+  options?: CreateWithResponseOptions
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
     http,
@@ -102,6 +112,7 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
   )
 
   const callId = createResponse.sys.id
+  const callAppActionResultOptions = { ...DEFAULT_CREATE_WITH_RESPONSE_OPTIONS, ...options }
 
-  return callAppActionResult(http, params, { callId })
+  return callAppActionResult(http, params, { callId }, callAppActionResultOptions)
 }
