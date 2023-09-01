@@ -134,6 +134,7 @@ import {
   ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
+import { DeliveryFunctionProps } from './entities/delivery-function'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -1020,6 +1021,12 @@ export type MRActions = {
       payload: EditorInterfaceProps
       headers?: RawAxiosRequestHeaders
       return: EditorInterfaceProps
+    }
+  }
+  DeliveryFunction: {
+    getMany: {
+      params: GetAppDefinitionParams & QueryParams
+      return: CollectionProp<DeliveryFunctionProps>
     }
   }
   Environment: {

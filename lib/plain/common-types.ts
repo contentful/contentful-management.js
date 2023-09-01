@@ -126,6 +126,7 @@ import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
+import { DeliveryFunctionProps } from '../entities/delivery-function'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -257,6 +258,11 @@ export type PlainClientAPI = {
     ): Promise<AppSigningSecretProps>
     get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppSigningSecretProps>
     delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
+  }
+  deliveryFunction: {
+    getMany(
+      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    ): Promise<CollectionProp<DeliveryFunctionProps>>
   }
   editorInterface: {
     get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>
