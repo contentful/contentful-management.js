@@ -108,6 +108,15 @@ const personalAccessTokenMock = {
   scopes: ['content_management_manage'],
 }
 
+const accessTokenMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AccessToken',
+  }),
+  name: 'My Token',
+  revokeAt: null,
+  scopes: ['content_management_manage'],
+}
+
 const appBundleMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppBundle',
@@ -934,6 +943,7 @@ const mocks = {
   organizationMembership: organizationMembershipMock,
   appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
+  accessToken: accessTokenMock,
   previewApiKey: previewApiKeyMock,
   role: roleMock,
   release: releaseMock,
@@ -1217,6 +1227,7 @@ export {
   snapShotMock,
   userMock,
   personalAccessTokenMock,
+  accessTokenMock,
   environmentMock,
   usageMock,
   environmentAliasMock,
