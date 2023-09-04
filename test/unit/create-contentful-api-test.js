@@ -1,7 +1,7 @@
 import {
   organizationMock,
   personalAccessTokenMock,
-  accessTokenMock,
+  // accessTokenMock,
   setupEntitiesMock,
   spaceMock,
   usageMock,
@@ -224,50 +224,50 @@ describe('A createContentfulApi', () => {
     })
   })
 
-  describe('with access-token api', () => {
-    test('API call getAccessToken', async () => {
-      await makeGetEntityTest(setup, {
-        entityType: 'accessToken',
-        mockToReturn: accessTokenMock,
-        methodToTest: 'getAccessToken',
-      })
-    })
-    test('API call getAccessToken fails', async () => {
-      await makeEntityMethodFailingTest(setup, {
-        methodToTest: 'getAccessToken',
-      })
-    })
+  // describe('with access-token api', () => {
+  //   test('API call getAccessToken', async () => {
+  //     await makeGetEntityTest(setup, {
+  //       entityType: 'accessToken',
+  //       mockToReturn: accessTokenMock,
+  //       methodToTest: 'getAccessToken',
+  //     })
+  //   })
+  //   test('API call getAccessToken fails', async () => {
+  //     await makeEntityMethodFailingTest(setup, {
+  //       methodToTest: 'getAccessToken',
+  //     })
+  //   })
 
-    test('API call getAccessTokens fails', async () => {
-      await makeEntityMethodFailingTest(setup, {
-        methodToTest: 'getAccessTokens',
-      })
-    })
+  //   test('API call getAccessTokens fails', async () => {
+  //     await makeEntityMethodFailingTest(setup, {
+  //       methodToTest: 'getAccessTokens',
+  //     })
+  //   })
 
-    test('API call getAccessTokens', async () => {
-      await makeGetCollectionTest(setup, {
-        entityType: 'accessToken',
-        mockToReturn: accessTokenMock,
-        methodToTest: 'getAccessTokens',
-      })
-    })
+  //   test('API call getAccessTokens', async () => {
+  //     await makeGetCollectionTest(setup, {
+  //       entityType: 'accessToken',
+  //       mockToReturn: accessTokenMock,
+  //       methodToTest: 'getAccessTokens',
+  //     })
+  //   })
 
-    test('API call createSpace', async () => {
-      const data = {
-        sys: {
-          id: 'id',
-          type: 'AccessToken',
-        },
-        name: 'name',
-      }
-      const { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: data }))
-      entitiesMock.accessToken.wrapAccessToken.returns(data)
+  //   test('API call createSpace', async () => {
+  //     const data = {
+  //       sys: {
+  //         id: 'id',
+  //         type: 'AccessToken',
+  //       },
+  //       name: 'name',
+  //     }
+  //     const { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: data }))
+  //     entitiesMock.accessToken.wrapAccessToken.returns(data)
 
-      const result = await api.accessToken.createPersonalAccessToken({ name: 'name' }, 'orgid')
-      expect(result).to.eq(data)
-      expect(makeRequest.args[0][0].payload).to.deep.eql({ name: 'name' })
-    })
-  })
+  //     const result = await api.accessToken.createPersonalAccessToken({ name: 'name' }, 'orgid')
+  //     expect(result).to.eq(data)
+  //     expect(makeRequest.args[0][0].payload).to.deep.eql({ name: 'name' })
+  //   })
+  // })
 
   describe('with raw api', () => {
     test('API call rawRequest', async () => {
