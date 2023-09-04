@@ -260,7 +260,7 @@ export const createPlainClient = (
         }),
       revoke: wrap(wrapParams, 'PersonalAccessToken', 'revoke'),
     },
-    AccessToken: {
+    accessToken: {
       get: wrap(wrapParams, 'AccessToken', 'get'),
       getMany: wrap(wrapParams, 'AccessToken', 'getMany'),
       createPersonalAccessToken: (data, headers) =>

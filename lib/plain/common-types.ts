@@ -598,7 +598,7 @@ export type PlainClientAPI = {
     ): Promise<PersonalAccessTokenProp>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
   }
-  AccessToken: {
+  accessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProp>>
     createPersonalAccessToken(
