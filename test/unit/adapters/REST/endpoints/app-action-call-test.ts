@@ -206,6 +206,38 @@ describe('Rest App Action Call', () => {
     )
   })
 
+  it('re-polls number of times and interval specified by retry options', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    const numRetries = 5
+    responseMock.statusCode = 404
+
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
+
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock,
+      { retries: numRetries, retryInterval: 500 }
+    )
+
+    try {
+      await entity.createWithResponse()
+    } catch (error) {
+      expect(error.message).to.equal(
+        'The app action response is taking longer than expected to process.'
+      )
+    }
+
+    sinon.assert.callCount(
+      httpMock.get.withArgs(
+        `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      ),
+      numRetries
+    )
+  })
+
   it('stops re-polling if lambda fails', async () => {
     const responseMock = cloneMock('appActionCallResponse')
     responseMock.statusCode = 200

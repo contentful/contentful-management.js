@@ -3,6 +3,7 @@ import { toPlainObject } from 'contentful-sdk-core'
 import { Except } from 'type-fest'
 import {
   BasicMetaSysProps,
+  CreateWithResponseParams,
   DefaultElements,
   GetAppActionCallDetailsParams,
   MakeRequest,
@@ -17,6 +18,8 @@ type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   environment: SysLink
   action: SysLink
 }
+
+type RetryOptions = Pick<CreateWithResponseParams, 'retries' | 'retryInterval'>
 
 export type AppActionCallProps = {
   /**
@@ -47,7 +50,10 @@ export interface AppActionCall extends AppActionCallProps, DefaultElements<AppAc
 /**
  * @private
  */
-export default function createAppActionCallApi(makeRequest: MakeRequest): AppActionCallApi {
+export default function createAppActionCallApi(
+  makeRequest: MakeRequest,
+  retryOptions?: RetryOptions
+): AppActionCallApi {
   return {
     createWithResponse: function () {
       const payload: CreateAppActionCallProps = {
@@ -65,6 +71,7 @@ export default function createAppActionCallApi(makeRequest: MakeRequest): AppAct
           environmentId: 'environment-id',
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
+          ...retryOptions,
         },
         payload: payload,
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
@@ -111,12 +118,13 @@ export function wrapAppActionCall(
  */
 export function wrapAppActionCallResponse(
   makeRequest: MakeRequest,
-  data: AppActionCallResponse
+  data: AppActionCallResponse,
+  retryOptions?: RetryOptions
 ): AppActionCallResponseData {
   const appActionCallResponse = toPlainObject(copy(data))
   const appActionCallResponseWithMethods = enhanceWithMethods(
     appActionCallResponse,
-    createAppActionCallApi(makeRequest)
+    createAppActionCallApi(makeRequest, retryOptions)
   )
   return appActionCallResponseWithMethods
 }

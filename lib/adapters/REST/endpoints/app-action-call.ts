@@ -6,7 +6,11 @@ import {
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
-import { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../../common-types'
+import {
+  CreateWithResponseParams,
+  GetAppActionCallDetailsParams,
+  GetAppActionCallParams,
+} from '../../../common-types'
 import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
 
 export const create: RestEndpoint<'AppActionCall', 'create'> = (
@@ -36,7 +40,7 @@ const APP_ACTION_CALL_RETRIES = 10
 
 async function callAppActionResult(
   http: AxiosInstance,
-  params: GetAppActionCallParams,
+  params: CreateWithResponseParams,
   {
     callId,
   }: {
@@ -44,8 +48,8 @@ async function callAppActionResult(
   }
 ): Promise<AppActionCallResponse> {
   let checkCount = 1
-  const retryInterval = APP_ACTION_CALL_RETRY_INTERVAL
-  const retries = APP_ACTION_CALL_RETRIES
+  const retryInterval = params.retryInterval || APP_ACTION_CALL_RETRY_INTERVAL
+  const retries = params.retries || APP_ACTION_CALL_RETRIES
 
   return new Promise((resolve, reject) => {
     const poll = async () => {
@@ -92,7 +96,7 @@ async function callAppActionResult(
 
 export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
   http: AxiosInstance,
-  params: GetAppActionCallParams,
+  params: CreateWithResponseParams,
   data: CreateAppActionCallProps
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
