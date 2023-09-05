@@ -13,6 +13,7 @@ import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
 import * as ContentType from './content-type'
+import * as DeliveryFunction from './delivery-function'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
 import * as Environment from './environment'
@@ -66,6 +67,7 @@ export default {
   BulkAction,
   Comment,
   ContentType,
+  DeliveryFunction,
   EditorInterface,
   Entry,
   Environment,
