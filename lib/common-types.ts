@@ -391,6 +391,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'publish', UA>): MRReturn<'ContentType', 'publish'>
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
 
+  (opts: MROpts<'DeliveryFunction', 'getMany', UA>): MRReturn<'DeliveryFunction', 'getMany'>
+
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
   (opts: MROpts<'EditorInterface', 'update', UA>): MRReturn<'EditorInterface', 'update'>
