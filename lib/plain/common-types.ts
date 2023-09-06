@@ -7,7 +7,6 @@ import {
   GetAppInstallationParams,
   GetCommentParams,
   GetContentTypeParams,
-  GetEditorInterfaceParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
@@ -67,7 +66,6 @@ import {
   PlainTextBodyFormat,
 } from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import { EditorInterfaceProps } from '../entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
@@ -176,6 +174,7 @@ import {
 } from '../entities/environment-template-installation'
 import { AppActionPlainClientAPI } from './entities/app-action'
 import { AppActionCallPlainClientAPI } from './entities/app-action-call'
+import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 
 export type PlainClientAPI = {
   raw: {
@@ -227,17 +226,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
     ): Promise<CollectionProp<DeliveryFunctionProps>>
   }
-  editorInterface: {
-    get(params: OptionalDefaults<GetEditorInterfaceParams>): Promise<EditorInterfaceProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<EditorInterfaceProps>>
-    update(
-      params: OptionalDefaults<GetEditorInterfaceParams>,
-      rawData: EditorInterfaceProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EditorInterfaceProps>
-  }
+  editorInterface: EditorInterfacePlainClientAPI
   space: {
     get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
