@@ -899,6 +899,23 @@ export const userUIConfigMock = {
   entryListViews: [],
 }
 
+const deliveryFunctionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'DeliveryFunction',
+  }),
+  name: 'example-delivery-function',
+  description: 'this is an example of a description for delivery function',
+  path: '/some/path/to/file.js',
+  allowNetworks: [],
+}
+
+const deliveryFunctionsMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'array',
+  }),
+  items: [cloneDeep(deliveryFunctionMock)],
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -919,6 +936,8 @@ const mocks = {
   bulkActionPublish: bulkActionPublishMock,
   comment: commentMock,
   contentType: contentTypeMock,
+  deliveryFunction: deliveryFunctionMock,
+  deliveryFunctions: deliveryFunctionsMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
   entryWithTags: entryMockWithTags,
@@ -1090,6 +1109,10 @@ function setupEntitiesMock(rewiredModuleApi) {
       wrapPreviewApiKey: sinon.stub(),
       wrapPreviewApiKeyCollection: sinon.stub(),
     },
+    deliveryFunction: {
+      wrapDeliveryFunction: sinon.stub(),
+      wrapDeliveryFunctionCollection: sinon.stub(),
+    },
     editorInterface: {
       wrapEditorInterface: sinon.stub(),
       wrapEditorInterfaceCollection: sinon.stub(),
@@ -1182,6 +1205,8 @@ export {
   bulkActionMock,
   commentMock,
   contentTypeMock,
+  deliveryFunctionMock,
+  deliveryFunctionsMock,
   editorInterfaceMock,
   entryMock,
   entryWithReferencesMock,
