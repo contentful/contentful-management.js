@@ -9,9 +9,7 @@ type AppDetailsSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
-export enum IconType {
-  Base64 = 'base64',
-}
+export type IconType = 'base64'
 export interface AppIcon {
   value: string
   type: IconType
