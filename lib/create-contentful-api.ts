@@ -339,6 +339,10 @@ export default function createClientApi(makeRequest: MakeRequest) {
       data: CreatePersonalAccessTokenProps
     ) {
       return makeRequest({
+        /**
+         * When the `PersonalAccessToken` entity is removed, replace the `entityType` with `AccessToken`
+         * and update the action to `createPersonalToken` to ultilize the new entity called AccessToken.
+         */
         entityType: 'PersonalAccessToken',
         action: 'create',
         params: {},
@@ -347,6 +351,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * @deprecated - use getAccessToken instead
+     *
      * Gets a personal access token
      * @param data - personal access token config
      * @return Promise for a Token
@@ -371,6 +377,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * @deprecated - use getAccessTokens instead
+     *
      * Gets all personal access tokens
      * @return Promise for a Token
      * @example ```javascript
@@ -441,7 +449,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets all organization access tokens
+     * Retrieves a list of redacted versions of access tokens for an organization, accessible to owners or administrators of an organization.
+     *
      * @return Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -450,7 +459,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.getOrganizationAccessTokens()
+     * client.getOrganizationAccessTokens(organizationId)
      * .then(response => console.log(reponse.items))
      * .catch(console.error)
      * ```
