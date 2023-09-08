@@ -142,6 +142,11 @@ export type {
   PersonalAccessToken,
   PersonalAccessTokenProp,
 } from './entities/personal-access-token'
+export type {
+  CreatePersonalAccessTokenProps as CreatePATProps,
+  AccessToken,
+  AccessTokenProp,
+} from './entities/access-token'
 export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
 export type {
   Release,

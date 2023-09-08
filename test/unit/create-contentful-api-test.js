@@ -1,6 +1,7 @@
 import {
   organizationMock,
   personalAccessTokenMock,
+  accessTokenMock,
   setupEntitiesMock,
   spaceMock,
   usageMock,
@@ -220,6 +221,35 @@ describe('A createContentfulApi', () => {
       const result = await api.createPersonalAccessToken({ name: 'name' }, 'orgid')
       expect(result).to.eq(data)
       expect(makeRequest.args[0][0].payload).to.deep.eql({ name: 'name' })
+    })
+  })
+
+  describe('with access-token api', () => {
+    test('API call getAccessToken', async () => {
+      await makeGetEntityTest(setup, {
+        entityType: 'accessToken',
+        mockToReturn: accessTokenMock,
+        methodToTest: 'getAccessToken',
+      })
+    })
+    test('API call getAccessToken fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getAccessToken',
+      })
+    })
+
+    test('API call getAccessTokens fails', async () => {
+      await makeEntityMethodFailingTest(setup, {
+        methodToTest: 'getAccessTokens',
+      })
+    })
+
+    test('API call getAccessTokens', async () => {
+      await makeGetCollectionTest(setup, {
+        entityType: 'accessToken',
+        mockToReturn: accessTokenMock,
+        methodToTest: 'getAccessTokens',
+      })
     })
   })
 

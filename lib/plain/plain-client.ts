@@ -260,6 +260,20 @@ export const createPlainClient = (
         }),
       revoke: wrap(wrapParams, 'PersonalAccessToken', 'revoke'),
     },
+    accessToken: {
+      get: wrap(wrapParams, 'AccessToken', 'get'),
+      getMany: wrap(wrapParams, 'AccessToken', 'getMany'),
+      createPersonalAccessToken: (data, headers) =>
+        makeRequest({
+          entityType: 'AccessToken',
+          action: 'createPersonalAccessToken',
+          params: {},
+          headers,
+          payload: data,
+        }),
+      revoke: wrap(wrapParams, 'AccessToken', 'revoke'),
+      getManyForOrganization: wrap(wrapParams, 'AccessToken', 'getManyForOrganization'),
+    },
     usage: {
       getManyForSpace: wrap(wrapParams, 'Usage', 'getManyForSpace'),
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),

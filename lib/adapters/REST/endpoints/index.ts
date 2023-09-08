@@ -26,6 +26,7 @@ import * as Organization from './organization'
 import * as OrganizationInvitation from './organization-invitation'
 import * as OrganizationMembership from './organization-membership'
 import * as PersonalAccessToken from './personal-access-token'
+import * as AccessToken from './access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
 import * as ReleaseAction from './release-action'
@@ -79,6 +80,7 @@ export default {
   OrganizationInvitation,
   OrganizationMembership,
   PersonalAccessToken,
+  AccessToken,
   PreviewApiKey,
   Release,
   ReleaseAction,
