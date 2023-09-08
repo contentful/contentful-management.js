@@ -47,6 +47,10 @@ import {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProp,
 } from './entities/personal-access-token'
+import {
+  AccessTokenProp,
+  CreatePersonalAccessTokenProps as CreatePATProps,
+} from './entities/access-token'
 import { PreviewApiKeyProps } from './entities/preview-api-key'
 import { CreateRoleProps, RoleProps } from './entities/role'
 import { ScheduledActionProps } from './entities/scheduled-action'
@@ -491,6 +495,18 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'PersonalAccessToken', 'getMany', UA>): MRReturn<'PersonalAccessToken', 'getMany'>
   (opts: MROpts<'PersonalAccessToken', 'create', UA>): MRReturn<'PersonalAccessToken', 'create'>
   (opts: MROpts<'PersonalAccessToken', 'revoke', UA>): MRReturn<'PersonalAccessToken', 'revoke'>
+
+  (opts: MROpts<'AccessToken', 'get', UA>): MRReturn<'AccessToken', 'get'>
+  (opts: MROpts<'AccessToken', 'getMany', UA>): MRReturn<'AccessToken', 'getMany'>
+  (opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>): MRReturn<
+    'AccessToken',
+    'createPersonalAccessToken'
+  >
+  (opts: MROpts<'AccessToken', 'revoke', UA>): MRReturn<'AccessToken', 'revoke'>
+  (opts: MROpts<'AccessToken', 'getManyForOrganization', UA>): MRReturn<
+    'AccessToken',
+    'getManyForOrganization'
+  >
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
@@ -1297,6 +1313,21 @@ export type MRActions = {
       return: PersonalAccessTokenProp
     }
     revoke: { params: { tokenId: string }; return: PersonalAccessTokenProp }
+  }
+  AccessToken: {
+    get: { params: { tokenId: string }; return: AccessTokenProp }
+    getMany: { params: QueryParams; return: CollectionProp<AccessTokenProp> }
+    createPersonalAccessToken: {
+      params: {}
+      payload: CreatePATProps
+      headers?: RawAxiosRequestHeaders
+      return: AccessTokenProp
+    }
+    revoke: { params: { tokenId: string }; return: AccessTokenProp }
+    getManyForOrganization: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<AccessTokenProp>
+    }
   }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }

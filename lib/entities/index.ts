@@ -25,6 +25,7 @@ import * as organization from './organization'
 import * as organizationInvitation from './organization-invitation'
 import * as organizationMembership from './organization-membership'
 import * as personalAccessToken from './personal-access-token'
+import * as accessToken from './access-token'
 import * as previewApiKey from './preview-api-key'
 import * as release from './release'
 import * as releaseAction from './release-action'
@@ -48,6 +49,7 @@ import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
 
 export default {
+  accessToken,
   appAction,
   appActionCall,
   appBundle,
