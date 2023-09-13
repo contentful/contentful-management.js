@@ -13,7 +13,7 @@ export type AppInstallationProps = {
     space: SysLink
   }
   /**
-   * Free-form installation parameters (API limits stringified length to 16kB)
+   * Free-form installation parameters (API limits stringified length to 32KB)
    */
   parameters?: FreeFormParameters
 }
