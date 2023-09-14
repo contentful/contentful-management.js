@@ -35,6 +35,14 @@ interface NodesValidation {
     validations: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
     allowedResources: ContentTypeAllowedResources[]
   }
+  [INLINES.EMBEDDED_RESOURCE]?: {
+    validations: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
+    allowedResources: ContentTypeAllowedResources[]
+  }
+  [INLINES.RESOURCE_HYPERLINK]?: {
+    validations: Pick<ContentTypeFieldValidation, 'size' | 'message'>[]
+    allowedResources: ContentTypeAllowedResources[]
+  }
 }
 
 export interface ContentTypeFieldValidation {
