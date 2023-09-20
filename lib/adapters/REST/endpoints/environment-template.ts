@@ -12,7 +12,9 @@ export const get: RestEndpoint<'EnvironmentTemplate', 'get'> = (
   { organizationId, environmentTemplateId, version, query = {} }
 ) =>
   version
-    ? raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions', version), { params: query })
+    ? raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions', version), {
+        params: query,
+      })
     : raw.get(http, apiPath(organizationId, environmentTemplateId), { params: query })
 
 export const getMany: RestEndpoint<'EnvironmentTemplate', 'getMany'> = (
