@@ -51,6 +51,23 @@ describe('Environment template Api', () => {
       expect(sys).not.to.be.undefined
     })
 
+    test('gets an environment template with select filter applied', async () => {
+      const draftTemplate = createDraftTemplate()
+      const {
+        sys: { id: templateId },
+      } = await client.createEnvironmentTemplate(orgId, draftTemplate)
+
+      const response = await client.getEnvironmentTemplate({
+        organizationId: orgId,
+        environmentTemplateId: templateId,
+        query: {
+          select: 'name',
+        },
+      })
+
+      expect(response).to.be.eql({ name: draftTemplate.name })
+    })
+
     test('gets a collection of environment templates', async () => {
       const draftTemplate = createDraftTemplate()
       await client.createEnvironmentTemplate(orgId, draftTemplate)
@@ -63,6 +80,21 @@ describe('Environment template Api', () => {
       const [{ sys, ...template }] = templates
       expect(template).to.be.eql(draftTemplate)
       expect(sys).not.to.be.undefined
+    })
+
+    test('gets a collection of environment templates with select filter applied', async () => {
+      const draftTemplate = createDraftTemplate()
+      await client.createEnvironmentTemplate(orgId, draftTemplate)
+      const { items: templates } = await client.getEnvironmentTemplates(orgId, {
+        select: 'description',
+      })
+
+      expect(
+        templates.filter(({ description }) => description === templateDescription)
+      ).to.have.length(1)
+
+      const [firstTemplate] = templates
+      expect(firstTemplate).to.be.eql({ description: templateDescription })
     })
 
     test('updates an environment template', async () => {

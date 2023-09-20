@@ -1095,7 +1095,7 @@ export type MRActions = {
     get: {
       params: GetEnvironmentTemplateParams & {
         version?: number
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: { select?: string }
       }
       return: EnvironmentTemplateProps
     }
