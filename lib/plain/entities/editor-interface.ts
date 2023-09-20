@@ -16,7 +16,7 @@ export type EditorInterfacePlainClientAPI = {
    * @throws if the request fails, or the Editor Interface is not found
    * @example
    * ```javascript
-   * const editorInterface = await contentfulClient.editorInterface.get({
+   * const editorInterface = await client.editorInterface.get({
    *   spaceId: "<space_id>",
    *   environmentId: "<environment_id>",
    *   contentTypeId: "<content_type_id>",
@@ -31,7 +31,7 @@ export type EditorInterfacePlainClientAPI = {
    * @throws if the request fails, or the Space/Environment is not found
    * @example
    * ```javascript
-   * const results = await contentfulClient.editorInterface.getMany({
+   * const results = await client.editorInterface.getMany({
    *   spaceId: "<space_id>",
    *   environmentId: "<environment_id>"
    * });
@@ -43,22 +43,22 @@ export type EditorInterfacePlainClientAPI = {
   /**
    * Update an Editor Interface
    * @param params entity IDs to identify the Editor Interface
-   * @param rawData the updated Editor Iterface config
+   * @param rawData the updated Editor Interface config
    * @returns the updated Editor Interface config
    * @throws if the request fails, the Editor Interface is not found, or the update payload is malformed
    * @example
    * ```javascript
    * const updatedEditorInterface =
-   *   await contentfulClient.editorInterface.update(
+   *   await client.editorInterface.update(
    *     {
    *       spaceId: "<space_id>",
    *       environmentId: "<environment_id>",
    *       contentTypeId: "<content_type_id>",
    *     },
    *     {
-   *       ...existingEditorInterface,
+   *       ...currentEditorInterface,
    *       sidebar: [
-   *         ...(existingEditorInterface.sidebar ?? []),
+   *         ...(currentEditorInterface.sidebar ?? []),
    *         {
    *           widgetId: "translation-widget",
    *           widgetNamespace: "sidebar-builtin",

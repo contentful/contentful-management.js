@@ -29,9 +29,9 @@ export type UserUIConfigPlainClientAPI = {
    *   spaceId: "<space_id>",
    *   environmentId: "<environment_id>",
    * }, {
-   *   ...existingUIConfig,
+   *   ...currentUIConfig,
    *   entryListViews: [
-   *     ...existingUIConfig.entryListViews,
+   *     ...currentUIConfig.entryListViews,
    *     {
    *       id: 'newFolder',
    *       title: 'New Folder',

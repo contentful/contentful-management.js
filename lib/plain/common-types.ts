@@ -38,11 +38,7 @@ import {
   EnvironmentTemplateParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import {
-  AppDefinitionProps,
-  AppInstallationsForOrganizationProps,
-  CreateAppDefinitionProps,
-} from '../entities/app-definition'
+import { AppInstallationsForOrganizationProps } from '../entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
 import {
   AssetFileProp,
@@ -177,6 +173,7 @@ import { AppActionCallPlainClientAPI } from './entities/app-action-call'
 import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import { UIConfigPlainClientAPI } from './entities/ui-config'
 import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
+import { AppDefinitionPlainClientAPI } from './entities/app-definition'
 
 export type PlainClientAPI = {
   raw: {
@@ -732,31 +729,7 @@ export type PlainClientAPI = {
     ): Promise<ApiKeyProps>
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
-  appDefinition: {
-    get(
-      params: OptionalDefaults<GetOrganizationParams & { appDefinitionId: string } & QueryParams>
-    ): Promise<AppDefinitionProps>
-    getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<AppDefinitionProps>>
-    create(
-      params: OptionalDefaults<GetOrganizationParams>,
-      rawData: CreateAppDefinitionProps
-    ): Promise<AppDefinitionProps>
-    update(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      rawData: AppDefinitionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<AppDefinitionProps>
-    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<any>
-    /**
-     * @deprecated
-     * Please use please use appInstallations.getForOrganization instead
-     */
-    getInstallationsForOrg(
-      params: OptionalDefaults<GetAppDefinitionParams>
-    ): Promise<AppInstallationsForOrganizationProps>
-  }
+  appDefinition: AppDefinitionPlainClientAPI
   appInstallation: {
     get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
     getMany(
