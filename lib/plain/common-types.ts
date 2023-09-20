@@ -25,7 +25,6 @@ import {
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
-  GetAppBundleParams,
   GetBulkActionParams,
   GetReleaseParams,
   GetTaskParams,
@@ -106,7 +105,6 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
 import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
@@ -173,6 +171,7 @@ import { UIConfigPlainClientAPI } from './entities/ui-config'
 import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
 import { AppDefinitionPlainClientAPI } from './entities/app-definition'
 import { AppUploadPlainClientAPI } from './entities/app-upload'
+import { AppBundlePlainClientAPI } from './entities/app-bundle'
 
 export type PlainClientAPI = {
   raw: {
@@ -186,17 +185,7 @@ export type PlainClientAPI = {
   }
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
-  appBundle: {
-    get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<AppBundleProps>>
-    delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
-    create(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppBundleProps
-    ): Promise<AppBundleProps>
-  }
+  appBundle: AppBundlePlainClientAPI
   appDetails: {
     upsert(
       params: OptionalDefaults<GetAppDefinitionParams>,
