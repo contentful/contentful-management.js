@@ -105,7 +105,6 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
 import { DeliveryFunctionProps } from '../entities/delivery-function'
@@ -172,6 +171,7 @@ import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
 import { AppDefinitionPlainClientAPI } from './entities/app-definition'
 import { AppUploadPlainClientAPI } from './entities/app-upload'
 import { AppBundlePlainClientAPI } from './entities/app-bundle'
+import { AppDetailsPlainClientAPI } from './entities/app-details'
 
 export type PlainClientAPI = {
   raw: {
@@ -186,14 +186,7 @@ export type PlainClientAPI = {
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
-  appDetails: {
-    upsert(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppDetailsProps
-    ): Promise<AppDetailsProps>
-    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
-    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
-  }
+  appDetails: AppDetailsPlainClientAPI
   appSignedRequest: {
     create(
       params: OptionalDefaults<GetAppInstallationParams>,
