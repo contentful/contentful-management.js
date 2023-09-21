@@ -6,9 +6,9 @@ import {
   QueryOptions,
   QueryParams,
   GetAppDefinitionParams,
-  PaginationQueryOptions,
   CursorPaginatedCollection,
   GetEnvironmentTemplateParams,
+  BasicCursorPaginationOptions,
 } from './common-types'
 import entities from './entities'
 import { Organization, OrganizationProp } from './entities/organization'
@@ -61,7 +61,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
-      query: PaginationQueryOptions = {}
+      query: BasicCursorPaginationOptions & { select?: string } = {}
     ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -95,13 +95,20 @@ export default function createClientApi(makeRequest: MakeRequest) {
       organizationId,
       environmentTemplateId,
       version,
+      query = {},
     }: GetEnvironmentTemplateParams & {
       version?: number
+      query?: { select?: string }
     }): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
         action: 'get',
-        params: { organizationId, environmentTemplateId, version },
+        params: {
+          organizationId,
+          environmentTemplateId,
+          version,
+          query: createRequestConfig({ query }).params,
+        },
       }).then((data) => wrapEnvironmentTemplate(makeRequest, data, organizationId))
     },
     /**

@@ -9,11 +9,13 @@ const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =
 
 export const get: RestEndpoint<'EnvironmentTemplate', 'get'> = (
   http,
-  { organizationId, environmentTemplateId, version }
+  { organizationId, environmentTemplateId, version, query = {} }
 ) =>
   version
-    ? raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions', version))
-    : raw.get(http, apiPath(organizationId, environmentTemplateId))
+    ? raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions', version), {
+        params: query,
+      })
+    : raw.get(http, apiPath(organizationId, environmentTemplateId), { params: query })
 
 export const getMany: RestEndpoint<'EnvironmentTemplate', 'getMany'> = (
   http,
