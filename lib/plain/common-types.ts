@@ -36,8 +36,6 @@ import {
   EnvironmentTemplateParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import { AppInstallationsForOrganizationProps } from '../entities/app-definition'
-import { AppInstallationProps, CreateAppInstallationProps } from '../entities/app-installation'
 import {
   AssetFileProp,
   AssetProcessingForLocale,
@@ -172,6 +170,7 @@ import { AppDefinitionPlainClientAPI } from './entities/app-definition'
 import { AppUploadPlainClientAPI } from './entities/app-upload'
 import { AppBundlePlainClientAPI } from './entities/app-bundle'
 import { AppDetailsPlainClientAPI } from './entities/app-details'
+import { AppInstallationPlainClientAPI } from './entities/app-installation'
 
 export type PlainClientAPI = {
   raw: {
@@ -711,21 +710,7 @@ export type PlainClientAPI = {
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
   appDefinition: AppDefinitionPlainClientAPI
-  appInstallation: {
-    get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
-    ): Promise<CollectionProp<AppInstallationProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetAppDefinitionParams>
-    ): Promise<AppInstallationsForOrganizationProps>
-    upsert(
-      params: OptionalDefaults<GetAppInstallationParams>,
-      rawData: CreateAppInstallationProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<AppInstallationProps>
-    delete(params: OptionalDefaults<GetAppInstallationParams>): Promise<any>
-  }
+  appInstallation: AppInstallationPlainClientAPI
   extension: {
     get(params: OptionalDefaults<GetExtensionParams & QueryParams>): Promise<ExtensionProps>
     getMany(

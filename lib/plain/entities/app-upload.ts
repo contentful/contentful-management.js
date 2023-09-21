@@ -5,7 +5,7 @@ import { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppUploadPlainClientAPI = {
   /**
-   * Fetches the given App Upload
+   * Fetches the App Upload
    * @param params entity IDs to identify the App Upload
    * @returns the App Upload
    * @throws if the request fails, or the App Upload is not found
@@ -19,7 +19,7 @@ export type AppUploadPlainClientAPI = {
    */
   get(params: OptionalDefaults<GetAppUploadParams>): Promise<AppUploadProps>
   /**
-   * Deletes the given App Upload
+   * Deletes the App Upload
    * @param params entity IDs to identify the App Upload
    * @throws if the request fails, or the App Upload is not found
    * @example
@@ -33,7 +33,7 @@ export type AppUploadPlainClientAPI = {
   delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
   /**
    * Creates an App Upload
-   * @param params entity IDs to identify the Organization to create the App Upload in
+   * @param params entity IDs to identify the Organization to upload the App to
    * @param payload the App Upload
    * @returns the App Upload
    * @throws if the request fails, or the Organization is not found

@@ -4,7 +4,7 @@ import { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppDetailsPlainClientAPI = {
   /**
-   * Upserts an App Detail
+   * Creates or updates an App Detail
    * @param params entity IDs to identify the App Definition or App Details
    * @param payload the App Detail upsert
    * @returns the updated App Detail and its metadata
@@ -31,7 +31,7 @@ export type AppDetailsPlainClientAPI = {
     payload: CreateAppDetailsProps
   ): Promise<AppDetailsProps>
   /**
-   * Fetches the requested App Detail
+   * Fetches the App Detail
    * @param params entity IDs to identify the App Detail
    * @returns the App Detail
    * @throws if the request fails, or the App Detail is not found
@@ -45,7 +45,7 @@ export type AppDetailsPlainClientAPI = {
    */
   get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
   /**
-   * Fetches the given App Detail
+   * Fetches the App Detail
    * @param params entity IDs to identify the App Detail
    * @throws if the request fails, or the App Detail is not found
    * @example
