@@ -20,8 +20,6 @@ import {
   GetTeamParams,
   GetTeamSpaceMembershipParams,
   GetExtensionParams,
-  GetWebhookCallDetailsUrl,
-  GetWebhookParams,
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
@@ -94,13 +92,6 @@ import {
 import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
-import {
-  CreateWebhooksProps,
-  WebhookCallDetailsProps,
-  WebhookCallOverviewProps,
-  WebhookHealthProps,
-  WebhookProps,
-} from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
@@ -171,6 +162,7 @@ import { AppUploadPlainClientAPI } from './entities/app-upload'
 import { AppBundlePlainClientAPI } from './entities/app-bundle'
 import { AppDetailsPlainClientAPI } from './entities/app-details'
 import { AppInstallationPlainClientAPI } from './entities/app-installation'
+import { WebhookPlainClientAPI } from './entities/webhook'
 
 export type PlainClientAPI = {
   raw: {
@@ -733,29 +725,7 @@ export type PlainClientAPI = {
     ): Promise<ExtensionProps>
     delete(params: OptionalDefaults<GetExtensionParams>): Promise<any>
   }
-  webhook: {
-    get(params: OptionalDefaults<GetWebhookParams>): Promise<WebhookProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<WebhookProps>>
-    getHealthStatus(params: OptionalDefaults<GetWebhookParams>): Promise<WebhookHealthProps>
-    getCallDetails(
-      params: OptionalDefaults<GetWebhookCallDetailsUrl>
-    ): Promise<WebhookCallDetailsProps>
-    getManyCallDetails(
-      params: OptionalDefaults<GetWebhookParams & QueryParams>
-    ): Promise<CollectionProp<WebhookCallOverviewProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      rawData: CreateWebhooksProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WebhookProps>
-    update(
-      params: OptionalDefaults<GetWebhookParams>,
-      rawData: CreateWebhooksProps
-    ): Promise<WebhookProps>
-    delete(params: OptionalDefaults<GetWebhookParams>): Promise<any>
-  }
+  webhook: WebhookPlainClientAPI
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
