@@ -25,8 +25,6 @@ import {
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
-  GetAppUploadParams,
-  GetAppBundleParams,
   GetBulkActionParams,
   GetReleaseParams,
   GetTaskParams,
@@ -107,9 +105,6 @@ import {
 } from '../entities/webhook'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { AppUploadProps } from '../entities/app-upload'
-import { AppBundleProps, CreateAppBundleProps } from '../entities/app-bundle'
-import { AppDetailsProps, CreateAppDetailsProps } from '../entities/app-details'
 import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
 import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
 import { DeliveryFunctionProps } from '../entities/delivery-function'
@@ -174,6 +169,9 @@ import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import { UIConfigPlainClientAPI } from './entities/ui-config'
 import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
 import { AppDefinitionPlainClientAPI } from './entities/app-definition'
+import { AppUploadPlainClientAPI } from './entities/app-upload'
+import { AppBundlePlainClientAPI } from './entities/app-bundle'
+import { AppDetailsPlainClientAPI } from './entities/app-details'
 
 export type PlainClientAPI = {
   raw: {
@@ -187,25 +185,8 @@ export type PlainClientAPI = {
   }
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
-  appBundle: {
-    get(params: OptionalDefaults<GetAppBundleParams>): Promise<AppBundleProps>
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<AppBundleProps>>
-    delete(params: OptionalDefaults<GetAppBundleParams>): Promise<void>
-    create(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppBundleProps
-    ): Promise<AppBundleProps>
-  }
-  appDetails: {
-    upsert(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppDetailsProps
-    ): Promise<AppDetailsProps>
-    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
-    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
-  }
+  appBundle: AppBundlePlainClientAPI
+  appDetails: AppDetailsPlainClientAPI
   appSignedRequest: {
     create(
       params: OptionalDefaults<GetAppInstallationParams>,
@@ -545,14 +526,7 @@ export type PlainClientAPI = {
       processingOptions?: AssetProcessingForLocale
     ): Promise<AssetProps>
   }
-  appUpload: {
-    get(params: OptionalDefaults<GetAppUploadParams>): Promise<AppUploadProps>
-    delete(params: OptionalDefaults<GetAppUploadParams>): Promise<void>
-    create(
-      params: OptionalDefaults<GetOrganizationParams>,
-      payload: { file: string | ArrayBuffer | Stream }
-    ): Promise<AppUploadProps>
-  }
+  appUpload: AppUploadPlainClientAPI
   assetKey: {
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
