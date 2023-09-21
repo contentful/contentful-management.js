@@ -9,7 +9,7 @@ import { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppBundlePlainClientAPI = {
   /**
-   * Fetches the given App Bundle
+   * Fetches the App Bundle
    * @param params entity IDs to identify the App Bundle
    * @returns the App Bundle
    * @throws if the request fails, or the App Bundle is not found
@@ -39,7 +39,7 @@ export type AppBundlePlainClientAPI = {
     params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
   ): Promise<CollectionProp<AppBundleProps>>
   /**
-   * Deletes the given App Bundle
+   * Deletes the App Bundle
    * @param params entity IDs to identify the App Bundle
    * @throws if the request fails, or the App Bundle is not found
    * @example

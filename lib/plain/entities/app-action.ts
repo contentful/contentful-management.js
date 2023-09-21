@@ -10,7 +10,7 @@ import { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppActionPlainClientAPI = {
   /**
-   * Fetches the given App Action.
+   * Fetches the App Action
    * @param params entity IDs to identify the App Action
    * @returns the App Action
    * @throws if the request fails, or the App Action is not found
@@ -57,7 +57,7 @@ export type AppActionPlainClientAPI = {
     params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>
   ): Promise<CollectionProp<AppActionProps>>
   /**
-   * Deletes the given App Action
+   * Deletes the App Action
    * @param params entity IDs to identify the App Action to delete
    * @returns void
    * @throws if the request fails, or the App Action is not found
