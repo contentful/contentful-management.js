@@ -263,11 +263,16 @@ export type PlainClientAPI = {
   }
   environmentTemplate: {
     get(
-      params: GetEnvironmentTemplateParams & { version?: number },
+      params: GetEnvironmentTemplateParams & {
+        version?: number
+        query?: { select?: string }
+      },
       headers?: RawAxiosRequestHeaders
     ): Promise<EnvironmentTemplateProps>
     getMany(
-      params: BasicCursorPaginationOptions & GetOrganizationParams,
+      params: GetOrganizationParams & {
+        query?: BasicCursorPaginationOptions & { select?: string }
+      },
       headers?: RawAxiosRequestHeaders
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     create(
@@ -287,7 +292,9 @@ export type PlainClientAPI = {
     ): Promise<EnvironmentTemplateProps>
     delete(params: GetEnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
     versions(
-      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions,
+      params: GetEnvironmentTemplateParams & {
+        query?: BasicCursorPaginationOptions & { select?: string }
+      },
       headers?: RawAxiosRequestHeaders
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     validate(
