@@ -1095,11 +1095,14 @@ export type MRActions = {
     get: {
       params: GetEnvironmentTemplateParams & {
         version?: number
+        query?: { select?: string }
       }
       return: EnvironmentTemplateProps
     }
     getMany: {
-      params: BasicCursorPaginationOptions & GetOrganizationParams
+      params: GetOrganizationParams & {
+        query?: BasicCursorPaginationOptions & { select?: string }
+      }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
     create: {
@@ -1127,7 +1130,9 @@ export type MRActions = {
       return: void
     }
     versions: {
-      params: GetEnvironmentTemplateParams & BasicCursorPaginationOptions
+      params: GetEnvironmentTemplateParams & {
+        query?: BasicCursorPaginationOptions & { select?: string }
+      }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
     validate: {

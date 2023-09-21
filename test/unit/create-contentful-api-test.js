@@ -311,7 +311,7 @@ describe('A createContentfulApi', () => {
         makeRequest.calledOnceWith({
           entityType: 'EnvironmentTemplate',
           action: 'get',
-          params: { organizationId, environmentTemplateId, version },
+          params: { organizationId, environmentTemplateId, version, query: {} },
         })
       ).to.be.ok
     })
