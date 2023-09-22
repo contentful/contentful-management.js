@@ -109,7 +109,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environement_id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => console.log(environment))
      * .catch(console.error)
      * ```
@@ -150,7 +150,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Creates an Environement
+     * Creates an environment
      * @param data - Object representation of the Environment to be created
      * @return Promise for the newly created Environment
      * @example ```javascript
