@@ -660,7 +660,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Deletes an Entry of this environement
+     * Deletes an Entry of this environment
      * @param id - Entry ID
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
