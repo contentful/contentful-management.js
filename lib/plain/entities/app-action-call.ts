@@ -18,7 +18,7 @@ export type AppActionCallPlainClientAPI = {
    * await client.appActionCall.create(
    *   {
    *     spaceId: "<space_id>",
-   *     environmentId: "<environement_id>",
+   *     environmentId: "<environment_id>",
    *     appDefinitionId: "<app_definition_id>",
    *     appActionId: "<app_action_id>",
    *   },
@@ -41,7 +41,7 @@ export type AppActionCallPlainClientAPI = {
    * ```javascript
    * const appActionCall = await client.appActionCall.getCallDetails({
    *   spaceId: "<space_id>",
-   *   environmentId: "<environement_id>",
+   *   environmentId: "<environment_id>",
    *   appDefinitionId: "<app_definition_id>",
    *   appActionId: "<app_action_id>",
    * });
@@ -61,7 +61,7 @@ export type AppActionCallPlainClientAPI = {
    * const appActionCall = await client.appActionCall.createWithResponse(
    *   {
    *     spaceId: "<space_id>",
-   *     environmentId: "<environement_id>",
+   *     environmentId: "<environment_id>",
    *     appDefinitionId: "<app_definition_id>",
    *     appActionId: "<app_action_id>",
    *   },

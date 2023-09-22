@@ -4,7 +4,6 @@ import { Stream } from 'stream'
 import {
   CollectionProp,
   GetAppDefinitionParams,
-  GetAppInstallationParams,
   GetCommentParams,
   GetContentTypeParams,
   GetOrganizationMembershipParams,
@@ -94,8 +93,6 @@ import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { AppSignedRequestProps, CreateAppSignedRequestProps } from '../entities/app-signed-request'
-import { AppSigningSecretProps, CreateAppSigningSecretProps } from '../entities/app-signing-secret'
 import { DeliveryFunctionProps } from '../entities/delivery-function'
 import {
   BulkActionPayload,
@@ -163,6 +160,8 @@ import { AppBundlePlainClientAPI } from './entities/app-bundle'
 import { AppDetailsPlainClientAPI } from './entities/app-details'
 import { AppInstallationPlainClientAPI } from './entities/app-installation'
 import { WebhookPlainClientAPI } from './entities/webhook'
+import { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
+import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 
 export type PlainClientAPI = {
   raw: {
@@ -178,20 +177,8 @@ export type PlainClientAPI = {
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
   appDetails: AppDetailsPlainClientAPI
-  appSignedRequest: {
-    create(
-      params: OptionalDefaults<GetAppInstallationParams>,
-      payload: CreateAppSignedRequestProps
-    ): Promise<AppSignedRequestProps>
-  }
-  appSigningSecret: {
-    upsert(
-      params: OptionalDefaults<GetAppDefinitionParams>,
-      payload: CreateAppSigningSecretProps
-    ): Promise<AppSigningSecretProps>
-    get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppSigningSecretProps>
-    delete(params: OptionalDefaults<GetAppDefinitionParams>): Promise<void>
-  }
+  appSignedRequest: AppSignedRequestPlainClientAPI
+  appSigningSecret: AppSigningSecretPlainClientAPI
   deliveryFunction: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
