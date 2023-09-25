@@ -35,7 +35,7 @@ export class RestAdapter implements Adapter {
   private readonly params: RestAdapterParams
   private readonly axiosInstance: AxiosInstance
 
-  public constructor(params: RestAdapterParams) {
+  public constructor(params: RestAdapterParams, userAgent?: string | undefined) {
     if (!params.accessToken) {
       throw new TypeError('Expected parameter accessToken')
     }
@@ -49,6 +49,7 @@ export class RestAdapter implements Adapter {
       ...this.params,
       headers: {
         'Content-Type': 'application/vnd.contentful.management.v1+json',
+        ...(userAgent ? { 'X-Contentful-User-Agent': userAgent } : {}),
         ...this.params.headers,
       },
     })
