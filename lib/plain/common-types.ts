@@ -162,6 +162,7 @@ import { AppInstallationPlainClientAPI } from './entities/app-installation'
 import { WebhookPlainClientAPI } from './entities/webhook'
 import { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
 import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
+import { ExtensionPlainClientAPI } from './entities/extension'
 
 export type PlainClientAPI = {
   raw: {
@@ -690,28 +691,7 @@ export type PlainClientAPI = {
   }
   appDefinition: AppDefinitionPlainClientAPI
   appInstallation: AppInstallationPlainClientAPI
-  extension: {
-    get(params: OptionalDefaults<GetExtensionParams & QueryParams>): Promise<ExtensionProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<ExtensionProps>>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateExtensionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<ExtensionProps>
-    createWithId(
-      params: OptionalDefaults<GetExtensionParams>,
-      rawData: CreateExtensionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<ExtensionProps>
-    update(
-      params: OptionalDefaults<GetExtensionParams>,
-      rawData: ExtensionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<ExtensionProps>
-    delete(params: OptionalDefaults<GetExtensionParams>): Promise<any>
-  }
+  extension: ExtensionPlainClientAPI
   webhook: WebhookPlainClientAPI
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
