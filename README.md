@@ -138,7 +138,7 @@ The Contentful Management library will be accessible via the `contentfulManageme
 
 Check the [releases](https://github.com/contentful/contentful-management.js/releases) page to know which versions are available.
 
-### Typings
+## Typings
 
 This library also comes with typings to use with typescript.
 
@@ -152,61 +152,29 @@ If you'd like to create an app which would make use of this library but that wou
 
 ## Using ES6 import
 
-You can use the es6 import with the library as follow
+You can use the es6 import with the library as follows
 
 ```js
 // import createClient directly
 import contentful from 'contentful-management'
-const client = contentful.createClient({
-  // This is the access token for this space. Normally you get the token in the Contentful web app
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
+const client = contentful.createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'plain' }
+)
 //....
 ```
 
 ## Your first request
 
-The following code snippet is the most basic one you can use to get content from Contentful with this library:
-
-```js
-const contentful = require('contentful-management')
-const client = contentful.createClient({
-  // This is the access token for this space. Normally you get the token in the Contentful web app
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
-
-// This API call will request a space with the specified ID
-client.getSpace('spaceId').then((space) => {
-  // This API call will request an environment with the specified ID
-  space.getEnvironment('master').then((environment) => {
-    // Now that we have an environment, we can get entries from that space
-    environment.getEntries().then((entries) => {
-      console.log(entries.items)
-    })
-
-    // let's get a content type
-    environment.getContentType('product').then((contentType) => {
-      // and now let's update its name
-      contentType.name = 'New Product'
-      contentType.update().then((updatedContentType) => {
-        console.log('Update was successful')
-      })
-    })
-  })
-})
-```
-
-You can try and change the above example at [Tonic](https://tonicdev.com/npm/contentful-management).
-
-### Alternative plain API
-
-Starting `contentful-management@7` this library provides an alternative plain client which exposes all CMA endpoints in a simple flat manner oppose to a default waterfall structure.
+Starting `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat manner, as opposed to the waterfall structure exposed by legacy versions.
 
 ```javascript
 const contentful = require('contentful-management')
 const plainClient = contentful.createClient(
   {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
   { type: 'plain' }
@@ -229,7 +197,6 @@ const entries = await plainClient.entry.getMany({
 // With scoped space and environment
 const scopedPlainClient = contentful.createClient(
   {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
   {
@@ -250,7 +217,9 @@ const entries = await scopedPlainClient.entry.getMany({
 })
 ```
 
-The benefits of using the plain version of the library are:
+You can try and change the above example at [Tonic](https://tonicdev.com/npm/contentful-management).
+
+The benefits of using the plain version of the client, over the legacy version, are:
 
 - The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
@@ -258,7 +227,37 @@ The benefits of using the plain version of the library are:
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
-### App Framework
+## Legacy Client Interface
+
+The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
+
+```js
+const contentful = require('contentful-management')
+const client = contentful.createClient({
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
+
+// Get a space with the specified ID
+client.getSpace('spaceId').then((space) => {
+  // Get an environment within the space
+  space.getEnvironment('master').then((environment) => {
+    // Get entries from this environment
+    environment.getEntries().then((entries) => {
+      console.log(entries.items)
+    })
+    // Get a content type
+    environment.getContentType('product').then((contentType) => {
+      // Update its name
+      contentType.name = 'New Product'
+      contentType.update().then((updatedContentType) => {
+        console.log('Update was successful')
+      })
+    })
+  })
+})
+```
+
+## App Framework
 
 Starting [`@contentful/app-sdk@4`](https://github.com/contentful/app-sdk) you can use this client to make requests
 from your [apps built for Contentful](https://www.contentful.com/developers/docs/extensibility/app-framework/).
@@ -305,7 +304,7 @@ contentfulApp.init((sdk) => {
 
 To help you get the most out of this library, we've prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.
 
-### Configuration
+## Configuration
 
 The `createClient` method supports several options you may set to achieve the expected behavior:
 
