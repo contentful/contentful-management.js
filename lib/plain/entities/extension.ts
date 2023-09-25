@@ -25,8 +25,8 @@ export type ExtensionPlainClientAPI = {
    */
   get(params: OptionalDefaults<GetExtensionParams & QueryParams>): Promise<ExtensionProps>
   /**
-   * Fetches all Extensions of a Space
-   * @param params entity IDs to identify the Environment from which to fetch Extensions
+   * Fetches all Extensions of a Space/Environment
+   * @param params entity IDs to identify the Space/Environment from which to fetch Extensions
    * @returns an object containing the array of Extensions
    * @throws if the request fails, or the Space/Environment is not found
    * @example
