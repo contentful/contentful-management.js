@@ -21,6 +21,8 @@ export type RestAdapterParams = CreateHttpClientParams & {
    * @default upload.contentful.com
    */
   hostUpload?: string
+
+  userAgent?: string | undefined
 }
 
 /**
@@ -35,7 +37,7 @@ export class RestAdapter implements Adapter {
   private readonly params: RestAdapterParams
   private readonly axiosInstance: AxiosInstance
 
-  public constructor(params: RestAdapterParams, userAgent?: string | undefined) {
+  public constructor(params: RestAdapterParams) {
     if (!params.accessToken) {
       throw new TypeError('Expected parameter accessToken')
     }
@@ -49,7 +51,8 @@ export class RestAdapter implements Adapter {
       ...this.params,
       headers: {
         'Content-Type': 'application/vnd.contentful.management.v1+json',
-        ...(userAgent ? { 'X-Contentful-User-Agent': userAgent } : {}),
+        // possibly define a default user agent?
+        ...(params.userAgent ? { 'X-Contentful-User-Agent': params.userAgent } : {}),
         ...this.params.headers,
       },
     })
@@ -82,7 +85,8 @@ export class RestAdapter implements Adapter {
 
     return await endpoint(this.axiosInstance, params, payload, {
       ...headers,
-      'X-Contentful-User-Agent': userAgent,
+      // overwrite the userAgent with the one passed in the request
+      ...(userAgent ? { 'X-Contentful-User-Agent': userAgent } : {}),
     })
   }
 }

@@ -13,13 +13,10 @@ export type AdapterParams = {
 /**
  * @private
  */
-export function createAdapter(
-  params: RestAdapterParams | AdapterParams,
-  userAgent?: string
-): Adapter {
+export function createAdapter(params: RestAdapterParams | AdapterParams): Adapter {
   if ('apiAdapter' in params) {
     return params.apiAdapter
   } else {
-    return new RestAdapter(params, userAgent)
+    return new RestAdapter(params)
   }
 }

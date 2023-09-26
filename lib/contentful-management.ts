@@ -90,7 +90,7 @@ function createClient(
     params.feature
   )
 
-  const adapter = createAdapter(params, userAgent)
+  const adapter = createAdapter({ ...params, userAgent })
 
   // Parameters<?> and ReturnType<?> only return the types of the last overload
   // https://github.com/microsoft/TypeScript/issues/26591
