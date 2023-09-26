@@ -46,7 +46,7 @@ interface NodesValidation {
 }
 
 export interface ContentTypeFieldValidation {
-  linkContentType?: string | string[]
+  linkContentType?: string[]
   in?: (string | number)[]
   linkMimetypeGroup?: string[]
   enabledNodeTypes?: (`${BLOCKS}` | `${INLINES}`)[]
