@@ -8,7 +8,7 @@
   "types": "./dist/typings/contentful-management.d.ts",
   "module": "./dist/es-modules/contentful-management.js",
   "engines": {
-    "node": ">=14"
+    "node": ">=20"
   },
   "repository": {
     "type": "git",
