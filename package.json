@@ -113,7 +113,7 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.4.0",
     "karma-webpack": "^5.0.0",
-    "lint-staged": "^13.0.0",
+    "lint-staged": "^14.0.1",
     "lodash": "^4.17.20",
     "lodash-webpack-plugin": "^0.11.5",
     "mocha": "^10.0.0",
