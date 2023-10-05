@@ -53,13 +53,13 @@ describe('AppEventSubscription api', function () {
       topics: ['Entry.create'],
     })
 
-    expect(eventSubscription.topics).equals(['Entry.create'])
+    expect(eventSubscription.topics).deep.equals(['Entry.create'])
 
     const updatedEventSubscription = await client.appEventSubscription.upsert(entityId, {
       topics: ['Entry.save'],
     })
 
-    expect(updatedEventSubscription.topics).equals(['Entry.save'])
+    expect(updatedEventSubscription.topics).deep.equals(['Entry.save'])
 
     await client.appEventSubscription.delete(entityId)
   })

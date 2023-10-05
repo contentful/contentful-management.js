@@ -57,7 +57,7 @@ describe('AppKey api', function () {
   })
 
   test('deleteAppKey', async () => {
-    const key = await client.appKey.upsert(entityId, { generate: true })
+    const key = await client.appKey.create(entityId, { generate: true })
     entityId.fingerprint = key.sys.id
 
     await client.appKey.delete(entityId)

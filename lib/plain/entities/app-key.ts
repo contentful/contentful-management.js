@@ -76,7 +76,7 @@ export type AppKeyPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams> & QueryParams
   ): Promise<CollectionProp<AppKeyProps>>
   /**
    * Removes the App Key with the given fingerprint
