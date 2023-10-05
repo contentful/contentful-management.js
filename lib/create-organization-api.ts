@@ -4,10 +4,12 @@ import { Stream } from 'stream'
 import { CreateTeamMembershipProps } from './entities/team-membership'
 import { CreateTeamProps } from './entities/team'
 import { CreateOrganizationInvitationProps } from './entities/organization-invitation'
-import { MakeRequest, QueryOptions, QueryParams } from './common-types'
+import { BasicQueryOptions, MakeRequest, QueryOptions, QueryParams } from './common-types'
 import { CreateAppDefinitionProps } from './entities/app-definition'
 import { CreateAppActionProps } from './entities/app-action'
 import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
+import { CreateAppEventSubscriptionProps } from './entities/app-event-subscription'
+import { CreateAppKeyProps } from './entities/app-key'
 import { CreateAppDetailsProps } from './entities/app-details'
 import { OrganizationProp } from './entities/organization'
 
@@ -35,6 +37,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapOrganizationInvitation } = entities.organizationInvitation
   const { wrapAppUpload } = entities.appUpload
   const { wrapAppSigningSecret } = entities.appSigningSecret
+  const { wrapAppEventSubscription } = entities.appEventSubscription
+  const { wrapAppKey, wrapAppKeyCollection } = entities.appKey
   const { wrapAppDetails } = entities.appDetails
   const { wrapAppAction, wrapAppActionCollection } = entities.appAction
 
@@ -680,6 +684,198 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         entityType: 'AppSigningSecret',
         action: 'delete',
         params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then(() => {
+        /* noop*/
+      })
+    },
+    /**
+     * Creates or updates an app event subscription
+     * @return Promise for an App Event Subscription
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.upsertAppEventSubscription('app_definition_id', { targetUrl: '<target_url>', topics: ['<topic>'] }))
+     * .then((appEventSubscription) => console.log(appEventSubscription))
+     * .catch(console.error)
+     * ```
+     */
+    upsertAppEventSubscription(appDefinitionId: string, data: CreateAppEventSubscriptionProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppEventSubscription',
+        action: 'upsert',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppEventSubscription(makeRequest, payload))
+    },
+    /**
+     * Gets an app event subscription
+     * @return Promise for an App Event Subscription
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppEventSubscription('app_definition_id'))
+     * .then((appEventSubscription) => console.log(appEventSubscription))
+     * .catch(console.error)
+     * ```
+     */
+    getAppEventSubscription(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppEventSubscription',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapAppEventSubscription(makeRequest, payload))
+    },
+    /**
+     * Deletes the current App Event Subscription for the given App
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppEventSubscription('app_definition_id'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppEventSubscription(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppEventSubscription',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then(() => {
+        /* noop*/
+      })
+    },
+    /**
+     * Creates or updates an app event subscription
+     * @return Promise for an App Event Subscription
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // generate a new private key
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.upsertAppEventSubscription('app_definition_id', { generate: true }))
+     * .then((appEventSubscription) => console.log(appEventSubscription))
+     * .catch(console.error)
+     *
+     * // or use an existing JSON Web Key
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.upsertAppEventSubscription('app_definition_id', { jwk: 'jwk' }))
+     * .then((appEventSubscription) => console.log(appEventSubscription))
+     * .catch(console.error)
+     * ```
+     */
+    createAppKey(appDefinitionId: string, data: CreateAppKeyProps) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppKey',
+        action: 'create',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+        payload: data,
+      }).then((payload) => wrapAppKey(makeRequest, payload))
+    },
+    /**
+     * Gets an app key by fingerprint
+     * @return Promise for an App Key
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppKey('app_definition_id', 'fingerprint'))
+     * .then((appKey) => console.log(appKey))
+     * .catch(console.error)
+     * ```
+     */
+    getAppKey(appDefinitionId: string, fingerprint: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppKey',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId, fingerprint },
+      }).then((payload) => wrapAppKey(makeRequest, payload))
+    },
+    /**
+     * Gets all keys for the given app
+     * @return Promise for an array of App Keys
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // with default pagination
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppKeys('app_definition_id'))
+     * .then((appKeys) => console.log(appKeys))
+     * .catch(console.error)
+     *
+     * // with explicit pagination
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppKeys('app_definition_id', { skip: 'skip', limit: 'limit' }))
+     * .then((appKeys) => console.log(appKeys))
+     * .catch(console.error)
+     * ```
+     */
+    getAppKeys(appDefinitionId: string, query: BasicQueryOptions = {}) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppKey',
+        action: 'getMany',
+        params: {
+          organizationId: raw.sys.id,
+          appDefinitionId,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((payload) => wrapAppKeyCollection(makeRequest, payload))
+    },
+    /**
+     * Deletes an app key by fingerprint.
+     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.deleteAppKey('app_definition_id', 'fingerprint'))
+     * .then((result) => console.log(result))
+     * .catch(console.error)
+     * ```
+     */
+    deleteAppKey(appDefinitionId: string, fingerprint: string) {
+      const raw = this.toPlainObject() as OrganizationProp
+
+      return makeRequest({
+        entityType: 'AppKey',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, appDefinitionId, fingerprint },
       }).then(() => {
         /* noop*/
       })

@@ -139,6 +139,11 @@ import {
   EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
 import { DeliveryFunctionProps } from './entities/delivery-function'
+import {
+  AppEventSubscriptionProps,
+  CreateAppEventSubscriptionProps,
+} from './entities/app-event-subscription'
+import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -371,6 +376,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppSigningSecret', 'upsert', UA>): MRReturn<'AppSigningSecret', 'upsert'>
   (opts: MROpts<'AppSigningSecret', 'get', UA>): MRReturn<'AppSigningSecret', 'get'>
   (opts: MROpts<'AppSigningSecret', 'delete', UA>): MRReturn<'AppSigningSecret', 'delete'>
+
+  (opts: MROpts<'AppEventSubscription', 'upsert', UA>): MRReturn<'AppEventSubscription', 'upsert'>
+  (opts: MROpts<'AppEventSubscription', 'get', UA>): MRReturn<'AppEventSubscription', 'get'>
+  (opts: MROpts<'AppEventSubscription', 'delete', UA>): MRReturn<'AppEventSubscription', 'delete'>
+
+  (opts: MROpts<'AppKey', 'get', UA>): MRReturn<'AppKey', 'get'>
+  (opts: MROpts<'AppKey', 'getMany', UA>): MRReturn<'AppKey', 'getMany'>
+  (opts: MROpts<'AppKey', 'create', UA>): MRReturn<'AppKey', 'create'>
+  (opts: MROpts<'AppKey', 'delete', UA>): MRReturn<'AppKey', 'delete'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -868,6 +882,40 @@ export type MRActions = {
     }
     delete: {
       params: GetAppDefinitionParams
+      return: void
+    }
+  }
+  AppEventSubscription: {
+    upsert: {
+      params: GetAppDefinitionParams
+      payload: CreateAppEventSubscriptionProps
+      return: AppEventSubscriptionProps
+    }
+    get: {
+      params: GetAppDefinitionParams
+      return: AppEventSubscriptionProps
+    }
+    delete: {
+      params: GetAppDefinitionParams
+      return: void
+    }
+  }
+  AppKey: {
+    create: {
+      params: GetAppDefinitionParams
+      payload: CreateAppKeyProps
+      return: AppKeyProps
+    }
+    get: {
+      params: GetAppDefinitionParams & { fingerprint: string }
+      return: AppKeyProps
+    }
+    getMany: {
+      params: GetAppDefinitionParams & QueryParams
+      return: CollectionProp<AppKeyProps>
+    }
+    delete: {
+      params: GetAppDefinitionParams & { fingerprint: string }
       return: void
     }
   }
@@ -1834,6 +1882,7 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
 
+export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string

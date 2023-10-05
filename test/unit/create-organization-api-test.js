@@ -6,6 +6,8 @@ import {
   appDefinitionMock,
   appUploadMock,
   appSigningSecretMock,
+  appEventSubscriptionMock,
+  appKeyMock,
   appDetailsMock,
   cloneMock,
   organizationInvitationMock,
@@ -602,6 +604,156 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
 
     api['deleteAppSigningSecret']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createEventSubscription', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(
+      appEventSubscriptionMock
+    )
+    return api['upsertAppEventSubscription']('app-def-id', {
+      targetUrl: 'https://contentful.fake/event-processor',
+      topics: ['Entry.create'],
+    }).then((result) => {
+      expect(result).eql(appEventSubscriptionMock)
+    })
+  })
+
+  test('API call createEventSubscription fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['upsertAppEventSubscription']('app-def-id', {
+      targetUrl: 'https://contentful.fake/event-processor',
+      topics: ['Entry.create'],
+    }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppEventSubscription', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(
+      appEventSubscriptionMock
+    )
+    return api['getAppEventSubscription']('app-def-id').then((result) => {
+      expect(result).eql(appEventSubscriptionMock)
+    })
+  })
+
+  test('API call getAppEventSubscription fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppEventSubscription']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call deleteAppEventSubscription', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(undefined)
+    return api['deleteAppEventSubscription']('app-def-id').then((result) => {
+      expect(result).eql(undefined)
+    })
+  })
+
+  test('API call deleteAppEventSubscription fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['deleteAppEventSubscription']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call createKey', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appKey']['wrapAppKey'].returns(appKeyMock)
+    return api['createAppKey']('app-def-id', { generate: true }).then((result) => {
+      expect(result).eql(appKeyMock)
+    })
+  })
+
+  test('API call createKey fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['createAppKey']('app-def-id', { generate: true }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppKey', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appKey']['wrapAppKey'].returns(appKeyMock)
+    return api['getAppKey']('app-def-id', 'fingerprint').then((result) => {
+      expect(result).eql(appKeyMock)
+    })
+  })
+
+  test('API call getAppKey fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppKey']('app-def-id', 'fingerprint').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call getAppKeys', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'appKey',
+      mockToReturn: appKeyMock,
+      methodToTest: 'getAppKeys',
+    })
+  })
+
+  test('API call getAppKeys fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['getAppKeys']('app-def-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      }
+    )
+  })
+
+  test('API call deleteAppKey', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+    entitiesMock['appKey']['wrapAppKey'].returns(undefined)
+    return api['deleteAppKey']('app-def-id').then((result) => {
+      expect(result).eql(undefined)
+    })
+  })
+
+  test('API call deleteAppKey fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    api['deleteAppKey']('app-def-id').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)

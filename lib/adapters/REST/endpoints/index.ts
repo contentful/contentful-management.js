@@ -7,6 +7,8 @@ import * as AppDetails from './app-details'
 import * as AppInstallation from './app-installation'
 import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
+import * as AppEventSubscription from './app-event-subscription'
+import * as AppKey from './app-key'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
@@ -61,6 +63,8 @@ export default {
   AppUpload,
   AppSignedRequest,
   AppSigningSecret,
+  AppEventSubscription,
+  AppKey,
   AppDetails,
   Asset,
   AssetKey,
