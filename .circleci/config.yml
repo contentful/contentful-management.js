@@ -127,5 +127,5 @@ workflows:
             branches:
               only:
                 - master
-                - next
-                - next-major
+#                - next
+#                - next-major
