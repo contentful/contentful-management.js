@@ -56,6 +56,7 @@ describe('AppEventSubscription api', function () {
     expect(eventSubscription.topics).deep.equals(['Entry.create'])
 
     const updatedEventSubscription = await client.appEventSubscription.upsert(entityId, {
+      targetUrl,
       topics: ['Entry.save'],
     })
 
