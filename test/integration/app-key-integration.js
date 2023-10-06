@@ -49,9 +49,9 @@ describe('AppKey api', function () {
     const key1 = await client.appKey.create(entityId, { generate: true })
     const key2 = await client.appKey.create(entityId, { generate: true })
 
-    const keys = await client.appKey.getMany(entityId)
+    const { items } = await client.appKey.getMany(entityId)
 
-    expect(keys).to.have.lengthOf(2)
+    expect(items).to.have.lengthOf(2)
     await client.appKey.delete({ ...entityId, fingerprint: key1.sys.id })
     await client.appKey.delete({ ...entityId, fingerprint: key2.sys.id })
   })
