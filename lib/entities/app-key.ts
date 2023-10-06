@@ -10,19 +10,35 @@ type AppKeySys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+export interface JWK {
+  alg: 'RS256'
+  kty: 'RSA'
+  use: 'sig'
+  x5c: [string]
+  kid: string
+  x5t: string
+}
+
 export type AppKeyProps = {
   /**
    * System metadata
    */
   sys: AppKeySys
-  jwk: JsonWebKey
+  /**
+   * JSON Web Key
+   */
+  jwk: JWK
 }
 
 export type CreateAppKeyProps = {
-  /** Toggle for automatic private key generation */
+  /**
+   * Toggle for automatic private key generation
+   */
   generate?: boolean
-  /** JSON Web Key, required if generate is falsy */
-  jwk?: string
+  /**
+   * JSON Web Key, required if generate is falsy
+   */
+  jwk?: JWK
 }
 
 export interface AppKey extends AppKeyProps, DefaultElements<AppKeyProps> {
