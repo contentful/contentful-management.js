@@ -62,6 +62,7 @@ export type AppDefinitionProps = {
    */
   parameters?: {
     instance?: ParameterDefinition[]
+    installation?: ParameterDefinition[]
   }
 }
 
