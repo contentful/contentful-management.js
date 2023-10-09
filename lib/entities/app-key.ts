@@ -28,6 +28,15 @@ export type AppKeyProps = {
    * JSON Web Key
    */
   jwk: JWK
+  /**
+   * If generated, private key is returned
+   */
+  generated?: {
+    /**
+     * Base64 PEM
+     */
+    privateKey: string
+  }
 }
 
 export type CreateAppKeyProps = {
