@@ -163,6 +163,8 @@ import { WebhookPlainClientAPI } from './entities/webhook'
 import { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
 import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 import { ExtensionPlainClientAPI } from './entities/extension'
+import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
+import { AppKeyPlainClientAPI } from './entities/app-key'
 
 export type PlainClientAPI = {
   raw: {
@@ -178,6 +180,8 @@ export type PlainClientAPI = {
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
   appDetails: AppDetailsPlainClientAPI
+  appEventSubscription: AppEventSubscriptionPlainClientAPI
+  appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   deliveryFunction: {
