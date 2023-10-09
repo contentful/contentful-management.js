@@ -27,10 +27,11 @@ describe('AppKey api', function () {
   })
 
   test('createAppKey', async () => {
-    const key = await client.appKey.create(entityId, { generate: true })
-    entityId.fingerprint = key.sys.id
+    const { sys, generated, jwk } = await client.appKey.create(entityId, { generate: true })
+    entityId.fingerprint = sys.id
 
-    expect(key.jwk.kty).equals('RSA')
+    expect(jwk.kty).equals('RSA')
+    expect(generated).to.have.property('privateKey')
 
     await client.appKey.delete(entityId)
   })
