@@ -52,6 +52,12 @@ export type {
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
 } from './entities/app-signing-secret'
+export type {
+  AppEventSubscription,
+  AppEventSubscriptionProps,
+  CreateAppEventSubscriptionProps,
+} from './entities/app-event-subscription'
+export type { AppKey, AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 export type { AppUpload, AppUploadProps } from './entities/app-upload'
 export type { Asset, AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'

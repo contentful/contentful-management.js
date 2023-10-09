@@ -246,6 +246,32 @@ const appSigningSecretMock = {
   redactedValue: 'wI74',
 }
 
+const appEventSubscriptionMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppEventSubscription',
+    organization: { sys: { id: 'org-id' } },
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  targetUrl: 'https://contentful.fake/event-processor',
+  topics: ['Entry.create'],
+}
+
+const appKeyMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppKey',
+    organization: { sys: { id: 'org-id' } },
+    appDefinition: { sys: { type: 'link', linkType: 'AppDefinition', id: 'app-definition-id' } },
+  }),
+  jwk: {
+    alg: 'RS256',
+    kty: 'RSA',
+    use: 'sig',
+    x56: ['x5c'],
+    kid: 'kid',
+    x5t: 'x5t',
+  },
+}
+
 const appDetailsMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDetails',
@@ -920,6 +946,8 @@ const mocks = {
   appUpload: appUploadMock,
   appSignedRequest: appSignedRequestMock,
   appSigningSecret: appSigningSecretMock,
+  appEventSubscription: appEventSubscriptionMock,
+  appKey: appKeyMock,
   appDetails: appDetailsMock,
   asset: assetMock,
   assetKey: assetKeyMock,
@@ -1012,6 +1040,13 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     appSigningSecret: {
       wrapAppSigningSecret: sinon.stub(),
+    },
+    appEventSubscription: {
+      wrapAppEventSubscription: sinon.stub(),
+    },
+    appKey: {
+      wrapAppKey: sinon.stub(),
+      wrapAppKeyCollection: sinon.stub(),
     },
     appDetails: {
       wrapAppDetails: sinon.stub(),
@@ -1189,6 +1224,8 @@ export {
   appUploadMock,
   appSignedRequestMock,
   appSigningSecretMock,
+  appEventSubscriptionMock,
+  appKeyMock,
   appDetailsMock,
   linkMock,
   sysMock,

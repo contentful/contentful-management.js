@@ -81,6 +81,17 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'AppDetails', 'get'),
       delete: wrap(wrapParams, 'AppDetails', 'delete'),
     },
+    appEventSubscription: {
+      upsert: wrap(wrapParams, 'AppEventSubscription', 'upsert'),
+      get: wrap(wrapParams, 'AppEventSubscription', 'get'),
+      delete: wrap(wrapParams, 'AppEventSubscription', 'delete'),
+    },
+    appKey: {
+      create: wrap(wrapParams, 'AppKey', 'create'),
+      get: wrap(wrapParams, 'AppKey', 'get'),
+      getMany: wrap(wrapParams, 'AppKey', 'getMany'),
+      delete: wrap(wrapParams, 'AppKey', 'delete'),
+    },
     appSignedRequest: {
       create: wrap(wrapParams, 'AppSignedRequest', 'create'),
     },
