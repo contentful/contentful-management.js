@@ -32,6 +32,17 @@ const getEntryBaseUrl = (params: GetEntryParams) =>
 const getEntryCommentUrl = (params: GetCommentParams) =>
   `${getEntryBaseUrl(params)}/${params.commentId}`
 
+function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow') {
+  switch (parentEntityType) {
+    case 'ContentType':
+      return 'content_types'
+    case 'Entry':
+      return 'entries'
+    case 'Workflow':
+      return 'workflows'
+  }
+}
+
 /**
  * Comments can be added to either an entry or a workflow. The latter one requires a version
  * to be set as part of the URL path. Workflow comments only support `create` (with
@@ -43,8 +54,7 @@ const getEntityBaseUrl = (params: GetEntryParams | GetManyCommentsParams) => {
     return getEntryBaseUrl(params)
   }
   const { parentEntityId, parentEntityType } = params
-  // No need for mapping or switch-case as long as there are only two supported cases
-  const parentPlural = parentEntityType === 'Workflow' ? 'workflows' : 'entries'
+  const parentPlural = getParentPlural(parentEntityType)
   const versionPath =
     'parentEntityVersion' in params ? `/versions/${params.parentEntityVersion}` : ''
   return `${getSpaceEnvBaseUrl(params)}/${parentPlural}/${parentEntityId}${versionPath}/comments`
@@ -122,7 +132,7 @@ export const del: RestEndpoint<'Comment', 'delete'> = (
   return raw.del(http, getEntryCommentUrl(params), { headers: { 'X-Contentful-Version': version } })
 }
 
-// Add a deprecation notive. But `getAll` may never be removed for app compatibility reasons.
+// Add a deprecation notice. But `getAll` may never be removed for app compatibility reasons.
 /**
  * @deprecated use `getMany` instead.
  */
