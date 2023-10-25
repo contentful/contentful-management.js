@@ -27,10 +27,8 @@ const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
 
 const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}`
-const getEntryBaseUrl = (params: GetEntryParams) =>
-  `${getSpaceEnvBaseUrl(params)}/entries/${params.entryId}/comments`
-const getEntryCommentUrl = (params: GetCommentParams) =>
-  `${getEntryBaseUrl(params)}/${params.commentId}`
+const getEntityCommentUrl = (params: GetCommentParams) =>
+  `${getEntityBaseUrl(params)}/${params.commentId}`
 
 function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow') {
   switch (parentEntityType) {
@@ -71,7 +69,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
   http: AxiosInstance,
   params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat)
 ) =>
-  raw.get<CommentProps>(http, getEntryCommentUrl(params), {
+  raw.get<CommentProps>(http, getEntityCommentUrl(params), {
     headers:
       params.bodyFormat === 'rich-text'
         ? {
@@ -119,7 +117,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
 
-  return raw.put<CommentProps>(http, getEntryCommentUrl(params), data, {
+  return raw.put<CommentProps>(http, getEntityCommentUrl(params), data, {
     headers: {
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...(typeof rawData.body !== 'string'
@@ -136,7 +134,9 @@ export const del: RestEndpoint<'Comment', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteCommentParams
 ) => {
-  return raw.del(http, getEntryCommentUrl(params), { headers: { 'X-Contentful-Version': version } })
+  return raw.del(http, getEntityCommentUrl(params), {
+    headers: { 'X-Contentful-Version': version },
+  })
 }
 
 // Add a deprecation notice. But `getAll` may never be removed for app compatibility reasons.
