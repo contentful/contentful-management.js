@@ -44,15 +44,22 @@ function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow')
 }
 
 /**
- * Comments can be added to either an entry or a workflow. The latter one requires a version
+ * Comments can be added to a content type, an entry, and a workflow. Workflow comments requires a version
  * to be set as part of the URL path. Workflow comments only support `create` (with
  * versionized URL) and `getMany` (without version). The API might support more methods
  * in the future with new use cases being discovered.
  */
-const getEntityBaseUrl = (params: GetEntryParams | GetManyCommentsParams) => {
-  if ('entryId' in params) {
-    return getEntryBaseUrl(params)
-  }
+const getEntityBaseUrl = (paramsOrg: GetEntryParams | GetManyCommentsParams) => {
+  const params: GetManyCommentsParams =
+    'entryId' in paramsOrg
+      ? {
+          spaceId: paramsOrg.spaceId,
+          environmentId: paramsOrg.environmentId,
+          parentEntityType: 'Entry' as const,
+          parentEntityId: paramsOrg.entryId,
+        }
+      : paramsOrg
+
   const { parentEntityId, parentEntityType } = params
   const parentPlural = getParentPlural(parentEntityType)
   const versionPath =
