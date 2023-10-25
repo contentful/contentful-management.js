@@ -66,7 +66,7 @@ describe('Comment Api', () => {
         parentEntityId: contentType.sys.id,
       }
       const {
-        sys: { id },
+        sys: { id, version },
       } = await plainClient.comment.create(params, { body: commentBody })
 
       const response = await plainClient.comment.getMany(params)
@@ -76,6 +76,7 @@ describe('Comment Api', () => {
       await plainClient.comment.delete({
         ...params,
         commentId: id,
+        version,
       })
     })
   })
