@@ -28,7 +28,11 @@ export type CommentSysProps = Pick<
   type: 'Comment'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'> | LinkWithReference<'Entry'> | VersionedLink<'Workflow'>
+  parentEntity:
+    | Link<'ContentType'>
+    | Link<'Entry'>
+    | LinkWithReference<'Entry'>
+    | VersionedLink<'Workflow'>
   parent: Link<'Comment'> | null
 }
 
@@ -80,6 +84,10 @@ export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentB
 // We keep this type as explicit as possible until we open up the comments entity further
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
   (
+    | {
+        parentEntityType: 'ContentType'
+        parentEntityId: string
+      }
     | {
         parentEntityType: 'Entry'
         parentEntityId: string
