@@ -27,24 +27,39 @@ const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
 
 const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}`
-const getEntryBaseUrl = (params: GetEntryParams) =>
-  `${getSpaceEnvBaseUrl(params)}/entries/${params.entryId}/comments`
-const getEntryCommentUrl = (params: GetCommentParams) =>
-  `${getEntryBaseUrl(params)}/${params.commentId}`
+const getEntityCommentUrl = (params: GetCommentParams) =>
+  `${getEntityBaseUrl(params)}/${params.commentId}`
+
+function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow') {
+  switch (parentEntityType) {
+    case 'ContentType':
+      return 'content_types'
+    case 'Entry':
+      return 'entries'
+    case 'Workflow':
+      return 'workflows'
+  }
+}
 
 /**
- * Comments can be added to either an entry or a workflow. The latter one requires a version
+ * Comments can be added to a content type, an entry, and a workflow. Workflow comments requires a version
  * to be set as part of the URL path. Workflow comments only support `create` (with
  * versionized URL) and `getMany` (without version). The API might support more methods
  * in the future with new use cases being discovered.
  */
-const getEntityBaseUrl = (params: GetEntryParams | GetManyCommentsParams) => {
-  if ('entryId' in params) {
-    return getEntryBaseUrl(params)
-  }
+const getEntityBaseUrl = (paramsOrg: GetEntryParams | GetManyCommentsParams) => {
+  const params: GetManyCommentsParams =
+    'entryId' in paramsOrg
+      ? {
+          spaceId: paramsOrg.spaceId,
+          environmentId: paramsOrg.environmentId,
+          parentEntityType: 'Entry' as const,
+          parentEntityId: paramsOrg.entryId,
+        }
+      : paramsOrg
+
   const { parentEntityId, parentEntityType } = params
-  // No need for mapping or switch-case as long as there are only two supported cases
-  const parentPlural = parentEntityType === 'Workflow' ? 'workflows' : 'entries'
+  const parentPlural = getParentPlural(parentEntityType)
   const versionPath =
     'parentEntityVersion' in params ? `/versions/${params.parentEntityVersion}` : ''
   return `${getSpaceEnvBaseUrl(params)}/${parentPlural}/${parentEntityId}${versionPath}/comments`
@@ -54,7 +69,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
   http: AxiosInstance,
   params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat)
 ) =>
-  raw.get<CommentProps>(http, getEntryCommentUrl(params), {
+  raw.get<CommentProps>(http, getEntityCommentUrl(params), {
     headers:
       params.bodyFormat === 'rich-text'
         ? {
@@ -102,7 +117,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
 
-  return raw.put<CommentProps>(http, getEntryCommentUrl(params), data, {
+  return raw.put<CommentProps>(http, getEntityCommentUrl(params), data, {
     headers: {
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...(typeof rawData.body !== 'string'
@@ -119,10 +134,12 @@ export const del: RestEndpoint<'Comment', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteCommentParams
 ) => {
-  return raw.del(http, getEntryCommentUrl(params), { headers: { 'X-Contentful-Version': version } })
+  return raw.del(http, getEntityCommentUrl(params), {
+    headers: { 'X-Contentful-Version': version },
+  })
 }
 
-// Add a deprecation notive. But `getAll` may never be removed for app compatibility reasons.
+// Add a deprecation notice. But `getAll` may never be removed for app compatibility reasons.
 /**
  * @deprecated use `getMany` instead.
  */
