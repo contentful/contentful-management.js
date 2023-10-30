@@ -10,12 +10,24 @@ describe('Comment Api', () => {
   let contentType: ContentType
   let entry: Entry
   const commentBody = 'JS SDK Comment Integration Test'
+  const commentBodyReply = 'Reply comment'
 
   before(async () => {
     plainClient = initPlainClient()
     space = (await createTestSpace(initClient(), 'Comment')) as Space
     environment = (await createTestEnvironment(space, 'Comment Testing Environment')) as Environment
-    contentType = await environment.createContentType({ name: 'Content Type', fields: [] })
+    contentType = await environment.createContentType({
+      name: 'Content Type',
+      fields: [
+        {
+          id: 'field',
+          name: 'Field',
+          type: 'Text',
+          required: false,
+          localized: false,
+        },
+      ],
+    })
     await contentType.publish()
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
   })
@@ -74,6 +86,71 @@ describe('Comment Api', () => {
       expect(response.items).to.be.an('array')
       expect(response.items.map((item) => item.sys.id)).to.include(id)
 
+      await plainClient.comment.delete({
+        ...params,
+        commentId: id,
+        version,
+      })
+    })
+
+    test('Reply to comment', async () => {
+      // create
+      const params = {
+        spaceId: space.sys.id,
+        environmentId: environment.sys.id,
+        parentEntityType: 'ContentType',
+        parentEntityId: contentType.sys.id,
+      }
+      const parentComment = await plainClient.comment.create(params, { body: commentBody })
+
+      const replyComment = await plainClient.comment.create(
+        { ...params, parentCommentId: parentComment.sys.id },
+        { body: commentBodyReply }
+      )
+
+      // check
+      const response = await plainClient.comment.getMany(params)
+      expect(response.items).to.be.an('array')
+      expect(response.items.find((item) => item.sys.id === replyComment.sys.id)).to.include(
+        parentComment.sys.id
+      )
+
+      // delete
+      await plainClient.comment.delete({
+        ...params,
+        commentId: replyComment.sys.id,
+        version: replyComment.sys.version,
+      })
+
+      await plainClient.comment.delete({
+        ...params,
+        commentId: parentComment.sys.id,
+        version: parentComment.sys.version,
+      })
+    })
+
+    test('Parent reference', async () => {
+      // create
+      const params = {
+        spaceId: space.sys.id,
+        environmentId: environment.sys.id,
+        parentEntityType: 'ContentType',
+        parentEntityId: contentType.sys.id,
+        parentEntityReference: 'field',
+      }
+      const {
+        sys: { id, version },
+      } = await plainClient.comment.create(params, { body: commentBody })
+
+      // check
+      const response = await plainClient.comment.getMany(params)
+      expect(response.items).to.be.an('array')
+      expect(response.items.map((item) => item.sys.id)).to.include(id)
+      expect(
+        response.items.map((item) => (item.sys.parentEntity.sys as { ref: string }).ref)
+      ).to.include('field')
+
+      // delete
       await plainClient.comment.delete({
         ...params,
         commentId: id,
