@@ -32,6 +32,7 @@ export type CommentSysProps = Pick<
   environment: SysLink
   parentEntity:
     | Link<'ContentType'>
+    | LinkWithReference<'ContentType'>
     | Link<'Entry'>
     | LinkWithReference<'Entry'>
     | VersionedLink<'Workflow'>
@@ -91,10 +92,12 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
     | {
         parentEntityType: 'ContentType'
         parentEntityId: string
+        parentEntityReference?: string
       }
     | {
         parentEntityType: 'Entry'
         parentEntityId: string
+        parentEntityReference?: string
       }
     | {
         parentEntityType: 'Workflow'
@@ -106,7 +109,6 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
 export type GetManyCommentsParams = GetEntryParams | GetCommentParentEntityParams
 export type CreateCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   parentCommentId?: string
-  parentEntityReference?: string
 }
 export type UpdateCommentParams = GetCommentParams
 export type DeleteCommentParams = GetCommentParams & {
