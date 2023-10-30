@@ -1,20 +1,21 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
 import { initClient, createTestEnvironment, createTestSpace, initPlainClient } from '../helpers'
+import { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Comment Api', () => {
-  let plainClient
-  let space
-  let environment
-  let contentType
-  let entry
+  let plainClient: PlainClientAPI
+  let space: Space
+  let environment: Environment
+  let contentType: ContentType
+  let entry: Entry
   const commentBody = 'JS SDK Comment Integration Test'
 
   before(async () => {
     plainClient = initPlainClient()
-    space = await createTestSpace(initClient(), 'Comment')
-    environment = await createTestEnvironment(space, 'Comment Testing Environment')
-    contentType = await environment.createContentType({ name: 'Content Type' })
+    space = (await createTestSpace(initClient(), 'Comment')) as Space
+    environment = (await createTestEnvironment(space, 'Comment Testing Environment')) as Environment
+    contentType = await environment.createContentType({ name: 'Content Type', fields: [] })
     await contentType.publish()
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
   })
