@@ -104,7 +104,7 @@ export const create: RestEndpoint<'Comment', 'create'> = (
   return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
     headers: {
       ...(typeof rawData.body !== 'string' ? { [BODY_FORMAT_HEADER]: 'rich-text' } : {}),
-      ...(params.parentEntityReference
+      ...('parentEntityReference' in params && params.parentEntityReference
         ? { [PARENT_ENTITY_REFERENCE_HEADER]: params.parentEntityReference }
         : {}),
       ...(params.parentCommentId ? { [PARENT_COMMENT_ID_HEADER]: params.parentCommentId } : {}),
