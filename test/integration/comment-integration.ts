@@ -20,8 +20,8 @@ describe('Comment Api', () => {
       name: 'Content Type',
       fields: [
         {
-          id: 'field',
-          name: 'Field',
+          id: 'firstField',
+          name: 'First Field',
           type: 'Text',
           required: false,
           localized: false,
@@ -148,7 +148,7 @@ describe('Comment Api', () => {
       expect(response.items.map((item) => item.sys.id)).to.include(id)
       expect(
         response.items.map((item) => (item.sys.parentEntity.sys as { ref: string }).ref)
-      ).to.include('field')
+      ).to.include('fields.firstField')
 
       // delete
       await plainClient.comment.delete({
