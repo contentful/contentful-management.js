@@ -15,6 +15,8 @@ import {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+// PROPS //
+
 interface LinkWithReference<T extends string> extends Link<T> {
   sys: Link<T>['sys'] & {
     ref: string
@@ -81,6 +83,8 @@ export type RichTextCommentBodyPayload = { body: RichTextCommentDocument }
 
 export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentBodyPayload
 
+// PARAMS //
+
 // We keep this type as explicit as possible until we open up the comments entity further
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
   (
@@ -98,10 +102,18 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
         parentEntityVersion?: number
       }
   )
+
 export type GetManyCommentsParams = GetEntryParams | GetCommentParentEntityParams
-export type CreateCommentParams = GetEntryParams | GetCommentParentEntityParams
+export type CreateCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
+  parentCommentId?: string
+  parentEntityReference?: string
+}
 export type UpdateCommentParams = GetCommentParams
-export type DeleteCommentParams = GetCommentParams & { version: number }
+export type DeleteCommentParams = GetCommentParams & {
+  version: number
+}
+
+// NESTED CLIENT //
 
 type CommentApi = {
   update(): Promise<Comment | RichTextComment>
@@ -128,29 +140,28 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
   })
 
   return {
-    update: function () {
+    update: async function () {
       const raw = this.toPlainObject() as CommentProps
 
-      return makeRequest({
+      const data = await makeRequest({
         entityType: 'Comment',
         action: 'update',
         params: getParams(raw),
         payload: raw,
-      }).then((data) => wrapComment(makeRequest, data))
+      })
+      return wrapComment(makeRequest, data)
     },
 
-    delete: function () {
+    delete: async function () {
       const raw = this.toPlainObject() as CommentProps
 
-      return makeRequest({
+      await makeRequest({
         entityType: 'Comment',
         action: 'delete',
         params: {
           ...getParams(raw),
           version: raw.sys.version,
         },
-      }).then(() => {
-        // noop
       })
     },
   }
