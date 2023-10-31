@@ -45,13 +45,15 @@ export type RichTextBodyProperty = 'rich-text'
 export type RichTextBodyFormat = { bodyFormat: RichTextBodyProperty }
 export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
 
+export type CommentStatus = 'active' | 'resolved'
+
 export type CommentProps = {
   sys: CommentSysProps
   body: string
-  status: 'resolved' | 'active'
+  status: CommentStatus
 }
 
-export type CreateCommentProps = Omit<CommentProps, 'sys'>
+export type CreateCommentProps = Omit<CommentProps, 'sys' | 'status'> & { status?: CommentStatus }
 export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }

@@ -64,7 +64,11 @@ describe('Plain Client', () => {
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(props, { body: updateText, sys: { version: 2 } })
+        await plainClient.comment.update(props, {
+          body: updateText,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',
@@ -162,18 +166,22 @@ describe('Plain Client', () => {
           entityType: 'Comment',
           action: 'create',
           params: props,
-          payload: { body: richTextBody },
+          payload: { body: richTextBody, status: 'active' },
           headers: undefined,
         })
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(props, { body: richTextBody, sys: { version: 2 } })
+        await plainClient.comment.update(props, {
+          body: richTextBody,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',
           params: props,
-          payload: { body: richTextBody },
+          payload: { body: richTextBody, status: 'active' },
           headers: undefined,
         })
       })
