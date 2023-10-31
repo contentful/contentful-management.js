@@ -48,6 +48,7 @@ export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
 export type CommentProps = {
   sys: CommentSysProps
   body: string
+  status: 'resolved' | 'active'
 }
 
 export type CreateCommentProps = Omit<CommentProps, 'sys'>
