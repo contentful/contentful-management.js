@@ -111,8 +111,8 @@ describe('Comment Api', () => {
       // check
       const response = await plainClient.comment.getMany(params)
       expect(response.items).to.be.an('array')
-      expect(response.items.find((item) => item.sys.id === replyComment.sys.id)).to.eq(
-        parentComment.sys.id
+      expect(response.items.find((item) => item.sys.id === replyComment.sys.id)?.body).to.eq(
+        commentBodyReply
       )
 
       // delete
