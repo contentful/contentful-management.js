@@ -136,7 +136,7 @@ describe('Comment Api', () => {
         environmentId: environment.sys.id,
         parentEntityType: 'ContentType',
         parentEntityId: contentType.sys.id,
-        parentEntityReference: 'field',
+        parentEntityReference: 'fields.firstField',
       }
       const {
         sys: { id, version },
