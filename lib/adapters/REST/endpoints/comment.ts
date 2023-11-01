@@ -23,7 +23,10 @@ import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
+const VERSION_HEADER = 'X-Contentful-Version'
 const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
+const PARENT_ENTITY_REFERENCE_HEADER = 'x-contentful-parent-entity-reference'
+const PARENT_COMMENT_ID_HEADER = 'x-contentful-parent-id'
 
 const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}`
@@ -99,12 +102,13 @@ export const create: RestEndpoint<'Comment', 'create'> = (
 ) => {
   const data = copy(rawData)
   return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
-    headers:
-      typeof rawData.body !== 'string'
-        ? {
-            [BODY_FORMAT_HEADER]: 'rich-text',
-          }
-        : {},
+    headers: {
+      ...(typeof rawData.body !== 'string' ? { [BODY_FORMAT_HEADER]: 'rich-text' } : {}),
+      ...('parentEntityReference' in params && params.parentEntityReference
+        ? { [PARENT_ENTITY_REFERENCE_HEADER]: params.parentEntityReference }
+        : {}),
+      ...(params.parentCommentId ? { [PARENT_COMMENT_ID_HEADER]: params.parentCommentId } : {}),
+    },
   })
 }
 
@@ -119,12 +123,8 @@ export const update: RestEndpoint<'Comment', 'update'> = (
 
   return raw.put<CommentProps>(http, getEntityCommentUrl(params), data, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
-      ...(typeof rawData.body !== 'string'
-        ? {
-            [BODY_FORMAT_HEADER]: 'rich-text',
-          }
-        : {}),
+      [VERSION_HEADER]: rawData.sys.version ?? 0,
+      ...(typeof rawData.body !== 'string' ? { [BODY_FORMAT_HEADER]: 'rich-text' } : {}),
       ...headers,
     },
   })
@@ -135,7 +135,7 @@ export const del: RestEndpoint<'Comment', 'delete'> = (
   { version, ...params }: DeleteCommentParams
 ) => {
   return raw.del(http, getEntityCommentUrl(params), {
-    headers: { 'X-Contentful-Version': version },
+    headers: { [VERSION_HEADER]: version },
   })
 }
 
