@@ -30,6 +30,7 @@ import {
   RichTextCommentProps,
   PlainTextBodyFormat,
   RichTextCommentBodyPayload,
+  GetCommentParentEntityParams,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -1857,7 +1858,9 @@ export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
 }
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
-export type GetCommentParams = GetEntryParams & { commentId: string }
+export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
+  commentId: string
+}
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
