@@ -8,7 +8,12 @@ import {
   GetWebhookParams,
   QueryParams,
 } from '../../../common-types'
-import { CreateWebhooksProps, WebhookProps } from '../../../entities/webhook'
+import {
+  CreateWebhooksProps,
+  UpsertWebhookSigningSecretPayload,
+  WebhookProps,
+  WebhookSigningSecretProps,
+} from '../../../entities/webhook'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
@@ -28,6 +33,12 @@ const getWebhookCallDetailsUrl = (params: GetWebhookCallDetailsUrl) =>
 
 const getWebhookHealthUrl = (params: GetWebhookParams) =>
   `${getWebhookCallBaseUrl(params)}/${params.webhookDefinitionId}/health`
+
+const getWebhookSettingsUrl = (params: GetSpaceParams) =>
+  `/spaces/${params.spaceId}/webhook_settings`
+
+const getWebhookSigningSecretUrl = (params: GetSpaceParams) =>
+  `${getWebhookSettingsUrl(params)}/signing_secret`
 
 export const get: RestEndpoint<'Webhook', 'get'> = (
   http: AxiosInstance,
@@ -66,6 +77,13 @@ export const getMany: RestEndpoint<'Webhook', 'getMany'> = (
   return raw.get(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
   })
+}
+
+export const getSigningSecret: RestEndpoint<'Webhook', 'getSigningSecret'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams
+) => {
+  return raw.get(http, getWebhookSigningSecretUrl(params))
 }
 
 export const create: RestEndpoint<'Webhook', 'create'> = (
@@ -108,9 +126,26 @@ export const update: RestEndpoint<'Webhook', 'update'> = async (
   })
 }
 
+export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'> = async (
+  http: AxiosInstance,
+  params: GetSpaceParams,
+  rawData?: UpsertWebhookSigningSecretPayload
+) => {
+  const data = copy(rawData)
+
+  return raw.put<WebhookSigningSecretProps>(http, getWebhookSigningSecretUrl(params), data)
+}
+
 export const del: RestEndpoint<'Webhook', 'delete'> = (
   http: AxiosInstance,
   params: GetWebhookParams
 ) => {
   return raw.del(http, getWebhookUrl(params))
+}
+
+export const deleteSigningSecret: RestEndpoint<'Webhook', 'deleteSigningSecret'> = async (
+  http: AxiosInstance,
+  params: GetSpaceParams
+) => {
+  return raw.del<void>(http, getWebhookSigningSecretUrl(params))
 }
