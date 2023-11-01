@@ -8,10 +8,12 @@ import {
 } from '../../common-types'
 import {
   CreateWebhooksProps,
+  UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
   WebhookHealthProps,
   WebhookProps,
+  WebhookSigningSecretProps,
 } from '../../entities/webhook'
 import { OptionalDefaults } from '../wrappers/wrap'
 
@@ -93,6 +95,18 @@ export type WebhookPlainClientAPI = {
     params: OptionalDefaults<GetWebhookParams & QueryParams>
   ): Promise<CollectionProp<WebhookCallOverviewProps>>
   /**
+   * Fetch the redacted webhook signing secret for a given Space
+   * @param params entity IDs to identify the Space which the signing secret belongs to
+   * @returns the last 4 characters of the redacted signing secret
+   * @throws if the request fails, the Space is not found, or the signing secret does not exist
+   * @example
+   * ```javascript
+   * const signingSecret = await client.webhook.getSigningSecret({
+   *   spaceId: '<space_id>',
+   * });
+   */
+  getSigningSecret(params: OptionalDefaults<GetSpaceParams>): Promise<WebhookSigningSecretProps>
+  /**
    * Creates a Webhook
    * @param params entity IDs to identify the Space to create the Webhook in
    * @param rawData the Webhook
@@ -117,6 +131,28 @@ export type WebhookPlainClientAPI = {
     rawData: CreateWebhooksProps,
     headers?: RawAxiosRequestHeaders
   ): Promise<WebhookProps>
+  /**
+   * Creates or updates the webhook signing secret for a given Space
+   * @param params entity IDs to identify the Space which the signing secret belongs to
+   * @param rawData (optional) the updated 64 character signing secret value if the secret already exists
+   * @returns the last 4 characters of the created or updated signing secret
+   * @throws if the request fails, the Space is not found, or the payload is malformed
+   * @example
+   * ```javascript
+   * const crypto = require('crypto')
+   *
+   * const signingSecret = await client.webhook.upsertSigningSecret({
+   *   spaceId: '<space_id>',
+   * },
+   * {
+   *   value: require('crypto').randomBytes(32).toString("hex"),
+   * });
+   * ```
+   */
+  upsertSigningSecret(
+    params: OptionalDefaults<GetSpaceParams>,
+    rawData?: UpsertWebhookSigningSecretPayload
+  ): Promise<WebhookSigningSecretProps>
   /**
    * Creates the Webhook
    * @param params entity IDs to identify the Webhook to update
@@ -154,4 +190,16 @@ export type WebhookPlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetWebhookParams>): Promise<any>
+  /**
+   * Removes the webhook signing secret for a given Space
+   * @param params entity IDs to identify the Space which the signing secret belongs to
+   * @throws if the request fails, the Space is not found, or the signing secret does not exist
+   * @example
+   * ```javascript
+   * await client.webhook.deleteSigningSecret({
+   *  spaceId: '<space_id>',
+   * });
+   * ```
+   */
+  deleteSigningSecret(params: OptionalDefaults<GetSpaceParams>): Promise<void>
 }
