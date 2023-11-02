@@ -14,7 +14,7 @@ import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/sc
 import { SpaceProps } from './entities/space'
 import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
-import { CreateWebhooksProps } from './entities/webhook'
+import { CreateWebhooksProps, UpsertWebhookSigningSecretPayload } from './entities/webhook'
 
 /**
  * @private
@@ -267,6 +267,31 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Fetch a webhook signing secret
+     * @returns Promise for the redacted webhook signing secret in this space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getWebhookSigningSecret())
+     *   .then((response) => console.log(response.redactedValue))
+     *   .catch(console.error)
+     * ```
+     */
+    getWebhookSigningSecret: function getSigningSecret() {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getSigningSecret',
+        params: { spaceId: raw.sys.id },
+      })
+    },
+
+    /**
      * Creates a Webhook
      * @param data - Object representation of the Webhook to be created
      * @return Promise for the newly created Webhook
@@ -329,6 +354,53 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         params: { spaceId: raw.sys.id, webhookDefinitionId: id },
         payload: data,
       }).then((data) => wrapWebhook(makeRequest, data))
+    },
+
+    /**
+     * Create or update the webhook signing secret for this space
+     * @param data 64 character string that will be used to sign the webhook calls
+     * @returns Promise for the redacted webhook signing secret that was created or updated
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const crypto = require('crypto')
+     *
+     * const client = contentful.createClient({
+     *   .then((space) => space.upsertWebhookSigningSecret({
+     *     value: crypto.randomBytes(32).toString('hex')
+     *   })
+     *   .then((response) => console.log(response.redactedValue))
+     *   .catch(console.error)
+     * ```
+     */
+    upsertWebhookSigningSecret: function getSigningSecret(data: UpsertWebhookSigningSecretPayload) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'upsertSigningSecret',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      })
+    },
+
+    /**
+     * Delete the webhook signing secret for this space
+     * @returns Promise<void>
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   .then((space) => space.deleteWebhookSigningSecret()
+     *   .then((response) => console.log(response.redactedValue))
+     *   .catch(console.error)
+     * ```
+     */
+    deleteWebhookSigningSecret: function getSigningSecret() {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'deleteSigningSecret',
+        params: { spaceId: raw.sys.id },
+      })
     },
     /**
      * Gets a Role
