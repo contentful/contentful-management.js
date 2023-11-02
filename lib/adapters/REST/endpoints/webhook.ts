@@ -129,7 +129,7 @@ export const update: RestEndpoint<'Webhook', 'update'> = async (
 export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'> = async (
   http: AxiosInstance,
   params: GetSpaceParams,
-  rawData?: UpsertWebhookSigningSecretPayload
+  rawData: UpsertWebhookSigningSecretPayload
 ) => {
   const data = copy(rawData)
 

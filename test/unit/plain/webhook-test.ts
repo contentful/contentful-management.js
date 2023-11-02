@@ -3,6 +3,7 @@ import { describe, test } from 'mocha'
 import sinon from 'sinon'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
+import crypto from 'crypto'
 
 describe('Webhook', () => {
   const spaceId = 'space-id'
@@ -25,12 +26,18 @@ describe('Webhook', () => {
       Promise.resolve({ data: { redactedValue: 'abcd' } })
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
-    const response = await plainClient.webhook.upsertSigningSecret({ spaceId })
+
+    const payload = { value: crypto.randomBytes(32).toString('hex') }
+    const response = await plainClient.webhook.upsertSigningSecret({ spaceId }, payload)
 
     expect(response).to.be.an('object')
     expect(response.redactedValue).to.equal('abcd')
 
-    sinon.assert.calledWith(httpMock.put, `/spaces/space-id/webhook_settings/signing_secret`)
+    sinon.assert.calledWith(
+      httpMock.put,
+      `/spaces/space-id/webhook_settings/signing_secret`,
+      payload
+    )
   })
 
   test('deleteSigningSecret', async () => {

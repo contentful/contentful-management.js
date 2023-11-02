@@ -145,13 +145,13 @@ export type WebhookPlainClientAPI = {
    *   spaceId: '<space_id>',
    * },
    * {
-   *   value: require('crypto').randomBytes(32).toString("hex"),
+   *   value: crypto.randomBytes(32).toString("hex"),
    * });
    * ```
    */
   upsertSigningSecret(
     params: OptionalDefaults<GetSpaceParams>,
-    rawData?: UpsertWebhookSigningSecretPayload
+    rawData: UpsertWebhookSigningSecretPayload
   ): Promise<WebhookSigningSecretProps>
   /**
    * Creates the Webhook
