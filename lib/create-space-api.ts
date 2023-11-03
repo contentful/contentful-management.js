@@ -365,9 +365,13 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * const crypto = require('crypto')
      *
      * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const signingSecret = client.getSpace('<space_id>')
      *   .then((space) => space.upsertWebhookSigningSecret({
      *     value: crypto.randomBytes(32).toString('hex')
-     *   })
+     *   }))
      *   .then((response) => console.log(response.redactedValue))
      *   .catch(console.error)
      * ```
@@ -389,8 +393,12 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
-     *   .then((space) => space.deleteWebhookSigningSecret()
-     *   .then((response) => console.log(response.redactedValue))
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.deleteWebhookSigningSecret())
+     *   .then(() => console.log("success"))
      *   .catch(console.error)
      * ```
      */
