@@ -71,10 +71,12 @@ import { UsageProps } from './entities/usage'
 import { UserProps } from './entities/user'
 import {
   CreateWebhooksProps,
+  UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
   WebhookHealthProps,
   WebhookProps,
+  WebhookSigningSecretProps,
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
 import { AppUploadProps } from './entities/app-upload'
@@ -660,10 +662,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Webhook', 'getCallDetails', UA>): MRReturn<'Webhook', 'getCallDetails'>
   (opts: MROpts<'Webhook', 'getHealthStatus', UA>): MRReturn<'Webhook', 'getHealthStatus'>
   (opts: MROpts<'Webhook', 'getManyCallDetails', UA>): MRReturn<'Webhook', 'getManyCallDetails'>
+  (opts: MROpts<'Webhook', 'getSigningSecret', UA>): MRReturn<'Webhook', 'getSigningSecret'>
   (opts: MROpts<'Webhook', 'create', UA>): MRReturn<'Webhook', 'create'>
   (opts: MROpts<'Webhook', 'createWithId', UA>): MRReturn<'Webhook', 'createWithId'>
   (opts: MROpts<'Webhook', 'update', UA>): MRReturn<'Webhook', 'update'>
+  (opts: MROpts<'Webhook', 'upsertSigningSecret', UA>): MRReturn<'Webhook', 'upsertSigningSecret'>
   (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
+  (opts: MROpts<'Webhook', 'deleteSigningSecret', UA>): MRReturn<'Webhook', 'deleteSigningSecret'>
 
   (opts: MROpts<'WorkflowDefinition', 'get', UA>): MRReturn<'WorkflowDefinition', 'get'>
   (opts: MROpts<'WorkflowDefinition', 'getMany', UA>): MRReturn<'WorkflowDefinition', 'getMany'>
@@ -1704,6 +1709,7 @@ export type MRActions = {
       params: GetWebhookParams & QueryParams
       return: CollectionProp<WebhookCallOverviewProps>
     }
+    getSigningSecret: { params: GetSpaceParams; return: WebhookSigningSecretProps }
     create: {
       params: GetSpaceParams
       payload: CreateWebhooksProps
@@ -1717,7 +1723,13 @@ export type MRActions = {
       return: WebhookProps
     }
     update: { params: GetWebhookParams; payload: WebhookProps; return: WebhookProps }
+    upsertSigningSecret: {
+      params: GetSpaceParams
+      payload: UpsertWebhookSigningSecretPayload
+      return: WebhookSigningSecretProps
+    }
     delete: { params: GetWebhookParams; return: void }
+    deleteSigningSecret: { params: GetSpaceParams; return: void }
   }
   WorkflowDefinition: {
     get: {

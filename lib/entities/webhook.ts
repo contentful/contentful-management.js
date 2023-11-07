@@ -80,6 +80,10 @@ export type UpdateWebhookProps = SetOptional<
   'headers' | 'name' | 'topics' | 'url' | 'active'
 >
 
+export type UpsertWebhookSigningSecretPayload = {
+  value: string
+}
+
 export type WebhookCallDetailsProps = {
   /**
    * System metadata
@@ -135,6 +139,13 @@ export type WebhookHealthProps = {
    * Webhook call statistics
    */
   calls: WebhookCalls
+}
+
+export type WebhookSigningSecretSys = Except<BasicMetaSysProps, 'version'>
+
+export type WebhookSigningSecretProps = {
+  sys: WebhookSigningSecretSys & { space: { sys: MetaLinkProps } }
+  redactedValue: string
 }
 
 export type WebhookProps = {

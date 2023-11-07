@@ -361,10 +361,13 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Webhook', 'getMany'),
       getHealthStatus: wrap(wrapParams, 'Webhook', 'getHealthStatus'),
       getCallDetails: wrap(wrapParams, 'Webhook', 'getCallDetails'),
+      getSigningSecret: wrap(wrapParams, 'Webhook', 'getSigningSecret'),
       getManyCallDetails: wrap(wrapParams, 'Webhook', 'getManyCallDetails'),
       create: wrap(wrapParams, 'Webhook', 'create'),
       update: wrap(wrapParams, 'Webhook', 'update'),
+      upsertSigningSecret: wrap(wrapParams, 'Webhook', 'upsertSigningSecret'),
       delete: wrap(wrapParams, 'Webhook', 'delete'),
+      deleteSigningSecret: wrap(wrapParams, 'Webhook', 'deleteSigningSecret'),
     },
     snapshot: {
       getManyForEntry: wrap(wrapParams, 'Snapshot', 'getManyForEntry'),
