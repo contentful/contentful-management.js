@@ -211,6 +211,8 @@ export type {
   WebhookProps,
   WebHooks,
   WebhookTransformation,
+  UpsertWebhookSigningSecretPayload,
+  WebhookSigningSecretProps,
 } from './entities/webhook'
 export type {
   // General typings (props, params, options)
