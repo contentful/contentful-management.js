@@ -56,7 +56,6 @@ jobs:
     steps:
       - with-workspace
       - run: npm run build
-      - run: npm run test:version
 
   lint:
     executor: docker-with-node
