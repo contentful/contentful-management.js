@@ -1,13 +1,25 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { Stream } from 'stream'
-import { GetSpaceParams } from '../../../common-types'
+import { GetSpaceEnvironmentParams, GetSpaceEnvironmentUploadParams } from '../../../common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
+const getBaseUploadUrl = (params: GetSpaceEnvironmentParams) => {
+  const spacePath = `/spaces/${params.spaceId}/uploads`
+  const environmentPath = `/spaces/${params.spaceId}/environments/${params.environmentId}/uploads`
+  const path = params.environmentId ? environmentPath : spacePath
+  return path
+}
+
+const getEntityUploadUrl = (params: GetSpaceEnvironmentUploadParams) => {
+  const path = getBaseUploadUrl(params)
+  return path + `/${params.uploadId}`
+}
+
 export const create: RestEndpoint<'Upload', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceParams,
+  params: GetSpaceEnvironmentParams,
   data: { file: string | ArrayBuffer | Stream }
 ) => {
   const httpUpload = getUploadHttpClient(http)
@@ -16,7 +28,8 @@ export const create: RestEndpoint<'Upload', 'create'> = (
   if (!file) {
     return Promise.reject(new Error('Unable to locate a file to upload.'))
   }
-  return raw.post(httpUpload, `/spaces/${params.spaceId}/uploads`, file, {
+  const path = getBaseUploadUrl(params)
+  return raw.post(httpUpload, path, file, {
     headers: {
       'Content-Type': 'application/octet-stream',
     },
@@ -25,18 +38,18 @@ export const create: RestEndpoint<'Upload', 'create'> = (
 
 export const del: RestEndpoint<'Upload', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { uploadId: string }
+  params: GetSpaceEnvironmentUploadParams
 ) => {
   const httpUpload = getUploadHttpClient(http)
-
-  return raw.del(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
+  const path = getEntityUploadUrl(params)
+  return raw.del(httpUpload, path)
 }
 
 export const get: RestEndpoint<'Upload', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { uploadId: string }
+  params: GetSpaceEnvironmentUploadParams
 ) => {
   const httpUpload = getUploadHttpClient(http)
-
-  return raw.get(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
+  const path = getEntityUploadUrl(params)
+  return raw.get(httpUpload, path)
 }
