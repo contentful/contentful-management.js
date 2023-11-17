@@ -81,7 +81,7 @@ describe('Rest App Action Call', () => {
       httpMock.get.withArgs(
         `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
       ),
-      10
+      15
     )
   })
 
@@ -142,7 +142,7 @@ describe('Rest App Action Call', () => {
       httpMock.get.withArgs(
         `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
       ),
-      10
+      15
     )
   })
 
@@ -172,7 +172,7 @@ describe('Rest App Action Call', () => {
       httpMock.get.withArgs(
         `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
       ),
-      10
+      15
     )
   })
 
