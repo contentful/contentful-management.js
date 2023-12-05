@@ -8,16 +8,11 @@ describe('Environment Template', async () => {
   const entityType = 'EnvironmentTemplate'
 
   const actions = [
-    // { name: 'get', httpMethod: 'get' },
-    // { name: 'getMany', httpMethod: 'get' },
     { name: 'create', httpMethod: 'post' },
     { name: 'update', httpMethod: 'put' },
     { name: 'versionUpdate', httpMethod: 'patch' },
-    // { name: 'del', httpMethod: 'delete' },
-    // { name: 'versions', httpMethod: 'get' },
     { name: 'validate', httpMethod: 'put' },
     { name: 'install', httpMethod: 'post' },
-    // { name: 'disconnect', httpMethod: 'delete' },
   ]
 
   actions.forEach((action) => {
