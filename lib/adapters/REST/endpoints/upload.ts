@@ -1,9 +1,26 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { Stream } from 'stream'
-import { GetSpaceParams } from '../../../common-types'
+import {
+  GetSpaceAndOptionalEnvironmentParams,
+  GetSpaceEnvironmentParams,
+  GetSpaceEnvironmentUploadParams,
+  GetSpaceParams,
+} from '../../../common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
+
+const getBaseUploadUrl = (params: GetSpaceAndOptionalEnvironmentParams) => {
+  const path = `/spaces/${params.spaceId}/environments/master/uploads`
+  return path
+}
+
+const getEntityUploadUrl = (
+  params: GetSpaceAndOptionalEnvironmentParams & { uploadId: string }
+) => {
+  const path = getBaseUploadUrl(params)
+  return path + `/${params.uploadId}`
+}
 
 export const create: RestEndpoint<'Upload', 'create'> = (
   http: AxiosInstance,
@@ -16,7 +33,8 @@ export const create: RestEndpoint<'Upload', 'create'> = (
   if (!file) {
     return Promise.reject(new Error('Unable to locate a file to upload.'))
   }
-  return raw.post(httpUpload, `/spaces/${params.spaceId}/uploads`, file, {
+  const path = getBaseUploadUrl(params)
+  return raw.post(httpUpload, path, file, {
     headers: {
       'Content-Type': 'application/octet-stream',
     },
@@ -29,7 +47,8 @@ export const del: RestEndpoint<'Upload', 'delete'> = (
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
-  return raw.del(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
+  const path = getEntityUploadUrl(params)
+  return raw.del(httpUpload, path)
 }
 
 export const get: RestEndpoint<'Upload', 'get'> = (
@@ -38,5 +57,6 @@ export const get: RestEndpoint<'Upload', 'get'> = (
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
-  return raw.get(httpUpload, `/spaces/${params.spaceId}/uploads/${params.uploadId}`)
+  const path = getEntityUploadUrl(params)
+  return raw.get(httpUpload, path)
 }
