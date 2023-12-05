@@ -43,7 +43,6 @@ function createUploadApi(makeRequest: MakeRequest) {
         action: 'delete',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
           uploadId: raw.sys.id,
         },
       })
