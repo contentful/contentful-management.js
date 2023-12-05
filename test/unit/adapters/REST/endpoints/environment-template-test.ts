@@ -1,47 +1,43 @@
-import { describe, test } from 'mocha'
+import { describe } from 'mocha'
 import { cloneMock } from '../../../mocks/entities'
-import { wrapEnvironmentTemplate } from '../../../../../lib/entities/environment-template'
 import { expect } from 'chai'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
-
-function setup(promise = Promise.resolve({ data: {} }), params = {}) {
-  return {
-    ...setupRestAdapter(promise, params),
-    entityMock: cloneMock('environmentTemplate'),
-  }
-}
 
 describe('Environment Template', async () => {
-  test('environment template', async () => {
-    const { httpMock, adapterMock, entityMock } = setup()
-    entityMock.sys.version = 2
-    console.log('entityMock', entityMock)
+  const mockName = 'environmentTemplate'
+  const entityType = 'EnvironmentTemplate'
 
-    const entity = wrapEnvironmentTemplate(
-      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock,
-      'org-id'
-    )
+  const actions = [
+    // { name: 'get', httpMethod: 'get' },
+    // { name: 'getMany', httpMethod: 'get' },
+    { name: 'create', httpMethod: 'post' },
+    { name: 'update', httpMethod: 'put' },
+    { name: 'versionUpdate', httpMethod: 'patch' },
+    // { name: 'del', httpMethod: 'delete' },
+    // { name: 'versions', httpMethod: 'get' },
+    { name: 'validate', httpMethod: 'put' },
+    { name: 'install', httpMethod: 'post' },
+    // { name: 'disconnect', httpMethod: 'delete' },
+  ]
 
-    // console.log('entity', entity)
-    // console.log('entity.getVersions()', await entity.getVersions())
+  actions.forEach((action) => {
+    it(`propagates custom headers for ${action.name} request`, async () => {
+      const { adapterMock, httpMock } = setupRestAdapter()
 
-    // return entity.getVersions().then((response) => {
-    return entity.update().then((response) => {
-      console.log('response', response)
+      const entityMock = cloneMock(mockName)
+      entityMock.name = 'updated name'
+      entityMock.sys.version = 2
 
-      expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
-        2,
-        'version header is sent for first template'
-      )
+      await adapterMock.makeRequest({
+        entityType,
+        action: action.name,
+        params: {},
+        payload: entityMock,
+        headers: { 'X-Test': 'test header' },
+        userAgent: 'mockedAgent',
+      })
 
-      return {
-        httpMock,
-        entityMock,
-        response,
-      }
+      expect(httpMock[action.httpMethod].args[0][2].headers['X-Test']).equals('test header')
     })
   })
 })
