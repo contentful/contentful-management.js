@@ -1127,7 +1127,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         action: 'get',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
           uploadId: id,
         },
       }).then((data) => wrapUpload(makeRequest, data))
@@ -1158,7 +1157,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         action: 'create',
         params: {
           spaceId: raw.sys.space.sys.id,
-          environmentId: raw.sys.id,
         },
         payload: data,
       }).then((data) => wrapUpload(makeRequest, data))

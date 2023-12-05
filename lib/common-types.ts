@@ -1668,13 +1668,13 @@ export type MRActions = {
     update: { params: GetUIConfigParams; payload: UIConfigProps; return: UIConfigProps }
   }
   Upload: {
-    get: { params: GetSpaceEnvironmentUploadParams; return: any }
+    get: { params: GetSpaceParams & { uploadId: string }; return: any }
     create: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceParams
       payload: { file: string | ArrayBuffer | Stream }
       return: any
     }
-    delete: { params: GetSpaceEnvironmentUploadParams; return: any }
+    delete: { params: GetSpaceParams & { uploadId: string }; return: any }
   }
   Usage: {
     getManyForSpace: {
@@ -1884,7 +1884,6 @@ export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { cont
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
-export type GetSpaceEnvironmentUploadParams = GetSpaceEnvironmentParams & { uploadId: string }
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
 export type GetSpaceParams = { spaceId: string }
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
