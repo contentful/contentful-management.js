@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -6,7 +7,8 @@ const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =
 
 export const getMany: RestEndpoint<'EnvironmentTemplateInstallation', 'getMany'> = (
   http,
-  { organizationId, environmentTemplateId, spaceId, environmentId, ...paginationProps }
+  { organizationId, environmentTemplateId, spaceId, environmentId, ...paginationProps },
+  headers?: RawAxiosRequestHeaders
 ) =>
   raw.get(http, apiPath(organizationId, environmentTemplateId, 'template_installations'), {
     params: {
@@ -14,12 +16,17 @@ export const getMany: RestEndpoint<'EnvironmentTemplateInstallation', 'getMany'>
       ...(environmentId && { 'environment.sys.id': environmentId }),
       ...(spaceId && { 'space.sys.id': spaceId }),
     },
+    headers,
   })
 
 export const getForEnvironment: RestEndpoint<
   'EnvironmentTemplateInstallation',
   'getForEnvironment'
-> = (http, { spaceId, environmentId, environmentTemplateId, installationId, ...paginationProps }) =>
+> = (
+  http,
+  { spaceId, environmentId, environmentTemplateId, installationId, ...paginationProps },
+  headers?: RawAxiosRequestHeaders
+) =>
   raw.get(
     http,
     `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}`,
@@ -28,5 +35,6 @@ export const getForEnvironment: RestEndpoint<
         ...(installationId && { 'sys.id': installationId }),
         ...paginationProps,
       },
+      headers,
     }
   )

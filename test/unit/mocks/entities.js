@@ -962,6 +962,8 @@ const mocks = {
   entryWithReferences: entryWithReferencesMock,
   entryReferencesCollection: entryReferencesCollectionMock,
   environmentAlias: environmentAliasMock,
+  environmentTemplate: environmentTemplateMock,
+  environmentTemplateInstallation: environmentTemplateInstallationMock,
   error: errorMock,
   extension: extensionMock,
   link: linkMock,
