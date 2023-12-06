@@ -20,8 +20,6 @@ describe('Environment Template', async () => {
       const { adapterMock, httpMock } = setupRestAdapter()
 
       const entityMock = cloneMock(mockName)
-      entityMock.name = 'updated name'
-      entityMock.sys.version = 2
 
       await adapterMock.makeRequest({
         entityType,
