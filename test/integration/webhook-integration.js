@@ -28,7 +28,7 @@ describe('Webhook Api', function () {
     const id = generateRandomId('webhook')
     return space.createWebhookWithId(id, {
       name: 'testwebhook',
-      url: 'https://example.com',
+      url: 'http://localhost:8080',
       topics: ['Entry.publish']
     })
       .then((webhook) => {
@@ -50,7 +50,7 @@ describe('Webhook Api', function () {
     return space
       .createWebhook({
         name: 'testname',
-        url: 'https://example.com',
+        url: 'http://localhost:8080',
         topics: ['Entry.publish'],
       })
       .then((webhook) => {
@@ -68,7 +68,7 @@ describe('Webhook Api', function () {
     return space
       .createWebhook({
         name: 'testname',
-        url: 'https://example.com',
+        url: 'http://localhost:8080',
         topics: ['Entry.publish'],
         active: false,
       })

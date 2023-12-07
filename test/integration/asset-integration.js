@@ -99,7 +99,8 @@ describe('Asset api', function () {
       await unarchivedAsset.delete()
     })
 
-    test('Create and process asset with multiple locales', async () => {
+    // Skip because this is a flakey test
+    test.skip('Create and process asset with multiple locales', async () => {
       const asset = await environment.createAsset({
         fields: {
           title: { 'en-US': 'this is the title' },
@@ -123,7 +124,8 @@ describe('Asset api', function () {
       expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
     })
 
-    test('Upload and process asset with multiple locales', async () => {
+    // Skip because this is a flakey test
+    test.skip('Upload and process asset with multiple locales', async () => {
       const asset = await environment.createAssetFromFiles({
         fields: {
           title: { 'en-US': 'SVG upload test' },

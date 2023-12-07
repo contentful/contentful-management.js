@@ -31,6 +31,7 @@ import {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
+  GetSpaceEnvironmentUploadParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -524,12 +525,12 @@ export type PlainClientAPI = {
     ): Promise<AssetKeyProps>
   }
   upload: {
-    get(params: OptionalDefaults<GetSpaceParams & { uploadId: string }>): Promise<any>
+    get(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
     create(
-      params: OptionalDefaults<GetSpaceParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: { file: string | ArrayBuffer | Stream }
     ): Promise<any>
-    delete(params: OptionalDefaults<GetSpaceParams & { uploadId: string }>): Promise<any>
+    delete(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
   }
   locale: {
     get(
