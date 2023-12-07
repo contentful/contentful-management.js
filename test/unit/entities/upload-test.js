@@ -15,7 +15,7 @@ function setup(promise) {
   }
 }
 
-describe('Entity TeamSpaceMembership', () => {
+describe('Entity Uploads', () => {
   test('Upload is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapUpload,
