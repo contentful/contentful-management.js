@@ -123,7 +123,7 @@ describe('Asset api', function () {
       expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
     })
 
-    test('Upload and process asset with multiple locales', async () => {
+    test('Upload and process asset from files with multiple locales', async () => {
       const asset = await environment.createAssetFromFiles({
         fields: {
           title: { 'en-US': 'SVG upload test' },
@@ -142,6 +142,30 @@ describe('Asset api', function () {
         },
       })
 
+      const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
+      expect(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded').to.be.ok
+      expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
+    })
+
+    test('Upload and process asset from files with multiple locales in non-master environment', async () => {
+      environment = await space.createEnvironment({ name: 'Asset Processing Non-Master' })
+      const asset = await environment.createAssetFromFiles({
+        fields: {
+          title: { 'en-US': 'SVG upload test' },
+          file: {
+            'en-US': {
+              contentType: 'image/svg+xml',
+              fileName: 'blue-square.svg',
+              file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+            },
+            'de-DE': {
+              contentType: 'image/svg+xml',
+              fileName: 'red-square.svg',
+              file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
+            },
+          },
+        },
+      })
       const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
       expect(processedAsset.fields.file['en-US'].url, 'file en-US was uploaded').to.be.ok
       expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
