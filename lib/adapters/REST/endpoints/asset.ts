@@ -154,7 +154,7 @@ export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
   )
 }
 
-export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
+export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = async (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { uploadTimeout?: number },
   data: Omit<AssetFileProp, 'sys'>
@@ -163,7 +163,7 @@ export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
 
   const { file } = data.fields
   return Promise.all(
-    Object.keys(file).map((locale) => {
+    Object.keys(file).map(async (locale) => {
       const { contentType, fileName } = file[locale]
 
       return createUpload(httpUpload, params, file[locale]).then((upload) => {
@@ -204,7 +204,7 @@ export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = (
 const ASSET_PROCESSING_CHECK_WAIT = 3000
 const ASSET_PROCESSING_CHECK_RETRIES = 10
 
-function checkIfAssetHasUrl(
+async function checkIfAssetHasUrl(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   {
@@ -247,7 +247,7 @@ function checkIfAssetHasUrl(
   })
 }
 
-export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = (
+export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = async (
   http: AxiosInstance,
   {
     asset,
@@ -292,7 +292,7 @@ export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = (
     })
 }
 
-export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'> = (
+export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'> = async (
   http: AxiosInstance,
   {
     asset,
