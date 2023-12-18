@@ -7,7 +7,7 @@ export type UploadProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { space: SysLink }
+  sys: MetaSysProps & { space: SysLink; environment: SysLink }
 }
 
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {
