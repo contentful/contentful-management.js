@@ -68,7 +68,7 @@ export enum CommentNode {
 // Add "extends Block" as soon as rich-text-types supports mentions
 export interface Mention {
   nodeType: CommentNode.Mention
-  data: { target: Link<'User'> }
+  data: { target: Link<'User'> | Link<'Team'> }
   content: Text[]
 }
 
