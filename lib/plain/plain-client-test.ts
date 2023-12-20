@@ -117,7 +117,23 @@ describe('Plain Client', () => {
                     nodeType: 'text',
                     marks: [],
                     data: {},
-                    value: 'My mention',
+                    value: 'My user mention',
+                  },
+                ],
+              },
+              {
+                nodeType: CommentNode.Mention,
+                data: {
+                  target: {
+                    sys: { type: 'Link', id: '456', linkType: 'Team' },
+                  },
+                },
+                content: [
+                  {
+                    nodeType: 'text',
+                    marks: [],
+                    data: {},
+                    value: 'My team mention',
                   },
                 ],
               },
