@@ -84,7 +84,7 @@ describe('Webhook Api', function () {
   })
 
   // TODO: enable (and debug) these tests once this is not in EAP and feature flagged since space IDs are not stable
-  describe.todo('webhook retry policies', () => {
+  describe.skip('TODO: webhook retry policies', () => {
     let retryPolicy
 
     describe('given no webhook retry policy', () => {
