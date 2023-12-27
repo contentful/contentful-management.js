@@ -48,6 +48,14 @@ export const omitAndDeleteField = (
       })
     })
     .then((newContentType) => {
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'publish',
+        params,
+        payload: newContentType,
+      })
+    })
+    .then((newContentType) => {
       return findAndUpdateField(newContentType, fieldId, 'deleted')
     })
     .then((newContentType) => {
