@@ -97,48 +97,53 @@ describe('ContentType Api', async function () {
             ]
             return publishedContentType
               .update() // update with fields
-              .then((updatedContentType) => {
-                expect(updatedContentType.isUpdated(), 'contentType is updated').to.be.ok
-                expect(updatedContentType.fields[0].id).equals('field', 'field id')
-                expect(updatedContentType.fields[1].id).equals('field2delete', 'field2delete id')
-                expect(updatedContentType.fields[2].id).equals(
-                  'multiRefXSpace',
-                  'multiRefXSpace id'
-                )
-                return updatedContentType
-                  .omitAndDeleteField('field2delete') // omit and delete field
-                  .then((deletedFieldContentType) => {
-                    expect(
-                      deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
-                    ).length(0, 'field should be deleted')
-                    expect(
-                      deletedFieldContentType.getEditorInterface,
-                      'updatedContentType.getEditorInterface'
-                    ).to.be.ok
-                    return deletedFieldContentType
-                      .publish() // publish changes
-                      .then((publishedContentType) => {
-                        return publishedContentType
-                          .getEditorInterface() // get editorInterface
-                          .then((editorInterface) => {
-                            expect(editorInterface.controls, 'editor interface controls').to.be.ok
-                            expect(editorInterface.sys, 'editor interface sys').to.be.ok
-                            return editorInterface
-                              .update() // update editor interface
-                              .then(() => {
-                                return updatedContentType
-                                  .unpublish() // unpublish contentType
-                                  .then((unpublishedContentType) => {
-                                    expect(
-                                      unpublishedContentType.isDraft(),
-                                      'contentType is back in draft'
-                                    ).to.be.ok
-                                    return unpublishedContentType.delete() // delete contentType
-                                  })
-                              })
-                          })
-                      })
-                  })
+              .then((tryContentType) => {
+                expect(tryContentType.isUpdated(), 'contentType is updated').to.be.ok
+                return tryContentType.publish().then((updatedContentType) => {
+                  expect(updatedContentType.isUpdated(), 'contentType is updated').to.not.be.ok
+                  expect(updatedContentType.fields[0].id).equals('field', 'field id')
+                  expect(updatedContentType.fields[1].id).equals('field2delete', 'field2delete id')
+                  expect(updatedContentType.fields[2].id).equals(
+                    'multiRefXSpace',
+                    'multiRefXSpace id'
+                  )
+                  return updatedContentType
+                    .omitAndDeleteField('field2delete') // omit and delete field
+                    .then((deletedFieldContentType) => {
+                      expect(
+                        deletedFieldContentType.fields.filter(
+                          (field) => field.id === 'field2delete'
+                        )
+                      ).length(0, 'field should be deleted')
+                      expect(
+                        deletedFieldContentType.getEditorInterface,
+                        'updatedContentType.getEditorInterface'
+                      ).to.be.ok
+                      return deletedFieldContentType
+                        .publish() // publish changes
+                        .then((publishedContentType) => {
+                          return publishedContentType
+                            .getEditorInterface() // get editorInterface
+                            .then((editorInterface) => {
+                              expect(editorInterface.controls, 'editor interface controls').to.be.ok
+                              expect(editorInterface.sys, 'editor interface sys').to.be.ok
+                              return editorInterface
+                                .update() // update editor interface
+                                .then(() => {
+                                  return updatedContentType
+                                    .unpublish() // unpublish contentType
+                                    .then((unpublishedContentType) => {
+                                      expect(
+                                        unpublishedContentType.isDraft(),
+                                        'contentType is back in draft'
+                                      ).to.be.ok
+                                      return unpublishedContentType.delete() // delete contentType
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
               })
           })
       })
