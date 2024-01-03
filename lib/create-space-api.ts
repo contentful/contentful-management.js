@@ -14,7 +14,11 @@ import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/sc
 import { SpaceProps } from './entities/space'
 import { CreateSpaceMembershipProps } from './entities/space-membership'
 import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
-import { CreateWebhooksProps, UpsertWebhookSigningSecretPayload } from './entities/webhook'
+import {
+  CreateWebhooksProps,
+  UpsertWebhookSigningSecretPayload,
+  WebhookRetryPolicyPayload,
+} from './entities/webhook'
 
 /**
  * @private
@@ -292,6 +296,31 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Fetch a webhook retry policy
+     * @returns Promise for the redacted webhook retry policy in this space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getRetryPolicy())
+     *   .then((response) => console.log(response.redactedValue))
+     *   .catch(console.error)
+     * ```
+     */
+    getWebhookRetryPolicy: function getWebhookRetryPolicy() {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'getRetryPolicy',
+        params: { spaceId: raw.sys.id },
+      })
+    },
+
+    /**
      * Creates a Webhook
      * @param data - Object representation of the Webhook to be created
      * @return Promise for the newly created Webhook
@@ -385,6 +414,34 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         payload: data,
       })
     },
+    /**
+     * Create or update the webhook retry policy for this space
+     * @param data the maxRetries with integer value >= 2 and <= 99 value to set in the Retry Policy
+     * @returns Promise for the redacted webhook retry policy that was created or updated
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const retryPolicy = client.getSpace('<space_id>')
+     *   .then((space) => space.upsertWebhookRetryPolicy({
+     *     maxRetries: 15
+     *   }))
+     *   .then((response) => console.log(response.redactedValue))
+     *   .catch(console.error)
+     * ```
+     */
+    upsertWebhookRetryPolicy: function upsertWebhookRetryPolicy(data: WebhookRetryPolicyPayload) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'upsertRetryPolicy',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      })
+    },
 
     /**
      * Delete the webhook signing secret for this space
@@ -410,6 +467,31 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         params: { spaceId: raw.sys.id },
       })
     },
+    /**
+     * Delete the webhook retry policy for this space
+     * @returns Promise<void>
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.deleteWebhookRetryPolicy())
+     *   .then(() => console.log("success"))
+     *   .catch(console.error)
+     * ```
+     */
+    deleteWebhookRetryPolicy: function deleteRetryPolicy() {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Webhook',
+        action: 'deleteRetryPolicy',
+        params: { spaceId: raw.sys.id },
+      })
+    },
+
     /**
      * Gets a Role
      * @param id - Role ID

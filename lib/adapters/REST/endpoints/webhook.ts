@@ -12,6 +12,8 @@ import {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookProps,
+  WebhookRetryPolicyPayload,
+  WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from '../../../entities/webhook'
 import { RestEndpoint } from '../types'
@@ -39,6 +41,9 @@ const getWebhookSettingsUrl = (params: GetSpaceParams) =>
 
 const getWebhookSigningSecretUrl = (params: GetSpaceParams) =>
   `${getWebhookSettingsUrl(params)}/signing_secret`
+
+const getWebhookRetryPolicyUrl = (params: GetSpaceParams) =>
+  `${getWebhookSettingsUrl(params)}/retry_policy`
 
 export const get: RestEndpoint<'Webhook', 'get'> = (
   http: AxiosInstance,
@@ -84,6 +89,13 @@ export const getSigningSecret: RestEndpoint<'Webhook', 'getSigningSecret'> = (
   params: GetSpaceParams
 ) => {
   return raw.get(http, getWebhookSigningSecretUrl(params))
+}
+
+export const getRetryPolicy: RestEndpoint<'Webhook', 'getRetryPolicy'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams
+) => {
+  return raw.get(http, getWebhookRetryPolicyUrl(params))
 }
 
 export const create: RestEndpoint<'Webhook', 'create'> = (
@@ -136,6 +148,16 @@ export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'>
   return raw.put<WebhookSigningSecretProps>(http, getWebhookSigningSecretUrl(params), data)
 }
 
+export const upsertRetryPolicy: RestEndpoint<'Webhook', 'upsertRetryPolicy'> = async (
+  http: AxiosInstance,
+  params: GetSpaceParams,
+  rawData: WebhookRetryPolicyPayload
+) => {
+  const data = copy(rawData)
+
+  return raw.put<WebhookRetryPolicyProps>(http, getWebhookRetryPolicyUrl(params), data)
+}
+
 export const del: RestEndpoint<'Webhook', 'delete'> = (
   http: AxiosInstance,
   params: GetWebhookParams
@@ -148,4 +170,11 @@ export const deleteSigningSecret: RestEndpoint<'Webhook', 'deleteSigningSecret'>
   params: GetSpaceParams
 ) => {
   return raw.del<void>(http, getWebhookSigningSecretUrl(params))
+}
+
+export const deleteRetryPolicy: RestEndpoint<'Webhook', 'deleteRetryPolicy'> = async (
+  http: AxiosInstance,
+  params: GetSpaceParams
+) => {
+  return raw.del<void>(http, getWebhookRetryPolicyUrl(params))
 }
