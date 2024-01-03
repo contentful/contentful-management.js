@@ -82,4 +82,59 @@ describe('Webhook Api', function () {
         })
       })
   })
+
+  // TODO: enable (and debug) these tests once this is not in EAP and feature flagged since space IDs are not stable
+  describe.skip('TODO: webhook retry policies', () => {
+    let retryPolicy
+
+    describe('given no webhook retry policy', () => {
+      test('Get webhook retry policy', async () => {
+        return space.getWebhookRetryPolicy().then((retry_policy) => {
+          expect(retry_policy).equals(undefined)
+        })
+      })
+    })
+
+    describe('given a webhook retry policy', () => {
+      before(async () => {
+        retryPolicy = space.upsertWebhookRetryPolicy({
+          maxRetries: 15,
+        })
+      })
+
+      test('Get webhook retry policy', async () => {
+        return space.getWebhookRetryPolicy().then((retry_policy) => {
+          expect(retry_policy.maxRetries).equals(retryPolicy.maxRetries)
+        })
+      })
+    })
+
+    test('Upsert webhook retry policy', async () => {
+      before(async () => {
+        retryPolicy = space
+          .upsertWebhookRetryPolicy({
+            maxRetries: 15,
+          })
+          .then((retry_policy) => {
+            expect(retry_policy.maxRetries).equals(15)
+          })
+      })
+
+      return space
+        .upsertWebhookRetryPolicy({
+          maxRetries: 19,
+        })
+        .then((retry_policy) => {
+          expect(retry_policy.maxRetries).equals(19)
+        })
+    })
+
+    test('Delete webhook retry policy', async () => {
+      space.deleteWebhookRetryPolicy()
+
+      return space.getWebhookRetryPolicy().then((retry_policy) => {
+        expect(retry_policy).equals(undefined)
+      })
+    })
+  })
 })

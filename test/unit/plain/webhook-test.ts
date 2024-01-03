@@ -47,4 +47,40 @@ describe('Webhook', () => {
 
     sinon.assert.calledWith(httpMock.delete, `/spaces/space-id/webhook_settings/signing_secret`)
   })
+
+  test('getRetryPolicy', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(
+      Promise.resolve({ data: { maxRetries: 15 } })
+    )
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+    const response = await plainClient.webhook.getRetryPolicy({ spaceId })
+
+    expect(response).to.be.an('object')
+    expect(response.maxRetries).to.equal(15)
+
+    sinon.assert.calledWith(httpMock.get, `/spaces/space-id/webhook_settings/retry_policy`)
+  })
+
+  test('upsertRetryPolicy', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(
+      Promise.resolve({ data: { maxRetries: 15 } })
+    )
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+
+    const payload = { maxRetries: 15 }
+    const response = await plainClient.webhook.upsertRetryPolicy({ spaceId }, payload)
+
+    expect(response).to.be.an('object')
+    expect(response.maxRetries).to.equal(15)
+
+    sinon.assert.calledWith(httpMock.put, `/spaces/space-id/webhook_settings/retry_policy`, payload)
+  })
+
+  test('deleteRetryPolicy', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+    await plainClient.webhook.deleteRetryPolicy({ spaceId })
+
+    sinon.assert.calledWith(httpMock.delete, `/spaces/space-id/webhook_settings/retry_policy`)
+  })
 })

@@ -13,11 +13,14 @@ import {
   WebhookCallOverviewProps,
   WebhookHealthProps,
   WebhookProps,
+  WebhookRetryPolicyPayload,
+  WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from '../../entities/webhook'
 import { OptionalDefaults } from '../wrappers/wrap'
 
 export type WebhookPlainClientAPI = {
+  // Webhooks
   /**
    * Fetches the Webhook
    * @param params entity IDs to identify the Webhook
@@ -47,6 +50,70 @@ export type WebhookPlainClientAPI = {
   getMany(
     params: OptionalDefaults<GetSpaceParams & QueryParams>
   ): Promise<CollectionProp<WebhookProps>>
+  /**
+   * Creates a Webhook
+   * @param params entity IDs to identify the Space to create the Webhook in
+   * @param rawData the Webhook
+   * @returns the created Webhook and its metadata
+   * @throws if the request fails, the Space is not found, or the payload is malformed
+   * @example
+   * ```javascript
+   * const webhook = await client.webhook.create(
+   *   {
+   *     spaceId: '<space_id>',
+   *   },
+   *   {
+   *     name: 'My webhook',
+   *     url: 'https://www.example.com/test',
+   *     topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
+   *   }
+   * );
+   * ```
+   */
+  create(
+    params: OptionalDefaults<GetSpaceParams>,
+    rawData: CreateWebhooksProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WebhookProps>
+  /**
+   * Creates the Webhook
+   * @param params entity IDs to identify the Webhook to update
+   * @param rawData the new Webhook configuration
+   * @returns the updated Webhook and its metadata
+   * @throws if the request fails, the Webhook is not found, or the payload is malformed
+   * @example
+   * ```javascript
+   * const webhook = await client.webhook.update(
+   *   {
+   *     spaceId: '<space_id>',
+   *     webhookDefinitionId: '<webhook_definition_id>',
+   *   },
+   *   {
+   *     ...currentWebhook,
+   *     name: 'New webhook name',
+   *   }
+   * );
+   * ```
+   */
+  update(
+    params: OptionalDefaults<GetWebhookParams>,
+    rawData: CreateWebhooksProps
+  ): Promise<WebhookProps>
+  /**
+   * Deletes the Webhook
+   * @param params entity IDs to identify the Webhook to delete
+   * @throws if the request fails, or the Webhook is not found
+   * @example
+   * ```javascript
+   * await client.webhook.delete({
+   *   spaceId: '<space_id>',
+   *   webhookDefinitionId: '<webhook_id>',
+   * });
+   * ```
+   */
+  delete(params: OptionalDefaults<GetWebhookParams>): Promise<any>
+
+  // Webhook Health Status & Call Details
   /**
    * Fetches an overview of recently successful webhook calls
    * @param params entity IDs to identify the Webhook
@@ -94,6 +161,54 @@ export type WebhookPlainClientAPI = {
   getManyCallDetails(
     params: OptionalDefaults<GetWebhookParams & QueryParams>
   ): Promise<CollectionProp<WebhookCallOverviewProps>>
+
+  // Webhook Retry Policies
+  /**
+   * Fetch the webhook retry policy for a given Space
+   * @param params entity IDs to identify the Space which the retry policy belongs to
+   * @returns the maxRetries value configured in the Retry Policy
+   * @throws if the request fails, the Space is not found, or the retry policy does not exist
+   * @example
+   * ```javascript
+   * const retryPolicy = await client.webhook.getRetryPolicy({
+   *   spaceId: '<space_id>',
+   * });
+   */
+  getRetryPolicy(params: OptionalDefaults<GetSpaceParams>): Promise<WebhookRetryPolicyProps>
+  /**
+   * Creates or updates the webhook retry policy for a given Space
+   * @param params entity IDs to identify the Space which the retry policy belongs to
+   * @param rawData the maxRetries with integer value >= 2 and <= 99 value to set in the Retry Policy
+   * @returns the webhook retry policy
+   * @throws if the request fails, the Space is not found, or the payload is malformed
+   * @example
+   * ```javascript
+   * const retryPolicy = await client.webhook.upsertRetryPolicy({
+   *   spaceId: '<space_id>',
+   * },
+   * {
+   *   maxRetries: 15,
+   * });
+   * ```
+   */
+  upsertRetryPolicy(
+    params: OptionalDefaults<GetSpaceParams>,
+    rawData: WebhookRetryPolicyPayload
+  ): Promise<WebhookRetryPolicyProps>
+  /**
+   * Removes the webhook retry policy for a given Space
+   * @param params entity IDs to identify the Space which the retry policy belongs to
+   * @throws if the request fails, the Space is not found, or the retry policy does not exist
+   * @example
+   * ```javascript
+   * await client.webhook.deleteRetryPolicy({
+   *  spaceId: '<space_id>',
+   * });
+   * ```
+   */
+  deleteRetryPolicy(params: OptionalDefaults<GetSpaceParams>): Promise<void>
+
+  // Webhook Signing Secrets
   /**
    * Fetch the redacted webhook signing secret for a given Space
    * @param params entity IDs to identify the Space which the signing secret belongs to
@@ -106,31 +221,6 @@ export type WebhookPlainClientAPI = {
    * });
    */
   getSigningSecret(params: OptionalDefaults<GetSpaceParams>): Promise<WebhookSigningSecretProps>
-  /**
-   * Creates a Webhook
-   * @param params entity IDs to identify the Space to create the Webhook in
-   * @param rawData the Webhook
-   * @returns the created Webhook and its metadata
-   * @throws if the request fails, the Space is not found, or the payload is malformed
-   * @example
-   * ```javascript
-   * const webhook = await client.webhook.create(
-   *   {
-   *     spaceId: '<space_id>',
-   *   },
-   *   {
-   *     name: 'My webhook',
-   *     url: 'https://www.example.com/test',
-   *     topics: ['Entry.create', 'ContentType.create', '*.publish', 'Asset.*'],
-   *   }
-   * );
-   * ```
-   */
-  create(
-    params: OptionalDefaults<GetSpaceParams>,
-    rawData: CreateWebhooksProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<WebhookProps>
   /**
    * Creates or updates the webhook signing secret for a given Space
    * @param params entity IDs to identify the Space which the signing secret belongs to
@@ -153,43 +243,6 @@ export type WebhookPlainClientAPI = {
     params: OptionalDefaults<GetSpaceParams>,
     rawData: UpsertWebhookSigningSecretPayload
   ): Promise<WebhookSigningSecretProps>
-  /**
-   * Creates the Webhook
-   * @param params entity IDs to identify the Webhook to update
-   * @param rawData the new Webhook configuration
-   * @returns the updated Webhook and its metadata
-   * @throws if the request fails, the Webhook is not found, or the payload is malformed
-   * @example
-   * ```javascript
-   * const webhook = await client.webhook.update(
-   *   {
-   *     spaceId: '<space_id>',
-   *     webhookDefinitionId: '<webhook_definition_id>',
-   *   },
-   *   {
-   *     ...currentWebhook,
-   *     name: 'New webhook name',
-   *   }
-   * );
-   * ```
-   */
-  update(
-    params: OptionalDefaults<GetWebhookParams>,
-    rawData: CreateWebhooksProps
-  ): Promise<WebhookProps>
-  /**
-   * Deletes the Webhook
-   * @param params entity IDs to identify the Webhook to delete
-   * @throws if the request fails, or the Webhook is not found
-   * @example
-   * ```javascript
-   * await client.webhook.delete({
-   *   spaceId: '<space_id>',
-   *   webhookDefinitionId: '<webhook_id>',
-   * });
-   * ```
-   */
-  delete(params: OptionalDefaults<GetWebhookParams>): Promise<any>
   /**
    * Removes the webhook signing secret for a given Space
    * @param params entity IDs to identify the Space which the signing secret belongs to

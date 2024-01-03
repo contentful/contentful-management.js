@@ -148,6 +148,17 @@ export type WebhookSigningSecretProps = {
   redactedValue: string
 }
 
+export type WebhookRetryPolicyPayload = {
+  maxRetries: number
+}
+
+export type WebhookRetryPolicySys = Except<BasicMetaSysProps, 'version'>
+
+export type WebhookRetryPolicyProps = {
+  sys: WebhookRetryPolicySys & { space: { sys: MetaLinkProps } }
+  maxRetries: number
+}
+
 export type WebhookProps = {
   /**
    * System metadata

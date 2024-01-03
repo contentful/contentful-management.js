@@ -76,6 +76,8 @@ import {
   WebhookCallOverviewProps,
   WebhookHealthProps,
   WebhookProps,
+  WebhookRetryPolicyPayload,
+  WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from './entities/webhook'
 import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
@@ -663,12 +665,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Webhook', 'getHealthStatus', UA>): MRReturn<'Webhook', 'getHealthStatus'>
   (opts: MROpts<'Webhook', 'getManyCallDetails', UA>): MRReturn<'Webhook', 'getManyCallDetails'>
   (opts: MROpts<'Webhook', 'getSigningSecret', UA>): MRReturn<'Webhook', 'getSigningSecret'>
+  (opts: MROpts<'Webhook', 'getRetryPolicy', UA>): MRReturn<'Webhook', 'getRetryPolicy'>
   (opts: MROpts<'Webhook', 'create', UA>): MRReturn<'Webhook', 'create'>
   (opts: MROpts<'Webhook', 'createWithId', UA>): MRReturn<'Webhook', 'createWithId'>
   (opts: MROpts<'Webhook', 'update', UA>): MRReturn<'Webhook', 'update'>
   (opts: MROpts<'Webhook', 'upsertSigningSecret', UA>): MRReturn<'Webhook', 'upsertSigningSecret'>
+  (opts: MROpts<'Webhook', 'upsertRetryPolicy', UA>): MRReturn<'Webhook', 'upsertRetryPolicy'>
   (opts: MROpts<'Webhook', 'delete', UA>): MRReturn<'Webhook', 'delete'>
   (opts: MROpts<'Webhook', 'deleteSigningSecret', UA>): MRReturn<'Webhook', 'deleteSigningSecret'>
+  (opts: MROpts<'Webhook', 'deleteRetryPolicy', UA>): MRReturn<'Webhook', 'deleteRetryPolicy'>
 
   (opts: MROpts<'WorkflowDefinition', 'get', UA>): MRReturn<'WorkflowDefinition', 'get'>
   (opts: MROpts<'WorkflowDefinition', 'getMany', UA>): MRReturn<'WorkflowDefinition', 'getMany'>
@@ -1710,6 +1715,7 @@ export type MRActions = {
       return: CollectionProp<WebhookCallOverviewProps>
     }
     getSigningSecret: { params: GetSpaceParams; return: WebhookSigningSecretProps }
+    getRetryPolicy: { params: GetSpaceParams; return: WebhookRetryPolicyProps }
     create: {
       params: GetSpaceParams
       payload: CreateWebhooksProps
@@ -1728,8 +1734,14 @@ export type MRActions = {
       payload: UpsertWebhookSigningSecretPayload
       return: WebhookSigningSecretProps
     }
+    upsertRetryPolicy: {
+      params: GetSpaceParams
+      payload: WebhookRetryPolicyPayload
+      return: WebhookRetryPolicyProps
+    }
     delete: { params: GetWebhookParams; return: void }
     deleteSigningSecret: { params: GetSpaceParams; return: void }
+    deleteRetryPolicy: { params: GetSpaceParams; return: void }
   }
   WorkflowDefinition: {
     get: {
