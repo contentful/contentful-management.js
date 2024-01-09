@@ -550,6 +550,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
+  (opts: MROpts<'Role', 'getManyForOrganization', UA>): MRReturn<'Role', 'getManyForOrganization'>
   (opts: MROpts<'Role', 'create', UA>): MRReturn<'Role', 'create'>
   (opts: MROpts<'Role', 'createWithId', UA>): MRReturn<'Role', 'createWithId'>
   (opts: MROpts<'Role', 'update', UA>): MRReturn<'Role', 'update'>
@@ -1459,6 +1460,10 @@ export type MRActions = {
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
+    getManyForOrganization: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<RoleProps>
+    }
     create: {
       params: GetSpaceParams
       payload: CreateRoleProps

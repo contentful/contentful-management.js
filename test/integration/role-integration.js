@@ -1,4 +1,4 @@
-import { initClient, createTestSpace, generateRandomId } from '../helpers'
+import { initClient, createTestSpace, generateRandomId, getTestOrganization } from '../helpers'
 import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
 
@@ -25,9 +25,11 @@ const roleDefinition = {
 }
 
 describe('Role Api', function () {
+  let org
   let space
 
   before(async () => {
+    org = await getTestOrganization()
     space = await createTestSpace(initClient(), 'Role')
   })
 
@@ -39,6 +41,13 @@ describe('Role Api', function () {
 
   test('Gets roles', async () => {
     return space.getRoles().then((response) => {
+      expect(response.sys, 'sys').ok
+      expect(response.items, 'fields').ok
+    })
+  })
+
+  test('Gets roles for organization', async () => {
+    return org.getRoles().then((response) => {
       expect(response.sys, 'sys').ok
       expect(response.items, 'fields').ok
     })

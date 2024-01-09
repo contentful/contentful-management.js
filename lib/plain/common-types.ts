@@ -625,6 +625,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>
     ): Promise<CollectionProp<RoleProps>>
+    getManyForOrganization(
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    ): Promise<CollectionProp<RoleProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateRoleProps,
