@@ -2,7 +2,12 @@ import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import { SetOptional } from 'type-fest'
-import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import {
+  CollectionProp,
+  GetOrganizationParams,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import { CreateRoleProps, RoleProps } from '../../../entities/role'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -20,6 +25,15 @@ export const getMany: RestEndpoint<'Role', 'getMany'> = (
   params: GetSpaceParams & QueryParams
 ) => {
   return raw.get<CollectionProp<RoleProps>>(http, `/spaces/${params.spaceId}/roles`, {
+    params: normalizeSelect(params.query),
+  })
+}
+
+export const getManyForOrganization: RestEndpoint<'Role', 'getManyForOrganization'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams & QueryParams
+) => {
+  return raw.get<CollectionProp<RoleProps>>(http, `/organizations/${params.organizationId}/roles`, {
     params: normalizeSelect(params.query),
   })
 }
