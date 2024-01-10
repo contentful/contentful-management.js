@@ -39,7 +39,8 @@ interface View {
     direction: 'ascending' | 'descending'
   }
   displayedFieldIds?: string[]
-  contentTypeId: string | null
+  contentTypeId?: string | null
+  contentTypeIds?: string[]
   searchText?: string
   searchFilters?: [string, string, string][]
   roles?: string[]
