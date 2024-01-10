@@ -309,6 +309,7 @@ export const createPlainClient = (
     role: {
       get: wrap(wrapParams, 'Role', 'get'),
       getMany: wrap(wrapParams, 'Role', 'getMany'),
+      getManyForOrganization: wrap(wrapParams, 'Role', 'getManyForOrganization'),
       create: wrap(wrapParams, 'Role', 'create'),
       createWithId: wrap(wrapParams, 'Role', 'createWithId'),
       update: wrap(wrapParams, 'Role', 'update'),

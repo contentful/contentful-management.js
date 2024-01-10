@@ -41,6 +41,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppKey, wrapAppKeyCollection } = entities.appKey
   const { wrapAppDetails } = entities.appDetails
   const { wrapAppAction, wrapAppActionCollection } = entities.appAction
+  const { wrapRoleCollection } = entities.role
 
   return {
     /**
@@ -485,6 +486,30 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((data) => wrapOrganizationInvitation(makeRequest, data))
+    },
+    /**
+     * Gets a collection of Roles
+     * @return Promise for a collection of Roles
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getRoles())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getRoles(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return makeRequest({
+        entityType: 'Role',
+        action: 'getManyForOrganization',
+        params: { organizationId: raw.sys.id, query: createRequestConfig({ query }).params },
+      }).then((data) => wrapRoleCollection(makeRequest, data))
     },
     /**
      * Creates an app definition
