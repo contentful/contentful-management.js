@@ -72,10 +72,16 @@ interface Item {
   validations?: ContentTypeFieldValidation[]
 }
 
-interface ContentTypeAllowedResources {
-  type: string
+type ContentTypeAllowedResources = ContentfulEntryResource | ExternalResource
+
+export interface ContentfulEntryResource {
+  type: 'Contentful:Entry'
   source: string
   contentTypes: string[]
+}
+
+export interface ExternalResource {
+  type: string
 }
 
 export interface ContentFields<T = KeyValueMap> extends Item {
