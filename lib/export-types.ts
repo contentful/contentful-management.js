@@ -89,7 +89,12 @@ export type {
   ContentTypeProps,
   CreateContentTypeProps,
 } from './entities/content-type'
-export type { ContentFields, ContentTypeFieldValidation } from './entities/content-type-fields'
+export type {
+  ContentFields,
+  ContentTypeFieldValidation,
+  ContentfulEntryResource,
+  ExternalResource,
+} from './entities/content-type-fields'
 export type {
   Control,
   Editor,
