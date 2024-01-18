@@ -194,6 +194,9 @@ export type PlainClientAPI = {
   space: {
     get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
+    getManyForOrganization(
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    ): Promise<CollectionProp<SpaceProps>>
     create(
       params: OptionalDefaults<{ organizationId?: string }>,
       payload: Omit<SpaceProps, 'sys'>,
