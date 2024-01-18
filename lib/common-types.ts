@@ -572,6 +572,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
   (opts: MROpts<'Space', 'getMany', UA>): MRReturn<'Space', 'getMany'>
+  (opts: MROpts<'Space', 'getManyForOrganization', UA>): MRReturn<'Space', 'getManyForOrganization'>
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
@@ -1523,6 +1524,10 @@ export type MRActions = {
   Space: {
     get: { params: GetSpaceParams; return: SpaceProps }
     getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    getManyForOrganization: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<SpaceProps>
+    }
     create: {
       params: { organizationId?: string }
       payload: Omit<SpaceProps, 'sys'>

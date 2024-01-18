@@ -111,6 +111,7 @@ export const createPlainClient = (
     space: {
       get: wrap(wrapParams, 'Space', 'get'),
       getMany: wrap(wrapParams, 'Space', 'getMany'),
+      getManyForOrganization: wrap(wrapParams, 'Space', 'getManyForOrganization'),
       update: wrap(wrapParams, 'Space', 'update'),
       delete: wrap(wrapParams, 'Space', 'delete'),
       create: wrap(wrapParams, 'Space', 'create'),

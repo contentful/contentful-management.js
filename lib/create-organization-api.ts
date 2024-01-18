@@ -42,8 +42,37 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppDetails } = entities.appDetails
   const { wrapAppAction, wrapAppActionCollection } = entities.appAction
   const { wrapRoleCollection } = entities.role
+  const { wrapSpaceCollection } = entities.space
 
   return {
+    /**
+     * Gets a collection of spaces in the organization
+     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @return Promise a collection of Spaces in the organization
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<organization_id>')
+     * .then((organization) => organization.getSpaces())
+     * .then((spaces) => console.log(spaces))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaces(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as OrganizationProp
+      return makeRequest({
+        entityType: 'Space',
+        action: 'getManyForOrganization',
+        params: {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapSpaceCollection(makeRequest, data))
+    },
+
     /**
      * Gets a User
      * @return Promise for a User
@@ -79,7 +108,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      *
      * client.getOrganization('<organization_id>')
      * .then((organization) => organization.getUsers())
-     * .then((user) => console.log(user))
+     * .then((users) => console.log(users))
      * .catch(console.error)
      * ```
      */
