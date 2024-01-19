@@ -465,6 +465,11 @@ export type PlainClientAPI = {
     ): Promise<EntryReferenceProps>
   }
   asset: {
+    getPublished(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,

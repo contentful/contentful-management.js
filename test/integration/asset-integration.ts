@@ -4,11 +4,12 @@ const TEST_IMAGE_SOURCE_URL =
 import { expect } from 'chai'
 import { after, before, describe, test } from 'mocha'
 import { initClient, getDefaultSpace, createTestSpace } from '../helpers'
+import type { Environment, Space } from '../../lib/export-types'
 
 describe('Asset api', function () {
   describe('Read', () => {
-    let space
-    let environment
+    let space: Space
+    let environment: Environment
 
     before(async () => {
       space = await getDefaultSpace()
@@ -34,6 +35,12 @@ describe('Asset api', function () {
 
     test('Gets assets', async () => {
       return environment.getAssets().then((response) => {
+        expect(response.items, 'items').to.be.ok
+      })
+    })
+
+    test('Gets published assets', async () => {
+      return environment.getPublishedAssets().then((response) => {
         expect(response.items, 'items').to.be.ok
       })
     })

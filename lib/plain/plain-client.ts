@@ -206,6 +206,7 @@ export const createPlainClient = (
       references: wrap(wrapParams, 'Entry', 'references'),
     },
     asset: {
+      getPublished: wrap(wrapParams, 'Asset', 'getPublished'),
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
       get: wrap(wrapParams, 'Asset', 'get'),
       update: wrap(wrapParams, 'Asset', 'update'),
