@@ -1,9 +1,9 @@
 import { Link } from '../common-types'
 
-export type DeliveryFunctionProps = {
+export type FunctionProps = {
   sys: {
     id: string
-    type: 'DeliveryFunction'
+    type: 'Function'
     createdBy: Link<'User'> // Only users can CRUD
     createdAt: string
     updatedBy: Link<'User'> // Only users can CRUD
