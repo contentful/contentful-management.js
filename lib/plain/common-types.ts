@@ -92,7 +92,7 @@ import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { FunctionProps } from '../entities/function'
+import { ContentfulFunctionProps } from '../entities/contentful-function'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -183,10 +183,10 @@ export type PlainClientAPI = {
   appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
-  function: {
+  contentfulFunction: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
+    ): Promise<CollectionProp<ContentfulFunctionProps>>
   }
   editorInterface: EditorInterfacePlainClientAPI
   space: {

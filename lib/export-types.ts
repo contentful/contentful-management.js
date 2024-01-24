@@ -106,7 +106,7 @@ export type {
   GroupControl,
   SidebarItem,
 } from './entities/editor-interface'
-export type { FunctionProps } from './entities/function'
+export type { ContentfulFunctionProps } from './entities/contentful-function'
 export type { CreateEntryProps, Entry, EntryProps, WithResourceName } from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {

@@ -1,6 +1,6 @@
 import { Link } from '../common-types'
 
-export type FunctionProps = {
+export type ContentfulFunctionProps = {
   sys: {
     id: string
     type: 'Function'

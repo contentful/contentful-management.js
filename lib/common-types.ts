@@ -143,7 +143,7 @@ import {
   ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
-import { FunctionProps } from './entities/function'
+import { ContentfulFunctionProps } from './entities/contentful-function'
 import {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
@@ -1100,10 +1100,10 @@ export type MRActions = {
       return: EditorInterfaceProps
     }
   }
-  Function: {
+  ContentfulFunction: {
     getMany: {
       params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<FunctionProps>
+      return: CollectionProp<ContentfulFunctionProps>
     }
   }
   Environment: {

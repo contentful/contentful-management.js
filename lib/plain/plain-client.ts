@@ -100,8 +100,8 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'AppSigningSecret', 'get'),
       delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
     },
-    function: {
-      getMany: wrap(wrapParams, 'Function', 'getMany'),
+    contentfulFunction: {
+      getMany: wrap(wrapParams, 'ContentfulFunction', 'getMany'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
