@@ -18,7 +18,6 @@ import {
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
-  GetExtensionParams,
   KeyValueMap,
   PaginationQueryParams,
   QueryParams,
@@ -89,12 +88,11 @@ import {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from '../entities/team-space-membership'
-import { CreateExtensionProps, ExtensionProps } from '../entities/extension'
 import { UsageProps } from '../entities/usage'
 import { UserProps } from '../entities/user'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { DeliveryFunctionProps } from '../entities/delivery-function'
+import { FunctionProps } from '../entities/function'
 import {
   BulkActionPayload,
   BulkActionProps,
@@ -185,10 +183,10 @@ export type PlainClientAPI = {
   appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
-  deliveryFunction: {
+  function: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<DeliveryFunctionProps>>
+    ): Promise<CollectionProp<FunctionProps>>
   }
   editorInterface: EditorInterfacePlainClientAPI
   space: {

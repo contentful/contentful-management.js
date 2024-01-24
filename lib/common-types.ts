@@ -143,7 +143,7 @@ import {
   ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
 } from './entities/environment-template-installation'
-import { DeliveryFunctionProps } from './entities/delivery-function'
+import { FunctionProps } from './entities/function'
 import {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
@@ -1100,10 +1100,10 @@ export type MRActions = {
       return: EditorInterfaceProps
     }
   }
-  DeliveryFunction: {
+  Function: {
     getMany: {
       params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<DeliveryFunctionProps>
+      return: CollectionProp<FunctionProps>
     }
   }
   Environment: {
