@@ -355,6 +355,7 @@ type MRInternal<UA extends boolean> = {
   >
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
+  (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
   (opts: MROpts<'Asset', 'delete', UA>): MRReturn<'Asset', 'delete'>
@@ -933,6 +934,11 @@ export type MRActions = {
     }
   }
   Asset: {
+    getPublished: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AssetProps>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       headers?: RawAxiosRequestHeaders

@@ -32,6 +32,22 @@ export const get: RestEndpoint<'Asset', 'get'> = (
   )
 }
 
+export const getPublished: RestEndpoint<'Asset', 'getPublished'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & QueryParams,
+  rawData?: unknown,
+  headers?: RawAxiosRequestHeaders
+) => {
+  return raw.get<CollectionProp<AssetProps>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/public/assets`,
+    {
+      params: normalizeSelect(params.query),
+      headers: headers ? { ...headers } : undefined,
+    }
+  )
+}
+
 export const getMany: RestEndpoint<'Asset', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
