@@ -19,7 +19,7 @@ interface ActionManifestProps {
   allowNetworks?: string[]
 }
 
-interface DeliveryFunctionManifestProps {
+interface FunctionManifestProps {
   id: string
   name: string
   description: string
@@ -37,7 +37,7 @@ export type CreateAppBundleProps = {
   appUploadId: string
   comment?: string
   actions?: ActionManifestProps[]
-  deliveryFunctions?: DeliveryFunctionManifestProps[]
+  functions?: FunctionManifestProps[]
 }
 
 export type AppBundleProps = {
