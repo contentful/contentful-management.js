@@ -165,6 +165,17 @@ export interface Link<T extends string> {
   }
 }
 
+/**
+ * ResourceLink is a reference object to another entity outside of the current space/environment
+ */
+export interface ResourceLink<T extends string> {
+  sys: {
+    type: 'ResourceLink'
+    linkType: T
+    urn: string
+  }
+}
+
 export interface VersionedLink<T extends string> {
   sys: {
     type: 'Link'
