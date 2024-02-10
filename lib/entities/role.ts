@@ -13,6 +13,7 @@ export type ActionType =
   | 'unpublish'
   | 'archive'
   | 'unarchive'
+  | 'access'
 
 type ConditionType = 'and' | 'or' | 'not' | 'equals'
 export type ConstraintType = {
