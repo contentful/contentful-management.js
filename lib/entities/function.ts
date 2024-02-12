@@ -14,6 +14,6 @@ export type FunctionProps = {
   name: string
   description: string
   path: string
+  accepts: string[]
   allowNetworks?: string[]
-  accepts?: string[]
 }
