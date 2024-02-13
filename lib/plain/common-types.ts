@@ -8,7 +8,6 @@ import {
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
-  GetSpaceEnvAliasParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   GetTagParams,
@@ -16,7 +15,6 @@ import {
   GetTeamParams,
   GetTeamSpaceMembershipParams,
   KeyValueMap,
-  PaginationQueryParams,
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
@@ -35,8 +33,6 @@ import {
 } from '../entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
-import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -140,6 +136,8 @@ import { CommentPlainClientAPI } from './entities/comment'
 import { SpacePlainClientAPI } from './entities/space'
 import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
+import { EnvironmentPlainClientAPI } from './entities/environment'
+import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 
 export type PlainClientAPI = {
   raw: {
@@ -166,45 +164,8 @@ export type PlainClientAPI = {
   }
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
-  environment: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<EnvironmentProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      rawData: Partial<Pick<EnvironmentProps, 'name'>>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
-      rawData: CreateEnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: EnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<any>
-  }
-  environmentAlias: {
-    get(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<EnvironmentAliasProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentAliasProps>>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: CreateEnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: EnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
-  }
+  environment: EnvironmentPlainClientAPI
+  environmentAlias: EnvironmentAliasPlainClientAPI
   environmentTemplate: {
     get(
       params: GetEnvironmentTemplateParams & {
