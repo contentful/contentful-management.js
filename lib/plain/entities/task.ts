@@ -44,7 +44,7 @@ export type TaskPlainClientAPI = {
    *  environmentId: '<environment_id>',
    *  query: {
    *   limit: 100,
-   *
+   *  }
    * });
    */
   getMany(
@@ -65,13 +65,13 @@ export type TaskPlainClientAPI = {
    *    environmentId: '<environment_id>',
    *  },
    *  {
-   *    "body": "Review Translation",
-   *    "status": "active",
-   *    "assignedTo": {
-   *      "sys": {
-   *        "type": "Link",
-   *         "linkType": "User",
-   *         "id": "user-id"
+   *    body: "Review Translation",
+   *    status: "active",
+   *    assignedTo: {
+   *      sys: {
+   *        type: "Link",
+   *         linkType: "User",
+   *         id: <user_id>
    *      }
    *    }
    *  }
@@ -98,13 +98,13 @@ export type TaskPlainClientAPI = {
    *    taskId: '<task_id>',
    *  },
    *  {
-   *    "body": "Review Translation",
-   *    "status": "active",
-   *    "assignedTo": {
-   *      "sys": {
-   *        "type": "Link",
-   *         "linkType": "User",
-   *         "id": "user-id"
+   *    body: "Review Translation",
+   *    status: "active",
+   *    assignedTo: {
+   *      sys: {
+   *        type: "Link",
+   *         linkType: "User",
+   *         id: <user_id>
    *      }
    *    }
    *  }
