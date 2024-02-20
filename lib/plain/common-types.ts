@@ -1,6 +1,5 @@
 import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
 import { OpPatch } from 'json-patch'
-import { Stream } from 'stream'
 import {
   CollectionProp,
   GetAppDefinitionParams,
@@ -30,7 +29,6 @@ import {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
-  GetSpaceEnvironmentUploadParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -164,6 +162,7 @@ import { ExtensionPlainClientAPI } from './entities/extension'
 import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
+import { UploadPlainClientAPI } from './entities/upload'
 
 export type PlainClientAPI = {
   raw: {
@@ -518,14 +517,7 @@ export type PlainClientAPI = {
       data: CreateAssetKeyProps
     ): Promise<AssetKeyProps>
   }
-  upload: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: { file: string | ArrayBuffer | Stream }
-    ): Promise<any>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-  }
+  upload: UploadPlainClientAPI
   locale: {
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
