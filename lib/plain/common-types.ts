@@ -89,7 +89,6 @@ import {
   TeamSpaceMembershipProps,
 } from '../entities/team-space-membership'
 import { UsageProps } from '../entities/usage'
-import { UserProps } from '../entities/user'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'
@@ -164,6 +163,7 @@ import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 import { ExtensionPlainClientAPI } from './entities/extension'
 import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
 import { AppKeyPlainClientAPI } from './entities/app-key'
+import { UserPlainClientAPI } from './entities/user'
 
 export type PlainClientAPI = {
   raw: {
@@ -392,19 +392,7 @@ export type PlainClientAPI = {
       fieldId: string
     ): Promise<ContentTypeProps>
   }
-  user: {
-    getManyForSpace(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<UserProps>>
-    getForSpace(params: OptionalDefaults<GetSpaceParams & { userId: string }>): Promise<UserProps>
-    getCurrent<T = UserProps>(params?: QueryParams): Promise<T>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { userId: string }>
-    ): Promise<UserProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<UserProps>>
-  }
+  user: UserPlainClientAPI
   entry: {
     getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
