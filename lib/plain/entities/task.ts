@@ -42,7 +42,9 @@ export type TaskPlainClientAPI = {
    *  spaceId: '<space_id>',
    *  entryId: '<entry_id>',
    *  environmentId: '<environment_id>',
-   *  limit: 100,
+   *  query: {
+   *   limit: 100,
+   *
    * });
    */
   getMany(
@@ -63,7 +65,15 @@ export type TaskPlainClientAPI = {
    *    environmentId: '<environment_id>',
    *  },
    *  {
-   *    title: 'My Task',
+   *    "body": "Review Translation",
+   *    "status": "active",
+   *    "assignedTo": {
+   *      "sys": {
+   *        "type": "Link",
+   *         "linkType": "User",
+   *         "id": "user-id"
+   *      }
+   *    }
    *  }
    * );
    */
@@ -88,7 +98,15 @@ export type TaskPlainClientAPI = {
    *    taskId: '<task_id>',
    *  },
    *  {
-   *    title: 'My Task',
+   *    "body": "Review Translation",
+   *    "status": "active",
+   *    "assignedTo": {
+   *      "sys": {
+   *        "type": "Link",
+   *         "linkType": "User",
+   *         "id": "user-id"
+   *      }
+   *    }
    *  }
    * );
    */
