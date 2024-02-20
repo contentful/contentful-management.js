@@ -214,5 +214,5 @@ export type WorkflowDefinitionPlainClientAPI = {
   delete(
     params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
     headers?: RawAxiosRequestHeaders
-  ): Promise<any>
+  ): Promise<void>
 }
