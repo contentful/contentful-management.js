@@ -55,7 +55,6 @@ import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/e
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from '../entities/locale'
-import { OrganizationProp } from '../entities/organization'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -163,6 +162,7 @@ import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscri
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
+import { OrganizationPlainClientAPI } from './entities/organization'
 
 export type PlainClientAPI = {
   raw: {
@@ -714,12 +714,7 @@ export type PlainClientAPI = {
     ): Promise<TagProps>
     delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
   }
-  organization: {
-    getAll(
-      params?: OptionalDefaults<PaginationQueryParams>
-    ): Promise<CollectionProp<OrganizationProp>>
-    get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
-  }
+  organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
