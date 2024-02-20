@@ -29,6 +29,7 @@ export type TaskPlainClientAPI = {
    *  environmentId: '<environment_id>',
    *  taskId: '<task_id>',
    * });
+   * ```
    */
   get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
   /** Fetches all tasks
@@ -46,6 +47,7 @@ export type TaskPlainClientAPI = {
    *   limit: 100,
    *  }
    * });
+   * ```
    */
   getMany(
     params: OptionalDefaults<GetEntryParams & QueryParams>
@@ -76,6 +78,7 @@ export type TaskPlainClientAPI = {
    *    }
    *  }
    * );
+   * ```
    */
   create(
     params: OptionalDefaults<CreateTaskParams>,
@@ -109,6 +112,7 @@ export type TaskPlainClientAPI = {
    *    }
    *  }
    * );
+   * ```
    */
   update(
     params: OptionalDefaults<UpdateTaskParams>,
@@ -127,6 +131,7 @@ export type TaskPlainClientAPI = {
    *  environmentId: '<environment_id>',
    *  taskId: '<task_id>',
    * });
+   * ```
    */
   delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
 }
