@@ -164,6 +164,7 @@ import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 import { ExtensionPlainClientAPI } from './entities/extension'
 import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
 import { AppKeyPlainClientAPI } from './entities/app-key'
+import { UploadPlainClientAPI } from './entities/upload'
 
 export type PlainClientAPI = {
   raw: {
@@ -530,14 +531,7 @@ export type PlainClientAPI = {
       data: CreateAssetKeyProps
     ): Promise<AssetKeyProps>
   }
-  upload: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: { file: string | ArrayBuffer | Stream }
-    ): Promise<any>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-  }
+  upload: UploadPlainClientAPI
   locale: {
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
