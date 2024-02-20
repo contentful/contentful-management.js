@@ -21,6 +21,8 @@ export type RestAdapterParams = CreateHttpClientParams & {
    * @default upload.contentful.com
    */
   hostUpload?: string
+
+  userAgent?: string | undefined
 }
 
 /**
@@ -33,6 +35,7 @@ const defaultHostParameters = {
 
 export class RestAdapter implements Adapter {
   private readonly params: RestAdapterParams
+  private readonly axiosInstance: AxiosInstance
 
   public constructor(params: RestAdapterParams) {
     if (!params.accessToken) {
@@ -43,6 +46,16 @@ export class RestAdapter implements Adapter {
       ...defaultHostParameters,
       ...copy(params),
     }
+
+    this.axiosInstance = createHttpClient(axios, {
+      ...this.params,
+      headers: {
+        'Content-Type': 'application/vnd.contentful.management.v1+json',
+        // possibly define a default user agent?
+        ...(params.userAgent ? { 'X-Contentful-User-Agent': params.userAgent } : {}),
+        ...this.params.headers,
+      },
+    })
   }
 
   public async makeRequest<R>({
@@ -70,20 +83,10 @@ export class RestAdapter implements Adapter {
       throw new Error('Unknown endpoint')
     }
 
-    const requiredHeaders = {
-      'Content-Type': 'application/vnd.contentful.management.v1+json',
-      'X-Contentful-User-Agent': userAgent,
-    }
-
-    // TODO: maybe we can avoid creating a new axios instance for each request
-    const axiosInstance = createHttpClient(axios, {
-      ...this.params,
-      headers: {
-        ...requiredHeaders,
-        ...this.params.headers,
-      },
+    return await endpoint(this.axiosInstance, params, payload, {
+      ...headers,
+      // overwrite the userAgent with the one passed in the request
+      ...(userAgent ? { 'X-Contentful-User-Agent': userAgent } : {}),
     })
-
-    return await endpoint(axiosInstance, params, payload, headers)
   }
 }
