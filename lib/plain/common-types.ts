@@ -19,7 +19,6 @@ import {
   GetBulkActionParams,
   GetReleaseParams,
   CursorPaginatedCollectionProp,
-  GetWorkflowDefinitionParams,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
@@ -79,15 +78,6 @@ import {
 } from '../entities/release'
 import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
-  CreateWorkflowDefinitionParams,
-  CreateWorkflowDefinitionProps,
-  DeleteWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionProps,
-  WorkflowDefinitionProps,
-  WorkflowDefinitionQueryOptions,
-} from '../entities/workflow-definition'
-import {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from '../entities/environment-template'
@@ -126,6 +116,7 @@ import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowPlainClientAPI } from './entities/workflow'
+import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 
 export type PlainClientAPI = {
   raw: {
@@ -667,32 +658,7 @@ export type PlainClientAPI = {
   }
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
-  workflowDefinition: {
-    get(
-      params: OptionalDefaults<GetWorkflowDefinitionParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    getMany(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
-      >,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowDefinitionProps>>
-    create(
-      params: OptionalDefaults<CreateWorkflowDefinitionParams>,
-      rawData: CreateWorkflowDefinitionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    update(
-      params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
-      rawData: UpdateWorkflowDefinitionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    delete(
-      params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-  }
+  workflowDefinition: WorkflowDefinitionPlainClientAPI
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
 }
