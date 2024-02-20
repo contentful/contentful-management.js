@@ -1,6 +1,5 @@
 import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
 import { OpPatch } from 'json-patch'
-import { Stream } from 'stream'
 import {
   CollectionProp,
   GetAppDefinitionParams,
@@ -30,7 +29,6 @@ import {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
-  GetSpaceEnvironmentUploadParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
