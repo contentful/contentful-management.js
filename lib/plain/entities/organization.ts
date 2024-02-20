@@ -6,7 +6,7 @@ export type OrganizationPlainClientAPI = {
   /**
    * Fetch all organizations the user has access to
    * @param params Optional pagination query parameters
-   * @returns A collections of organizations
+   * @returns A collection of organizations
    * @throws if the request fails, or no organizations are found
    * @example
    * ```javascript
