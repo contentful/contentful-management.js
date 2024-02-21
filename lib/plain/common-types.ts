@@ -8,16 +8,13 @@ import {
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
-  GetSpaceEnvAliasParams,
   GetSpaceEnvironmentParams,
-  GetSpaceMembershipProps,
   GetSpaceParams,
   GetTagParams,
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
   KeyValueMap,
-  PaginationQueryParams,
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
@@ -36,8 +33,6 @@ import {
 } from '../entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
-import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -58,9 +53,6 @@ import {
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { SpaceProps } from '../entities/space'
-import { SpaceMemberProps } from '../entities/space-member'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/space-membership'
 import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
@@ -141,6 +133,11 @@ import { TaskPlainClientAPI } from './entities/task'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
 import { CommentPlainClientAPI } from './entities/comment'
+import { SpacePlainClientAPI } from './entities/space'
+import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
+import { SpaceMemberPlainClientAPI } from './entities/space-member'
+import { EnvironmentPlainClientAPI } from './entities/environment'
+import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 
 export type PlainClientAPI = {
   raw: {
@@ -166,63 +163,9 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<FunctionProps>>
   }
   editorInterface: EditorInterfacePlainClientAPI
-  space: {
-    get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<SpaceProps>>
-    create(
-      params: OptionalDefaults<{ organizationId?: string }>,
-      payload: Omit<SpaceProps, 'sys'>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-    update(
-      params: OptionalDefaults<GetSpaceParams>,
-      payload: SpaceProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceProps>
-    delete(params: OptionalDefaults<GetSpaceParams>): Promise<any>
-  }
-  environment: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<EnvironmentProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      rawData: Partial<Pick<EnvironmentProps, 'name'>>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
-      rawData: CreateEnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: EnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<any>
-  }
-  environmentAlias: {
-    get(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<EnvironmentAliasProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentAliasProps>>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: CreateEnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: EnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
-  }
+  space: SpacePlainClientAPI
+  environment: EnvironmentPlainClientAPI
+  environmentAlias: EnvironmentAliasPlainClientAPI
   environmentTemplate: {
     get(
       params: GetEnvironmentTemplateParams & {
@@ -668,42 +611,8 @@ export type PlainClientAPI = {
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
-  spaceMember: {
-    get(
-      params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>
-    ): Promise<SpaceMemberProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMemberProps>>
-  }
-  spaceMembership: {
-    get(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<SpaceMembershipProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMembershipProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { spaceMembershipId: string }>
-    ): Promise<SpaceMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMembershipProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      data: CreateSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceMembershipProps>,
-      data: CreateSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    update(
-      params: OptionalDefaults<GetSpaceMembershipProps>,
-      rawData: SpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
-  }
+  spaceMember: SpaceMemberPlainClientAPI
+  spaceMembership: SpaceMembershipPlainClientAPI
   task: TaskPlainClientAPI
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
