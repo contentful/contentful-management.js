@@ -1,8 +1,8 @@
 import { RawAxiosRequestHeaders } from 'axios'
 import { OptionalDefaults } from '../wrappers/wrap'
 
-export type CreateOrUpdate<T, Props, ReturnProps> = <T, Props, ReturnProps>(
+export type CreateOrUpdate<T, Props, ReturnProps> = (
   params: OptionalDefaults<T>,
   rawData: Props,
-  headers?: RawAxiosRequestHeaders
+  headers: RawAxiosRequestHeaders
 ) => Promise<ReturnProps>
