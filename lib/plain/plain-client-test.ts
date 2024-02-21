@@ -23,10 +23,18 @@ describe('Plain Client', () => {
 
   describe('Comment', () => {
     describe('when body is plain text', () => {
-      const props: { commentId: string; entryId: string; bodyFormat: 'plain-text' } = {
+      const props: {
+        commentId: string
+        entryId: string
+        bodyFormat: 'plain-text'
+        spaceId: string
+        environmentId: string
+      } = {
         commentId: '123',
         entryId: '123',
         bodyFormat: 'plain-text',
+        spaceId: '123',
+        environmentId: '123',
       }
       const updateText = 'My new text'
 
@@ -148,10 +156,18 @@ describe('Plain Client', () => {
         ],
       }
 
-      const props: { commentId: string; entryId: string; bodyFormat: 'rich-text' } = {
+      const props: {
+        commentId: string
+        entryId: string
+        bodyFormat: 'rich-text'
+        spaceId: string
+        environmentId: string
+      } = {
         commentId: '123',
         entryId: '123',
         bodyFormat: 'rich-text',
+        spaceId: '123',
+        environmentId: '123',
       }
 
       it('should create a get object', async () => {
