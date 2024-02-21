@@ -1,4 +1,3 @@
-import { RawAxiosRequestHeaders } from 'axios'
 import {
   CollectionProp,
   GetAppDefinitionParams,

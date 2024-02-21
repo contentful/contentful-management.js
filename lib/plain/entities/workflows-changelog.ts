@@ -5,7 +5,7 @@ import { OptionalDefaults } from '../wrappers/wrap'
 export type WorkflowsChangelogPlainClientAPI = {
   /**
    * Query records in the Workflows Changelog with certain filters
-   * @param params entity IDs to identify the Space/Environment, query options to identify the entry for which the workflow was executed, and optional filtering and pagination parameters
+   * @param params entity IDs to identify the Space/Environment, query options to identify the entry for which the Workflow was executed, and optional filtering and pagination parameters
    * @returns an object containing the array of Workflow Changelogs
    * @throws if the request fails, or the Space/Environment is not found
    * @example

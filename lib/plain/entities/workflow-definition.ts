@@ -14,6 +14,7 @@ import {
   DeleteWorkflowDefinitionParams,
 } from '../../export-types'
 import { OptionalDefaults } from '../wrappers/wrap'
+import { CreateOrUpdate } from './base'
 
 export type WorkflowDefinitionPlainClientAPI = {
   /**
@@ -168,11 +169,11 @@ export type WorkflowDefinitionPlainClientAPI = {
    * }
    * ```
    */
-  create(
-    params: OptionalDefaults<CreateWorkflowDefinitionParams>,
-    rawData: CreateWorkflowDefinitionProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<WorkflowDefinitionProps>
+  create: CreateOrUpdate<
+    CreateWorkflowDefinitionParams,
+    CreateWorkflowDefinitionProps,
+    WorkflowDefinitionProps
+  >
   /**
    * Update a Workflow Definition
    * @param params entity IDs to identify the Space/Environment and Workflow Definition
@@ -192,11 +193,11 @@ export type WorkflowDefinitionPlainClientAPI = {
    * }
    * ```
    */
-  update(
-    params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
-    rawData: UpdateWorkflowDefinitionProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<WorkflowDefinitionProps>
+  update: CreateOrUpdate<
+    UpdateWorkflowDefinitionParams,
+    UpdateWorkflowDefinitionProps,
+    WorkflowDefinitionProps
+  >
   /**
    * Delete a Workflow Definition
    * @param params entity IDs to identify the Space/Environment and Workflow Definition version
