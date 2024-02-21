@@ -1,4 +1,3 @@
-import { RawAxiosRequestHeaders } from 'axios'
 import { CollectionProp, GetCommentParams, QueryParams } from '../../common-types'
 import {
   CommentProps,
@@ -15,6 +14,9 @@ import {
 } from '../../entities/comment'
 import { OptionalDefaults } from '../wrappers/wrap'
 import { CreateOrUpdate } from './base'
+
+type GetManyRichText = GetManyCommentsParams & RichTextBodyFormat & QueryParams
+type GetManyPlain = GetManyCommentsParams & PlainTextBodyFormat & QueryParams
 
 export type CommentPlainClientAPI = {
   /** Fetches a comment
@@ -72,29 +74,8 @@ export type CommentPlainClientAPI = {
    * ```
    * */
   getMany(
-    params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
-  ): Promise<CollectionProp<CommentProps>>
-  /** Fetches all comments
-   *
-   * @param params Space ID, Entry ID, Environment ID, and query parameters
-   * @returns a collection of comments
-   * @throws if the request fails or the comments are not found
-   * @example
-   * ```javascript
-   * const comments = await client.comment.getMany({
-   *  spaceId: '<space_id>',
-   *  entryId: '<entry_id>',
-   *  environmentId: '<environment_id>',
-   *  bodyFormat: 'rich-text',
-   *  query: {
-   *   limit: 100,
-   *  }
-   * });
-   * ```
-   * */
-  getMany(
-    params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
-  ): Promise<CollectionProp<RichTextCommentProps>>
+    params: OptionalDefaults<GetManyRichText | GetManyPlain>
+  ): Promise<CollectionProp<CommentProps | RichTextCommentProps>>
   /** Creates a comment
    *
    * @param params
