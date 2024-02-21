@@ -23,7 +23,7 @@ export type WorkflowPlainClientAPI = {
    * @throws if the request fails, or the Space/Environment is not found
    * @example
    * ```javascript
-   * const results = await client.workflow.getMany({
+   * const workflows = await client.workflow.getMany({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   query: {
@@ -44,7 +44,7 @@ export type WorkflowPlainClientAPI = {
    * @throws if the request fails
    * @example
    * ```javascript
-   * const results = await client.workflow.create({
+   * const workflow = await client.workflow.create({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    * }, {
@@ -78,7 +78,7 @@ export type WorkflowPlainClientAPI = {
    * @throws if the request fails
    * @example
    * ```javascript
-   * const results = await client.workflow.update({
+   * const workflow = await client.workflow.update({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   workflowId: '<workflow_id>',
