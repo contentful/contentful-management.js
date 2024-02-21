@@ -112,7 +112,7 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
 export type GetManyCommentsParams = (GetEntryParams | GetCommentParentEntityParams) & {
   status?: CommentStatus
 }
-export type CreateCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
+export type CreateCommentParams = GetCommentParentEntityParams & {
   parentCommentId?: string
 }
 export type UpdateCommentParams = GetCommentParams
