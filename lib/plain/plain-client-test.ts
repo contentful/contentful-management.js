@@ -10,6 +10,19 @@ chai.use(sinonChai)
 
 describe('Plain Client', () => {
   const stub = Sinon.stub()
+  const defaultProps: {
+    commentId: string
+    entryId: string
+    bodyFormat: 'plain-text' | 'rich-text'
+    spaceId: string
+    environmentId: string
+  } = {
+    commentId: '123',
+    entryId: '123',
+    bodyFormat: 'plain-text',
+    spaceId: '123',
+    environmentId: '123',
+  }
 
   beforeEach(() => stub.reset())
 
@@ -30,11 +43,8 @@ describe('Plain Client', () => {
         spaceId: string
         environmentId: string
       } = {
-        commentId: '123',
-        entryId: '123',
+        ...defaultProps,
         bodyFormat: 'plain-text',
-        spaceId: '123',
-        environmentId: '123',
       }
       const updateText = 'My new text'
 
@@ -163,11 +173,8 @@ describe('Plain Client', () => {
         spaceId: string
         environmentId: string
       } = {
-        commentId: '123',
-        entryId: '123',
+        ...defaultProps,
         bodyFormat: 'rich-text',
-        spaceId: '123',
-        environmentId: '123',
       }
 
       it('should create a get object', async () => {
