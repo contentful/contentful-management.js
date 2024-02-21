@@ -22,8 +22,6 @@ import {
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
-  GetTaskParams,
-  GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
   GetEnvironmentTemplateParams,
@@ -103,14 +101,6 @@ import {
 } from '../entities/release'
 import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
-  CreateTaskParams,
-  CreateTaskProps,
-  DeleteTaskParams,
-  TaskProps,
-  UpdateTaskParams,
-  UpdateTaskProps,
-} from '../entities/task'
-import {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
@@ -161,6 +151,7 @@ import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscri
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
+import { TaskPlainClientAPI } from './entities/task'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
 
@@ -758,23 +749,7 @@ export type PlainClientAPI = {
     ): Promise<SpaceMembershipProps>
     delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
   }
-  task: {
-    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
-    getMany(
-      params: OptionalDefaults<GetEntryParams & QueryParams>
-    ): Promise<CollectionProp<TaskProps>>
-    create(
-      params: OptionalDefaults<CreateTaskParams>,
-      rawData: CreateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    update(
-      params: OptionalDefaults<UpdateTaskParams>,
-      rawData: UpdateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
-  }
+  task: TaskPlainClientAPI
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
     getMany(
