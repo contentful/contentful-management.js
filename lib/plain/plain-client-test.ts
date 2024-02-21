@@ -162,13 +162,13 @@ describe('Plain Client', () => {
         ],
       }
 
-      const props: Props = {
+      const props = {
         ...defaultProps,
         bodyFormat: 'rich-text',
-      }
+      } as any
 
       it('should create a get object', async () => {
-        await plainClient.comment.get(props as any)
+        await plainClient.comment.get(props)
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'get',
@@ -179,7 +179,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a getMany object', async () => {
-        await plainClient.comment.getMany(props as any)
+        await plainClient.comment.getMany(props)
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'getMany',
