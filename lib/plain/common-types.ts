@@ -52,8 +52,6 @@ import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-ty
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
-import { CreateLocaleProps, LocaleProps } from '../entities/locale'
-import { OrganizationProp } from '../entities/organization'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -154,6 +152,8 @@ import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
 import { TaskPlainClientAPI } from './entities/task'
+import { OrganizationPlainClientAPI } from './entities/organization'
+import { LocalePlainClientAPI } from './entities/locale'
 
 export type PlainClientAPI = {
   raw: {
@@ -509,25 +509,7 @@ export type PlainClientAPI = {
     ): Promise<AssetKeyProps>
   }
   upload: UploadPlainClientAPI
-  locale: {
-    get(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
-    ): Promise<LocaleProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<LocaleProps>>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>): Promise<any>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
-      rawData: LocaleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<LocaleProps>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: CreateLocaleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<LocaleProps>
-  }
+  locale: LocalePlainClientAPI
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
@@ -705,12 +687,7 @@ export type PlainClientAPI = {
     ): Promise<TagProps>
     delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
   }
-  organization: {
-    getAll(
-      params?: OptionalDefaults<PaginationQueryParams>
-    ): Promise<CollectionProp<OrganizationProp>>
-    get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
-  }
+  organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
