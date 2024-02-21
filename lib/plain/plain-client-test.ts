@@ -8,15 +8,17 @@ import { CommentNode, RichTextCommentDocument } from '../entities/comment'
 chai.should()
 chai.use(sinonChai)
 
+type Props = {
+  commentId: string
+  entryId: string
+  bodyFormat: string
+  spaceId: string
+  environmentId: string
+}
+
 describe('Plain Client', () => {
   const stub = Sinon.stub()
-  const defaultProps: {
-    commentId: string
-    entryId: string
-    bodyFormat: 'plain-text' | 'rich-text'
-    spaceId: string
-    environmentId: string
-  } = {
+  const defaultProps: Props = {
     commentId: '123',
     entryId: '123',
     bodyFormat: 'plain-text',
@@ -36,16 +38,10 @@ describe('Plain Client', () => {
 
   describe('Comment', () => {
     describe('when body is plain text', () => {
-      const props: {
-        commentId: string
-        entryId: string
-        bodyFormat: 'plain-text'
-        spaceId: string
-        environmentId: string
-      } = {
+      const props = {
         ...defaultProps,
         bodyFormat: 'plain-text',
-      }
+      } as any
       const updateText = 'My new text'
 
       it('should create a get object', async () => {
@@ -166,19 +162,13 @@ describe('Plain Client', () => {
         ],
       }
 
-      const props: {
-        commentId: string
-        entryId: string
-        bodyFormat: 'rich-text'
-        spaceId: string
-        environmentId: string
-      } = {
+      const props: Props = {
         ...defaultProps,
         bodyFormat: 'rich-text',
       }
 
       it('should create a get object', async () => {
-        await plainClient.comment.get(props)
+        await plainClient.comment.get(props as any)
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'get',
@@ -189,7 +179,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a getMany object', async () => {
-        await plainClient.comment.getMany(props)
+        await plainClient.comment.getMany(props as any)
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'getMany',
