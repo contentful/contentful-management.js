@@ -65,11 +65,7 @@ export type WorkflowPlainClientAPI = {
    * });
    * ```
    */
-  create(
-    params: OptionalDefaults<CreateWorkflowParams>,
-    rawData: CreateWorkflowProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<WorkflowProps>
+  create: CreateOrUpdate<CreateWorkflowParams, CreateWorkflowProps, WorkflowProps>
   /**
    * Update a Workflow (i.e. move to another step)
    * @param params entity IDs to identify the Space/Environment and Workflow
