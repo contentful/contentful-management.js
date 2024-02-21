@@ -67,7 +67,7 @@ export type WorkflowDefinitionPlainClientAPI = {
    * const workflowDefinition = await client.workflowDefinition.create({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
-   * }, workflowDefinitionProps)
+   * }, workflowDefinitionProps);
    * ```
    */
   create: CreateOrUpdate<
@@ -85,13 +85,14 @@ export type WorkflowDefinitionPlainClientAPI = {
    * const updatedWorkflowDefinition = await client.workflowDefinition.update({
    *  spaceId: '<space_id>',
    *  environmentId: '<environment_id>',
+   *  workflowDefinitionId: '<workflow_definition_id>',
    * }, {
    *   ...workflowDefinition,
    *   steps: [
    *     ...workflowDefinition.steps,
    *     newStep,
    *   ]
-   * }
+   * });
    * ```
    */
   update: CreateOrUpdate<
