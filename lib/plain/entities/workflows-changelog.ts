@@ -10,7 +10,7 @@ export type WorkflowsChangelogPlainClientAPI = {
    * @throws if the request fails, or the Space/Environment is not found
    * @example
    * ```javascript
-   * const results = await client.workflowsChangelog.getMany({
+   * const records = await client.workflowsChangelog.getMany({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   query: {
