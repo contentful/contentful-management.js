@@ -14,6 +14,7 @@ import {
   UpdateCommentProps,
 } from '../../entities/comment'
 import { OptionalDefaults } from '../wrappers/wrap'
+import { CreateOrUpdate } from './base'
 
 export type CommentPlainClientAPI = {
   /** Fetches a comment
@@ -105,7 +106,7 @@ export type CommentPlainClientAPI = {
    *  spaceId: '<space_id>',
    *  entryId: '<entry_id>',
    *  environmentId: '<environment_id>',
-   *  bodyFormat: 'plain-text',
+   *  bodyFormat: 'plain-text' | 'rich-text',
    * },
    * {
    *  body: 'Looks good to me!',
@@ -113,35 +114,11 @@ export type CommentPlainClientAPI = {
    * });
    * ```
    */
-  create(
-    params: OptionalDefaults<CreateCommentParams>,
-    rawData: CreateCommentProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<CommentProps>
-  /** Creates a comment
-   *
-   * @param params
-   * @returns a comment
-   * @throws if the request fails, the entry is not found, or the payload is malformed
-   * @example
-   * ```javascript
-   * const comment = await client.comment.create({
-   *  spaceId: '<space_id>',
-   *  entryId: '<entry_id>',
-   *  environmentId: '<environment_id>',
-   *  bodyFormat: 'rich-text',
-   * },
-   * {
-   *  body: 'Looks good to me!',
-   *  status: 'active',
-   * });
-   * ```
-   */
-  create(
-    params: OptionalDefaults<CreateCommentParams>,
-    rawData: RichTextCommentBodyPayload,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<RichTextCommentProps>
+  create: CreateOrUpdate<
+    CreateCommentParams,
+    CreateCommentProps | RichTextCommentBodyPayload,
+    CommentProps
+  >
   /** Updates a comment
    *
    * @param params
@@ -154,7 +131,7 @@ export type CommentPlainClientAPI = {
    *  commentId: '<comment_id>',
    *  entryId: '<entry_id>',
    *  environmentId: '<environment_id>',
-   *  bodyFormat: 'plain-text',
+   *  bodyFormat: 'rich-text' | 'plain-text',
    * },
    * {
    *  body: 'Looks good to me!',
@@ -162,36 +139,11 @@ export type CommentPlainClientAPI = {
    * });
    * ```
    */
-  update(
-    params: OptionalDefaults<UpdateCommentParams>,
-    rawData: UpdateCommentProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<CommentProps>
-  /** Updates a comment
-   *
-   * @param params
-   * @returns a comment
-   * @throws if the request fails, the comment is not found, or the payload is malformed
-   * @example
-   * ```javascript
-   * const comment = await client.comment.update({
-   *  spaceId: '<space_id>',
-   *  commentId: '<comment_id>',
-   *  entryId: '<entry_id>',
-   *  environmentId: '<environment_id>',
-   *  bodyFormat: 'rich-text',
-   * },
-   * {
-   *  body: 'Looks good to me!',
-   *  status: 'active',
-   * });
-   * ```
-   */
-  update(
-    params: OptionalDefaults<UpdateCommentParams>,
-    rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<RichTextCommentProps>
+  update: CreateOrUpdate<
+    UpdateCommentParams,
+    UpdateCommentProps | RichTextCommentBodyPayload,
+    RichTextCommentProps
+  >
   /** Deletes a comment
    *
    * @param params
