@@ -1,4 +1,3 @@
-import { RawAxiosRequestHeaders } from 'axios'
 import {
   CollectionProp,
   GetAppDefinitionParams,
@@ -9,6 +8,7 @@ import {
 import { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
 import { OptionalDefaults } from '../wrappers/wrap'
+import { CreateOrUpdate } from './base'
 
 export type AppInstallationPlainClientAPI = {
   /**
@@ -80,11 +80,7 @@ export type AppInstallationPlainClientAPI = {
    * );
    * ```
    */
-  upsert(
-    params: OptionalDefaults<GetAppInstallationParams>,
-    rawData: CreateAppInstallationProps,
-    headers?: RawAxiosRequestHeaders
-  ): Promise<AppInstallationProps>
+  upsert: CreateOrUpdate<GetAppInstallationParams, CreateAppInstallationProps, AppInstallationProps>
   /**
    * Uninstalls the App
    * @param params entity IDs to identify the App to uninstall
