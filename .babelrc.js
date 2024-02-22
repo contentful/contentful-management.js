@@ -9,17 +9,13 @@ const defaultBabelPresetEnvConfig = {
   modules: false,
 }
 
-// Latest browsers
-const browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
-  targets: {
-    browsers: ['last 2 versions', 'not ie < 13', 'not android < 50'],
-  },
-})
+// Latest browsers (via package.json browserslists)
+const browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig)
 
 // Node
 const nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   targets: {
-    node: '6',
+    node: '18',
   },
 })
 
