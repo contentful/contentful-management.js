@@ -1,36 +1,27 @@
 import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
 import { OpPatch } from 'json-patch'
-import { Stream } from 'stream'
 import {
   CollectionProp,
   GetAppDefinitionParams,
-  GetCommentParams,
   GetContentTypeParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
-  GetSpaceEnvAliasParams,
   GetSpaceEnvironmentParams,
-  GetSpaceMembershipProps,
   GetSpaceParams,
   GetTagParams,
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
   KeyValueMap,
-  PaginationQueryParams,
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
-  GetTaskParams,
-  GetEntryParams,
   CursorPaginatedCollectionProp,
-  GetWorkflowDefinitionParams,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
-  GetSpaceEnvironmentUploadParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -39,25 +30,8 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import {
-  CreateCommentParams,
-  CreateCommentProps,
-  DeleteCommentParams,
-  CommentProps,
-  UpdateCommentParams,
-  UpdateCommentProps,
-  GetManyCommentsParams,
-  RichTextBodyFormat,
-  RichTextCommentProps,
-  RichTextCommentBodyPayload,
-  PlainTextBodyFormat,
-} from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from '../entities/environment'
-import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from '../entities/environment-alias'
-import { CreateLocaleProps, LocaleProps } from '../entities/locale'
-import { OrganizationProp } from '../entities/organization'
 import {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -78,9 +52,6 @@ import {
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { SpaceProps } from '../entities/space'
-import { SpaceMemberProps } from '../entities/space-member'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../entities/space-membership'
 import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
@@ -89,7 +60,6 @@ import {
   TeamSpaceMembershipProps,
 } from '../entities/team-space-membership'
 import { UsageProps } from '../entities/usage'
-import { UserProps } from '../entities/user'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'
@@ -107,37 +77,6 @@ import {
   ReleaseValidatePayload,
 } from '../entities/release'
 import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
-import {
-  CreateTaskParams,
-  CreateTaskProps,
-  DeleteTaskParams,
-  TaskProps,
-  UpdateTaskParams,
-  UpdateTaskProps,
-} from '../entities/task'
-import {
-  CreateWorkflowDefinitionParams,
-  CreateWorkflowDefinitionProps,
-  DeleteWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionProps,
-  WorkflowDefinitionProps,
-  WorkflowDefinitionQueryOptions,
-} from '../entities/workflow-definition'
-import {
-  CompleteWorkflowParams,
-  CreateWorkflowParams,
-  CreateWorkflowProps,
-  DeleteWorkflowParams,
-  UpdateWorkflowParams,
-  UpdateWorkflowProps,
-  WorkflowProps,
-  WorkflowQueryOptions,
-} from '../entities/workflow'
-import {
-  WorkflowsChangelogEntryProps,
-  WorkflowsChangelogQueryOptions,
-} from '../entities/workflows-changelog-entry'
 import {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -164,6 +103,20 @@ import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 import { ExtensionPlainClientAPI } from './entities/extension'
 import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
 import { AppKeyPlainClientAPI } from './entities/app-key'
+import { UserPlainClientAPI } from './entities/user'
+import { UploadPlainClientAPI } from './entities/upload'
+import { TaskPlainClientAPI } from './entities/task'
+import { OrganizationPlainClientAPI } from './entities/organization'
+import { LocalePlainClientAPI } from './entities/locale'
+import { CommentPlainClientAPI } from './entities/comment'
+import { SpacePlainClientAPI } from './entities/space'
+import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
+import { SpaceMemberPlainClientAPI } from './entities/space-member'
+import { EnvironmentPlainClientAPI } from './entities/environment'
+import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
+import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
+import { WorkflowPlainClientAPI } from './entities/workflow'
+import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 
 export type PlainClientAPI = {
   raw: {
@@ -189,63 +142,9 @@ export type PlainClientAPI = {
     ): Promise<CollectionProp<FunctionProps>>
   }
   editorInterface: EditorInterfacePlainClientAPI
-  space: {
-    get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<SpaceProps>>
-    create(
-      params: OptionalDefaults<{ organizationId?: string }>,
-      payload: Omit<SpaceProps, 'sys'>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-    update(
-      params: OptionalDefaults<GetSpaceParams>,
-      payload: SpaceProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceProps>
-    delete(params: OptionalDefaults<GetSpaceParams>): Promise<any>
-  }
-  environment: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<EnvironmentProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      rawData: Partial<Pick<EnvironmentProps, 'name'>>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
-      rawData: CreateEnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: EnvironmentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentProps>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams>): Promise<any>
-  }
-  environmentAlias: {
-    get(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<EnvironmentAliasProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
-    ): Promise<CollectionProp<EnvironmentAliasProps>>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: CreateEnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvAliasParams>,
-      rawData: EnvironmentAliasProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<EnvironmentAliasProps>
-    delete(params: OptionalDefaults<GetSpaceEnvAliasParams>): Promise<any>
-  }
+  space: SpacePlainClientAPI
+  environment: EnvironmentPlainClientAPI
+  environmentAlias: EnvironmentAliasPlainClientAPI
   environmentTemplate: {
     get(
       params: GetEnvironmentTemplateParams & {
@@ -329,39 +228,7 @@ export type PlainClientAPI = {
       payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
-  comment: {
-    get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
-    get(
-      params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
-    ): Promise<RichTextCommentProps>
-    getMany(
-      params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
-    ): Promise<CollectionProp<CommentProps>>
-    getMany(
-      params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
-    ): Promise<CollectionProp<RichTextCommentProps>>
-    create(
-      params: OptionalDefaults<CreateCommentParams>,
-      rawData: CreateCommentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CommentProps>
-    create(
-      params: OptionalDefaults<CreateCommentParams>,
-      rawData: RichTextCommentBodyPayload,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
-    update(
-      params: OptionalDefaults<UpdateCommentParams>,
-      rawData: UpdateCommentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CommentProps>
-    update(
-      params: OptionalDefaults<UpdateCommentParams>,
-      rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
-    delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
-  }
+  comment: CommentPlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
@@ -392,19 +259,7 @@ export type PlainClientAPI = {
       fieldId: string
     ): Promise<ContentTypeProps>
   }
-  user: {
-    getManyForSpace(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<UserProps>>
-    getForSpace(params: OptionalDefaults<GetSpaceParams & { userId: string }>): Promise<UserProps>
-    getCurrent<T = UserProps>(params?: QueryParams): Promise<T>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { userId: string }>
-    ): Promise<UserProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<UserProps>>
-  }
+  user: UserPlainClientAPI
   entry: {
     getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
@@ -530,33 +385,8 @@ export type PlainClientAPI = {
       data: CreateAssetKeyProps
     ): Promise<AssetKeyProps>
   }
-  upload: {
-    get(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: { file: string | ArrayBuffer | Stream }
-    ): Promise<any>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentUploadParams>): Promise<any>
-  }
-  locale: {
-    get(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
-    ): Promise<LocaleProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<LocaleProps>>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>): Promise<any>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
-      rawData: LocaleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<LocaleProps>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: CreateLocaleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<LocaleProps>
-  }
+  upload: UploadPlainClientAPI
+  locale: LocalePlainClientAPI
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
@@ -734,12 +564,7 @@ export type PlainClientAPI = {
     ): Promise<TagProps>
     delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
   }
-  organization: {
-    getAll(
-      params?: OptionalDefaults<PaginationQueryParams>
-    ): Promise<CollectionProp<OrganizationProp>>
-    get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
-  }
+  organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
@@ -765,59 +590,9 @@ export type PlainClientAPI = {
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
-  spaceMember: {
-    get(
-      params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>
-    ): Promise<SpaceMemberProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMemberProps>>
-  }
-  spaceMembership: {
-    get(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<SpaceMembershipProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMembershipProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { spaceMembershipId: string }>
-    ): Promise<SpaceMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<SpaceMembershipProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      data: CreateSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceMembershipProps>,
-      data: CreateSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    update(
-      params: OptionalDefaults<GetSpaceMembershipProps>,
-      rawData: SpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<SpaceMembershipProps>
-    delete(params: OptionalDefaults<GetSpaceMembershipProps>): Promise<any>
-  }
-  task: {
-    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
-    getMany(
-      params: OptionalDefaults<GetEntryParams & QueryParams>
-    ): Promise<CollectionProp<TaskProps>>
-    create(
-      params: OptionalDefaults<CreateTaskParams>,
-      rawData: CreateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    update(
-      params: OptionalDefaults<UpdateTaskParams>,
-      rawData: UpdateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
-  }
+  spaceMember: SpaceMemberPlainClientAPI
+  spaceMembership: SpaceMembershipPlainClientAPI
+  task: TaskPlainClientAPI
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
     getMany(
@@ -883,62 +658,7 @@ export type PlainClientAPI = {
   }
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
-  workflowDefinition: {
-    get(
-      params: OptionalDefaults<GetWorkflowDefinitionParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    getMany(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
-      >,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowDefinitionProps>>
-    create(
-      params: OptionalDefaults<CreateWorkflowDefinitionParams>,
-      rawData: CreateWorkflowDefinitionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    update(
-      params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
-      rawData: UpdateWorkflowDefinitionProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowDefinitionProps>
-    delete(
-      params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-  }
-  workflow: {
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowProps>>
-    create(
-      params: OptionalDefaults<CreateWorkflowParams>,
-      rawData: CreateWorkflowProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowProps>
-    update(
-      params: OptionalDefaults<UpdateWorkflowParams>,
-      rawData: UpdateWorkflowProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowProps>
-    delete(
-      params: OptionalDefaults<DeleteWorkflowParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<void>
-    complete(
-      params: OptionalDefaults<CompleteWorkflowParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<void>
-  }
-  workflowsChangelog: {
-    getMany(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
-      >,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
-  }
+  workflowDefinition: WorkflowDefinitionPlainClientAPI
+  workflow: WorkflowPlainClientAPI
+  workflowsChangelog: WorkflowsChangelogPlainClientAPI
 }
