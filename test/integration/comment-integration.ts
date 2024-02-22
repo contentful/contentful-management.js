@@ -55,7 +55,7 @@ describe('Comment Api', () => {
       await comment.delete()
     })
 
-    describe('Create, update, delete comment', async () => {
+    test('Create, update, delete comment', async () => {
       const comment = await entry.createComment({
         body: commentBody,
       })
