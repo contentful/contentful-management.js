@@ -10,6 +10,13 @@
   "engines": {
     "node": ">=18"
   },
+  "browserslist": [
+    ">0.3%",
+    "Chrome >= 75",
+    "Edge >= 74",
+    "Firefox >= 73",
+    "Safari >= 13"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/contentful/contentful-management.js.git"
