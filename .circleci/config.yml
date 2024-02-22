@@ -1,29 +1,15 @@
 version: 2.1
 orbs:
   vault: contentful/vault@1
+  node: circleci/node@5.2.0
 
 executors:
   docker-with-node:
     docker:
-      - image: cimg/node:18.18
+      - image: cimg/node:18
     working_directory: ~/build-and-test
 
 commands:
-  install-dependencies:
-    steps:
-      - restore_cache:
-          keys:
-            - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
-            - npm-cache
-      - run: npm ci --prefer-offline
-
-  cache-dependencies:
-    steps:
-      - save_cache:
-          key: npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-
   persist-workspace:
     steps:
       - persist_to_workspace:
@@ -47,8 +33,7 @@ jobs:
     steps:
       - checkout
       - run: node --version
-      - install-dependencies
-      - cache-dependencies
+      - node/install-packages
       - persist-workspace
 
   build:
@@ -91,7 +76,7 @@ jobs:
     steps:
       - checkout
       - use-vault
-      - install-dependencies
+      - node/install-packages
       - run: npm run semantic-release
 
 workflows:
