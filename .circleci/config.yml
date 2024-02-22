@@ -6,7 +6,7 @@ orbs:
 executors:
   docker-with-node:
     docker:
-      - image: cimg/node:18
+      - image: cimg/node:18.19
     working_directory: ~/build-and-test
 
 commands:
