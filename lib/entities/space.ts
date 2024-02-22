@@ -6,7 +6,7 @@ import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
 export type SpaceProps = {
-  sys: BasicMetaSysProps & { organization: { sys: { id: string } } }
+  sys: BasicMetaSysProps & { organization: { sys: { id: string } }, archivedAt?: string }
   name: string
 }
 
