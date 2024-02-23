@@ -155,6 +155,7 @@ import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { CreateTaskParams, UpdateTaskParams, DeleteTaskParams } from '../entities/task'
 import { TaskProps, CreateTaskProps, UpdateTaskProps } from '../export-types'
 import { CommentPlainClientAPI } from './entities/comment'
+import { TaskPlainClientAPI } from './entities/task'
 
 export type PlainClientAPI = {
   raw: {
@@ -630,23 +631,7 @@ export type PlainClientAPI = {
   }
   spaceMember: SpaceMemberPlainClientAPI
   spaceMembership: SpaceMembershipPlainClientAPI
-  task: {
-    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
-    getMany(
-      params: OptionalDefaults<GetEntryParams & QueryParams>
-    ): Promise<CollectionProp<TaskProps>>
-    create(
-      params: OptionalDefaults<CreateTaskParams>,
-      rawData: CreateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    update(
-      params: OptionalDefaults<UpdateTaskParams>,
-      rawData: UpdateTaskProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TaskProps>
-    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
-  }
+  task: TaskPlainClientAPI
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
     getMany(
