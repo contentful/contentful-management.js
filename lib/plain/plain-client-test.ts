@@ -53,7 +53,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a create object', async () => {
-        await plainClient.comment.create(props, { body: updateText }, {})
+        await plainClient.comment.create(props, { body: updateText })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'create',
@@ -64,15 +64,11 @@ describe('Plain Client', () => {
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(
-          props,
-          {
-            body: updateText,
-            sys: { version: 2 },
-            status: 'active',
-          },
-          {}
-        )
+        await plainClient.comment.update(props, {
+          body: updateText,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',
@@ -181,7 +177,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a create object', async () => {
-        await plainClient.comment.create(props, { body: richTextBody }, {})
+        await plainClient.comment.create(props, { body: richTextBody })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'create',
@@ -192,15 +188,11 @@ describe('Plain Client', () => {
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(
-          props,
-          {
-            body: richTextBody,
-            sys: { version: 2 },
-            status: 'active',
-          },
-          {}
-        )
+        await plainClient.comment.update(props, {
+          body: richTextBody,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',

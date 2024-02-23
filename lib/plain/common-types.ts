@@ -3,6 +3,7 @@ import { OpPatch } from 'json-patch'
 import {
   CollectionProp,
   GetAppDefinitionParams,
+  GetCommentParams,
   GetContentTypeParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
@@ -32,6 +33,19 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
+import {
+  CreateCommentParams,
+  CreateCommentProps,
+  DeleteCommentParams,
+  CommentProps,
+  UpdateCommentParams,
+  UpdateCommentProps,
+  GetManyCommentsParams,
+  RichTextBodyFormat,
+  RichTextCommentProps,
+  RichTextCommentBodyPayload,
+  PlainTextBodyFormat,
+} from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import {
@@ -109,7 +123,6 @@ import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
-import { CommentPlainClientAPI } from './entities/comment'
 import { SpacePlainClientAPI } from './entities/space'
 import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
@@ -231,7 +244,39 @@ export type PlainClientAPI = {
       payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
-  comment: CommentPlainClientAPI
+  comment: {
+    get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
+    get(
+      params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
+    ): Promise<RichTextCommentProps>
+    getMany(
+      params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
+    ): Promise<CollectionProp<CommentProps>>
+    getMany(
+      params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
+    ): Promise<CollectionProp<RichTextCommentProps>>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: CreateCommentProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CommentProps>
+    create(
+      params: OptionalDefaults<CreateCommentParams>,
+      rawData: RichTextCommentBodyPayload,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<RichTextCommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: UpdateCommentProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CommentProps>
+    update(
+      params: OptionalDefaults<UpdateCommentParams>,
+      rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<RichTextCommentProps>
+    delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
+  }
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
