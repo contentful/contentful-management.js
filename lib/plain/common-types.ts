@@ -22,6 +22,7 @@ import {
   GetTaskParams,
   GetEntryParams,
   CursorPaginatedCollectionProp,
+  GetWorkflowDefinitionParams,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   EnvironmentTemplateParams,
@@ -94,6 +95,29 @@ import {
 } from '../entities/release'
 import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
 import {
+  CreateWorkflowDefinitionParams,
+  CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionParams,
+  UpdateWorkflowDefinitionProps,
+  WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
+} from '../entities/workflow-definition'
+import {
+  CompleteWorkflowParams,
+  CreateWorkflowParams,
+  CreateWorkflowProps,
+  DeleteWorkflowParams,
+  UpdateWorkflowParams,
+  UpdateWorkflowProps,
+  WorkflowProps,
+  WorkflowQueryOptions,
+} from '../entities/workflow'
+import {
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from '../entities/workflows-changelog-entry'
+import {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from '../entities/environment-template'
@@ -128,9 +152,6 @@ import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
 import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
-import { WorkflowPlainClientAPI } from './entities/workflow'
-import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import { CreateTaskParams, UpdateTaskParams, DeleteTaskParams } from '../entities/task'
 import { TaskProps, CreateTaskProps, UpdateTaskProps } from '../export-types'
 
@@ -722,7 +743,62 @@ export type PlainClientAPI = {
   }
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
-  workflowDefinition: WorkflowDefinitionPlainClientAPI
-  workflow: WorkflowPlainClientAPI
-  workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  workflowDefinition: {
+    get(
+      params: OptionalDefaults<GetWorkflowDefinitionParams>,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<WorkflowDefinitionProps>
+    getMany(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
+      >,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CollectionProp<WorkflowDefinitionProps>>
+    create(
+      params: OptionalDefaults<CreateWorkflowDefinitionParams>,
+      rawData: CreateWorkflowDefinitionProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<WorkflowDefinitionProps>
+    update(
+      params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
+      rawData: UpdateWorkflowDefinitionProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<WorkflowDefinitionProps>
+    delete(
+      params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<any>
+  }
+  workflow: {
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CollectionProp<WorkflowProps>>
+    create(
+      params: OptionalDefaults<CreateWorkflowParams>,
+      rawData: CreateWorkflowProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<WorkflowProps>
+    update(
+      params: OptionalDefaults<UpdateWorkflowParams>,
+      rawData: UpdateWorkflowProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<WorkflowProps>
+    delete(
+      params: OptionalDefaults<DeleteWorkflowParams>,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<void>
+    complete(
+      params: OptionalDefaults<CompleteWorkflowParams>,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<void>
+  }
+  workflowsChangelog: {
+    getMany(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
+      >,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
+  }
 }
