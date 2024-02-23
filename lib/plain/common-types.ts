@@ -88,10 +88,6 @@ import {
   WorkflowDefinitionQueryOptions,
 } from '../entities/workflow-definition'
 import {
-  WorkflowsChangelogEntryProps,
-  WorkflowsChangelogQueryOptions,
-} from '../entities/workflows-changelog-entry'
-import {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from '../entities/environment-template'
@@ -129,6 +125,7 @@ import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { CommentPlainClientAPI } from './entities/comment'
 import { TaskPlainClientAPI } from './entities/task'
 import { WorkflowPlainClientAPI } from './entities/workflow'
+import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 
 export type PlainClientAPI = {
   raw: {
@@ -697,12 +694,5 @@ export type PlainClientAPI = {
     ): Promise<any>
   }
   workflow: WorkflowPlainClientAPI
-  workflowsChangelog: {
-    getMany(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }
-      >,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
-  }
+  workflowsChangelog: WorkflowsChangelogPlainClientAPI
 }
