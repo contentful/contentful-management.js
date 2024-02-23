@@ -154,6 +154,7 @@ import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { CreateTaskParams, UpdateTaskParams, DeleteTaskParams } from '../entities/task'
 import { TaskProps, CreateTaskProps, UpdateTaskProps } from '../export-types'
+import { CommentPlainClientAPI } from './entities/comment'
 
 export type PlainClientAPI = {
   raw: {
@@ -265,39 +266,7 @@ export type PlainClientAPI = {
       payload: BulkActionValidatePayload
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
-  comment: {
-    get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
-    get(
-      params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
-    ): Promise<RichTextCommentProps>
-    getMany(
-      params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
-    ): Promise<CollectionProp<CommentProps>>
-    getMany(
-      params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
-    ): Promise<CollectionProp<RichTextCommentProps>>
-    create(
-      params: OptionalDefaults<CreateCommentParams>,
-      rawData: CreateCommentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CommentProps>
-    create(
-      params: OptionalDefaults<CreateCommentParams>,
-      rawData: RichTextCommentBodyPayload,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
-    update(
-      params: OptionalDefaults<UpdateCommentParams>,
-      rawData: UpdateCommentProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CommentProps>
-    update(
-      params: OptionalDefaults<UpdateCommentParams>,
-      rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RichTextCommentProps>
-    delete(params: OptionalDefaults<DeleteCommentParams>): Promise<void>
-  }
+  comment: CommentPlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
