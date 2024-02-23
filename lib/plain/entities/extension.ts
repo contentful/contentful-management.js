@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import {
   CollectionProp,
   GetExtensionParams,
@@ -6,7 +7,6 @@ import {
 } from '../../common-types'
 import { CreateExtensionProps, ExtensionProps } from '../../entities/extension'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 export type ExtensionPlainClientAPI = {
   /**
@@ -69,7 +69,11 @@ export type ExtensionPlainClientAPI = {
    * );
    * ```
    */
-  create: CreateOrUpdate<GetSpaceEnvironmentParams, CreateExtensionProps, ExtensionProps>
+  create: (
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    rawData: CreateExtensionProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<ExtensionProps>
   /**
    * Creates a new Extension with a given ID
    * @param params entity IDs to identify the Environment in which to create the Extension
@@ -100,7 +104,11 @@ export type ExtensionPlainClientAPI = {
    * );
    * ```
    */
-  createWithId: CreateOrUpdate<GetExtensionParams, CreateExtensionProps, ExtensionProps>
+  createWithId: (
+    params: OptionalDefaults<GetExtensionParams>,
+    rawData: CreateExtensionProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<ExtensionProps>
   /**
    * Updates an Extension
    * @param params entity IDs to identify the Extension
@@ -147,7 +155,11 @@ export type ExtensionPlainClientAPI = {
    * );
    * ```
    */
-  update: CreateOrUpdate<GetExtensionParams, ExtensionProps, ExtensionProps>
+  update: (
+    params: OptionalDefaults<GetExtensionParams>,
+    rawData: ExtensionProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<ExtensionProps>
   /**
    * Deletes the Extension
    * @param params entity IDs to identity the Extension

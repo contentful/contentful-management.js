@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import { CollectionProp, GetCommentParams, QueryParams } from '../../common-types'
 import {
   CommentProps,
@@ -13,7 +14,6 @@ import {
   UpdateCommentProps,
 } from '../../entities/comment'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 type GetManyRichText = GetManyCommentsParams & RichTextBodyFormat & QueryParams
 type GetManyPlain = GetManyCommentsParams & PlainTextBodyFormat & QueryParams
@@ -95,11 +95,11 @@ export type CommentPlainClientAPI = {
    * });
    * ```
    */
-  create: CreateOrUpdate<
-    CreateCommentParams,
-    CreateCommentProps | RichTextCommentBodyPayload,
-    CommentProps
-  >
+  create: (
+    params: OptionalDefaults<CreateCommentParams>,
+    rawData: CreateCommentProps | RichTextCommentBodyPayload,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<CommentProps>
   /** Updates a comment
    *
    * @param params
@@ -120,11 +120,11 @@ export type CommentPlainClientAPI = {
    * });
    * ```
    */
-  update: CreateOrUpdate<
-    UpdateCommentParams,
-    UpdateCommentProps | RichTextCommentBodyPayload,
-    RichTextCommentProps
-  >
+  update: (
+    params: OptionalDefaults<UpdateCommentParams>,
+    rawData: UpdateCommentProps | RichTextCommentBodyPayload,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<RichTextCommentProps>
   /** Deletes a comment
    *
    * @param params

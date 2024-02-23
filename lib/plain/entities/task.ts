@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import {
   CreateTaskParams,
   DeleteTaskParams,
@@ -13,7 +14,6 @@ import {
   TaskProps,
 } from '../../export-types'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 export type TaskPlainClientAPI = {
   /** Fetches a task
@@ -80,7 +80,11 @@ export type TaskPlainClientAPI = {
    * );
    * ```
    */
-  create: CreateOrUpdate<CreateTaskParams, CreateTaskProps, TaskProps>
+  create: (
+    params: OptionalDefaults<CreateTaskParams>,
+    rawData: CreateTaskProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<TaskProps>
   /** Updates a task
    *
    * @param params Space ID, Entry ID, Environment ID, and Task ID
@@ -110,7 +114,11 @@ export type TaskPlainClientAPI = {
    * );
    * ```
    */
-  update: CreateOrUpdate<UpdateTaskParams, UpdateTaskProps, TaskProps>
+  update: (
+    params: OptionalDefaults<UpdateTaskParams>,
+    rawData: UpdateTaskProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<TaskProps>
   /** Deletes a task
    *
    * @param params Space ID, Entry ID, Environment ID, and Task ID
