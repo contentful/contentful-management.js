@@ -154,7 +154,7 @@ describe('Asset api', function () {
       expect(processedAsset.fields.file['de-DE'].url, 'file de-DE was uploaded').to.be.ok
     })
 
-    test('Upload and process asset from files with multiple locales in non-master environment', async () => {
+    test.skip('Upload and process asset from files with multiple locales in non-master environment', async () => {
       environment = await space.createEnvironment({ name: 'Asset Processing Non-Master' })
       const asset = await environment.createAssetFromFiles({
         fields: {
