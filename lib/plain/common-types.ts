@@ -18,6 +18,8 @@ import {
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
+  GetTaskParams,
+  GetEntryParams,
   CursorPaginatedCollectionProp,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
@@ -105,7 +107,6 @@ import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscri
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
-import { TaskPlainClientAPI } from './entities/task'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
 import { CommentPlainClientAPI } from './entities/comment'
@@ -117,6 +118,8 @@ import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowPlainClientAPI } from './entities/workflow'
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import { CreateTaskParams, UpdateTaskParams, DeleteTaskParams } from '../entities/task'
+import { TaskProps, CreateTaskProps, UpdateTaskProps } from '../export-types'
 
 export type PlainClientAPI = {
   raw: {
@@ -592,7 +595,23 @@ export type PlainClientAPI = {
   }
   spaceMember: SpaceMemberPlainClientAPI
   spaceMembership: SpaceMembershipPlainClientAPI
-  task: TaskPlainClientAPI
+  task: {
+    get(params: OptionalDefaults<GetTaskParams>): Promise<TaskProps>
+    getMany(
+      params: OptionalDefaults<GetEntryParams & QueryParams>
+    ): Promise<CollectionProp<TaskProps>>
+    create(
+      params: OptionalDefaults<CreateTaskParams>,
+      rawData: CreateTaskProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<TaskProps>
+    update(
+      params: OptionalDefaults<UpdateTaskParams>,
+      rawData: UpdateTaskProps,
+      headers?: RawAxiosRequestHeaders
+    ): Promise<TaskProps>
+    delete(params: OptionalDefaults<DeleteTaskParams>): Promise<void>
+  }
   team: {
     get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
     getMany(

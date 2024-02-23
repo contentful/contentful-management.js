@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import {
   CollectionProp,
   GetAppDefinitionParams,
@@ -10,8 +11,6 @@ import {
   CreateAppDefinitionProps,
 } from '../../entities/app-definition'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
-import { Get } from 'type-fest'
 
 export type AppDefinitionPlainClientAPI = {
   /**
@@ -70,7 +69,10 @@ export type AppDefinitionPlainClientAPI = {
    * );
    * ```
    */
-  create: CreateOrUpdate<GetOrganizationParams, CreateAppDefinitionProps, AppDefinitionProps>
+  create(
+    params: OptionalDefaults<GetOrganizationParams>,
+    rawData: CreateAppDefinitionProps
+  ): Promise<AppDefinitionProps>
   /**
    * Update an App Definition
    * @param params entity IDs to identify the App Definition
@@ -91,7 +93,11 @@ export type AppDefinitionPlainClientAPI = {
    * );
    * ```
    */
-  update: CreateOrUpdate<GetAppDefinitionParams, AppDefinitionProps, AppDefinitionProps>
+  update(
+    params: OptionalDefaults<GetAppDefinitionParams>,
+    rawData: AppDefinitionProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<AppDefinitionProps>
   /**
    * Delete an App Definition
    * @param params entity IDs to identify the App Definition
