@@ -1,3 +1,4 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import {
   GetTagParams,
   GetSpaceEnvironmentParams,
@@ -7,7 +8,6 @@ import {
 import { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
 import { TagProps, CreateTagProps } from '../../export-types'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 export type TagPlainClientAPI = {
   /**
@@ -64,7 +64,11 @@ export type TagPlainClientAPI = {
    * });
    * ```
    */
-  createWithId: CreateOrUpdate<GetTagParams, CreateTagProps, TagProps>
+  createWithId: (
+    params: OptionalDefaults<GetTagParams>,
+    rawData: CreateTagProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<TagProps>
   /**
    * Update a tag
    * @param params the space, environment, and tag IDs
@@ -92,7 +96,11 @@ export type TagPlainClientAPI = {
    * );
    * ```
    */
-  update: CreateOrUpdate<GetTagParams, UpdateTagProps, TagProps>
+  update: (
+    params: OptionalDefaults<GetTagParams>,
+    rawData: UpdateTagProps,
+    headers?: RawAxiosRequestHeaders
+  ) => Promise<TagProps>
   /**
    * Delete a single tag by ID and version
    * @param params the tag ID, version, and the IDs of the space and environment
