@@ -71,8 +71,7 @@ export type AppDefinitionPlainClientAPI = {
    */
   create: (
     params: OptionalDefaults<GetOrganizationParams>,
-    rawData: CreateAppDefinitionProps,
-    headers?: RawAxiosRequestHeaders
+    rawData: CreateAppDefinitionProps
   ) => Promise<AppDefinitionProps>
   /**
    * Update an App Definition
