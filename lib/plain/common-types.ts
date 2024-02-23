@@ -88,16 +88,6 @@ import {
   WorkflowDefinitionQueryOptions,
 } from '../entities/workflow-definition'
 import {
-  CompleteWorkflowParams,
-  CreateWorkflowParams,
-  CreateWorkflowProps,
-  DeleteWorkflowParams,
-  UpdateWorkflowParams,
-  UpdateWorkflowProps,
-  WorkflowProps,
-  WorkflowQueryOptions,
-} from '../entities/workflow'
-import {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from '../entities/workflows-changelog-entry'
@@ -138,6 +128,7 @@ import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import { CommentPlainClientAPI } from './entities/comment'
 import { TaskPlainClientAPI } from './entities/task'
+import { WorkflowPlainClientAPI } from './entities/workflow'
 
 export type PlainClientAPI = {
   raw: {
@@ -705,30 +696,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<any>
   }
-  workflow: {
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<WorkflowProps>>
-    create(
-      params: OptionalDefaults<CreateWorkflowParams>,
-      rawData: CreateWorkflowProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowProps>
-    update(
-      params: OptionalDefaults<UpdateWorkflowParams>,
-      rawData: UpdateWorkflowProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<WorkflowProps>
-    delete(
-      params: OptionalDefaults<DeleteWorkflowParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<void>
-    complete(
-      params: OptionalDefaults<CompleteWorkflowParams>,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<void>
-  }
+  workflow: WorkflowPlainClientAPI
   workflowsChangelog: {
     getMany(
       params: OptionalDefaults<
