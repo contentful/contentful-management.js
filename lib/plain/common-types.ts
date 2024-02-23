@@ -46,7 +46,6 @@ import {
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from '../entities/role'
 import {
   ScheduledActionProps,
   CreateUpdateScheduledActionProps,
@@ -117,6 +116,7 @@ import { TaskPlainClientAPI } from './entities/task'
 import { WorkflowPlainClientAPI } from './entities/workflow'
 import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import { RolePlainClientAPI } from './entities/role'
 
 export type PlainClientAPI = {
   raw: {
@@ -456,31 +456,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
-  role: {
-    get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    update(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      rawData: RoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
-  }
+  role: RolePlainClientAPI
   scheduledActions: {
     get(
       params: OptionalDefaults<GetSpaceParams> & {
