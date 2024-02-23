@@ -3,7 +3,6 @@ import { OpPatch } from 'json-patch'
 import {
   CollectionProp,
   GetAppDefinitionParams,
-  GetCommentParams,
   GetContentTypeParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
@@ -19,8 +18,6 @@ import {
   QueryParams,
   GetBulkActionParams,
   GetReleaseParams,
-  GetTaskParams,
-  GetEntryParams,
   CursorPaginatedCollectionProp,
   GetWorkflowDefinitionParams,
   GetEnvironmentTemplateParams,
@@ -34,19 +31,6 @@ import {
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import {
-  CreateCommentParams,
-  CreateCommentProps,
-  DeleteCommentParams,
-  CommentProps,
-  UpdateCommentParams,
-  UpdateCommentProps,
-  GetManyCommentsParams,
-  RichTextBodyFormat,
-  RichTextCommentProps,
-  RichTextCommentBodyPayload,
-  PlainTextBodyFormat,
-} from '../entities/comment'
 import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import {
@@ -152,8 +136,6 @@ import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
 import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { CreateTaskParams, UpdateTaskParams, DeleteTaskParams } from '../entities/task'
-import { TaskProps, CreateTaskProps, UpdateTaskProps } from '../export-types'
 import { CommentPlainClientAPI } from './entities/comment'
 import { TaskPlainClientAPI } from './entities/task'
 
