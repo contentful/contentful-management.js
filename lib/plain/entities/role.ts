@@ -1,12 +1,12 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
 } from '../../common-types'
-import { CreateRoleProps, RoleProps } from '../../export-types'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
+import { CreateRoleProps, RoleProps } from '../../entities/role'
 
 export type RolePlainClientAPI = {
   /** Fetches a Role
@@ -17,24 +17,24 @@ export type RolePlainClientAPI = {
    * @example
    * ```javascript
    * const role = await client.role.get({
-   *  spaceId: '<space_id>',
-   *  roleId: '<role_id>',
+   *   spaceId: '<space_id>',
+   *   roleId: '<role_id>',
    * });
    * ```
    */
   get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
   /** Fetches all Roles for the given Space
    *
-   * @param params Space ID and query parameters
+   * @param params Space ID and optional query parameters
    * @returns All the Roles for the given Space
    * @throws if the request fails, or the Space is not found
    * @example
    * ```javascript
    * const results = await client.role.getMany({
-   *  spaceId: '<space_id>',
-   *  query: {
-   *   limit: 100,
-   *  }
+   *   spaceId: '<space_id>',
+   *   query: {
+   *     limit: 100,
+   *   }
    * });
    * ```
    */
@@ -43,16 +43,16 @@ export type RolePlainClientAPI = {
   ): Promise<CollectionProp<RoleProps>>
   /** Fetches all Roles for the given Organization
    *
-   * @param params Organization ID and query parameters
+   * @param params Organization ID and optional query parameters
    * @returns All the Roles for the given Organization
    * @throws if the request fails, or the Organization is not found
    * @example
    * ```javascript
    * const results = await client.role.getManyForOrganization({
-   *  organizationId: '<organization_id>',
-   *  query: {
-   *   limit: 100,
-   *  }
+   *   organizationId: '<organization_id>',
+   *   query: {
+   *     limit: 100,
+   *   }
    * });
    * ```
    */
@@ -67,51 +67,55 @@ export type RolePlainClientAPI = {
    * @example
    * ```javascript
    * const role = await client.role.create(
-   * {
-   *  spaceId: '<space_id>',
-   * },
-   * {
-   *  name: 'My role',
-   *  description: 'My role description',
-   *  permissions: {
-   *   ContentModel: [
-   *    'read'
-   *   ],
-   *   ContentDelivery: 'all',
-   *   Environments: 'all',
-   *   EnvironmentAliases: 'all',
-   *   Settings: 'all'
-   *  },
-   *  policies: [
    *   {
-   *    effect: 'allow',
-   *    actions: [
-   *     'read',
-   *     'create',
-   *     'update',
-   *     'delete',
-   *     'publish',
-   *     'unpublish',
-   *     'archive',
-   *     'unarchive'
-   *    ],
-   *    constraint: {
-   *     and: [
-   *     [
-   *      'equals',
-   *      {
-   *       doc: 'sys.type'
+   *      spaceId: '<space_id>',
+   *   },
+   *   {
+   *      name: 'My role',
+   *      description: 'My role description',
+   *      permissions: {
+   *        ContentModel: [
+   *         'read'
+   *        ],
+   *        ContentDelivery: 'all',
+   *        Environments: 'all',
+   *        EnvironmentAliases: 'all',
+   *        Settings: 'all'
    *      },
-   *      'Entry'
-   *     ]
-   *    ]
-   *   }
-   *  }
-   * ]
+   *     policies: [
+   *       {
+   *         effect: 'allow',
+   *         actions: [
+   *           'read',
+   *           'create',
+   *           'update',
+   *           'delete',
+   *           'publish',
+   *           'unpublish',
+   *           'archive',
+   *           'unarchive'
+   *         ],
+   *         constraint: {
+   *           and: [
+   *           [
+   *            'equals',
+   *            {
+   *              doc: 'sys.type'
+   *            },
+   *            'Entry'
+   *           ]
+   *         ]
+   *       }
+   *     }
+   *   ]
    * });
    * ```
    */
-  create: CreateOrUpdate<GetSpaceParams, CreateRoleProps, RoleProps>
+  create(
+    params: OptionalDefaults<GetSpaceParams>,
+    data: CreateRoleProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<RoleProps>
   /** Creates a Role with a given ID
    *
    * @param params Space ID, Role ID, and the Role to create
@@ -119,53 +123,57 @@ export type RolePlainClientAPI = {
    * @throws if the request fails, the Space is not found, or the payload is malformed
    * @example
    * ```javascript
-   * const role = await client.role.createWithId(
-   * {
-   *  spaceId: '<space_id>',
-   *  roleId: '<role_id>',
-   * },
-   * {
-   *  name: 'My role',
-   *  description: 'My role description',
-   *  permissions: {
-   *   ContentModel: [
-   *    'read'
-   *   ],
-   *   ContentDelivery: 'all',
-   *   Environments: 'all',
-   *   EnvironmentAliases: 'all',
-   *   Settings: 'all'
-   *  },
-   *  policies: [
+   * const role = await client.role.create(
    *   {
-   *    effect: 'allow',
-   *    actions: [
-   *     'read',
-   *     'create',
-   *     'update',
-   *     'delete',
-   *     'publish',
-   *     'unpublish',
-   *     'archive',
-   *     'unarchive'
-   *    ],
-   *    constraint: {
-   *     and: [
-   *     [
-   *      'equals',
-   *      {
-   *       doc: 'sys.type'
+   *      spaceId: '<space_id>',
+   *      roleId: '<role_id>',
+   *   },
+   *   {
+   *      name: 'My role',
+   *      description: 'My role description',
+   *      permissions: {
+   *        ContentModel: [
+   *         'read'
+   *        ],
+   *        ContentDelivery: 'all',
+   *        Environments: 'all',
+   *        EnvironmentAliases: 'all',
+   *        Settings: 'all'
    *      },
-   *      'Entry'
-   *     ]
-   *    ]
-   *   }
-   *  }
-   * ]
+   *     policies: [
+   *       {
+   *         effect: 'allow',
+   *         actions: [
+   *           'read',
+   *           'create',
+   *           'update',
+   *           'delete',
+   *           'publish',
+   *           'unpublish',
+   *           'archive',
+   *           'unarchive'
+   *         ],
+   *         constraint: {
+   *           and: [
+   *           [
+   *            'equals',
+   *            {
+   *              doc: 'sys.type'
+   *            },
+   *            'Entry'
+   *           ]
+   *         ]
+   *       }
+   *     }
+   *   ]
    * });
    * ```
    */
-  createWithId: CreateOrUpdate<GetSpaceParams & { roleId: string }, CreateRoleProps, RoleProps>
+  createWithId(
+    params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
+    data: CreateRoleProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<RoleProps>
   /** Updates a Role
    *
    * @param params Space ID and Role ID
@@ -174,53 +182,28 @@ export type RolePlainClientAPI = {
    * @throws if the request fails, the Role is not found, or the payload is malformed
    * @example
    * ```javascript
-   * const role = await client.role.update(
-   * {
-   *  spaceId: '<space_id>',
-   *  roleId: '<role_id>',
-   * },
-   * {
-   *  name: 'My role',
-   *  description: 'My role description',
-   *  permissions: {
-   *   ContentModel: [
-   *    'read'
-   *   ],
-   *   ContentDelivery: 'all',
-   *   Environments: 'all',
-   *   EnvironmentAliases: 'all',
-   *   Settings: 'all'
-   *  },
-   *  policies: [
-   *   {
-   *    effect: 'allow',
-   *    actions: [
-   *     'read',
-   *     'create',
-   *     'update',
-   *     'delete',
-   *     'publish',
-   *     'unpublish',
-   *     'archive',
-   *     'unarchive'
-   *    ],
-   *    constraint: {
-   *     and: [
-   *     [
-   *      'equals',
-   *      {
-   *       doc: 'sys.type'
-   *      },
-   *      'Entry'
-   *     ]
-   *    ]
-   *   }
-   *  }
-   * ]
+   * let role = await client.role.get({
+   *   spaceId: '<space_id>',
+   *   roleId: '<role_id>',
    * });
+   *
+   * role = await client.role.update(
+   *   {
+   *     spaceId: '<space_id>',
+   *     roleId: '<role_id>',
+   *   },
+   *   {
+   *     ...role,
+   *     name: 'My updated role name',
+   *   }
+   * );
    * ```
    */
-  update: CreateOrUpdate<GetSpaceParams & { roleId: string }, RoleProps, RoleProps>
+  update(
+    params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
+    rawData: RoleProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<RoleProps>
   /** Deletes a Role
    *
    * @param params Space ID and Role ID
@@ -228,8 +211,8 @@ export type RolePlainClientAPI = {
    * @example
    * ```javascript
    * await client.role.delete({
-   *  spaceId: '<space_id>',
-   *  roleId: '<role_id>',
+   *   spaceId: '<space_id>',
+   *   roleId: '<role_id>',
    * });
    * ```
    */
