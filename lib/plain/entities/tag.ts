@@ -64,11 +64,7 @@ export type TagPlainClientAPI = {
    * });
    * ```
    */
-  createWithId: (
-    params: OptionalDefaults<GetTagParams>,
-    rawData: CreateTagProps,
-    headers?: RawAxiosRequestHeaders
-  ) => Promise<TagProps>
+  createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
   /**
    * Update a tag
    * @param params the space, environment, and tag IDs
@@ -96,11 +92,11 @@ export type TagPlainClientAPI = {
    * );
    * ```
    */
-  update: (
+  update(
     params: OptionalDefaults<GetTagParams>,
     rawData: UpdateTagProps,
     headers?: RawAxiosRequestHeaders
-  ) => Promise<TagProps>
+  ): Promise<TagProps>
   /**
    * Delete a single tag by ID and version
    * @param params the tag ID, version, and the IDs of the space and environment
@@ -115,5 +111,5 @@ export type TagPlainClientAPI = {
    * });
    * ```
    */
-  delete(params: OptionalDefaults<DeleteTagParams>): Promise<void>
+  delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
 }
