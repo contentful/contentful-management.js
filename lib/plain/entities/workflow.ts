@@ -4,16 +4,13 @@ import {
   CreateWorkflowParams,
   UpdateWorkflowParams,
   CompleteWorkflowParams,
-} from '../../entities/workflow'
-import {
   WorkflowQueryOptions,
   WorkflowProps,
   CreateWorkflowProps,
   UpdateWorkflowProps,
   DeleteWorkflowParams,
-} from '../../export-types'
+} from '../../entities/workflow'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 export type WorkflowPlainClientAPI = {
   /**
@@ -65,7 +62,11 @@ export type WorkflowPlainClientAPI = {
    * });
    * ```
    */
-  create: CreateOrUpdate<CreateWorkflowParams, CreateWorkflowProps, WorkflowProps>
+  create(
+    params: OptionalDefaults<CreateWorkflowParams>,
+    rawData: CreateWorkflowProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WorkflowProps>
   /**
    * Update a Workflow (i.e. move to another step)
    * @param params entity IDs to identify the Space/Environment and Workflow
@@ -83,7 +84,11 @@ export type WorkflowPlainClientAPI = {
    * });
    * ```
    */
-  update: CreateOrUpdate<UpdateWorkflowParams, UpdateWorkflowProps, WorkflowProps>
+  update(
+    params: OptionalDefaults<UpdateWorkflowParams>,
+    rawData: UpdateWorkflowProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WorkflowProps>
   /**
    * Delete a Workflow
    * @param params entity IDs to identify the Space/Environment and Workflow

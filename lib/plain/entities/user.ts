@@ -16,10 +16,10 @@ export type UserPlainClientAPI = {
    * @example
    * ```javascript
    * const users = await client.user.getManyForSpace({
-   *  spaceId: '<space_id>',
-   *  query: {
-   *   limit: 100,
-   *  }
+   *   spaceId: '<space_id>',
+   *   query: {
+   *     limit: 100,
+   *   },
    * });
    * ```
    */
@@ -77,8 +77,8 @@ export type UserPlainClientAPI = {
    * const users = await client.user.getManyForOrganization({
    *   organizationId: '<organization_id>',
    *   query: {
-   *    limit: 100,
-   *   }
+   *     limit: 100,
+   *   },
    * });
    * ```
    */

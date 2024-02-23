@@ -10,7 +10,6 @@ import {
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTagParams,
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
@@ -46,13 +45,11 @@ import {
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from '../entities/role'
 import {
   ScheduledActionProps,
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import {
@@ -105,18 +102,20 @@ import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscri
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
-import { TaskPlainClientAPI } from './entities/task'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
-import { CommentPlainClientAPI } from './entities/comment'
 import { SpacePlainClientAPI } from './entities/space'
 import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
 import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
+import { CommentPlainClientAPI } from './entities/comment'
+import { TaskPlainClientAPI } from './entities/task'
 import { WorkflowPlainClientAPI } from './entities/workflow'
+import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import { RolePlainClientAPI } from './entities/role'
+import { TagPlainClientAPI } from './entities/tag'
 
 export type PlainClientAPI = {
   raw: {
@@ -456,31 +455,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
-  role: {
-    get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    update(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      rawData: RoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
-  }
+  role: RolePlainClientAPI
   scheduledActions: {
     get(
       params: OptionalDefaults<GetSpaceParams> & {
@@ -551,19 +526,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
-  tag: {
-    get(params: OptionalDefaults<GetTagParams>): Promise<TagProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<TagProps>>
-    createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
-    update(
-      params: OptionalDefaults<GetTagParams>,
-      rawData: UpdateTagProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TagProps>
-    delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
-  }
+  tag: TagPlainClientAPI
   organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(

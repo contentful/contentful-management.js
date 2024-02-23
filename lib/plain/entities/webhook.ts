@@ -18,7 +18,6 @@ import {
   WebhookSigningSecretProps,
 } from '../../entities/webhook'
 import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
 
 export type WebhookPlainClientAPI = {
   // Webhooks
@@ -71,7 +70,11 @@ export type WebhookPlainClientAPI = {
    * );
    * ```
    */
-  create: CreateOrUpdate<GetSpaceParams, CreateWebhooksProps, WebhookProps>
+  create(
+    params: OptionalDefaults<GetSpaceParams>,
+    rawData: CreateWebhooksProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WebhookProps>
   /**
    * Creates the Webhook
    * @param params entity IDs to identify the Webhook to update
