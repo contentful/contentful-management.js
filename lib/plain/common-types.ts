@@ -10,7 +10,6 @@ import {
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTagParams,
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
@@ -51,7 +50,6 @@ import {
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import {
@@ -117,6 +115,7 @@ import { WorkflowPlainClientAPI } from './entities/workflow'
 import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import { RolePlainClientAPI } from './entities/role'
+import { TagPlainClientAPI } from './entities/tag'
 
 export type PlainClientAPI = {
   raw: {
@@ -527,19 +526,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
-  tag: {
-    get(params: OptionalDefaults<GetTagParams>): Promise<TagProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<TagProps>>
-    createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
-    update(
-      params: OptionalDefaults<GetTagParams>,
-      rawData: UpdateTagProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TagProps>
-    delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
-  }
+  tag: TagPlainClientAPI
   organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
