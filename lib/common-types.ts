@@ -116,7 +116,6 @@ import {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionProps,
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
 } from './entities/workflow-definition'
@@ -125,7 +124,6 @@ import {
   CreateWorkflowParams,
   CreateWorkflowProps,
   DeleteWorkflowParams,
-  UpdateWorkflowProps,
   WorkflowProps,
   WorkflowQueryOptions,
 } from './entities/workflow'
@@ -1791,7 +1789,7 @@ export type MRActions = {
     }
     update: {
       params: GetWorkflowDefinitionParams
-      payload: UpdateWorkflowDefinitionProps
+      payload: WorkflowDefinitionProps
       headers?: RawAxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
@@ -1815,7 +1813,7 @@ export type MRActions = {
     }
     update: {
       params: GetWorkflowParams
-      payload: UpdateWorkflowProps
+      payload: WorkflowProps
       headers?: RawAxiosRequestHeaders
       return: WorkflowProps
     }

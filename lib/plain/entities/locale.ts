@@ -32,8 +32,6 @@ export type LocalePlainClientAPI = {
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
-   *   },
-   *   {
    *     query: {
    *       limit: 10,
    *     },

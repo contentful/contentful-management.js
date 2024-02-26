@@ -4,17 +4,16 @@ import {
   GetSpaceEnvironmentParams,
   CollectionProp,
 } from '../../common-types'
+import { OptionalDefaults } from '../wrappers/wrap'
 import {
-  WorkflowDefinitionProps,
-  WorkflowDefinitionQueryOptions,
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
   UpdateWorkflowDefinitionParams,
   UpdateWorkflowDefinitionProps,
-  DeleteWorkflowDefinitionParams,
-} from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateOrUpdate } from './base'
+  WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
+} from '../../entities/workflow-definition'
 
 export type WorkflowDefinitionPlainClientAPI = {
   /**
@@ -70,11 +69,11 @@ export type WorkflowDefinitionPlainClientAPI = {
    * }, workflowDefinitionProps);
    * ```
    */
-  create: CreateOrUpdate<
-    CreateWorkflowDefinitionParams,
-    CreateWorkflowDefinitionProps,
-    WorkflowDefinitionProps
-  >
+  create(
+    params: OptionalDefaults<CreateWorkflowDefinitionParams>,
+    rawData: CreateWorkflowDefinitionProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WorkflowDefinitionProps>
   /**
    * Update a Workflow Definition
    * @param params entity IDs to identify the Space/Environment and Workflow Definition
@@ -95,11 +94,11 @@ export type WorkflowDefinitionPlainClientAPI = {
    * });
    * ```
    */
-  update: CreateOrUpdate<
-    UpdateWorkflowDefinitionParams,
-    UpdateWorkflowDefinitionProps,
-    WorkflowDefinitionProps
-  >
+  update(
+    params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
+    rawData: UpdateWorkflowDefinitionProps,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WorkflowDefinitionProps>
   /**
    * Delete a Workflow Definition
    * @param params entity IDs to identify the Space/Environment and Workflow Definition version
@@ -117,5 +116,5 @@ export type WorkflowDefinitionPlainClientAPI = {
   delete(
     params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
     headers?: RawAxiosRequestHeaders
-  ): Promise<void>
+  ): Promise<any>
 }

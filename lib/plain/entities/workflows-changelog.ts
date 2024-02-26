@@ -1,6 +1,10 @@
+import { RawAxiosRequestHeaders } from 'axios'
 import { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
-import { WorkflowsChangelogQueryOptions, WorkflowsChangelogEntryProps } from '../../export-types'
 import { OptionalDefaults } from '../wrappers/wrap'
+import {
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from '../../entities/workflows-changelog-entry'
 
 export type WorkflowsChangelogPlainClientAPI = {
   /**
@@ -21,6 +25,7 @@ export type WorkflowsChangelogPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }>,
+    headers?: RawAxiosRequestHeaders
   ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
 }
