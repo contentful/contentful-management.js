@@ -100,6 +100,9 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'AppSigningSecret', 'get'),
       delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
     },
+    appAccessToken: {
+      create: wrap(wrapParams, 'AppAccessToken', 'create'),
+    },
     function: {
       getMany: wrap(wrapParams, 'Function', 'getMany'),
     },
