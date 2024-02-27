@@ -9,6 +9,7 @@ import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
 import * as AppEventSubscription from './app-event-subscription'
 import * as AppKey from './app-key'
+import * as AppAccessToken from './app-access-token'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
@@ -65,6 +66,7 @@ export default {
   AppSigningSecret,
   AppEventSubscription,
   AppKey,
+  AppAccessToken,
   AppDetails,
   Asset,
   AssetKey,
