@@ -10,7 +10,7 @@ export type UploadPlainClientAPI = {
    * @throws if the request fails, or the Space Environment Upload is not found
    * @example
    * ```javascript
-   * const spaceEnvironmentUpload = await client.spaceEnvironmentUpload.get({
+   * const upload = await client.upload.get({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   uploadId: '<upload_id>',
@@ -27,7 +27,7 @@ export type UploadPlainClientAPI = {
    * @example
    * ```javascript
    * const file = fs.readFileSync('<path_to_file>');
-   * const spaceEnvironmentUpload = await client.spaceEnvironmentUpload.create(
+   * const upload = await client.upload.create(
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
@@ -48,7 +48,7 @@ export type UploadPlainClientAPI = {
    * @throws if the request fails, or the Space Environment Upload is not found
    * @example
    * ```javascript
-   * await client.spaceEnvironmentUpload.delete({
+   * await client.upload.delete({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   uploadId: '<upload_id>',
