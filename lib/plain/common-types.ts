@@ -116,6 +116,9 @@ import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition
 import { RolePlainClientAPI } from './entities/role'
 import { TagPlainClientAPI } from './entities/tag'
 import { UsagePlainClientAPI } from './entities/usage'
+import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import { TeamPlainClientAPI } from './entities/team'
+import { TeamMembershipPlainClientAPI } from './entities/team-membership'
 
 export type PlainClientAPI = {
   raw: {
@@ -549,69 +552,9 @@ export type PlainClientAPI = {
   spaceMember: SpaceMemberPlainClientAPI
   spaceMembership: SpaceMembershipPlainClientAPI
   task: TaskPlainClientAPI
-  team: {
-    get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
-    getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    getManyForSpace(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    create(
-      params: OptionalDefaults<GetOrganizationParams>,
-      rawData: CreateTeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-    update(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: TeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamProps>
-    delete(params: OptionalDefaults<GetTeamParams>): Promise<any>
-  }
-  teamMembership: {
-    get(params: OptionalDefaults<GetTeamMembershipParams>): Promise<TeamMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    getManyForTeam(
-      params: OptionalDefaults<GetTeamParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    create(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: CreateTeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamMembershipParams>,
-      rawData: TeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    delete(params: OptionalDefaults<GetTeamMembershipParams>): Promise<any>
-  }
-  teamSpaceMembership: {
-    get(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<TeamSpaceMembershipProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>
-    ): Promise<TeamSpaceMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
-      rawData: CreateTeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamSpaceMembershipParams>,
-      rawData: TeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
-  }
+  team: TeamPlainClientAPI
+  teamMembership: TeamMembershipPlainClientAPI
+  teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI
