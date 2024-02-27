@@ -56,7 +56,6 @@ import {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from '../entities/team-space-membership'
-import { UsageProps } from '../entities/usage'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'
@@ -116,6 +115,7 @@ import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import { RolePlainClientAPI } from './entities/role'
 import { TagPlainClientAPI } from './entities/tag'
+import { UsagePlainClientAPI } from './entities/usage'
 import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
 import { TeamPlainClientAPI } from './entities/team'
 import { TeamMembershipPlainClientAPI } from './entities/team-membership'
@@ -410,14 +410,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<AccessTokenProp>>
   }
-  usage: {
-    getManyForSpace(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-  }
+  usage: UsagePlainClientAPI
   release: {
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
