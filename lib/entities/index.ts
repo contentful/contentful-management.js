@@ -9,6 +9,7 @@ import * as appSignedRequest from './app-signed-request'
 import * as appSigningSecret from './app-signing-secret'
 import * as appEventSubscription from './app-event-subscription'
 import * as appKey from './app-key'
+import * as appAccessToken from './app-access-token'
 import * as appUpload from './app-upload'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
@@ -64,6 +65,7 @@ export default {
   appSigningSecret,
   appEventSubscription,
   appKey,
+  appAccessToken,
   asset,
   assetKey,
   bulkAction,
