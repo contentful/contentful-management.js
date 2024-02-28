@@ -119,6 +119,7 @@ import { UsagePlainClientAPI } from './entities/usage'
 import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
 import { TeamPlainClientAPI } from './entities/team'
 import { TeamMembershipPlainClientAPI } from './entities/team-membership'
+import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
 
 export type PlainClientAPI = {
   raw: {
@@ -138,6 +139,7 @@ export type PlainClientAPI = {
   appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
+  appAccessToken: AppAccessTokenPlainClientAPI
   function: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>

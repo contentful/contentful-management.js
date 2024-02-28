@@ -272,6 +272,18 @@ const appKeyMock = {
   },
 }
 
+const appAccessTokenMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppAccessToken',
+    space: { sys: { id: 'space-id' } },
+    environment: { sys: { id: 'environment-id' } },
+    appDefinition: { sys: { id: 'app-definition-id' } },
+    expiresAt: '2020-03-30T13:38:37.000Z',
+  }),
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImViZWY2MDJlLTMxZGItNGMzYi1iZjAwL',
+  id: undefined,
+}
+
 const appDetailsMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDetails',
@@ -948,6 +960,7 @@ const mocks = {
   appSigningSecret: appSigningSecretMock,
   appEventSubscription: appEventSubscriptionMock,
   appKey: appKeyMock,
+  appAccessToken: appAccessTokenMock,
   appDetails: appDetailsMock,
   asset: assetMock,
   assetKey: assetKeyMock,
@@ -1049,6 +1062,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     appKey: {
       wrapAppKey: sinon.stub(),
       wrapAppKeyCollection: sinon.stub(),
+    },
+    appAccessToken: {
+      wrapAppAccessToken: sinon.stub(),
     },
     appDetails: {
       wrapAppDetails: sinon.stub(),
@@ -1228,6 +1244,7 @@ export {
   appSigningSecretMock,
   appEventSubscriptionMock,
   appKeyMock,
+  appAccessTokenMock,
   appDetailsMock,
   linkMock,
   sysMock,
