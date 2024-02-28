@@ -1634,13 +1634,16 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @return Promise for an app access token
      * @example ```javascript
      * const contentful = require('contentful-management')
+     * const { sign } = require('jsonwebtoken')
+     *
+     * const signOptions = { algorithm: 'RS256', issuer: '<app_definition_id>', expiresIn: '10m' }
      *
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
      *
      * const data = {
-     *   jwt: '<jwt>'
+     *   jwt: sign({}, '<private_key>', signOptions)
      * }
      *
      * client.getSpace('<space_id>')

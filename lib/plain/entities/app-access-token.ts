@@ -11,13 +11,17 @@ export type AppAccessTokenPlainClientAPI = {
    * @throws if the request fails
    * @example
    * ```javascript
+   * import { sign } from 'jsonwebtoken'
+   *
+   * const signOptions = { algorithm: 'RS256', issuer: '<app_definition_id>', expiresIn: '10m' }
+   *
    * const { token } = await client.appAccessToken.create(
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
    *     appDefinitionId: '<app_definition_id>',
    *   }, {
-   *     jwt: '<jwt>',
+   *     jwt: sign({}, '<private_key>', signOptions)
    *   }
    * );
    * ```
