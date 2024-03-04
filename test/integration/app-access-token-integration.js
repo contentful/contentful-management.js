@@ -33,7 +33,10 @@ describe('AppAccessToken api', function () {
     }
     await createAppInstallation(entityId.appDefinitionId)
 
-    client = initPlainClient()
+    client = initPlainClient({
+      spaceId: space.sys.id,
+      environmentId: environment.sys.id,
+    })
 
     appKey = await client.appKey.create(entityId, { generate: true })
 
@@ -49,6 +52,7 @@ describe('AppAccessToken api', function () {
           fingerprint: appKey.sys.id,
         })
       }
+      await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
       await appDefinition.delete()
     }
   })
