@@ -1,14 +1,18 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
 import { readFileSync } from 'fs'
-import { getTestOrganization } from '../helpers'
+import { getTestOrganization, getDefaultSpace } from '../helpers'
 
 describe('AppBundle api', function () {
   let organization
   let appDefinition
   let appUpload
+  let space
+  let env
 
   before(async () => {
+    space = await getDefaultSpace()
+    env = await space.getEnvironment('master')
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
@@ -20,7 +24,11 @@ describe('AppBundle api', function () {
 
   after(async () => {
     const { items: appDefinitions } = await organization.getAppDefinitions()
-    for (const appDefinition of appDefinitions) {
+    const { items: appInstallations } = await env.getAppInstallations()
+    for await (const appInstallation of appInstallations) {
+      await appInstallation.delete()
+    }
+    for await (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
 

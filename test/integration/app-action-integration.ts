@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
-import { AppActionCategory, AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
+import { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
 import {
   initPlainClient,
   getTestOrganization,
@@ -23,11 +23,15 @@ describe('AppAction api', function () {
       name: 'Test AppAction',
     })
 
-    client = initPlainClient()
+    client = initPlainClient({
+      spaceId: space.sys.id,
+      environmentId: 'master',
+    })
   })
 
   after(async () => {
     if (appDefinition) {
+      await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
       await appDefinition.delete()
     }
   })
@@ -36,7 +40,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom',
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
@@ -58,7 +62,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom',
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
@@ -86,7 +90,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom',
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
@@ -100,7 +104,7 @@ describe('AppAction api', function () {
         appActionId: appAction.sys.id,
       },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom',
         name: 'my updated action',
         url: 'https://www.elsewhere.com',
         parameters: [],
@@ -122,7 +126,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory,
+        category: 'Custom',
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
@@ -150,7 +154,7 @@ describe('AppAction api', function () {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {
-        category: 'Custom' as AppActionCategory.Custom,
+        category: 'Custom',
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
