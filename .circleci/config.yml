@@ -40,6 +40,8 @@ commands:
     steps:
       - vault/get-secrets:
           template-preset: 'semantic-release-ecosystem'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
 
 jobs:
   prepare:
