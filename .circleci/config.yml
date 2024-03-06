@@ -15,6 +15,10 @@ commands:
           keys:
             - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
             - npm-cache
+      - vault/get-secrets:
+          template-preset: 'packages-read'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm ci --prefer-offline
 
   cache-dependencies:
@@ -48,10 +52,6 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
-      - vault/get-secrets:
-          template-preset: 'packages-read'
-      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
-      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: node --version
       - install-dependencies
       - cache-dependencies
