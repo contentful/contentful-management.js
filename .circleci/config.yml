@@ -17,9 +17,8 @@ commands:
             - npm-cache
       - vault/get-secrets:
           template-preset: 'packages-read'
-      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_READ_TOKEN}" > ~/.npmrc
       - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
-      - run: cat ~/.npmrc
       - run: npm ci --prefer-offline
 
   cache-dependencies:
@@ -97,8 +96,8 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
-      - use-vault
       - install-dependencies
+      - use-vault
       - run: npm run semantic-release
 
 workflows:
