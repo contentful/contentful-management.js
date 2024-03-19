@@ -91,6 +91,9 @@ export const getSigningSecret: RestEndpoint<'Webhook', 'getSigningSecret'> = (
   return raw.get(http, getWebhookSigningSecretUrl(params))
 }
 
+/**
+ * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
+ */
 export const getRetryPolicy: RestEndpoint<'Webhook', 'getRetryPolicy'> = (
   http: AxiosInstance,
   params: GetSpaceParams
@@ -148,6 +151,9 @@ export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'>
   return raw.put<WebhookSigningSecretProps>(http, getWebhookSigningSecretUrl(params), data)
 }
 
+/**
+ * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
+ */
 export const upsertRetryPolicy: RestEndpoint<'Webhook', 'upsertRetryPolicy'> = async (
   http: AxiosInstance,
   params: GetSpaceParams,
@@ -172,6 +178,9 @@ export const deleteSigningSecret: RestEndpoint<'Webhook', 'deleteSigningSecret'>
   return raw.del<void>(http, getWebhookSigningSecretUrl(params))
 }
 
+/**
+ * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
+ */
 export const deleteRetryPolicy: RestEndpoint<'Webhook', 'deleteRetryPolicy'> = async (
   http: AxiosInstance,
   params: GetSpaceParams
