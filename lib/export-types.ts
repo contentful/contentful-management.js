@@ -245,15 +245,19 @@ export type {
   WorkflowStepActionType,
   // Property: step.permissions
   WorkflowStepPermission,
-  WorkflowStepPermissionType,
-  WorkflowStepPermissionAction,
-  WorkflowStepPermissionEffect,
   WorkflowStepPermissionActors,
   WorkflowStepEmailActionRecipient,
   WorkflowStepEmailAction,
   WorkflowStepTaskAction,
   WorkflowStepAppAction,
 } from './entities/workflow-definition'
+
+export {
+  WorkflowStepPermissionType,
+  WorkflowStepPermissionAction,
+  WorkflowStepPermissionEffect,
+} from './entities/workflow-definition'
+
 export type {
   DefinedParameters,
   FreeFormParameters,
