@@ -25,6 +25,7 @@ export enum WorkflowStepPermissionType {
 export enum WorkflowStepPermissionAction {
   Edit = 'edit',
   Publish = 'publish',
+  Delete = 'delete',
 }
 
 export enum WorkflowStepPermissionEffect {
