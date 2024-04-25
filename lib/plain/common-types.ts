@@ -10,7 +10,6 @@ import {
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTagParams,
   GetTeamMembershipParams,
   GetTeamParams,
   GetTeamSpaceMembershipParams,
@@ -46,20 +45,17 @@ import {
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from '../entities/role'
 import {
   ScheduledActionProps,
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from '../entities/tag'
 import { CreateTeamProps, TeamProps } from '../entities/team'
 import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
 import {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from '../entities/team-space-membership'
-import { UsageProps } from '../entities/usage'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'
@@ -105,18 +101,25 @@ import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscri
 import { AppKeyPlainClientAPI } from './entities/app-key'
 import { UserPlainClientAPI } from './entities/user'
 import { UploadPlainClientAPI } from './entities/upload'
-import { TaskPlainClientAPI } from './entities/task'
 import { OrganizationPlainClientAPI } from './entities/organization'
 import { LocalePlainClientAPI } from './entities/locale'
-import { CommentPlainClientAPI } from './entities/comment'
 import { SpacePlainClientAPI } from './entities/space'
 import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import { SpaceMemberPlainClientAPI } from './entities/space-member'
 import { EnvironmentPlainClientAPI } from './entities/environment'
 import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
+import { CommentPlainClientAPI } from './entities/comment'
+import { TaskPlainClientAPI } from './entities/task'
 import { WorkflowPlainClientAPI } from './entities/workflow'
+import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import { RolePlainClientAPI } from './entities/role'
+import { TagPlainClientAPI } from './entities/tag'
+import { UsagePlainClientAPI } from './entities/usage'
+import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import { TeamPlainClientAPI } from './entities/team'
+import { TeamMembershipPlainClientAPI } from './entities/team-membership'
+import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
 
 export type PlainClientAPI = {
   raw: {
@@ -136,6 +139,7 @@ export type PlainClientAPI = {
   appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
+  appAccessToken: AppAccessTokenPlainClientAPI
   function: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
@@ -408,14 +412,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
     ): Promise<CollectionProp<AccessTokenProp>>
   }
-  usage: {
-    getManyForSpace(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-  }
+  usage: UsagePlainClientAPI
   release: {
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
@@ -456,31 +453,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
-  role: {
-    get(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<RoleProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<RoleProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      data: CreateRoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    update(
-      params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
-      rawData: RoleProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<RoleProps>
-    delete(params: OptionalDefaults<GetSpaceParams & { roleId: string }>): Promise<any>
-  }
+  role: RolePlainClientAPI
   scheduledActions: {
     get(
       params: OptionalDefaults<GetSpaceParams> & {
@@ -551,19 +524,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
-  tag: {
-    get(params: OptionalDefaults<GetTagParams>): Promise<TagProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
-    ): Promise<CollectionProp<TagProps>>
-    createWithId(params: OptionalDefaults<GetTagParams>, rawData: CreateTagProps): Promise<TagProps>
-    update(
-      params: OptionalDefaults<GetTagParams>,
-      rawData: UpdateTagProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TagProps>
-    delete(params: OptionalDefaults<DeleteTagParams>): Promise<any>
-  }
+  tag: TagPlainClientAPI
   organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
@@ -593,69 +554,9 @@ export type PlainClientAPI = {
   spaceMember: SpaceMemberPlainClientAPI
   spaceMembership: SpaceMembershipPlainClientAPI
   task: TaskPlainClientAPI
-  team: {
-    get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
-    getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    getManyForSpace(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    create(
-      params: OptionalDefaults<GetOrganizationParams>,
-      rawData: CreateTeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-    update(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: TeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamProps>
-    delete(params: OptionalDefaults<GetTeamParams>): Promise<any>
-  }
-  teamMembership: {
-    get(params: OptionalDefaults<GetTeamMembershipParams>): Promise<TeamMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    getManyForTeam(
-      params: OptionalDefaults<GetTeamParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    create(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: CreateTeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamMembershipParams>,
-      rawData: TeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    delete(params: OptionalDefaults<GetTeamMembershipParams>): Promise<any>
-  }
-  teamSpaceMembership: {
-    get(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<TeamSpaceMembershipProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>
-    ): Promise<TeamSpaceMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
-      rawData: CreateTeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamSpaceMembershipParams>,
-      rawData: TeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
-  }
+  team: TeamPlainClientAPI
+  teamMembership: TeamMembershipPlainClientAPI
+  teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI

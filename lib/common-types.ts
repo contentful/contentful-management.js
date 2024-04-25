@@ -116,7 +116,6 @@ import {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
-  UpdateWorkflowDefinitionProps,
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
 } from './entities/workflow-definition'
@@ -125,7 +124,6 @@ import {
   CreateWorkflowParams,
   CreateWorkflowProps,
   DeleteWorkflowParams,
-  UpdateWorkflowProps,
   WorkflowProps,
   WorkflowQueryOptions,
 } from './entities/workflow'
@@ -151,6 +149,7 @@ import {
   CreateAppEventSubscriptionProps,
 } from './entities/app-event-subscription'
 import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+import { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -404,6 +403,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppKey', 'getMany', UA>): MRReturn<'AppKey', 'getMany'>
   (opts: MROpts<'AppKey', 'create', UA>): MRReturn<'AppKey', 'create'>
   (opts: MROpts<'AppKey', 'delete', UA>): MRReturn<'AppKey', 'delete'>
+
+  (opts: MROpts<'AppAccessToken', 'create', UA>): MRReturn<'AppAccessToken', 'create'>
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
@@ -944,6 +945,13 @@ export type MRActions = {
     delete: {
       params: GetAppDefinitionParams & { fingerprint: string }
       return: void
+    }
+  }
+  AppAccessToken: {
+    create: {
+      params: GetAppInstallationParams
+      payload: CreateAppAccessTokenProps
+      return: AppAccessTokenProps
     }
   }
   Asset: {
@@ -1791,7 +1799,7 @@ export type MRActions = {
     }
     update: {
       params: GetWorkflowDefinitionParams
-      payload: UpdateWorkflowDefinitionProps
+      payload: WorkflowDefinitionProps
       headers?: RawAxiosRequestHeaders
       return: WorkflowDefinitionProps
     }
@@ -1815,7 +1823,7 @@ export type MRActions = {
     }
     update: {
       params: GetWorkflowParams
-      payload: UpdateWorkflowProps
+      payload: WorkflowProps
       headers?: RawAxiosRequestHeaders
       return: WorkflowProps
     }

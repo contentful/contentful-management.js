@@ -8,23 +8,8 @@ import { CommentNode, RichTextCommentDocument } from '../entities/comment'
 chai.should()
 chai.use(sinonChai)
 
-type Props = {
-  commentId: string
-  entryId: string
-  bodyFormat: string
-  spaceId: string
-  environmentId: string
-}
-
 describe('Plain Client', () => {
   const stub = Sinon.stub()
-  const defaultProps: Props = {
-    commentId: '123',
-    entryId: '123',
-    bodyFormat: 'plain-text',
-    spaceId: '123',
-    environmentId: '123',
-  }
 
   beforeEach(() => stub.reset())
 
@@ -38,10 +23,11 @@ describe('Plain Client', () => {
 
   describe('Comment', () => {
     describe('when body is plain text', () => {
-      const props = {
-        ...defaultProps,
+      const props: { commentId: string; entryId: string; bodyFormat: 'plain-text' } = {
+        commentId: '123',
+        entryId: '123',
         bodyFormat: 'plain-text',
-      } as any
+      }
       const updateText = 'My new text'
 
       it('should create a get object', async () => {
@@ -67,7 +53,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a create object', async () => {
-        await plainClient.comment.create(props, { body: updateText }, {})
+        await plainClient.comment.create(props, { body: updateText })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'create',
@@ -78,15 +64,11 @@ describe('Plain Client', () => {
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(
-          props,
-          {
-            body: updateText,
-            sys: { version: 2 },
-            status: 'active',
-          },
-          {}
-        )
+        await plainClient.comment.update(props, {
+          body: updateText,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',
@@ -166,10 +148,11 @@ describe('Plain Client', () => {
         ],
       }
 
-      const props = {
-        ...defaultProps,
+      const props: { commentId: string; entryId: string; bodyFormat: 'rich-text' } = {
+        commentId: '123',
+        entryId: '123',
         bodyFormat: 'rich-text',
-      } as any
+      }
 
       it('should create a get object', async () => {
         await plainClient.comment.get(props)
@@ -194,7 +177,7 @@ describe('Plain Client', () => {
       })
 
       it('should create a create object', async () => {
-        await plainClient.comment.create(props, { body: richTextBody }, {})
+        await plainClient.comment.create(props, { body: richTextBody })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'create',
@@ -205,15 +188,11 @@ describe('Plain Client', () => {
       })
 
       it('should create a update object', async () => {
-        await plainClient.comment.update(
-          props,
-          {
-            body: richTextBody,
-            sys: { version: 2 },
-            status: 'active',
-          },
-          {}
-        )
+        await plainClient.comment.update(props, {
+          body: richTextBody,
+          sys: { version: 2 },
+          status: 'active',
+        })
         expect(stub).to.have.been.calledWithMatch({
           entityType: 'Comment',
           action: 'update',

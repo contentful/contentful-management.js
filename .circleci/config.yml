@@ -10,6 +10,25 @@ executors:
     working_directory: ~/build-and-test
 
 commands:
+  install-dependencies:
+    steps:
+      - restore_cache:
+          keys:
+            - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+            - npm-cache
+      - vault/get-secrets:
+          template-preset: 'packages-read'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_READ_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
+      - run: npm ci --prefer-offline
+
+  cache-dependencies:
+    steps:
+      - save_cache:
+          key: npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+
   persist-workspace:
     steps:
       - persist_to_workspace:
@@ -26,6 +45,8 @@ commands:
     steps:
       - vault/get-secrets:
           template-preset: 'semantic-release-ecosystem'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
 
 jobs:
   prepare:
@@ -75,15 +96,16 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
+      - install-dependencies
       - use-vault
-      - node/install-packages
       - run: npm run semantic-release
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - prepare
+      - prepare:
+          context: vault
       - build:
           requires:
             - prepare

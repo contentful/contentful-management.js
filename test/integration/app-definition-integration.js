@@ -5,18 +5,25 @@ import {
   getAppDefinition,
   getTestOrganization,
   createAppInstallation,
+  getDefaultSpace,
 } from '../helpers'
 
 describe('AppDefinition api', function () {
-  let organization
+  let organization, space, env
 
   before(async () => {
     organization = await getTestOrganization()
+    space = await getDefaultSpace()
+    env = await space.getEnvironment('master')
   })
 
   after(async () => {
     const { items: appDefinitions } = await organization.getAppDefinitions()
-    for (const appDefinition of appDefinitions) {
+    const { items: appInstallations } = await env.getAppInstallations()
+    for await (const appInstallation of appInstallations) {
+      await appInstallation.delete()
+    }
+    for await (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
   })

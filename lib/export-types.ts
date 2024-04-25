@@ -58,6 +58,11 @@ export type {
   CreateAppEventSubscriptionProps,
 } from './entities/app-event-subscription'
 export type { AppKey, AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+export type {
+  AppAccessToken,
+  AppAccessTokenProps,
+  CreateAppAccessTokenProps,
+} from './entities/app-access-token'
 export type { AppUpload, AppUploadProps } from './entities/app-upload'
 export type { Asset, AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
 export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
@@ -240,15 +245,19 @@ export type {
   WorkflowStepActionType,
   // Property: step.permissions
   WorkflowStepPermission,
-  WorkflowStepPermissionType,
-  WorkflowStepPermissionAction,
-  WorkflowStepPermissionEffect,
   WorkflowStepPermissionActors,
   WorkflowStepEmailActionRecipient,
   WorkflowStepEmailAction,
   WorkflowStepTaskAction,
   WorkflowStepAppAction,
 } from './entities/workflow-definition'
+
+export {
+  WorkflowStepPermissionType,
+  WorkflowStepPermissionAction,
+  WorkflowStepPermissionEffect,
+} from './entities/workflow-definition'
+
 export type {
   DefinedParameters,
   FreeFormParameters,

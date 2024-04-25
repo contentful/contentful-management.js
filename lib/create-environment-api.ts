@@ -49,6 +49,7 @@ import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
 import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
+import { CreateAppAccessTokenProps } from './entities/app-access-token'
 
 /**
  * @private
@@ -76,6 +77,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppSignedRequest } = entities.appSignedRequest
   const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
+  const { wrapAppAccessToken } = entities.appAccessToken
 
   return {
     /**
@@ -1624,6 +1626,45 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((payload) => wrapAppSignedRequest(makeRequest, payload))
+    },
+    /**
+     * Creates an app access token
+     * @param appDefinitionId - AppDefinition ID
+     * @param data - Json Web Token
+     * @return Promise for an app access token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const { sign } = require('jsonwebtoken')
+     *
+     * const signOptions = { algorithm: 'RS256', issuer: '<app_definition_id>', expiresIn: '10m' }
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const data = {
+     *   jwt: sign({}, '<private_key>', signOptions)
+     * }
+     *
+     * client.getSpace('<space_id>')
+     *  .then((space) => space.getEnvironment('<environment-id>'))
+     *  .then((environment) => environment.createAppAccessToken('<app_definition_id>', data)
+     *  .then((appAccessToken) => console.log(appAccessToken))
+     *  .catch(console.error)
+     *  ```
+     */
+    createAppAccessToken(appDefinitionId: string, data: CreateAppAccessTokenProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppAccessToken',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+        },
+        payload: data,
+      }).then((payload) => wrapAppAccessToken(makeRequest, payload))
     },
     /**
      * Gets all snapshots of an entry
