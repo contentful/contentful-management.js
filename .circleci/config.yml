@@ -1,11 +1,12 @@
 version: 2.1
 orbs:
   vault: contentful/vault@1
+  node: circleci/node@5.2.0
 
 executors:
   docker-with-node:
     docker:
-      - image: cimg/node:18.18
+      - image: cimg/node:18.19
     working_directory: ~/build-and-test
 
 commands:
@@ -54,7 +55,6 @@ jobs:
       - checkout
       - run: node --version
       - install-dependencies
-      - cache-dependencies
       - persist-workspace
 
   build:
