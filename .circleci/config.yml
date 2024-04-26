@@ -54,7 +54,7 @@ jobs:
     steps:
       - checkout
       - run: node --version
-      - node/install-packages
+      - install-dependencies
       - persist-workspace
 
   build:
