@@ -13,5 +13,5 @@ export type FieldType =
   | { type: 'ResourceLink'; linkType: string }
   | { type: 'Array'; items: { type: 'Symbol' } }
   | { type: 'Array'; items: { type: 'Link'; linkType: 'Entry' } }
-  | { type: 'Array'; items: { type: 'Resourcelink'; linkType: string } }
+  | { type: 'Array'; items: { type: 'ResourceLink'; linkType: string } }
   | { type: 'Array'; items: { type: 'Link'; linkType: 'Asset' } }
