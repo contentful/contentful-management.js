@@ -43,6 +43,34 @@ describe('AppDefinition api', function () {
     expect(appDefinition.name).equals('Test App', 'name')
   })
 
+  test('createAppDefinition with secret installation param', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+      parameters: {
+        installation: [
+          {
+            name: 'my-secret-param',
+            id: 'secret',
+            type: 'Secret',
+          },
+        ],
+      },
+    })
+
+    expect(appDefinition.sys.type).equals('AppDefinition', 'type')
+    expect(appDefinition.name).equals('Test App', 'name')
+    expect(appDefinition.parameters.installation[0].id).equals(
+      'secret',
+      'installation parameter id'
+    )
+  })
+
   test('getAppDefintion', async () => {
     const appDefinition = await organization.createAppDefinition({
       name: 'Test App',
