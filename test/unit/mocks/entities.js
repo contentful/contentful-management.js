@@ -213,6 +213,22 @@ const appDefinitionMock = {
       fieldTypes: [{ type: 'Symbol' }],
     },
   ],
+  parameters: {
+    instance: [
+      {
+        name: 'my-bool-param',
+        id: 'param',
+        type: 'Boolean',
+      },
+    ],
+    installation: [
+      {
+        name: 'my-secret-param',
+        id: 'param',
+        type: 'Secret',
+      },
+    ],
+  },
 }
 
 const appUploadMock = {

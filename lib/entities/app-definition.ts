@@ -6,7 +6,7 @@ import { wrapCollection } from '../common-utils'
 import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
 import { SetOptional, Except } from 'type-fest'
 import { FieldType } from './field-type'
-import { ParameterDefinition } from './widget-parameters'
+import { InstallationParameterType, ParameterDefinition } from './widget-parameters'
 import { AppInstallationProps } from './app-installation'
 import { EnvironmentProps } from './environment'
 
@@ -62,7 +62,7 @@ export type AppDefinitionProps = {
    */
   parameters?: {
     instance?: ParameterDefinition[]
-    installation?: ParameterDefinition[]
+    installation?: ParameterDefinition<InstallationParameterType>[]
   }
 }
 

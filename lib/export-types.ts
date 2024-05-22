@@ -262,6 +262,7 @@ export type {
   DefinedParameters,
   FreeFormParameters,
   ParameterDefinition,
+  InstallationParameterType,
 } from './entities/widget-parameters'
 export type {
   CreateWorkflowProps,
