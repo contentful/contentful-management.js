@@ -258,6 +258,7 @@ export interface MetaLinkProps {
 
 export interface MetadataProps {
   tags: Link<'Tag'>[]
+  concepts?: Link<'TaxonomyConcept'>[]
 }
 
 export interface SysLink {

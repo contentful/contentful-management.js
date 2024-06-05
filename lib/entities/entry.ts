@@ -3,7 +3,6 @@ import copy from 'fast-copy'
 import {
   CollectionProp,
   DefaultElements,
-  EntityMetaSysProps,
   EntryMetaSysProps,
   KeyValueMap,
   MakeRequest,
@@ -17,7 +16,6 @@ import { AssetProps } from './asset'
 export type EntryProps<T = KeyValueMap> = {
   sys: EntryMetaSysProps
   metadata?: MetadataProps
-
   fields: T
 }
 

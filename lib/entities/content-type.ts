@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Except, SetOptional, RequireAtLeastOne } from 'type-fest'
+import { Except, RequireAtLeastOne, SetOptional } from 'type-fest'
 import {
   BasicMetaSysProps,
   Collection,
@@ -26,6 +26,7 @@ export type ContentTypeMetadata = {
     },
     'ContentType' | 'ContentTypeField'
   >
+  taxonomy?: Array<Link<'TaxonomyConcept'> | Link<'TaxonomyConceptScheme'>>
 }
 
 export type AnnotationAssignment = Link<'Annotation'> & {
