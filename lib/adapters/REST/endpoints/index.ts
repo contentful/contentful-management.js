@@ -14,7 +14,8 @@ import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
-import * as Comment from './comment'
+import * as Comment from './concept'
+import * as Concept from './comment'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -72,6 +73,7 @@ export default {
   AssetKey,
   BulkAction,
   Comment,
+  Concept,
   ContentType,
   EditorInterface,
   Entry,

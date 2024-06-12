@@ -43,6 +43,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppAction, wrapAppActionCollection } = entities.appAction
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
+  const { wrapConcept } = entities.concept
 
   return {
     /**

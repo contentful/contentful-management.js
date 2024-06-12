@@ -103,6 +103,9 @@ export const createPlainClient = (
     appAccessToken: {
       create: wrap(wrapParams, 'AppAccessToken', 'create'),
     },
+    concept: {
+      create: wrap(wrapParams, 'Concept', 'create'),
+    },
     function: {
       getMany: wrap(wrapParams, 'Function', 'getMany'),
     },

@@ -120,6 +120,7 @@ import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-members
 import { TeamPlainClientAPI } from './entities/team'
 import { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
+import { ConceptPlainClientAPI } from './entities/concept'
 
 export type PlainClientAPI = {
   raw: {
@@ -233,6 +234,7 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: CommentPlainClientAPI
+  concept: ConceptPlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(

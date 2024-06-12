@@ -150,6 +150,7 @@ import {
 } from './entities/app-event-subscription'
 import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
+import { ConceptProps, CreateConceptProps } from './entities/concept'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -1088,6 +1089,13 @@ export type MRActions = {
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
+  }
+  Concept: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptProps
+      return: ConceptProps
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }

@@ -771,6 +771,57 @@ const commentMock = {
   body: 'Body',
 }
 
+const conceptMock = {
+  sys: {
+    id: 'concept-id',
+    type: 'TaxonomyConcept',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organization: {
+      sys: {
+        id: 'organization-id',
+        type: 'Link',
+        linkType: 'Organization',
+      },
+    },
+    createdBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    updatedBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    version: 1,
+  },
+  uri: null,
+  prefLabel: {
+    'en-US': 'c1',
+  },
+  altLabels: {
+    'en-US': [],
+  },
+  hiddenLabels: {
+    'en-US': [],
+  },
+  note: null,
+  changeNote: null,
+  definition: null,
+  editorialNote: null,
+  example: null,
+  historyNote: null,
+  scopeNote: null,
+  notations: [],
+  broader: [],
+  related: [],
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -984,6 +1035,7 @@ const mocks = {
   bulkAction: bulkActionMock,
   bulkActionPublish: bulkActionPublishMock,
   comment: commentMock,
+  concept: conceptMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
