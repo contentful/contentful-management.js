@@ -35,6 +35,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   console.log(`Environment template ${environmentTemplate.sys.id} renamed.`)
      * ).catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: function updateEnvironmentTemplate() {
       const raw = this.toPlainObject() as EnvironmentTemplateProps
@@ -68,6 +69,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   console.log(`Environment template version ${environmentTemplate.sys.id} renamed.`)
      * ).catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     updateVersion: function updateEnvironmentTemplateVersion({
       versionName,
@@ -99,6 +101,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      *   .then(() => console.log('Environment template deleted.'))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     delete: function deleteEnvironmentTemplate() {
       const raw = this.toPlainObject() as EnvironmentTemplateProps
@@ -122,6 +125,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * .then((environmentTemplateVersions) => console.log(environmentTemplateVersions.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getVersions: function getEnvironmentTemplateVersions() {
       const raw = this.toPlainObject() as EnvironmentTemplateProps
@@ -153,6 +157,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * )
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getInstallations: function getEnvironmentTemplateInstallations({
       spaceId,
@@ -199,6 +204,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * .then((validationResult) => console.log(validationResult))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     validate: function validateEnvironmentTemplate({
       spaceId,
@@ -253,6 +259,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * .then((installation) => console.log(installation))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     install: function installEnvironmentTemplate({
       spaceId,
@@ -292,6 +299,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * .then(() => console.log('Template disconnected'))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     disconnect: function disconnectEnvironmentTemplate({
       spaceId,

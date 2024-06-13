@@ -61,6 +61,7 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
  * @private
+ * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
@@ -96,6 +97,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then(() => console.log('Environment deleted.'))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     delete: function deleteEnvironment() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -126,6 +128,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => console.log(`Environment ${environment.sys.id} renamed.`)
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: function updateEnvironment() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -167,6 +170,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * });
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      **/
     getEntryFromData(entryData: EntryProps) {
       return wrapEntry(makeRequest, entryData)
@@ -200,6 +204,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * });
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAssetFromData(assetData: AssetProps) {
       return wrapAsset(makeRequest, assetData)
@@ -224,6 +229,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.getBulkAction('<bulk_action_id>'))
      * .then((bulkAction) => console.log(bulkAction))
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getBulkAction<T extends BulkActionPayload = any>(bulkActionId: string): Promise<BulkAction<T>> {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -283,6 +289,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  console.log(error)
      * }
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createPublishBulkAction(payload: BulkActionPublishPayload) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -343,6 +350,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  console.log(error)
      * }
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createValidateBulkAction(payload: BulkActionValidatePayload) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -402,6 +410,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  console.log(error)
      * }
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createUnpublishBulkAction(payload: BulkActionUnpublishPayload) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -434,6 +443,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((contentType) => console.log(contentType))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getContentType(contentTypeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -466,6 +476,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getContentTypes(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -507,6 +518,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((contentType) => console.log(contentType))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createContentType(data: CreateContentTypeProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -550,6 +562,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((contentType) => console.log(contentType))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createContentTypeWithId(contentTypeId: string, data: CreateContentTypeProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -583,6 +596,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((EditorInterface) => console.log(EditorInterface))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEditorInterfaceForContentType(contentTypeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -613,6 +627,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEditorInterfaces() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -646,6 +661,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(entry))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEntry(id: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -678,6 +694,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then(() => console.log('Entry deleted.'))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteEntry(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -713,6 +730,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -744,6 +762,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPublishedEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -782,6 +801,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(entry))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEntry(contentTypeId: string, data: Omit<EntryProps, 'sys'>) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -823,6 +843,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(entry))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEntryWithId(contentTypeId: string, id: string, data: CreateEntryProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -860,6 +881,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.getEntry('<entry_id>')).then((entry) => entry.references({include: number}))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEntryReferences(entryId: string, options?: EntryReferenceOptionsProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -895,6 +917,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((asset) => console.log(asset))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAsset(id: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -929,6 +952,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAssets(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -959,6 +983,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPublishedAssets(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1002,6 +1027,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((asset) => console.log(asset))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAsset(data: CreateAssetProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1044,6 +1070,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((asset) => console.log(asset))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAssetWithId(id: string, data: CreateAssetProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1089,6 +1116,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((asset) => console.log(asset))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1122,6 +1150,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((policy, secret) => console.log({ policy, secret }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAssetKey(payload: CreateAssetKeyProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1151,6 +1180,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.getUpload('<upload-id>')
      * .then((upload) => console.log(upload))
      * .catch(console.error)
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getUpload(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1182,6 +1212,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((upload) => console.log(upload))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1212,6 +1243,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((locale) => console.log(locale))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getLocale(localeId: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1242,6 +1274,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getLocales() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1277,6 +1310,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((locale) => console.log(locale))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createLocale(data: CreateLocaleProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1307,6 +1341,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getUiExtension(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1336,6 +1371,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getUiExtensions() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1379,6 +1415,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createUiExtension(data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1424,6 +1461,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((extension) => console.log(extension))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createUiExtensionWithId(id: string, data: CreateExtensionProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1462,6 +1500,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((appInstallation) => console.log(appInstallation))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppInstallation(
       appDefinitionId: string,
@@ -1498,6 +1537,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((appInstallation) => console.log(appInstallation))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppInstallation(id: string) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1527,6 +1567,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((response) => console.log(response.items))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppInstallations() {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1567,6 +1608,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((appActionCall) => console.log(appActionCall))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppActionCall(
       appDefinitionId: string,
@@ -1613,6 +1655,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((signedRequest) => console.log(signedRequest))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppSignedRequest(appDefinitionId: string, data: CreateAppSignedRequestProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1652,6 +1695,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *  .then((appAccessToken) => console.log(appAccessToken))
      *  .catch(console.error)
      *  ```
+     *  @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppAccessToken(appDefinitionId: string, data: CreateAppAccessTokenProps) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1685,6 +1729,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((snapshots) => console.log(snapshots.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEntrySnapshots(entryId: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1718,6 +1763,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((snapshots) => console.log(snapshots.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getContentTypeSnapshots(contentTypeId: string, query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
@@ -1795,6 +1841,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((release) => console.log(release))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getRelease(releaseId: string) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -1827,6 +1874,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((releases) => console.log(releases))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getReleases(query?: ReleaseQueryOptions) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -1869,6 +1917,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((release) => console.log(release))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createRelease(payload: ReleasePayload) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -1916,6 +1965,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((release) => console.log(release))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     updateRelease({
       releaseId,
@@ -1958,6 +2008,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.deleteRelease('<release_id>')
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteRelease(releaseId: string) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -1991,6 +2042,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.publishRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     publishRelease({ releaseId, version }: { releaseId: string; version: number }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2025,6 +2077,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.unpublishRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     unpublishRelease({ releaseId, version }: { releaseId: string; version: number }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2060,6 +2113,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.validateRelease({ releaseId: '<release_id>', payload: { action: 'unpublish' } }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     validateRelease({
       releaseId,
@@ -2100,6 +2154,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.archiveRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     archiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2134,6 +2189,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.unarchiveRelease({ releaseId: '<release_id>', version: 1 }))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     unarchiveRelease({ releaseId, version }: { releaseId: string; version: number }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2168,6 +2224,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((releaseAction) => console.log(releaseAction))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getReleaseAction({ actionId, releaseId }: { actionId: string; releaseId: string }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2203,6 +2260,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((releaseActions) => console.log(releaseActions))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getReleaseActions({ query }: { query?: ReleaseActionQueryOptions }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2264,6 +2322,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .then((installations) => console.log(installations.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     async getEnvironmentTemplateInstallations(
       environmentTemplateId: string,

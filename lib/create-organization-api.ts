@@ -60,6 +60,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((spaces) => console.log(spaces))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaces(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -87,6 +88,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((user) => console.log(user))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getUser(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -111,6 +113,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((users) => console.log(users))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getUsers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -138,6 +141,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((organizationMembership) => console.log(organizationMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationMembership(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -166,6 +170,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
 
     getOrganizationMemberships(params: QueryParams = {}) {
@@ -196,6 +201,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((team) => console.log(team))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createTeam(data: CreateTeamProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -220,6 +226,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((team) => console.log(team))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeam(teamId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -243,6 +250,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teams) => console.log(teams))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeams(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -275,6 +283,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teamMembership) => console.log(teamMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createTeamMembership(teamId: string, data: CreateTeamMembershipProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -300,6 +309,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teamMembership) => console.log(teamMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamMembership(teamId: string, teamMembershipId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -324,6 +334,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teamMemberships) => console.log(teamMemberships))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
       const { teamId, query = {} } = opts
@@ -365,6 +376,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teamSpaceMemberships) => console.log(teamSpaceMemberships))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamSpaceMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -393,6 +405,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
      * .catch(console.error)]
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -421,6 +434,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((organizationMembership) => console.log(organizationMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationSpaceMembership(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -448,6 +462,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -474,6 +489,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((invitation) => console.log(invitation))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationInvitation(invitationId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -504,6 +520,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      *  })
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createOrganizationInvitation(data: CreateOrganizationInvitationProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -531,6 +548,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getRoles(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -559,6 +577,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appDefinition) => console.log(appDefinition))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppDefinition(data: CreateAppDefinitionProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -583,6 +602,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppDefinitions(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -607,6 +627,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appDefinition) => console.log(appDefinition))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppDefinition(id: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -631,6 +652,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appUpload) => console.log(appUpload))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppUpload(appUploadId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -656,6 +678,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appUpload) => console.log(appUpload))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppUpload(file: string | ArrayBuffer | Stream) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -681,6 +704,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appSigningSecret) => console.log(appSigningSecret))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     upsertAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -706,6 +730,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appSigningSecret) => console.log(appSigningSecret))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppSigningSecret(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -730,6 +755,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteAppSigningSecret(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -756,6 +782,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appEventSubscription) => console.log(appEventSubscription))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     upsertAppEventSubscription(appDefinitionId: string, data: CreateAppEventSubscriptionProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -781,6 +808,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appEventSubscription) => console.log(appEventSubscription))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppEventSubscription(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -805,6 +833,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteAppEventSubscription(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -838,6 +867,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appEventSubscription) => console.log(appEventSubscription))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppKey(appDefinitionId: string, data: CreateAppKeyProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -863,6 +893,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appKey) => console.log(appKey))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppKey(appDefinitionId: string, fingerprint: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -894,6 +925,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appKeys) => console.log(appKeys))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppKeys(appDefinitionId: string, query: BasicQueryOptions = {}) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -922,6 +954,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteAppKey(appDefinitionId: string, fingerprint: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -950,6 +983,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     upsertAppDetails(appDefinitionId: string, data: CreateAppDetailsProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -975,6 +1009,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appDetails) => console.log(appDetails))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppDetails(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -999,6 +1034,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteAppDetails(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -1029,6 +1065,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appAction) => console.log(appAction))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppAction(appDefinitionId: string, data: CreateAppActionProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -1058,6 +1095,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appAction) => console.log(appAction))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     updateAppAction(appDefinitionId: string, appActionId: string, data: CreateAppActionProps) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -1083,6 +1121,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((result) => console.log(result))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteAppAction(appDefinitionId: string, appActionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -1109,6 +1148,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appAction) => console.log(appAction))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppAction(appDefinitionId: string, appActionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
@@ -1133,6 +1173,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .then((appActions) => console.log(appActions))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppActions(appDefinitionId: string) {
       const raw = this.toPlainObject() as OrganizationProp
