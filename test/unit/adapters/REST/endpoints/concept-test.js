@@ -10,7 +10,7 @@ function setup(promise, params = {}) {
   }
 }
 
-describe.only('Rest Concept', () => {
+describe('Rest Concept', () => {
   test('API call createConcept', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
@@ -21,16 +21,13 @@ describe.only('Rest Concept', () => {
         entityType: 'Concept',
         action: 'create',
         params: {
-          organization: 'organization-id',
+          organizationId: 'organization-id',
         },
         payload: entityMock,
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.post.args[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts',
-          'concept id is sent'
-        )
+        expect(httpMock.post.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts')
         // expect(httpMock.put.args[0][1]).to.eql(entityMock, 'data is sent')
         // expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
         //   'contentTypeId',

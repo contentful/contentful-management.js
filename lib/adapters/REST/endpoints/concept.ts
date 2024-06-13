@@ -1,12 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { AppAccessTokenProps, CreateAppAccessTokenProps } from '../../../entities/app-access-token'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
-import {
-  GetAppInstallationParams,
-  GetCommentParams,
-  GetOrganizationParams,
-} from '../../../common-types'
+import { GetOrganizationParams } from '../../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 
 function conceptBasePath(orgId: string) {
