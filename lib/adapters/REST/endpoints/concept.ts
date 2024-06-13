@@ -20,3 +20,8 @@ export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
   params: GetConceptParams & GetOrganizationParams
 ) => raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
+
+export const getTotal: RestEndpoint<'Concept', 'getTotal'> = (
+  http: AxiosInstance,
+  params: GetOrganizationParams
+) => raw.get<{ total: number }>(http, `${conceptBasePath(params.organizationId)}/total`)

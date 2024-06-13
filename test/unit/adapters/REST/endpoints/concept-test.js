@@ -56,4 +56,23 @@ describe('Concept', () => {
         )
       })
   })
+  test('getTotal', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.get.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'getTotal',
+        params: {
+          organizationId: 'organization-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.get.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/total'
+        )
+      })
+  })
 })

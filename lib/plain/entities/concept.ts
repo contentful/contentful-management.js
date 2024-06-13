@@ -32,4 +32,6 @@ export type ConceptPlainClientAPI = {
   ): Promise<ConceptProps>
 
   get(params: OptionalDefaults<GetOrganizationParams> & GetConceptParams): Promise<ConceptProps>
+
+  getTotal(params: OptionalDefaults<GetOrganizationParams>): Promise<{ total: number }>
 }

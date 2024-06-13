@@ -9,7 +9,11 @@ import {
 } from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from './entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
 import {
   AssetFileProp,
@@ -19,25 +23,24 @@ import {
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import {
+  CommentProps,
   CreateCommentParams,
   CreateCommentProps,
   DeleteCommentParams,
-  CommentProps,
+  GetCommentParentEntityParams,
+  GetManyCommentsParams,
+  PlainTextBodyFormat,
+  RichTextBodyFormat,
+  RichTextCommentBodyPayload,
+  RichTextCommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
-  GetManyCommentsParams,
-  RichTextBodyFormat,
-  RichTextCommentProps,
-  PlainTextBodyFormat,
-  RichTextCommentBodyPayload,
-  GetCommentParentEntityParams,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
-import { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 import {
   CreateOrganizationInvitationProps,
@@ -140,8 +143,8 @@ import {
 import {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
-  ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
 import { FunctionProps } from './entities/function'
 import {
@@ -1100,6 +1103,10 @@ export type MRActions = {
       params: GetOrganizationParams & GetConceptParams
       return: ConceptProps
     }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1975,6 +1982,7 @@ export type GetUserUIConfigParams = GetUIConfigParams
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
 }
