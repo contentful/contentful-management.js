@@ -3,10 +3,10 @@ import { cloneMock } from '../../../mocks/entities'
 import { expect } from 'chai'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
-function setup(promise, params = {}) {
+function setup(promise, params = {}, type = 'concept') {
   return {
     ...setupRestAdapter(promise, params),
-    entityMock: cloneMock('concept'),
+    entityMock: cloneMock(type),
   }
 }
 
@@ -56,10 +56,28 @@ describe('Concept', () => {
         )
       })
   })
-  test('getTotal', async () => {
+  test('getMany', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
     httpMock.get.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'getMany',
+        params: {
+          organizationId: 'organization-id',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts?')
+      })
+  })
+  test('getTotal', async () => {
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+
+    httpMock.get.returns(Promise.resolve({ data: { total: 1 } }))
 
     return adapterMock
       .makeRequest({

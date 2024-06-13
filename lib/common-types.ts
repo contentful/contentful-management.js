@@ -1103,6 +1103,10 @@ export type MRActions = {
       params: GetOrganizationParams & GetConceptParams
       return: ConceptProps
     }
+    getMany: {
+      params: GetOrganizationParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
     getTotal: {
       params: GetOrganizationParams
       return: { total: number }
@@ -1967,6 +1971,7 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
 export type GetConceptParams = { conceptId: string }
+export type GetManyConceptParams = /*{ conceptScheme?: string } & */ BasicCursorPaginationOptions
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
