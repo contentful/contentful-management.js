@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { RestEndpoint } from '../types'
-import { GetOrganizationParams } from '../../../common-types'
+import { GetConceptParams, GetOrganizationParams } from '../../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 
 function conceptBasePath(orgId: string) {
@@ -16,15 +16,7 @@ export const create: RestEndpoint<'Concept', 'create'> = (
   return raw.post<ConceptProps>(http, conceptBasePath(params.organizationId), data)
 }
 
-// export const get: RestEndpoint<'Concept', 'get'> = (
-//   http: AxiosInstance,
-//   params: GetCommentParams & GetOrganizationParams
-// ) =>
-//   raw.get<ConceptProps>(http, getEntityCommentUrl(params), {
-//     headers:
-//       params.bodyFormat === 'rich-text'
-//         ? {
-//             [BODY_FORMAT_HEADER]: params.bodyFormat,
-//           }
-//         : {},
-//   })
+export const get: RestEndpoint<'Concept', 'get'> = (
+  http: AxiosInstance,
+  params: GetConceptParams & GetOrganizationParams
+) => raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)

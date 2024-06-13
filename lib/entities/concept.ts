@@ -1,5 +1,5 @@
 import { SetOptional } from 'type-fest'
-import { Link, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
+import { Link, MakeRequest } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 

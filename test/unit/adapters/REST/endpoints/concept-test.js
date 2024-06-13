@@ -10,8 +10,8 @@ function setup(promise, params = {}) {
   }
 }
 
-describe('Rest Concept', () => {
-  test('API call createConcept', async () => {
+describe('Concept', () => {
+  test('create', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
     httpMock.post.returns(Promise.resolve({ data: entityMock }))
@@ -33,6 +33,27 @@ describe('Rest Concept', () => {
         //   'contentTypeId',
         //   'content type is specified'
         // )
+      })
+  })
+  test('get', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.get.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'get',
+        params: {
+          organizationId: 'organization-id',
+          conceptId: 'concept-id',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/concept-id'
+        )
       })
   })
 })

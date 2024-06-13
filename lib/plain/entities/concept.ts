@@ -1,5 +1,4 @@
-import { GetAppInstallationParams, GetOrganizationParams } from '../../common-types'
-import { AppAccessTokenProps, CreateAppAccessTokenProps } from '../../entities/app-access-token'
+import { GetConceptParams, GetOrganizationParams } from '../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../entities/concept'
 import { OptionalDefaults } from '../wrappers/wrap'
 
@@ -31,4 +30,6 @@ export type ConceptPlainClientAPI = {
     params: OptionalDefaults<GetOrganizationParams>,
     payload: CreateConceptProps
   ): Promise<ConceptProps>
+
+  get(params: OptionalDefaults<GetOrganizationParams> & GetConceptParams): Promise<ConceptProps>
 }

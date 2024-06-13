@@ -1096,6 +1096,10 @@ export type MRActions = {
       payload: CreateConceptProps
       return: ConceptProps
     }
+    get: {
+      params: GetOrganizationParams & GetConceptParams
+      return: ConceptProps
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1955,6 +1959,7 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetConceptParams = { conceptId: string }
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
