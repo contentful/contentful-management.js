@@ -106,6 +106,7 @@ export const createPlainClient = (
     concept: {
       create: wrap(wrapParams, 'Concept', 'create'),
       get: wrap(wrapParams, 'Concept', 'get'),
+      getMany: wrap(wrapParams, 'Concept', 'getMany'),
       getTotal: wrap(wrapParams, 'Concept', 'getTotal'),
     },
     function: {

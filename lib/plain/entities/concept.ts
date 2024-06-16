@@ -1,4 +1,8 @@
-import { GetConceptParams, GetOrganizationParams } from '../../common-types'
+import {
+  CursorPaginatedCollectionProp,
+  GetConceptParams,
+  GetOrganizationParams,
+} from '../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../entities/concept'
 import { OptionalDefaults } from '../wrappers/wrap'
 
@@ -32,6 +36,9 @@ export type ConceptPlainClientAPI = {
   ): Promise<ConceptProps>
 
   get(params: OptionalDefaults<GetOrganizationParams> & GetConceptParams): Promise<ConceptProps>
+  getMany(
+    params: OptionalDefaults<GetOrganizationParams>
+  ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   getTotal(params: OptionalDefaults<GetOrganizationParams>): Promise<{ total: number }>
 }
