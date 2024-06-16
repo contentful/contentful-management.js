@@ -1,26 +1,23 @@
-import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
+import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import {
+  BasicCursorPaginationOptions,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  EnvironmentTemplateParams,
   GetAppDefinitionParams,
+  GetBulkActionParams,
   GetContentTypeParams,
+  GetEnvironmentTemplateParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTeamMembershipParams,
-  GetTeamParams,
-  GetTeamSpaceMembershipParams,
   KeyValueMap,
   QueryParams,
-  GetBulkActionParams,
-  GetReleaseParams,
-  CursorPaginatedCollectionProp,
-  GetEnvironmentTemplateParams,
-  BasicCursorPaginationOptions,
-  EnvironmentTemplateParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -46,16 +43,10 @@ import {
 } from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
 import {
-  ScheduledActionProps,
   CreateUpdateScheduledActionProps,
+  ScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { CreateTeamProps, TeamProps } from '../entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
-import {
-  CreateTeamSpaceMembershipProps,
-  TeamSpaceMembershipProps,
-} from '../entities/team-space-membership'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'

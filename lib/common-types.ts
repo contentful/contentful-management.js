@@ -1,5 +1,5 @@
 import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { OpPatch } from 'json-patch'
+import { OpPatch, Patch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
 import {
@@ -1099,6 +1099,15 @@ export type MRActions = {
       payload: CreateConceptProps
       return: ConceptProps
     }
+    update: {
+      params: GetOrganizationParams & GetConceptParams
+      payload: Patch
+      return: ConceptProps
+    }
+    delete: {
+      params: GetOrganizationParams & GetConceptParams
+      return: void
+    }
     get: {
       params: GetOrganizationParams & GetConceptParams
       return: ConceptProps
@@ -1110,6 +1119,10 @@ export type MRActions = {
     getTotal: {
       params: GetOrganizationParams
       return: { total: number }
+    }
+    getDescendants: {
+      params: GetOrganizationParams & GetConceptParams & { query?: { depth?: number } }
+      return: CursorPaginatedCollectionProp<ConceptProps>
     }
   }
   ContentType: {

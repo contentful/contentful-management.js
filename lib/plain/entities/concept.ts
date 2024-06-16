@@ -5,40 +5,30 @@ import {
 } from '../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../entities/concept'
 import { OptionalDefaults } from '../wrappers/wrap'
+import { Patch } from 'json-patch'
 
 export type ConceptPlainClientAPI = {
-  /**
-   * Create a new concept
-   * @param params space, environment, and app definition IDs
-   * @param payload the JWT to be used to issue the token
-   * @returns the issued token, which can be cached until it expires
-   * @throws if the request fails
-   * @example
-   * ```javascript
-   * import { sign } from 'jsonwebtoken'
-   *
-   * const signOptions = { algorithm: 'RS256', issuer: '<app_definition_id>', expiresIn: '10m' }
-   *
-   * const { token } = await client.appAccessToken.create(
-   *   {
-   *     spaceId: '<space_id>',
-   *     environmentId: '<environment_id>',
-   *     appDefinitionId: '<app_definition_id>',
-   *   }, {
-   *     jwt: sign({}, '<private_key>', signOptions)
-   *   }
-   * );
-   * ```
-   */
   create(
     params: OptionalDefaults<GetOrganizationParams>,
     payload: CreateConceptProps
   ): Promise<ConceptProps>
 
+  update(
+    params: OptionalDefaults<GetOrganizationParams> & GetConceptParams,
+    payload: Patch
+  ): Promise<ConceptProps>
+
   get(params: OptionalDefaults<GetOrganizationParams> & GetConceptParams): Promise<ConceptProps>
+
+  delete(params: OptionalDefaults<GetOrganizationParams> & GetConceptParams): Promise<unknown>
+
   getMany(
     params: OptionalDefaults<GetOrganizationParams>
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   getTotal(params: OptionalDefaults<GetOrganizationParams>): Promise<{ total: number }>
+
+  getDescendants(
+    params: OptionalDefaults<GetOrganizationParams>
+  ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 }

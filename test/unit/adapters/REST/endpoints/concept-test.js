@@ -11,30 +11,6 @@ function setup(promise, params = {}, type = 'concept') {
 }
 
 describe('Concept', () => {
-  test('create', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-
-    httpMock.post.returns(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Concept',
-        action: 'create',
-        params: {
-          organizationId: 'organization-id',
-        },
-        payload: entityMock,
-      })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
-        expect(httpMock.post.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts')
-        // expect(httpMock.put.args[0][1]).to.eql(entityMock, 'data is sent')
-        // expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
-        //   'contentTypeId',
-        //   'content type is specified'
-        // )
-      })
-  })
   test('get', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
@@ -90,6 +66,90 @@ describe('Concept', () => {
       .then(() => {
         expect(httpMock.get.args[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concepts/total'
+        )
+      })
+  })
+  test('create', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.post.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'create',
+        params: {
+          organizationId: 'organization-id',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.post.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts')
+        // expect(httpMock.put.args[0][1]).to.eql(entityMock, 'data is sent')
+        // expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
+        //   'contentTypeId',
+        //   'content type is specified'
+        // )
+      })
+  })
+  test('update', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.patch.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'update',
+        params: {
+          organizationId: 'organization-id',
+          conceptId: 'concept-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.patch.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/concept-id'
+        )
+      })
+  })
+  test('delete', async () => {
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+
+    httpMock.delete.returns(Promise.resolve({ data: {} }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'delete',
+        params: {
+          organizationId: 'organization-id',
+          conceptId: 'concept-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/concept-id'
+        )
+      })
+  })
+  test('getDescendants', async () => {
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+
+    httpMock.get.returns(Promise.resolve({ data: {} }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'getDescendants',
+        params: {
+          organizationId: 'organization-id',
+          conceptId: 'concept-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.get.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/descendants?'
         )
       })
   })
