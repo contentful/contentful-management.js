@@ -425,6 +425,14 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
+  (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
+  (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
+  (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
+  (opts: MROpts<'Concept', 'getDescendants', UA>): MRReturn<'Concept', 'getDescendants'>
+  (opts: MROpts<'Concept', 'create', UA>): MRReturn<'Concept', 'create'>
+  (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
+  (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
+
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
@@ -1100,20 +1108,20 @@ export type MRActions = {
       return: ConceptProps
     }
     update: {
-      params: GetOrganizationParams & GetConceptParams
+      params: UpdateConceptParams
       payload: Patch
       return: ConceptProps
     }
     delete: {
-      params: GetOrganizationParams & GetConceptParams
+      params: GetConceptParams
       return: void
     }
     get: {
-      params: GetOrganizationParams & GetConceptParams
+      params: GetConceptParams
       return: ConceptProps
     }
     getMany: {
-      params: GetOrganizationParams
+      params: GetManyConceptParams
       return: CursorPaginatedCollectionProp<ConceptProps>
     }
     getTotal: {
@@ -1121,7 +1129,7 @@ export type MRActions = {
       return: { total: number }
     }
     getDescendants: {
-      params: GetOrganizationParams & GetConceptParams & { query?: { depth?: number } }
+      params: GetConceptDescendantsParams
       return: CursorPaginatedCollectionProp<ConceptProps>
     }
   }
@@ -1983,8 +1991,17 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
-export type GetConceptParams = { conceptId: string }
-export type GetManyConceptParams = /*{ conceptScheme?: string } & */ BasicCursorPaginationOptions
+export type GetConceptParams = GetOrganizationParams & { query: { conceptId: string } }
+export type UpdateConceptParams = GetConceptParams & { version: number }
+export type GetConceptDescendantsParams = GetConceptParams & {
+  query?: { depth?: number; pageUrl?: string }
+}
+export type GetManyConceptParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+        Omit<PaginationQueryOptions, 'skip'>)
+}
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }

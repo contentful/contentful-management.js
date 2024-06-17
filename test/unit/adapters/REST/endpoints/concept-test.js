@@ -22,7 +22,7 @@ describe('Concept', () => {
         action: 'get',
         params: {
           organizationId: 'organization-id',
-          conceptId: 'concept-id',
+          query: { conceptId: 'concept-id' },
         },
       })
       .then((r) => {
@@ -32,23 +32,52 @@ describe('Concept', () => {
         )
       })
   })
-  test('getMany', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-    httpMock.get.returns(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Concept',
-        action: 'getMany',
+  describe('getMany', () => {
+    const configs = [
+      {
+        name: 'without query params',
+        params: {},
+        expected: { url: '/organizations/organization-id/taxonomy/concepts?' },
+      },
+      {
+        name: 'with pageUrl query params',
         params: {
-          organizationId: 'organization-id',
+          query: { pageUrl: 'page-url' },
         },
+        expected: { url: 'page-url' },
+      },
+      {
+        name: 'with conceptScheme query params',
+        params: {
+          query: { conceptScheme: 'concept-scheme-id' },
+        },
+        expected: {
+          url: '/organizations/organization-id/taxonomy/concepts?conceptScheme=concept-scheme-id',
+        },
+      },
+    ]
+
+    configs.forEach(({ expected, params, name }) => {
+      test(name, async () => {
+        const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+        httpMock.get.returns(Promise.resolve({ data: { items: [entityMock] } }))
+
+        return adapterMock
+          .makeRequest({
+            entityType: 'Concept',
+            action: 'getMany',
+            params: {
+              organizationId: 'organization-id',
+              ...params,
+            },
+          })
+          .then((r) => {
+            expect(r).to.eql({ items: [entityMock] })
+            expect(httpMock.get.args[0][0]).to.eql(expected.url)
+          })
       })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
-        expect(httpMock.get.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts?')
-      })
+    })
   })
   test('getTotal', async () => {
     const { httpMock, adapterMock } = setup(Promise.resolve({}))
@@ -86,11 +115,6 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.args[0][0]).to.eql('/organizations/organization-id/taxonomy/concepts')
-        // expect(httpMock.put.args[0][1]).to.eql(entityMock, 'data is sent')
-        // expect(httpMock.put.args[0][2].headers['X-Contentful-Content-Type']).to.eql(
-        //   'contentTypeId',
-        //   'content type is specified'
-        // )
       })
   })
   test('update', async () => {
@@ -104,7 +128,7 @@ describe('Concept', () => {
         action: 'update',
         params: {
           organizationId: 'organization-id',
-          conceptId: 'concept-id',
+          query: { conceptId: 'concept-id' },
         },
       })
       .then(() => {
@@ -124,7 +148,7 @@ describe('Concept', () => {
         action: 'delete',
         params: {
           organizationId: 'organization-id',
-          conceptId: 'concept-id',
+          query: { conceptId: 'concept-id' },
         },
       })
       .then(() => {
@@ -144,12 +168,12 @@ describe('Concept', () => {
         action: 'getDescendants',
         params: {
           organizationId: 'organization-id',
-          conceptId: 'concept-id',
+          query: { conceptId: 'concept-id' },
         },
       })
       .then(() => {
         expect(httpMock.get.args[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/descendants?'
+          '/organizations/organization-id/taxonomy/concepts/descendants?conceptId=concept-id'
         )
       })
   })

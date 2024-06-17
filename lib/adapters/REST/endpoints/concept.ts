@@ -3,13 +3,16 @@ import * as raw from './raw'
 import { RestEndpoint } from '../types'
 import {
   CursorPaginatedCollectionProp,
+  GetConceptDescendantsParams,
   GetConceptParams,
   GetManyConceptParams,
   GetOrganizationParams,
+  UpdateConceptParams,
 } from '../../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 import { isNil, isObject, omitBy } from 'lodash'
 import { Patch } from 'json-patch'
+import { RawAxiosRequestHeaders } from 'axios'
 
 function conceptBasePath(orgId: string) {
   return `/organizations/${orgId}/taxonomy/concepts`
@@ -25,29 +28,37 @@ export const create: RestEndpoint<'Concept', 'create'> = (
 
 export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
-  params: GetConceptParams & GetOrganizationParams,
-  data: Patch
+  params: UpdateConceptParams,
+  data: Patch,
+  headers?: RawAxiosRequestHeaders
 ) => {
   return raw.patch<ConceptProps>(
     http,
-    `${conceptBasePath(params.organizationId)}/${params.conceptId}`,
-    data
+    `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version ?? 0,
+        ...headers,
+      },
+    }
   )
 }
 
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
-  params: GetConceptParams & GetOrganizationParams
-) => raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
+  params: GetConceptParams
+) =>
+  raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`)
 
 export const del: RestEndpoint<'Concept', 'delete'> = (
   http: AxiosInstance,
-  params: GetConceptParams & GetOrganizationParams
-) => raw.del<void>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
+  params: GetConceptParams
+) => raw.del<void>(http, `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`)
 
 export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyConceptParams & GetOrganizationParams
+  params: GetManyConceptParams
 ) => {
   let url = conceptBasePath(params.organizationId)
   url = params?.query?.pageUrl ?? url.concat(`?${toUrlParams(params?.query)}`)
@@ -56,7 +67,7 @@ export const getMany: RestEndpoint<'Concept', 'getMany'> = (
 
 export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
   http: AxiosInstance,
-  params: GetManyConceptParams & GetOrganizationParams
+  params: GetConceptDescendantsParams
 ) => {
   let url = conceptBasePath(params.organizationId)
   url = params?.query?.pageUrl ?? url.concat(`/descendants?${toUrlParams(params?.query)}`)
