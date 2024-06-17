@@ -262,6 +262,8 @@ export type {
   DefinedParameters,
   FreeFormParameters,
   ParameterDefinition,
+  ParameterOption,
+  ParameterType,
   InstallationParameterType,
 } from './entities/widget-parameters'
 export type {
