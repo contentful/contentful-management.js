@@ -60,8 +60,7 @@ export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyConceptParams
 ) => {
-  let url = conceptBasePath(params.organizationId)
-  url = params?.query?.pageUrl ?? url.concat(`?${toUrlParams(params?.query)}`)
+  const url = getCollectionUrl('?', params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
 }
 
@@ -69,8 +68,7 @@ export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
   http: AxiosInstance,
   params: GetConceptDescendantsParams
 ) => {
-  let url = conceptBasePath(params.organizationId)
-  url = params?.query?.pageUrl ?? url.concat(`/descendants?${toUrlParams(params?.query)}`)
+  const url = getCollectionUrl('/descendants?', params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
 }
 
@@ -100,4 +98,9 @@ export function sanitizeParams<T extends Record<string, any>>(params: T): Partia
     }
   }
   return omitBy(params, isNil) as T
+}
+
+function getCollectionUrl(path: string, params: GetOrganizationParams & { query?: any }) {
+  const url = conceptBasePath(params.organizationId)
+  return params?.query?.pageUrl ?? url.concat(`${path}${toUrlParams(params?.query)}`)
 }

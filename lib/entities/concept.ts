@@ -1,7 +1,5 @@
 import { SetOptional } from 'type-fest'
-import { Link, MakeRequest } from '../common-types'
-import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { Link } from '../common-types'
 
 type TaxonomyConceptLink = Link<'TaxonomyConcept'>
 
@@ -47,17 +45,3 @@ export type ConceptProps<Locales extends keyof any = 'en-US'> = LocalizedEntity<
   | 'scopeNote',
   Locales
 >
-
-/**
- * @private
- * @param makeRequest - function to make requests via an adapter
- * @param data - Raw concept data
- * @return Wrapped concept data
- */
-export function wrapConcept(makeRequest: MakeRequest, data: ConceptProps): ConceptProps {
-  const concept = toPlainObject(copy(data))
-  //only implement if it is required
-  //const entryWithMethods = enhanceWithMethods(entry, createEntryApi(makeRequest))
-
-  return freezeSys(concept)
-}
