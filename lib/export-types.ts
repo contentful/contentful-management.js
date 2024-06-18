@@ -279,3 +279,4 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+export type { ConceptProps, CreateConceptProps } from './entities/concept'

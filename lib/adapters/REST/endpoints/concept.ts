@@ -34,7 +34,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
 ) => {
   return raw.patch<ConceptProps>(
     http,
-    `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`,
+    `${conceptBasePath(params.organizationId)}/${params.conceptId}`,
     data,
     {
       headers: {
@@ -48,19 +48,18 @@ export const update: RestEndpoint<'Concept', 'update'> = (
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
   params: GetConceptParams
-) =>
-  raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`)
+) => raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
 
 export const del: RestEndpoint<'Concept', 'delete'> = (
   http: AxiosInstance,
   params: GetConceptParams
-) => raw.del<void>(http, `${conceptBasePath(params.organizationId)}/${params.query.conceptId}`)
+) => raw.del<void>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
 
 export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyConceptParams
 ) => {
-  const url = getCollectionUrl('?', params)
+  const url = getCollectionUrl('', params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
 }
 
@@ -68,7 +67,15 @@ export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
   http: AxiosInstance,
   params: GetConceptDescendantsParams
 ) => {
-  const url = getCollectionUrl('/descendants?', params)
+  const url = getCollectionUrl(`/${params.conceptId}/descendants`, params)
+  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
+}
+
+export const getAncestors: RestEndpoint<'Concept', 'getAncestors'> = (
+  http: AxiosInstance,
+  params: GetConceptDescendantsParams
+) => {
+  const url = getCollectionUrl(`/${params.conceptId}/ancestors`, params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
 }
 
@@ -84,13 +91,14 @@ function toUrlParams(params: Record<string, string | number> | undefined = {}) {
     urlQuery.set(key, `${value}`)
   })
 
-  return urlQuery.toString()
+  const result = urlQuery.toString()
+  return result ? `?${result}` : ''
 }
 
 /*
  * @desc recursively removes nullable values from an object
  */
-export function sanitizeParams<T extends Record<string, any>>(params: T): Partial<T> {
+export function sanitizeParams<T extends Record<string, string | number>>(params: T): Partial<T> {
   for (const key in params) {
     if (isObject(params[key])) {
       // @ts-expect-error ts(2322) TS is not happy with `any` value type
@@ -100,7 +108,13 @@ export function sanitizeParams<T extends Record<string, any>>(params: T): Partia
   return omitBy(params, isNil) as T
 }
 
-function getCollectionUrl(path: string, params: GetOrganizationParams & { query?: any }) {
+function getCollectionUrl(
+  path: string,
+  params: {
+    organizationId: string
+    query?: Record<string, string | number> & { pageUrl?: string }
+  }
+) {
   const url = conceptBasePath(params.organizationId)
-  return params?.query?.pageUrl ?? url.concat(`${path}${toUrlParams(params?.query)}`)
+  return params.query?.pageUrl ?? url.concat(`${path}${toUrlParams(params.query)}`)
 }

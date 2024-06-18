@@ -15,6 +15,7 @@ export type ConceptPlainClientAPI = {
    * @param payload the Concept
    * @returns the created Concept
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/create-a-concept}
    * @example
    * ```javascript
    * const concept = await client.concept.create({
@@ -32,6 +33,7 @@ export type ConceptPlainClientAPI = {
    * @param Concept patch
    * @returns the updated Concept
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
    * @example
    * ```javascript
    * const updatedConcept = await client.concept.update({
@@ -46,6 +48,7 @@ export type ConceptPlainClientAPI = {
    * @param Concept ID
    * @returns the Concept
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
    * @example
    * ```javascript
    * const concept = await client.concept.get({
@@ -61,6 +64,7 @@ export type ConceptPlainClientAPI = {
    * @param Concept ID
    * @returns nothing
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
    * @example
    * ```javascript
    * await client.concept.update({
@@ -76,6 +80,7 @@ export type ConceptPlainClientAPI = {
    * @param query by string or ConceptScheme ID
    * @returns list of many Concepts
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-collection}
    * @example
    * ```javascript
    * const concepts = await client.concept.getMany({
@@ -92,6 +97,7 @@ export type ConceptPlainClientAPI = {
    * @param Concept ID
    * @returns number of total Concept
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/total-concepts}
    * @example
    * ```javascript
    * const {total} = await client.concept.getTotal({
@@ -106,6 +112,7 @@ export type ConceptPlainClientAPI = {
    * @param Concept ID
    * @returns list of Concepts
    * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/descendants}
    * @example
    * ```javascript
    * const concepts = await client.concept.getDescendants({
@@ -115,6 +122,24 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getDescendants(
+    params: OptionalDefaults<GetConceptDescendantsParams>
+  ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
+
+  /**
+   * Get ancestor Concepts
+   * @param Concept ID
+   * @returns list of ancestor Concepts
+   * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/ancestors}
+   * @example
+   * ```javascript
+   * const concepts = await client.concept.getAncestors({
+   *   organizationId: '<organization_id>',
+   *   conceptId: '<concept_id>',
+   * });
+   * ```
+   */
+  getAncestors(
     params: OptionalDefaults<GetConceptDescendantsParams>
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 }

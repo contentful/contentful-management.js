@@ -1132,6 +1132,10 @@ export type MRActions = {
       params: GetConceptDescendantsParams
       return: CursorPaginatedCollectionProp<ConceptProps>
     }
+    getAncestors: {
+      params: GetConceptDescendantsParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1991,7 +1995,7 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
-export type GetConceptParams = GetOrganizationParams & { query: { conceptId: string } }
+export type GetConceptParams = GetOrganizationParams & { conceptId: string }
 export type UpdateConceptParams = GetConceptParams & { version: number }
 export type GetConceptDescendantsParams = GetConceptParams & {
   query?: { depth?: number; pageUrl?: string }

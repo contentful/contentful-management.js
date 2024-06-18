@@ -1,15 +1,7 @@
-import {
-  GetConceptParams,
-  GetContentTypeParams,
-  GetOrganizationParams,
-  GetSpaceEnvironmentParams,
-  MakeRequest,
-} from '../common-types'
+import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import { PlainClientAPI } from './common-types'
-import { DefaultParams, OptionalDefaults, wrap } from './wrappers/wrap'
-import jsonpatch from 'json-patch'
-import { ConceptProps } from '../entities/concept'
+import { DefaultParams, wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
@@ -118,6 +110,7 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'Concept', 'update'),
       getMany: wrap(wrapParams, 'Concept', 'getMany'),
       getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
+      getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
       getTotal: wrap(wrapParams, 'Concept', 'getTotal'),
     },
     function: {

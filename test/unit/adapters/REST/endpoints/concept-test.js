@@ -22,7 +22,7 @@ describe('Concept', () => {
         action: 'get',
         params: {
           organizationId: 'organization-id',
-          query: { conceptId: 'concept-id' },
+          conceptId: 'concept-id',
         },
       })
       .then((r) => {
@@ -38,7 +38,7 @@ describe('Concept', () => {
       {
         name: 'without query params',
         params: {},
-        expected: { url: '/organizations/organization-id/taxonomy/concepts?' },
+        expected: { url: '/organizations/organization-id/taxonomy/concepts' },
       },
       {
         name: 'with pageUrl query params',
@@ -128,7 +128,7 @@ describe('Concept', () => {
         action: 'update',
         params: {
           organizationId: 'organization-id',
-          query: { conceptId: 'concept-id' },
+          conceptId: 'concept-id',
         },
       })
       .then(() => {
@@ -148,7 +148,7 @@ describe('Concept', () => {
         action: 'delete',
         params: {
           organizationId: 'organization-id',
-          query: { conceptId: 'concept-id' },
+          conceptId: 'concept-id',
         },
       })
       .then(() => {
@@ -168,12 +168,33 @@ describe('Concept', () => {
         action: 'getDescendants',
         params: {
           organizationId: 'organization-id',
-          query: { conceptId: 'concept-id' },
+          conceptId: 'concept-id',
         },
       })
       .then(() => {
         expect(httpMock.get.args[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/descendants?conceptId=concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants'
+        )
+      })
+  })
+
+  test('getAncestors', async () => {
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+
+    httpMock.get.returns(Promise.resolve({ data: {} }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Concept',
+        action: 'getAncestors',
+        params: {
+          organizationId: 'organization-id',
+          conceptId: 'concept-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.get.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors'
         )
       })
   })
