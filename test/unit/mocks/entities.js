@@ -822,6 +822,53 @@ const conceptMock = {
   related: [],
 }
 
+const conceptSchemeMock = {
+  sys: {
+    id: 'concept-scheme-id',
+    type: 'TaxonomyConceptScheme',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organization: {
+      sys: {
+        id: 'organization-id',
+        type: 'Link',
+        linkType: 'Organization',
+      },
+    },
+    createdBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    updatedBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    version: 1,
+  },
+  prefLabel: {
+    'en-US': 'cs1',
+  },
+  altLabels: {
+    'en-US': [],
+  },
+  hiddenLabels: {
+    'en-US': [],
+  },
+  note: null,
+  changeNote: null,
+  editorialNote: null,
+  historyNote: null,
+  scopeNote: null,
+  notations: [],
+  topConcepts: [],
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -1036,6 +1083,7 @@ const mocks = {
   bulkActionPublish: bulkActionPublishMock,
   comment: commentMock,
   concept: conceptMock,
+  conceptScheme: conceptSchemeMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,

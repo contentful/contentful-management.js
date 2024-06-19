@@ -1,11 +1,8 @@
 import { SetOptional } from 'type-fest'
 import { Link } from '../common-types'
+import { LocalizedEntity } from './utils'
 
-type TaxonomyConceptLink = Link<'TaxonomyConcept'>
-
-type LocalizedEntity<Entity, LocalizedFields extends keyof Entity, Locales extends keyof any> = {
-  [K in keyof Entity]: K extends LocalizedFields ? { [Locale in Locales]: Entity[K] } : Entity[K]
-}
+export type TaxonomyConceptLink = Link<'TaxonomyConcept'>
 
 type Concept = {
   uri: string | null

@@ -154,6 +154,7 @@ import {
 import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
 import { ConceptProps, CreateConceptProps } from './entities/concept'
+import { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -432,6 +433,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'create', UA>): MRReturn<'Concept', 'create'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
+
+  (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
+  (opts: MROpts<'ConceptScheme', 'getMany', UA>): MRReturn<'ConceptScheme', 'getMany'>
+  (opts: MROpts<'ConceptScheme', 'getTotal', UA>): MRReturn<'ConceptScheme', 'getTotal'>
+  (opts: MROpts<'ConceptScheme', 'create', UA>): MRReturn<'ConceptScheme', 'create'>
+  (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
+  (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -1113,7 +1121,7 @@ export type MRActions = {
       return: ConceptProps
     }
     delete: {
-      params: GetConceptParams
+      params: DeleteConceptParams
       return: void
     }
     get: {
@@ -1135,6 +1143,34 @@ export type MRActions = {
     getAncestors: {
       params: GetConceptDescendantsParams
       return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+  }
+  ConceptScheme: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptSchemeProps
+      return: ConceptSchemeProps
+    }
+    update: {
+      params: UpdateConceptSchemeParams
+      payload: Patch
+      return: ConceptSchemeProps
+    }
+    get: {
+      params: GetConceptSchemeParams
+      return: ConceptSchemeProps
+    }
+    getMany: {
+      params: GetManyConceptSchemeParams
+      return: CursorPaginatedCollectionProp<ConceptSchemeProps>
+    }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
+    delete: {
+      params: DeleteConceptSchemeParams
+      return: void
     }
   }
   ContentType: {
@@ -1997,6 +2033,7 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
 }
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
 export type UpdateConceptParams = GetConceptParams & { version: number }
+export type DeleteConceptParams = GetConceptParams & { version: number }
 export type GetConceptDescendantsParams = GetConceptParams & {
   query?: { depth?: number; pageUrl?: string }
 }
@@ -2005,6 +2042,21 @@ export type GetManyConceptParams = GetOrganizationParams & {
     | { pageUrl?: string }
     | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
         Omit<PaginationQueryOptions, 'skip'>)
+}
+
+export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+export type GetManyConceptSchemeParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+}
+export type DeleteConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
+}
+export type UpdateConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
 }
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }

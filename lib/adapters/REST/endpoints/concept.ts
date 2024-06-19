@@ -3,6 +3,7 @@ import * as raw from './raw'
 import { RestEndpoint } from '../types'
 import {
   CursorPaginatedCollectionProp,
+  DeleteConceptParams,
   GetConceptDescendantsParams,
   GetConceptParams,
   GetManyConceptParams,
@@ -10,11 +11,11 @@ import {
   UpdateConceptParams,
 } from '../../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
-import { isNil, isObject, omitBy } from 'lodash'
 import { Patch } from 'json-patch'
 import { RawAxiosRequestHeaders } from 'axios'
+import { toUrlParams } from '../../../entities/utils'
 
-function conceptBasePath(orgId: string) {
+function basePath(orgId: string) {
   return `/organizations/${orgId}/taxonomy/concepts`
 }
 
@@ -23,7 +24,7 @@ export const create: RestEndpoint<'Concept', 'create'> = (
   params: GetOrganizationParams,
   data: CreateConceptProps
 ) => {
-  return raw.post<ConceptProps>(http, conceptBasePath(params.organizationId), data)
+  return raw.post<ConceptProps>(http, basePath(params.organizationId), data)
 }
 
 export const update: RestEndpoint<'Concept', 'update'> = (
@@ -34,7 +35,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
 ) => {
   return raw.patch<ConceptProps>(
     http,
-    `${conceptBasePath(params.organizationId)}/${params.conceptId}`,
+    `${basePath(params.organizationId)}/${params.conceptId}`,
     data,
     {
       headers: {
@@ -48,12 +49,19 @@ export const update: RestEndpoint<'Concept', 'update'> = (
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
   params: GetConceptParams
-) => raw.get<ConceptProps>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
+) => raw.get<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`)
 
 export const del: RestEndpoint<'Concept', 'delete'> = (
   http: AxiosInstance,
-  params: GetConceptParams
-) => raw.del<void>(http, `${conceptBasePath(params.organizationId)}/${params.conceptId}`)
+  params: DeleteConceptParams,
+  headers?: RawAxiosRequestHeaders
+) =>
+  raw.del<void>(http, `${basePath(params.organizationId)}/${params.conceptId}`, {
+    headers: {
+      'X-Contentful-Version': params.version ?? 0,
+      ...headers,
+    },
+  })
 
 export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
@@ -82,31 +90,7 @@ export const getAncestors: RestEndpoint<'Concept', 'getAncestors'> = (
 export const getTotal: RestEndpoint<'Concept', 'getTotal'> = (
   http: AxiosInstance,
   params: GetOrganizationParams
-) => raw.get<{ total: number }>(http, `${conceptBasePath(params.organizationId)}/total`)
-
-function toUrlParams(params: Record<string, string | number> | undefined = {}) {
-  const urlQuery = new URLSearchParams()
-
-  Object.entries(sanitizeParams(params)).forEach(([key, value]) => {
-    urlQuery.set(key, `${value}`)
-  })
-
-  const result = urlQuery.toString()
-  return result ? `?${result}` : ''
-}
-
-/*
- * @desc recursively removes nullable values from an object
- */
-export function sanitizeParams<T extends Record<string, string | number>>(params: T): Partial<T> {
-  for (const key in params) {
-    if (isObject(params[key])) {
-      // @ts-expect-error ts(2322) TS is not happy with `any` value type
-      params[key] = sanitizeParams(params[key])
-    }
-  }
-  return omitBy(params, isNil) as T
-}
+) => raw.get<{ total: number }>(http, `${basePath(params.organizationId)}/total`)
 
 function getCollectionUrl(
   path: string,
@@ -115,6 +99,6 @@ function getCollectionUrl(
     query?: Record<string, string | number> & { pageUrl?: string }
   }
 ) {
-  const url = conceptBasePath(params.organizationId)
+  const url = basePath(params.organizationId)
   return params.query?.pageUrl ?? url.concat(`${path}${toUrlParams(params.query)}`)
 }

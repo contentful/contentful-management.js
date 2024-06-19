@@ -112,6 +112,7 @@ import { TeamPlainClientAPI } from './entities/team'
 import { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
 import { ConceptPlainClientAPI } from './entities/concept'
+import { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
 
 export type PlainClientAPI = {
   raw: {
@@ -226,6 +227,7 @@ export type PlainClientAPI = {
   }
   comment: CommentPlainClientAPI
   concept: ConceptPlainClientAPI
+  conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
