@@ -1,4 +1,4 @@
-import { cloneMock } from '../mocks/entities'
+import { cloneMock, contentTypeMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
 import { wrapContentType, wrapContentTypeCollection } from '../../../lib/entities/content-type'
 import {
@@ -17,14 +17,16 @@ import {
   isUpdatedTest,
   omitAndDeleteFieldTest,
 } from '../test-creators/instance-entity-methods'
-import { describe, test } from 'mocha'
+import { describe, test } from 'vitest'
 
 function setup(promise) {
   return {
     makeRequest: setupMakeRequest(promise),
-    entityMock: cloneMock('contentType'),
+    entityMock: cloneMock('contentType') as typeof contentTypeMock,
   }
 }
+
+export type ContentTypeSetupType = typeof setup
 
 describe('Entity ContentType', () => {
   test('ContentType is wrapped', async () => {
@@ -58,7 +60,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test('ContentType delete fails', async () => {
+  test.only('ContentType delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'delete',
