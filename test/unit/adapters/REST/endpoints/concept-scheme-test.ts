@@ -118,14 +118,17 @@ describe('ConceptScheme', () => {
       {
         name: 'without query params',
         params: {},
-        expected: { url: '/organizations/organization-id/taxonomy/concept-schemes' },
+        expected: {
+          url: '/organizations/organization-id/taxonomy/concept-schemes',
+          params: undefined,
+        },
       },
       {
         name: 'with pageUrl query params',
         params: {
-          query: { pageUrl: 'page-url' },
+          query: { pageUrl: 'page-url', params: {} },
         },
-        expected: { url: 'page-url' },
+        expected: { url: 'page-url', params: {} },
       },
     ]
 
@@ -146,6 +149,7 @@ describe('ConceptScheme', () => {
           .then((r) => {
             expect(r).to.eql({ items: [entityMock] })
             expect(httpMock.get.args[0][0]).to.eql(expected.url)
+            expect(httpMock.get.args[0][1].params).to.eql(expected.params)
           })
       })
     })

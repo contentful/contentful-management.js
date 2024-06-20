@@ -38,22 +38,23 @@ describe('Concept', () => {
       {
         name: 'without query params',
         params: {},
-        expected: { url: '/organizations/organization-id/taxonomy/concepts' },
+        expected: { url: '/organizations/organization-id/taxonomy/concepts', params: {} },
       },
       {
         name: 'with pageUrl query params',
         params: {
           query: { pageUrl: 'page-url' },
         },
-        expected: { url: 'page-url' },
+        expected: { url: 'page-url', params: {} },
       },
       {
         name: 'with conceptScheme query params',
         params: {
-          query: { conceptScheme: 'concept-scheme-id' },
+          query: { conceptSchemeId: 'concept-scheme-id' },
         },
         expected: {
-          url: '/organizations/organization-id/taxonomy/concepts?conceptScheme=concept-scheme-id',
+          url: '/organizations/organization-id/taxonomy/concepts',
+          params: { conceptSchemeId: 'concept-scheme-id' },
         },
       },
     ]
@@ -75,6 +76,7 @@ describe('Concept', () => {
           .then((r) => {
             expect(r).to.eql({ items: [entityMock] })
             expect(httpMock.get.args[0][0]).to.eql(expected.url)
+            expect(httpMock.get.args[0][1].params).to.eql(expected.params)
           })
       })
     })

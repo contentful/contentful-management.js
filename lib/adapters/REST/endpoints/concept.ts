@@ -13,10 +13,9 @@ import {
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 import { Patch } from 'json-patch'
 import { RawAxiosRequestHeaders } from 'axios'
-import { toUrlParams } from '../../../entities/utils'
 
-function basePath(orgId: string) {
-  return `/organizations/${orgId}/taxonomy/concepts`
+function basePath(organizationId: string) {
+  return `/organizations/${organizationId}/taxonomy/concepts`
 }
 
 export const create: RestEndpoint<'Concept', 'create'> = (
@@ -67,24 +66,27 @@ export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyConceptParams
 ) => {
-  const url = getCollectionUrl('', params)
-  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
+  const { url, queryParams } = cursorBasedCollection('', params)
+  // console.log({url, queryParams})
+  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, {
+    params: queryParams,
+  })
 }
 
 export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
   http: AxiosInstance,
   params: GetConceptDescendantsParams
 ) => {
-  const url = getCollectionUrl(`/${params.conceptId}/descendants`, params)
-  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
+  const { url, queryParams } = cursorBasedCollection(`/${params.conceptId}/descendants`, params)
+  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, { params: queryParams })
 }
 
 export const getAncestors: RestEndpoint<'Concept', 'getAncestors'> = (
   http: AxiosInstance,
   params: GetConceptDescendantsParams
 ) => {
-  const url = getCollectionUrl(`/${params.conceptId}/ancestors`, params)
-  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url)
+  const { url, queryParams } = cursorBasedCollection(`/${params.conceptId}/ancestors`, params)
+  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, { params: queryParams })
 }
 
 export const getTotal: RestEndpoint<'Concept', 'getTotal'> = (
@@ -92,13 +94,17 @@ export const getTotal: RestEndpoint<'Concept', 'getTotal'> = (
   params: GetOrganizationParams
 ) => raw.get<{ total: number }>(http, `${basePath(params.organizationId)}/total`)
 
-function getCollectionUrl(
+function cursorBasedCollection(
   path: string,
   params: {
     organizationId: string
     query?: Record<string, string | number> & { pageUrl?: string }
   }
-) {
-  const url = basePath(params.organizationId)
-  return params.query?.pageUrl ?? url.concat(`${path}${toUrlParams(params.query)}`)
+): { url: string; queryParams: Record<string, string | number> } {
+  return params.query?.pageUrl
+    ? { url: params.query?.pageUrl, queryParams: {} }
+    : {
+        url: `${basePath(params.organizationId)}${path}`,
+        queryParams: params.query || {},
+      }
 }

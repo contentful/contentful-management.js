@@ -854,18 +854,8 @@ const conceptSchemeMock = {
   prefLabel: {
     'en-US': 'cs1',
   },
-  altLabels: {
-    'en-US': [],
-  },
-  hiddenLabels: {
-    'en-US': [],
-  },
-  note: null,
-  changeNote: null,
-  editorialNote: null,
-  historyNote: null,
-  scopeNote: null,
-  notations: [],
+  definition: null,
+  concepts: [],
   topConcepts: [],
 }
 

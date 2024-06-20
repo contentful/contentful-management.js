@@ -3,7 +3,7 @@ import { isNil, isObject, omitBy } from 'lodash'
 export type LocalizedEntity<
   Entity,
   LocalizedFields extends keyof Entity,
-  Locales extends keyof any
+  Locales extends string
 > = {
   [K in keyof Entity]: K extends LocalizedFields ? { [Locale in Locales]: Entity[K] } : Entity[K]
 }

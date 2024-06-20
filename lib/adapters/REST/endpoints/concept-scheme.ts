@@ -40,9 +40,10 @@ export const getMany: RestEndpoint<'ConceptScheme', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyConceptSchemeParams
 ) => {
-  let url = basePath(params.organizationId)
-  url = params.query?.pageUrl ?? url.concat(`${toUrlParams(params.query)}`)
-  return raw.get<CursorPaginatedCollectionProp<ConceptSchemeProps>>(http, url)
+  const url = params.query?.pageUrl ?? basePath(params.organizationId)
+  return raw.get<CursorPaginatedCollectionProp<ConceptSchemeProps>>(http, url, {
+    params: params.query?.pageUrl ? {} : params.query,
+  })
 }
 
 export const getTotal: RestEndpoint<'ConceptScheme', 'getTotal'> = (

@@ -4,10 +4,7 @@ import { TaxonomyConceptLink } from './concept'
 export type ConceptScheme = {
   uri: string | null
   prefLabel: string
-  altLabels: string[]
-  hiddenLabels: string[]
   definition: string | null
-  notations: string[]
   topConcepts: TaxonomyConceptLink[]
   concepts: TaxonomyConceptLink[]
   totalConcepts: number
@@ -20,9 +17,9 @@ export type ConceptScheme = {
   }
 }
 
-export type ConceptSchemeProps<Locales extends keyof any = 'en-US'> = LocalizedEntity<
+export type ConceptSchemeProps<Locales extends string = string> = LocalizedEntity<
   ConceptScheme,
-  'prefLabel' | 'altLabels' | 'hiddenLabels' | 'definition',
+  'prefLabel' | 'definition',
   Locales
 >
 
