@@ -111,7 +111,6 @@
     "express": "^4.17.1",
     "husky": "^4.3.8",
     "in-publish": "^2.0.1",
-    "json": "^11.0.0",
     "jsonwebtoken": "^9.0.2",
     "karma": "^6.3.4",
     "karma-chrome-launcher": "^3.1.0",
@@ -135,8 +134,7 @@
     "typedoc": "^0.23.24",
     "typescript": "^4.9.4",
     "webpack": "^5.91.0",
-    "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-bundle-analyzer": "^4.9.0"
   },
   "config": {
     "commitizen": {
