@@ -62,7 +62,6 @@
   ],
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
-    "@types/json-patch": "0.0.30",
     "axios": "^1.7.2",
     "contentful-sdk-core": "^8.1.0",
     "fast-copy": "^3.0.0",
@@ -85,6 +84,7 @@
     "@semantic-release/changelog": "^6.0.0",
     "@types/chai": "^4.3.16",
     "@types/chai-as-promised": "^7.1.4",
+    "@types/json-patch": "0.0.30",
     "@types/lodash": "^4.14.168",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.13",
