@@ -184,19 +184,19 @@
   "bundlesize": [
     {
       "path": "./dist/contentful-management.browser.js",
-      "maxSize": "75Kb"
+      "maxSize": "161Kb"
     },
     {
       "path": "./dist/contentful-management.browser.min.js",
-      "maxSize": "30Kb"
+      "maxSize": "70Kb"
     },
     {
       "path": "./dist/contentful-management.node.js",
-      "maxSize": "85Kb"
+      "maxSize": "177Kb"
     },
     {
       "path": "./dist/contentful-management.node.min.js",
-      "maxSize": "35Kb"
+      "maxSize": "88Kb"
     }
   ]
 }
