@@ -66,6 +66,7 @@
     "axios": "^1.7.2",
     "contentful-sdk-core": "^9.0.0-alpha.2",
     "fast-copy": "^3.0.0",
+    "json-patch": "^0.7.0",
     "type-fest": "^4.18.3"
   },
   "devDependencies": {
