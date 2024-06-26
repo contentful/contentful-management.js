@@ -111,7 +111,6 @@
     "express": "^4.17.1",
     "husky": "^4.3.8",
     "in-publish": "^2.0.1",
-    "istanbul": "^1.0.0-alpha.2",
     "json": "^11.0.0",
     "jsonwebtoken": "^9.0.2",
     "karma": "^6.3.4",
