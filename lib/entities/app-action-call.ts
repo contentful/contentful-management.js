@@ -5,7 +5,6 @@ import {
   BasicMetaSysProps,
   CreateWithResponseParams,
   DefaultElements,
-  GetAppActionCallDetailsParams,
   MakeRequest,
   SysLink,
 } from '../common-types'
