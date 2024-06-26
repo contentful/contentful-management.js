@@ -66,7 +66,6 @@
     "axios": "^1.7.2",
     "contentful-sdk-core": "^8.1.0",
     "fast-copy": "^3.0.0",
-    "lodash.isplainobject": "^4.0.6",
     "type-fest": "^4.18.3"
   },
   "devDependencies": {
