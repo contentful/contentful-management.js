@@ -61,7 +61,7 @@
     "types.d.ts"
   ],
   "dependencies": {
-    "@contentful/rich-text-types": "^16.5.2",
+    "@contentful/rich-text-types": "^16.6.1",
     "@types/json-patch": "0.0.30",
     "axios": "^1.7.2",
     "contentful-sdk-core": "^8.1.0",
