@@ -1,5 +1,5 @@
-import { AxiosInstance } from 'contentful-sdk-core'
-import { MRActions, MROpts, MRReturn } from '../../common-types'
+import type { AxiosInstance } from 'contentful-sdk-core'
+import type { MRActions, MROpts, MRReturn } from '../../common-types'
 
 /**
  * @private

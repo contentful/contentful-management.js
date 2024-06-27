@@ -1,4 +1,4 @@
-import { Link } from '../common-types'
+import type { Link } from '../common-types'
 
 export type FunctionProps = {
   sys: {

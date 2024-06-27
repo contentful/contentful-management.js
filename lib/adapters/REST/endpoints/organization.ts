@@ -1,7 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp, GetOrganizationParams, PaginationQueryParams } from '../../../common-types'
-import { OrganizationProp } from '../../../entities/organization'
-import { RestEndpoint } from '../types'
+import type {
+  CollectionProp,
+  GetOrganizationParams,
+  PaginationQueryParams,
+} from '../../../common-types'
+import type { OrganizationProp } from '../../../entities/organization'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const getMany: RestEndpoint<'Organization', 'getMany'> = (

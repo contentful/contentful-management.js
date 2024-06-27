@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetEditorInterfaceParams,
   GetSpaceEnvironmentParams,
   QueryParams,
 } from '../../common-types'
-import { EditorInterfaceProps } from '../../entities/editor-interface'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { EditorInterfaceProps } from '../../entities/editor-interface'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EditorInterfacePlainClientAPI = {
   /**

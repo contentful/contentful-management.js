@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   BasicMetaSysProps,
   DefaultElements,
   GetSpaceEnvironmentParams,

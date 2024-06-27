@@ -2,9 +2,9 @@ import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
-import { Except } from 'type-fest'
-import { FreeFormParameters } from './widget-parameters'
+import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import type { Except } from 'type-fest'
+import type { FreeFormParameters } from './widget-parameters'
 
 export type AppInstallationProps = {
   sys: Omit<BasicMetaSysProps, 'id'> & {

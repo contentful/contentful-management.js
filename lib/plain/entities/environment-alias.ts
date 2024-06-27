@@ -1,15 +1,15 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetSpaceEnvAliasParams,
   GetSpaceParams,
   PaginationQueryParams,
 } from '../../common-types'
-import {
+import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
 } from '../../entities/environment-alias'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EnvironmentAliasPlainClientAPI = {
   /**

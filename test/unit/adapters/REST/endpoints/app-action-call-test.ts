@@ -3,11 +3,9 @@ import { describe, it } from 'mocha'
 import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 import sinon from 'sinon'
-import {
-  CreateAppActionCallProps,
-  wrapAppActionCallResponse,
-} from '../../../../../lib/entities/app-action-call'
-import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
+import type { CreateAppActionCallProps } from '../../../../../lib/entities/app-action-call'
+import { wrapAppActionCallResponse } from '../../../../../lib/entities/app-action-call'
+import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
 function setup(promise, mockName, params = {}) {
   const entityMock = cloneMock(mockName)

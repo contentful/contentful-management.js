@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CreateAssetKeyProps, AssetKeyProps } from '../../../entities/asset-key'
+import type { CreateAssetKeyProps, AssetKeyProps } from '../../../entities/asset-key'
 import * as raw from './raw'
-import { RestEndpoint } from '../types'
-import { GetSpaceEnvironmentParams } from '../../../common-types'
+import type { RestEndpoint } from '../types'
+import type { GetSpaceEnvironmentParams } from '../../../common-types'
 
 const ASSET_KEY_MAX_LIFETIME = 48 * 60 * 60
 

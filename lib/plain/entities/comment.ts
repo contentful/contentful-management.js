@@ -1,6 +1,6 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import { CollectionProp, GetCommentParams, QueryParams } from '../../common-types'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type { CollectionProp, GetCommentParams, QueryParams } from '../../common-types'
+import type {
   CommentProps,
   CreateCommentParams,
   CreateCommentProps,
@@ -13,7 +13,7 @@ import {
   UpdateCommentParams,
   UpdateCommentProps,
 } from '../../entities/comment'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type CommentPlainClientAPI = {
   /** Fetches a plain text comment

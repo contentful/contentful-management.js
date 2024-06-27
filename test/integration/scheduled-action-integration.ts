@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from 'chai'
 import { before, after, describe, test, beforeEach, afterEach } from 'mocha'
-import { Asset } from '../../lib/entities/asset'
-import { Entry } from '../../lib/entities/entry'
-import { Environment } from '../../lib/entities/environment'
-import { Space } from '../../lib/entities/space'
-import {
-  ContentType,
-  ContentTypeMetadata,
-  ScheduledActionReferenceFilters,
-} from '../../lib/export-types'
+import type { Asset } from '../../lib/entities/asset'
+import type { Entry } from '../../lib/entities/entry'
+import type { Environment } from '../../lib/entities/environment'
+import type { Space } from '../../lib/entities/space'
+import type { ContentType, ContentTypeMetadata } from '../../lib/export-types'
+import { ScheduledActionReferenceFilters } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'

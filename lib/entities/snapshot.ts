@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type SnapshotProps<T> = {
   sys: MetaSysProps & {

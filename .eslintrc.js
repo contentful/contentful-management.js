@@ -43,6 +43,7 @@ module.exports = {
         ],
         'no-only-tests/no-only-tests': 'error',
         '@typescript-eslint/no-explicit-any': 'warn',
+        '@typescript-eslint/consistent-type-imports': 'error',
       },
     },
   ],

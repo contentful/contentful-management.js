@@ -1,6 +1,6 @@
-import { CollectionProp, QueryParams } from '../../common-types'
-import { UsageProps } from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { CollectionProp, QueryParams } from '../../common-types'
+import type { UsageProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type UsagePlainClientAPI = {
   /** Fetches all of an organization's usage data by space

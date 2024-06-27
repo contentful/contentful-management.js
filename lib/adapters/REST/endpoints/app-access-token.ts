@@ -1,8 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { AppAccessTokenProps, CreateAppAccessTokenProps } from '../../../entities/app-access-token'
+import type {
+  AppAccessTokenProps,
+  CreateAppAccessTokenProps,
+} from '../../../entities/app-access-token'
 import * as raw from './raw'
-import { RestEndpoint } from '../types'
-import { GetAppInstallationParams } from '../../../common-types'
+import type { RestEndpoint } from '../types'
+import type { GetAppInstallationParams } from '../../../common-types'
 
 export const create: RestEndpoint<'AppAccessToken', 'create'> = (
   http: AxiosInstance,

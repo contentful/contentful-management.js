@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   CollectionProp,
   DefaultElements,
   EntryMetaSysProps,
@@ -9,9 +9,10 @@ import {
   MetadataProps,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import createEntryApi, { ContentfulEntryApi } from '../create-entry-api'
+import type { ContentfulEntryApi } from '../create-entry-api'
+import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AssetProps } from './asset'
+import type { AssetProps } from './asset'
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntryMetaSysProps
