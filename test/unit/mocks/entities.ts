@@ -1,4 +1,4 @@
-import sinon from 'sinon'
+import { vi } from 'vitest'
 
 import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
@@ -1044,207 +1044,206 @@ function mockCollection(entityMock) {
   }
 }
 
-function setupEntitiesMock(rewiredModuleApi) {
+function setupEntitiesMock() {
   const entitiesMock = {
     appAction: {
-      wrapAppAction: sinon.stub(),
-      wrapAppActionCollection: sinon.stub(),
+      wrapAppAction: vi.fn(),
+      wrapAppActionCollection: vi.fn(),
     },
     appActionCall: {
-      wrapAppActionCall: sinon.stub(),
-      wrapAppActionCallResponse: sinon.stub(),
+      wrapAppActionCall: vi.fn(),
+      wrapAppActionCallResponse: vi.fn(),
     },
     appDefinition: {
-      wrapAppDefinition: sinon.stub(),
-      wrapAppDefinitionCollection: sinon.stub(),
+      wrapAppDefinition: vi.fn(),
+      wrapAppDefinitionCollection: vi.fn(),
     },
     appUpload: {
-      wrapAppUpload: sinon.stub(),
-      wrapAppUploadCollection: sinon.stub(),
+      wrapAppUpload: vi.fn(),
+      wrapAppUploadCollection: vi.fn(),
     },
     appBundle: {
-      wrapAppBundle: sinon.stub(),
-      wrapAppBundleCollection: sinon.stub(),
+      wrapAppBundle: vi.fn(),
+      wrapAppBundleCollection: vi.fn(),
     },
     appSignedRequest: {
-      wrapAppSignedRequest: sinon.stub(),
+      wrapAppSignedRequest: vi.fn(),
     },
     appSigningSecret: {
-      wrapAppSigningSecret: sinon.stub(),
+      wrapAppSigningSecret: vi.fn(),
     },
     appEventSubscription: {
-      wrapAppEventSubscription: sinon.stub(),
+      wrapAppEventSubscription: vi.fn(),
     },
     appKey: {
-      wrapAppKey: sinon.stub(),
-      wrapAppKeyCollection: sinon.stub(),
+      wrapAppKey: vi.fn(),
+      wrapAppKeyCollection: vi.fn(),
     },
     appAccessToken: {
-      wrapAppAccessToken: sinon.stub(),
+      wrapAppAccessToken: vi.fn(),
     },
     appDetails: {
-      wrapAppDetails: sinon.stub(),
+      wrapAppDetails: vi.fn(),
     },
     space: {
-      wrapSpace: sinon.stub(),
-      wrapSpaceCollection: sinon.stub(),
+      wrapSpace: vi.fn(),
+      wrapSpaceCollection: vi.fn(),
     },
     environment: {
-      wrapEnvironment: sinon.stub(),
-      wrapEnvironmentCollection: sinon.stub(),
+      wrapEnvironment: vi.fn(),
+      wrapEnvironmentCollection: vi.fn(),
     },
     bulkAction: {
-      wrapBulkAction: sinon.stub(),
+      wrapBulkAction: vi.fn(),
     },
     contentType: {
-      wrapContentType: sinon.stub(),
-      wrapContentTypeCollection: sinon.stub(),
+      wrapContentType: vi.fn(),
+      wrapContentTypeCollection: vi.fn(),
     },
     entry: {
-      wrapEntry: sinon.stub(),
-      wrapEntryCollection: sinon.stub(),
+      wrapEntry: vi.fn(),
+      wrapEntryCollection: vi.fn(),
     },
     asset: {
-      wrapAsset: sinon.stub(),
-      wrapAssetCollection: sinon.stub(),
+      wrapAsset: vi.fn(),
+      wrapAssetCollection: vi.fn(),
     },
     assetKey: {
-      wrapAssetKey: sinon.stub(),
+      wrapAssetKey: vi.fn(),
     },
     locale: {
-      wrapLocale: sinon.stub(),
-      wrapLocaleCollection: sinon.stub(),
+      wrapLocale: vi.fn(),
+      wrapLocaleCollection: vi.fn(),
     },
     webhook: {
-      wrapWebhook: sinon.stub(),
-      wrapWebhookCollection: sinon.stub(),
+      wrapWebhook: vi.fn(),
+      wrapWebhookCollection: vi.fn(),
     },
     spaceMember: {
-      wrapSpaceMember: sinon.stub(),
-      wrapSpaceMemberCollection: sinon.stub(),
+      wrapSpaceMember: vi.fn(),
+      wrapSpaceMemberCollection: vi.fn(),
     },
     spaceMembership: {
-      wrapSpaceMembership: sinon.stub(),
-      wrapSpaceMembershipCollection: sinon.stub(),
+      wrapSpaceMembership: vi.fn(),
+      wrapSpaceMembershipCollection: vi.fn(),
     },
     teamSpaceMembership: {
-      wrapTeamSpaceMembership: sinon.stub(),
-      wrapTeamSpaceMembershipCollection: sinon.stub(),
+      wrapTeamSpaceMembership: vi.fn(),
+      wrapTeamSpaceMembershipCollection: vi.fn(),
     },
     organizationMembership: {
-      wrapOrganizationMembership: sinon.stub(),
-      wrapOrganizationMembershipCollection: sinon.stub(),
+      wrapOrganizationMembership: vi.fn(),
+      wrapOrganizationMembershipCollection: vi.fn(),
     },
     organizationAppInstallations: {
-      wrapOrganizationAppInstallations: sinon.stub(),
-      wrapOrganizationAppInstallationsCollection: sinon.stub(),
+      wrapOrganizationAppInstallations: vi.fn(),
+      wrapOrganizationAppInstallationsCollection: vi.fn(),
     },
     team: {
-      wrapTeam: sinon.stub(),
-      wrapTeamCollection: sinon.stub(),
+      wrapTeam: vi.fn(),
+      wrapTeamCollection: vi.fn(),
     },
     teamMembership: {
-      wrapTeamMembership: sinon.stub(),
-      wrapTeamMembershipCollection: sinon.stub(),
+      wrapTeamMembership: vi.fn(),
+      wrapTeamMembershipCollection: vi.fn(),
     },
     organizationInvitation: {
-      wrapOrganizationInvitation: sinon.stub(),
+      wrapOrganizationInvitation: vi.fn(),
     },
     role: {
-      wrapRole: sinon.stub(),
-      wrapRoleCollection: sinon.stub(),
+      wrapRole: vi.fn(),
+      wrapRoleCollection: vi.fn(),
     },
     release: {
-      wrapRelease: sinon.stub(),
-      wrapReleaseCollection: sinon.stub(),
+      wrapRelease: vi.fn(),
+      wrapReleaseCollection: vi.fn(),
     },
     releaseAction: {
-      wrapReleaseAction: sinon.stub(),
+      wrapReleaseAction: vi.fn(),
     },
     apiKey: {
-      wrapApiKey: sinon.stub(),
-      wrapApiKeyCollection: sinon.stub(),
+      wrapApiKey: vi.fn(),
+      wrapApiKeyCollection: vi.fn(),
     },
     previewApiKey: {
-      wrapPreviewApiKey: sinon.stub(),
-      wrapPreviewApiKeyCollection: sinon.stub(),
+      wrapPreviewApiKey: vi.fn(),
+      wrapPreviewApiKeyCollection: vi.fn(),
     },
     editorInterface: {
-      wrapEditorInterface: sinon.stub(),
-      wrapEditorInterfaceCollection: sinon.stub(),
+      wrapEditorInterface: vi.fn(),
+      wrapEditorInterfaceCollection: vi.fn(),
     },
     upload: {
-      wrapUpload: sinon.stub(),
+      wrapUpload: vi.fn(),
     },
     snapshot: {
-      wrapSnapshot: sinon.stub(),
-      wrapSnapshotCollection: sinon.stub(),
+      wrapSnapshot: vi.fn(),
+      wrapSnapshotCollection: vi.fn(),
     },
     organization: {
-      wrapOrganization: sinon.stub(),
-      wrapOrganizationCollection: sinon.stub(),
+      wrapOrganization: vi.fn(),
+      wrapOrganizationCollection: vi.fn(),
     },
     extension: {
-      wrapExtension: sinon.stub(),
-      wrapExtensionCollection: sinon.stub(),
+      wrapExtension: vi.fn(),
+      wrapExtensionCollection: vi.fn(),
     },
     appInstallation: {
-      wrapAppInstallation: sinon.stub(),
-      wrapAppInstallationCollection: sinon.stub(),
+      wrapAppInstallation: vi.fn(),
+      wrapAppInstallationCollection: vi.fn(),
     },
     user: {
-      wrapUser: sinon.stub(),
-      wrapUserCollection: sinon.stub(),
+      wrapUser: vi.fn(),
+      wrapUserCollection: vi.fn(),
     },
     personalAccessToken: {
-      wrapPersonalAccessToken: sinon.stub(),
-      wrapPersonalAccessTokenCollection: sinon.stub(),
+      wrapPersonalAccessToken: vi.fn(),
+      wrapPersonalAccessTokenCollection: vi.fn(),
     },
     accessToken: {
-      wrapAccessToken: sinon.stub(),
-      wrapAccessTokenCollection: sinon.stub(),
+      wrapAccessToken: vi.fn(),
+      wrapAccessTokenCollection: vi.fn(),
     },
     usage: {
-      wrapUsageCollection: sinon.stub(),
+      wrapUsageCollection: vi.fn(),
     },
     environmentAlias: {
-      wrapEnvironmentAlias: sinon.stub(),
-      wrapEnvironmentAliasCollection: sinon.stub(),
+      wrapEnvironmentAlias: vi.fn(),
+      wrapEnvironmentAliasCollection: vi.fn(),
     },
     scheduledAction: {
-      wrapScheduledAction: sinon.stub(),
-      wrapScheduledActionCollection: sinon.stub(),
+      wrapScheduledAction: vi.fn(),
+      wrapScheduledActionCollection: vi.fn(),
     },
     task: {
-      wrapTask: sinon.stub(),
-      wrapTaskCollection: sinon.stub(),
+      wrapTask: vi.fn(),
+      wrapTaskCollection: vi.fn(),
     },
     comment: {
-      wrapComment: sinon.stub(),
-      wrapCommentCollection: sinon.stub(),
+      wrapComment: vi.fn(),
+      wrapCommentCollection: vi.fn(),
     },
     workflowDefinition: {
-      wrapWorkflowDefinition: sinon.stub(),
-      wrapWorkflowDefinitionCollection: sinon.stub(),
+      wrapWorkflowDefinition: vi.fn(),
+      wrapWorkflowDefinitionCollection: vi.fn(),
     },
     workflow: {
-      wrapWorkflow: sinon.stub(),
-      wrapWorkflowCollection: sinon.stub(),
+      wrapWorkflow: vi.fn(),
+      wrapWorkflowCollection: vi.fn(),
     },
     workflowsChangelogEntry: {
-      wrapWorkflowsChangelogEntry: sinon.stub(),
-      wrapWorkflowsChangelogEntryCollection: sinon.stub(),
+      wrapWorkflowsChangelogEntry: vi.fn(),
+      wrapWorkflowsChangelogEntryCollection: vi.fn(),
     },
     environmentTemplate: {
-      wrapEnvironmentTemplate: sinon.stub(),
-      wrapEnvironmentTemplateCollection: sinon.stub(),
+      wrapEnvironmentTemplate: vi.fn(),
+      wrapEnvironmentTemplateCollection: vi.fn(),
     },
     EnvironmentTemplateInstallation: {
-      wrapEnvironmentTemplateInstallation: sinon.stub(),
-      wrapEnvironmentTemplateInstallationCollection: sinon.stub(),
+      wrapEnvironmentTemplateInstallation: vi.fn(),
+      wrapEnvironmentTemplateInstallationCollection: vi.fn(),
     },
   }
-  rewiredModuleApi.__Rewire__('entities', entitiesMock)
 
   return entitiesMock
 }

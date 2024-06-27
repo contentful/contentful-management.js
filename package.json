@@ -64,7 +64,8 @@
     "@contentful/rich-text-types": "^16.6.1",
     "axios": "^1.7.2",
     "contentful-sdk-core": "^8.1.0",
-    "fast-copy": "^3.0.0"
+    "fast-copy": "^3.0.0",
+    "vitest": "^1.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.6",
@@ -78,7 +79,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/preset-env": "^7.24.6",
     "@babel/preset-typescript": "^7.24.7",
-    "@contentful/integration-test-utils": "^2.0.0",
     "@semantic-release/changelog": "^6.0.0",
     "@types/chai": "^4.3.16",
     "@types/chai-as-promised": "^7.1.4",
