@@ -1,10 +1,10 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
 } from '../../../entities/organization-invitation'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const OrganizationUserManagementAlphaHeaders = {

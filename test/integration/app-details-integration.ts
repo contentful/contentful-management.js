@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
 import { initPlainClient, getTestOrganization } from '../helpers'
-import { AppIcon, PlainClientAPI } from '../../lib/export-types'
+import type { AppIcon, PlainClientAPI } from '../../lib/export-types'
 
 describe('AppDetails api', function () {
   let appDefinition

@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetSpaceParams,
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
 } from '../../common-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { SpaceProps } from '../../entities/space'
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type { SpaceProps } from '../../entities/space'
 
 export type SpacePlainClientAPI = {
   /**

@@ -1,9 +1,9 @@
-import { GetAppDefinitionParams } from '../../common-types'
-import {
+import type { GetAppDefinitionParams } from '../../common-types'
+import type {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
 } from '../../entities/app-event-subscription'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppEventSubscriptionPlainClientAPI = {
   /**

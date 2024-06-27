@@ -1,14 +1,17 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetAppDefinitionParams,
   GetAppInstallationParams,
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
 } from '../../common-types'
-import { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
-import { AppInstallationProps, CreateAppInstallationProps } from '../../entities/app-installation'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
+import type {
+  AppInstallationProps,
+  CreateAppInstallationProps,
+} from '../../entities/app-installation'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppInstallationPlainClientAPI = {
   /**

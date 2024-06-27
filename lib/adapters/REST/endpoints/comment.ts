@@ -1,14 +1,14 @@
-import { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
+import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetEntryParams,
   GetCommentParams,
   GetSpaceEnvironmentParams,
   QueryParams,
 } from '../../../common-types'
-import {
+import type {
   CreateCommentParams,
   CreateCommentProps,
   DeleteCommentParams,
@@ -19,7 +19,7 @@ import {
   RichTextBodyFormat,
   RichTextCommentBodyPayload,
 } from '../../../entities/comment'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

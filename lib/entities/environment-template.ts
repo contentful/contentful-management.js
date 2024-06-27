@@ -1,14 +1,12 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
+import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
-import {
-  ContentfulEnvironmentTemplateApi,
-  createEnvironmentTemplateApi,
-} from '../create-environment-template-api'
+import type { ContentfulEnvironmentTemplateApi } from '../create-environment-template-api'
+import { createEnvironmentTemplateApi } from '../create-environment-template-api'
 import enhanceWithMethods from '../enhance-with-methods'
-import { ContentTypeProps } from './content-type'
-import { EditorInterfaceProps } from './editor-interface'
+import type { ContentTypeProps } from './content-type'
+import type { EditorInterfaceProps } from './editor-interface'
 
 export type Hint = {
   operation: 'renameFieldId'

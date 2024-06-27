@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, after, describe, test } from 'mocha'
-import { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
+import type { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
 import {
   initPlainClient,
   getTestOrganization,

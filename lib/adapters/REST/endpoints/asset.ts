@@ -1,17 +1,17 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { errorHandler } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
-import {
+import type { SetOptional } from 'type-fest'
+import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
+import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
 import { getUploadHttpClient } from '../../../upload-http-client'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { create as createUpload } from './upload'
 import { normalizeSelect } from './utils'

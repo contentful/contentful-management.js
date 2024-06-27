@@ -1,16 +1,16 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetAppDefinitionParams,
   GetOrganizationParams,
   QueryParams,
 } from '../../common-types'
-import {
+import type {
   AppDefinitionProps,
   AppInstallationsForOrganizationProps,
   CreateAppDefinitionProps,
 } from '../../entities/app-definition'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppDefinitionPlainClientAPI = {
   /**

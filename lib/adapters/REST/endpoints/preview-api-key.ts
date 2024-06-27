@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
-import { PreviewApiKeyProps } from '../../../entities/preview-api-key'
-import { RestEndpoint } from '../types'
+import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import type { PreviewApiKeyProps } from '../../../entities/preview-api-key'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const get: RestEndpoint<'PreviewApiKey', 'get'> = (

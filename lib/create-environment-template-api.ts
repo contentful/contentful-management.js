@@ -1,8 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import { BasicCursorPaginationOptions, MakeRequest } from './common-types'
+import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
 import entities from './entities'
-import { EnvironmentTemplateProps } from './entities/environment-template'
-import {
+import type { EnvironmentTemplateProps } from './entities/environment-template'
+import type {
   CreateEnvironmentTemplateInstallationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'

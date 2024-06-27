@@ -1,8 +1,11 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
-import { CreatePersonalAccessTokenProps, AccessTokenProp } from '../../../entities/access-token'
-import { RestEndpoint } from '../types'
+import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
+import type {
+  CreatePersonalAccessTokenProps,
+  AccessTokenProp,
+} from '../../../entities/access-token'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 /**

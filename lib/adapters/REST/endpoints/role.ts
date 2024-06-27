@@ -1,15 +1,15 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import { CreateRoleProps, RoleProps } from '../../../entities/role'
-import { RestEndpoint } from '../types'
+import type { CreateRoleProps, RoleProps } from '../../../entities/role'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

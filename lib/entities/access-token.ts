@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MakeRequest, BasicMetaSysProps, SysLink } from '../common-types'
+import type { DefaultElements, MakeRequest, BasicMetaSysProps, SysLink } from '../common-types'
 
 type Application = {
   id?: string

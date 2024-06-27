@@ -1,13 +1,13 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetTeamMembershipParams,
   GetOrganizationParams,
   QueryParams,
   CollectionProp,
   GetTeamParams,
 } from '../../common-types'
-import { TeamMembershipProps, CreateTeamMembershipProps } from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamMembershipPlainClientAPI = {
   /**

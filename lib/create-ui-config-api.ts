@@ -1,6 +1,6 @@
-import { MakeRequest } from './common-types'
+import type { MakeRequest } from './common-types'
 import entities from './entities'
-import { UIConfig } from './entities/ui-config'
+import type { UIConfig } from './entities/ui-config'
 
 /**
  * @private

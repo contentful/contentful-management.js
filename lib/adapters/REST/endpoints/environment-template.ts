@@ -1,9 +1,9 @@
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import { EnvironmentTemplateProps } from '../../../entities/environment-template'
-import { RestEndpoint } from '../types'
+import type { SetOptional } from 'type-fest'
+import type { EnvironmentTemplateProps } from '../../../entities/environment-template'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 
 const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =>
   `/organizations/${organizationId}/environment_templates/` + pathSegments.join('/')

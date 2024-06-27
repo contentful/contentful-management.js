@@ -1,6 +1,6 @@
-import { GetAppDefinitionParams } from '../../common-types'
-import { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { GetAppDefinitionParams } from '../../common-types'
+import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppDetailsPlainClientAPI = {
   /**

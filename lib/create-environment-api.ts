@@ -1,7 +1,7 @@
-import { Stream } from 'stream'
+import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
-import { BasicQueryOptions, MakeRequest } from './common-types'
+import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
@@ -21,19 +21,15 @@ import type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 
-import {
-  ReleaseActionQueryOptions,
-  wrapReleaseAction,
-  wrapReleaseActionCollection,
-} from './entities/release-action'
+import type { ReleaseActionQueryOptions } from './entities/release-action'
+import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action'
 
-import {
-  wrapRelease,
+import type {
   ReleasePayload,
-  wrapReleaseCollection,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from './entities/release'
+import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type {
@@ -42,14 +38,15 @@ import type {
   EntryReferenceOptionsProps,
   EntryReferenceProps,
 } from './entities/entry'
-import { EnvironmentProps } from './entities/environment'
+import type { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
-import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import type { TagVisibility } from './entities/tag'
+import { wrapTag, wrapTagCollection } from './entities/tag'
 import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
-import { CreateAppAccessTokenProps } from './entities/app-access-token'
+import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 
 /**
  * @private

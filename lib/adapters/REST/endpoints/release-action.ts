@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
-import { ReleaseActionQueryOptions } from '../../../entities/release-action'
-import { RestEndpoint } from '../types'
+import type { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
+import type { ReleaseActionQueryOptions } from '../../../entities/release-action'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const get: RestEndpoint<'ReleaseAction', 'get'> = (
