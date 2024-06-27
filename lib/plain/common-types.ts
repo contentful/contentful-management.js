@@ -10,9 +10,6 @@ import {
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTeamMembershipParams,
-  GetTeamParams,
-  GetTeamSpaceMembershipParams,
   KeyValueMap,
   QueryParams,
   GetBulkActionParams,
@@ -50,12 +47,6 @@ import {
   CreateUpdateScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
-import { CreateTeamProps, TeamProps } from '../entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
-import {
-  CreateTeamSpaceMembershipProps,
-  TeamSpaceMembershipProps,
-} from '../entities/team-space-membership'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
 import { FunctionProps } from '../entities/function'
