@@ -1,11 +1,11 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetWorkflowDefinitionParams,
   GetSpaceEnvironmentParams,
   CollectionProp,
 } from '../../common-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import {
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,

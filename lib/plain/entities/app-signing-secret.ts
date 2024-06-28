@@ -1,9 +1,9 @@
-import { GetAppDefinitionParams } from '../../common-types'
-import {
+import type { GetAppDefinitionParams } from '../../common-types'
+import type {
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
 } from '../../entities/app-signing-secret'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppSigningSecretPlainClientAPI = {
   /**

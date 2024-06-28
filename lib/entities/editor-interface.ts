@@ -1,9 +1,9 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../common-types'
+import type { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import { DefinedParameters } from './widget-parameters'
+import type { DefinedParameters } from './widget-parameters'
 
 interface WidgetConfig {
   /**

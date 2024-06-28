@@ -1,11 +1,11 @@
-import {
+import type {
   CollectionProp,
   GetAppBundleParams,
   GetAppDefinitionParams,
   QueryParams,
 } from '../../common-types'
-import { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppBundlePlainClientAPI = {
   /**

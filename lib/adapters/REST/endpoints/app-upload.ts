@@ -1,9 +1,9 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { Stream } from 'stream'
+import type { Stream } from 'stream'
 import * as raw from './raw'
-import { GetAppUploadParams, GetOrganizationParams } from '../../../common-types'
-import { RestEndpoint } from '../types'
-import { AppUploadProps } from '../../../entities/app-upload'
+import type { GetAppUploadParams, GetOrganizationParams } from '../../../common-types'
+import type { RestEndpoint } from '../types'
+import type { AppUploadProps } from '../../../entities/app-upload'
 import { getUploadHttpClient } from '../../../upload-http-client'
 
 const getBaseUrl = (params: GetOrganizationParams) =>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AxiosInstance, RawAxiosRequestConfig } from 'axios'
+import type { AxiosInstance, RawAxiosRequestConfig } from 'axios'
 import { errorHandler } from 'contentful-sdk-core'
 
 function getBaseUrl(http: AxiosInstance) {

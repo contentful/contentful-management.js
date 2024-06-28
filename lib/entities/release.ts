@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   BaseCollection,
   CursorPaginatedCollection,
   CursorPaginatedCollectionProp,
@@ -10,12 +10,13 @@ import {
   Link,
   MakeRequest,
   MakeRequestPayload,
-  ScheduledActionReferenceFilters,
 } from '../common-types'
+import { ScheduledActionReferenceFilters } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AsyncActionProcessingOptions } from '../methods/action'
-import { ReleaseAction, wrapReleaseAction } from './release-action'
+import type { AsyncActionProcessingOptions } from '../methods/action'
+import type { ReleaseAction } from './release-action'
+import { wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'

@@ -1,9 +1,10 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createEnvironmentApi, { ContentfulEnvironmentAPI } from '../create-environment-api'
+import type { ContentfulEnvironmentAPI } from '../create-environment-api'
+import createEnvironmentApi from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, SysLink, BasicMetaSysProps, MakeRequest } from '../common-types'
+import type { DefaultElements, SysLink, BasicMetaSysProps, MakeRequest } from '../common-types'
 
 type EnvironmentMetaSys = BasicMetaSysProps & {
   status: SysLink

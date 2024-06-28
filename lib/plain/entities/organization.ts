@@ -1,6 +1,10 @@
-import { PaginationQueryParams, CollectionProp, GetOrganizationParams } from '../../common-types'
-import { OrganizationProp } from '../../entities/organization'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type {
+  PaginationQueryParams,
+  CollectionProp,
+  GetOrganizationParams,
+} from '../../common-types'
+import type { OrganizationProp } from '../../entities/organization'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type OrganizationPlainClientAPI = {
   /**

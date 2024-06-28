@@ -1,12 +1,12 @@
-import {
+import type {
   CollectionProp,
   GetAppActionParams,
   GetAppActionsForEnvParams,
   GetAppDefinitionParams,
   QueryParams,
 } from '../../common-types'
-import { AppActionProps, CreateAppActionProps } from '../../entities/app-action'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppActionPlainClientAPI = {
   /**

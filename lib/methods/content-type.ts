@@ -1,5 +1,5 @@
-import { GetContentTypeParams, MakeRequest } from '../common-types'
-import { ContentTypeProps } from '../entities/content-type'
+import type { GetContentTypeParams, MakeRequest } from '../common-types'
+import type { ContentTypeProps } from '../entities/content-type'
 
 type OmitOrDelete = 'omitted' | 'deleted'
 

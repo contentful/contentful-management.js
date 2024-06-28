@@ -1,7 +1,7 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
-import { Except } from 'type-fest'
-import { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type { Except } from 'type-fest'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 

@@ -1,15 +1,15 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   QueryParams,
 } from '../../../common-types'
-import { OrganizationMembershipProps } from '../../../entities/organization-membership'
-import { RestEndpoint } from '../types'
+import type { OrganizationMembershipProps } from '../../../entities/organization-membership'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetOrganizationParams) =>

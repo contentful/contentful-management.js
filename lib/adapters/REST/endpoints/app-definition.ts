@@ -1,22 +1,22 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
 import { normalizeSelect, normalizeSpaceId } from './utils'
-import {
+import type {
   GetAppDefinitionParams,
   GetOrganizationParams,
   QueryParams,
   GetAppInstallationsForOrgParams,
   PaginationQueryParams,
 } from '../../../common-types'
-import {
+import type {
   AppDefinitionProps,
   CreateAppDefinitionProps,
   AppInstallationsForOrganizationProps,
 } from '../../../entities/app-definition'
-import { RestEndpoint } from '../types'
-import { SetOptional } from 'type-fest'
+import type { RestEndpoint } from '../types'
+import type { SetOptional } from 'type-fest'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_definitions`
