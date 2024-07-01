@@ -54,6 +54,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: function update() {
       const { raw, params } = getParams(this)
@@ -89,6 +90,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     patch: function patch(ops: OpPatch[]) {
       const { raw, params } = getParams(this)
@@ -145,6 +147,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     publish: function publish() {
       const { raw, params } = getParams(this)
@@ -174,6 +177,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} unpublished.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
 
     unpublish: function unpublish() {
@@ -203,6 +207,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} archived.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     archive: function archive() {
       const { params } = getParams(this)
@@ -231,6 +236,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((entry) => console.log(`Entry ${entry.sys.id} unarchived.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     unarchive: function unarchive() {
       const { params } = getParams(this)
@@ -258,6 +264,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((snapshots) => console.log(snapshots.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSnapshots: function (query = {}) {
       const { params } = getParams(this)
@@ -286,6 +293,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((snapshot) => console.log(snapshot))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSnapshot: function (snapshotId: string) {
       const { params } = getParams(this)
@@ -317,6 +325,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((comment) => console.log(comment))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createComment: function (data: CreateCommentProps) {
       const { params } = getParams(this)
@@ -349,6 +358,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((comments) => console.log(comments))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getComments: function () {
       const { params } = getParams(this)
@@ -375,6 +385,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((comment) => console.log(comment))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getComment: function (id: string) {
       const { params } = getParams(this)
@@ -410,6 +421,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((task) => console.log(task))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createTask: function (data: CreateTaskProps) {
       const { params } = getParams(this)
@@ -437,6 +449,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((tasks) => console.log(tasks))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTasks: function (query = {}) {
       const { params } = getParams(this)
@@ -463,6 +476,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((task) => console.log(task))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTask: function (id: string) {
       const { params } = getParams(this)
