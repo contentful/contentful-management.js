@@ -1,7 +1,13 @@
-import { before, after } from 'mocha'
-import { cleanupTestSpaces, cleanupTestEnvironmentTemplates } from './helpers'
+import { after, before } from 'mocha'
+import { cleanupTestEnvironmentTemplates, cleanupTestSpaces } from './helpers'
+
+const isCircleCI = !!process.env.CIRCLECI
 
 const housekeeping = async () => {
+  if (!isCircleCI) {
+    return
+  }
+
   try {
     await Promise.all([cleanupTestSpaces(), cleanupTestEnvironmentTemplates()])
   } catch (err) {
