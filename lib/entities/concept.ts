@@ -28,7 +28,7 @@ type Concept = {
 }
 
 export type ConceptProps<Locales extends string = string> = LocalizedEntity<
-  SetOptional<Omit<Concept, 'sys' | 'conceptSchemes'>, 'broader' | 'related'>,
+  Omit<Concept, 'conceptSchemes'>,
   | 'prefLabel'
   | 'altLabels'
   | 'hiddenLabels'
@@ -41,4 +41,4 @@ export type ConceptProps<Locales extends string = string> = LocalizedEntity<
   Locales
 >
 
-export type CreateConceptProps = Omit<ConceptProps, 'sys'>
+export type CreateConceptProps = SetOptional<Omit<ConceptProps, 'sys'>, 'broader' | 'related'>

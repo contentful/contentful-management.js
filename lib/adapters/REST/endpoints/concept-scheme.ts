@@ -11,7 +11,6 @@ import {
 import * as raw from './raw'
 import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../../entities/concept-scheme'
 import { RawAxiosRequestHeaders } from 'axios'
-import { toUrlParams } from '../../../entities/utils'
 import { Patch } from 'json-patch'
 
 function basePath(orgId: string) {

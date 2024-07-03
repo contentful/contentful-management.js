@@ -12,8 +12,7 @@ import { Patch } from 'json-patch'
 export type ConceptPlainClientAPI = {
   /**
    * Create Concept
-   * @param payload the Concept
-   * @returns the created Concept
+   * @returns ConceptProps
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/create-a-concept}
    * @example
