@@ -134,5 +134,4 @@ workflows:
             branches:
               only:
                 - master
-#                - next
-#                - next-major
+                - beta
