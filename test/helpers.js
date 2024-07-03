@@ -135,3 +135,22 @@ export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60
   const cleanUpTemplates = templates.filter(filterTemplate).map((templates) => templates.delete())
   await Promise.allSettled(cleanUpTemplates)
 }
+
+export const cleanupTaxonomy = async () => {
+  console.log('Cleaning up taxonomy')
+  const client = initPlainClient()
+  const { items: concepts } = await client.concept.getMany({
+    organizationId: getTestOrganizationId(),
+  })
+  await Promise.all(
+    concepts
+      .filter((item) => Date.parse(item.sys.createdAt) > Date.now() - 10 * 60 * 1000)
+      .map((item) => client.concept.delete(item.sys.id))
+  )
+  const { items: conceptSchemes } = await client.conceptScheme.getMany({})
+  await Promise.all(
+    conceptSchemes
+      .filter((item) => Date.parse(item.sys.createdAt) > Date.now() - 10 * 60 * 1000)
+      .map((item) => client.concept.delete(item.sys.id))
+  )
+}

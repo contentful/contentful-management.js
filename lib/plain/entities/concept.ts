@@ -1,5 +1,6 @@
 import {
   CursorPaginatedCollectionProp,
+  DeleteConceptParams,
   GetConceptDescendantsParams,
   GetConceptParams,
   GetManyConceptParams,
@@ -72,7 +73,7 @@ export type ConceptPlainClientAPI = {
    * });
    * ```
    */
-  delete(params: OptionalDefaults<GetConceptParams>): Promise<unknown>
+  delete(params: OptionalDefaults<DeleteConceptParams>): Promise<unknown>
 
   /**
    * Get many Concepts
