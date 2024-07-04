@@ -23,4 +23,5 @@ export type ConceptSchemeProps<Locales extends string = string> = LocalizedEntit
   Locales
 >
 
-export type CreateConceptSchemeProps = Omit<ConceptSchemeProps, 'sys'>
+export type CreateConceptSchemeProps = Partial<Omit<ConceptSchemeProps, 'sys'>> &
+  Pick<ConceptSchemeProps, 'prefLabel'>
