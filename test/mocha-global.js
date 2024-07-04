@@ -12,7 +12,7 @@ const housekeeping = async () => {
     await Promise.all([cleanupTestSpaces(), cleanupTestEnvironmentTemplates(), cleanupTaxonomy()])
   } catch (err) {
     if (err.message === 'Missing credential') {
-      console.log('Skipped deletion of old test spaces due to missing credentials.')
+      console.log('Skipped deletion of old test entities due to missing credentials.')
     } else {
       console.log('Skipped deletion of old test spaces. Error:', err.message)
     }

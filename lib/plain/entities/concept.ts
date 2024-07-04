@@ -5,10 +5,11 @@ import {
   GetConceptParams,
   GetManyConceptParams,
   GetOrganizationParams,
+  UpdateConceptParams,
 } from '../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../entities/concept'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { Patch } from 'json-patch'
+import { OpPatch } from 'json-patch'
+import { SetOptional } from 'type-fest'
 
 export type ConceptPlainClientAPI = {
   /**
@@ -24,13 +25,12 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   create(
-    params: OptionalDefaults<GetOrganizationParams>,
+    params: SetOptional<GetOrganizationParams, 'organizationId'>,
     payload: CreateConceptProps
   ): Promise<ConceptProps>
 
   /**
    * Update Concept
-   * @param Concept patch
    * @returns the updated Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
@@ -38,14 +38,16 @@ export type ConceptPlainClientAPI = {
    * ```javascript
    * const updatedConcept = await client.concept.update({
    *   organizationId: '<organization_id>',
-   * }, conceptPatch);
+   * }, patch);
    * ```
    */
-  update(params: OptionalDefaults<GetConceptParams>, payload: Patch): Promise<ConceptProps>
+  update(
+    params: SetOptional<UpdateConceptParams, 'organizationId'>,
+    payload: OpPatch[]
+  ): Promise<ConceptProps>
 
   /**
    * Get Concept
-   * @param Concept ID
    * @returns the Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
@@ -57,27 +59,25 @@ export type ConceptPlainClientAPI = {
    * });
    * ```
    */
-  get(params: OptionalDefaults<GetConceptParams>): Promise<ConceptProps>
+  get(params: SetOptional<GetConceptParams, 'organizationId'>): Promise<ConceptProps>
 
   /**
    * Delete Concept
-   * @param Concept ID
    * @returns nothing
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
    * @example
    * ```javascript
-   * await client.concept.update({
-   *   organizationId: '<organization_id>',
+   * await client.concept.delete({
    *   conceptId: '<concept_id>',
+   *   version: 1,
    * });
    * ```
    */
-  delete(params: OptionalDefaults<DeleteConceptParams>): Promise<unknown>
+  delete(params: SetOptional<DeleteConceptParams, 'organizationId'>): Promise<void>
 
   /**
    * Get many Concepts
-   * @param query by string or ConceptScheme ID
    * @returns list of many Concepts
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-collection}
@@ -89,12 +89,11 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetManyConceptParams>
+    params: SetOptional<GetManyConceptParams, 'organizationId'>
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
    * Get number of total Concept
-   * @param Concept ID
    * @returns number of total Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/total-concepts}
@@ -105,11 +104,10 @@ export type ConceptPlainClientAPI = {
    * });
    * ```
    */
-  getTotal(params: OptionalDefaults<GetOrganizationParams>): Promise<{ total: number }>
+  getTotal(params: SetOptional<GetOrganizationParams, 'organizationId'>): Promise<{ total: number }>
 
   /**
    * Get descendant Concepts
-   * @param Concept ID
    * @returns list of Concepts
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/descendants}
@@ -122,12 +120,11 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getDescendants(
-    params: OptionalDefaults<GetConceptDescendantsParams>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
    * Get ancestor Concepts
-   * @param Concept ID
    * @returns list of ancestor Concepts
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/ancestors}
@@ -140,6 +137,6 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getAncestors(
-    params: OptionalDefaults<GetConceptDescendantsParams>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 }

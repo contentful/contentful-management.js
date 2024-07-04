@@ -1,5 +1,5 @@
 import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { OpPatch, Patch } from 'json-patch'
+import { OpPatch } from 'json-patch'
 import { Stream } from 'stream'
 import { AppActionProps, CreateAppActionProps } from './entities/app-action'
 import {
@@ -1117,7 +1117,7 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: Patch
+      payload: OpPatch[]
       return: ConceptProps
     }
     delete: {
@@ -1153,7 +1153,7 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptSchemeParams
-      payload: Patch
+      payload: OpPatch[]
       return: ConceptSchemeProps
     }
     get: {
@@ -2032,9 +2032,9 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
-export type UpdateConceptParams = GetConceptParams & { version: number }
-export type DeleteConceptParams = GetConceptParams & { version: number }
-export type GetConceptDescendantsParams = GetConceptParams & {
+export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
   query?: { depth?: number; pageUrl?: string }
 }
 export type GetManyConceptParams = GetOrganizationParams & {

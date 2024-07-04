@@ -11,7 +11,7 @@ import {
 import * as raw from './raw'
 import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../../entities/concept-scheme'
 import { RawAxiosRequestHeaders } from 'axios'
-import { Patch } from 'json-patch'
+import { OpPatch } from 'json-patch'
 
 function basePath(orgId: string) {
   return `/organizations/${orgId}/taxonomy/concept-schemes`
@@ -61,7 +61,7 @@ export const create: RestEndpoint<'ConceptScheme', 'create'> = (
 export const update: RestEndpoint<'ConceptScheme', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptSchemeParams,
-  data: Patch,
+  data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.patch<ConceptSchemeProps>(

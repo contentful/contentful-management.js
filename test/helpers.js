@@ -136,21 +136,42 @@ export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60
   await Promise.allSettled(cleanUpTemplates)
 }
 
-export const cleanupTaxonomy = async () => {
+export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
   console.log('Cleaning up taxonomy')
-  const client = initPlainClient()
-  const { items: concepts } = await client.concept.getMany({
-    organizationId: getTestOrganizationId(),
-  })
+  const client = initPlainClient({ organizationId: getTestOrganizationId() })
+  const { items: concepts } = await client.concept.getMany({})
+
+  const conceptsToBeDeleted = concepts.filter(
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+  )
+
+  if (conceptsToBeDeleted.length > 0) {
+    console.log(`Deleting ${conceptsToBeDeleted.length} concepts`)
+  }
+
   await Promise.all(
-    concepts
-      .filter((item) => Date.parse(item.sys.createdAt) > Date.now() - 10 * 60 * 1000)
-      .map((item) => client.concept.delete(item.sys.id))
+    conceptsToBeDeleted.map((item) =>
+      client.concept.delete({
+        conceptId: item.sys.id,
+        version: item.sys.version,
+      })
+    )
   )
   const { items: conceptSchemes } = await client.conceptScheme.getMany({})
+  const conceptSchemesToBeDeleted = conceptSchemes.filter(
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+  )
+
+  if (conceptSchemesToBeDeleted.length > 0) {
+    console.log(`Deleting ${conceptSchemesToBeDeleted.length} conceptSchemes`)
+  }
+
   await Promise.all(
-    conceptSchemes
-      .filter((item) => Date.parse(item.sys.createdAt) > Date.now() - 10 * 60 * 1000)
-      .map((item) => client.concept.delete(item.sys.id))
+    conceptSchemesToBeDeleted.map((item) =>
+      client.conceptScheme.delete({
+        conceptSchemeId: item.sys.id,
+        version: item.sys.version,
+      })
+    )
   )
 }

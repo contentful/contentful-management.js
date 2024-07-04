@@ -1,4 +1,3 @@
-import { OptionalDefaults } from '../wrappers/wrap'
 import {
   CursorPaginatedCollectionProp,
   DeleteConceptSchemeParams,
@@ -8,12 +7,12 @@ import {
   UpdateConceptSchemeParams,
 } from '../../common-types'
 import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
-import { Patch } from 'json-patch'
+import { OpPatch, Patch } from 'json-patch'
+import { SetOptional } from 'type-fest'
 
 export type ConceptSchemePlainClientAPI = {
   /**
    * Create Concept Scheme
-   * @param payload the Concept Scheme
    * @returns the created Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/create-a-concept-scheme}
@@ -25,14 +24,12 @@ export type ConceptSchemePlainClientAPI = {
    * ```
    */
   create(
-    params: OptionalDefaults<GetOrganizationParams>,
+    params: SetOptional<GetOrganizationParams, 'organizationId'>,
     payload: CreateConceptSchemeProps
   ): Promise<ConceptSchemeProps>
 
   /**
    * Update Concept Scheme
-   * @param params Concept Scheme ID and Concept Scheme version
-   * @param payload Concept Scheme patch
    * @returns the updated Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
@@ -44,13 +41,12 @@ export type ConceptSchemePlainClientAPI = {
    * ```
    */
   update(
-    params: OptionalDefaults<UpdateConceptSchemeParams>,
-    payload: Patch
+    params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
+    payload: OpPatch[]
   ): Promise<ConceptSchemeProps>
 
   /**
    * Get Concept Scheme
-   * @param params Concept Scheme ID
    * @returns the Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
@@ -62,11 +58,10 @@ export type ConceptSchemePlainClientAPI = {
    * });
    * ```
    */
-  get(params: OptionalDefaults<GetConceptSchemeParams>): Promise<ConceptSchemeProps>
+  get(params: SetOptional<GetConceptSchemeParams, 'organizationId'>): Promise<ConceptSchemeProps>
 
   /**
    * Get many Concept Schemes
-   * @param query parameters
    * @returns list of many Concept Schemes
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme-collection}
@@ -78,12 +73,11 @@ export type ConceptSchemePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetManyConceptSchemeParams>
+    params: SetOptional<GetManyConceptSchemeParams, 'organizationId'>
   ): Promise<CursorPaginatedCollectionProp<ConceptSchemeProps>>
 
   /**
    * Get number of total Concept Scheme
-   * @param no parameters
    * @returns number of total Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/total-concept-schemes}
@@ -94,11 +88,10 @@ export type ConceptSchemePlainClientAPI = {
    * });
    * ```
    */
-  getTotal(params: OptionalDefaults<GetOrganizationParams>): Promise<{ total: number }>
+  getTotal(params: SetOptional<GetOrganizationParams, 'organizationId'>): Promise<{ total: number }>
 
   /**
    * Delete Concept Scheme
-   * @param Concept Scheme ID
    * @returns nothing
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
@@ -110,5 +103,5 @@ export type ConceptSchemePlainClientAPI = {
    * });
    * ```
    */
-  delete(params: OptionalDefaults<DeleteConceptSchemeParams>): Promise<unknown>
+  delete(params: SetOptional<DeleteConceptSchemeParams, 'organizationId'>): Promise<void>
 }

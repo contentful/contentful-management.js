@@ -1,4 +1,3 @@
-import { SetOptional } from 'type-fest'
 import { Link } from '../common-types'
 import { LocalizedEntity } from './utils'
 
@@ -41,4 +40,5 @@ export type ConceptProps<Locales extends string = string> = LocalizedEntity<
   Locales
 >
 
-export type CreateConceptProps = SetOptional<Omit<ConceptProps, 'sys'>, 'broader' | 'related'>
+export type CreateConceptProps = Partial<Omit<ConceptProps, 'sys'>> &
+  Pick<ConceptProps, 'prefLabel'>

@@ -11,7 +11,7 @@ import {
   UpdateConceptParams,
 } from '../../../common-types'
 import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
-import { Patch } from 'json-patch'
+import { OpPatch } from 'json-patch'
 import { RawAxiosRequestHeaders } from 'axios'
 
 function basePath(organizationId: string) {
@@ -29,7 +29,7 @@ export const create: RestEndpoint<'Concept', 'create'> = (
 export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
-  data: Patch,
+  data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.patch<ConceptProps>(
@@ -39,6 +39,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
     {
       headers: {
         'X-Contentful-Version': params.version ?? 0,
+        'Content-Type': 'application/json-patch+json',
         ...headers,
       },
     }
