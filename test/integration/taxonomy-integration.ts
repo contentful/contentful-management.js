@@ -19,7 +19,6 @@ describe('Taxonomy Integration', () => {
 
   afterEach(async () => {
     for (const concept of conceptsToDelete) {
-      // Ensure we have the latest version of the concept
       const conceptToBeDeleted = await client.concept.get({
         conceptId: concept.sys.id,
       })
@@ -30,7 +29,6 @@ describe('Taxonomy Integration', () => {
     }
 
     for (const conceptScheme of conceptSchemesToDelete) {
-      // Ensure we have the latest version of the concept
       const conceptSchemeToBeDeleted = await client.conceptScheme.get({
         conceptSchemeId: conceptScheme.sys.id,
       })
@@ -135,6 +133,47 @@ describe('Taxonomy Integration', () => {
     expect(updatedConcept.uri).to.eql('https://example.com/concept')
   })
 
+  test('concept getTotal', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const concept: CreateConceptProps = {
+            prefLabel: {
+              'en-US': `Test Concept ${i}`,
+            },
+          }
+
+          const result = await client.concept.create({}, concept)
+          conceptsToDelete.push(result)
+        })
+    )
+
+    const { total: total } = await client.concept.getTotal({})
+
+    expect(total).to.eq(3)
+  })
+
+  test('get list of all concepts', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const concept: CreateConceptProps = {
+            prefLabel: {
+              'en-US': `Test Concept ${i}`,
+            },
+          }
+
+          const result = await client.concept.create({}, concept)
+          conceptsToDelete.push(result)
+        })
+    )
+
+    const { items } = await client.concept.getMany({})
+    expect(items.length).to.eq(3)
+  })
+
   test('create concept with broader concept', async () => {
     const first = await client.concept.create(
       {},
@@ -170,6 +209,46 @@ describe('Taxonomy Integration', () => {
       type: 'Link',
       linkType: 'TaxonomyConcept',
     })
+  })
+
+  test('ancestors & Descendants', async () => {
+    const first = await client.concept.create(
+      {},
+      {
+        prefLabel: {
+          'en-US': 'Test Concept 1',
+        },
+      }
+    )
+
+    const second = await client.concept.create(
+      {},
+      {
+        prefLabel: {
+          'en-US': 'Test Concept 2',
+        },
+        broader: [
+          {
+            sys: {
+              id: first.sys.id,
+              type: 'Link',
+              linkType: 'TaxonomyConcept',
+            },
+          },
+        ],
+      }
+    )
+
+    conceptsToDelete.push(second, first)
+    const { items: descendants } = await client.concept.getDescendants({ conceptId: first.sys.id })
+    expect(descendants.length).to.eq(1)
+    expect(descendants[0].sys.id).to.eq(second.sys.id)
+    expect(descendants[0].prefLabel['en-US']).to.equal('Test Concept 2')
+
+    const { items: ancestors } = await client.concept.getAncestors({ conceptId: second.sys.id })
+    expect(ancestors.length).to.eq(1)
+    expect(ancestors[0].sys.id).to.eq(first.sys.id)
+    expect(ancestors[0].prefLabel['en-US']).to.equal('Test Concept 1')
   })
 
   test('delete a conceptScheme', async () => {
@@ -250,6 +329,47 @@ describe('Taxonomy Integration', () => {
 
     isConceptSchemeProps(updatedConceptScheme)
     expect(updatedConceptScheme.uri).to.eql('https://example.com/updatedConceptScheme')
+  })
+
+  test('conceptScheme getTotal', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const conceptScheme: CreateConceptSchemeProps = {
+            prefLabel: {
+              'en-US': `Test ConceptScheme ${i}`,
+            },
+          }
+
+          const result = await client.conceptScheme.create({}, conceptScheme)
+          conceptSchemesToDelete.push(result)
+        })
+    )
+
+    const { total: total } = await client.conceptScheme.getTotal({})
+
+    expect(total).to.eq(3)
+  })
+
+  test('get list of all conceptsSchemes', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const conceptScheme: CreateConceptSchemeProps = {
+            prefLabel: {
+              'en-US': `Test Concept ${i}`,
+            },
+          }
+
+          const result = await client.conceptScheme.create({}, conceptScheme)
+          conceptSchemesToDelete.push(result)
+        })
+    )
+
+    const { items } = await client.conceptScheme.getMany({})
+    expect(items.length).to.eq(3)
   })
 })
 

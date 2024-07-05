@@ -137,7 +137,6 @@ export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60
 }
 
 export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
-  console.log('Cleaning up taxonomy')
   const client = initPlainClient({ organizationId: getTestOrganizationId() })
   const { items: concepts } = await client.concept.getMany({})
 
