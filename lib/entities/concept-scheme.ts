@@ -1,5 +1,6 @@
 import { LocalizedEntity } from './utils'
 import { TaxonomyConceptLink } from './concept'
+import { Link } from '../common-types'
 
 export type ConceptScheme = {
   uri: string | null
@@ -14,6 +15,8 @@ export type ConceptScheme = {
     updatedAt: string
     id: string
     version: number
+    createdBy: Link<'User'>
+    updatedBy: Link<'User'>
   }
 }
 

@@ -23,6 +23,8 @@ type Concept = {
     updatedAt: string
     id: string
     version: number
+    createdBy: Link<'User'>
+    updatedBy: Link<'User'>
   }
 }
 
