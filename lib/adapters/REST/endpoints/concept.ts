@@ -68,7 +68,6 @@ export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   params: GetManyConceptParams
 ) => {
   const { url, queryParams } = cursorBasedCollection('', params)
-  // console.log({url, queryParams})
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, {
     params: queryParams,
   })
