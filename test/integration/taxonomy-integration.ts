@@ -55,6 +55,12 @@ describe('Taxonomy Integration', () => {
       conceptId: result.sys.id,
       version: result.sys.version,
     })
+
+    await expect(
+      client.concept.get({
+        conceptId: result.sys.id,
+      })
+    ).to.be.rejectedWith('The resource could not be found')
   })
 
   test('create a concept with minimum input', async () => {
@@ -268,6 +274,12 @@ describe('Taxonomy Integration', () => {
       conceptSchemeId: result.sys.id,
       version: result.sys.version,
     })
+
+    await expect(
+      client.conceptScheme.get({
+        conceptSchemeId: result.sys.id,
+      })
+    ).to.be.rejectedWith('The resource could not be found')
   })
 
   test('create a conceptScheme with minimum input', async () => {
