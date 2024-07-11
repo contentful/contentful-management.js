@@ -1,12 +1,18 @@
-import { before, after } from 'mocha'
-import { cleanupTestSpaces, cleanupTestEnvironmentTemplates } from './helpers'
+import { after, before } from 'mocha'
+import { cleanupTaxonomy, cleanupTestEnvironmentTemplates, cleanupTestSpaces } from './helpers'
+
+const isCircleCI = !!process.env.CIRCLECI
 
 const housekeeping = async () => {
+  if (!isCircleCI) {
+    return
+  }
+
   try {
-    await Promise.all([cleanupTestSpaces(), cleanupTestEnvironmentTemplates()])
+    await Promise.all([cleanupTestSpaces(), cleanupTestEnvironmentTemplates(), cleanupTaxonomy()])
   } catch (err) {
     if (err.message === 'Missing credential') {
-      console.log('Skipped deletion of old test spaces due to missing credentials.')
+      console.log('Skipped deletion of old test entities due to missing credentials.')
     } else {
       console.log('Skipped deletion of old test spaces. Error:', err.message)
     }

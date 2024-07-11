@@ -15,6 +15,8 @@ import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
+import * as Concept from './concept'
+import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -72,6 +74,8 @@ export default {
   AssetKey,
   BulkAction,
   Comment,
+  Concept,
+  ConceptScheme,
   ContentType,
   EditorInterface,
   Entry,

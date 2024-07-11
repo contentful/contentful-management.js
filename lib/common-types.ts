@@ -9,7 +9,11 @@ import {
 } from './entities/app-action-call'
 import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from './entities/app-definition'
 import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
 import {
   AssetFileProp,
@@ -19,25 +23,24 @@ import {
 } from './entities/asset'
 import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import {
+  CommentProps,
   CreateCommentParams,
   CreateCommentProps,
   DeleteCommentParams,
-  CommentProps,
+  GetCommentParentEntityParams,
+  GetManyCommentsParams,
+  PlainTextBodyFormat,
+  RichTextBodyFormat,
+  RichTextCommentBodyPayload,
+  RichTextCommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
-  GetManyCommentsParams,
-  RichTextBodyFormat,
-  RichTextCommentProps,
-  PlainTextBodyFormat,
-  RichTextCommentBodyPayload,
-  GetCommentParentEntityParams,
 } from './entities/comment'
 import { EditorInterfaceProps } from './entities/editor-interface'
 import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
 import { CreateLocaleProps, LocaleProps } from './entities/locale'
-import { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import { OrganizationProp } from './entities/organization'
 import {
   CreateOrganizationInvitationProps,
@@ -140,8 +143,8 @@ import {
 import {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
-  ValidateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
 import { FunctionProps } from './entities/function'
 import {
@@ -150,6 +153,8 @@ import {
 } from './entities/app-event-subscription'
 import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
+import { ConceptProps, CreateConceptProps } from './entities/concept'
+import { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -420,6 +425,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
+
+  (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
+  (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
+  (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
+  (opts: MROpts<'Concept', 'getDescendants', UA>): MRReturn<'Concept', 'getDescendants'>
+  (opts: MROpts<'Concept', 'create', UA>): MRReturn<'Concept', 'create'>
+  (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
+  (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
+
+  (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
+  (opts: MROpts<'ConceptScheme', 'getMany', UA>): MRReturn<'ConceptScheme', 'getMany'>
+  (opts: MROpts<'ConceptScheme', 'getTotal', UA>): MRReturn<'ConceptScheme', 'getTotal'>
+  (opts: MROpts<'ConceptScheme', 'create', UA>): MRReturn<'ConceptScheme', 'create'>
+  (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
+  (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -1088,6 +1108,70 @@ export type MRActions = {
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
+  }
+  Concept: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptProps
+      return: ConceptProps
+    }
+    update: {
+      params: UpdateConceptParams
+      payload: OpPatch[]
+      return: ConceptProps
+    }
+    delete: {
+      params: DeleteConceptParams
+      return: void
+    }
+    get: {
+      params: GetConceptParams
+      return: ConceptProps
+    }
+    getMany: {
+      params: GetManyConceptParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
+    getDescendants: {
+      params: GetConceptDescendantsParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+    getAncestors: {
+      params: GetConceptDescendantsParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+  }
+  ConceptScheme: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptSchemeProps
+      return: ConceptSchemeProps
+    }
+    update: {
+      params: UpdateConceptSchemeParams
+      payload: OpPatch[]
+      return: ConceptSchemeProps
+    }
+    get: {
+      params: GetConceptSchemeParams
+      return: ConceptSchemeProps
+    }
+    getMany: {
+      params: GetManyConceptSchemeParams
+      return: CursorPaginatedCollectionProp<ConceptSchemeProps>
+    }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
+    delete: {
+      params: DeleteConceptSchemeParams
+      return: void
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1947,6 +2031,33 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
+  query?: { depth?: number; pageUrl?: string }
+}
+export type GetManyConceptParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+        Omit<PaginationQueryOptions, 'skip'>)
+}
+
+export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+export type GetManyConceptSchemeParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+}
+export type DeleteConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
+}
+export type UpdateConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
+}
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
@@ -1962,6 +2073,7 @@ export type GetUserUIConfigParams = GetUIConfigParams
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
 }

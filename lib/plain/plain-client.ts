@@ -103,6 +103,24 @@ export const createPlainClient = (
     appAccessToken: {
       create: wrap(wrapParams, 'AppAccessToken', 'create'),
     },
+    concept: {
+      create: wrap(wrapParams, 'Concept', 'create'),
+      get: wrap(wrapParams, 'Concept', 'get'),
+      delete: wrap(wrapParams, 'Concept', 'delete'),
+      update: wrap(wrapParams, 'Concept', 'update'),
+      getMany: wrap(wrapParams, 'Concept', 'getMany'),
+      getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
+      getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
+      getTotal: wrap(wrapParams, 'Concept', 'getTotal'),
+    },
+    conceptScheme: {
+      get: wrap(wrapParams, 'ConceptScheme', 'get'),
+      getMany: wrap(wrapParams, 'ConceptScheme', 'getMany'),
+      getTotal: wrap(wrapParams, 'ConceptScheme', 'getTotal'),
+      delete: wrap(wrapParams, 'ConceptScheme', 'delete'),
+      create: wrap(wrapParams, 'ConceptScheme', 'create'),
+      update: wrap(wrapParams, 'ConceptScheme', 'update'),
+    },
     function: {
       getMany: wrap(wrapParams, 'Function', 'getMany'),
     },
