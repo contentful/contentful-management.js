@@ -1091,7 +1091,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         entityType: 'AppAction',
         action: 'delete',
         params: { organizationId: raw.sys.id, appDefinitionId, appActionId },
-      }).then((payload) => {
+      }).then(() => {
         /* noop*/
       })
     },
