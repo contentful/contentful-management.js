@@ -1,23 +1,23 @@
-import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
+import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import { OpPatch } from 'json-patch'
 import {
+  BasicCursorPaginationOptions,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  EnvironmentTemplateParams,
   GetAppDefinitionParams,
+  GetBulkActionParams,
   GetContentTypeParams,
+  GetEnvironmentTemplateParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   KeyValueMap,
   QueryParams,
-  GetBulkActionParams,
-  GetReleaseParams,
-  CursorPaginatedCollectionProp,
-  GetEnvironmentTemplateParams,
-  BasicCursorPaginationOptions,
-  EnvironmentTemplateParams,
 } from '../common-types'
 import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
 import {
@@ -43,8 +43,8 @@ import {
 } from '../entities/access-token'
 import { PreviewApiKeyProps } from '../entities/preview-api-key'
 import {
-  ScheduledActionProps,
   CreateUpdateScheduledActionProps,
+  ScheduledActionProps,
 } from '../entities/scheduled-action'
 import { SnapshotProps } from '../entities/snapshot'
 import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
@@ -111,6 +111,8 @@ import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-members
 import { TeamPlainClientAPI } from './entities/team'
 import { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
+import { ConceptPlainClientAPI } from './entities/concept'
+import { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
 
 export type PlainClientAPI = {
   raw: {
@@ -224,6 +226,8 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: CommentPlainClientAPI
+  concept: ConceptPlainClientAPI
+  conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
