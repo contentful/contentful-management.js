@@ -7,7 +7,7 @@ import {
   UpdateConceptSchemeParams,
 } from '../../common-types'
 import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
-import { OpPatch, Patch } from 'json-patch'
+import { OpPatch } from 'json-patch'
 import { SetOptional } from 'type-fest'
 
 export type ConceptSchemePlainClientAPI = {
