@@ -1,3 +1,5 @@
+import { MakeRequest } from '../../../lib/common-types'
+import { ContentType } from '../../../lib/entities/content-type'
 import { ContentTypeSetupType } from '../entities/content-type.test'
 import { cloneMock, errorMock, mockCollection } from '../mocks/entities'
 import { expect, vi } from 'vitest'
@@ -59,36 +61,14 @@ export async function entityPublishTest(setup, { wrapperMethod }) {
   await entityActionTest(setup, { wrapperMethod, actionMethod: 'publish' })
 }
 
-export async function failingActionTest(setup: ContentTypeSetupType, { wrapperMethod, actionMethod }) {
+export async function failingActionTest(
+  setup: ContentTypeSetupType,
+  { wrapperMethod, actionMethod }
+) {
   const error = cloneMock('error') as typeof errorMock
-  console.dir({ actionMethod, error, type: typeof error }, { depth: null })
-  
-  const errorToBeThrown = error // new Error("mocked-error")
-  // console.log({ errorToBeThrown })
-  
-  const { makeRequest, entityMock } = setup(
-    Promise.reject({})
-  )
+  const { makeRequest, entityMock } = setup(Promise.reject(error))
   const entity = wrapperMethod(makeRequest, entityMock)
-  // const res = await entity[actionMethod]()
-  // console.dir(
-  //   {
-  //     res,
-  //     entity,
-  //     keys: Object.keys(entity),
-  //     method: entity[actionMethod],
-  //     typeMethod: typeof entity[actionMethod],
-  //   },
-  //   { depth: null }
-  // )
-  // expect(res).toStrictEqual(error)
-  await expect(entity[actionMethod]).rejects.toBe(errorToBeThrown)
-  // try {
-  //   const res = await entity[actionMethod]()
-  //   console.log({res})
-  // } catch (cathErr) {
-  //   console.log({cathErr})
-  // }
+  await expect(async () => await entity[actionMethod]()).rejects.toBe(error)
 }
 
 export async function failingVersionActionTest(setup, { wrapperMethod, actionMethod }) {
@@ -140,27 +120,34 @@ export async function isArchivedTest(setup, { wrapperMethod }) {
   expect(archivedEntity.isArchived(), 'entity is now archived').to.be.true
 }
 
-export async function omitAndDeleteFieldTest(setup: ContentTypeSetupType, { wrapperMethod }) {
-  const setupData = setup(Promise.reject(errorMock))
-  setupData.entityMock.fields = [
-    {
-      id: 'title',
-      name: 'Title',
-      value: 'myTitle',
-      omitted: false,
-      deleted: false,
-    },
-  ]
+type Setup = (a: Promise<unknown>) => { makeRequest: MakeRequest; entityMock: ContentType }
+
+export async function omitAndDeleteFieldTest(setup: Setup, { wrapperMethod }) {
+  const titleField = {
+    id: 'title',
+    name: 'Title',
+    omitted: false,
+    deleted: false,
+    localized: false,
+    required: false,
+    type: 'mocked',
+  }
+  const setupData = setup(
+    Promise.resolve({
+      fields: [titleField],
+    })
+  )
+  setupData.entityMock.fields = [titleField]
   /* Since this method calls update() 2x, first call needs to return a properly wrapped entity. */
-  const makeRequestSpy = vi.spyOn(setupData, 'entityMock')
-  // const plainEntity = wrapperMethod(setupData.makeRequest, setupData.entityMock)
+  const makeRequestSpy = vi.spyOn(setupData, 'makeRequest')
 
   const entity = wrapperMethod(setupData.makeRequest, setupData.entityMock)
   return entity.omitAndDeleteField('title').then((response) => {
     expect(response.toPlainObject, 'response is wrapped').to.be.ok
+    // @todo type is not correct, it complains that payload does not exist (but it does)
     expect(
       makeRequestSpy.mock.calls[0][0].payload.fields.find((field) => field.id === 'title').omitted
-    ).equals(true, 'omitted was set to true in the first update')
+    ).equals(true, 'omitted was se  t to true in the first update')
     expect(
       makeRequestSpy.mock.calls[1][0].payload.fields.find((field) => field.id === 'title').deleted
     ).equals(true, 'deleted was set to true in the first update')

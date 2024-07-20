@@ -2,6 +2,7 @@ import { vi } from 'vitest'
 
 import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
+import { ContentFields } from '../../../lib/entities/content-type-fields'
 
 const linkMock = {
   id: 'linkid',
@@ -361,7 +362,7 @@ const contentTypeMock = {
       localized: true,
       required: false,
     },
-  ],
+  ] as ContentFields<unknown>[],
 }
 const snapShotMock = {
   sys: Object.assign(cloneDeep(sysMock), {

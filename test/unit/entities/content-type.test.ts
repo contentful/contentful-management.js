@@ -60,7 +60,7 @@ describe('Entity ContentType', () => {
     })
   })
 
-  test.only('ContentType delete fails', async () => {
+  test('ContentType delete fails', async () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapContentType,
       actionMethod: 'delete',
