@@ -16,6 +16,7 @@ import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
+export { fetchAll } from './plain/pagination-helper'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
