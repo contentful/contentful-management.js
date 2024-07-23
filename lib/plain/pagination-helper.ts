@@ -9,7 +9,11 @@ export type OffsetBasedParams = { query?: PaginationQueryOptions }
 export type CursorBasedParams = { query?: BasicCursorPaginationOptions }
 
 type ExpectedParams = OffsetBasedParams | CursorBasedParams
-type IterableCollection<T> = CollectionProp<T> | CursorPaginatedCollectionProp<T>
+/**
+ * `sys.type` tends to cause type clashes downstream because it more commonly types less strict
+ * as 'string'. Because we don't rely on it for this functionality, we are fine with omitting it.
+ */
+type IterableCollection<T> = Omit<CollectionProp<T> | CursorPaginatedCollectionProp<T>, 'sys'>
 export type FetchFn<P extends ExpectedParams, T = unknown> = (
   params: P
 ) => Promise<IterableCollection<T>>
