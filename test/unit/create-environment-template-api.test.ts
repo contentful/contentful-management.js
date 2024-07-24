@@ -3,11 +3,9 @@ import {
   environmentTemplateMock,
   environmentTemplateValidationMock,
 } from './mocks/entities'
-import { describe, test } from 'mocha'
-import { expect } from 'chai'
+import { describe, test, expect } from 'vitest'
 import setupMakeRequest from './mocks/makeRequest'
 import { createEnvironmentTemplateApi } from '../../lib/create-environment-template-api'
-import type { SinonStub } from 'sinon'
 import { makeLink } from '../utils'
 
 const organizationId = 'test-organization-id'
@@ -22,7 +20,7 @@ function setup<T>(promise: Promise<T>) {
       ...api,
       toPlainObject: () => environmentTemplateMock,
     },
-    makeRequest: makeRequest as SinonStub,
+    makeRequest,
   }
 }
 
@@ -32,14 +30,12 @@ describe('createEnvironmentTemplateApi', () => {
     const template = await api.update()
     expect(template.toPlainObject()).to.eql(environmentTemplateMock)
 
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'update',
-        params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
-        payload: environmentTemplateMock,
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'update',
+      params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
+      payload: environmentTemplateMock,
+    })
   })
 
   test('API call update version', async () => {
@@ -51,30 +47,26 @@ describe('createEnvironmentTemplateApi', () => {
     const template = await api.updateVersion({ versionName, versionDescription })
     expect(template.toPlainObject()).to.eql(updatedTemplate)
 
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'versionUpdate',
-        params: {
-          organizationId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-          version: environmentTemplateMock.sys.version,
-        },
-        payload: { versionName, versionDescription },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'versionUpdate',
+      params: {
+        organizationId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+        version: environmentTemplateMock.sys.version,
+      },
+      payload: { versionName, versionDescription },
+    })
   })
 
   test('API call delete', async () => {
     const { api, makeRequest } = setup(Promise.resolve({}))
     expect(await api.delete()).not.throw
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'delete',
-        params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'delete',
+      params: { organizationId, environmentTemplateId: environmentTemplateMock.sys.id },
+    })
   })
 
   test('API call environment template versions', async () => {
@@ -87,16 +79,14 @@ describe('createEnvironmentTemplateApi', () => {
     const [version1, version2] = (await api.getVersions()).items
     expect(version1.toPlainObject()).to.eql(versions[0])
     expect(version2.toPlainObject()).to.eql(versions[1])
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'versions',
-        params: {
-          organizationId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'versions',
+      params: {
+        organizationId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+      },
+    })
   })
 
   test('API call installations', async () => {
@@ -114,19 +104,17 @@ describe('createEnvironmentTemplateApi', () => {
     const [installation1, installation2] = (await api.getInstallations()).items
     expect(installation1.toPlainObject()).to.eql(installations[0])
     expect(installation2.toPlainObject()).to.eql(installations[1])
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplateInstallation',
-        action: 'getMany',
-        params: {
-          organizationId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-          spaceId: undefined,
-          environmentId: undefined,
-          query: {},
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplateInstallation',
+      action: 'getMany',
+      params: {
+        organizationId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+        spaceId: undefined,
+        environmentId: undefined,
+        query: {},
+      },
+    })
   })
 
   test('API call installations with spaceId and environmentId', async () => {
@@ -145,19 +133,17 @@ describe('createEnvironmentTemplateApi', () => {
       .items
     expect(installation1.toPlainObject()).to.eql(installations[0])
     expect(installation2.toPlainObject()).to.eql(installations[1])
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplateInstallation',
-        action: 'getMany',
-        params: {
-          organizationId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-          spaceId,
-          environmentId,
-          query: {},
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplateInstallation',
+      action: 'getMany',
+      params: {
+        organizationId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+        spaceId,
+        environmentId,
+        query: {},
+      },
+    })
   })
 
   test('API call validate', async () => {
@@ -170,19 +156,17 @@ describe('createEnvironmentTemplateApi', () => {
     })
 
     expect(validationResult).to.eql(environmentTemplateValidationMock)
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'validate',
-        params: {
-          spaceId,
-          environmentId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-          version,
-        },
-        payload: {},
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'validate',
+      params: {
+        spaceId,
+        environmentId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+        version,
+      },
+      payload: {},
+    })
   })
 
   test('API call install', async () => {
@@ -197,36 +181,32 @@ describe('createEnvironmentTemplateApi', () => {
     })
 
     expect(installation).to.eql(environmentTemplateInstallationMock)
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'install',
-        params: {
-          spaceId,
-          environmentId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-        },
-        payload: {
-          version,
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'install',
+      params: {
+        spaceId,
+        environmentId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+      },
+      payload: {
+        version,
+      },
+    })
   })
 
   test('API call disconnect environment template', async () => {
     const { api, makeRequest } = setup(Promise.resolve())
 
     expect(await api.disconnect({ spaceId, environmentId })).not.to.throw
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplate',
-        action: 'disconnect',
-        params: {
-          spaceId,
-          environmentId,
-          environmentTemplateId: environmentTemplateMock.sys.id,
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplate',
+      action: 'disconnect',
+      params: {
+        spaceId,
+        environmentId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+      },
+    })
   })
 })

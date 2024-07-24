@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
+import { describe, test, expect } from 'vitest'
 import sinon from 'sinon'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
