@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetSpaceParams,
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   QueryParams,
 } from '../../common-types'
-import {
+import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
@@ -17,7 +17,7 @@ import {
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from '../../entities/webhook'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type WebhookPlainClientAPI = {
   // Webhooks

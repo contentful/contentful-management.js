@@ -1,6 +1,6 @@
-import { GetUserUIConfigParams } from '../../common-types'
-import { UserUIConfigProps } from '../../entities/user-ui-config'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { GetUserUIConfigParams } from '../../common-types'
+import type { UserUIConfigProps } from '../../entities/user-ui-config'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type UserUIConfigPlainClientAPI = {
   /**

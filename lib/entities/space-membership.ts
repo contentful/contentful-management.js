@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import type { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }

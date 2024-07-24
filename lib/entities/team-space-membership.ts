@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import {
+import type {
   DefaultElements,
   MakeRequest,
   MetaLinkProps,

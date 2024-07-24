@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
-import { PlainClientAPI } from '../../lib/contentful-management'
-import { Environment } from '../../lib/entities/environment'
-import { Space } from '../../lib/entities/space'
+import type { PlainClientAPI } from '../../lib/contentful-management'
+import type { Environment } from '../../lib/entities/environment'
+import type { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'
 

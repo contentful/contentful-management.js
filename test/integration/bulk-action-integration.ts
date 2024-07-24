@@ -3,14 +3,14 @@ import { expect } from 'chai'
 import { cloneDeep } from 'lodash'
 import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
-import {
-  BulkActionStatus,
+import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../../lib/entities/bulk-action'
-import { Environment } from '../../lib/entities/environment'
-import { Space } from '../../lib/entities/space'
+import { BulkActionStatus } from '../../lib/entities/bulk-action'
+import type { Environment } from '../../lib/entities/environment'
+import type { Space } from '../../lib/entities/space'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'

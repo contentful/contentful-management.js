@@ -1,6 +1,9 @@
-import { GetAppInstallationParams } from '../../common-types'
-import { AppAccessTokenProps, CreateAppAccessTokenProps } from '../../entities/app-access-token'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { GetAppInstallationParams } from '../../common-types'
+import type {
+  AppAccessTokenProps,
+  CreateAppAccessTokenProps,
+} from '../../entities/app-access-token'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppAccessTokenPlainClientAPI = {
   /**

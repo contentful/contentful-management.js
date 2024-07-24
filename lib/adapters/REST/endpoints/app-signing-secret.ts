@@ -1,11 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   CreateAppSigningSecretProps,
   AppSigningSecretProps,
 } from '../../../entities/app-signing-secret'
 import * as raw from './raw'
-import { RestEndpoint } from '../types'
-import { GetAppDefinitionParams } from '../../../common-types'
+import type { RestEndpoint } from '../types'
+import type { GetAppDefinitionParams } from '../../../common-types'
 
 export const get: RestEndpoint<'AppSigningSecret', 'get'> = (
   http: AxiosInstance,

@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { before, describe, test, after } from 'mocha'
 import { initClient, createTestEnvironment, createTestSpace, initPlainClient } from '../helpers'
-import { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
+import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Comment Api', () => {
   let plainClient: PlainClientAPI

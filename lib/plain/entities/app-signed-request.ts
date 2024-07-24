@@ -1,9 +1,9 @@
-import { GetAppInstallationParams } from '../../common-types'
-import {
+import type { GetAppInstallationParams } from '../../common-types'
+import type {
   AppSignedRequestProps,
   CreateAppSignedRequestProps,
 } from '../../entities/app-signed-request'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppSignedRequestPlainClientAPI = {
   /**

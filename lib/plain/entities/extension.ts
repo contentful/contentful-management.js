@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetExtensionParams,
   GetSpaceEnvironmentParams,
   QueryParams,
 } from '../../common-types'
-import { CreateExtensionProps, ExtensionProps } from '../../entities/extension'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { CreateExtensionProps, ExtensionProps } from '../../entities/extension'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ExtensionPlainClientAPI = {
   /**

@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
 } from '../../common-types'
-import { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EnvironmentPlainClientAPI = {
   /**

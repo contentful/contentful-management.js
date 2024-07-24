@@ -1,5 +1,5 @@
-import { KeyValueMap } from '../common-types'
-import { INLINES, BLOCKS } from '@contentful/rich-text-types'
+import type { KeyValueMap } from '../common-types'
+import type { INLINES, BLOCKS } from '@contentful/rich-text-types'
 
 interface NumRange {
   min?: number

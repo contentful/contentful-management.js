@@ -1,9 +1,9 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import { GetUserUIConfigParams } from '../../../common-types'
-import { UserUIConfigProps } from '../../../entities/user-ui-config'
-import { RestEndpoint } from '../types'
+import type { SetOptional } from 'type-fest'
+import type { GetUserUIConfigParams } from '../../../common-types'
+import type { UserUIConfigProps } from '../../../entities/user-ui-config'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getUrl = (params: GetUserUIConfigParams) =>

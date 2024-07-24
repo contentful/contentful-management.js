@@ -4,17 +4,17 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
+import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
 import entities from './entities'
-import { CreateApiKeyProps } from './entities/api-key'
-import { CreateEnvironmentProps } from './entities/environment'
-import { CreateEnvironmentAliasProps } from './entities/environment-alias'
-import { CreateRoleProps, RoleProps } from './entities/role'
-import { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
-import { SpaceProps } from './entities/space'
-import { CreateSpaceMembershipProps } from './entities/space-membership'
-import { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
-import {
+import type { CreateApiKeyProps } from './entities/api-key'
+import type { CreateEnvironmentProps } from './entities/environment'
+import type { CreateEnvironmentAliasProps } from './entities/environment-alias'
+import type { CreateRoleProps, RoleProps } from './entities/role'
+import type { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
+import type { SpaceProps } from './entities/space'
+import type { CreateSpaceMembershipProps } from './entities/space-membership'
+import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
+import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookRetryPolicyPayload,

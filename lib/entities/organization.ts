@@ -1,9 +1,10 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import createOrganizationApi, { ContentfulOrganizationAPI } from '../create-organization-api'
+import type { ContentfulOrganizationAPI } from '../create-organization-api'
+import createOrganizationApi from '../create-organization-api'
 import { wrapCollection } from '../common-utils'
-import { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type Organization = DefaultElements<OrganizationProp> &
   OrganizationProp &

@@ -1,13 +1,13 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetTeamParams,
   GetOrganizationParams,
   QueryParams,
   CollectionProp,
   GetSpaceParams,
 } from '../../common-types'
-import { TeamProps, CreateTeamProps } from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { TeamProps, CreateTeamProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamPlainClientAPI = {
   /**

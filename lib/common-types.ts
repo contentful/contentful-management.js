@@ -1,28 +1,24 @@
-import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { OpPatch } from 'json-patch'
-import { Stream } from 'stream'
-import { AppActionProps, CreateAppActionProps } from './entities/app-action'
-import {
+import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
+import type { OpPatch } from 'json-patch'
+import type { Stream } from 'stream'
+import type { AppActionProps, CreateAppActionProps } from './entities/app-action'
+import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
-import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
-import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import {
-  AppDefinitionProps,
-  AppInstallationsForOrganizationProps,
-  CreateAppDefinitionProps,
-} from './entities/app-definition'
-import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
-import {
+import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
+import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+import type { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
+import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from './entities/asset'
-import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import {
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import type {
   CommentProps,
   CreateCommentParams,
   CreateCommentProps,
@@ -36,43 +32,47 @@ import {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
-import { EditorInterfaceProps } from './entities/editor-interface'
-import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
-import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
-import { CreateLocaleProps, LocaleProps } from './entities/locale'
-import { OrganizationProp } from './entities/organization'
-import {
+import type { EditorInterfaceProps } from './entities/editor-interface'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
+import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
+import type {
+  CreateEnvironmentAliasProps,
+  EnvironmentAliasProps,
+} from './entities/environment-alias'
+import type { CreateLocaleProps, LocaleProps } from './entities/locale'
+import type { AppInstallationsForOrganizationProps } from './entities/app-definition'
+import type { OrganizationProp } from './entities/organization'
+import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
 } from './entities/organization-invitation'
-import { OrganizationMembershipProps } from './entities/organization-membership'
-import {
+import type { OrganizationMembershipProps } from './entities/organization-membership'
+import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProp,
 } from './entities/personal-access-token'
-import {
+import type {
   AccessTokenProp,
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from './entities/access-token'
-import { PreviewApiKeyProps } from './entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from './entities/role'
-import { ScheduledActionProps } from './entities/scheduled-action'
-import { SnapshotProps } from './entities/snapshot'
-import { SpaceProps } from './entities/space'
-import { SpaceMemberProps } from './entities/space-member'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
-import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
-import { CreateTeamProps, TeamProps } from './entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
-import {
+import type { PreviewApiKeyProps } from './entities/preview-api-key'
+import type { CreateRoleProps, RoleProps } from './entities/role'
+import type { ScheduledActionProps } from './entities/scheduled-action'
+import type { SnapshotProps } from './entities/snapshot'
+import type { SpaceProps } from './entities/space'
+import type { SpaceMemberProps } from './entities/space-member'
+import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
+import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
+import type { CreateTeamProps, TeamProps } from './entities/team'
+import type { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
+import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import { CreateExtensionProps, ExtensionProps } from './entities/extension'
-import { UsageProps } from './entities/usage'
-import { UserProps } from './entities/user'
-import {
+import type { CreateExtensionProps, ExtensionProps } from './entities/extension'
+import type { UsageProps } from './entities/usage'
+import type { UserProps } from './entities/user'
+import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
@@ -83,30 +83,36 @@ import {
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from './entities/webhook'
-import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
-import { AppUploadProps } from './entities/app-upload'
-import { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
-import { AppSignedRequestProps, CreateAppSignedRequestProps } from './entities/app-signed-request'
-import { AppSigningSecretProps, CreateAppSigningSecretProps } from './entities/app-signing-secret'
-import {
+import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type { AppUploadProps } from './entities/app-upload'
+import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
+import type {
+  AppSignedRequestProps,
+  CreateAppSignedRequestProps,
+} from './entities/app-signed-request'
+import type {
+  AppSigningSecretProps,
+  CreateAppSigningSecretProps,
+} from './entities/app-signing-secret'
+import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from './entities/bulk-action'
-import {
+import type {
   ReleasePayload,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from './entities/release'
-import {
+import type {
   ReleaseAction,
   ReleaseActionProps,
   ReleaseActionQueryOptions,
 } from './entities/release-action'
 
-import {
+import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
@@ -115,14 +121,14 @@ import {
   UpdateTaskProps,
 } from './entities/task'
 
-import {
+import type {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
 } from './entities/workflow-definition'
-import {
+import type {
   CompleteWorkflowParams,
   CreateWorkflowParams,
   CreateWorkflowProps,
@@ -130,31 +136,31 @@ import {
   WorkflowProps,
   WorkflowQueryOptions,
 } from './entities/workflow'
-import {
+import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
-import { UIConfigProps } from './entities/ui-config'
-import { UserUIConfigProps } from './entities/user-ui-config'
-import {
+import type { UIConfigProps } from './entities/ui-config'
+import type { UserUIConfigProps } from './entities/user-ui-config'
+import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from './entities/environment-template'
-import {
+import type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
-import { FunctionProps } from './entities/function'
-import {
+import type { FunctionProps } from './entities/function'
+import type {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
 } from './entities/app-event-subscription'
-import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
-import { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
-import { ConceptProps, CreateConceptProps } from './entities/concept'
-import { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
+import type { ConceptProps, CreateConceptProps } from './entities/concept'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
