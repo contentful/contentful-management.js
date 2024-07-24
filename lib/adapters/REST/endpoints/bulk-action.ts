@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { GetBulkActionParams, GetSpaceEnvironmentParams } from '../../../common-types'
-import {
+import type { GetBulkActionParams, GetSpaceEnvironmentParams } from '../../../common-types'
+import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../../../entities/bulk-action'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const get: RestEndpoint<'BulkAction', 'get'> = (

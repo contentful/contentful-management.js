@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   DefaultElements,
   ISO8601Timestamp,
   Link,
@@ -10,7 +10,8 @@ import {
   VersionedLink,
 } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../methods/action'
+import type { AsyncActionProcessingOptions } from '../methods/action'
+import { pollAsyncActionStatus } from '../methods/action'
 
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'

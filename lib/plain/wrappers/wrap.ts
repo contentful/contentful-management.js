@@ -1,4 +1,4 @@
-import { MakeRequest, MRActions, MRReturn } from '../../common-types'
+import type { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string

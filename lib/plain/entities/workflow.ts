@@ -1,6 +1,6 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
+import type {
   CreateWorkflowParams,
   UpdateWorkflowParams,
   CompleteWorkflowParams,
@@ -10,7 +10,7 @@ import {
   UpdateWorkflowProps,
   DeleteWorkflowParams,
 } from '../../entities/workflow'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type WorkflowPlainClientAPI = {
   /**

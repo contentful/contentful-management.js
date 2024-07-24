@@ -1,4 +1,4 @@
-import {
+import type {
   CursorPaginatedCollectionProp,
   DeleteConceptSchemeParams,
   GetConceptSchemeParams,
@@ -6,9 +6,9 @@ import {
   GetOrganizationParams,
   UpdateConceptSchemeParams,
 } from '../../common-types'
-import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
-import { OpPatch } from 'json-patch'
-import { SetOptional } from 'type-fest'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
+import type { OpPatch } from 'json-patch'
+import type { SetOptional } from 'type-fest'
 
 export type ConceptSchemePlainClientAPI = {
   /**

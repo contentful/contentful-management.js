@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Except, JsonValue, SetOptional } from 'type-fest'
-import {
+import type { Except, JsonValue, SetOptional } from 'type-fest'
+import type {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,

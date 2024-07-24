@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { SetOptional } from 'type-fest'
-import { GetUIConfigParams } from '../../../common-types'
-import { UIConfigProps } from '../../../entities/ui-config'
-import { RestEndpoint } from '../types'
+import type { SetOptional } from 'type-fest'
+import type { GetUIConfigParams } from '../../../common-types'
+import type { UIConfigProps } from '../../../entities/ui-config'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import copy from 'fast-copy'
 

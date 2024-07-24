@@ -1,8 +1,11 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import { Stream } from 'stream'
-import { GetSpaceEnvironmentParams, GetSpaceEnvironmentUploadParams } from '../../../common-types'
+import type { Stream } from 'stream'
+import type {
+  GetSpaceEnvironmentParams,
+  GetSpaceEnvironmentUploadParams,
+} from '../../../common-types'
 import { getUploadHttpClient } from '../../../upload-http-client'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUploadUrl = (params: GetSpaceEnvironmentParams) => {

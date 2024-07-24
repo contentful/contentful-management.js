@@ -1,8 +1,12 @@
-import { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
+import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import { CollectionProp, GetSpaceEnvironmentParams, GetWorkflowParams } from '../../../common-types'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetWorkflowParams,
+} from '../../../common-types'
+import type {
   CompleteWorkflowParams,
   CreateWorkflowParams,
   CreateWorkflowProps,
@@ -12,7 +16,7 @@ import {
   WorkflowProps,
   WorkflowQueryOptions,
 } from '../../../entities/workflow'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>

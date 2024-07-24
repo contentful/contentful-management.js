@@ -1,7 +1,7 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import { GetSpaceEnvironmentParams, QueryParams, CollectionProp } from '../../common-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateLocaleProps, LocaleProps } from '../../entities/locale'
+import type { RawAxiosRequestHeaders } from 'axios'
+import type { GetSpaceEnvironmentParams, QueryParams, CollectionProp } from '../../common-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type { CreateLocaleProps, LocaleProps } from '../../entities/locale'
 
 export type LocalePlainClientAPI = {
   /**

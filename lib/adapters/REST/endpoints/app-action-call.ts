@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
-import { RestEndpoint } from '../types'
-import {
+import type { RestEndpoint } from '../types'
+import type {
   CreateWithResponseParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,

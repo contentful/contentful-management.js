@@ -3,8 +3,9 @@
  * @hidden
  */
 
-import { Adapter } from './common-types'
-import { RestAdapter, RestAdapterParams } from './adapters/REST/rest-adapter'
+import type { Adapter } from './common-types'
+import type { RestAdapterParams } from './adapters/REST/rest-adapter'
+import { RestAdapter } from './adapters/REST/rest-adapter'
 
 export type AdapterParams = {
   apiAdapter: Adapter

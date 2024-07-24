@@ -1,9 +1,9 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { Except, SetOptional } from 'type-fest'
+import type { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
+import type { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
 
 export type LocaleProps = {
   sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }

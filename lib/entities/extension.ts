@@ -1,15 +1,15 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import { FieldType } from './field-type'
-import {
+import type { FieldType } from './field-type'
+import type {
   DefinedParameters,
   InstallationParameterType,
   ParameterDefinition,
 } from './widget-parameters'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
-import { SetRequired, RequireExactlyOne } from 'type-fest'
+import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import type { SetRequired, RequireExactlyOne } from 'type-fest'
 
 type ExtensionSysProps = BasicMetaSysProps & {
   space: SysLink

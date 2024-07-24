@@ -1,17 +1,14 @@
 import { describe, it } from 'mocha'
 import sinon from 'sinon'
 import defaultsDeep from 'lodash/defaultsDeep'
-import {
+import type {
   CursorBasedParams,
-  fetchAll,
   FetchFn,
   OffsetBasedParams,
 } from '../../../lib/plain/pagination-helper'
-import {
-  BasicCursorPaginationOptions,
-  type CollectionProp,
-  type CursorPaginatedCollectionProp,
-} from '../../../lib/common-types'
+import { fetchAll } from '../../../lib/plain/pagination-helper'
+import type { BasicCursorPaginationOptions } from '../../../lib/common-types'
+import { type CollectionProp, type CursorPaginatedCollectionProp } from '../../../lib/common-types'
 import { expect } from 'chai'
 
 const defaultLimit = 2

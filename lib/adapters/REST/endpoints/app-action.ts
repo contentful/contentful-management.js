@@ -1,15 +1,15 @@
-import { AxiosInstance } from 'contentful-sdk-core'
+import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
-import {
+import type {
   CollectionProp,
   GetAppActionParams,
   GetAppActionsForEnvParams,
   GetAppDefinitionParams,
   QueryParams,
 } from '../../../common-types'
-import { RestEndpoint } from '../types'
-import { AppActionProps, CreateAppActionProps } from '../../../entities/app-action'
+import type { RestEndpoint } from '../types'
+import type { AppActionProps, CreateAppActionProps } from '../../../entities/app-action'
 
 const getBaseUrl = (params: GetAppDefinitionParams) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/actions`

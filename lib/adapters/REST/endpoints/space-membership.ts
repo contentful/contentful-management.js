@@ -1,19 +1,19 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceMembershipProps,
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import {
+import type {
   CreateSpaceMembershipProps,
   SpaceMembershipProps,
 } from '../../../entities/space-membership'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 function spaceMembershipDeprecationWarning() {

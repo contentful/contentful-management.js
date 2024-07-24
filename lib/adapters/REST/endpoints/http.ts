@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AxiosInstance, RawAxiosRequestConfig } from 'axios'
-import { RestEndpoint } from '../types'
+import type { AxiosInstance, RawAxiosRequestConfig } from 'axios'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const get: RestEndpoint<'Http', 'get'> = <T = any>(

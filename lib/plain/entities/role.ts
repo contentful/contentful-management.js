@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
 } from '../../common-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateRoleProps, RoleProps } from '../../entities/role'
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type { CreateRoleProps, RoleProps } from '../../entities/role'
 
 export type RolePlainClientAPI = {
   /** Fetches a Role

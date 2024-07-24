@@ -1,16 +1,16 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { OpPatch } from 'json-patch'
-import { SetOptional } from 'type-fest'
-import {
+import type { OpPatch } from 'json-patch'
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   KeyValueMap,
   QueryParams,
 } from '../../../common-types'
-import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
-import { RestEndpoint } from '../types'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

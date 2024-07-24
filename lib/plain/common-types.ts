@@ -1,6 +1,6 @@
-import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { OpPatch } from 'json-patch'
-import {
+import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
+import type { OpPatch } from 'json-patch'
+import type {
   BasicCursorPaginationOptions,
   CollectionProp,
   CursorPaginatedCollectionProp,
@@ -19,100 +19,100 @@ import {
   KeyValueMap,
   QueryParams,
 } from '../common-types'
-import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import {
+import type { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
+import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
-import {
+import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
+import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
 } from '../entities/organization-invitation'
-import { OrganizationMembershipProps } from '../entities/organization-membership'
-import {
+import type { OrganizationMembershipProps } from '../entities/organization-membership'
+import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProp,
 } from '../entities/personal-access-token'
-import {
+import type {
   AccessTokenProp,
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from '../entities/access-token'
-import { PreviewApiKeyProps } from '../entities/preview-api-key'
-import {
+import type { PreviewApiKeyProps } from '../entities/preview-api-key'
+import type {
   CreateUpdateScheduledActionProps,
   ScheduledActionProps,
 } from '../entities/scheduled-action'
-import { SnapshotProps } from '../entities/snapshot'
-import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
-import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { FunctionProps } from '../entities/function'
-import {
+import type { SnapshotProps } from '../entities/snapshot'
+import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
+import type { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
+import type { FunctionProps } from '../entities/function'
+import type {
   BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import {
+import type {
   ReleasePayload,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from '../entities/release'
-import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
-import {
+import type { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
+import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from '../entities/environment-template'
-import {
+import type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import { AppActionPlainClientAPI } from './entities/app-action'
-import { AppActionCallPlainClientAPI } from './entities/app-action-call'
-import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
-import { UIConfigPlainClientAPI } from './entities/ui-config'
-import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
-import { AppDefinitionPlainClientAPI } from './entities/app-definition'
-import { AppUploadPlainClientAPI } from './entities/app-upload'
-import { AppBundlePlainClientAPI } from './entities/app-bundle'
-import { AppDetailsPlainClientAPI } from './entities/app-details'
-import { AppInstallationPlainClientAPI } from './entities/app-installation'
-import { WebhookPlainClientAPI } from './entities/webhook'
-import { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
-import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
-import { ExtensionPlainClientAPI } from './entities/extension'
-import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
-import { AppKeyPlainClientAPI } from './entities/app-key'
-import { UserPlainClientAPI } from './entities/user'
-import { UploadPlainClientAPI } from './entities/upload'
-import { OrganizationPlainClientAPI } from './entities/organization'
-import { LocalePlainClientAPI } from './entities/locale'
-import { SpacePlainClientAPI } from './entities/space'
-import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
-import { SpaceMemberPlainClientAPI } from './entities/space-member'
-import { EnvironmentPlainClientAPI } from './entities/environment'
-import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { CommentPlainClientAPI } from './entities/comment'
-import { TaskPlainClientAPI } from './entities/task'
-import { WorkflowPlainClientAPI } from './entities/workflow'
-import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
-import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
-import { RolePlainClientAPI } from './entities/role'
-import { TagPlainClientAPI } from './entities/tag'
-import { UsagePlainClientAPI } from './entities/usage'
-import { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
-import { TeamPlainClientAPI } from './entities/team'
-import { TeamMembershipPlainClientAPI } from './entities/team-membership'
-import { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
-import { ConceptPlainClientAPI } from './entities/concept'
-import { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
+import type { AppActionPlainClientAPI } from './entities/app-action'
+import type { AppActionCallPlainClientAPI } from './entities/app-action-call'
+import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
+import type { UIConfigPlainClientAPI } from './entities/ui-config'
+import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
+import type { AppDefinitionPlainClientAPI } from './entities/app-definition'
+import type { AppUploadPlainClientAPI } from './entities/app-upload'
+import type { AppBundlePlainClientAPI } from './entities/app-bundle'
+import type { AppDetailsPlainClientAPI } from './entities/app-details'
+import type { AppInstallationPlainClientAPI } from './entities/app-installation'
+import type { WebhookPlainClientAPI } from './entities/webhook'
+import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
+import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
+import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
+import type { AppKeyPlainClientAPI } from './entities/app-key'
+import type { UserPlainClientAPI } from './entities/user'
+import type { UploadPlainClientAPI } from './entities/upload'
+import type { OrganizationPlainClientAPI } from './entities/organization'
+import type { LocalePlainClientAPI } from './entities/locale'
+import type { SpacePlainClientAPI } from './entities/space'
+import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
+import type { SpaceMemberPlainClientAPI } from './entities/space-member'
+import type { EnvironmentPlainClientAPI } from './entities/environment'
+import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
+import type { CommentPlainClientAPI } from './entities/comment'
+import type { TaskPlainClientAPI } from './entities/task'
+import type { WorkflowPlainClientAPI } from './entities/workflow'
+import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
+import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import type { RolePlainClientAPI } from './entities/role'
+import type { TagPlainClientAPI } from './entities/tag'
+import type { UsagePlainClientAPI } from './entities/usage'
+import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { TeamPlainClientAPI } from './entities/team'
+import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
+import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
+import type { ConceptPlainClientAPI } from './entities/concept'
+import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
 
 export type PlainClientAPI = {
   raw: {

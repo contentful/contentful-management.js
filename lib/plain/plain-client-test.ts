@@ -1,9 +1,11 @@
 import chai, { expect } from 'chai'
 import { describe } from 'mocha'
 import Sinon from 'sinon'
-import { Adapter, createClient } from '../contentful-management'
+import type { Adapter } from '../contentful-management'
+import { createClient } from '../contentful-management'
 import sinonChai from 'sinon-chai'
-import { CommentNode, RichTextCommentDocument } from '../entities/comment'
+import type { RichTextCommentDocument } from '../entities/comment'
+import { CommentNode } from '../entities/comment'
 
 chai.should()
 chai.use(sinonChai)

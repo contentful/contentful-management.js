@@ -1,8 +1,8 @@
-import { getTestOrganizationId, initPlainClient } from '../helpers'
-import { afterEach, beforeEach, describe, test } from 'mocha'
 import { expect } from 'chai'
-import { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
-import { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
+import { afterEach, beforeEach, describe, test } from 'mocha'
+import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
+import { getTestOrganizationId, initPlainClient } from '../helpers'
 
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []

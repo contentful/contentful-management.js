@@ -1,6 +1,7 @@
-import { ReleaseActionProps, ReleaseActionTypes } from '../entities/release-action'
-import { PlainClientAPI } from '../plain/common-types'
-import { AsyncActionProcessingOptions, pollAsyncActionStatus } from './action'
+import type { ReleaseActionProps, ReleaseActionTypes } from '../entities/release-action'
+import type { PlainClientAPI } from '../plain/common-types'
+import type { AsyncActionProcessingOptions } from './action'
+import { pollAsyncActionStatus } from './action'
 
 type PlainOptions = {
   /** Used by the PlainClient to perform a poll for the BulkAction status */
