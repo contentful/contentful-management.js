@@ -1,6 +1,5 @@
-import { MakeRequest } from '../../../lib/common-types'
-import { ContentType } from '../../../lib/entities/content-type'
-import { ContentTypeSetupType } from '../entities/content-type.test'
+import { MakeRequest, MetaSysProps } from '../../../lib/common-types'
+import { ContentTypeProps } from '../../../lib/entities/content-type'
 import { cloneMock, errorMock, mockCollection } from '../mocks/entities'
 import { expect, vi } from 'vitest'
 
@@ -61,10 +60,14 @@ export async function entityPublishTest(setup, { wrapperMethod }) {
   await entityActionTest(setup, { wrapperMethod, actionMethod: 'publish' })
 }
 
-export async function failingActionTest(
-  setup: ContentTypeSetupType,
-  { wrapperMethod, actionMethod }
-) {
+type FailedActionSetup = (a: Promise<unknown>) => {
+  makeRequest: MakeRequest
+  entityMock: Partial<{
+    sys: Partial<MetaSysProps>
+  }>
+}
+
+export async function failingActionTest(setup: FailedActionSetup, { wrapperMethod, actionMethod }) {
   const error = cloneMock('error') as typeof errorMock
   const { makeRequest, entityMock } = setup(Promise.reject(error))
   const entity = wrapperMethod(makeRequest, entityMock)
@@ -120,9 +123,12 @@ export async function isArchivedTest(setup, { wrapperMethod }) {
   expect(archivedEntity.isArchived(), 'entity is now archived').to.be.true
 }
 
-type Setup = (a: Promise<unknown>) => { makeRequest: MakeRequest; entityMock: ContentType }
+type OmitAndDeleteSetup = (a: Promise<unknown>) => {
+  makeRequest: MakeRequest
+  entityMock: ContentTypeProps
+}
 
-export async function omitAndDeleteFieldTest(setup: Setup, { wrapperMethod }) {
+export async function omitAndDeleteFieldTest(setup: OmitAndDeleteSetup, { wrapperMethod }) {
   const titleField = {
     id: 'title',
     name: 'Title',

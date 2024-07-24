@@ -1192,12 +1192,15 @@ function cloneMock(name) {
   return cloneDeep(mocks[name])
 }
 
-function mockCollection(entityMock) {
+function mockCollection<T>(entityMock): CollectionProp<T> {
   return {
+    sys: {
+      type: 'Array',
+    },
     total: 1,
     skip: 0,
     limit: 100,
-    items: [entityMock],
+    items: [entityMock as T],
   }
 }
 

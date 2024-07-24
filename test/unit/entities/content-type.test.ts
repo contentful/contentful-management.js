@@ -1,4 +1,4 @@
-import { cloneMock, contentTypeMock } from '../mocks/entities'
+import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
 import { wrapContentType, wrapContentTypeCollection } from '../../../lib/entities/content-type'
 import {
@@ -22,7 +22,7 @@ import { describe, test } from 'vitest'
 function setup(promise) {
   return {
     makeRequest: setupMakeRequest(promise),
-    entityMock: cloneMock('contentType') as typeof contentTypeMock,
+    entityMock: cloneMock('contentType'),
   }
 }
 
