@@ -18,6 +18,7 @@ export type ReleaseActionSysProps = {
   status: ReleaseActionStatuses
   createdBy: Link<'User'>
   createdAt: ISO8601Timestamp
+  updatedBy: Link<'User'>
   updatedAt: ISO8601Timestamp
 }
 

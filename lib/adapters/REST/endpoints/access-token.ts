@@ -1,7 +1,7 @@
 import { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
-import { CreatePersonalAccessTokenProps, AccessTokenProp } from '../../../entities/access-token'
+import { CreatePersonalAccessTokenProps, AccessTokenProps } from '../../../entities/access-token'
 import { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -11,7 +11,7 @@ import * as raw from './raw'
  * @param {AxiosInstance} http - An Axios HTTP client instance.
  * @param {Object} params - Parameters for the request.
  * @param {string} params.tokenId - The unique token ID of the access token to retrieve.
- * @returns {Promise<AccessTokenProp>} A Promise that resolves with the retrieved access token information.
+ * @returns {Promise<AccessTokenProps>} A Promise that resolves with the retrieved access token information.
  * @example ```javascript
  * const contentful = require('contentful-management')
  *
@@ -30,7 +30,7 @@ export const get: RestEndpoint<'AccessToken', 'get'> = (
   http: AxiosInstance,
   params: { tokenId: string }
 ) => {
-  return raw.get<AccessTokenProp>(http, `/users/me/access_tokens/${params.tokenId}`)
+  return raw.get<AccessTokenProps>(http, `/users/me/access_tokens/${params.tokenId}`)
 }
 
 /**
@@ -38,7 +38,7 @@ export const get: RestEndpoint<'AccessToken', 'get'> = (
  *
  * @param {AxiosInstance} http - An Axios HTTP client instance.
  * @param {QueryParams} params - Query parameters to filter and customize the request.
- * @returns {Promise<CollectionProp<AccessTokenProp>>} A Promise that resolves with a collection of access token properties.
+ * @returns {Promise<CollectionProp<AccessTokenProps>>} A Promise that resolves with a collection of access token properties.
  * @example ```javascript
  * const contentful = require('contentful-management')
  *
@@ -57,7 +57,7 @@ export const getMany: RestEndpoint<'AccessToken', 'getMany'> = (
   http: AxiosInstance,
   params: QueryParams
 ) => {
-  return raw.get<CollectionProp<AccessTokenProp>>(http, '/users/me/access_tokens', {
+  return raw.get<CollectionProp<AccessTokenProps>>(http, '/users/me/access_tokens', {
     params: params.query,
   })
 }
@@ -69,7 +69,7 @@ export const getMany: RestEndpoint<'AccessToken', 'getMany'> = (
  * @param {Object} _params - Unused parameters (can be an empty object).
  * @param {CreatePersonalAccessTokenProps} rawData - Data for creating the personal access token.
  * @param {RawAxiosRequestHeaders} [headers] - Optional HTTP headers for the request.
- * @returns {Promise<AccessTokenProp>} A Promise that resolves with the created personal access token.
+ * @returns {Promise<AccessTokenProps>} A Promise that resolves with the created personal access token.
  * @example ```javascript
  * const contentful = require('contentful-management')
  *
@@ -90,7 +90,7 @@ export const createPersonalAccessToken: RestEndpoint<'AccessToken', 'createPerso
   rawData: CreatePersonalAccessTokenProps,
   headers?: RawAxiosRequestHeaders
 ) => {
-  return raw.post<AccessTokenProp>(http, '/users/me/access_tokens', rawData, {
+  return raw.post<AccessTokenProps>(http, '/users/me/access_tokens', rawData, {
     headers,
   })
 }
@@ -101,7 +101,7 @@ export const createPersonalAccessToken: RestEndpoint<'AccessToken', 'createPerso
  * @param {AxiosInstance} http - The Axios HTTP client instance.
  * @param {Object} params - The parameters for revoking the access token.
  * @param {string} params.tokenId - The unique identifier of the access token to revoke.
- * @returns {Promise<AccessTokenProp>} A Promise that resolves with the updated access token information after revocation.
+ * @returns {Promise<AccessTokenProps>} A Promise that resolves with the updated access token information after revocation.
  * @example ```javascript
  * const contentful = require('contentful-management')
  *
@@ -120,7 +120,7 @@ export const revoke: RestEndpoint<'AccessToken', 'revoke'> = (
   http: AxiosInstance,
   params: { tokenId: string }
 ) => {
-  return raw.put<AccessTokenProp>(http, `/users/me/access_tokens/${params.tokenId}/revoked`, null)
+  return raw.put<AccessTokenProps>(http, `/users/me/access_tokens/${params.tokenId}/revoked`, null)
 }
 
 /**
@@ -129,7 +129,7 @@ export const revoke: RestEndpoint<'AccessToken', 'revoke'> = (
  * @param {AxiosInstance} http - The Axios HTTP client instance.
  * @param {GetOrganizationParams & QueryParams} params - Parameters for the request, including organization ID and query parameters.
  * @param {string} params.organizationId - The unique identifier of the organization.
- * @returns {Promise<CollectionProp<AccessTokenProp>>} A promise that resolves to a collection of access tokens.
+ * @returns {Promise<CollectionProp<AccessTokenProps>>} A promise that resolves to a collection of access tokens.
  * @example ```javascript
  * const contentful = require('contentful-management')
  *
@@ -148,7 +148,7 @@ export const getManyForOrganization: RestEndpoint<'AccessToken', 'getManyForOrga
   http: AxiosInstance,
   params: GetOrganizationParams & QueryParams
 ) => {
-  return raw.get<CollectionProp<AccessTokenProp>>(
+  return raw.get<CollectionProp<AccessTokenProps>>(
     http,
     `/organizations/${params.organizationId}/access_tokens`,
     {

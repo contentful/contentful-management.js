@@ -143,7 +143,7 @@ export type {
 } from './entities/extension'
 export type { FieldType } from './entities/field-type'
 export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale'
-export type { Organization, OrganizationProp } from './entities/organization'
+export type { Organization, OrganizationProps } from './entities/organization'
 export type {
   CreateOrganizationInvitationProps,
   OrganizationInvitation,
@@ -156,12 +156,12 @@ export type {
 export type {
   CreatePersonalAccessTokenProps,
   PersonalAccessToken,
-  PersonalAccessTokenProp,
+  PersonalAccessTokenProps as PersonalAccessTokenProp,
 } from './entities/personal-access-token'
 export type {
   CreatePersonalAccessTokenProps as CreatePATProps,
   AccessToken,
-  AccessTokenProp,
+  AccessTokenProps as AccessTokenProp,
 } from './entities/access-token'
 export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
 export type {

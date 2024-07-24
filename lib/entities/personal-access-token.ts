@@ -4,7 +4,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
-export type PersonalAccessTokenProp = {
+export type PersonalAccessTokenProps = {
   sys: MetaSysProps & { expiresAt?: string }
   name: string
   scopes: 'content_management_manage'[]
@@ -17,8 +17,8 @@ export type CreatePersonalAccessTokenProps = Pick<PersonalAccessToken, 'name' | 
 }
 
 export interface PersonalAccessToken
-  extends PersonalAccessTokenProp,
-    DefaultElements<PersonalAccessTokenProp> {
+  extends PersonalAccessTokenProps,
+    DefaultElements<PersonalAccessTokenProps> {
   /**
    * Revokes a personal access token
    * @return Object the revoked personal access token
@@ -47,7 +47,7 @@ export interface PersonalAccessToken
  */
 export function wrapPersonalAccessToken(
   makeRequest: MakeRequest,
-  data: PersonalAccessTokenProp
+  data: PersonalAccessTokenProps
 ): PersonalAccessToken {
   const personalAccessToken = toPlainObject(copy(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {

@@ -11,7 +11,7 @@ import { CreateAppSigningSecretProps } from './entities/app-signing-secret'
 import { CreateAppEventSubscriptionProps } from './entities/app-event-subscription'
 import { CreateAppKeyProps } from './entities/app-key'
 import { CreateAppDetailsProps } from './entities/app-details'
-import { OrganizationProp } from './entities/organization'
+import { OrganizationProps } from './entities/organization'
 
 /**
  * @private
@@ -62,7 +62,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'Space',
         action: 'getManyForOrganization',
@@ -89,7 +89,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getUser(id: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'User',
         action: 'getForOrganization',
@@ -113,7 +113,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getUsers(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'User',
         action: 'getManyForOrganization',
@@ -140,7 +140,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizationMembership(id: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       const organizationId = raw.sys.id
       return makeRequest({
         entityType: 'OrganizationMembership',
@@ -169,7 +169,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      */
 
     getOrganizationMemberships(params: QueryParams = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'OrganizationMembership',
         action: 'getMany',
@@ -198,7 +198,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createTeam(data: CreateTeamProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'Team',
@@ -222,7 +222,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getTeam(teamId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'Team',
@@ -245,7 +245,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getTeams(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'Team',
@@ -277,7 +277,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createTeamMembership(teamId: string, data: CreateTeamMembershipProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'TeamMembership',
@@ -302,7 +302,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getTeamMembership(teamId: string, teamMembershipId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'TeamMembership',
@@ -327,7 +327,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      */
     getTeamMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
       const { teamId, query = {} } = opts
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       if (teamId) {
         return makeRequest({
@@ -367,7 +367,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getTeamSpaceMemberships(opts: { teamId?: string; query?: QueryOptions } = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'TeamSpaceMembership',
         action: 'getManyForOrganization',
@@ -395,7 +395,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'TeamSpaceMembership',
@@ -423,7 +423,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizationSpaceMembership(id: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'SpaceMembership',
         action: 'getForOrganization',
@@ -450,7 +450,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizationSpaceMemberships(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'SpaceMembership',
         action: 'getManyForOrganization',
@@ -476,7 +476,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizationInvitation(invitationId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'OrganizationInvitation',
         action: 'get',
@@ -506,7 +506,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createOrganizationInvitation(data: CreateOrganizationInvitationProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'OrganizationInvitation',
         action: 'create',
@@ -533,7 +533,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getRoles(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'Role',
         action: 'getManyForOrganization',
@@ -561,7 +561,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createAppDefinition(data: CreateAppDefinitionProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'AppDefinition',
         action: 'create',
@@ -585,7 +585,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppDefinitions(query: QueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'AppDefinition',
         action: 'getMany',
@@ -609,7 +609,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppDefinition(id: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
       return makeRequest({
         entityType: 'AppDefinition',
         action: 'get',
@@ -633,7 +633,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppUpload(appUploadId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppUpload',
@@ -658,7 +658,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createAppUpload(file: string | ArrayBuffer | Stream) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppUpload',
@@ -683,7 +683,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     upsertAppSigningSecret(appDefinitionId: string, data: CreateAppSigningSecretProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppSigningSecret',
@@ -708,7 +708,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppSigningSecret(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppSigningSecret',
@@ -732,7 +732,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     deleteAppSigningSecret(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppSigningSecret',
@@ -758,7 +758,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     upsertAppEventSubscription(appDefinitionId: string, data: CreateAppEventSubscriptionProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppEventSubscription',
@@ -783,7 +783,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppEventSubscription(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppEventSubscription',
@@ -807,7 +807,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     deleteAppEventSubscription(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppEventSubscription',
@@ -840,7 +840,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createAppKey(appDefinitionId: string, data: CreateAppKeyProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppKey',
@@ -865,7 +865,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppKey(appDefinitionId: string, fingerprint: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppKey',
@@ -896,7 +896,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppKeys(appDefinitionId: string, query: BasicQueryOptions = {}) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppKey',
@@ -924,7 +924,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     deleteAppKey(appDefinitionId: string, fingerprint: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppKey',
@@ -952,7 +952,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     upsertAppDetails(appDefinitionId: string, data: CreateAppDetailsProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppDetails',
@@ -977,7 +977,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppDetails(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppDetails',
@@ -1001,7 +1001,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     deleteAppDetails(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppDetails',
@@ -1031,7 +1031,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     createAppAction(appDefinitionId: string, data: CreateAppActionProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppAction',
@@ -1060,7 +1060,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     updateAppAction(appDefinitionId: string, appActionId: string, data: CreateAppActionProps) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppAction',
@@ -1085,7 +1085,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     deleteAppAction(appDefinitionId: string, appActionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppAction',
@@ -1111,7 +1111,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppAction(appDefinitionId: string, appActionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppAction',
@@ -1135,7 +1135,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * ```
      */
     getAppActions(appDefinitionId: string) {
-      const raw = this.toPlainObject() as OrganizationProp
+      const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'AppAction',
