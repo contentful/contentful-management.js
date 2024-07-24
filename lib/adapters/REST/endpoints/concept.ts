@@ -1,7 +1,7 @@
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
-import { RestEndpoint } from '../types'
-import {
+import type { OpPatch } from 'json-patch'
+import type {
   CursorPaginatedCollectionProp,
   DeleteConceptParams,
   GetConceptDescendantsParams,
@@ -10,9 +10,9 @@ import {
   GetOrganizationParams,
   UpdateConceptParams,
 } from '../../../common-types'
-import { ConceptProps, CreateConceptProps } from '../../../entities/concept'
-import { OpPatch } from 'json-patch'
-import { RawAxiosRequestHeaders } from 'axios'
+import type { ConceptProps, CreateConceptProps } from '../../../entities/concept'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 function basePath(organizationId: string) {
   return `/organizations/${organizationId}/taxonomy/concepts`

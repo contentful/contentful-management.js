@@ -1,6 +1,6 @@
-import { LocalizedEntity } from './utils'
-import { TaxonomyConceptLink } from './concept'
-import { Link } from '../common-types'
+import type { Link } from '../common-types'
+import type { TaxonomyConceptLink } from './concept'
+import type { LocalizedEntity } from './utils'
 
 export type ConceptScheme = {
   uri: string | null

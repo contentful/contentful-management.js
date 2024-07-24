@@ -1,5 +1,5 @@
-import { Link } from '../common-types'
-import { LocalizedEntity } from './utils'
+import type { Link } from '../common-types'
+import type { LocalizedEntity } from './utils'
 
 export type TaxonomyConceptLink = Link<'TaxonomyConcept'>
 
