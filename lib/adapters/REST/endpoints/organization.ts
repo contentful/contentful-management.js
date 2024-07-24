@@ -4,7 +4,7 @@ import type {
   GetOrganizationParams,
   PaginationQueryParams,
 } from '../../../common-types'
-import type { OrganizationProp } from '../../../entities/organization'
+import type { OrganizationProps } from '../../../entities/organization'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -12,7 +12,7 @@ export const getMany: RestEndpoint<'Organization', 'getMany'> = (
   http: AxiosInstance,
   params?: PaginationQueryParams
 ) => {
-  return raw.get<CollectionProp<OrganizationProp>>(http, `/organizations`, {
+  return raw.get<CollectionProp<OrganizationProps>>(http, `/organizations`, {
     params: params?.query,
   })
 }

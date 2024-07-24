@@ -35,10 +35,10 @@ import type {
 import type { OrganizationMembershipProps } from '../entities/organization-membership'
 import type {
   CreatePersonalAccessTokenProps,
-  PersonalAccessTokenProp,
+  PersonalAccessTokenProps,
 } from '../entities/personal-access-token'
 import type {
-  AccessTokenProp,
+  AccessTokenProps,
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from '../entities/access-token'
 import type { PreviewApiKeyProps } from '../entities/preview-api-key'
@@ -390,25 +390,27 @@ export type PlainClientAPI = {
   upload: UploadPlainClientAPI
   locale: LocalePlainClientAPI
   personalAccessToken: {
-    get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
+    getMany(
+      params: OptionalDefaults<QueryParams>
+    ): Promise<CollectionProp<PersonalAccessTokenProps>>
     create(
       rawData: CreatePersonalAccessTokenProps,
       headers?: RawAxiosRequestHeaders
-    ): Promise<PersonalAccessTokenProp>
-    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
+    ): Promise<PersonalAccessTokenProps>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
   accessToken: {
-    get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProp>>
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
+    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProps>>
     createPersonalAccessToken(
       rawData: CreatePATProps,
       headers?: RawAxiosRequestHeaders
-    ): Promise<AccessTokenProp>
-    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
+    ): Promise<AccessTokenProps>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
     getManyForOrganization(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<AccessTokenProp>>
+    ): Promise<CollectionProp<AccessTokenProps>>
   }
   usage: UsagePlainClientAPI
   release: {
