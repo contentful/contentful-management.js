@@ -47,7 +47,10 @@ describe('SpaceMembership Api', function () {
     expect(spaceMembership.user, 'user').ok
     expect(spaceMembership.admin, 'admin').not.ok
     expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
-    return spaceMembership.delete()
+    return await spaceMembership.delete({
+      spaceId: space.sys.id,
+      spaceMembershipId: spaceMembership.sys.id,
+    })
   })
 
   test('Create spaceMembership with explicit id', async () => {
@@ -71,6 +74,9 @@ describe('SpaceMembership Api', function () {
     expect(spaceMembership.user, 'user').ok
     expect(spaceMembership.admin, 'admin').not.ok
     expect(spaceMembership.sys.id).equals(id, 'id')
-    return spaceMembership.delete()
+    return await spaceMembership.delete({
+      spaceId: space.sys.id,
+      spaceMembershipId: spaceMembership.sys.id,
+    })
   })
 })
