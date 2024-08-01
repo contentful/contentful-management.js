@@ -2,7 +2,7 @@
 import { initClient, createTestSpace, generateRandomId } from '../helpers'
 import { TestDefaults } from '../defaults'
 
-const { userEmail } = TestDefaults
+const { userEmail, userEmail2 } = TestDefaults
 
 import { after, before, describe, test } from 'mocha'
 import { expect } from 'chai'
@@ -47,10 +47,7 @@ describe('SpaceMembership Api', function () {
     expect(spaceMembership.user, 'user').ok
     expect(spaceMembership.admin, 'admin').not.ok
     expect(spaceMembership.sys.type).equal('SpaceMembership', 'type')
-    return await spaceMembership.delete({
-      spaceId: space.sys.id,
-      spaceMembershipId: spaceMembership.sys.id,
-    })
+    return spaceMembership.delete()
   })
 
   test('Create spaceMembership with explicit id', async () => {
@@ -59,7 +56,7 @@ describe('SpaceMembership Api', function () {
     const roleId = roles.items[0].sys.id
     const spaceMembership = await space.createSpaceMembershipWithId(id, {
       admin: false,
-      email: userEmail,
+      email: userEmail2,
       roles: [
         {
           sys: {
@@ -74,9 +71,6 @@ describe('SpaceMembership Api', function () {
     expect(spaceMembership.user, 'user').ok
     expect(spaceMembership.admin, 'admin').not.ok
     expect(spaceMembership.sys.id).equals(id, 'id')
-    return await spaceMembership.delete({
-      spaceId: space.sys.id,
-      spaceMembershipId: spaceMembership.sys.id,
-    })
+    return spaceMembership.delete()
   })
 })
