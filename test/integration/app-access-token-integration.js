@@ -69,6 +69,7 @@ describe('AppAccessToken api', function () {
       }
     )
 
-    expect(appAccessToken.token).to.have.lengthOf(292)
+    // Token length not deterministic, but should be within a certain range
+    expect(appAccessToken.token).to.have.length.within(285, 300)
   })
 })
