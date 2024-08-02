@@ -16,6 +16,7 @@ export const TestDefaults = {
   },
   userId: '0DdCYLZI33Oe1uZ0FLpCzw',
   userEmail: 'for_tests_contentful-management.js@contentful.com',
+  userEmail2: 'for_tests_contentful-management2.js@contentful.com',
   teamId: '4XQ2AGpitUAECQf7EPP392',
   teamName: '[FOR TESTS] contentful-management.js',
   teamMembershipId: '6vuRqhFc875EEIJ50lSMYG',
