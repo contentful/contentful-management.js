@@ -1,6 +1,4 @@
-import createOrganizationApi, {
-  __RewireAPI__ as createOrganizationApiRewireApi,
-} from '../../lib/create-organization-api'
+import createOrganizationApi from '../../lib/create-organization-api'
 import {
   appActionMock,
   appDefinitionMock,
@@ -26,28 +24,28 @@ import {
   makeCreateEntityTest,
   makeEntityMethodFailingTest,
 } from './test-creators/static-entity-methods'
-import { afterEach, describe, test } from 'mocha'
-import { expect } from 'chai'
 import setupMakeRequest from './mocks/makeRequest'
+import { expect, describe, test } from 'vitest'
 
-import { __RewireAPI__ as createEnvironmentApiRewireApi } from '../../lib/create-environment-api'
-
-function setup(promise) {
-  const entitiesMock = setupEntitiesMock(createOrganizationApiRewireApi)
+function setup<T>(promise: Promise<T>) {
+  const entitiesMock = setupEntitiesMock()
   const makeRequest = setupMakeRequest(promise)
   const api = createOrganizationApi(makeRequest)
-  api.toPlainObject = () => organizationMock
+
   return {
-    api,
+    api: {
+      ...api,
+      toPlainObject: () => organizationMock,
+    },
     makeRequest,
     entitiesMock,
   }
 }
 
 describe('A createOrganizationApi', () => {
-  afterEach(() => {
-    createEnvironmentApiRewireApi.__ResetDependency__('entities')
-  })
+  // afterEach(() => {
+  //   createEnvironmentApiRewireApi.__ResetDependency__('entities')
+  // })
 
   test('API call getAppDefinition', async () => {
     return makeGetEntityTest(setup, {
@@ -246,20 +244,22 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createTeamMembership', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamMembership'][`wrapTeamMembership`].returns(teamMembershipMock)
+    const { api, entitiesMock } = setup(Promise.resolve(teamMembershipMock))
+    entitiesMock['teamMembership'][`wrapTeamMembership`].mockReturnValue(teamMembershipMock)
 
-    return api['createTeamMembership']({
-      admin: true,
-      organizationMembershipId: 'id',
-    }).then((r) => {
-      expect(r).eql(teamMembershipMock)
-    })
+    return api
+      .createTeamMembership('mockTeamId', {
+        admin: true,
+        organizationMembershipId: 'id',
+      })
+      .then((r) => {
+        expect(r).eql(teamMembershipMock)
+      })
   })
 
   test('API call getTeamMembership', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamMembership'][`wrapTeamMembership`].returns(teamMembershipMock)
+    const { api, entitiesMock } = setup(Promise.resolve(teamMembershipMock))
+    entitiesMock['teamMembership'][`wrapTeamMembership`].mockReturnValue(teamMembershipMock)
     return api['getTeamMembership']('teamid', 'eid').then((r) => {
       expect(r).eql(teamMembershipMock)
     })
@@ -278,13 +278,14 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getTeamMemberships', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamMembership'][`wrapTeamMembershipCollection`].returns({
-      total: 100,
-      skip: 0,
-      limit: 10,
-      items: [teamMembershipMock],
-    })
+    const { api } = setup(
+      Promise.resolve({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamMembershipMock],
+      })
+    )
     return api['getTeamMemberships']({ teamId: 'teamid' }).then((r) => {
       expect(r).eql({
         total: 100,
@@ -299,7 +300,7 @@ describe('A createOrganizationApi', () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    return api['getTeamMembership']({ teamId: 'teamid' }).then(
+    return api['getTeamMembership']('mocked-team-id', 'mocked-team-membership-id').then(
       () => {},
       (r) => {
         expect(r).equals(error)
@@ -308,13 +309,14 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getTeamMemberships for all teams', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamMembership'][`wrapTeamMembershipCollection`].returns({
-      total: 100,
-      skip: 0,
-      limit: 10,
-      items: [teamMembershipMock],
-    })
+    const { api } = setup(
+      Promise.resolve({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamMembershipMock],
+      })
+    )
     return api['getTeamMemberships']().then((r) => {
       expect(r).eql({
         total: 100,
@@ -326,8 +328,10 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getTeamSpaceMembership', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembership`].returns(teamSpaceMembershipMock)
+    const { api, entitiesMock } = setup(Promise.resolve(teamSpaceMembershipMock))
+    entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembership`].mockReturnValue(
+      teamSpaceMembershipMock
+    )
     return api['getTeamSpaceMembership']('eid').then((r) => {
       expect(r).eql(teamSpaceMembershipMock)
     })
@@ -346,13 +350,14 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getTeamSpaceMemberships', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembershipCollection`].returns({
-      total: 100,
-      skip: 0,
-      limit: 10,
-      items: [teamSpaceMembershipMock],
-    })
+    const { api } = setup(
+      Promise.resolve({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamSpaceMembershipMock],
+      })
+    )
     return api['getTeamSpaceMemberships']({ teamId: 'teamid' }).then((r) => {
       expect(r).eql({
         total: 100,
@@ -376,13 +381,14 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getTeamMemberships for all teams', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembershipCollection`].returns({
-      total: 100,
-      skip: 0,
-      limit: 10,
-      items: [teamSpaceMembershipMock],
-    })
+    const { api } = setup(
+      Promise.resolve({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [teamSpaceMembershipMock],
+      })
+    )
     return api['getTeamSpaceMemberships']().then((r) => {
       expect(r).eql({
         total: 100,
@@ -394,8 +400,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppUpload', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appUploadMock))
+    entitiesMock['appUpload']['wrapAppUpload'].mockReturnValue(appUploadMock)
     return api['getAppUpload']('upload-id').then((result) => {
       expect(result).eql(appUploadMock)
     })
@@ -414,8 +420,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createAppUpload', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appUpload']['wrapAppUpload'].returns(appUploadMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appUploadMock))
+    entitiesMock['appUpload']['wrapAppUpload'].mockReturnValue(appUploadMock)
     return api['createAppUpload']('content-of-zip-file').then((result) => {
       expect(result).eql(appUploadMock)
     })
@@ -434,12 +440,12 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createAppAction', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appActionMock))
+    entitiesMock['appAction']['wrapAppAction'].mockReturnValue(appActionMock)
     return api['createAppAction']('app-def-id', {
-      type: 'endpoint',
-      name: 'name',
       url: 'https://www.example.com',
+      name: 'name',
+      category: 'Entries.v1.0',
     }).then((result) => {
       expect(result).eql(appActionMock)
     })
@@ -450,9 +456,9 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
 
     return api['createAppAction']('app-def-id', {
-      type: 'endpoint',
-      name: 'name',
       url: 'https://www.example.com',
+      name: 'name',
+      category: 'Entries.v1.0',
     }).then(
       () => {},
       (errorResponse) => {
@@ -462,12 +468,12 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call updateAppAction', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appActionMock))
+    entitiesMock['appAction']['wrapAppAction'].mockReturnValue(appActionMock)
     return api['updateAppAction']('app-def-id', 'app-action-id', {
-      type: 'endpoint',
-      name: 'name',
       url: 'https://www.example.com',
+      name: 'name',
+      category: 'Entries.v1.0',
     }).then((result) => {
       expect(result).eql(appActionMock)
     })
@@ -478,9 +484,9 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
 
     return api['updateAppAction']('app-def-id', 'app-action-id', {
-      type: 'endpoint',
-      name: 'name',
       url: 'https://www.example.com',
+      name: 'name',
+      category: 'Entries.v1.0',
     }).then(
       () => {},
       (errorResponse) => {
@@ -490,8 +496,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppAction', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appActionMock))
+    entitiesMock['appAction']['wrapAppAction'].mockReturnValue(appActionMock)
     return api['getAppAction']('app-def-id', 'app-action-id').then((result) => {
       expect(result).eql(appActionMock)
     })
@@ -510,10 +516,21 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppActions', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appAction']['wrapAppActionCollection'].returns(appActionMock)
+    const { api } = setup(
+      Promise.resolve({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [appActionMock],
+      })
+    )
     return api['getAppActions']('app-def-id').then((result) => {
-      expect(result).eql(appActionMock)
+      expect(result).eql({
+        total: 100,
+        skip: 0,
+        limit: 10,
+        items: [appActionMock],
+      })
     })
   })
 
@@ -530,8 +547,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call deleteAppAction', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appAction']['wrapAppAction'].returns(appActionMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appActionMock))
+    entitiesMock['appAction']['wrapAppAction'].mockReturnValue(appActionMock)
     return api['deleteAppAction']('app-def-id', 'app-action-id').then((result) => {
       expect(result).eql(undefined)
     })
@@ -550,9 +567,9 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createSigningSecret', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(appSigningSecretMock)
-    return api['upsertAppSigningSecret']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+    const { api, entitiesMock } = setup(Promise.resolve(appSigningSecretMock))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].mockReturnValue(appSigningSecretMock)
+    return api['upsertAppSigningSecret']('app-def-id', { value: 'mocked-new-secret-id' }).then(
       (result) => {
         expect(result).eql(appSigningSecretMock)
       }
@@ -563,7 +580,7 @@ describe('A createOrganizationApi', () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['upsertAppSigningSecret']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+    api['upsertAppSigningSecret']('app-def-id', { value: 'mocked-new-secret-id' }).then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
@@ -572,8 +589,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppSigningSecret', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(appSigningSecretMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appSigningSecretMock))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].mockReturnValue(appSigningSecretMock)
     return api['getAppSigningSecret']('app-def-id').then((result) => {
       expect(result).eql(appSigningSecretMock)
     })
@@ -592,8 +609,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call deleteAppSigningSecret', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].returns(undefined)
+    const { api, entitiesMock } = setup(Promise.resolve(undefined))
+    entitiesMock['appSigningSecret']['wrapAppSigningSecret'].mockReturnValue(undefined)
     return api['deleteAppSigningSecret']('app-def-id').then((result) => {
       expect(result).eql(undefined)
     })
@@ -612,8 +629,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createEventSubscription', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(
+    const { api, entitiesMock } = setup(Promise.resolve(appEventSubscriptionMock))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].mockReturnValue(
       appEventSubscriptionMock
     )
     return api['upsertAppEventSubscription']('app-def-id', {
@@ -640,8 +657,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppEventSubscription', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(
+    const { api, entitiesMock } = setup(Promise.resolve(appEventSubscriptionMock))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].mockReturnValue(
       appEventSubscriptionMock
     )
     return api['getAppEventSubscription']('app-def-id').then((result) => {
@@ -662,8 +679,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call deleteAppEventSubscription', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].returns(undefined)
+    const { api, entitiesMock } = setup(Promise.resolve(undefined))
+    entitiesMock['appEventSubscription']['wrapAppEventSubscription'].mockReturnValue(undefined)
     return api['deleteAppEventSubscription']('app-def-id').then((result) => {
       expect(result).eql(undefined)
     })
@@ -682,8 +699,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createKey', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appKey']['wrapAppKey'].returns(appKeyMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appKeyMock))
+    entitiesMock['appKey']['wrapAppKey'].mockReturnValue(appKeyMock)
     return api['createAppKey']('app-def-id', { generate: true }).then((result) => {
       expect(result).eql(appKeyMock)
     })
@@ -702,8 +719,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppKey', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appKey']['wrapAppKey'].returns(appKeyMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appKeyMock))
+    entitiesMock['appKey']['wrapAppKey'].mockReturnValue(appKeyMock)
     return api['getAppKey']('app-def-id', 'fingerprint').then((result) => {
       expect(result).eql(appKeyMock)
     })
@@ -742,9 +759,9 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call deleteAppKey', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appKey']['wrapAppKey'].returns(undefined)
-    return api['deleteAppKey']('app-def-id').then((result) => {
+    const { api, entitiesMock } = setup(Promise.resolve(undefined))
+    entitiesMock['appKey']['wrapAppKey'].mockReturnValue(undefined)
+    return api['deleteAppKey']('app-def-id', 'mocked-fingerprint').then((result) => {
       expect(result).eql(undefined)
     })
   })
@@ -753,7 +770,7 @@ describe('A createOrganizationApi', () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['deleteAppKey']('app-def-id').then(
+    api['deleteAppKey']('app-def-id', 'mocked-fingerprint').then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
@@ -762,20 +779,18 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call createAppDetails', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appDetails']['wrapAppDetails'].returns(appDetailsMock)
-    return api['upsertAppDetails']('app-def-id', { method: 'GET', path: '/some_path' }).then(
-      (result) => {
-        expect(result).eql(appDetailsMock)
-      }
-    )
+    const { api, entitiesMock } = setup(Promise.resolve(appDetailsMock))
+    entitiesMock['appDetails']['wrapAppDetails'].mockReturnValue(appDetailsMock)
+    return api['upsertAppDetails']('app-def-id', {}).then((result) => {
+      expect(result).eql(appDetailsMock)
+    })
   })
 
   test('API call createAppDetails fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    api['upsertAppDetails']('app-def-id', { method: 'GET', path: '/some_path' }).then(
+    api['upsertAppDetails']('app-def-id', {}).then(
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
@@ -784,8 +799,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call getAppDetails', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appDetails']['wrapAppDetails'].returns(appDetailsMock)
+    const { api, entitiesMock } = setup(Promise.resolve(appDetailsMock))
+    entitiesMock['appDetails']['wrapAppDetails'].mockReturnValue(appDetailsMock)
     return api['getAppDetails']('app-def-id').then((result) => {
       expect(result).eql(appDetailsMock)
     })
@@ -804,8 +819,8 @@ describe('A createOrganizationApi', () => {
   })
 
   test('API call deleteAppDetails', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['appDetails']['wrapAppDetails'].returns(undefined)
+    const { api, entitiesMock } = setup(Promise.resolve(undefined))
+    entitiesMock['appDetails']['wrapAppDetails'].mockReturnValue(undefined)
     return api['deleteAppDetails']('app-def-id').then((result) => {
       expect(result).eql(undefined)
     })
