@@ -24,6 +24,9 @@ import type {
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
 
+/**
+ * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
+ */
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 
@@ -58,6 +61,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
@@ -90,6 +94,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((space) => console.log(space))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironmentTemplate: function getEnvironmentTemplate({
       organizationId,
@@ -127,6 +132,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((environmentTemplate) => console.log(environmentTemplate))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEnvironmentTemplate: function createEnvironmentTemplate(
       organizationId: string,
@@ -153,6 +159,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaces: function getSpaces(
       query: QueryOptions = {}
@@ -179,6 +186,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((space) => console.log(space))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpace: function getSpace(spaceId: string): Promise<Space> {
       return makeRequest({
@@ -206,6 +214,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((space) => console.log(space))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createSpace: function createSpace(
       spaceData: CreateSpaceProps,
@@ -234,6 +243,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((org) => console.log(org))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganization: function getOrganization(id: string): Promise<Organization> {
       return makeRequest({
@@ -257,6 +267,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(result => console.log(result.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizations: function getOrganizations(
       query: PaginationQueryParams['query'] = {}
@@ -282,6 +293,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(user => console.log(user.firstName))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getCurrentUser: function getCurrentUser<T = UserProps>(params?: QueryParams): Promise<T> {
       return makeRequest({
@@ -307,8 +319,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(appDefinition => console.log(appDefinition.name))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
-
     getAppDefinition: function getAppDefinition(
       params: GetAppDefinitionParams
     ): Promise<AppDefinition> {
@@ -341,6 +353,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(personalAccessToken => console.log(personalAccessToken.token))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createPersonalAccessToken: function createPersonalAccessToken(
       data: CreatePersonalAccessTokenProps
@@ -374,6 +387,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(token => console.log(token.token))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPersonalAccessToken: function getPersonalAccessToken(tokenId: string) {
       return makeRequest({
@@ -399,6 +413,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(response => console.log(reponse.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPersonalAccessTokens: function getPersonalAccessTokens() {
       return makeRequest({
@@ -423,6 +438,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(token => console.log(token.token))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAccessToken: function getAccessToken(tokenId: string) {
       return makeRequest({
@@ -446,6 +462,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(response => console.log(reponse.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAccessTokens: function getAccessTokens() {
       return makeRequest({
@@ -470,6 +487,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(response => console.log(reponse.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationAccessTokens: function getOrganizationAccessTokens(
       organizationId: string,
@@ -505,6 +523,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(result => console.log(result.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getOrganizationUsage: function getOrganizationUsage(
       organizationId: string,
@@ -541,6 +560,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then(result => console.log(result.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceUsage: function getSpaceUsage(organizationId: string, query: UsageQuery = {}) {
       return makeRequest({
@@ -571,6 +591,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .then((responseData) => console.log(responseData))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     rawRequest: function rawRequest({ url, ...config }: RawAxiosRequestConfig & { url: string }) {
       return makeRequest({

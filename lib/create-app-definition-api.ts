@@ -40,6 +40,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then((appDefinition) => console.log(`App Definition ${appDefinition.sys.id} updated.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: function update() {
       const data = this.toPlainObject() as AppDefinitionProps
@@ -68,6 +69,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then(() => console.log(`App Definition deleted.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     delete: function del() {
       const data = this.toPlainObject() as AppDefinitionProps
@@ -94,6 +96,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then((appBundle) => console.log(appBundle))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppBundle(id: string) {
       const raw = this.toPlainObject() as AppDefinitionProps
@@ -123,6 +126,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getAppBundles(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as AppDefinitionProps
@@ -148,6 +152,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then((appBundle) => console.log(appBundle))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createAppBundle(data: CreateAppBundleProps) {
       const raw = this.toPlainObject() as AppDefinitionProps
@@ -178,6 +183,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * .then((appInstallationsForOrg) => console.log(appInstallationsForOrg.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getInstallationsForOrg(query: SpaceQueryOptions = {}) {
       const raw = this.toPlainObject() as AppDefinitionProps

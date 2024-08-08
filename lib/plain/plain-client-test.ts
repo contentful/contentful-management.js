@@ -21,7 +21,7 @@ describe('Plain Client', () => {
     },
   }
 
-  const plainClient = createClient({ apiAdapter }, { type: 'plain' })
+  const plainClient = createClient({ apiAdapter }, {})
 
   describe('Comment', () => {
     describe('when body is plain text', () => {

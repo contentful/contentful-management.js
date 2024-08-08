@@ -27,21 +27,21 @@ describe('Contentful Management', () => {
   })
 
   it('creates nested client', () => {
-    createClient({ accessToken: 'token' })
+    createClient({ accessToken: 'token' }, { type: 'legacy' })
 
     expect(createPlainClientMock.notCalled).to.be.ok
     expect(createContentfulApiMock.called).to.be.ok
   })
 
   it('creates plain client', () => {
-    createClient({ accessToken: 'token' }, { type: 'plain' })
+    createClient({ accessToken: 'token' })
 
     expect(createPlainClientMock.called).to.be.ok
     expect(createContentfulApiMock.notCalled).to.be.ok
   })
 
   it('generates the correct default user agent', () => {
-    createClient({ accessToken: 'token' })
+    createClient({ accessToken: 'token' }, { type: 'legacy' })
 
     expect(makeRequestMock.notCalled).to.be.ok
 
@@ -59,12 +59,15 @@ describe('Contentful Management', () => {
   })
 
   it('generates the correct user agent', () => {
-    createClient({
-      accessToken: 'token',
-      application: 'myApplication/1.1.1',
-      integration: 'myIntegration/1.0.0',
-      feature: 'some-feature',
-    })
+    createClient(
+      {
+        accessToken: 'token',
+        application: 'myApplication/1.1.1',
+        integration: 'myIntegration/1.0.0',
+        feature: 'some-feature',
+      },
+      { type: 'legacy' }
+    )
 
     expect(makeRequestMock.notCalled).to.be.ok
 
