@@ -59,7 +59,7 @@ export async function makeCreateEntityWithIdTest(
 
   return api[methodToTest](id, mockToReturn).then((r) => {
     expect(r).eql(mockToReturn)
-    expect(makeRequest.args[0][0].payload).eql(mockToReturn, 'data is sent')
+    expect(makeRequest.mock.calls[0][0].payload).eql(mockToReturn, 'data is sent')
   })
 }
 
@@ -76,7 +76,7 @@ export function testGettingEntrySDKObject(
 ) {
   const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
   const resourceData = cloneDeep(resourceMock)
-  entitiesMock[type][wrapFunctionName].returns(wrapFunction(makeRequest, resourceData))
+  entitiesMock[type][wrapFunctionName].mockReturnValue(wrapFunction(makeRequest, resourceData))
 
   expectedFunctions.forEach((funcName) => {
     expect(typeof resourceData[funcName]).not.equals('function')
