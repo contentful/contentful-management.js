@@ -63,6 +63,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then(() => console.log('Space deleted.'))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     delete: function deleteSpace() {
       const raw = this.toPlainObject() as SpaceProps
@@ -90,6 +91,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((space) => console.log(`Space ${space.sys.id} renamed.`)
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: function updateSpace() {
       const raw = this.toPlainObject() as SpaceProps
@@ -117,6 +119,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((environment) => console.log(environment))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironment(environmentId: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -143,6 +146,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironments(query: PaginationQueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -169,6 +173,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((environment) => console.log(environment))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEnvironment(data: CreateEnvironmentProps = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -200,6 +205,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((environment) => console.log(environment))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEnvironmentWithId(
       id: string,
@@ -235,6 +241,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((webhook) => console.log(webhook))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getWebhook(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -260,6 +267,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getWebhooks() {
       const raw = this.toPlainObject() as SpaceProps
@@ -285,6 +293,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then((response) => console.log(response.redactedValue))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getWebhookSigningSecret: function getSigningSecret() {
       const raw = this.toPlainObject() as SpaceProps
@@ -310,6 +319,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then((response) => console.log(response.redactedValue))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getWebhookRetryPolicy: function getWebhookRetryPolicy() {
       const raw = this.toPlainObject() as SpaceProps
@@ -341,6 +351,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((webhook) => console.log(webhook))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createWebhook(data: CreateWebhooksProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -374,6 +385,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((webhook) => console.log(webhook))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createWebhookWithId(id: string, data: CreateWebhooksProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -404,6 +416,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then((response) => console.log(response.redactedValue))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     upsertWebhookSigningSecret: function getSigningSecret(data: UpsertWebhookSigningSecretPayload) {
       const raw = this.toPlainObject() as SpaceProps
@@ -432,6 +445,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then((response) => console.log(response.redactedValue))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     upsertWebhookRetryPolicy: function upsertWebhookRetryPolicy(data: WebhookRetryPolicyPayload) {
       const raw = this.toPlainObject() as SpaceProps
@@ -458,6 +472,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then(() => console.log("success"))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteWebhookSigningSecret: function getSigningSecret() {
       const raw = this.toPlainObject() as SpaceProps
@@ -482,6 +497,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then(() => console.log("success"))
      *   .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteWebhookRetryPolicy: function deleteRetryPolicy() {
       const raw = this.toPlainObject() as SpaceProps
@@ -514,6 +530,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((role) => console.log(role))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getRole(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -538,6 +555,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getRoles(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -593,6 +611,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((role) => console.log(role))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createRole(data: CreateRoleProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -649,6 +668,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((role) => console.log(role))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createRoleWithId(id: string, roleData: Omit<RoleProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
@@ -671,6 +691,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((user) => console.log(user))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceUser(userId: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -695,6 +716,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((data) => console.log(data))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceUsers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -720,6 +742,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((teamsCollection) => console.log(teamsCollection))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeams(query: QueryOptions = { limit: 100 }) {
       const raw = this.toPlainObject() as SpaceProps
@@ -744,6 +767,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((spaceMember) => console.log(spaceMember))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceMember(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -765,6 +789,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((spaceMemberCollection) => console.log(spaceMemberCollection))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceMembers(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -790,6 +815,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((spaceMembership) => console.log(spaceMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceMembership(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -812,6 +838,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -852,6 +879,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((spaceMembership) => console.log(spaceMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createSpaceMembership(data: CreateSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -892,6 +920,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((spaceMembership) => console.log(spaceMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createSpaceMembershipWithId(id: string, data: CreateSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -918,6 +947,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamSpaceMembership(teamSpaceMembershipId: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -943,6 +973,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getTeamSpaceMemberships(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as SpaceProps
@@ -983,6 +1014,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
    * .then((teamSpaceMembership) => console.log(teamSpaceMembership))
    * .catch(console.error)
    * ```
+   * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
    */
     createTeamSpaceMembership(teamId: string, data: CreateTeamSpaceMembershipProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1012,6 +1044,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((apikey) => console.log(apikey))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getApiKey(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1039,6 +1072,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getApiKeys() {
       const raw = this.toPlainObject() as SpaceProps
@@ -1065,6 +1099,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPreviewApiKeys() {
       const raw = this.toPlainObject() as SpaceProps
@@ -1092,6 +1127,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((previewApikey) => console.log(previewApikey))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getPreviewApiKey(id: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1132,6 +1168,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((apiKey) => console.log(apiKey))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createApiKey: function createApiKey(payload: CreateApiKeyProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1171,6 +1208,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((apiKey) => console.log(apiKey))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createApiKeyWithId(id: string, payload: CreateApiKeyProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1203,6 +1241,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((environmentAlias) => console.log(environmentAlias))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createEnvironmentAliasWithId(environmentAliasId: string, data: CreateEnvironmentAliasProps) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1230,6 +1269,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((alias) => console.log(alias))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironmentAlias(environmentAliasId: string) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1254,6 +1294,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getEnvironmentAliases() {
       const raw = this.toPlainObject() as SpaceProps
@@ -1285,6 +1326,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .then((scheduledActionCollection) => console.log(scheduledActionCollection.items))
      *    .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getScheduledActions(query: ScheduledActionQueryOptions) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1314,6 +1356,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .then((scheduledAction) => console.log(scheduledAction))
      *    .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     getScheduledAction({
       scheduledActionId,
@@ -1371,6 +1414,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .then((scheduledAction) => console.log(scheduledAction))
      *    .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     createScheduledAction(data: Omit<ScheduledActionProps, 'sys'>) {
       const raw = this.toPlainObject() as SpaceProps
@@ -1431,6 +1475,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .then((scheduledAction) => console.log(scheduledAction))
      *    .catch(console.error);
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     updateScheduledAction({
       scheduledActionId,
@@ -1479,6 +1524,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *    .then((scheduledAction) => console.log(scheduledAction))
      *    .catch(console.error);
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     deleteScheduledAction({
       scheduledActionId,
