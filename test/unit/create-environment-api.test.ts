@@ -1,6 +1,3 @@
-import createEnvironmentApi, {
-  __RewireAPI__ as createEnvironmentApiRewireApi,
-} from '../../lib/create-environment-api'
 import {
   appInstallationMock,
   assetMock,
@@ -16,12 +13,11 @@ import {
   mockCollection,
   setupEntitiesMock,
   snapShotMock,
-  UiExtensionMock,
   uploadMock,
   appAccessTokenMock,
+  extensionMock,
 } from './mocks/entities'
-import { afterEach, describe, test } from 'mocha'
-import { expect } from 'chai'
+import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
 import {
   makeCreateEntityTest,
@@ -35,24 +31,26 @@ import { wrapEntry } from '../../lib/entities/entry'
 import { wrapAsset } from '../../lib/entities/asset'
 import { wrapTagCollection } from '../../lib/entities/tag'
 import setupMakeRequest from './mocks/makeRequest'
+import createEnvironmentApi from '../../lib/create-environment-api'
 
-function setup(promise) {
-  const entitiesMock = setupEntitiesMock(createEnvironmentApiRewireApi)
+function setup<T>(promise: Promise<T>) {
+  const entitiesMock = setupEntitiesMock()
   const makeRequest = setupMakeRequest(promise)
   const api = createEnvironmentApi(makeRequest)
-  api.toPlainObject = () => environmentMock
+
   return {
-    api,
+    api: {
+      ...api,
+      toPlainObject: () => environmentMock,
+    },
     makeRequest,
     entitiesMock,
   }
 }
 
-describe('A createEnvironmentApi', () => {
-  afterEach(() => {
-    createEnvironmentApiRewireApi.__ResetDependency__('entities')
-  })
+export type EnvironmentSetup = typeof setup
 
+describe('A createEnvironmentApi', () => {
   test('API call environment delete', async () => {
     const { api } = setup(Promise.resolve({}))
     expect(await api.delete()).to.not.throw
@@ -71,18 +69,21 @@ describe('A createEnvironmentApi', () => {
       sys: { id: 'id', type: 'Environment', space: { sys: { id: 'spaceId' } } },
       name: 'updatedname',
     }
-    let { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
-    entitiesMock.environment.wrapEnvironment.returns(responseData)
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.environment.wrapEnvironment.mockReturnValue(responseData)
 
     // mocks data that would exist in a environment object already retrieved from the server
+    // @ts-expect-error
     api.sys = { id: 'id', type: 'Environment', version: 2, space: { sys: { id: 'spaceId' } } }
-    api = toPlainObject(api)
+    const plainApi = toPlainObject(api)
 
-    api.name = 'updatedname'
+    // @ts-expect-error
+    plainApi.name = 'updatedname'
 
-    return api.update().then((r) => {
+    return plainApi.update().then((r) => {
       expect(r).to.eql(responseData)
-      expect(makeRequest.args[0][0].payload.name).to.eql('updatedname', 'data is sent')
+      // @ts-expect-error
+      expect(makeRequest.mock.calls[0][0].payload.name).to.eql('updatedname', 'data is sent')
     })
   })
 
@@ -253,12 +254,13 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createEntry', async () => {
-    const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock.entry.wrapEntry.returns(entryMock)
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(entryMock))
+    entitiesMock.entry.wrapEntry.mockReturnValue(entryMock)
 
     return api.createEntry('contentTypeId', entryMock).then((r) => {
       expect(r).to.eql(entryMock)
-      expect(makeRequest.args[0][0].payload).to.eql(entryMock, 'data is sent')
+      // @ts-expect-error
+      expect(makeRequest.mock.calls[0][0].payload).to.eql(entryMock, 'data is sent')
     })
   })
 
@@ -370,8 +372,14 @@ describe('A createEnvironmentApi', () => {
     try {
       await api.createAssetFromFiles({
         fields: {
+          title: { locale: 'mocked' },
+          description: { locale: 'mocked' },
           file: {
-            locale: {},
+            locale: {
+              file: 'mocked',
+              contentType: 'mocked',
+              fileName: 'mocked',
+            },
           },
         },
       })
@@ -457,7 +465,7 @@ describe('A createEnvironmentApi', () => {
   test('API call getUiExtension', async () => {
     return makeGetEntityTest(setup, {
       entityType: 'extension',
-      mockToReturn: UiExtensionMock,
+      mockToReturn: extensionMock,
       methodToTest: 'getUiExtension',
     })
   })
@@ -471,7 +479,7 @@ describe('A createEnvironmentApi', () => {
   test('API call getUiExtensions', async () => {
     return makeGetCollectionTest(setup, {
       entityType: 'extension',
-      mockToReturn: UiExtensionMock,
+      mockToReturn: extensionMock,
       methodToTest: 'getUiExtensions',
     })
   })
@@ -483,9 +491,9 @@ describe('A createEnvironmentApi', () => {
   })
 
   test('API call createUiExtension', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    return makeCreateEntityTest(setup, {
       entityType: 'extension',
-      mockToReturn: UiExtensionMock,
+      mockToReturn: extensionMock,
       methodToTest: 'createUiExtension',
     })
   })
@@ -499,7 +507,7 @@ describe('A createEnvironmentApi', () => {
   test('API call createUiExtensionWithId', async () => {
     return makeCreateEntityWithIdTest(setup, {
       entityType: 'extension',
-      mockToReturn: UiExtensionMock,
+      mockToReturn: extensionMock,
       methodToTest: 'createUiExtensionWithId',
     })
   })
@@ -514,11 +522,11 @@ describe('A createEnvironmentApi', () => {
     const responseData = {
       sys: { id: 'id', type: 'AppActionCall', space: { sys: { id: 'spaceId' } } },
     }
-    let { api, entitiesMock } = setup(Promise.resolve(responseData))
-    entitiesMock.appActionCall.wrapAppActionCall.returns(responseData)
+    const { api, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.appActionCall.wrapAppActionCall.mockReturnValue(responseData)
 
     return api
-      .createAppActionCall('app_definition_id', 'action_id', { body: { value: 'something' } })
+      .createAppActionCall('app_definition_id', 'action_id', { parameters: { value: 'something' } })
       .then((r) => {
         expect(r).to.eql(responseData)
       })
@@ -630,18 +638,16 @@ describe('A createEnvironmentApi', () => {
 
     expect(installations).to.be.eql([environmentTemplateInstallationMock])
 
-    expect(
-      makeRequest.calledOnceWith({
-        entityType: 'EnvironmentTemplateInstallation',
-        action: 'getForEnvironment',
-        params: {
-          environmentTemplateId,
-          query: {},
-          spaceId: environmentMock.sys.space.sys.id,
-          environmentId: environmentMock.sys.id,
-        },
-      })
-    ).to.be.ok
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplateInstallation',
+      action: 'getForEnvironment',
+      params: {
+        environmentTemplateId,
+        query: {},
+        spaceId: environmentMock.sys.space.sys.id,
+        environmentId: environmentMock.sys.id,
+      },
+    })
   })
 })
 
@@ -651,8 +657,8 @@ test('API call createAssetKey', async () => {
   const withExpiryIn1Hour = Math.floor(Date.now() / 1000) + 1 * 60 * 60
   const data = { expiresAt: withExpiryIn1Hour }
   const assetKey = cloneMock('assetKey')
-  const { api, entitiesMock } = setup(Promise.resolve({ data: assetKey }))
-  entitiesMock.assetKey.wrapAssetKey.returns(assetKey)
+  const { api, entitiesMock } = setup(Promise.resolve(assetKey))
+  entitiesMock.assetKey.wrapAssetKey.mockReturnValue(assetKey)
 
   await api.createAssetKey(data).then((r) => {
     expect(r).eql(assetKey)
