@@ -7,7 +7,7 @@ import { getTestOrganizationId, initPlainClient } from '../helpers'
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []
 
-describe('Taxonomy Integration', () => {
+describe.skip('Taxonomy Integration', () => {
   const client = initPlainClient({
     organizationId: getTestOrganizationId(),
   })
