@@ -140,7 +140,7 @@ interface DefaultWidget {
   widgetNamespace: 'builtin'
 }
 
-function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string) {
+function getDefaultWidget(field: keyof typeof DEFAULTS_WIDGET, fieldId: string): DefaultWidget {
   const defaultWidget: DefaultWidget = {
     ...(DEFAULTS_WIDGET[field] as Pick<DefaultWidget, 'widgetId'>),
     settings: {
@@ -172,7 +172,7 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - If a Text field is a title then the `singleLine` widget is used.
  * - Otherwise a simple type-to-editor mapping is used.
  */
-export default function getDefaultControlOfField(field: ContentFields) {
+export default function getDefaultControlOfField(field: ContentFields): DefaultWidget {
   const fieldType = toInternalFieldType(field)
 
   if (!fieldType) {
@@ -187,7 +187,7 @@ export default function getDefaultControlOfField(field: ContentFields) {
     return {
       widgetId: 'dropdown',
       fieldId: field.id,
-      widgetNameSpace: 'builtin',
+      widgetNamespace: 'builtin',
     }
   }
 
