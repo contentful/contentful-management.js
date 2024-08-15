@@ -9,7 +9,11 @@ import type {
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import type { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import type {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from './entities/app-definition'
 import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
 import type {
   AssetFileProp,
@@ -40,7 +44,6 @@ import type {
   EnvironmentAliasProps,
 } from './entities/environment-alias'
 import type { CreateLocaleProps, LocaleProps } from './entities/locale'
-import type { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import type { OrganizationProp } from './entities/organization'
 import type {
   CreateOrganizationInvitationProps,
@@ -2040,9 +2043,23 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
 export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
 export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+
 export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
-  query?: { depth?: number; pageUrl?: string }
+  query?:
+    | { pageUrl?: string }
+    | {
+        depth?: number
+        order?:
+          | 'sys.createdAt'
+          | 'sys.updatedAt'
+          | 'prefLabel'
+          | '-sys.createdAt'
+          | '-sys.updatedAt'
+          | '-prefLabel'
+        query?: string
+      }
 }
+
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
