@@ -54,7 +54,8 @@
     "precommit": "npm run lint",
     "postpublish": "if [ \"$(git rev-parse --abbrev-ref HEAD)\" = master ] ; then npm run docs:publish && npm run clean ; else exit 0 ; fi",
     "prepush": "npm run test:prepush",
-    "prepublishOnly": "npm run build && npm run test:version"
+    "prepublishOnly": "npm run build && npm run test:version",
+    "postinstall": "patch-package"
   },
   "files": [
     "dist",
@@ -125,6 +126,7 @@
     "mocha-junit-reporter": "^2.0.2",
     "nodemon": "^3.1.2",
     "nyc": "^15.1.0",
+    "patch-package": "^8.0.0",
     "prettier": "^2.6.0",
     "rimraf": "^5.0.0",
     "semantic-release": "^19.0.5",
