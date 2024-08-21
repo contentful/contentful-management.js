@@ -161,6 +161,10 @@ import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type {
+  ResourceProviderProps,
+  UpsertResourceProviderProps,
+} from './entities/resource-provider'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -1576,6 +1580,16 @@ export type MRActions = {
       return: Collection<ReleaseAction, ReleaseActionProps>
     }
   }
+  ResourceProvider: {
+    get: { params: GetResourceProviderParams; return: ResourceProviderProps }
+    upsert: {
+      params: GetResourceProviderParams
+      payload: UpsertResourceProviderProps
+      headers?: RawAxiosRequestHeaders
+      return: ResourceProviderProps
+    }
+    delete: { params: GetResourceProviderParams; return: any }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -2075,6 +2089,8 @@ export type GetWorkflowParams = GetSpaceEnvironmentParams & {
 }
 export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
+
+export type GetResourceProviderParams = GetOrganizationParams & { appDefinition: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
