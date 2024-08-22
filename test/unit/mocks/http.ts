@@ -1,15 +1,5 @@
 import { Mock, vi } from 'vitest'
 
-/**
- * @typedef {object} HTTPStub
- * @property {sinon.SinonStub} get
- * @property {sinon.SinonStub} post
- * @property {sinon.SinonStub} put
- * @property {sinon.SinonStub} delete
- * @property {object} defaults
- * @property {object} httpClientParams
- */
-
 interface MockedHttp<T, R> extends Mock<[T], R> {
   get?: Mock<[T], R>
   post?: Mock<[T], R>
@@ -21,9 +11,6 @@ interface MockedHttp<T, R> extends Mock<[T], R> {
   cloneWithNewParams?: () => MockedHttp<T, R>
 }
 
-/**
- * @returns {sinon.SinonStub & HTTPStub}
- */
 export default function setupHttpMock(promise = Promise.resolve({ data: {} })) {
   const mock: MockedHttp<{}, typeof promise> = vi.fn().mockReturnValue(promise)
 
