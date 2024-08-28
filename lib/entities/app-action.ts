@@ -42,10 +42,13 @@ type CustomAppActionProps = {
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
 export type AppActionCategoryType = AppActionCategory['category']
 
+export type AppActionType = 'endpoint' | 'function' | 'function-invocation'
+
 export type CreateAppActionProps = AppActionCategory & {
   url: string
   name: string
   description?: string
+  type?: AppActionType
 }
 
 export type AppActionProps = AppActionCategory & {
@@ -71,7 +74,7 @@ export type AppActionProps = AppActionCategory & {
    * function: deprecated, use function-invocation instead
    * function-invocation: action invokes a contentful function
    */
-  type?: 'endpoint' | 'function' | 'function-invocation'
+  type?: AppActionType
 }
 
 export type AppAction = AppActionProps &
