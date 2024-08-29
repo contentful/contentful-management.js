@@ -42,10 +42,13 @@ type CustomAppActionProps = {
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
 export type AppActionCategoryType = AppActionCategory['category']
 
+export type AppActionType = 'endpoint' | 'function' | 'function-invocation'
+
 export type CreateAppActionProps = AppActionCategory & {
   url: string
   name: string
   description?: string
+  type?: AppActionType
 }
 
 export type AppActionProps = AppActionCategory & {
@@ -65,7 +68,13 @@ export type AppActionProps = AppActionCategory & {
    * Human readable description of the action
    */
   description?: string
-  type?: 'endpoint' | 'function'
+  /**
+   * Type of the action, defaults to endpoint if not provided
+   * endpoint: action is sent to specified URL
+   * function: deprecated, use function-invocation instead
+   * function-invocation: action invokes a contentful function
+   */
+  type?: AppActionType
 }
 
 export type AppAction = AppActionProps &
