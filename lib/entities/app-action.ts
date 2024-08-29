@@ -69,7 +69,7 @@ export type AppActionProps = AppActionCategory & {
    */
   description?: string
   /**
-   * Type of the action
+   * Type of the action, defaults to endpoint if not provided
    * endpoint: action is sent to specified URL
    * function: deprecated, use function-invocation instead
    * function-invocation: action invokes a contentful function
