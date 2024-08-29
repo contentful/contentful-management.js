@@ -4,7 +4,6 @@ import type { CreateAppBundleProps } from './entities/app-bundle'
 import type { AppDefinitionProps } from './entities/app-definition'
 import { wrapAppDefinition } from './entities/app-definition'
 import type { UpsertResourceProviderProps } from './entities/resource-provider'
-import { wrapResourceProvider } from './entities/resource-provider'
 
 /**
  * @private
@@ -16,6 +15,7 @@ export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionAp
  */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
   const { wrapAppBundle, wrapAppBundleCollection } = entities.appBundle
+  const { wrapResourceProvider } = entities.resourceProvider
 
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
@@ -195,7 +195,7 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates or updates a resource provider
-     * @param Object representation of the ResourceProvider
+     * @param data representation of the ResourceProvider
      * @return Promise for the newly created or updated ResourceProvider
      * @example ```javascript
      * const contentful = require('contentful-management')

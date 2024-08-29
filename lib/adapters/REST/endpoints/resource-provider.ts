@@ -1,7 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import copy from 'fast-copy'
 import type { GetResourceProviderParams } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import type {
@@ -25,9 +24,7 @@ export const upsert: RestEndpoint<'ResourceProvider', 'upsert'> = (
   rawData: UpsertResourceProviderProps,
   headers?: RawAxiosRequestHeaders
 ) => {
-  const data = copy(rawData)
-
-  return raw.put<ResourceProviderProps>(http, getBaseUrl(params), data, { headers })
+  return raw.put<ResourceProviderProps>(http, getBaseUrl(params), rawData, { headers })
 }
 
 export const del: RestEndpoint<'ResourceProvider', 'delete'> = (
