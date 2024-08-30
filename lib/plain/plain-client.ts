@@ -373,6 +373,11 @@ export const createPlainClient = (
       upsert: wrap(wrapParams, 'AppInstallation', 'upsert'),
       delete: wrap(wrapParams, 'AppInstallation', 'delete'),
     },
+    resourceProvider: {
+      get: wrap(wrapParams, 'ResourceProvider', 'get'),
+      upsert: wrap(wrapParams, 'ResourceProvider', 'upsert'),
+      delete: wrap(wrapParams, 'ResourceProvider', 'delete'),
+    },
     extension: {
       get: wrap(wrapParams, 'Extension', 'get'),
       getMany: wrap(wrapParams, 'Extension', 'getMany'),

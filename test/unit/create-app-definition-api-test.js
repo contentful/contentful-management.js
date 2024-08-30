@@ -9,6 +9,7 @@ import {
   appDefinitionMock,
   setupEntitiesMock,
   appInstallationsForOrgMock,
+  resourceProviderMock,
 } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
@@ -149,6 +150,40 @@ describe('createAppDefinitionApi', () => {
   test('API call createAppBundle fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createAppBundle',
+    })
+  })
+
+  test('API call upsertResourceProvider', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve({}))
+
+    entitiesMock['resourceProvider']['wrapResourceProvider'].returns(resourceProviderMock)
+
+    return api['upsertResourceProvider']({
+      sys: { id: 'id' },
+      type: 'function',
+      function: { sys: { id: 'id', type: 'Link', linkType: 'Function' } },
+    }).then((result) => {
+      expect(result).equals(resourceProviderMock)
+    })
+  })
+
+  test('API call upsertResourceProvider fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'upsertResourceProvider',
+    })
+  })
+
+  test('API call getResourceProvider', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'resourceProvider',
+      mockToReturn: resourceProviderMock,
+      methodToTest: 'getResourceProvider',
+    })
+  })
+
+  test('API call getResourceProvider fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getResourceProvider',
     })
   })
 })

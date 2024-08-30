@@ -3,6 +3,7 @@ import entities from './entities'
 import type { CreateAppBundleProps } from './entities/app-bundle'
 import type { AppDefinitionProps } from './entities/app-definition'
 import { wrapAppDefinition } from './entities/app-definition'
+import type { UpsertResourceProviderProps } from './entities/resource-provider'
 
 /**
  * @private
@@ -14,6 +15,7 @@ export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionAp
  */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
   const { wrapAppBundle, wrapAppBundleCollection } = entities.appBundle
+  const { wrapResourceProvider } = entities.resourceProvider
 
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
@@ -190,6 +192,75 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
           query,
         },
       })
+    },
+    /**
+     * Creates or updates a resource provider
+     * @param data representation of the ResourceProvider
+     * @return Promise for the newly created or updated ResourceProvider
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // You need a valid AppDefinition with an activated AppBundle that has a contentful function configured
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppDefinition('<app_def_id>'))
+     * .then((appDefinition) => appDefinition.upsertResourceProvider({
+     *    sys: {
+     *      id: '<resource_provider_id>'
+     *    },
+     *    type: 'function',
+     *    function: {
+     *      sys: {
+     *        id: '<contentful_function_id>',
+     *        type: 'Link'
+     *        linkType: 'Function'
+     *      }
+     *    }
+     * }))
+     * .then((resourceProvider) => console.log(resourceProvider))
+     * .catch(console.error)
+     * ```
+     */
+    upsertResourceProvider(data: UpsertResourceProviderProps) {
+      const raw = this.toPlainObject() as AppDefinitionProps
+      return makeRequest({
+        entityType: 'ResourceProvider',
+        action: 'upsert',
+        params: {
+          appDefinitionId: raw.sys.id,
+          organizationId: raw.sys.organization.sys.id,
+        },
+        payload: data,
+      }).then((payload) => wrapResourceProvider(makeRequest, payload))
+    },
+    /**
+     * Gets a Resource Provider
+     * @return Promise for a Resource Provider
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<org_id>')
+     * .then((org) => org.getAppDefinition('<app_def_id>'))
+     * .then((appDefinition) => appDefinition.getResourceProvider())
+     * .then((resourceProvider) => console.log(resourceProvider))
+     * .catch(console.error)
+     * ```
+     */
+    getResourceProvider() {
+      const raw = this.toPlainObject() as AppDefinitionProps
+      return makeRequest({
+        entityType: 'ResourceProvider',
+        action: 'get',
+        params: {
+          appDefinitionId: raw.sys.id,
+          organizationId: raw.sys.organization.sys.id,
+        },
+      }).then((payload) => wrapResourceProvider(makeRequest, payload))
     },
   }
 }

@@ -161,6 +161,10 @@ import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type {
+  ResourceProviderProps,
+  UpsertResourceProviderProps,
+} from './entities/resource-provider'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -590,6 +594,10 @@ type MRInternal<UA extends boolean> = {
     'queryForRelease'
   >
 
+  (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
+  (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
+  (opts: MROpts<'ResourceProvider', 'delete', UA>): MRReturn<'ResourceProvider', 'delete'>
+
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
   (opts: MROpts<'Role', 'getManyForOrganization', UA>): MRReturn<'Role', 'getManyForOrganization'>
@@ -762,6 +770,16 @@ export interface Adapter {
  * @private
  */
 export type MRActions = {
+  ResourceProvider: {
+    get: { params: GetResourceProviderParams; return: ResourceProviderProps }
+    upsert: {
+      params: GetResourceProviderParams
+      payload: UpsertResourceProviderProps
+      headers?: RawAxiosRequestHeaders
+      return: ResourceProviderProps
+    }
+    delete: { params: GetResourceProviderParams; return: any }
+  }
   Http: {
     get: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     patch: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
@@ -2075,6 +2093,8 @@ export type GetWorkflowParams = GetSpaceEnvironmentParams & {
 }
 export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
+
+export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }

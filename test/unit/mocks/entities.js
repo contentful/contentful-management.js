@@ -1050,6 +1050,18 @@ export const userUIConfigMock = {
   entryListViews: [],
 }
 
+const resourceProviderMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'ResourceProvider',
+    organization: {
+      sys: { id: 'organization-id' },
+    },
+    appDefinition: { sys: { id: 'appDefinition-id' } },
+  }),
+  type: 'function',
+  function: { sys: { id: 'function-id' } },
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1099,6 +1111,7 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  resourceProvider: resourceProviderMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -1251,6 +1264,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     releaseAction: {
       wrapReleaseAction: sinon.stub(),
     },
+    resourceProvider: {
+      wrapResourceProvider: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -1397,4 +1413,5 @@ export {
   environmentTemplateInstallationMock,
   environmentTemplateValidationMock,
   taskMock,
+  resourceProviderMock,
 }

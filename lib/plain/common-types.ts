@@ -113,6 +113,7 @@ import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
 import type { ConceptPlainClientAPI } from './entities/concept'
 import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
+import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
 
 export type PlainClientAPI = {
   raw: {
@@ -503,6 +504,7 @@ export type PlainClientAPI = {
   }
   appDefinition: AppDefinitionPlainClientAPI
   appInstallation: AppInstallationPlainClientAPI
+  resourceProvider: ResourceProviderPlainClientAPI
   extension: ExtensionPlainClientAPI
   webhook: WebhookPlainClientAPI
   snapshot: {
