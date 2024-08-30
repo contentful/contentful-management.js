@@ -282,3 +282,8 @@ export type {
 } from './entities/workflows-changelog-entry'
 export type { ConceptProps, CreateConceptProps } from './entities/concept'
 export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+export type {
+  ResourceProvider,
+  ResourceProviderProps,
+  UpsertResourceProviderProps,
+} from './entities/resource-provider'

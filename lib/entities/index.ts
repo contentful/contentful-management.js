@@ -52,6 +52,7 @@ import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
 import * as concept from './concept'
 import * as conceptScheme from './concept-scheme'
+import * as resourceProvider from './resource-provider'
 
 export default {
   accessToken,
@@ -90,6 +91,7 @@ export default {
   previewApiKey,
   release,
   releaseAction,
+  resourceProvider,
   role,
   scheduledAction,
   snapshot,
