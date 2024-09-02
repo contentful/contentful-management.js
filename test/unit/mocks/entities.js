@@ -1062,6 +1062,18 @@ const resourceProviderMock = {
   function: { sys: { id: 'function-id' } },
 }
 
+const resourceTypeMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'ResourceType',
+    organization: {
+      sys: { id: 'organization-id' },
+    },
+    appDefinition: { sys: { id: 'appDefinition-id' } },
+  }),
+  type: 'function',
+  source: 'source',
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1112,6 +1124,7 @@ const mocks = {
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
   resourceProvider: resourceProviderMock,
+  resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -1267,6 +1280,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     resourceProvider: {
       wrapResourceProvider: sinon.stub(),
     },
+    resourceType: {
+      wrapResourceType: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -1414,4 +1430,5 @@ export {
   environmentTemplateValidationMock,
   taskMock,
   resourceProviderMock,
+  resourceTypeMock,
 }

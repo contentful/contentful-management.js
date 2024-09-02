@@ -2,6 +2,8 @@ import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '.
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
+import type { UpsertResourceTypeProps } from './resource-type'
+import { wrapResourceType } from './resource-type'
 
 export type ResourceProviderProps = {
   /**
@@ -91,6 +93,33 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
         action: 'delete',
         params: getParams(data),
       })
+    },
+
+    getResourceType: function getResourceType(id: string) {
+      const data = this.toPlainObject() as ResourceProviderProps
+
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'get',
+        params: {
+          organizationId: data.sys.organization.sys.id,
+          appDefinitionId: data.sys.appDefinition.sys.id,
+          resourceTypeId: id,
+        },
+      }).then((data) => wrapResourceType(makeRequest, data))
+    },
+    upsertResourceType: function upsertResourceType(data: UpsertResourceTypeProps) {
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'upsert',
+        params: {
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
+          resourceTypeId: data.sys.id,
+        },
+        headers: {},
+        payload: data,
+      }).then((data) => wrapResourceType(makeRequest, data))
     },
   }
 }

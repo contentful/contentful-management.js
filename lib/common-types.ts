@@ -165,6 +165,7 @@ import type {
   ResourceProviderProps,
   UpsertResourceProviderProps,
 } from './entities/resource-provider'
+import type { ResourceTypeProps, UpsertResourceTypeProps } from './entities/resource-type'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -598,6 +599,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
   (opts: MROpts<'ResourceProvider', 'delete', UA>): MRReturn<'ResourceProvider', 'delete'>
 
+  (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
+  (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
+  (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
+
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
   (opts: MROpts<'Role', 'getManyForOrganization', UA>): MRReturn<'Role', 'getManyForOrganization'>
@@ -779,6 +784,16 @@ export type MRActions = {
       return: ResourceProviderProps
     }
     delete: { params: GetResourceProviderParams; return: any }
+  }
+  ResourceType: {
+    get: { params: GetResourceTypeParams; return: ResourceTypeProps }
+    upsert: {
+      params: GetResourceTypeParams
+      payload: UpsertResourceTypeProps
+      headers?: RawAxiosRequestHeaders
+      return: ResourceTypeProps
+    }
+    delete: { params: GetResourceTypeParams; return: any }
   }
   Http: {
     get: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
@@ -2095,6 +2110,8 @@ export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
 
 export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
+
+export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
