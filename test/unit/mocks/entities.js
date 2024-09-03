@@ -1069,9 +1069,14 @@ const resourceTypeMock = {
       sys: { id: 'organization-id' },
     },
     appDefinition: { sys: { id: 'appDefinition-id' } },
+    resourceProvider: {
+      sys: { id: 'resourceProvider-id' },
+    },
   }),
-  type: 'function',
-  source: 'source',
+  name: 'resourceType',
+  defaultFieldMapping: {
+    title: 'title',
+  },
 }
 
 const mocks = {

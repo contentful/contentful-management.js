@@ -2,8 +2,8 @@ import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '.
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { UpsertResourceTypeProps } from './resource-type'
-import { wrapResourceType } from './resource-type'
+import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
+import entities from '.'
 
 export type ResourceProviderProps = {
   /**
@@ -32,12 +32,16 @@ export interface ResourceProvider
     DefaultElements<ResourceProviderProps> {
   upsert(): Promise<ResourceProvider>
   delete(): Promise<void>
+  upsertResourceType(id: string, data: UpsertResourceTypeProps): Promise<ResourceType>
+  getResourceType(id: string): Promise<ResourceType>
 }
 
 /**
  * @private
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
+  const { wrapResourceType } = entities.resourceType
+
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
@@ -108,14 +112,14 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapResourceType(makeRequest, data))
     },
-    upsertResourceType: function upsertResourceType(data: UpsertResourceTypeProps) {
+    upsertResourceType: function upsertResourceType(id: string, data: UpsertResourceTypeProps) {
       return makeRequest({
         entityType: 'ResourceType',
         action: 'upsert',
         params: {
           organizationId: this.sys.organization.sys.id,
           appDefinitionId: this.sys.appDefinition.sys.id,
-          resourceTypeId: data.sys.id,
+          resourceTypeId: id,
         },
         headers: {},
         payload: data,

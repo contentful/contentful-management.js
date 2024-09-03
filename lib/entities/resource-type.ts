@@ -14,7 +14,6 @@ export type ResourceTypeProps = {
    * System metadata
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
-    organization: SysLink
     appDefinition: SysLink
     resourceProvider: SysLink
   }
@@ -41,13 +40,11 @@ export type ResourceTypeProps = {
   }
 }
 
-export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'> & {
-  sys: { id: string }
-}
+export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'>
 
 export interface ResourceType extends ResourceTypeProps, DefaultElements<ResourceTypeProps> {
-  upsert(): Promise<ResourceType>
-  delete(): Promise<void>
+  upsert(organizationId: string): Promise<ResourceType>
+  delete(organizationId: string): Promise<void>
 }
 
 /**
@@ -75,12 +72,13 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    upsert: function upsert() {
+    upsert: function upsert(organizationId: string) {
       const data = this.toPlainObject() as ResourceTypeProps
+
       return makeRequest({
         entityType: 'ResourceType',
         action: 'upsert',
-        params: getParams(data),
+        params: getParams(organizationId, data),
         headers: {},
         payload: getUpsertParams(data),
       }).then((data) => wrapResourceType(makeRequest, data))
@@ -102,25 +100,25 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    delete: function del() {
+    delete: function del(organizationId: string) {
       const data = this.toPlainObject() as ResourceTypeProps
+
       return makeRequest({
         entityType: 'ResourceType',
         action: 'delete',
-        params: getParams(data),
+        params: getParams(organizationId, data),
       })
     },
   }
 }
 
-const getParams = (data: ResourceTypeProps): GetResourceTypeParams => ({
-  organizationId: data.sys.organization.sys.id,
+const getParams = (organizationId: string, data: ResourceTypeProps): GetResourceTypeParams => ({
+  organizationId,
   appDefinitionId: data.sys.appDefinition.sys.id,
   resourceTypeId: data.sys.id,
 })
 
 const getUpsertParams = (data: ResourceTypeProps): UpsertResourceTypeProps => ({
-  sys: { id: data.sys.id },
   name: data.name,
   defaultFieldMapping: data.defaultFieldMapping,
 })
