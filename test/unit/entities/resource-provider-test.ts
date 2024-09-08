@@ -76,7 +76,7 @@ describe('Entity ResourceProvider', () => {
     const entity = wrapResourceProvider(makeRequest, entityMock)
     const response = await entity['getResourceTypes']()
 
-    expect(response[0]).to.deep.equal(resourceTypeMock)
-    expect(response[0].toPlainObject, 'response is wrapped').to.be.ok
+    expect(response.items[0]).to.deep.equal(resourceTypeMock)
+    expect(response.items[0].toPlainObject, 'response is wrapped').to.be.ok
   })
 })
