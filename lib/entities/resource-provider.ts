@@ -1,4 +1,10 @@
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type {
+  BasicMetaSysProps,
+  CollectionProp,
+  DefaultElements,
+  MakeRequest,
+  SysLink,
+} from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -34,6 +40,7 @@ export interface ResourceProvider
   delete(): Promise<void>
   upsertResourceType(id: string, data: UpsertResourceTypeProps): Promise<ResourceType>
   getResourceType(id: string): Promise<ResourceType>
+  getResourceTypes(): Promise<CollectionProp<ResourceType>>
 }
 
 /**
@@ -100,14 +107,12 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
     },
 
     getResourceType: function getResourceType(id: string) {
-      const data = this.toPlainObject() as ResourceProviderProps
-
       return makeRequest({
         entityType: 'ResourceType',
         action: 'get',
         params: {
-          organizationId: data.sys.organization.sys.id,
-          appDefinitionId: data.sys.appDefinition.sys.id,
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
           resourceTypeId: id,
         },
       }).then((data) => wrapResourceType(makeRequest, data))
@@ -124,6 +129,19 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
         headers: {},
         payload: data,
       }).then((data) => wrapResourceType(makeRequest, data))
+    },
+    getResourceTypes: function getResourceTypes() {
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'getMany',
+        params: {
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
+        },
+      }).then((data) => {
+        data.items = data.items.map((item) => wrapResourceType(makeRequest, item))
+        return data as CollectionProp<ResourceType>
+      })
     },
   }
 }

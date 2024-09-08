@@ -380,6 +380,7 @@ export const createPlainClient = (
     },
     resourceType: {
       get: wrap(wrapParams, 'ResourceType', 'get'),
+      getMany: wrap(wrapParams, 'ResourceType', 'getMany'),
       upsert: wrap(wrapParams, 'ResourceType', 'upsert'),
       delete: wrap(wrapParams, 'ResourceType', 'delete'),
     },

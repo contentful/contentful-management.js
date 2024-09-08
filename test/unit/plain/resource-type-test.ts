@@ -28,6 +28,26 @@ describe('ResourceType', () => {
     )
   })
 
+  test('getMany', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(
+      Promise.resolve({ data: { items: [resourceTypeMock] } })
+    )
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+    const response = await plainClient.resourceType.getMany({
+      organizationId,
+      appDefinitionId,
+      resourceTypeId,
+    })
+
+    expect(response).to.be.an('object')
+    expect(response.items[0].sys.id).to.equal('id')
+
+    sinon.assert.calledWith(
+      httpMock.get,
+      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types`
+    )
+  })
+
   test('upsert', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: resourceTypeMock }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })

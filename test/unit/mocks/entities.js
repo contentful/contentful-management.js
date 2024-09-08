@@ -1053,10 +1053,8 @@ export const userUIConfigMock = {
 const resourceProviderMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ResourceProvider',
-    organization: {
-      sys: { id: 'organization-id' },
-    },
-    appDefinition: { sys: { id: 'appDefinition-id' } },
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
   }),
   type: 'function',
   function: { sys: { id: 'function-id' } },
@@ -1065,12 +1063,10 @@ const resourceProviderMock = {
 const resourceTypeMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ResourceType',
-    organization: {
-      sys: { id: 'organization-id' },
-    },
-    appDefinition: { sys: { id: 'appDefinition-id' } },
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
     resourceProvider: {
-      sys: { id: 'resourceProvider-id' },
+      sys: { id: 'resourceProvider-id', linkType: 'ResourceProvider', type: 'Link' },
     },
   }),
   name: 'resourceType',

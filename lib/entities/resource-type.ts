@@ -15,6 +15,7 @@ export type ResourceTypeProps = {
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
     appDefinition: SysLink
+    organization: SysLink
     resourceProvider: SysLink
   }
   /**
@@ -43,8 +44,8 @@ export type ResourceTypeProps = {
 export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'>
 
 export interface ResourceType extends ResourceTypeProps, DefaultElements<ResourceTypeProps> {
-  upsert(organizationId: string): Promise<ResourceType>
-  delete(organizationId: string): Promise<void>
+  upsert(): Promise<ResourceType>
+  delete(): Promise<void>
 }
 
 /**
@@ -72,13 +73,13 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    upsert: function upsert(organizationId: string) {
+    upsert: function upsert() {
       const data = this.toPlainObject() as ResourceTypeProps
 
       return makeRequest({
         entityType: 'ResourceType',
         action: 'upsert',
-        params: getParams(organizationId, data),
+        params: getParams(data),
         headers: {},
         payload: getUpsertParams(data),
       }).then((data) => wrapResourceType(makeRequest, data))
@@ -100,20 +101,20 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    delete: function del(organizationId: string) {
+    delete: function del() {
       const data = this.toPlainObject() as ResourceTypeProps
 
       return makeRequest({
         entityType: 'ResourceType',
         action: 'delete',
-        params: getParams(organizationId, data),
+        params: getParams(data),
       })
     },
   }
 }
 
-const getParams = (organizationId: string, data: ResourceTypeProps): GetResourceTypeParams => ({
-  organizationId,
+const getParams = (data: ResourceTypeProps): GetResourceTypeParams => ({
+  organizationId: data.sys.organization.sys.id,
   appDefinitionId: data.sys.appDefinition.sys.id,
   resourceTypeId: data.sys.id,
 })

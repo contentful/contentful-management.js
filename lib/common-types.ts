@@ -602,6 +602,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
+  (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
@@ -787,6 +788,7 @@ export type MRActions = {
   }
   ResourceType: {
     get: { params: GetResourceTypeParams; return: ResourceTypeProps }
+    getMany: { params: GetResourceProviderParams; return: CollectionProp<ResourceTypeProps> }
     upsert: {
       params: GetResourceTypeParams
       payload: UpsertResourceTypeProps

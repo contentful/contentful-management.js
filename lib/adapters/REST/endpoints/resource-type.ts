@@ -2,7 +2,8 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import copy from 'fast-copy'
-import type { GetResourceTypeParams } from '../../../common-types'
+import type { CollectionProp } from '../../../common-types'
+import { type GetResourceProviderParams, type GetResourceTypeParams } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../../entities/resource-type'
 
@@ -32,4 +33,14 @@ export const del: RestEndpoint<'ResourceType', 'delete'> = (
   params: GetResourceTypeParams
 ) => {
   return raw.del(http, getBaseUrl(params))
+}
+
+export const getMany: RestEndpoint<'ResourceType', 'getMany'> = (
+  http: AxiosInstance,
+  params: GetResourceProviderParams
+) => {
+  return raw.get<CollectionProp<ResourceTypeProps>>(
+    http,
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/resource_provider/resource_types`
+  )
 }

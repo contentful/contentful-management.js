@@ -1,7 +1,11 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type { GetResourceTypeParams } from '../../common-types'
+import type {
+  CollectionProp,
+  GetResourceProviderParams,
+  GetResourceTypeParams,
+} from '../../common-types'
 import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
 
 export type ResourceTypePlainClientAPI = {
@@ -59,4 +63,21 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetResourceTypeParams>): Promise<any>
+
+  /*
+   * Fetch all Resource Types
+   * @param params entity IDs to identify the Resource Type
+   * @returns all Resource Types
+   * @throws if the request fails, or the Resource Type is not found
+   * @example
+   * ```javascript
+   * const resourceTypes = await client.resourceType.getMany({
+   *   organizationId: '<organization_id>',
+   *   appDefinitionId: '<app_definition_id>',
+   * });
+   * ```
+   */
+  getMany(
+    params: OptionalDefaults<GetResourceProviderParams>
+  ): Promise<CollectionProp<ResourceTypeProps>>
 }

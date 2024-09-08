@@ -23,8 +23,8 @@ describe('ResourceType API', () => {
   let appUpload: AppUpload
   let appBundle: AppBundle
   let resourceProvider: ResourceProvider
-  let resourceType: ResourceType
-  let resourceTypePlain: ResourceTypeProps
+  let resourceType: ResourceType | null
+  let resourceTypePlain: ResourceTypeProps | null
 
   before(async () => {
     organization = (await getTestOrganization()) as Organization
@@ -53,15 +53,18 @@ describe('ResourceType API', () => {
     })
   })
 
+  beforeEach(() => {
+    resourceType = null
+    resourceTypePlain = null
+  })
+
   afterEach(async () => {
     if (resourceType) {
-      await resourceType.delete(organization.sys.id)
+      resourceType.delete()
     }
 
     if (resourceTypePlain) {
-      ;(await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete(
-        organization.sys.id
-      )
+      ;(await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
     }
   })
 
@@ -101,7 +104,7 @@ describe('ResourceType API', () => {
 
     resourceType.name = 'updatedResourceType'
 
-    const updatedResourceType = await resourceType.upsert(organization.sys.id)
+    const updatedResourceType = await resourceType.upsert()
 
     expect(updatedResourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
     expect(updatedResourceType.name).to.equal('updatedResourceType')
@@ -121,6 +124,21 @@ describe('ResourceType API', () => {
     expect(resourceType.name).to.equal('resourceType')
   })
 
+  test('get ResourceTypes', async () => {
+    await resourceProvider.upsertResourceType('resourceProvider:resourceTypeId', {
+      name: 'resourceType',
+      defaultFieldMapping: {
+        title: 'title',
+      },
+    })
+
+    const response = await resourceProvider.getResourceTypes()
+    resourceType = response.items[0]
+
+    expect(resourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
+    expect(resourceType.name).to.equal('resourceType')
+  })
+
   test('delete ResourceType', async () => {
     const resourceType = await resourceProvider.upsertResourceType(
       'resourceProvider:resourceTypeId',
@@ -132,7 +150,7 @@ describe('ResourceType API', () => {
       }
     )
 
-    await resourceType.delete(organization.sys.id)
+    await resourceType.delete()
 
     await expect(
       resourceProvider.getResourceType('resourceProvider:resourceTypeId')
@@ -213,6 +231,33 @@ describe('ResourceType API', () => {
         appDefinitionId: appDefinition.sys.id,
         resourceTypeId: 'resourceProvider:resourceTypeId',
       })
+
+      expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
+      expect(resourceTypePlain.name).to.equal('resourceType')
+    })
+
+    test('get many ResourceTypes', async () => {
+      await plainClient.resourceType.upsert(
+        {
+          organizationId: organization.sys.id,
+          appDefinitionId: appDefinition.sys.id,
+          resourceTypeId: 'resourceProvider:resourceTypeId',
+        },
+        {
+          name: 'resourceType',
+          defaultFieldMapping: {
+            title: 'title',
+          },
+        }
+      )
+
+      const response = await plainClient.resourceType.getMany({
+        organizationId: organization.sys.id,
+        appDefinitionId: appDefinition.sys.id,
+        resourceTypeId: 'resourceProvider:resourceTypeId',
+      })
+
+      resourceTypePlain = response.items[0]
 
       expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
       expect(resourceTypePlain.name).to.equal('resourceType')
