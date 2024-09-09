@@ -36,7 +36,6 @@ describe('ResourceType', () => {
     const response = await plainClient.resourceType.getMany({
       organizationId,
       appDefinitionId,
-      resourceTypeId,
     })
 
     expect(response).to.be.an('object')
