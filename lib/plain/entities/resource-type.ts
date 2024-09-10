@@ -2,11 +2,15 @@ import type { RawAxiosRequestHeaders } from 'axios'
 
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
+  BasicCursorPaginationOptions,
   CollectionProp,
+  CursorPaginatedCollectionProp,
   GetResourceProviderParams,
   GetResourceTypeParams,
+  GetSpaceEnvironmentParams,
 } from '../../common-types'
 import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
+import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type'
 
 export type ResourceTypePlainClientAPI = {
   /*
@@ -69,6 +73,24 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetResourceTypeParams>): Promise<any>
+
+  /*
+   * Fetch all Resource Types for an environment
+   * @param params entity IDs to identify the Resource Type
+   * @params Optional query params for cursor pagination
+   * @returns all Resource Types based on the last NER app installed in the environment
+   * @throws if the request fails, or no Resource Type is found
+   * @example
+   * ```javascript
+   * const resourceTypes = await client.resourceType.getForEnvironment({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * });
+   * ```
+   */
+  getForEnvironment(
+    params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: BasicCursorPaginationOptions }
+  ): Promise<CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>>
 
   /*
    * Fetch all Resource Types

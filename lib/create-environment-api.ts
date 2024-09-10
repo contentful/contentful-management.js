@@ -47,6 +47,7 @@ import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
+import type { ResourceQueryOptions } from './entities/resource'
 
 /**
  * @private
@@ -75,6 +76,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
   const { wrapAppAccessToken } = entities.appAccessToken
+  const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
+  const { wrapResourcesCollection } = entities.resource
 
   return {
     /**
@@ -2279,6 +2282,81 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
       }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of all resource types based on native external references app installations in the environment
+     * @param query - BasicCursorPaginationOptions
+     * @return Promise for a collection of ResourceTypes
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getResourceTypes({limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getResourceTypes(query: BasicCursorPaginationOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'getForEnvironment',
+        params: {
+          query,
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapResourceTypesForEnvironmentCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of all resources for a given resource type based on native external references app installations in the environment
+     * @param resourceTypeId - Id of the resourceType to get its resources
+     * @param query - Either LookupQuery options with 'sys.urn[in]' param or a Search query with 'query' param, in both cases you can add pagination options
+     * @return Promise for a collection of Resources for a given resourceTypeId
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Search Query
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getResourcesForResourceType('<resource_type_id>', {query: '<search_query>', limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     *
+     * // Lookup query
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getResourcesForResourceType('<resource_type_id>', {'sys.urn[in]': '<resource_urn1>,<resource_urn2>', limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getResourcesForResourceType(resourceTypeId: string, query: ResourceQueryOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Resource',
+        action: 'getMany',
+        params: {
+          query,
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          resourceTypeId,
+        },
+      }).then((data) => wrapResourcesCollection(makeRequest, data))
     },
   }
 }
