@@ -17,7 +17,6 @@ export type ResourceTypeProps = {
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
     appDefinition: SysLink
-    organization: SysLink
     resourceProvider: SysLink
     organization: SysLink
   }
