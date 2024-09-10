@@ -77,7 +77,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapBulkAction } = entities.bulkAction
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
-  const { wrapResourcesCollection } = entities.resource
+  const { wrapResourceCollection } = entities.resource
 
   return {
     /**
@@ -2356,7 +2356,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           resourceTypeId,
         },
-      }).then((data) => wrapResourcesCollection(makeRequest, data))
+      }).then((data) => wrapResourceCollection(makeRequest, data))
     },
   }
 }

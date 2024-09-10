@@ -44,7 +44,7 @@ export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
   const resource = toPlainObject(data)
   return freezeSys(resource)
 }
-export const wrapResourcesCollection: (
+export const wrapResourceCollection: (
   makeRequest: MakeRequest,
   data: CursorPaginatedCollectionProp<ResourceProps>
 ) => CursorPaginatedCollectionProp<ResourceProps> = wrapCursorPaginatedCollection(wrapResource)

@@ -1316,6 +1316,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     resourceType: {
       wrapResourceType: sinon.stub(),
     },
+    resource: {
+      wrapResourceCollection: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
