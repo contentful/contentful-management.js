@@ -114,13 +114,21 @@ describe('Resource API', () => {
     }
   })
 
-  test('get Resources', async () => {
+  test('get Resources with search params', async () => {
     const resources = await env.getResourcesForResourceType(resourceTypeId, {
       query: '',
       limit: 1,
     })
 
-    expect(resources.items.length).to.equal(0)
+    expect(resources.items.length).to.equal(10)
+  })
+
+  test('get Resources with lookup params', async () => {
+    const resources = await env.getResourcesForResourceType(resourceTypeId, {
+      'sys.urn[in]': '1022789,945961',
+    })
+
+    expect(resources.items.length).to.equal(2)
   })
 
   describe('PlainClient', async () => {
@@ -132,12 +140,12 @@ describe('Resource API', () => {
         environmentId: 'master',
         resourceTypeId,
         query: {
-          query: '',
+          query: 'in',
           limit: 1,
         },
       })
 
-      expect(resources.items.length).to.equal(0)
+      expect(resources.items.length).to.equal(1)
     })
 
     test('get Resources with lookup params', async () => {
@@ -146,12 +154,11 @@ describe('Resource API', () => {
         environmentId: 'master',
         resourceTypeId,
         query: {
-          'sys.urn[in]': 'resourceUrn1,resourceUrn2',
-          limit: 1,
+          'sys.urn[in]': '1022789,945961',
         },
       })
 
-      expect(resources.items.length).to.equal(0)
+      expect(resources.items.length).to.equal(2)
     })
   })
 })

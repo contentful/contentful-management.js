@@ -150,12 +150,5 @@ describe('Environment Api', function () {
       expect(resourceTypes.items[0].sys.id).equal('Contentful:Entry')
       expect(resourceTypes.items[1].sys.id).equal('TMDB:Movie')
     })
-
-    test('gets all resources for a resource type in that environment', async () => {
-      const resourceTypes = await env.getResourceTypes()
-      const resources = await env.getResourcesForResourceType(resourceTypes.items[1].sys.id)
-
-      expect(resources.items.length).equal(0)
-    })
   })
 })
