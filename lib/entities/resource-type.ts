@@ -19,11 +19,11 @@ export type ResourceTypeProps = {
     resourceProvider: SysLink
   }
   /**
-   * Resource Provider name, TODO
+   * Resource Type name
    */
   name: string
   /**
-   * Resource Provider defaultFieldMapping, TODO
+   * Resource Type defaultFieldMapping
    */
   defaultFieldMapping: {
     title: string
@@ -127,8 +127,8 @@ const getUpsertParams = (data: ResourceTypeProps): UpsertResourceTypeProps => ({
 /**
  * @private
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw Resource Provider data
- * @return Wrapped Resource Provider data
+ * @param data - Raw Resource Type data
+ * @return Wrapped Resource Type data
  */
 export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypeProps): ResourceType {
   const resourceType = toPlainObject(copy(data))

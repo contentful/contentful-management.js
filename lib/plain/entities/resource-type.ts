@@ -30,7 +30,7 @@ export type ResourceTypePlainClientAPI = {
    * @param params entity IDs to identify the Resource Type
    * @param rawData the ResourceType
    * @returns the created or updated Resource Type
-   * @throws if the request fails, the App Definition or Resource Type is not found, or the payload is malformed
+   * @throws if the request fails, the App Definition or Resource Provider is not found, or the payload is malformed
    * @example
    * ```javascript
    * // You need a valid AppDefinition with an activated AppBundle that has a contentful function configured
@@ -39,7 +39,13 @@ export type ResourceTypePlainClientAPI = {
    *     organizationId: '<organization_id>',
    *     appDefinitionId: '<app_definition_id>',
    *     resourceTypeId: '<resource_type_id>',
-   *   }
+   *   },
+   * rawData: {
+   *  name: '<resource_type_name>',
+   *  defaultFieldMapping: {
+   *    title: '<field_id>',
+   *  },
+   * }
    * );
    * ```
    */
@@ -66,9 +72,7 @@ export type ResourceTypePlainClientAPI = {
 
   /*
    * Fetch all Resource Types
-   * @param params entity IDs to identify the Resource Type
    * @returns all Resource Types
-   * @throws if the request fails, or the Resource Type is not found
    * @example
    * ```javascript
    * const resourceTypes = await client.resourceType.getMany({

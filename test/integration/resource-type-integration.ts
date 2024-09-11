@@ -20,6 +20,7 @@ describe('ResourceType API', () => {
 
   let organization: Organization
   let appDefinition: AppDefinition
+  let appDefinitionNoProvider: AppDefinition
   let appUpload: AppUpload
   let appBundle: AppBundle
   let resourceProvider: ResourceProvider
@@ -51,6 +52,12 @@ describe('ResourceType API', () => {
       type: 'function',
       function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
     })
+
+    appDefinitionNoProvider = await organization.createAppDefinition({
+      name: 'TestNoProvider',
+      src: 'http://localhost:2222',
+      locations: [{ location: 'entry-sidebar' }],
+    })
   })
 
   beforeEach(() => {
@@ -79,6 +86,10 @@ describe('ResourceType API', () => {
 
     if (appDefinition) {
       await appDefinition.delete()
+    }
+
+    if (appDefinitionNoProvider) {
+      await appDefinitionNoProvider.delete()
     }
   })
 
@@ -178,6 +189,24 @@ describe('ResourceType API', () => {
       expect(resourceTypePlain.name).to.equal('resourceType')
     })
 
+    test('creating ResourceType without Provider fails', async () => {
+      await expect(
+        plainClient.resourceType.upsert(
+          {
+            organizationId: organization.sys.id,
+            appDefinitionId: appDefinitionNoProvider.sys.id,
+            resourceTypeId: 'resourceProvider:resourceTypeId',
+          },
+          {
+            name: 'resourceType',
+            defaultFieldMapping: {
+              title: 'title',
+            },
+          }
+        )
+      ).to.be.rejectedWith('The resource could not be found')
+    })
+
     test('update ResourceType', async () => {
       resourceTypePlain = await plainClient.resourceType.upsert(
         {
@@ -261,6 +290,16 @@ describe('ResourceType API', () => {
 
       expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
       expect(resourceTypePlain.name).to.equal('resourceType')
+    })
+
+    test('getMany returns empty array if no Resource Types are present', async () => {
+      const response = await plainClient.resourceType.getMany({
+        organizationId: organization.sys.id,
+        appDefinitionId: appDefinition.sys.id,
+        resourceTypeId: 'resourceProvider:resourceTypeId',
+      })
+
+      expect(response.items).to.be.an('array').that.is.empty
     })
 
     test('delete ResourceType', async () => {
