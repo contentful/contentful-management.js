@@ -285,7 +285,6 @@ describe('ResourceType API', () => {
       const response = await plainClient.resourceType.getMany({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-        resourceTypeId: 'resourceProvider:resourceTypeId',
       })
 
       resourceTypePlain = response.items[0]
@@ -298,7 +297,6 @@ describe('ResourceType API', () => {
       const response = await plainClient.resourceType.getMany({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-        resourceTypeId: 'resourceProvider:resourceTypeId',
       })
 
       expect(response.items).to.be.an('array').that.is.empty
