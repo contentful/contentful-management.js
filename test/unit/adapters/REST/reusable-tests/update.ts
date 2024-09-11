@@ -1,15 +1,14 @@
 import setupRestAdapter from '../helpers/setupRestAdapter'
 import { cloneMock } from '../../../mocks/entities'
-import { expect } from 'chai'
-import { it } from 'mocha'
+import { expect, it } from 'vitest'
 
 export function reusableEntityUpdateTest(entityType, mockName) {
   it(`emits valid update request`, async () => {
-    const { adapterMock, httpMock } = setupRestAdapter()
-
     const entityMock = cloneMock(mockName)
     entityMock.name = 'updated name'
     entityMock.sys.version = 2
+
+    const { adapterMock, httpMock } = setupRestAdapter(Promise.resolve({ data: entityMock }))
 
     await adapterMock.makeRequest({
       entityType,
@@ -19,12 +18,15 @@ export function reusableEntityUpdateTest(entityType, mockName) {
       headers: { 'X-Test': 'test header' },
     })
 
-    expect(httpMock.put.args[0][1].name).equals('updated name', 'data is sent')
-    expect(httpMock.put.args[0][1].sys).equals(undefined, 'sys is removed')
-    expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
+    expect(httpMock.put.mock.calls[0][1].name).equals('updated name', 'data is sent')
+    expect(httpMock.put.mock.calls[0][1].sys).equals(undefined, 'sys is removed')
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
       2,
       'version header is sent'
     )
-    expect(httpMock.put.args[0][2].headers['X-Test']).equals('test header', 'custom header is set')
+    expect(httpMock.put.mock.calls[0][2].headers['X-Test']).equals(
+      'test header',
+      'custom header is set'
+    )
   })
 }

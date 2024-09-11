@@ -1,6 +1,6 @@
-import { describe, test } from 'mocha'
+import { describe, test, expect } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
-import { expect } from 'chai'
+
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
 function setup(promise, params = {}) {
@@ -29,9 +29,11 @@ describe('Rest Upload', async () => {
         },
       })
       .then(() => {
-        expect(httpMock.post.args[0][0]).equals('/spaces/id/environments/envId/uploads')
-        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
-        expect(httpMock.post.args[0][1]).equals(
+        expect(httpMock.post.mock.calls[0][0]).equals('/spaces/id/environments/envId/uploads')
+        expect(httpMock.post.mock.calls[0][2].headers['Content-Type']).equals(
+          'application/octet-stream'
+        )
+        expect(httpMock.post.mock.calls[0][1]).equals(
           '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file to upload endpoint'
         )
@@ -55,9 +57,11 @@ describe('Rest Upload', async () => {
         },
       })
       .then(() => {
-        expect(httpMock.post.args[0][0]).equals('/spaces/id/uploads')
-        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
-        expect(httpMock.post.args[0][1]).equals(
+        expect(httpMock.post.mock.calls[0][0]).equals('/spaces/id/uploads')
+        expect(httpMock.post.mock.calls[0][2].headers['Content-Type']).equals(
+          'application/octet-stream'
+        )
+        expect(httpMock.post.mock.calls[0][1]).equals(
           '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file to upload endpoint'
         )
@@ -79,8 +83,10 @@ describe('Rest Upload', async () => {
         },
       })
       .then(() => {
-        expect(httpMock.post.args[0][2].headers['Content-Type']).equals('application/octet-stream')
-        expect(httpMock.post.args[0][1]).equals(
+        expect(httpMock.post.mock.calls[0][2].headers['Content-Type']).equals(
+          'application/octet-stream'
+        )
+        expect(httpMock.post.mock.calls[0][1]).equals(
           '<svg><path fill="red" d="M50 50h150v50H50z"/></svg>',
           'uploads file to upload endpoint'
         )

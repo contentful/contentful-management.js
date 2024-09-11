@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { describe, it } from 'mocha'
+import { describe, it, expect } from 'vitest'
 import { normalizeSpaceId } from '../../../../../lib/adapters/REST/endpoints/utils'
 
 describe('normalizeSpaceId', () => {

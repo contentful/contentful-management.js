@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
+import { describe, test, expect } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
 import { wrapOrganizationMembership } from '../../../../../lib/entities/organization-membership'
 import setupRestAdapter from '../helpers/setupRestAdapter'
@@ -13,7 +12,7 @@ function setup(promise, params = {}) {
 
 describe('Rest Organization Membership', () => {
   test('OrganizationMembership delete', async () => {
-    const { httpMock, entityMock, adapterMock } = setup()
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({}))
     entityMock.sys.version = 2
     const entity = wrapOrganizationMembership(
       (...args) => adapterMock.makeRequest(...args),
@@ -21,7 +20,7 @@ describe('Rest Organization Membership', () => {
       'org-id'
     )
     return entity.delete().then((response) => {
-      expect(httpMock.delete.args[0][0]).equals(
+      expect(httpMock.delete.mock.calls[0][0]).equals(
         `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
         'url is correct'
       )

@@ -1,6 +1,5 @@
-import { describe } from 'mocha'
+import { describe, expect } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
-import { expect } from 'chai'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
 describe('Environment Template', async () => {
@@ -17,7 +16,7 @@ describe('Environment Template', async () => {
 
   actions.forEach((action) => {
     it(`propagates custom headers for ${action.name} request`, async () => {
-      const { adapterMock, httpMock } = setupRestAdapter()
+      const { adapterMock, httpMock } = setupRestAdapter(Promise.resolve({}))
 
       const entityMock = cloneMock(mockName)
 
@@ -30,7 +29,7 @@ describe('Environment Template', async () => {
         userAgent: 'mockedAgent',
       })
 
-      expect(httpMock[action.httpMethod].args[0][2].headers['X-Test']).equals('test header')
+      expect(httpMock[action.httpMethod].mock.calls[0][2].headers['X-Test']).equals('test header')
     })
   })
 })

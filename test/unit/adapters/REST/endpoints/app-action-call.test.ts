@@ -1,19 +1,10 @@
-import { vi, expect, describe, it } from 'vitest'
+import { expect, describe, it } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import type contentfulSdkCore from 'contentful-sdk-core'
 
 import type { CreateAppActionCallProps } from '../../../../../lib/entities/app-action-call'
 import { wrapAppActionCallResponse } from '../../../../../lib/entities/app-action-call'
 import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
-
-vi.mock('contentful-sdk-core', async (importOriginal) => {
-  const orig = await importOriginal<typeof contentfulSdkCore>()
-  return {
-    ...orig,
-    createHttpClient: vi.fn(),
-  }
-})
 
 function setup(promise, mockName, params = {}) {
   const entityMock = cloneMock(mockName)
@@ -23,7 +14,7 @@ function setup(promise, mockName, params = {}) {
   }
 }
 
-describe('Rest App Action Call', { concurrent: 3 }, () => {
+describe('Rest App Action Call', { concurrent: true }, () => {
   it('should create a new App Action Call', async () => {
     const responseMock = cloneMock('appActionCallResponse')
 

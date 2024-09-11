@@ -1,6 +1,6 @@
-import { describe, test } from 'mocha'
+import { expect, describe, test } from 'vitest'
+
 import { cloneMock } from '../../../mocks/entities'
-import { expect } from 'chai'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
 function setup<T>(promise: Promise<T>, params = {}, type = 'conceptScheme') {
@@ -13,12 +13,13 @@ function setup<T>(promise: Promise<T>, params = {}, type = 'conceptScheme') {
 describe('ConceptScheme', () => {
   test('get', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-    httpMock.get.returns(Promise.resolve({ data: entityMock }))
+    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'get',
+        userAgent: 'mocked',
         params: {
           organizationId: 'organization-id',
           conceptSchemeId: 'concept-scheme-id',
@@ -26,7 +27,7 @@ describe('ConceptScheme', () => {
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.get.args[0][0]).to.eql(
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
         )
       })
@@ -34,30 +35,32 @@ describe('ConceptScheme', () => {
 
   test('getTotal', async () => {
     const { httpMock, adapterMock } = setup(Promise.resolve({}))
-    httpMock.get.returns(Promise.resolve({ data: { total: 1 } }))
+    httpMock.get.mockReturnValue(Promise.resolve({ data: { total: 1 } }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'getTotal',
+        userAgent: 'mocked',
         params: {
           organizationId: 'organization-id',
         },
       })
       .then(() => {
-        expect(httpMock.get.args[0][0]).to.eql(
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/total'
         )
       })
   })
   test('create', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-    httpMock.post.returns(Promise.resolve({ data: entityMock }))
+    httpMock.post.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'create',
+        userAgent: 'mocked',
         params: {
           organizationId: 'organization-id',
         },
@@ -65,7 +68,7 @@ describe('ConceptScheme', () => {
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.post.args[0][0]).to.eql(
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes'
         )
       })
@@ -73,19 +76,20 @@ describe('ConceptScheme', () => {
 
   test('update', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-    httpMock.patch.returns(Promise.resolve({ data: entityMock }))
+    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'update',
+        userAgent: 'mocked',
         params: {
           organizationId: 'organization-id',
           conceptSchemeId: 'concept-scheme-id',
         },
       })
       .then(() => {
-        expect(httpMock.patch.args[0][0]).to.eql(
+        expect(httpMock.patch.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
         )
       })
@@ -93,12 +97,13 @@ describe('ConceptScheme', () => {
 
   test('delete', async () => {
     const { httpMock, adapterMock } = setup(Promise.resolve({}))
-    httpMock.delete.returns(Promise.resolve({ data: {} }))
+    httpMock.delete.mockReturnValue(Promise.resolve({ data: {} }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'delete',
+        userAgent: 'mocked',
         params: {
           organizationId: 'organization-id',
           conceptSchemeId: 'concept-scheme-id',
@@ -106,10 +111,10 @@ describe('ConceptScheme', () => {
         },
       })
       .then(() => {
-        expect(httpMock.delete.args[0][0]).to.eql(
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
         )
-        expect(httpMock.delete.args[0][1].headers).to.eql({ 'X-Contentful-Version': 1 })
+        expect(httpMock.delete.mock.calls[0][1].headers).to.eql({ 'X-Contentful-Version': 1 })
       })
   })
 
@@ -135,12 +140,13 @@ describe('ConceptScheme', () => {
     configs.forEach(({ expected, params, name }) => {
       test(name, async () => {
         const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-        httpMock.get.returns(Promise.resolve({ data: { items: [entityMock] } }))
+        httpMock.get.mockReturnValue(Promise.resolve({ data: { items: [entityMock] } }))
 
         return adapterMock
           .makeRequest({
             entityType: 'ConceptScheme',
             action: 'getMany',
+            userAgent: 'mocked',
             params: {
               organizationId: 'organization-id',
               ...params,
@@ -148,8 +154,8 @@ describe('ConceptScheme', () => {
           })
           .then((r) => {
             expect(r).to.eql({ items: [entityMock] })
-            expect(httpMock.get.args[0][0]).to.eql(expected.url)
-            expect(httpMock.get.args[0][1].params).to.eql(expected.params)
+            expect(httpMock.get.mock.calls[0][0]).to.eql(expected.url)
+            expect(httpMock.get.mock.calls[0][1].params).to.eql(expected.params)
           })
       })
     })

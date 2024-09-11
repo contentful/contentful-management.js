@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
+import { describe, test, expect } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 import type { WorkflowDefinitionProps } from '../../../../../lib/entities/workflow-definition'
@@ -26,11 +25,11 @@ describe('Rest Workflow Definition', () => {
     entity.description = 'new description'
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.args[0][0]).equals(
+      expect(httpMock.put.mock.calls[0][0]).equals(
         `/spaces/${entityMock.sys.space.sys.id}/environments/${entityMock.sys.environment.sys.id}/workflow_definitions/${entityMock.sys.id}`,
         'url is correct'
       )
-      expect(httpMock.put.args[0][2].headers['X-Contentful-Version']).equals(
+      expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
         'version header is sent'
       )
@@ -50,11 +49,11 @@ describe('Rest Workflow Definition', () => {
       entityMock
     )
     return entity.delete().then(() => {
-      expect(httpMock.delete.args[0][0]).equals(
+      expect(httpMock.delete.mock.calls[0][0]).equals(
         `/spaces/${entityMock.sys.space.sys.id}/environments/${entityMock.sys.environment.sys.id}/workflow_definitions/${entityMock.sys.id}`,
         'url is correct'
       )
-      expect(httpMock.delete.args[0][1].headers['X-Contentful-Version']).equals(
+      expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).equals(
         2,
         'version header is sent'
       )
