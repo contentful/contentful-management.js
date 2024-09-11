@@ -84,7 +84,7 @@ const linkMock: MetaLinkProps = {
 const sysMock: MetaSysProps = {
   type: 'Type',
   id: 'id',
-  space: makeLink('Space', 'mockSpaceId'),
+  space: makeLink('Space', 'mock-space-id'),
   createdAt: 'createdatdate',
   updatedAt: 'updatedatdate',
   version: 0,
@@ -93,7 +93,7 @@ const sysMock: MetaSysProps = {
 const spaceMock: SpaceProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Space',
-    organization: makeLink('Organization', 'mockOrganizationId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
   }),
   name: 'name',
 }
@@ -101,8 +101,8 @@ const spaceMock: SpaceProps = {
 const environmentMock: EnvironmentProps = {
   sys: {
     ...cloneDeep(sysMock),
-    space: makeLink('Space', 'mockSpaceId'),
-    status: makeLink('Status', 'mockStatusId'),
+    space: makeLink('Space', 'mock-space-id'),
+    status: makeLink('Status', 'mock-status-id'),
   },
   name: 'name',
 }
@@ -110,19 +110,19 @@ const environmentMock: EnvironmentProps = {
 const environmentTemplateMock: EnvironmentTemplateProps = {
   name: 'Mock Environment Template',
   description: 'This is a mock template',
-  versionName: 'mockedVersionName',
+  versionName: 'mocked-version-name',
   sys: Object.assign(cloneDeep(sysMock), {
     version: 1,
-    organization: makeLink('Organization', 'mockOrganizationId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
   }),
   entities: {
     contentTypeTemplates: [
       {
-        id: 'mockContentTypeTemplatesId',
+        id: 'mock-content-type-templates-id',
         basedOn: {
-          space: makeLink('Space', 'mockSpaceId'),
-          contentType: makeLink('ContentType', 'mockContentTypeId'),
-          environment: makeLink('Environment', 'mockEnvironmentId'),
+          space: makeLink('Space', 'mock-space-id'),
+          contentType: makeLink('ContentType', 'mock-content-type-id'),
+          environment: makeLink('Environment', 'mock-environment-id'),
         },
         name: 'mockedContentTypeTemplate',
         description: 'mockedContentTypeTemplateDescription',
@@ -133,7 +133,7 @@ const environmentTemplateMock: EnvironmentTemplateProps = {
     editorInterfaceTemplates: [
       {
         contentTypeTemplate: {
-          ...makeLink('ContentTypeTemplate', 'mockContentTypeTemplatesId'),
+          ...makeLink('ContentTypeTemplate', 'mock-content-type-templates-id'),
         },
         controls: [{ fieldId: 'testApp', widgetNamespace: 'app', widgetId: 'private-app-id' }],
       },
@@ -143,16 +143,16 @@ const environmentTemplateMock: EnvironmentTemplateProps = {
 
 const environmentTemplateInstallationMock: EnvironmentTemplateInstallationProps = {
   sys: {
-    id: 'mockEnvironmentTemplateInstallationId',
+    id: 'mock-environment-template-installation-id',
     type: 'EnvironmentTemplateInstallation',
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
-    template: makeVersionedLink('Template', 'mockTemplateId', 1),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    template: makeVersionedLink('Template', 'mock-template-id', 1),
     status: 'succeeded',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    createdBy: makeLink('User', 'mockUserId'),
-    updatedBy: makeLink('User', 'mockUserId'),
+    createdBy: makeLink('User', 'mock-user-id'),
+    updatedBy: makeLink('User', 'mock-user-id'),
     version: 1,
   },
 }
@@ -160,10 +160,10 @@ const environmentTemplateInstallationMock: EnvironmentTemplateInstallationProps 
 const environmentTemplateValidationMock: EnvironmentTemplateValidationProps = {
   sys: {
     type: 'Array',
-    environment: { sys: { type: 'Link', linkType: 'Environment', id: 'mockEnvironmentId' } },
-    space: { sys: { type: 'Link', linkType: 'Space', id: 'mockSpaceId' } },
+    environment: { sys: { type: 'Link', linkType: 'Environment', id: 'mock-environment-id' } },
+    space: { sys: { type: 'Link', linkType: 'Space', id: 'mock-space-id' } },
     changeSet: {
-      sys: { type: 'Link', linkType: 'ChangeSet', id: 'mockChangeSetId' },
+      sys: { type: 'Link', linkType: 'ChangeSet', id: 'mock-change-set-id' },
     },
   },
   items: [],
@@ -205,8 +205,8 @@ const accessTokenMock: PersonalAccessTokenProps = {
 const appBundleMock: AppBundleProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppBundle',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
   }),
   files: [
     {
@@ -225,8 +225,8 @@ const appBundleMock: AppBundleProps = {
 const appActionMock: AppActionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppAction',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
   }),
   name: 'nice app action',
   url: 'https://www.example.com',
@@ -238,11 +238,11 @@ const appActionMock: AppActionProps = {
 const appActionCallMock: AppActionCallProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppActionCall',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    action: makeLink('Action', 'mockActionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    action: makeLink('Action', 'mock-action-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
 }
 
@@ -279,20 +279,20 @@ const appActionCallResponseMock: Partial<AppActionCallResponseData> = {
 }
 
 const appActionCallDetailsMock = {
-  callId: 'call-id',
-  appActionId: 'app-action-id',
-  spaceId: 'space-id',
-  environmentId: 'environment-id',
+  callId: 'mock-call-id',
+  appActionId: 'mock-app-action-id',
+  spaceId: 'mock-space-id',
+  environmentId: 'mock-environment-id',
 }
 
 const appDefinitionMock: AppDefinitionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDefinition',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    action: makeLink('Action', 'mockActionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    action: makeLink('Action', 'mock-action-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
     shared: true,
   }),
   name: 'AI Image Tagging',
@@ -327,11 +327,11 @@ const appDefinitionMock: AppDefinitionProps = {
 const appUploadMock: AppUploadProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppUpload',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    action: makeLink('Action', 'mockActionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    action: makeLink('Action', 'mock-action-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
     expiresAt: '2022-02-20T10:01:00Z',
   }),
 }
@@ -339,18 +339,18 @@ const appUploadMock: AppUploadProps = {
 const appSignedRequestMock: AppSignedRequestProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppSignedRequest',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    action: makeLink('Action', 'mockActionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    action: makeLink('Action', 'mock-action-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
   additionalHeaders: {
     'x-contentful-signature': '9b78a9203175d414b70b5b259b56f5d5507f6920997054533fd1da9b1eb442d6',
     'x-contentful-signed-headers':
       'x-contentful-environment-id,x-contentful-signed-headers,x-contentful-space-id,x-contentful-timestamp,x-contentful-user-id',
     'x-contentful-timestamp': '1631112126937',
-    'x-contentful-space-id': 'space-id',
+    'x-contentful-space-id': 'mock-space-id',
     'x-contentful-environment-id': 'master',
     'x-contentful-user-id': 'user-id',
   },
@@ -359,8 +359,8 @@ const appSignedRequestMock: AppSignedRequestProps = {
 const appSigningSecretMock: AppSigningSecretProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppSigningSecret',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
   }),
   redactedValue: 'wI74',
 }
@@ -368,8 +368,8 @@ const appSigningSecretMock: AppSigningSecretProps = {
 const appEventSubscriptionMock: AppEventSubscriptionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppEventSubscription',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
   }),
   targetUrl: 'https://contentful.fake/event-processor',
   topics: ['Entry.create'],
@@ -378,8 +378,8 @@ const appEventSubscriptionMock: AppEventSubscriptionProps = {
 const appKeyMock: AppKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppKey',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
   }),
   jwk: {
     alg: 'RS256',
@@ -394,9 +394,9 @@ const appKeyMock: AppKeyProps = {
 const appAccessTokenMock: AppAccessTokenProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppAccessToken',
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
     expiresAt: '2020-03-30T13:38:37.000Z',
   }),
   token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImViZWY2MDJlLTMxZGItNGMzYi1iZjAwL',
@@ -405,10 +405,10 @@ const appAccessTokenMock: AppAccessTokenProps = {
 const appDetailsMock: AppDetailsProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppDetails',
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
   icon: { value: 'some_image', type: 'base64' },
 }
@@ -416,8 +416,8 @@ const appDetailsMock: AppDetailsProps = {
 const bulkActionMock: BulkActionProps = {
   sys: {
     ...cloneDeep(sysMock),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
-    space: makeLink('Space', 'mockSpaceId'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
     createdBy: makeLink('User', 'user-id'),
     status: BulkActionStatus.created,
     type: 'BulkAction',
@@ -436,8 +436,8 @@ const bulkActionMock: BulkActionProps = {
 const bulkActionPublishMock: BulkActionProps = {
   sys: {
     ...cloneDeep(sysMock),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
-    space: makeLink('Space', 'mockSpaceId'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
     createdBy: makeLink('User', 'user-id'),
     status: BulkActionStatus.created,
     type: 'BulkAction',
@@ -456,8 +456,8 @@ const bulkActionPublishMock: BulkActionProps = {
 const contentTypeMock: ContentTypeProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ContentType',
-    environment: makeLink('Environment', 'mockEnvironmentId'),
-    space: makeLink('Space', 'mockSpaceId'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
   }),
   name: 'name',
   description: 'desc',
@@ -488,9 +488,9 @@ const snapShotMock: SnapshotProps<unknown> = {
 const entryMock: EntryProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Entry',
-    space: makeLink('Space', 'mockSpaceId'),
-    contentType: makeLink('ContentType', 'mockContentTypeId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    contentType: makeLink('ContentType', 'mock-content-type-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
     locale: 'locale',
     automationTags: [],
   }),
@@ -499,19 +499,19 @@ const entryMock: EntryProps = {
   },
 }
 
-const entryMockWithTags: EntryProps = {
+const entryMockWithTags: Omit<EntryProps, 'metadata'> & Pick<Required<EntryProps>, 'metadata'> = {
   ...entryMock,
   metadata: {
-    tags: [makeLink('Tag', 'mockEntryTagId')],
+    tags: [makeLink('Tag', 'mock-entry-tag-id')],
   },
 }
 
 const editorInterfaceMock: EditorInterfaceProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EditorInterface',
-    space: makeLink('Space', 'mockSpaceId'),
-    contentType: makeLink('ContentType', 'mockContentTypeId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    contentType: makeLink('ContentType', 'mock-content-type-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
   controls: [
     {
@@ -524,8 +524,8 @@ const assetMock: AssetProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
     locale: 'locale',
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
   fields: {
     title: { 'en-US': 'MockedAssetTitle' },
@@ -547,7 +547,7 @@ const assetKeyMock: AssetKeyProps = {
 const assetMockWithTags: AssetProps = {
   ...assetMock,
   metadata: {
-    tags: [makeLink('Tag', 'mockAssetTagId')],
+    tags: [makeLink('Tag', 'mock-asset-tag-id')],
   },
 }
 
@@ -555,8 +555,8 @@ const assetWithFilesMock: AssetProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Asset',
     locale: 'locale',
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
   fields: {
     title: { 'en-US': 'MockedAssetTitle' },
@@ -591,15 +591,15 @@ const uploadMock: UploadProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Upload',
     id: 'some_random_id',
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
   }),
 }
 
 const localeMock: LocaleProps = {
   sys: Object.assign(cloneDeep(sysMock), {
-    space: makeLink('Space', 'mockSpaceId'),
-    environment: makeLink('Environment', 'mockEnvironmentId'),
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
     type: 'Locale',
   }),
   name: 'English',
@@ -616,85 +616,121 @@ const membershipMock: TeamSpaceMembershipProps['sys'] = {
   type: 'TeamSpaceMembership',
   id: 'randomId',
   version: 3,
-  space: makeLink('Space', 'mockSpaceId'),
-  team: makeLink('Team', 'mockTeamId'),
+  space: makeLink('Space', 'mock-space-id'),
+  team: makeLink('Team', 'mock-team-id'),
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 }
 
-const webhookMock: Partial<WebhookProps> = {
+const webhookMock: WebhookProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'WebhookDefinition',
     space: {
-      sys: { id: 'space-id' },
+      sys: { id: 'mock-space-id' },
     },
   }),
+  active: true,
+  headers: [],
+  name: 'mocked-webhook',
+  topics: [],
+  url: 'https://example.com',
 }
 
-const spaceMemberMock: Partial<SpaceMemberProps> = {
+const spaceMemberMock: SpaceMemberProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'SpaceMember',
   }),
+  admin: false,
+  roles: [],
 }
 
-const spaceMembershipMock: Partial<SpaceMembershipProps> = {
+const spaceMembershipMock: SpaceMembershipProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'SpaceMembership',
-    space: makeLink('Space', 'mockSpaceId'),
-    user: makeLink('User', 'mockUserId'),
+    space: makeLink('Space', 'mock-space-id'),
+    user: makeLink('User', 'mock-user-id'),
   }),
+  admin: false,
+  roles: [makeLink('Role', 'mock-role-id')],
+  user: makeLink('User', 'mock-user-id'),
 }
 
 const teamSpaceMembershipMock: SpaceMembershipProps = {
   sys: Object.assign(cloneDeep(membershipMock), {
     type: 'TeamSpaceMembership',
-    user: makeLink('User', 'mockUserId'),
+    user: makeLink('User', 'mock-user-id'),
   }),
   admin: false,
-  user: makeLink('User', 'mockUserId'),
+  user: makeLink('User', 'mock-user-id'),
   roles: [{ sys: Object.assign(cloneDeep(linkMock), { linkType: 'Role' }) }],
 }
 
-const organizationMembershipMock: Partial<OrganizationMembershipProps> = {
+const organizationMembershipMock: OrganizationMembershipProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'OrganizationMembership',
-    user: makeLink('User', 'mockUserId'),
+    user: makeLink('User', 'mock-user-id'),
   }),
+  role: 'mocked-role',
+  status: false,
 }
 
-const teamMock: Partial<TeamProps> = {
+const teamMock: TeamProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
-    organization: makeLink('Organization', 'mockOrganizationId'),
+    organization: makeLink('Organization', 'mock-organization-id'),
     memberCount: 1,
   }),
+  name: 'mocked-name',
+  description: 'mocked-description',
 }
 
-const teamMembershipMock: Partial<TeamMembershipProps> = {
+const teamMembershipMock: TeamMembershipProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'TeamMembership',
-    team: makeLink('Team', 'mockTeamId'),
-    organization: makeLink('Organization', 'mockOrganizationId'),
-    organizationMembership: makeLink('OrganizationMembership', 'mockOrganizationMembershipTeamId'),
+    team: makeLink('Team', 'mock-team-id'),
+    organization: makeLink('Organization', 'mock-organization-id'),
+    organizationMembership: makeLink(
+      'OrganizationMembership',
+      'mock-organization-membership-team-id'
+    ),
   }),
+  admin: false,
+  organizationMembershipId: 'mock-organization-membership-id',
 }
 
-const organizationInvitationMock: Partial<OrganizationInvitationProps> = {
+const organizationInvitationMock: OrganizationInvitationProps = {
   sys: {
     ...cloneDeep(sysMock),
     status: 'mocked',
     type: 'organizationInvitation',
-    organizationMembership: makeLink('OrganizationMembership', 'mockOrganizationMembershipTeamId'),
-    user: makeLink('User', 'mockUserId'),
+    organizationMembership: makeLink(
+      'OrganizationMembership',
+      'mock-organization-membership-team-id'
+    ),
+    user: makeLink('User', 'mock-user-id'),
     invitationUrl: 'https://example.com/mocked/invitation/url',
   },
+  email: 'mocked-email',
+  firstName: 'mocked-first-name',
+  lastName: 'mocked-last-name',
+  role: 'mocked-role',
 }
 
-const roleMock: Partial<RoleProps> = {
+const roleMock: RoleProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Role',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
   }),
+  name: 'mocked-role',
+  permissions: {
+    ContentDelivery: [],
+    ContentModel: [],
+    EnvironmentAliases: [],
+    Environments: [],
+    Settings: [],
+    Tags: [],
+  },
+  policies: [],
 }
 
 const releaseMock: ReleaseProps = {
@@ -702,7 +738,7 @@ const releaseMock: ReleaseProps = {
     ...cloneDeep(sysMock),
     status: 'active',
     type: 'Release',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
     createdBy: makeLink('User', 'user-id'),
     updatedBy: makeLink('User', 'user-id'),
@@ -720,7 +756,7 @@ const releaseActionMock: ReleaseActionProps = {
   sys: {
     ...cloneDeep(sysMock),
     type: 'ReleaseAction',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
     createdBy: makeLink('User', 'user-id'),
     updatedBy: makeLink('User', 'user-id'),
@@ -740,16 +776,24 @@ const releaseActionUnpublishMock: ReleaseActionProps = {
   action: 'unpublish',
 }
 
-const apiKeyMock: Partial<ApiKeyProps> = {
+const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
   }),
+  accessToken: 'mocked-access-token',
+  environments: [],
+  name: 'mocked-access-token-name',
+  preview_api_key: makeLink('ApiKey', 'mocked-preview-api-key-id'),
 }
 
 const previewApiKeyMock: Partial<ApiKey> = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
   }),
+  accessToken: 'mocked-access-token',
+  environments: [],
+  name: 'mocked-access-token-name',
+  preview_api_key: makeLink('ApiKey', 'mocked-preview-api-key-id'),
 }
 
 const organizationMock: OrganizationProps = {
@@ -759,16 +803,24 @@ const organizationMock: OrganizationProps = {
   name: 'name',
 }
 
-const usageMock: Partial<UsageProps> = {
+const usageMock: UsageProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Usage',
   }),
+  usage: 1,
+  dateRange: {
+    startAt: new Date().toISOString(),
+    endAt: new Date().toISOString(),
+  },
+  metric: 'cda',
+  unitOfMeasure: 'kb',
+  usagePerDay: {},
 }
 
 const extensionMock: ExtensionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
   }),
   extension: {
@@ -780,8 +832,8 @@ const extensionMock: ExtensionProps = {
 const appInstallationMock: AppInstallationProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AppInstallation',
-    space: makeLink('Space', 'mockSpaceId'),
-    appDefinition: makeLink('AppDefinition', 'mockAppDefinitionId'),
+    space: makeLink('Space', 'mock-space-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
     environment: makeLink('Environment', 'master'),
   }),
 }
@@ -800,7 +852,7 @@ const appInstallationsForOrgMock: AppInstallationsForOrganizationProps = {
 const environmentAliasMock: EnvironmentAliasProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'EnvironmentAlias',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
   }),
   environment: makeLink('Environment', 'master'),
 }
@@ -816,10 +868,10 @@ const taskMock: TaskProps = {
     updatedAt: 'updatedAt',
     type: 'Task',
     environment: makeLink('Environment', 'master'),
-    parentEntity: makeLink('Entry', 'mockEntryId'),
+    parentEntity: makeLink('Entry', 'mock-entry-id'),
   },
   body: 'Body',
-  assignedTo: makeLink('User', 'mockUserId'),
+  assignedTo: makeLink('User', 'mock-user-id'),
   status: 'active',
 }
 
@@ -834,7 +886,7 @@ const commentMock: CommentProps = {
     updatedAt: 'updatedAt',
     type: 'Comment',
     environment: makeLink('Environment', 'master'),
-    parentEntity: makeLink('Entry', 'mockEntryId'),
+    parentEntity: makeLink('Entry', 'mock-entry-id'),
     parent: null,
   },
   body: 'Body',
@@ -847,8 +899,8 @@ const conceptMock: ConceptProps = {
     type: 'TaxonomyConcept',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    createdBy: makeLink('User', 'mockUserId'),
-    updatedBy: makeLink('User', 'mockUserId'),
+    createdBy: makeLink('User', 'mock-user-id'),
+    updatedBy: makeLink('User', 'mock-user-id'),
     version: 1,
   },
   uri: null,
@@ -878,8 +930,8 @@ const conceptSchemeMock: ConceptSchemeProps = {
     type: 'TaxonomyConceptScheme',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    createdBy: makeLink('User', 'mockUserId'),
-    updatedBy: makeLink('User', 'mockUserId'),
+    createdBy: makeLink('User', 'mock-user-id'),
+    updatedBy: makeLink('User', 'mock-user-id'),
     version: 1,
   },
   prefLabel: {
@@ -913,7 +965,7 @@ export const tagMock: TagProps = {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     type: 'Tag',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
   },
 }
@@ -926,15 +978,15 @@ export const scheduledActionMock: ScheduledActionProps = {
     },
     version: 1,
     createdAt: 'createdAt',
-    createdBy: makeLink('User', 'mockUserId'),
+    createdBy: makeLink('User', 'mock-user-id'),
     updatedAt: 'updatedAt',
-    updatedBy: makeLink('User', 'mockUserId'),
+    updatedBy: makeLink('User', 'mock-user-id'),
     type: 'ScheduledAction',
     status: ScheduledActionStatus.scheduled,
   },
   action: 'publish',
-  entity: makeLink('Entry', 'mockEntryid'),
-  environment: makeLink('Environment', 'mockUserId'),
+  entity: makeLink('Entry', 'mock-entryid'),
+  environment: makeLink('Environment', 'mock-user-id'),
   scheduledFor: {
     datetime: '2006-01-02T15:04:05-0700',
     timezone: 'Asia/Kolkata',
@@ -977,8 +1029,8 @@ export const workflowStepMock: WorkflowStepProps = {
   description: 'Test WorkflowStep',
   actions: [
     {
-      appActionId: 'mockAppActionId',
-      appId: 'mockAppId',
+      appActionId: 'mock-app-action-id',
+      appId: 'mock-app-id',
       type: 'app',
     },
   ],
@@ -992,7 +1044,7 @@ export const workflowDefinitionMock: WorkflowDefinitionProps = {
     version: 1,
     environment: makeLink('Environment', 'master'),
     isLocked: false,
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
   },
   name: 'Test WorkflowDefinition',
   description: 'this is a definition of a workflow',
@@ -1021,7 +1073,7 @@ export const workflowMock: WorkflowProps = {
     updatedBy: makeLink('User', 'user-id'),
     workflowDefinition: makeLink('WorkflowDefinition', 'wf-def-id'),
     entity: makeLink('Entry', 'entry-id'),
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
   },
 }
 
@@ -1040,7 +1092,7 @@ export const workflowsChangelogEntryMock: WorkflowsChangelogEntryProps = {
 export const uiConfigMock: UIConfigProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'UIConfig',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
   }),
   assetListViews: [],
@@ -1051,7 +1103,7 @@ export const uiConfigMock: UIConfigProps = {
 export const userUIConfigMock: UserUIConfigProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'UserUIConfig',
-    space: makeLink('Space', 'mockSpaceId'),
+    space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'master'),
   }),
   assetListViews: [],
@@ -1188,7 +1240,7 @@ const mocks = {
   workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
-function cloneMock(name) {
+function cloneMock<T extends keyof typeof mocks>(name: T): typeof mocks[T] {
   return cloneDeep(mocks[name])
 }
 
