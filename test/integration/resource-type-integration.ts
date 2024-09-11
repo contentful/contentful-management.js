@@ -73,6 +73,8 @@ describe('ResourceType API', () => {
     if (resourceTypePlain) {
       ;(await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
   })
 
   after(async () => {
