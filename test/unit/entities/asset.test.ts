@@ -1,3 +1,5 @@
+import { describe, test } from 'vitest'
+
 import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
 import { wrapAsset, wrapAssetCollection } from '../../../lib/entities/asset'
@@ -15,7 +17,6 @@ import {
   isPublishedTest,
   isUpdatedTest,
 } from '../test-creators/instance-entity-methods'
-import { describe, test } from 'vitest'
 
 function setup(promise) {
   return {
@@ -24,7 +25,7 @@ function setup(promise) {
   }
 }
 
-describe('Entity Asset', () => {
+describe('Entity Asset', { concurrent: true }, () => {
   test('Asset is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapAsset,

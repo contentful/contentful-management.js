@@ -9,7 +9,7 @@ import { createEnvironmentTemplateApi } from '../../lib/create-environment-templ
 import { makeLink } from '../utils'
 
 const organizationId = 'test-organization-id'
-const spaceId = 'mockSpaceId'
+const spaceId = 'mock-space-id'
 const environmentId = 'mockEnvironment'
 
 function setup<T>(promise: Promise<T>) {
@@ -95,7 +95,7 @@ describe('createEnvironmentTemplateApi', () => {
       {
         sys: {
           ...environmentTemplateInstallationMock.sys,
-          space: makeLink('Space', 'anotherMockSpaceId'),
+          space: makeLink('Space', 'anothermock-space-id'),
         },
       },
     ]
@@ -123,7 +123,7 @@ describe('createEnvironmentTemplateApi', () => {
       {
         sys: {
           ...environmentTemplateInstallationMock.sys,
-          space: makeLink('Space', 'anotherMockSpaceId'),
+          space: makeLink('Space', 'anothermock-space-id'),
         },
       },
     ]
