@@ -788,7 +788,7 @@ export type MRActions = {
   }
   ResourceType: {
     get: { params: GetResourceTypeParams; return: ResourceTypeProps }
-    getMany: { params: GetResourceProviderParams; return: CollectionProp<ResourceTypeProps> }
+    getMany: { params: GetResourceTypeParams; return: CollectionProp<ResourceTypeProps> }
     upsert: {
       params: GetResourceTypeParams
       payload: UpsertResourceTypeProps

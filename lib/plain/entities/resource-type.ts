@@ -1,11 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type {
-  CollectionProp,
-  GetResourceProviderParams,
-  GetResourceTypeParams,
-} from '../../common-types'
+import type { CollectionProp, GetResourceTypeParams } from '../../common-types'
 import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
 
 export type ResourceTypePlainClientAPI = {
@@ -82,6 +78,6 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetResourceProviderParams>
+    params: OptionalDefaults<GetResourceTypeParams>
   ): Promise<CollectionProp<ResourceTypeProps>>
 }
