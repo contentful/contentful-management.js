@@ -7,7 +7,9 @@ import { type GetResourceTypeParams } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../../entities/resource-type'
 
-const getBaseUrl = (params: GetResourceTypeParams) =>
+const getBaseUrl = (
+  params: GetResourceTypeParams | Omit<GetResourceTypeParams, 'resourceTypeId'>
+) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/resource_provider/resource_types`
 
 const getEntityUrl = (params: GetResourceTypeParams) =>
@@ -40,7 +42,7 @@ export const del: RestEndpoint<'ResourceType', 'delete'> = (
 
 export const getMany: RestEndpoint<'ResourceType', 'getMany'> = (
   http: AxiosInstance,
-  params: GetResourceTypeParams
+  params: Omit<GetResourceTypeParams, 'resourceTypeId'>
 ) => {
   return raw.get<CollectionProp<ResourceTypeProps>>(http, getBaseUrl(params))
 }

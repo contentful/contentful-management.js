@@ -78,6 +78,6 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetResourceTypeParams>
+    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>
   ): Promise<CollectionProp<ResourceTypeProps>>
 }
