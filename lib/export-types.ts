@@ -287,3 +287,8 @@ export type {
   ResourceProviderProps,
   UpsertResourceProviderProps,
 } from './entities/resource-provider'
+export type {
+  ResourceType,
+  ResourceTypeProps,
+  UpsertResourceTypeProps,
+} from './entities/resource-type'
