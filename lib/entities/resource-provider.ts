@@ -126,7 +126,6 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
           appDefinitionId: this.sys.appDefinition.sys.id,
           resourceTypeId: id,
         },
-        headers: {},
         payload: data,
       }).then((data) => wrapResourceType(makeRequest, data))
     },
