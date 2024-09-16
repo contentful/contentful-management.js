@@ -1,7 +1,15 @@
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type {
+  BasicMetaSysProps,
+  CollectionProp,
+  DefaultElements,
+  MakeRequest,
+  SysLink,
+} from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
+import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
+import entities from '.'
 
 export type ResourceProviderProps = {
   /**
@@ -30,12 +38,17 @@ export interface ResourceProvider
     DefaultElements<ResourceProviderProps> {
   upsert(): Promise<ResourceProvider>
   delete(): Promise<void>
+  upsertResourceType(id: string, data: UpsertResourceTypeProps): Promise<ResourceType>
+  getResourceType(id: string): Promise<ResourceType>
+  getResourceTypes(): Promise<CollectionProp<ResourceType>>
 }
 
 /**
  * @private
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
+  const { wrapResourceType } = entities.resourceType
+
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
@@ -90,6 +103,43 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
         entityType: 'ResourceProvider',
         action: 'delete',
         params: getParams(data),
+      })
+    },
+
+    getResourceType: function getResourceType(id: string) {
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'get',
+        params: {
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
+          resourceTypeId: id,
+        },
+      }).then((data) => wrapResourceType(makeRequest, data))
+    },
+    upsertResourceType: function upsertResourceType(id: string, data: UpsertResourceTypeProps) {
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'upsert',
+        params: {
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
+          resourceTypeId: id,
+        },
+        payload: data,
+      }).then((data) => wrapResourceType(makeRequest, data))
+    },
+    getResourceTypes: function getResourceTypes() {
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'getMany',
+        params: {
+          organizationId: this.sys.organization.sys.id,
+          appDefinitionId: this.sys.appDefinition.sys.id,
+        },
+      }).then((data) => {
+        data.items = data.items.map((item) => wrapResourceType(makeRequest, item))
+        return data as CollectionProp<ResourceType>
       })
     },
   }

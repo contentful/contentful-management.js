@@ -114,6 +114,7 @@ import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
 import type { ConceptPlainClientAPI } from './entities/concept'
 import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
 import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
+import type { ResourceTypePlainClientAPI } from './entities/resource-type'
 
 export type PlainClientAPI = {
   raw: {
@@ -505,6 +506,7 @@ export type PlainClientAPI = {
   appDefinition: AppDefinitionPlainClientAPI
   appInstallation: AppInstallationPlainClientAPI
   resourceProvider: ResourceProviderPlainClientAPI
+  resourceType: ResourceTypePlainClientAPI
   extension: ExtensionPlainClientAPI
   webhook: WebhookPlainClientAPI
   snapshot: {

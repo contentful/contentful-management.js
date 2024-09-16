@@ -1053,13 +1053,26 @@ export const userUIConfigMock = {
 const resourceProviderMock = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ResourceProvider',
-    organization: {
-      sys: { id: 'organization-id' },
-    },
-    appDefinition: { sys: { id: 'appDefinition-id' } },
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
   }),
   type: 'function',
   function: { sys: { id: 'function-id' } },
+}
+
+const resourceTypeMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'ResourceType',
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
+    resourceProvider: {
+      sys: { id: 'resourceProvider-id', linkType: 'ResourceProvider', type: 'Link' },
+    },
+  }),
+  name: 'resourceType',
+  defaultFieldMapping: {
+    title: 'title',
+  },
 }
 
 const mocks = {
@@ -1112,6 +1125,7 @@ const mocks = {
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
   resourceProvider: resourceProviderMock,
+  resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -1267,6 +1281,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     resourceProvider: {
       wrapResourceProvider: sinon.stub(),
     },
+    resourceType: {
+      wrapResourceType: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -1414,4 +1431,5 @@ export {
   environmentTemplateValidationMock,
   taskMock,
   resourceProviderMock,
+  resourceTypeMock,
 }

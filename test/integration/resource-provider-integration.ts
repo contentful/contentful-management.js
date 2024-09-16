@@ -122,6 +122,42 @@ describe('ResourceProvider API', () => {
     )
   })
 
+  test('upsertResourceType', async () => {
+    const resourceProvider = await appDefinition.upsertResourceProvider({
+      sys: { id: 'test' },
+      type: 'function',
+      function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
+    })
+
+    const resourceType = await resourceProvider.upsertResourceType('test:resourceTypeId', {
+      name: 'resourceType',
+      defaultFieldMapping: {
+        title: 'title',
+      },
+    })
+
+    expect(resourceType.sys.id).to.equal('test:resourceTypeId')
+  })
+
+  test('getResourceType', async () => {
+    const resourceProvider = await appDefinition.upsertResourceProvider({
+      sys: { id: 'test' },
+      type: 'function',
+      function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
+    })
+
+    await resourceProvider.upsertResourceType('test:resourceTypeId', {
+      name: 'resourceType',
+      defaultFieldMapping: {
+        title: 'title',
+      },
+    })
+
+    const resourceType = await resourceProvider.getResourceType('test:resourceTypeId')
+
+    expect(resourceType.name).to.equal('resourceType')
+  })
+
   describe('PlainClient', async () => {
     const plainClient = initPlainClient()
     test('create ResourceProvider', async () => {
