@@ -787,7 +787,7 @@ export interface Adapter {
 export type MRActions = {
   Resource: {
     getMany: {
-      params: GetResourceParams & { query: ResourceQueryOptions }
+      params: GetResourceParams & { query?: ResourceQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CursorPaginatedCollectionProp<ResourceProps>
     }
@@ -816,7 +816,7 @@ export type MRActions = {
     }
     delete: { params: GetResourceTypeParams; return: any }
     getForEnvironment: {
-      params: GetSpaceEnvironmentParams & { query: BasicCursorPaginationOptions }
+      params: GetSpaceEnvironmentParams & { query?: BasicCursorPaginationOptions }
       return: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
     }
   }

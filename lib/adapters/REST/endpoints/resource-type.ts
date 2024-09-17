@@ -23,8 +23,9 @@ const getBaseUrl = (
 
 const getEntityUrl = (params: GetResourceTypeParams) =>
   `${getBaseUrl(params)}/${params.resourceTypeId}`
+
 const getSpaceEnvUrl = (
-  params: GetSpaceEnvironmentParams & { query: BasicCursorPaginationOptions }
+  params: GetSpaceEnvironmentParams & { query?: BasicCursorPaginationOptions }
 ) => `/spaces/${params.spaceId}/environments/${params.environmentId}/resource_types`
 
 export const get: RestEndpoint<'ResourceType', 'get'> = (
@@ -61,7 +62,7 @@ export const getMany: RestEndpoint<'ResourceType', 'getMany'> = (
 
 export const getForEnvironment: RestEndpoint<'ResourceType', 'getForEnvironment'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { query: BasicCursorPaginationOptions }
+  params: GetSpaceEnvironmentParams & { query?: BasicCursorPaginationOptions }
 ) => {
   return raw.get<CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>>(
     http,

@@ -2302,7 +2302,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    async getResourceTypes(query: BasicCursorPaginationOptions) {
+    async getResourceTypes(query?: BasicCursorPaginationOptions) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
@@ -2331,6 +2331,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * // Search Query
      * client.getSpace('<space_id>')
      * .then((space) => space.getEnvironment('<environment_id>'))
+     * // <search_query> is a string you want to search for in the external resources
      * .then((environment) => environment.getResourcesForResourceType('<resource_type_id>', {query: '<search_query>', limit: 10}))
      * .then((installations) => console.log(installations.items))
      * .catch(console.error)
@@ -2344,7 +2345,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    async getResourcesForResourceType(resourceTypeId: string, query: ResourceQueryOptions) {
+    async getResourcesForResourceType(resourceTypeId: string, query?: ResourceQueryOptions) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
