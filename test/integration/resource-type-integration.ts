@@ -89,6 +89,8 @@ describe('ResourceType API', () => {
     if (resourceTypePlain) {
       ;(await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000))
   })
 
   after(async () => {
@@ -299,7 +301,6 @@ describe('ResourceType API', () => {
       const response = await plainClient.resourceType.getMany({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-        resourceTypeId: 'resourceProvider:resourceTypeId',
       })
 
       resourceTypePlain = response.items[0]
@@ -343,7 +344,6 @@ describe('ResourceType API', () => {
       const response = await plainClient.resourceType.getMany({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-        resourceTypeId: 'resourceProvider:resourceTypeId',
       })
 
       expect(response.items).to.be.an('array').that.is.empty

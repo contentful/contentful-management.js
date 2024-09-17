@@ -5,7 +5,6 @@ import type {
   BasicCursorPaginationOptions,
   CollectionProp,
   CursorPaginatedCollectionProp,
-  GetResourceProviderParams,
   GetResourceTypeParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
@@ -104,6 +103,6 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetResourceProviderParams>
+    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>
   ): Promise<CollectionProp<ResourceTypeProps>>
 }
