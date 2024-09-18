@@ -115,6 +115,7 @@ import type { ConceptPlainClientAPI } from './entities/concept'
 import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
 import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
 import type { ResourceTypePlainClientAPI } from './entities/resource-type'
+import type { ResourcePlainAPI } from './entities/resource'
 
 export type PlainClientAPI = {
   raw: {
@@ -450,6 +451,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
+  resource: ResourcePlainAPI
+  resourceProvider: ResourceProviderPlainClientAPI
+  resourceType: ResourceTypePlainClientAPI
   role: RolePlainClientAPI
   scheduledActions: {
     get(
@@ -505,8 +509,6 @@ export type PlainClientAPI = {
   }
   appDefinition: AppDefinitionPlainClientAPI
   appInstallation: AppInstallationPlainClientAPI
-  resourceProvider: ResourceProviderPlainClientAPI
-  resourceType: ResourceTypePlainClientAPI
   extension: ExtensionPlainClientAPI
   webhook: WebhookPlainClientAPI
   snapshot: {

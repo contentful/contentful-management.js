@@ -1075,6 +1075,37 @@ const resourceTypeMock = {
   },
 }
 
+const resourceMock = {
+  sys: {
+    type: 'Resource',
+    urn: 'resource-urn',
+    resourceType: {
+      sys: {
+        type: 'Link',
+        linkType: 'ResourceType',
+        id: 'resourceTypeId',
+      },
+    },
+    resourceProvider: {
+      sys: {
+        type: 'Link',
+        linkType: 'ResourceProvider',
+        id: 'resourceProvider-id',
+      },
+    },
+    appDefinition: {
+      sys: {
+        type: 'Link',
+        linkType: 'AppDefinition',
+        id: 'appDefinitionId',
+      },
+    },
+  },
+  fields: {
+    title: 'Resource title',
+  },
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1124,6 +1155,7 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  resource: resourceMock,
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
@@ -1284,6 +1316,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     resourceType: {
       wrapResourceType: sinon.stub(),
     },
+    resource: {
+      wrapResourceCollection: sinon.stub(),
+    },
     apiKey: {
       wrapApiKey: sinon.stub(),
       wrapApiKeyCollection: sinon.stub(),
@@ -1432,4 +1467,5 @@ export {
   taskMock,
   resourceProviderMock,
   resourceTypeMock,
+  resourceMock,
 }

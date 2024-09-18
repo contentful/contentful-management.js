@@ -47,6 +47,22 @@ describe('ResourceType', () => {
     )
   })
 
+  test('getForEnvironment', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(
+      Promise.resolve({ data: { items: [resourceTypeMock] } })
+    )
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+    const response = await plainClient.resourceType.getForEnvironment({
+      spaceId: 'spaceId',
+      environmentId: 'envId',
+    })
+
+    expect(response).to.be.an('object')
+    expect(response.items[0].sys.id).to.equal('id')
+
+    sinon.assert.calledWith(httpMock.get, `/spaces/spaceId/environments/envId/resource_types`)
+  })
+
   test('upsert', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: resourceTypeMock }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })

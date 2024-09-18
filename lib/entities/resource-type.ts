@@ -1,5 +1,6 @@
 import type {
   BasicMetaSysProps,
+  CursorPaginatedCollectionProp,
   DefaultElements,
   GetResourceTypeParams,
   MakeRequest,
@@ -8,6 +9,7 @@ import type {
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCursorPaginatedCollection } from '../common-utils'
 
 export type ResourceTypeProps = {
   /**
@@ -15,8 +17,8 @@ export type ResourceTypeProps = {
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
     appDefinition: SysLink
-    organization: SysLink
     resourceProvider: SysLink
+    organization: SysLink
   }
   /**
    * Resource Type name
@@ -39,6 +41,24 @@ export type ResourceTypeProps = {
       variant: string
     }
   }
+}
+const publicResourceTypeFields = ['name'] as const
+
+type OptionalSysFields =
+  | 'createdAt'
+  | 'createdBy'
+  | 'updatedAt'
+  | 'updatedBy'
+  | 'appDefinition'
+  | 'organization'
+
+export type SpaceEnvResourceTypeProps = Pick<
+  ResourceTypeProps,
+  typeof publicResourceTypeFields[number]
+> & {
+  // we mark timestamps and users as optional to include system types like `Contentful:Entry` into the public response
+  sys: Partial<Pick<ResourceTypeProps['sys'], OptionalSysFields>> &
+    Omit<ResourceTypeProps['sys'], OptionalSysFields>
 }
 
 export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'>
@@ -138,3 +158,18 @@ export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypePro
   )
   return freezeSys(ResourceTypeWithMethods)
 }
+
+export function wrapResourceTypeforEnvironment(
+  makeRequest: MakeRequest,
+  data: SpaceEnvResourceTypeProps
+): SpaceEnvResourceTypeProps {
+  const resourceType = toPlainObject(data)
+  return freezeSys(resourceType)
+}
+
+export const wrapResourceTypesForEnvironmentCollection: (
+  makeRequest: MakeRequest,
+  data: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
+) => CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps> = wrapCursorPaginatedCollection(
+  wrapResourceTypeforEnvironment
+)

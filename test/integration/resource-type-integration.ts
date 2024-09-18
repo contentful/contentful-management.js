@@ -6,7 +6,13 @@ import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
 import type { AppUpload } from '../../lib/entities/app-upload'
 import type { AppBundle } from '../../lib/entities/app-bundle'
-import type { ResourceProvider, ResourceType, ResourceTypeProps } from '../../lib/export-types'
+import type {
+  AppInstallationProps,
+  ResourceProvider,
+  ResourceType,
+  ResourceTypeProps,
+} from '../../lib/export-types'
+import { TestDefaults } from '../defaults'
 
 describe('ResourceType API', () => {
   const functionManifest = {
@@ -26,6 +32,7 @@ describe('ResourceType API', () => {
   let resourceProvider: ResourceProvider
   let resourceType: ResourceType | null
   let resourceTypePlain: ResourceTypeProps | null
+  let appInstallationPlain: AppInstallationProps | null
 
   before(async () => {
     organization = (await getTestOrganization()) as Organization
@@ -63,9 +70,18 @@ describe('ResourceType API', () => {
   beforeEach(() => {
     resourceType = null
     resourceTypePlain = null
+    appInstallationPlain = null
   })
 
   afterEach(async () => {
+    if (appInstallationPlain) {
+      const plainClient = initPlainClient()
+      await plainClient.appInstallation.delete({
+        appDefinitionId: appDefinition.sys.id,
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+      })
+    }
     if (resourceType) {
       resourceType.delete()
     }
@@ -291,6 +307,37 @@ describe('ResourceType API', () => {
 
       expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
       expect(resourceTypePlain.name).to.equal('resourceType')
+    })
+
+    test('getForEnvironment ResourceType', async () => {
+      resourceTypePlain = await plainClient.resourceType.upsert(
+        {
+          organizationId: organization.sys.id,
+          appDefinitionId: appDefinition.sys.id,
+          resourceTypeId: 'resourceProvider:resourceTypeId',
+        },
+        {
+          name: 'resourceType',
+          defaultFieldMapping: {
+            title: 'title',
+          },
+        }
+      )
+      const { spaceId, environmentId } = TestDefaults
+      appInstallationPlain = await plainClient.appInstallation.upsert(
+        { spaceId, environmentId, appDefinitionId: appDefinition.sys.id },
+        { parameters: { tmdbAccessToken: 'testing' } },
+        { acceptAllTerms: true }
+      )
+
+      const resourceTypesPlain = await plainClient.resourceType.getForEnvironment({
+        spaceId,
+        environmentId,
+      })
+
+      expect(resourceTypesPlain.items.length).to.equal(2)
+      expect(resourceTypesPlain.items[0].sys.id).to.equal('Contentful:Entry')
+      expect(resourceTypesPlain.items[1].sys.id).to.equal('resourceProvider:resourceTypeId')
     })
 
     test('getMany returns empty array if no Resource Types are present', async () => {

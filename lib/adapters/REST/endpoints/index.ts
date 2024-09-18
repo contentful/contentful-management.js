@@ -35,6 +35,7 @@ import * as AccessToken from './access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
 import * as ReleaseAction from './release-action'
+import * as Resource from './resource'
 import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
 import * as Role from './role'
@@ -96,6 +97,7 @@ export default {
   PreviewApiKey,
   Release,
   ReleaseAction,
+  Resource,
   ResourceProvider,
   ResourceType,
   Role,
