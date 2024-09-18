@@ -165,7 +165,12 @@ import type {
   ResourceProviderProps,
   UpsertResourceProviderProps,
 } from './entities/resource-provider'
-import type { ResourceTypeProps, UpsertResourceTypeProps } from './entities/resource-type'
+import type {
+  ResourceTypeProps,
+  SpaceEnvResourceTypeProps,
+  UpsertResourceTypeProps,
+} from './entities/resource-type'
+import type { ResourceProps, ResourceQueryOptions } from './entities/resource'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -594,7 +599,7 @@ type MRInternal<UA extends boolean> = {
     'ReleaseAction',
     'queryForRelease'
   >
-
+  (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
   (opts: MROpts<'ResourceProvider', 'delete', UA>): MRReturn<'ResourceProvider', 'delete'>
@@ -602,6 +607,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
+  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
+    'ResourceType',
+    'getForEnvironment'
+  >
   (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
@@ -776,6 +785,13 @@ export interface Adapter {
  * @private
  */
 export type MRActions = {
+  Resource: {
+    getMany: {
+      params: GetResourceParams & { query?: ResourceQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<ResourceProps>
+    }
+  }
   ResourceProvider: {
     get: { params: GetResourceProviderParams; return: ResourceProviderProps }
     upsert: {
@@ -799,6 +815,10 @@ export type MRActions = {
       return: ResourceTypeProps
     }
     delete: { params: GetResourceTypeParams; return: any }
+    getForEnvironment: {
+      params: GetSpaceEnvironmentParams & { query?: BasicCursorPaginationOptions }
+      return: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
+    }
   }
   Http: {
     get: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
@@ -2117,6 +2137,8 @@ export type GetUserUIConfigParams = GetUIConfigParams
 export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
 
 export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
+
+export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: string }
 
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }

@@ -54,6 +54,7 @@ import * as concept from './concept'
 import * as conceptScheme from './concept-scheme'
 import * as resourceProvider from './resource-provider'
 import * as resourceType from './resource-type'
+import * as resource from './resource'
 
 export default {
   accessToken,
@@ -94,6 +95,7 @@ export default {
   releaseAction,
   resourceProvider,
   resourceType,
+  resource,
   role,
   scheduledAction,
   snapshot,

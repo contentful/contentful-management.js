@@ -290,5 +290,7 @@ export type {
 export type {
   ResourceType,
   ResourceTypeProps,
+  SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
+export type { ResourceProps, ResourceQueryOptions } from './entities/resource'
