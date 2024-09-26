@@ -17,7 +17,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 /**
  * Represents that state of the scheduled action
  */
-enum ScheduledActionStatus {
+export enum ScheduledActionStatus {
   /** action is pending execution */
   scheduled = 'scheduled',
   /** action has been started and pending completion */

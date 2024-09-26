@@ -6,11 +6,11 @@ import createOrganizationApi from '../create-organization-api'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
-export type Organization = DefaultElements<OrganizationProp> &
-  OrganizationProp &
+export type Organization = DefaultElements<OrganizationProps> &
+  OrganizationProps &
   ContentfulOrganizationAPI
 
-export type OrganizationProp = {
+export type OrganizationProps = {
   /**
    * System metadata
    */
@@ -31,7 +31,7 @@ export type OrganizationProp = {
  * @param data - API response for an Organization
  * @return {Organization}
  */
-export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationProp): Organization {
+export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationProps): Organization {
   const org = toPlainObject(copy(data))
   const orgApi = createOrganizationApi(makeRequest)
   const enhancedOrganization = enhanceWithMethods(org, orgApi)
