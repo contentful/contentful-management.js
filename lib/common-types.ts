@@ -41,7 +41,7 @@ import type {
 } from './entities/environment-alias'
 import type { CreateLocaleProps, LocaleProps } from './entities/locale'
 import type { AppInstallationsForOrganizationProps } from './entities/app-definition'
-import type { OrganizationProp } from './entities/organization'
+import type { OrganizationProps } from './entities/organization'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -49,10 +49,10 @@ import type {
 import type { OrganizationMembershipProps } from './entities/organization-membership'
 import type {
   CreatePersonalAccessTokenProps,
-  PersonalAccessTokenProp,
+  PersonalAccessTokenProps,
 } from './entities/personal-access-token'
 import type {
-  AccessTokenProp,
+  AccessTokenProps,
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from './entities/access-token'
 import type { PreviewApiKeyProps } from './entities/preview-api-key'
@@ -246,7 +246,6 @@ export interface BasicMetaSysProps {
 
 export interface MetaSysProps extends BasicMetaSysProps {
   space?: SysLink
-  status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
   archivedBy?: SysLink
@@ -258,7 +257,7 @@ export interface MetaSysProps extends BasicMetaSysProps {
 
 export interface EntityMetaSysProps extends MetaSysProps {
   space: SysLink
-  contentType: SysLink
+  status?: SysLink
   environment: SysLink
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
@@ -268,6 +267,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: SysLink
   automationTags: Link<'Tag'>[]
 }
 
@@ -1515,8 +1515,8 @@ export type MRActions = {
     }
   }
   Organization: {
-    getMany: { params: PaginationQueryParams; return: CollectionProp<OrganizationProp> }
-    get: { params: GetOrganizationParams; return: OrganizationProp }
+    getMany: { params: PaginationQueryParams; return: CollectionProp<OrganizationProps> }
+    get: { params: GetOrganizationParams; return: OrganizationProps }
   }
   OrganizationInvitation: {
     get: {
@@ -1546,29 +1546,29 @@ export type MRActions = {
     delete: { params: GetOrganizationMembershipParams; return: any }
   }
   PersonalAccessToken: {
-    get: { params: { tokenId: string }; return: PersonalAccessTokenProp }
-    getMany: { params: QueryParams; return: CollectionProp<PersonalAccessTokenProp> }
+    get: { params: { tokenId: string }; return: PersonalAccessTokenProps }
+    getMany: { params: QueryParams; return: CollectionProp<PersonalAccessTokenProps> }
     create: {
       params: {}
       payload: CreatePersonalAccessTokenProps
       headers?: RawAxiosRequestHeaders
-      return: PersonalAccessTokenProp
+      return: PersonalAccessTokenProps
     }
-    revoke: { params: { tokenId: string }; return: PersonalAccessTokenProp }
+    revoke: { params: { tokenId: string }; return: PersonalAccessTokenProps }
   }
   AccessToken: {
-    get: { params: { tokenId: string }; return: AccessTokenProp }
-    getMany: { params: QueryParams; return: CollectionProp<AccessTokenProp> }
+    get: { params: { tokenId: string }; return: AccessTokenProps }
+    getMany: { params: QueryParams; return: CollectionProp<AccessTokenProps> }
     createPersonalAccessToken: {
       params: {}
       payload: CreatePATProps
       headers?: RawAxiosRequestHeaders
-      return: AccessTokenProp
+      return: AccessTokenProps
     }
-    revoke: { params: { tokenId: string }; return: AccessTokenProp }
+    revoke: { params: { tokenId: string }; return: AccessTokenProps }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
-      return: CollectionProp<AccessTokenProp>
+      return: CollectionProp<AccessTokenProps>
     }
   }
   PreviewApiKey: {

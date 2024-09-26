@@ -11,7 +11,7 @@ import type {
   BasicCursorPaginationOptions,
 } from './common-types'
 import entities from './entities'
-import type { Organization, OrganizationProp } from './entities/organization'
+import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
@@ -260,7 +260,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizations: function getOrganizations(
       query: PaginationQueryParams['query'] = {}
-    ): Promise<Collection<Organization, OrganizationProp>> {
+    ): Promise<Collection<Organization, OrganizationProps>> {
       return makeRequest({
         entityType: 'Organization',
         action: 'getMany',
