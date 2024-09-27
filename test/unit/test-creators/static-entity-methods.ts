@@ -1,7 +1,6 @@
 import { cloneMock } from '../mocks/entities'
 import { cloneDeep, upperFirst } from 'lodash'
 import { expect } from 'vitest'
-import type { EnvironmentSetup } from '../create-environment-api.test'
 
 export async function makeGetEntityTest(
   setup,
@@ -64,7 +63,7 @@ export async function makeCreateEntityWithIdTest(
 }
 
 export function testGettingEntrySDKObject(
-  setup: EnvironmentSetup,
+  setup,
   {
     type,
     wrapFunctionName,

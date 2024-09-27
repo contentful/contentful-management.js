@@ -77,7 +77,7 @@ export async function failingActionTest(setup: FailedActionSetup, { wrapperMetho
 
 export async function failingVersionActionTest(setup, { wrapperMethod, actionMethod }) {
   const error = cloneMock('error')
-  const { makeRequest, entityMock } = setup(Promise.resolve(error))
+  const { makeRequest, entityMock } = setup(Promise.reject(error))
   entityMock.sys.version = 2
   const entity = wrapperMethod(makeRequest, entityMock)
   expect(await entity[actionMethod]()).toStrictEqual(error)
