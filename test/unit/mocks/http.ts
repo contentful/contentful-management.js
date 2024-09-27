@@ -1,4 +1,5 @@
-import { Mock, vi } from 'vitest'
+import type { Mock } from 'vitest'
+import { vi } from 'vitest'
 
 interface MockedHttp<T, R> extends Mock<[T], R> {
   get?: Mock<[T], R>

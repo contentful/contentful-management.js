@@ -1,7 +1,7 @@
 import { cloneMock } from '../mocks/entities'
 import { cloneDeep, upperFirst } from 'lodash'
 import { expect } from 'vitest'
-import { EnvironmentSetup } from '../create-environment-api.test'
+import type { EnvironmentSetup } from '../create-environment-api.test'
 
 export async function makeGetEntityTest(
   setup,

@@ -1,7 +1,7 @@
 import { vi, test, expect } from 'vitest'
 import defaultsDeep from 'lodash/defaultsDeep'
 import { asIterator } from '../../../lib/plain/as-iterator'
-import { CollectionProp } from '../../../lib/common-types'
+import type { CollectionProp } from '../../../lib/common-types'
 
 const exhaustIterator = async (iterator) => {
   const data: unknown[] = []

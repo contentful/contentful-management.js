@@ -1,9 +1,11 @@
-import { vi, MockedFunction } from 'vitest'
+import type { MockedFunction } from 'vitest'
+import { vi } from 'vitest'
 import { RestAdapter } from '../../../../../lib/adapters/REST/rest-adapter'
 import setupHttpMock from '../../../mocks/http'
-import contentfulSdkCore from 'contentful-sdk-core'
+import type contentfulSdkCore from 'contentful-sdk-core'
 
-import { AxiosInstance, createHttpClient } from 'contentful-sdk-core'
+import type { AxiosInstance } from 'contentful-sdk-core'
+import { createHttpClient } from 'contentful-sdk-core'
 
 vi.mock('contentful-sdk-core', async (importOriginal) => {
   const orig = await importOriginal<typeof contentfulSdkCore>()

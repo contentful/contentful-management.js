@@ -1,9 +1,6 @@
 import { cloneMock, environmentMock, mockCollection } from '../mocks/entities'
-import {
-  EnvironmentProps,
-  wrapEnvironment,
-  wrapEnvironmentCollection,
-} from '../../../lib/entities/environment'
+import type { EnvironmentProps } from '../../../lib/entities/environment'
+import { wrapEnvironment, wrapEnvironmentCollection } from '../../../lib/entities/environment'
 import { describe, test, expect } from 'vitest'
 import setupMakeRequest from '../mocks/makeRequest'
 

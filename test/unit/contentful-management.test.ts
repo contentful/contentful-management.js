@@ -1,4 +1,5 @@
-import { describe, it, afterEach, expect, vi, MockedFunction, beforeAll } from 'vitest'
+import type { MockedFunction } from 'vitest'
+import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest'
 import { createClient } from '../../lib/contentful-management'
 import { version } from '../../package.json'
 

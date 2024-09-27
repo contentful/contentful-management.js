@@ -1,11 +1,8 @@
 import { describe, test } from 'vitest'
 import { expect } from 'chai'
 import { cloneMock, mockCollection, organizationMock } from '../mocks/entities'
-import {
-  Organization,
-  wrapOrganization,
-  wrapOrganizationCollection,
-} from '../../../lib/entities/organization'
+import type { Organization } from '../../../lib/entities/organization'
+import { wrapOrganization, wrapOrganizationCollection } from '../../../lib/entities/organization'
 import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {

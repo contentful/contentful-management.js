@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { RestAdapter, RestAdapterParams } from '../../lib/adapters/REST/rest-adapter'
+import type { RestAdapterParams } from '../../lib/adapters/REST/rest-adapter'
+import { RestAdapter } from '../../lib/adapters/REST/rest-adapter'
 import { createAdapter } from '../../lib/create-adapter'
 
 describe('createAdapter', () => {

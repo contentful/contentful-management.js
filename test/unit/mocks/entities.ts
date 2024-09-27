@@ -2,78 +2,79 @@ import { vi } from 'vitest'
 
 import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
-import { ContentFields } from '../../../lib/entities/content-type-fields'
-import { AppSigningSecretProps } from '../../../lib/entities/app-signing-secret'
-import { CollectionProp, Link, MetaLinkProps, MetaSysProps } from '../../../lib/common-types'
-import { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
-import { SpaceProps } from '../../../lib/entities/space'
-import { EnvironmentProps } from '../../../lib/entities/environment'
-import { EnvironmentTemplateProps } from '../../../lib/entities/environment-template'
-import {
+import type { ContentFields } from '../../../lib/entities/content-type-fields'
+import type { AppSigningSecretProps } from '../../../lib/entities/app-signing-secret'
+import type { CollectionProp, Link, MetaLinkProps, MetaSysProps } from '../../../lib/common-types'
+import type { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
+import type { SpaceProps } from '../../../lib/entities/space'
+import type { EnvironmentProps } from '../../../lib/entities/environment'
+import type { EnvironmentTemplateProps } from '../../../lib/entities/environment-template'
+import type {
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
 } from '../../../lib/entities/environment-template-installation'
-import { AppKeyProps } from '../../../lib/entities/app-key'
-import { UserProps } from '../../../lib/entities/user'
-import { PersonalAccessTokenProps } from '../../../lib/entities/personal-access-token'
-import { AppBundleProps } from '../../../lib/entities/app-bundle'
-import { AppActionProps } from '../../../lib/entities/app-action'
-import {
+import type { AppKeyProps } from '../../../lib/entities/app-key'
+import type { UserProps } from '../../../lib/entities/user'
+import type { PersonalAccessTokenProps } from '../../../lib/entities/personal-access-token'
+import type { AppBundleProps } from '../../../lib/entities/app-bundle'
+import type { AppActionProps } from '../../../lib/entities/app-action'
+import type {
   AppActionCallProps,
   AppActionCallResponseData,
 } from '../../../lib/entities/app-action-call'
-import { AppDetailsProps } from '../../../lib/entities/app-details'
-import {
+import type { AppDetailsProps } from '../../../lib/entities/app-details'
+import type {
   AppDefinitionProps,
   AppInstallationsForOrganizationProps,
 } from '../../../lib/entities/app-definition'
-import { AppUploadProps } from '../../../lib/entities/app-upload'
-import { AppSignedRequestProps } from '../../../lib/entities/app-signed-request'
-import { AppAccessTokenProps } from '../../../lib/entities/app-access-token'
-import { BulkActionProps, BulkActionStatus } from '../../../lib/entities/bulk-action'
-import { ContentTypeProps } from '../../../lib/entities/content-type'
-import { SnapshotProps } from '../../../lib/entities/snapshot'
-import { EntryProps } from '../../../lib/entities/entry'
-import { EditorInterfaceProps } from '../../../lib/entities/editor-interface'
-import { AssetProps } from '../../../lib/entities/asset'
-import { AssetKeyProps } from '../../../lib/entities/asset-key'
-import { UploadProps } from '../../../lib/entities/upload'
-import { LocaleProps } from '../../../lib/entities/locale'
-import { TeamMembershipProps } from '../../../lib/entities/team-membership'
-import { TeamSpaceMembershipProps } from '../../../lib/entities/team-space-membership'
-import { WebhookProps } from '../../../lib/entities/webhook'
-import { SpaceMemberProps } from '../../../lib/entities/space-member'
-import { SpaceMembershipProps } from '../../../lib/entities/space-membership'
-import { OrganizationMembershipProps } from '../../../lib/entities/organization-membership'
-import { TeamProps } from '../../../lib/entities/team'
-import { OrganizationInvitationProps } from '../../../lib/entities/organization-invitation'
-import { RoleProps } from '../../../lib/entities/role'
-import { ReleaseProps } from '../../../lib/entities/release'
-import { ReleaseActionProps } from '../../../lib/entities/release-action'
-import { ApiKey, ApiKeyProps } from '../../../lib/entities/api-key'
-import { OrganizationProps } from '../../../lib/entities/organization'
-import { UsageProps } from '../../../lib/entities/usage'
-import { ExtensionProps } from '../../../lib/entities/extension'
-import { AppInstallationProps } from '../../../lib/entities/app-installation'
-import { EnvironmentAliasProps } from '../../../lib/entities/environment-alias'
-import { TaskProps } from '../../../lib/entities/task'
-import { CommentProps } from '../../../lib/entities/comment'
-import { ConceptProps } from '../../../lib/entities/concept'
-import { ConceptSchemeProps } from '../../../lib/entities/concept-scheme'
-import { TagProps } from '../../../lib/entities/tag'
-import {
+import type { AppUploadProps } from '../../../lib/entities/app-upload'
+import type { AppSignedRequestProps } from '../../../lib/entities/app-signed-request'
+import type { AppAccessTokenProps } from '../../../lib/entities/app-access-token'
+import type { BulkActionProps } from '../../../lib/entities/bulk-action'
+import { BulkActionStatus } from '../../../lib/entities/bulk-action'
+import type { ContentTypeProps } from '../../../lib/entities/content-type'
+import type { SnapshotProps } from '../../../lib/entities/snapshot'
+import type { EntryProps } from '../../../lib/entities/entry'
+import type { EditorInterfaceProps } from '../../../lib/entities/editor-interface'
+import type { AssetProps } from '../../../lib/entities/asset'
+import type { AssetKeyProps } from '../../../lib/entities/asset-key'
+import type { UploadProps } from '../../../lib/entities/upload'
+import type { LocaleProps } from '../../../lib/entities/locale'
+import type { TeamMembershipProps } from '../../../lib/entities/team-membership'
+import type { TeamSpaceMembershipProps } from '../../../lib/entities/team-space-membership'
+import type { WebhookProps } from '../../../lib/entities/webhook'
+import type { SpaceMemberProps } from '../../../lib/entities/space-member'
+import type { SpaceMembershipProps } from '../../../lib/entities/space-membership'
+import type { OrganizationMembershipProps } from '../../../lib/entities/organization-membership'
+import type { TeamProps } from '../../../lib/entities/team'
+import type { OrganizationInvitationProps } from '../../../lib/entities/organization-invitation'
+import type { RoleProps } from '../../../lib/entities/role'
+import type { ReleaseProps } from '../../../lib/entities/release'
+import type { ReleaseActionProps } from '../../../lib/entities/release-action'
+import type { ApiKey, ApiKeyProps } from '../../../lib/entities/api-key'
+import type { OrganizationProps } from '../../../lib/entities/organization'
+import type { UsageProps } from '../../../lib/entities/usage'
+import type { ExtensionProps } from '../../../lib/entities/extension'
+import type { AppInstallationProps } from '../../../lib/entities/app-installation'
+import type { EnvironmentAliasProps } from '../../../lib/entities/environment-alias'
+import type { TaskProps } from '../../../lib/entities/task'
+import type { CommentProps } from '../../../lib/entities/comment'
+import type { ConceptProps } from '../../../lib/entities/concept'
+import type { ConceptSchemeProps } from '../../../lib/entities/concept-scheme'
+import type { TagProps } from '../../../lib/entities/tag'
+import type {
   ScheduledActionCollection,
   ScheduledActionProps,
-  ScheduledActionStatus,
 } from '../../../lib/entities/scheduled-action'
-import {
+import { ScheduledActionStatus } from '../../../lib/entities/scheduled-action'
+import type {
   WorkflowDefinitionProps,
   WorkflowStepProps,
 } from '../../../lib/entities/workflow-definition'
-import { WorkflowProps } from '../../../lib/entities/workflow'
-import { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
-import { UIConfigProps } from '../../../lib/entities/ui-config'
-import { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
+import type { WorkflowProps } from '../../../lib/entities/workflow'
+import type { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
+import type { UIConfigProps } from '../../../lib/entities/ui-config'
+import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1240,7 +1241,7 @@ const mocks = {
   workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
-function cloneMock<T extends keyof typeof mocks>(name: T): typeof mocks[T] {
+function cloneMock<T extends keyof typeof mocks>(name: T): (typeof mocks)[T] {
   return cloneDeep(mocks[name])
 }
 
