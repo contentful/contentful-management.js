@@ -1,9 +1,9 @@
 import { vi } from 'vitest'
-import type { MockedFunction } from 'vitest'
+import type { Mock } from 'vitest'
 import type { MakeRequest } from '../../../lib/common-types'
 
-export default function setupMakeRequest(
-  promise: Promise<unknown> = Promise.resolve({ data: {} })
-): MockedFunction<MakeRequest> & MakeRequest {
+export default function setupMakeRequest<T>(
+  promise: Promise<T>
+): Mock<{ payload: T }[], T> & MakeRequest {
   return vi.fn().mockReturnValue(promise)
 }

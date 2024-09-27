@@ -1241,7 +1241,7 @@ const mocks = {
   workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
-function cloneMock<T extends keyof typeof mocks>(name: T): (typeof mocks)[T] {
+function cloneMock<T extends keyof typeof mocks>(name: T): typeof mocks[T] {
   return cloneDeep(mocks[name])
 }
 
@@ -1375,13 +1375,13 @@ function setupEntitiesMock() {
       wrapReleaseAction: vi.fn(),
     },
     resourceProvider: {
-      wrapResourceProvider: sinon.stub(),
+      wrapResourceProvider: vi.fn(),
     },
     resourceType: {
-      wrapResourceType: sinon.stub(),
+      wrapResourceType: vi.fn(),
     },
     resource: {
-      wrapResourceCollection: sinon.stub(),
+      wrapResourceCollection: vi.fn(),
     },
     apiKey: {
       wrapApiKey: vi.fn(),
