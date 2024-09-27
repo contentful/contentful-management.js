@@ -1,9 +1,6 @@
-import { afterEach, describe, test } from 'mocha'
-
+import { describe, test, expect, vi, afterEach } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
-import createSpaceApi, {
-  __RewireAPI__ as createSpaceApiRewireApi,
-} from '../../lib/create-space-api'
+import createSpaceApi from '../../lib/create-space-api'
 import {
   apiKeyMock,
   cloneMock,
@@ -27,17 +24,18 @@ import {
   makeGetCollectionTest,
   makeGetEntityTest,
 } from './test-creators/static-entity-methods'
-import { __RewireAPI__ as createEnvironmentApiRewireApi } from '../../lib/create-environment-api'
-import { expect } from 'chai'
 import setupMakeRequest from './mocks/makeRequest'
 
 function setup(promise) {
-  const entitiesMock = setupEntitiesMock(createSpaceApiRewireApi)
+  const entitiesMock = setupEntitiesMock()
   const makeRequest = setupMakeRequest(promise)
   const api = createSpaceApi(makeRequest)
-  api.toPlainObject = () => spaceMock
+
   return {
-    api,
+    api: {
+      ...api,
+      toPlainObject: () => spaceMock,
+    },
     makeRequest,
     entitiesMock,
   }
@@ -45,21 +43,19 @@ function setup(promise) {
 
 describe('A createSpaceApi', () => {
   afterEach(() => {
-    createEnvironmentApiRewireApi.__ResetDependency__('entities')
+    vi.restoreAllMocks()
   })
 
   test('API call space delete', async () => {
     const { api } = setup(Promise.resolve({}))
-    expect(await api.delete()).to.not.throw
+    await expect(api.delete()).resolves.not.toThrow()
   })
 
   test('API call space delete fails', async () => {
     const error = cloneMock('error')
     const { api } = setup(Promise.reject(error))
 
-    return api.delete().catch((r) => {
-      expect(r).equals(error)
-    })
+    await expect(api.delete()).rejects.toEqual(error)
   })
 
   test('API call space update', async () => {
@@ -70,43 +66,39 @@ describe('A createSpaceApi', () => {
       },
       name: 'updatedname',
     }
-    let { api, makeRequest, entitiesMock } = setup(Promise.resolve({ data: responseData }))
-    entitiesMock.space.wrapSpace.returns(responseData)
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.space.wrapSpace.mockReturnValue(responseData)
 
-    // mocks data that would exist in a space object already retrieved from the server
     api.sys = {
       id: 'id',
       type: 'Space',
       version: 2,
     }
-    api = toPlainObject(api)
+    const plainApi = toPlainObject(api)
 
-    api.name = 'updatedname'
-    return api.update().then((r) => {
-      expect(r).eql(responseData, 'space is wrapped')
-      expect(makeRequest.args[0][0].payload.name).equals('updatedname', 'data is sent')
-    })
+    plainApi.name = 'updatedname'
+    const result = await plainApi.update()
+
+    expect(result).toEqual(responseData)
+    expect(makeRequest.mock.calls[0][0].payload.name).toBe('updatedname')
   })
 
   test('API call space update fails', async () => {
     const error = cloneMock('error')
-    let { api } = setup(Promise.reject(error))
+    const { api } = setup(Promise.reject(error))
 
-    // mocks data that would exist in a space object already retrieved from the server
     api.sys = {
       id: 'id',
       type: 'Space',
       version: 2,
     }
-    api = toPlainObject(api)
+    const plainApi = toPlainObject(api)
 
-    return api.update().catch((r) => {
-      expect(r).equals(error)
-    })
+    await expect(plainApi.update()).rejects.toEqual(error)
   })
 
   test('API call getWebhook', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'webhook',
       mockToReturn: webhookMock,
       methodToTest: 'getWebhook',
@@ -114,13 +106,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getWebhook fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getWebhook',
     })
   })
 
   test('API call getWebhooks', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'webhook',
       mockToReturn: webhookMock,
       methodToTest: 'getWebhooks',
@@ -128,13 +120,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getWebhooks fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getWebhooks',
     })
   })
 
   test('API call createWebhook', async () => {
-    return makeCreateEntityTest(setup, {
+    await makeCreateEntityTest(setup, {
       entityType: 'webhook',
       mockToReturn: webhookMock,
       methodToTest: 'createWebhook',
@@ -142,13 +134,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createWebhook fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createWebhook',
     })
   })
 
   test('API call createWebhookWithId', async () => {
-    return makeCreateEntityWithIdTest(setup, {
+    await makeCreateEntityWithIdTest(setup, {
       entityType: 'webhook',
       mockToReturn: webhookMock,
       methodToTest: 'createWebhookWithId',
@@ -156,13 +148,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createWebhookWithId fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createWebhookWithId',
     })
   })
 
   test('API call getTeams', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'team',
       mockToReturn: teamMock,
       methodToTest: 'getTeams',
@@ -170,13 +162,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getTeams fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getTeams',
     })
   })
 
   test('API call getSpaceMembers', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'spaceMember',
       mockToReturn: spaceMemberMock,
       methodToTest: 'getSpaceMembers',
@@ -184,7 +176,7 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getSpaceMembership', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'spaceMembership',
       mockToReturn: spaceMembershipMock,
       methodToTest: 'getSpaceMembership',
@@ -192,13 +184,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getSpaceMembership fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getSpaceMembership',
     })
   })
 
   test('API call getSpaceMemberships', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'spaceMembership',
       mockToReturn: spaceMembershipMock,
       methodToTest: 'getSpaceMemberships',
@@ -206,13 +198,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getSpaceMemberships fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getSpaceMemberships',
     })
   })
 
   test('API call createSpaceMembership', async () => {
-    return makeCreateEntityTest(setup, {
+    await makeCreateEntityTest(setup, {
       entityType: 'spaceMembership',
       mockToReturn: spaceMembershipMock,
       methodToTest: 'createSpaceMembership',
@@ -220,7 +212,7 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getTeamSpaceMembership', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'teamSpaceMembership',
       mockToReturn: teamSpaceMembershipMock,
       methodToTest: 'getTeamSpaceMembership',
@@ -228,13 +220,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getTeamSpaceMembership fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getTeamSpaceMembership',
     })
   })
 
   test('API call getTeamSpaceMemberships', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'teamSpaceMembership',
       mockToReturn: teamSpaceMembershipMock,
       methodToTest: 'getTeamSpaceMemberships',
@@ -242,31 +234,29 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getTeamSpaceMemberships fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getTeamSpaceMemberships',
     })
   })
 
   test('API call createTeamSpaceMembership', async () => {
-    const { api, entitiesMock } = setup(Promise.resolve({}))
-    entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembership`].returns(teamSpaceMembershipMock)
+    const { api, entitiesMock } = setup(Promise.resolve(teamSpaceMembershipMock))
+    entitiesMock.teamSpaceMembership.wrapTeamSpaceMembership.mockReturnValue(
+      teamSpaceMembershipMock
+    )
 
-    return api['createTeamSpaceMembership']({
-      admin: false,
-      teamId: 'id',
-    }).then((r) => {
-      expect(r).equals(teamSpaceMembershipMock)
-    })
+    const result = await api.createTeamSpaceMembership('team-id', { admin: true, roles: [] })
+    expect(result).toStrictEqual(teamSpaceMembershipMock)
   })
 
   test('API call createSpaceMembership fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createSpaceMembership',
     })
   })
 
   test('API call createSpaceMembershipWithId', async () => {
-    return makeCreateEntityWithIdTest(setup, {
+    await makeCreateEntityWithIdTest(setup, {
       entityType: 'spaceMembership',
       mockToReturn: spaceMembershipMock,
       methodToTest: 'createSpaceMembershipWithId',
@@ -274,13 +264,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createSpaceMembershipWithId fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createSpaceMembershipWithId',
     })
   })
 
   test('API call getSpaceUser', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'user',
       mockToReturn: userMock,
       methodToTest: 'getSpaceUser',
@@ -288,13 +278,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getSpaceUser fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getSpaceUser',
     })
   })
 
   test('API call getSpaceUsers', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'user',
       mockToReturn: userMock,
       methodToTest: 'getSpaceUsers',
@@ -302,13 +292,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getSpaceUsers fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getSpaceUsers',
     })
   })
 
   test('API call getRole', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'role',
       mockToReturn: roleMock,
       methodToTest: 'getRole',
@@ -316,13 +306,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getRole fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getRole',
     })
   })
 
   test('API call getRoles', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'role',
       mockToReturn: roleMock,
       methodToTest: 'getRoles',
@@ -330,13 +320,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getRoles fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getRoles',
     })
   })
 
   test('API call createRole', async () => {
-    return makeCreateEntityTest(setup, {
+    await makeCreateEntityTest(setup, {
       entityType: 'role',
       mockToReturn: roleMock,
       methodToTest: 'createRole',
@@ -344,13 +334,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createRole fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createRole',
     })
   })
 
   test('API call createRoleWithId', async () => {
-    return makeCreateEntityWithIdTest(setup, {
+    await makeCreateEntityWithIdTest(setup, {
       entityType: 'role',
       mockToReturn: roleMock,
       methodToTest: 'createRoleWithId',
@@ -358,13 +348,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createRoleWithId fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createRoleWithId',
     })
   })
 
   test('API call getApiKey', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'apiKey',
       mockToReturn: apiKeyMock,
       methodToTest: 'getApiKey',
@@ -372,13 +362,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getApiKey fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getApiKey',
     })
   })
 
   test('API call getApiKeys', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'apiKey',
       mockToReturn: apiKeyMock,
       methodToTest: 'getApiKeys',
@@ -386,13 +376,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getApiKeys fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getApiKeys',
     })
   })
 
   test('API call createApiKey', async () => {
-    return makeCreateEntityTest(setup, {
+    await makeCreateEntityTest(setup, {
       entityType: 'apiKey',
       mockToReturn: apiKeyMock,
       methodToTest: 'createApiKey',
@@ -400,13 +390,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createApiKey fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createApiKey',
     })
   })
 
   test('API call createApiKeyWithId', async () => {
-    return makeCreateEntityWithIdTest(setup, {
+    await makeCreateEntityWithIdTest(setup, {
       entityType: 'apiKey',
       mockToReturn: apiKeyMock,
       methodToTest: 'createApiKeyWithId',
@@ -414,13 +404,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createApiKeyWithId fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createApiKeyWithId',
     })
   })
 
   test('API call getEnvironmentAlias', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'environmentAlias',
       mockToReturn: environmentAliasMock,
       methodToTest: 'getEnvironmentAlias',
@@ -428,13 +418,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getEnvironmentAlias fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getEnvironmentAlias',
     })
   })
 
   test('API call getEnvironmentAliases', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'environmentAlias',
       mockToReturn: environmentAliasMock,
       methodToTest: 'getEnvironmentAliases',
@@ -442,13 +432,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getEnvironmentAliases fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getEnvironmentAliases',
     })
   })
 
   test('API call getScheduledActions', async () => {
-    return makeGetCollectionTest(setup, {
+    await makeGetCollectionTest(setup, {
       entityType: 'scheduledAction',
       mockToReturn: scheduledActionCollectionMock,
       methodToTest: 'getScheduledActions',
@@ -456,13 +446,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getScheduledActions fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'getScheduledActions',
     })
   })
 
   test('API call createScheduledAction', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'scheduledAction',
       mockToReturn: scheduledActionMock,
       methodToTest: 'createScheduledAction',
@@ -470,13 +460,13 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call createScheduledAction fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'createScheduledAction',
     })
   })
 
   test('API call updateScheduledAction', async () => {
-    return makeGetEntityTest(setup, {
+    await makeGetEntityTest(setup, {
       entityType: 'scheduledAction',
       mockToReturn: scheduledActionMock,
       methodToTest: 'updateScheduledAction',
@@ -484,7 +474,7 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call updateScheduledAction fails', async () => {
-    return makeEntityMethodFailingTest(setup, {
+    await makeEntityMethodFailingTest(setup, {
       methodToTest: 'updateScheduledAction',
     })
   })
