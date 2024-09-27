@@ -18,7 +18,7 @@ export function entityCollectionWrappedTest(setup, { wrapperMethod }) {
 }
 
 export async function entityPatchTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
   const response = await entity.patch([])
   expect(response.toPlainObject, 'response is wrapped').to.be.ok
@@ -41,7 +41,7 @@ export async function entityActionTest(
   { wrapperMethod, actionMethod },
   checkResponse = true
 ) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
   if (checkResponse) {
     const response = await entity[actionMethod]()
@@ -52,7 +52,7 @@ export async function entityActionTest(
 }
 
 export async function entityDeleteTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
   expect(await entity.delete()).to.not.throw
 }
@@ -80,11 +80,11 @@ export async function failingVersionActionTest(setup, { wrapperMethod, actionMet
   const { makeRequest, entityMock } = setup(Promise.reject(error))
   entityMock.sys.version = 2
   const entity = wrapperMethod(makeRequest, entityMock)
-  expect(await entity[actionMethod]()).toStrictEqual(error)
+  await expect(async () => await entity[actionMethod]()).rejects.toBe(error)
 }
 
 export async function isPublishedTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const unpublishedEntity = wrapperMethod(makeRequest, entityMock)
   expect(unpublishedEntity.isPublished(), 'entity initially unpublished').to.be.false
   entityMock.sys.publishedVersion = 2
@@ -93,7 +93,7 @@ export async function isPublishedTest(setup, { wrapperMethod }) {
 }
 
 export async function isUpdatedTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const unpublishedEntity = wrapperMethod(makeRequest, entityMock)
   expect(unpublishedEntity.isUpdated(), 'entity not published').to.be.false
   entityMock.sys.publishedVersion = 2
@@ -106,7 +106,7 @@ export async function isUpdatedTest(setup, { wrapperMethod }) {
 }
 
 export async function isDraftTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const unpublishedEntity = wrapperMethod(makeRequest, entityMock)
   expect(unpublishedEntity.isDraft(), 'entity is in draft mode').to.be.true
   entityMock.sys.publishedVersion = 2
@@ -116,7 +116,7 @@ export async function isDraftTest(setup, { wrapperMethod }) {
 }
 
 export async function isArchivedTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const unarchivedEntity = wrapperMethod(makeRequest, entityMock)
   expect(unarchivedEntity.isArchived(), 'entity initially unarchived').to.be.false
   entityMock.sys.archivedVersion = 2
@@ -162,7 +162,7 @@ export async function omitAndDeleteFieldTest(setup: OmitAndDeleteSetup, { wrappe
 }
 
 export async function failingOmitAndDeleteFieldTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
   return entity.omitAndDeleteField('doesntExist').catch((r) => {
     expect(r, "throws an error when field doesn't exist").to.be.ok
@@ -170,7 +170,7 @@ export async function failingOmitAndDeleteFieldTest(setup, { wrapperMethod }) {
 }
 
 export async function entityReferenceCollectionTest(setup, { wrapperMethod }) {
-  const { makeRequest, entityMock } = setup()
+  const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
   expect(entity.includes).not.to.be.empty
 }

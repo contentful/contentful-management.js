@@ -1,7 +1,5 @@
-import { afterEach, describe, test } from 'mocha'
-import createUIConfigApi, {
-  __RewireAPI__ as createUIConfigApiRewireApi,
-} from '../../lib/create-ui-config-api'
+import { describe, test, afterEach, vi } from 'vitest'
+import createUIConfigApi from '../../lib/create-ui-config-api'
 import { wrapUIConfig } from '../../lib/entities/ui-config'
 import { cloneMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
@@ -11,9 +9,12 @@ function setup(promise) {
   const makeRequest = setupMakeRequest(promise)
   const uiConfigMock = cloneMock('uiConfig')
   const api = createUIConfigApi(makeRequest)
-  api.toPlainObject = () => uiConfigMock
+
   return {
-    api,
+    api: {
+      ...api,
+      toPlainObject: () => uiConfigMock,
+    },
     makeRequest,
     entityMock: uiConfigMock,
   }
@@ -21,17 +22,17 @@ function setup(promise) {
 
 describe('createUIConfigApi', () => {
   afterEach(() => {
-    createUIConfigApiRewireApi.__ResetDependency__('entities')
+    vi.restoreAllMocks()
   })
 
   test('UIConfig update', async () => {
-    return entityUpdateTest(setup, {
+    await entityUpdateTest(setup, {
       wrapperMethod: wrapUIConfig,
     })
   })
 
   test('UIConfig update fails', async () => {
-    return failingVersionActionTest(setup, {
+    await failingVersionActionTest(setup, {
       wrapperMethod: wrapUIConfig,
       actionMethod: 'update',
     })
