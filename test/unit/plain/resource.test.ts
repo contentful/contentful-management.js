@@ -1,6 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
-import sinon from 'sinon'
+import { describe, test, expect } from 'vitest'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 import { resourceMock } from '../mocks/entities'
@@ -25,11 +23,10 @@ describe('Resource', () => {
       },
     })
 
-    expect(response).to.be.an('object')
-    expect(response.items[0].sys.urn).to.equal('resource-urn')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.items[0].sys.urn).toBe('resource-urn')
 
-    sinon.assert.calledWith(
-      httpMock.get,
+    expect(httpMock.get).toHaveBeenCalledWith(
       `/spaces/spaceId/environments/envId/resource_types/${resourceTypeId}/resources`
     )
   })

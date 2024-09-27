@@ -15,8 +15,8 @@ describe('Webhook', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.webhook.getSigningSecret({ spaceId })
 
-    expect(response).to.be.an('object')
-    expect(response.redactedValue).to.equal('abcd')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.redactedValue).toBe('abcd')
 
     expect(httpMock.get).toHaveBeenCalledWith(
       `/spaces/mock-space-id/webhook_settings/signing_secret`,
@@ -35,8 +35,8 @@ describe('Webhook', () => {
     const payload = { value: crypto.randomBytes(32).toString('hex') }
     const response = await plainClient.webhook.upsertSigningSecret({ spaceId }, payload)
 
-    expect(response).to.be.an('object')
-    expect(response.redactedValue).to.equal('abcd')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.redactedValue).toBe('abcd')
 
     expect(httpMock.put).toHaveBeenCalledWith(
       `/spaces/mock-space-id/webhook_settings/signing_secret`,
@@ -67,8 +67,8 @@ describe('Webhook', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.webhook.getRetryPolicy({ spaceId })
 
-    expect(response).to.be.an('object')
-    expect(response.maxRetries).to.equal(15)
+    expect(response).toBeInstanceOf(Object)
+    expect(response.maxRetries).toBe(15)
 
     expect(httpMock.get).toHaveBeenCalledWith(
       `/spaces/mock-space-id/webhook_settings/retry_policy`,
@@ -87,8 +87,8 @@ describe('Webhook', () => {
     const payload = { maxRetries: 15 }
     const response = await plainClient.webhook.upsertRetryPolicy({ spaceId }, payload)
 
-    expect(response).to.be.an('object')
-    expect(response.maxRetries).to.equal(15)
+    expect(response).toBeInstanceOf(Object)
+    expect(response.maxRetries).toBe(15)
 
     expect(httpMock.put).toHaveBeenCalledWith(
       `/spaces/mock-space-id/webhook_settings/retry_policy`,

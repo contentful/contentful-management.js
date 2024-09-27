@@ -1,6 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
-import sinon from 'sinon'
+import { describe, test, expect } from 'vitest'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 import { resourceTypeMock } from '../mocks/entities'
@@ -19,11 +17,10 @@ describe('ResourceType', () => {
       resourceTypeId,
     })
 
-    expect(response).to.be.an('object')
-    expect(response.sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe('id')
 
-    sinon.assert.calledWith(
-      httpMock.get,
+    expect(httpMock.get).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })
@@ -38,11 +35,10 @@ describe('ResourceType', () => {
       appDefinitionId,
     })
 
-    expect(response).to.be.an('object')
-    expect(response.items[0].sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.items[0].sys.id).toBe('id')
 
-    sinon.assert.calledWith(
-      httpMock.get,
+    expect(httpMock.get).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types`
     )
   })
@@ -57,10 +53,10 @@ describe('ResourceType', () => {
       environmentId: 'envId',
     })
 
-    expect(response).to.be.an('object')
-    expect(response.items[0].sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.items[0].sys.id).toBe('id')
 
-    sinon.assert.calledWith(httpMock.get, `/spaces/spaceId/environments/envId/resource_types`)
+    expect(httpMock.get).toHaveBeenCalledWith(`/spaces/spaceId/environments/envId/resource_types`)
   })
 
   test('upsert', async () => {
@@ -76,20 +72,20 @@ describe('ResourceType', () => {
       }
     )
 
-    expect(response).to.be.an('object')
-    expect(response.sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe('id')
 
-    sinon.assert.calledWith(
-      httpMock.put,
+    expect(httpMock.put).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })
+
   test('delete', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     await plainClient.resourceType.delete({ organizationId, appDefinitionId, resourceTypeId })
-    sinon.assert.calledWith(
-      httpMock.delete,
+
+    expect(httpMock.delete).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })

@@ -1,6 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
-import sinon from 'sinon'
+import { describe, test, expect } from 'vitest'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 import { resourceProviderMock } from '../mocks/entities'
@@ -16,11 +14,10 @@ describe('ResourceProvider', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.resourceProvider.get({ organizationId, appDefinitionId })
 
-    expect(response).to.be.an('object')
-    expect(response.sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe('id')
 
-    sinon.assert.calledWith(
-      httpMock.get,
+    expect(httpMock.get).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })
@@ -39,20 +36,20 @@ describe('ResourceProvider', () => {
       }
     )
 
-    expect(response).to.be.an('object')
-    expect(response.sys.id).to.equal('id')
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe('id')
 
-    sinon.assert.calledWith(
-      httpMock.put,
+    expect(httpMock.put).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })
+
   test('delete', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     await plainClient.resourceProvider.delete({ organizationId, appDefinitionId })
-    sinon.assert.calledWith(
-      httpMock.delete,
+
+    expect(httpMock.delete).toHaveBeenCalledWith(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })
