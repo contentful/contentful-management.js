@@ -8,10 +8,10 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ResourceProviderPlainClientAPI = {
   /**
-   * Fetch a Resource Provider
+   * Fetches a Resource Provider
    * @param params entity IDs to identify the Resource Provider
-   * @returns the App Definition config
-   * @throws if the request fails, or the Resource Provider is not found
+   * @returns the Resource Provider
+   * @throws if the request fails or the Resource Provider is not found
    * @example
    * ```javascript
    * const resourceProvider = await client.resourceProvider.get({
@@ -23,15 +23,17 @@ export type ResourceProviderPlainClientAPI = {
   get(params: OptionalDefaults<GetResourceProviderParams>): Promise<ResourceProviderProps>
 
   /**
-   * Creates or updates a Resource Provider
+   * Creates a Resource Provider
    * @param params entity IDs to identify the Resource Provider
-   * @param rawData the ResourceProvider
-   * @returns the created or updated Resource Provider
-   * @throws if the request fails, the App Definition or Resource Provider is not found, or the payload is malformed
+   * @param rawData the Resource Provider data
+   * @returns the created Resource Provider
+   * @throws if the request fails, the App Definition is not found,
+   * a Resource Provider associated with the organization and app definition already exists,
+   * or the payload is malformed
    * @example
    * ```javascript
-   * // You need a valid AppDefinition with an activated AppBundle that has a contentful function configured
-   * const appInstallation = await client.resourceProvider.upsert(
+   * // You need a valid AppDefinition with an activated AppBundle that has a configured Contentful function
+   * const resourceProvider = await client.resourceProvider.upsert(
    *   {
    *     organizationId: '<organization_id>',
    *     appDefinitionId: '<app_definition_id>',
@@ -51,9 +53,10 @@ export type ResourceProviderPlainClientAPI = {
   ): Promise<ResourceProviderProps>
 
   /**
-   * Delete a ResourceProvider
+   * Deletes a ResourceProvider
    * @param params entity IDs to identify the Resource Provider
-   * @throws if the request fails, or the Resource Provider is not found
+   * @throws if the request fails, the Resource Provider is not found
+   * or the Resource Provider is associated with an existing Resource Type
    * @example
    * ```javascript
    * await client.resourceProvider.delete({
