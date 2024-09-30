@@ -13,16 +13,16 @@ import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type'
 
 export type ResourceTypePlainClientAPI = {
   /*
-   * Fetch a Resource Type
+   * Fetches a Resource Type
    * @param params entity IDs to identify the Resource Type
    * @returns the Resource Type
-   * @throws if the request fails, or the Resource Type is not found
+   * @throws if the request fails or the Resource Type is not found
    * @example
    * ```javascript
    * const resourceType = await client.resourceType.get({
    *   organizationId: '<organization_id>',
    *   appDefinitionId: '<app_definition_id>',
-   *   resourceTypeId: '<resource_type_id>',
+   *   resourceTypeId: '<resource_provider_id>:<resource_type_name>',
    * });
    * ```
    */
@@ -31,23 +31,30 @@ export type ResourceTypePlainClientAPI = {
   /*
    * Creates or updates a Resource Type
    * @param params entity IDs to identify the Resource Type
-   * @param rawData the ResourceType
+   * @param rawData the Resource Type data
    * @returns the created or updated Resource Type
-   * @throws if the request fails, the App Definition or Resource Provider is not found, or the payload is malformed
+   * @throws if the request fails, the App Definition or Resource Provider is not found,
+   * default field mapping has invalid properties or the payload is malformed
    * @example
    * ```javascript
-   * // You need a valid AppDefinition with an activated AppBundle that has a contentful function configured
+   * // You need a valid AppDefinition with an activated AppBundle that has a configured Contentful function
    * const resourceType = await client.resourceType.upsert(
    *   {
    *     organizationId: '<organization_id>',
    *     appDefinitionId: '<app_definition_id>',
-   *     resourceTypeId: '<resource_type_id>',
+   *     resourceTypeId: '<resource_provider_id>:<resource_type_name>',
    *   },
    * rawData: {
    *  name: '<resource_type_name>',
-   *  defaultFieldMapping: {
-   *    title: '<field_id>',
-   *  },
+   *      defaultFieldMapping: {
+   *        externalUrl: '{ /externalUrl }',
+   *        title: '{ /name }',
+   *        subtitle: 'Entity ID: { /urn }',
+   *        image: {
+   *          altText: '{ /name }',
+   *          url: '{ /image/url }'
+   *        }
+   *     },
    * }
    * );
    * ```
@@ -59,26 +66,26 @@ export type ResourceTypePlainClientAPI = {
   ): Promise<ResourceTypeProps>
 
   /*
-   * Delete a ResourceType
+   * Deletes a ResourceType
    * @param params entity IDs to identify the Resource Type
-   * @throws if the request fails, or the Resource Type is not found
+   * @throws if the request fails or the Resource Type is not found
    * @example
    * ```javascript
    * await client.resourceType.delete({
    *   organizationId: '<organization_id>',
    *   appDefinitionId: '<app_definition_id>',
-   *   resourceTypeId: '<resource_type_id>',
+   *   resourceTypeId: '<resource_provider_id>:<resource_type_name>',
    * });
    * ```
    */
   delete(params: OptionalDefaults<GetResourceTypeParams>): Promise<any>
 
   /*
-   * Fetch all Resource Types for an environment
-   * @param params entity IDs to identify the Resource Type
-   * @params Optional query params for cursor pagination
-   * @returns all Resource Types based on the last NER app installed in the environment
-   * @throws if the request fails, or no Resource Type is found
+   * Fetches all Resource Types for an environment, based on the most recent installed NER app
+   * @param params entity IDs to identify the Resource Type collection
+   * @params optional query params for cursor pagination
+   * @returns Resource Types collection
+   * @throws if the request fails or there are no apps installed in the environment
    * @example
    * ```javascript
    * const resourceTypes = await client.resourceType.getForEnvironment({
@@ -92,8 +99,10 @@ export type ResourceTypePlainClientAPI = {
   ): Promise<CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>>
 
   /*
-   * Fetch all Resource Types
-   * @returns all Resource Types
+   * Fetches all Resource Types
+   * @param params entity IDs to identify the Resource Type collection
+   * @returns Resource Type collection
+   * @throws if the request fails
    * @example
    * ```javascript
    * const resourceTypes = await client.resourceType.getMany({
