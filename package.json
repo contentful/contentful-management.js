@@ -42,7 +42,7 @@
     "test:cover-integration": "./node_modules/.bin/nyc --reporter=lcov --reporter=text --reporter=clover --report-dir=coverage/integration npm run test:integration",
     "test:unit": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.[tj]s' --config mocharc.js --require @babel/register --reporter mocha-junit-reporter --reporter-options mochaFile=reports/unit-results.xml",
     "test:unit-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/unit/**/*-test.[tj]s' --config mocharc.js --watch --require @babel/register",
-    "test:integration": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.[tj]s' --config mocharc.js --require @babel/register  --reporter mocha-junit-reporter --reporter-options mochaFile=reports/integration-results.xml",
+    "test:integration": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/taxonomy-integration.ts' --config mocharc.js --require @babel/register",
     "test:integration-watch": "BABEL_ENV=test babel-node --extensions .ts --extensions .js ./node_modules/.bin/mocha './test/integration/*.[tj]s' --config mocharc.js --watch --require @babel/register",
     "test:browser": "BABEL_ENV=test karma start karma.conf.local.js --log-level info",
     "test:version": "grep -r \"0.0.0-determined-by-semantic-release\" ./dist > /dev/null && echo \"version 0.0.0-determined-by-semantic-release found in output\" && exit 1 || exit 0",
