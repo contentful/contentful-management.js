@@ -9,13 +9,22 @@ import {
   getDefaultSpace,
   initPlainClient,
   waitForEnvironmentToBeReady,
+  getTestOrganizationId,
 } from '../helpers'
+import type {
+  ConceptProps,
+  ContentType,
+  Environment,
+  PlainClientAPI,
+  Space,
+} from '../../lib/export-types'
 
 describe('Entry Api', () => {
   describe('read', () => {
     // we should reference an env, not the space
     let space
     let environment
+
     before(async () => {
       space = await getDefaultSpace()
       environment = await space.getEnvironment('master')
@@ -303,13 +312,17 @@ describe('Entry Api', () => {
   })
 
   describe('write', () => {
-    let space
-    let environment
-    let contentType
+    let space: Space
+    let environment: Environment
+    let contentType: ContentType
+    let client: PlainClientAPI
 
     before(async () => {
       space = await createTestSpace(initClient(), 'Entry')
       environment = await createTestEnvironment(space, 'Testing Environment')
+      client = initPlainClient({
+        organizationId: getTestOrganizationId(),
+      })
       await waitForEnvironmentToBeReady(space, environment)
     })
 
@@ -404,13 +417,102 @@ describe('Entry Api', () => {
           return environment.deleteEntry('entryid')
         })
     })
+
+    describe('Taxonomy', () => {
+      const conceptsToCleanUp: ConceptProps[] = []
+
+      afterEach(async () => {
+        for (const conceptToBeDeleted of conceptsToCleanUp) {
+          await client.concept.delete({
+            conceptId: conceptToBeDeleted.sys.id,
+            version: conceptToBeDeleted.sys.version,
+          })
+        }
+      })
+
+      test('should create entry with concepts assigned when metadata.concepts provided', async () => {
+        const parentConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Parent concept for validation',
+            },
+          }
+        )
+        const childConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Child concept to be assigned',
+            },
+            broader: [
+              {
+                sys: {
+                  id: parentConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+          }
+        )
+        conceptsToCleanUp.push(parentConcept, childConcept)
+
+        const contentTypeWithTaxonomyValidation = await environment.createContentTypeWithId(
+          generateRandomId('test-content-type'),
+          {
+            name: 'testCT-with-validation',
+            fields: [
+              {
+                id: 'title',
+                name: 'Title',
+                type: 'Text',
+              },
+            ],
+            metadata: {
+              taxonomy: [
+                {
+                  sys: {
+                    id: parentConcept.sys.id,
+                    linkType: 'TaxonomyConcept',
+                    type: 'Link',
+                  },
+                },
+              ],
+            },
+          }
+        )
+        await contentTypeWithTaxonomyValidation.publish()
+
+        const createdEntry = await environment.createEntry(
+          contentTypeWithTaxonomyValidation.sys.id,
+          {
+            fields: {
+              title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
+            },
+            metadata: {
+              concepts: [
+                {
+                  sys: {
+                    id: childConcept.sys.id,
+                    linkType: 'TaxonomyConcept',
+                    type: 'Link',
+                  },
+                },
+              ],
+              tags: [],
+            },
+          }
+        )
+
+        expect(createdEntry.metadata.concepts).lengthOf(1)
+        expect(createdEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
+      })
+    })
   })
 
   describe('read plainClientApi', () => {
-    /**
-     * @type {import('../../lib/contentful-management').PlainClientAPI}
-     */
-    let plainClient
+    let plainClient: PlainClientAPI
     before(async () => {
       plainClient = initPlainClient({ spaceId: TestDefaults.spaceId })
     })
