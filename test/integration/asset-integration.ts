@@ -3,8 +3,14 @@ const TEST_IMAGE_SOURCE_URL =
 
 import { expect } from 'chai'
 import { after, before, describe, test } from 'mocha'
-import { initClient, getDefaultSpace, createTestSpace } from '../helpers'
-import type { Environment, Space } from '../../lib/export-types'
+import {
+  initClient,
+  getDefaultSpace,
+  createTestSpace,
+  initPlainClient,
+  getTestOrganizationId,
+} from '../helpers'
+import type { ConceptProps, CreateConceptProps, Environment, Space } from '../../lib/export-types'
 
 describe('Asset api', function () {
   describe('Read', () => {
@@ -50,8 +56,12 @@ describe('Asset api', function () {
   describe('Write', function () {
     let space
     let environment
+    let client
 
     before(async () => {
+      client = initPlainClient({
+        organizationId: getTestOrganizationId(),
+      })
       space = await createTestSpace(initClient({ retryOnError: false }), 'Assets')
       environment = await space.getEnvironment('master')
       await environment.createLocale({
@@ -202,6 +212,65 @@ describe('Asset api', function () {
       } catch (e) {
         expect(e).to.be.instanceOf(Error)
       }
+    })
+
+    describe('Taxonomy', () => {
+      const conceptsToDelete: ConceptProps[] = []
+
+      afterEach(async () => {
+        for (const conceptToBeDeleted of conceptsToDelete) {
+          await client.concept.delete({
+            conceptId: conceptToBeDeleted.sys.id,
+            version: conceptToBeDeleted.sys.version,
+          })
+        }
+      })
+
+      test('should create asset with concepts assigned when metadata.concepts provided', async () => {
+        const concept: CreateConceptProps = {
+          prefLabel: {
+            'en-US': 'Concept to be assigned',
+          },
+        }
+        const createdConcept = await client.concept.create({}, concept)
+        console.log(createdConcept)
+        conceptsToDelete.push(createdConcept)
+
+        const asset = await environment.createAsset({
+          fields: {
+            title: { 'en-US': 'this is the title' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          metadata: {
+            concepts: [
+              {
+                sys: {
+                  id: createdConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+            tags: [],
+          },
+        })
+
+        expect(asset.metadata.concepts.length).to.eq(1)
+        expect(asset.metadata.concepts[0].sys.id).to.eq(createdConcept.sys.id)
+      })
+
+      // test('should update asset with concepts assigned when metadata.concepts provided', () => {
+      // })
+
+      // test('should update asset with concepts removed when metadata.concepts already exist', () => {
+
+      // })
     })
   })
 })
