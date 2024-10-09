@@ -508,6 +508,92 @@ describe('Entry Api', () => {
         expect(createdEntry.metadata.concepts).lengthOf(1)
         expect(createdEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
       })
+
+      test('should update entry with concepts assigned when metadata.concepts provided', async () => {
+        const parentConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Parent concept for validation',
+            },
+          }
+        )
+        const childConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Child concept to be assigned',
+            },
+            broader: [
+              {
+                sys: {
+                  id: parentConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+          }
+        )
+        conceptsToCleanUp.push(parentConcept, childConcept)
+
+        const contentTypeWithTaxonomyValidation = await environment.createContentTypeWithId(
+          generateRandomId('test-content-type'),
+          {
+            name: 'testCT-with-validation',
+            fields: [
+              {
+                id: 'title',
+                name: 'Title',
+                type: 'Text',
+              },
+            ],
+            metadata: {
+              taxonomy: [
+                {
+                  sys: {
+                    id: parentConcept.sys.id,
+                    linkType: 'TaxonomyConcept',
+                    type: 'Link',
+                  },
+                },
+              ],
+            },
+          }
+        )
+        await contentTypeWithTaxonomyValidation.publish()
+
+        const entryToUpdate = await environment.createEntry(
+          contentTypeWithTaxonomyValidation.sys.id,
+          {
+            fields: {
+              title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
+            },
+            // metadata intentionally omitted
+          }
+        )
+
+        expect(entryToUpdate.metadata.concepts).to.be.an('array').that.is.empty
+
+        entryToUpdate.metadata = {
+          concepts: [
+            {
+              sys: {
+                id: childConcept.sys.id,
+                linkType: 'TaxonomyConcept',
+                type: 'Link',
+              },
+            },
+          ],
+          tags: [],
+        }
+
+        const updatedEntry = await entryToUpdate.update()
+        expect(updatedEntry.metadata.concepts).lengthOf(1)
+        expect(updatedEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
+      })
+
+      // should update entry with concepts removed when metadata.concepts already exist
     })
   })
 
