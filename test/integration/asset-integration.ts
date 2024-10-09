@@ -312,9 +312,47 @@ describe('Asset api', function () {
         expect(updatedAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
       })
 
-      // test('should update asset with concepts removed when metadata.concepts already exist', () => {
+      test('should update asset with concepts removed when metadata.concepts already exist', async () => {
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
+        const assetToDeleteConceptFrom = await environment.createAsset({
+          fields: {
+            title: { 'en-US': 'this is the title of a created asset with a taxonomy assigned' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          metadata: {
+            concepts: [
+              {
+                sys: {
+                  id: newConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+            tags: [],
+          },
+        })
+        expect(assetToDeleteConceptFrom.metadata.concepts).lengthOf(1)
 
-      // })
+        assetToDeleteConceptFrom.metadata.concepts = []
+        const updatedAsset = await assetToDeleteConceptFrom.update()
+
+        expect(updatedAsset.metadata.concepts).lengthOf(0)
+      })
     })
   })
 })
