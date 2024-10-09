@@ -432,7 +432,7 @@ describe('Entry Api', () => {
    * Content type with id stored in `TestDefaults.contentType.withCrossSpaceReferenceId` is deleted
    */
   describe.skip('write with x-space references', () => {
-    let contentTypeData = {
+    const contentTypeData = {
       name: 'testCTXSpace',
       fields: [
         {
@@ -459,7 +459,7 @@ describe('Entry Api', () => {
       ],
     }
 
-    let entryData = {
+    const entryData = {
       fields: {
         title: { 'en-US': 'this is the title' },
         multiRefXSpace: {
@@ -556,7 +556,7 @@ describe('Entry Api', () => {
         return xSpaceDisabledEnvironment
           .createEntry(xSpaceDisabledContentType.sys.id, entryData)
           .catch((accessDeniedError) => {
-            let errorMessage = JSON.parse(accessDeniedError.message)
+            const errorMessage = JSON.parse(accessDeniedError.message)
             expect(accessDeniedError.name).equals('AccessDenied', 'Access Denied Error')
             expect(errorMessage.status).equals(403, '403 forbidden status')
             expect(errorMessage.details.reasons).equals(
