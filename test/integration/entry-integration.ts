@@ -593,7 +593,88 @@ describe('Entry Api', () => {
         expect(updatedEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
       })
 
-      // should update entry with concepts removed when metadata.concepts already exist
+      test('should update entry with concepts removed when metadata.concepts already exist', async () => {
+        const parentConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Parent concept for validation',
+            },
+          }
+        )
+        const childConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Child concept to be assigned',
+            },
+            broader: [
+              {
+                sys: {
+                  id: parentConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+          }
+        )
+        conceptsToCleanUp.push(parentConcept, childConcept)
+
+        const contentTypeWithTaxonomyValidation = await environment.createContentTypeWithId(
+          generateRandomId('test-content-type'),
+          {
+            name: 'testCT-with-validation',
+            fields: [
+              {
+                id: 'title',
+                name: 'Title',
+                type: 'Text',
+              },
+            ],
+            metadata: {
+              taxonomy: [
+                {
+                  sys: {
+                    id: parentConcept.sys.id,
+                    linkType: 'TaxonomyConcept',
+                    type: 'Link',
+                  },
+                },
+              ],
+            },
+          }
+        )
+        await contentTypeWithTaxonomyValidation.publish()
+
+        const entryToDeleteConceptFrom = await environment.createEntry(
+          contentTypeWithTaxonomyValidation.sys.id,
+          {
+            fields: {
+              title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
+            },
+            metadata: {
+              concepts: [
+                {
+                  sys: {
+                    id: childConcept.sys.id,
+                    linkType: 'TaxonomyConcept',
+                    type: 'Link',
+                  },
+                },
+              ],
+              tags: [],
+            },
+          }
+        )
+
+        expect(entryToDeleteConceptFrom.metadata.concepts).lengthOf(1)
+
+        entryToDeleteConceptFrom.metadata.concepts = []
+        const updatedEntry = await entryToDeleteConceptFrom.update()
+
+        expect(updatedEntry.metadata.concepts).to.be.an('array').that.is.empty
+      })
     })
   })
 

@@ -351,7 +351,7 @@ describe('Asset api', function () {
         assetToDeleteConceptFrom.metadata.concepts = []
         const updatedAsset = await assetToDeleteConceptFrom.update()
 
-        expect(updatedAsset.metadata.concepts).lengthOf(0)
+        expect(updatedAsset.metadata.concepts).to.be.an('array').that.is.empty
       })
     })
   })
