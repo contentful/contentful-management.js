@@ -10,7 +10,7 @@ import {
   initPlainClient,
   getTestOrganizationId,
 } from '../helpers'
-import type { ConceptProps, CreateConceptProps, Environment, Space } from '../../lib/export-types'
+import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Asset api', function () {
   describe('Read', () => {
@@ -54,9 +54,9 @@ describe('Asset api', function () {
 
   // Write test seems currently broken
   describe('Write', function () {
-    let space
-    let environment
-    let client
+    let space: Space
+    let environment: Environment
+    let client: PlainClientAPI
 
     before(async () => {
       client = initPlainClient({
@@ -156,6 +156,7 @@ describe('Asset api', function () {
               file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
             },
           },
+          description: {},
         },
       })
 
@@ -181,6 +182,7 @@ describe('Asset api', function () {
               file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
             },
           },
+          description: {},
         },
       })
       const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
@@ -202,6 +204,7 @@ describe('Asset api', function () {
                     file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
                   },
                 },
+                description: {},
               },
             },
             {
@@ -215,10 +218,10 @@ describe('Asset api', function () {
     })
 
     describe('Taxonomy', () => {
-      const conceptsToDelete: ConceptProps[] = []
+      const conceptsToCleanUp: ConceptProps[] = []
 
       afterEach(async () => {
-        for (const conceptToBeDeleted of conceptsToDelete) {
+        for (const conceptToBeDeleted of conceptsToCleanUp) {
           await client.concept.delete({
             conceptId: conceptToBeDeleted.sys.id,
             version: conceptToBeDeleted.sys.version,
@@ -227,18 +230,19 @@ describe('Asset api', function () {
       })
 
       test('should create asset with concepts assigned when metadata.concepts provided', async () => {
-        const concept: CreateConceptProps = {
-          prefLabel: {
-            'en-US': 'Concept to be assigned',
-          },
-        }
-        const createdConcept = await client.concept.create({}, concept)
-        console.log(createdConcept)
-        conceptsToDelete.push(createdConcept)
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
 
-        const asset = await environment.createAsset({
+        const createdAsset = await environment.createAsset({
           fields: {
-            title: { 'en-US': 'this is the title' },
+            title: { 'en-US': 'this is the title of a created asset with a taxonomy assigned' },
             file: {
               'en-US': {
                 contentType: 'image/jpeg',
@@ -251,7 +255,7 @@ describe('Asset api', function () {
             concepts: [
               {
                 sys: {
-                  id: createdConcept.sys.id,
+                  id: newConcept.sys.id,
                   linkType: 'TaxonomyConcept',
                   type: 'Link',
                 },
@@ -261,12 +265,52 @@ describe('Asset api', function () {
           },
         })
 
-        expect(asset.metadata.concepts.length).to.eq(1)
-        expect(asset.metadata.concepts[0].sys.id).to.eq(createdConcept.sys.id)
+        expect(createdAsset.metadata.concepts).lengthOf(1)
+        expect(createdAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
       })
 
-      // test('should update asset with concepts assigned when metadata.concepts provided', () => {
-      // })
+      test('should update asset with concepts assigned when metadata.concepts provided', async () => {
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
+
+        const assetToUpdate = await environment.createAsset({
+          fields: {
+            title: { 'en-US': 'this asset should be updated with a taxonomy assigned' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          // `metadata` intentionally omitted
+        })
+        expect(assetToUpdate.metadata.concepts).to.be.an('array').that.is.empty
+
+        assetToUpdate.metadata = {
+          concepts: [
+            {
+              sys: {
+                id: newConcept.sys.id,
+                linkType: 'TaxonomyConcept',
+                type: 'Link',
+              },
+            },
+          ],
+          tags: [],
+        }
+        const updatedAsset = await assetToUpdate.update()
+        expect(updatedAsset.metadata.concepts).lengthOf(1)
+        expect(updatedAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
+      })
 
       // test('should update asset with concepts removed when metadata.concepts already exist', () => {
 
