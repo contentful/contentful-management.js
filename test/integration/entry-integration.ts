@@ -421,7 +421,7 @@ describe('Entry Api', () => {
     describe('Taxonomy', () => {
       const conceptsToCleanUp: ConceptProps[] = []
 
-      afterEach(async () => {
+      after(async () => {
         for (const conceptToBeDeleted of conceptsToCleanUp) {
           await client.concept.delete({
             conceptId: conceptToBeDeleted.sys.id,
