@@ -229,7 +229,7 @@ describe('Asset api', function () {
         }
       })
 
-      test('should create asset with concepts assigned when metadata.concepts provided', async () => {
+      test('should create asset with concepts assigned when concepts provided', async () => {
         const newConcept = await client.concept.create(
           {},
           {
@@ -242,7 +242,9 @@ describe('Asset api', function () {
 
         const createdAsset = await environment.createAsset({
           fields: {
-            title: { 'en-US': 'this is the title of a created asset with a taxonomy assigned' },
+            title: {
+              'en-US': 'this is the title of a newly created asset with a concept assigned',
+            },
             file: {
               'en-US': {
                 contentType: 'image/jpeg',
@@ -269,7 +271,7 @@ describe('Asset api', function () {
         expect(createdAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
       })
 
-      test('should update asset with concepts assigned when metadata.concepts provided', async () => {
+      test('should update asset with concepts assigned when concepts are provided', async () => {
         const newConcept = await client.concept.create(
           {},
           {
@@ -282,7 +284,7 @@ describe('Asset api', function () {
 
         const assetToUpdate = await environment.createAsset({
           fields: {
-            title: { 'en-US': 'this asset should be updated with a taxonomy assigned' },
+            title: { 'en-US': 'this asset should be updated with a concept assigned' },
             file: {
               'en-US': {
                 contentType: 'image/jpeg',
@@ -312,7 +314,7 @@ describe('Asset api', function () {
         expect(updatedAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
       })
 
-      test('should update asset with concepts removed when metadata.concepts already exist', async () => {
+      test('should update asset with concepts removed when concepts already exist', async () => {
         const newConcept = await client.concept.create(
           {},
           {
@@ -324,7 +326,7 @@ describe('Asset api', function () {
         conceptsToCleanUp.push(newConcept)
         const assetToDeleteConceptFrom = await environment.createAsset({
           fields: {
-            title: { 'en-US': 'this is the title of a created asset with a taxonomy assigned' },
+            title: { 'en-US': 'this is the title of an asset with a concept already assigned' },
             file: {
               'en-US': {
                 contentType: 'image/jpeg',

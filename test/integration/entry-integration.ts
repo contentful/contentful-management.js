@@ -430,7 +430,7 @@ describe('Entry Api', () => {
         }
       })
 
-      test('should create entry with concepts assigned when metadata.concepts provided', async () => {
+      test('should create entry with concepts assigned when concepts provided', async () => {
         const parentConcept = await client.concept.create(
           {},
           {
@@ -488,7 +488,7 @@ describe('Entry Api', () => {
           contentTypeWithTaxonomyValidation.sys.id,
           {
             fields: {
-              title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
+              title: { 'en-US': 'this is the title of an entry with a concept assigned' },
             },
             metadata: {
               concepts: [
@@ -509,7 +509,7 @@ describe('Entry Api', () => {
         expect(createdEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
       })
 
-      test('should update entry with concepts assigned when metadata.concepts provided', async () => {
+      test('should update entry with concepts assigned when concepts are provided', async () => {
         const parentConcept = await client.concept.create(
           {},
           {
@@ -593,7 +593,7 @@ describe('Entry Api', () => {
         expect(updatedEntry.metadata.concepts[0].sys.id).to.eq(childConcept.sys.id)
       })
 
-      test('should update entry with concepts removed when metadata.concepts already exist', async () => {
+      test('should update entry with concepts removed when concepts already exist', async () => {
         const parentConcept = await client.concept.create(
           {},
           {
