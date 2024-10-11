@@ -1,13 +1,13 @@
-import { expect } from 'chai'
-import { before, after, describe, test } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initPlainClient, getTestOrganization } from '../helpers'
+import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
 
-describe('AppSigningSecret api', function () {
-  let appDefinition
-  let client
-  let organization
+describe('AppSigningSecret api', { sequential: true }, () => {
+  let appDefinition: AppDefinition
+  let client: PlainClientAPI
+  let organization: Organization
 
-  before(async () => {
+  beforeAll(async () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
@@ -17,7 +17,7 @@ describe('AppSigningSecret api', function () {
     client = initPlainClient()
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (appDefinition) {
       await appDefinition.delete()
     }
@@ -29,7 +29,7 @@ describe('AppSigningSecret api', function () {
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
     )
 
-    expect(signingSecret.redactedValue).equals('wI74')
+    expect(signingSecret.redactedValue).toBe('wI74')
 
     await client.appSigningSecret.delete({
       organizationId: organization.sys.id,
@@ -47,7 +47,7 @@ describe('AppSigningSecret api', function () {
       appDefinitionId: appDefinition.sys.id,
     })
 
-    expect(signingSecret.redactedValue).equals('wI75')
+    expect(signingSecret.redactedValue).toBe('wI75')
     await client.appSigningSecret.delete({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
@@ -60,14 +60,14 @@ describe('AppSigningSecret api', function () {
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
     )
 
-    expect(signingSecret.redactedValue).equals('wI74')
+    expect(signingSecret.redactedValue).toBe('wI74')
 
     const updatedSigningSecret = await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI76' }
     )
 
-    expect(updatedSigningSecret.redactedValue).equals('wI76')
+    expect(updatedSigningSecret.redactedValue).toBe('wI76')
 
     await client.appSigningSecret.delete({
       organizationId: organization.sys.id,
@@ -91,6 +91,6 @@ describe('AppSigningSecret api', function () {
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
       })
-    ).to.be.rejectedWith('The resource could not be found')
+    ).rejects.toThrow('The resource could not be found')
   })
 })

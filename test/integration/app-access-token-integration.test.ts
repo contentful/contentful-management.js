@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { before, after, describe, test } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import {
   initPlainClient,
   getDefaultSpace,
@@ -7,18 +6,26 @@ import {
   getTestOrganization,
 } from '../helpers'
 import { sign } from 'jsonwebtoken'
+import type {
+  AppDefinition,
+  Organization,
+  Space,
+  Environment,
+  PlainClientAPI,
+  AppKeyProps,
+} from '../../lib/contentful-management'
 
-describe('AppAccessToken api', function () {
-  let organization
-  let appDefinition
-  let appKey
-  let client
-  let space
-  let environment
-  let entityId
-  let jwt
+describe('AppAccessToken api', { sequential: true }, () => {
+  let organization: Organization
+  let appDefinition: AppDefinition
+  let appKey: AppKeyProps
+  let client: PlainClientAPI
+  let space: Space
+  let environment: Environment
+  let entityId: { organizationId: string; appDefinitionId: string }
+  let jwt: string
 
-  before(async () => {
+  beforeAll(async () => {
     space = await getDefaultSpace()
     environment = await space.getEnvironment('master')
     organization = await getTestOrganization()
@@ -31,6 +38,7 @@ describe('AppAccessToken api', function () {
       organizationId: appDefinition.sys.organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
     }
+
     await createAppInstallation(entityId.appDefinitionId)
 
     client = initPlainClient({
@@ -41,10 +49,10 @@ describe('AppAccessToken api', function () {
     appKey = await client.appKey.create(entityId, { generate: true })
 
     const signOptions = { algorithm: 'RS256', issuer: appDefinition.sys.id, expiresIn: '10m' }
-    jwt = sign({}, appKey.generated.privateKey, signOptions)
+    jwt = sign({}, appKey.generated?.privateKey, signOptions)
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (appDefinition) {
       if (appKey) {
         await client.appKey.delete({
@@ -70,6 +78,7 @@ describe('AppAccessToken api', function () {
     )
 
     // Token length not deterministic, but should be within a certain range
-    expect(appAccessToken.token).to.have.length.within(285, 300)
+    expect(appAccessToken.token.length).toBeGreaterThanOrEqual(285)
+    expect(appAccessToken.token.length).toBeLessThanOrEqual(300)
   })
 })

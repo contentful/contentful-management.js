@@ -1,15 +1,14 @@
-import { expect } from 'chai'
-import { after, before, describe, test } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initClient, createTestSpace, generateRandomId } from '../helpers'
 
-describe('ApiKey api', () => {
+describe('ApiKey api', { sequential: true }, () => {
   let space
 
-  before(async () => {
-    space = await createTestSpace(initClient(), 'ApiKey')
+  beforeAll(async () => {
+    space = await createTestSpace(initClient({}), 'ApiKey')
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (space) {
       return space.delete()
     }

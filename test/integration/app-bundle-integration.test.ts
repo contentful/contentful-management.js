@@ -1,16 +1,22 @@
-import { expect } from 'chai'
-import { before, describe, test, after } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
 import { getTestOrganization, getDefaultSpace } from '../helpers'
+import type {
+  Organization,
+  AppDefinition,
+  AppUpload,
+  Space,
+  Environment,
+} from '../../lib/contentful-management'
 
-describe('AppBundle api', function () {
-  let organization
-  let appDefinition
-  let appUpload
-  let space
-  let env
+describe('AppBundle api', { sequential: true }, () => {
+  let organization: Organization
+  let appDefinition: AppDefinition
+  let appUpload: AppUpload
+  let space: Space
+  let env: Environment
 
-  before(async () => {
+  beforeAll(async () => {
     space = await getDefaultSpace()
     env = await space.getEnvironment('master')
     organization = await getTestOrganization()
@@ -22,13 +28,14 @@ describe('AppBundle api', function () {
     appUpload = await organization.createAppUpload(readFileSync(`${__dirname}/fixtures/build.zip`))
   })
 
-  after(async () => {
+  afterAll(async () => {
     const { items: appDefinitions } = await organization.getAppDefinitions()
     const { items: appInstallations } = await env.getAppInstallations()
-    for await (const appInstallation of appInstallations) {
+
+    for (const appInstallation of appInstallations) {
       await appInstallation.delete()
     }
-    for await (const appDefinition of appDefinitions) {
+    for (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
 
@@ -43,11 +50,12 @@ describe('AppBundle api', function () {
       comment: 'Test comment',
     })
 
-    expect(appBundle.sys.type).equals('AppBundle', 'type')
-    expect(appBundle.comment).equals('Test comment', 'comment')
-    expect(appBundle.files).to.be.an('array')
-    const indexFile = appBundle.files.filter((file) => file.name === 'index.html')
-    expect(indexFile).to.exist
+    expect(appBundle.sys.type).toBe('AppBundle')
+    expect(appBundle.comment).toBe('Test comment')
+    expect(Array.isArray(appBundle.files)).toBeTruthy()
+
+    const indexFile = appBundle.files.find((file) => file.name === 'index.html')
+    expect(indexFile).toBeTruthy()
 
     await appBundle.delete()
   })
@@ -60,7 +68,7 @@ describe('AppBundle api', function () {
 
     const fetchedAppBundle = await appDefinition.getAppBundle(appBundle.sys.id)
 
-    expect(appBundle.sys.id).equals(fetchedAppBundle.sys.id)
+    expect(appBundle.sys.id).toBe(fetchedAppBundle.sys.id)
 
     await appBundle.delete()
   })
@@ -68,8 +76,8 @@ describe('AppBundle api', function () {
   test('getAppBundles', async () => {
     const response = await appDefinition.getAppBundles()
 
-    expect(response.items).to.be.an('array')
-    expect(response.sys.type).equals('Array', 'type')
+    expect(Array.isArray(response.items)).toBeTruthy()
+    expect(response.sys.type).toBe('Array')
   })
 
   test('delete', async () => {
@@ -80,7 +88,7 @@ describe('AppBundle api', function () {
 
     await appBundle.delete()
 
-    await expect(appDefinition.getAppBundle(appBundle.sys.id)).to.be.rejectedWith(
+    await expect(appDefinition.getAppBundle(appBundle.sys.id)).rejects.toThrow(
       'The resource could not be found'
     )
   })

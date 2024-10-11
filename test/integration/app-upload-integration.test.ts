@@ -1,12 +1,12 @@
-import { expect } from 'chai'
+import { expect, describe, test, beforeAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { before, describe, test } from 'mocha'
 import { getTestOrganization } from '../helpers'
+import type { Organization } from '../../lib/contentful-management'
 
-describe('AppUpload api', function () {
-  let organization
+describe('AppUpload api', { sequential: true }, () => {
+  let organization: Organization
 
-  before(async () => {
+  beforeAll(async () => {
     organization = await getTestOrganization()
   })
 
@@ -15,7 +15,7 @@ describe('AppUpload api', function () {
       readFileSync(`${__dirname}/fixtures/build.zip`)
     )
 
-    expect(appUpload.sys.type).equals('AppUpload', 'type')
+    expect(appUpload.sys.type).toBe('AppUpload')
 
     await appUpload.delete()
   })
@@ -27,7 +27,7 @@ describe('AppUpload api', function () {
 
     const fetchedAppUpload = await organization.getAppUpload(appUpload.sys.id)
 
-    expect(appUpload.sys.id).equals(fetchedAppUpload.sys.id)
+    expect(appUpload.sys.id).toBe(fetchedAppUpload.sys.id)
 
     await appUpload.delete()
   })
@@ -39,7 +39,7 @@ describe('AppUpload api', function () {
 
     await appUpload.delete()
 
-    await expect(organization.getAppUpload(appUpload.sys.id)).to.be.rejectedWith(
+    await expect(organization.getAppUpload(appUpload.sys.id)).rejects.toThrow(
       'The resource could not be found'
     )
   })

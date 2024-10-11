@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { before, describe, test, after } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import {
   createAppDefinition,
   getAppDefinition,
@@ -7,23 +6,32 @@ import {
   createAppInstallation,
   getDefaultSpace,
 } from '../helpers'
+import type {
+  Organization,
+  Space,
+  Environment,
+  AppInstallation,
+} from '../../lib/contentful-management'
 
-describe('AppDefinition api', function () {
-  let organization, space, env
+describe('AppDefinition api', { sequential: true }, () => {
+  let organization: Organization
+  let space: Space
+  let env: Environment
 
-  before(async () => {
+  beforeAll(async () => {
     organization = await getTestOrganization()
     space = await getDefaultSpace()
     env = await space.getEnvironment('master')
   })
 
-  after(async () => {
+  afterAll(async () => {
     const { items: appDefinitions } = await organization.getAppDefinitions()
     const { items: appInstallations } = await env.getAppInstallations()
-    for await (const appInstallation of appInstallations) {
+
+    for (const appInstallation of appInstallations) {
       await appInstallation.delete()
     }
-    for await (const appDefinition of appDefinitions) {
+    for (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
   })
@@ -39,8 +47,8 @@ describe('AppDefinition api', function () {
       ],
     })
 
-    expect(appDefinition.sys.type).equals('AppDefinition', 'type')
-    expect(appDefinition.name).equals('Test App', 'name')
+    expect(appDefinition.sys.type).toBe('AppDefinition')
+    expect(appDefinition.name).toBe('Test App')
   })
 
   test('createAppDefinition with secret installation param', async () => {
@@ -63,15 +71,17 @@ describe('AppDefinition api', function () {
       },
     })
 
-    expect(appDefinition.sys.type).equals('AppDefinition', 'type')
-    expect(appDefinition.name).equals('Test App', 'name')
-    expect(appDefinition.parameters.installation[0].id).equals(
-      'secret',
-      'installation parameter id'
-    )
+    expect(appDefinition.sys.type).toBe('AppDefinition')
+    expect(appDefinition.name).toBe('Test App')
+    if (!appDefinition.parameters || !appDefinition.parameters.installation) {
+      throw new Error(
+        `appDefinition.parameters or appDefinition.parameters.installation is not defined`
+      )
+    }
+    expect(appDefinition.parameters.installation[0].id).toBe('secret')
   })
 
-  test('getAppDefintion', async () => {
+  test('getAppDefinition', async () => {
     const appDefinition = await organization.createAppDefinition({
       name: 'Test App',
       src: 'http://localhost:3000',
@@ -84,14 +94,14 @@ describe('AppDefinition api', function () {
 
     const fetchedAppDefinition = await organization.getAppDefinition(appDefinition.sys.id)
 
-    expect(appDefinition.sys.id).equals(fetchedAppDefinition.sys.id)
+    expect(appDefinition.sys.id).toBe(fetchedAppDefinition.sys.id)
   })
 
   test('getAppDefinitions', async () => {
     const appDefinitions = await organization.getAppDefinitions()
 
-    expect(appDefinitions.items).to.be.an('array')
-    expect(appDefinitions.sys.type).equals('Array', 'type')
+    expect(Array.isArray(appDefinitions.items)).toBeTruthy()
+    expect(appDefinitions.sys.type).toBe('Array')
   })
 
   test('delete', async () => {
@@ -107,7 +117,7 @@ describe('AppDefinition api', function () {
 
     await appDefinition.delete()
 
-    await expect(organization.getAppDefinition(appDefinition.sys.id)).to.be.rejectedWith(
+    await expect(organization.getAppDefinition(appDefinition.sys.id)).rejects.toThrow(
       'The resource could not be found'
     )
   })
@@ -124,34 +134,33 @@ describe('AppDefinition api', function () {
     })
 
     appDefinition.name = 'Test App Updated'
-
     await appDefinition.update()
 
-    expect(appDefinition.name).equals('Test App Updated', 'name')
+    expect(appDefinition.name).toBe('Test App Updated')
   })
 
   test('getAppDefinition (top level)', async () => {
     const { orgId, appId } = await createAppDefinition()
-    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const appDefinition = await getAppDefinition(orgId, appId)
 
-    expect(appDefinition.sys.organization.sys.id).equals(orgId)
-    expect(appDefinition.sys.id).equals(appId)
+    expect(appDefinition.sys.organization.sys.id).toBe(orgId)
+    expect(appDefinition.sys.id).toBe(appId)
   })
 
-  test('getInstallationsForOrg returns', async () => {
+  test('getInstallationsForOrg returns', { timeout: 10000 }, async () => {
     const { orgId, appId } = await createAppDefinition()
-    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const appDefinition = await getAppDefinition(orgId, appId)
     const installationsForOrg = await appDefinition.getInstallationsForOrg()
-    expect(installationsForOrg.sys.type).equals('Array')
+    expect(installationsForOrg.sys.type).toBe('Array')
   })
 
-  test('getInstallationsForOrg returns installations', async () => {
+  test('getInstallationsForOrg returns installations', { timeout: 10000 }, async () => {
     const { orgId, appId } = await createAppDefinition()
-    const appInstallation = await createAppInstallation(appId)
-    const appDefinition = await getAppDefinition({ organizationId: orgId, appDefinitionId: appId })
+    const appInstallation: AppInstallation = await createAppInstallation(appId)
+    const appDefinition = await getAppDefinition(orgId, appId)
     const appInstallationsForOrg = await appDefinition.getInstallationsForOrg()
 
-    expect(appInstallationsForOrg.items.length).to.equal(1)
+    expect(appInstallationsForOrg.items.length).toBe(1)
     await appInstallation.delete()
   })
 })

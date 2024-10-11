@@ -35,7 +35,7 @@ describe('AppAction api', function () {
     }
   })
 
-  test('createAppAction', async () => {
+  test('createAppAction', { sequential: true }, async () => {
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
       {

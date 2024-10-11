@@ -1,4 +1,6 @@
+import type { CreateHttpClientParams } from 'contentful-sdk-core'
 import { createClient } from '../lib/contentful-management'
+import type { Organization } from '../lib/contentful-management'
 import { TestDefaults } from './defaults'
 
 import * as testUtils from '@contentful/integration-test-utils'
@@ -9,7 +11,7 @@ if (!accessToken || !orgId) {
   throw new Error('Integration test CMA token or organisation id are missing')
 }
 
-const params: { host?: string; insecure?: boolean } = {}
+const params: Partial<CreateHttpClientParams> = {}
 
 if (process.env.API_INTEGRATION_TESTS) {
   params.host = '127.0.0.1:5000'
@@ -21,8 +23,11 @@ if (process.env.API_INTEGRATION_TESTS) {
 // Eg: getAll() fn in prod doesn't have any args. I change it in my PR to getAll({ query })
 // if I used testUtils.initClient({}), it would have the version of cma repo that would still have getAll() without args
 // making it impossible for me to cover my changes with tests
-export const initClient = (options) => {
+export const initClient = (options: Partial<CreateHttpClientParams>) => {
   const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+  if (!accessToken) {
+    throw new Error('CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN is required')
+  }
   return createClient({
     accessToken,
     ...params,
@@ -50,10 +55,14 @@ export function getTestOrganizationId() {
   return orgId
 }
 
-export async function getTestOrganization() {
+export async function getTestOrganization(): Promise<Organization> {
   const testOrgId = getTestOrganizationId()
   const organizations = await initClient({}).getOrganizations()
-  return organizations.items.find(({ sys: { id } }) => id === testOrgId)
+  const org = organizations.items.find(({ sys: { id } }) => id === testOrgId)
+  if (!org) {
+    throw new Error('Test org not available')
+  }
+  return org
 }
 
 export async function getTestUser() {
@@ -80,7 +89,9 @@ export async function getSpecialSpace(feature) {
 }
 
 export async function getAppDefinition(orgId, appId) {
-  const appDefinition = await initClient({}).getAppDefinition(appId)
+  const client = await initClient({})
+  const organisation = await client.getOrganization(orgId)
+  const appDefinition = organisation.getAppDefinition(appId)
   return appDefinition
 }
 
