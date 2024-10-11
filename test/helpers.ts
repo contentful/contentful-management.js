@@ -1,23 +1,28 @@
 import { createClient } from '../lib/contentful-management'
-import * as testUtils from '@contentful/integration-test-utils'
 import { TestDefaults } from './defaults'
 
-const params = {}
+import * as testUtils from '@contentful/integration-test-utils'
+
+const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+const orgId = process.env.CONTENTFUL_ORGANIZATION_ID
+if (!accessToken || !orgId) {
+  throw new Error('Integration test CMA token or organisation id are missing')
+}
+
+const params: { host?: string; insecure?: boolean } = {}
 
 if (process.env.API_INTEGRATION_TESTS) {
   params.host = '127.0.0.1:5000'
   params.insecure = true
 }
 
-const env = process.env !== undefined ? process.env : window.__env__
-
-// Please do not replace it with testUtils.initClient(), becuase test-utils repo has contentful-management
+// Please do not replace it with testUtils.initClient({}), becuase test-utils repo has contentful-management
 // as dependency and will make it impossible to test new changes to client's api.
 // Eg: getAll() fn in prod doesn't have any args. I change it in my PR to getAll({ query })
-// if I used testUtils.initClient(), it would have the version of cma repo that would still have getAll() without args
+// if I used testUtils.initClient({}), it would have the version of cma repo that would still have getAll() without args
 // making it impossible for me to cover my changes with tests
 export const initClient = (options) => {
-  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+  const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   return createClient({
     accessToken,
     ...params,
@@ -29,7 +34,6 @@ export const initClient = (options) => {
  * @returns {import('../lib/contentful-management').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {
-  const accessToken = env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   return createClient(
     {
       accessToken,
@@ -43,42 +47,48 @@ export const initPlainClient = (defaults = {}) => {
 }
 
 export function getTestOrganizationId() {
-  return env.CONTENTFUL_ORGANIZATION_ID
+  return orgId
 }
 
 export async function getTestOrganization() {
   const testOrgId = getTestOrganizationId()
-  const organizations = await initClient().getOrganizations()
+  const organizations = await initClient({}).getOrganizations()
   return organizations.items.find(({ sys: { id } }) => id === testOrgId)
 }
 
 export async function getTestUser() {
   const { userId } = TestDefaults
   const organization = await getTestOrganization()
+  if (!organization) {
+    throw new Error(`Unable to load test organization`)
+  }
   return organization.getUser(userId)
 }
 
 export async function getDefaultSpace() {
   const { spaceId } = TestDefaults
-  return initClient().getSpace(spaceId)
+  return initClient({}).getSpace(spaceId)
 }
 
 export async function getSpecialSpace(feature) {
   const { spaceWithAliasesAndEmbargoedAssetsId } = TestDefaults
   if (['alias', 'embargoedAssets'].includes(feature)) {
-    return initClient().getSpace(spaceWithAliasesAndEmbargoedAssetsId)
+    return initClient({}).getSpace(spaceWithAliasesAndEmbargoedAssetsId)
   } else {
     return getDefaultSpace()
   }
 }
 
 export async function getAppDefinition(orgId, appId) {
-  const appDefinition = await initClient().getAppDefinition(orgId, appId)
+  const appDefinition = await initClient({}).getAppDefinition(appId)
   return appDefinition
 }
 
 export async function createAppDefinition() {
   const organization = await getTestOrganization()
+  if (!organization) {
+    throw new Error(`Unable to load test organization`)
+  }
   const appDefinition = await organization.createAppDefinition({
     name: 'Test App',
     src: 'http://localhost:3000',
@@ -100,7 +110,7 @@ export async function createAppInstallation(appDefinitionId) {
 export const createTestSpace = async (client, testSuiteName = '') => {
   return testUtils.createTestSpace({
     client,
-    organizationId: env.CONTENTFUL_ORGANIZATION_ID,
+    organizationId: orgId,
     repo: 'CMA',
     language: 'JS',
     testSuiteName,
@@ -125,7 +135,7 @@ export const cleanupTestSpaces = async (dryRun = false) => {
 
 export const baseEnvironmentTemplateDescription = 'Integration test run'
 export const cleanupTestEnvironmentTemplates = async (olderThan = 1000 * 60 * 60) => {
-  const client = initClient()
+  const client = initClient({})
   const { items: templates } = await client.getEnvironmentTemplates(getTestOrganizationId())
 
   const filterTemplate = (template) =>

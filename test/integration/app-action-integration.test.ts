@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { before, after, describe, test } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import type { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
 import {
   initPlainClient,
@@ -15,7 +14,7 @@ describe('AppAction api', function () {
   let space
   let appAction: AppActionProps
 
-  before(async () => {
+  beforeAll(async () => {
     organization = await getTestOrganization()
     space = await getDefaultSpace()
 
@@ -29,7 +28,7 @@ describe('AppAction api', function () {
     })
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (appDefinition) {
       await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
       await appDefinition.delete()
