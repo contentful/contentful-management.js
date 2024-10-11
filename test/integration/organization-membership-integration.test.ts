@@ -1,14 +1,14 @@
-import { before, describe, test } from 'mocha'
-import { expect } from 'chai'
+import { beforeAll, describe, test, expect } from 'vitest'
 import { getTestOrganization } from '../helpers'
+import type { Organization } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 
 const { organizationMembershipId } = TestDefaults
 
 describe('OrganizationMembership Api', function () {
-  let organization
+  let organization: Organization
 
-  before(async () => {
+  beforeAll(async () => {
     organization = await getTestOrganization()
   })
 
