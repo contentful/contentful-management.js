@@ -1,32 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expect } from 'chai'
+import { expect, describe, it, beforeAll } from 'vitest'
 import { cloneDeep } from 'lodash'
-import { before, describe, test } from 'mocha'
 import sinon from 'sinon'
 import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../../lib/entities/bulk-action'
-import { BulkActionStatus } from '../../lib/entities/bulk-action'
-import type { Environment } from '../../lib/entities/environment'
-import type { Space } from '../../lib/entities/space'
+} from '../../lib/contentful-management'
+import type { Environment, Space } from '../../lib/contentful-management'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-describe('BulkActions Api', async function () {
+describe('BulkActions Api', () => {
   let testSpace: Space
   let testEnvironment: Environment
 
-  before(async () => {
+  beforeAll(async () => {
     testSpace = await getDefaultSpace()
     testEnvironment = await testSpace.getEnvironment('master')
   })
 
   describe('Read', () => {
-    test('Get BulkAction', async () => {
+    it('Get BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
       const createdBulkAction = await testEnvironment.createValidateBulkAction({
@@ -39,17 +36,17 @@ describe('BulkActions Api', async function () {
       const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
         createdBulkAction.sys.id
       )
-      expect(bulkActionInProgress.sys.id).to.eql(createdBulkAction.sys.id)
+      expect(bulkActionInProgress.sys.id).toBe(createdBulkAction.sys.id)
     })
 
-    test('Get BulkAction on wrong id', async () => {
+    it('Get BulkAction on wrong id', async () => {
       try {
         await testEnvironment.getBulkAction('fakeId')
-      } catch (error) {
+      } catch (error: any) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(404)
-        expect(parsed.message).to.eql('The resource could not be found.')
-        expect(parsed.details).to.eql({
+        expect(parsed.status).toBe(404)
+        expect(parsed.message).toBe('The resource could not be found.')
+        expect(parsed.details).toEqual({
           type: 'BulkAction',
           id: 'fakeId',
         })
@@ -58,7 +55,7 @@ describe('BulkActions Api', async function () {
   })
 
   describe('Write', () => {
-    test('Publish BulkAction', async () => {
+    it('Publish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       const createdBulkAction = await testEnvironment.createPublishBulkAction({
@@ -70,11 +67,11 @@ describe('BulkActions Api', async function () {
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
 
-      expect(bulkAction.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkAction.action).to.eql('publish')
+      expect(bulkAction.sys.status).toBe('succeeded')
+      expect(bulkAction.action).toBe('publish')
     })
 
-    test('Publish BulkAction with wrong payload', async () => {
+    it('Publish BulkAction with wrong payload', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryBulkActionId)
 
       // The publish action relies on the Link object having a `version` property
@@ -85,11 +82,11 @@ describe('BulkActions Api', async function () {
             items: [makeLink('Entry', entry.sys.id) as any],
           },
         })
-      } catch (error) {
+      } catch (error: any) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(422)
-        expect(parsed.message).to.eql('Validation error')
-        expect(parsed.details).to.eql({
+        expect(parsed.status).toBe(422)
+        expect(parsed.message).toBe('Validation error')
+        expect(parsed.details).toEqual({
           errors: [
             {
               details: '"entities.items[0].sys.version" is required',
@@ -101,7 +98,7 @@ describe('BulkActions Api', async function () {
       }
     })
 
-    test('Unpublish BulkAction', async () => {
+    it('Unpublish BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
       const createdBulkAction = await testEnvironment.createUnpublishBulkAction({
@@ -112,11 +109,11 @@ describe('BulkActions Api', async function () {
       })
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
-      expect(bulkAction.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkAction.action).to.eql('unpublish')
+      expect(bulkAction.sys.status).toBe('succeeded')
+      expect(bulkAction.action).toBe('unpublish')
     })
 
-    test('Validate BulkAction', async () => {
+    it('Validate BulkAction', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
       const createdBulkAction = await testEnvironment.createValidateBulkAction({
@@ -127,19 +124,18 @@ describe('BulkActions Api', async function () {
       })
 
       const bulkAction = await createdBulkAction.waitProcessing({ initialDelayMs: 500 })
-      expect(bulkAction.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkAction.action).to.eql('validate')
+      expect(bulkAction.sys.status).toBe('succeeded')
+      expect(bulkAction.action).toBe('validate')
     })
   })
 
-  // PlainAPI doesn't offer the wait for processing
   describe('PlainClient', () => {
     const defaultParams = {
       environmentId: TestDefaults.environmentId,
       spaceId: TestDefaults.spaceId,
     }
 
-    test('bulkAction.publish', async () => {
+    it('bulkAction.publish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryBulkActionId,
@@ -158,11 +154,11 @@ describe('BulkActions Api', async function () {
         bulkActionId: bulkActionInProgress.sys.id,
       })
 
-      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkActionCompleted.action).to.eql('publish')
+      expect(bulkActionCompleted.sys.status).toBe('succeeded')
+      expect(bulkActionCompleted.action).toBe('publish')
     })
 
-    test('bulkAction.unpublish', async () => {
+    it('bulkAction.unpublish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
@@ -179,11 +175,11 @@ describe('BulkActions Api', async function () {
         bulkActionId: bulkActionInProgress.sys.id,
       })
 
-      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkActionCompleted.action).to.eql('unpublish')
+      expect(bulkActionCompleted.sys.status).toBe('succeeded')
+      expect(bulkActionCompleted.action).toBe('unpublish')
     })
 
-    test('bulkAction.validate', async () => {
+    it('bulkAction.validate', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
@@ -200,13 +196,13 @@ describe('BulkActions Api', async function () {
         bulkActionId: bulkActionInProgress.sys.id,
       })
 
-      expect(bulkActionCompleted.sys.status).to.eql(BulkActionStatus.succeeded)
-      expect(bulkActionCompleted.action).to.eql('validate')
+      expect(bulkActionCompleted.sys.status).toBe('succeeded')
+      expect(bulkActionCompleted.action).toBe('validate')
     })
   })
 
   describe('Processing errors', () => {
-    test('when the BulkAction does not get processed in the expected retry count', async () => {
+    it('when the BulkAction does not get processed in the expected retry count', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
       const createdBulkAction = await testEnvironment.createPublishBulkAction({
@@ -226,14 +222,14 @@ describe('BulkActions Api', async function () {
           retryIntervalMs: 100,
         })
       } catch (error: any) {
-        expect(error.message).to.eql(
+        expect(error.message).toBe(
           "BulkAction didn't finish processing within the expected timeframe."
         )
-        expect(error.action.sys.id).to.eql(createdBulkAction.sys.id)
+        expect(error.action.sys.id).toBe(createdBulkAction.sys.id)
       }
     })
 
-    test('when the BulkAction returns a `failed` status', async () => {
+    it('when the BulkAction returns a `failed` status', async () => {
       const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryId)
 
       const createdBulkAction = await testEnvironment.createValidateBulkAction({
@@ -245,7 +241,7 @@ describe('BulkActions Api', async function () {
 
       // returns the same bulkAction with status = failed
       const failedAction = cloneDeep(createdBulkAction)
-      failedAction.sys.status = BulkActionStatus.failed
+      failedAction.sys.status = 'failed'
       sinon.stub(createdBulkAction, 'get').returns(failedAction)
 
       try {
@@ -256,8 +252,8 @@ describe('BulkActions Api', async function () {
           throwOnFailedExecution: true,
         })
       } catch (error: any) {
-        expect(error.message).to.eql('BulkAction failed to execute.')
-        expect(error.action.sys.status).to.eql('failed')
+        expect(error.message).toBe('BulkAction failed to execute.')
+        expect(error.action.sys.status).toBe('failed')
       }
     })
   })

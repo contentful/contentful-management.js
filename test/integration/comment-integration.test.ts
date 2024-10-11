@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { before, describe, test, after } from 'mocha'
+import { expect, describe, it, beforeAll, afterAll } from 'vitest'
 import { initClient, createTestEnvironment, createTestSpace, initPlainClient } from '../helpers'
 import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
@@ -12,10 +11,13 @@ describe('Comment Api', () => {
   const commentBody = 'JS SDK Comment Integration Test'
   const commentBodyReply = 'Reply comment'
 
-  before(async () => {
+  beforeAll(async () => {
     plainClient = initPlainClient()
-    space = (await createTestSpace(initClient(), 'Comment')) as Space
-    environment = (await createTestEnvironment(space, 'Comment Testing Environment')) as Environment
+    space = (await createTestSpace(initClient({}), 'Comment')) as Space
+    environment = (await createTestEnvironment(
+      space,
+      'Comment Testing Environment'
+    )) as unknown as Environment
     contentType = await environment.createContentType({
       name: 'Content Type',
       fields: [
@@ -32,14 +34,14 @@ describe('Comment Api', () => {
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (space) {
-      return space.delete()
+      await space.delete()
     }
   })
 
   describe('Entry comment', () => {
-    test('Get comments', async () => {
+    it('Get comments', async () => {
       const {
         sys: { id },
       } = await entry.createComment({
@@ -47,31 +49,31 @@ describe('Comment Api', () => {
       })
 
       const response = await entry.getComments()
-      expect(response.items).to.be.an('array')
-      expect(response.items.map((item) => item.sys.id)).to.include(id)
+      expect(response.items).toBeInstanceOf(Array)
+      expect(response.items.map((item) => item.sys.id)).toContain(id)
 
       const comment = await entry.getComment(id)
-      expect(comment.body).to.eq(commentBody)
+      expect(comment.body).toBe(commentBody)
       await comment.delete()
     })
 
-    test('Create, update, delete comment', async () => {
+    it('Create, update, delete comment', async () => {
       const comment = await entry.createComment({
         body: commentBody,
       })
 
-      expect(comment.body).to.eq(commentBody, 'body is set')
+      expect(comment.body).toBe(commentBody)
       comment.body = 'new body'
 
       const updatedBody = await comment.update()
-      expect(updatedBody.body).to.eq('new body')
+      expect(updatedBody.body).toBe('new body')
 
       await updatedBody.delete()
     })
   })
 
   describe('Content type comment', () => {
-    test('Create, get, delete comment', async () => {
+    it('Create, get, delete comment', async () => {
       const params = {
         spaceId: space.sys.id,
         environmentId: environment.sys.id,
@@ -83,8 +85,8 @@ describe('Comment Api', () => {
       } = await plainClient.comment.create(params, { body: commentBody })
 
       const response = await plainClient.comment.getMany(params)
-      expect(response.items).to.be.an('array')
-      expect(response.items.map((item) => item.sys.id)).to.include(id)
+      expect(response.items).toBeInstanceOf(Array)
+      expect(response.items.map((item) => item.sys.id)).toContain(id)
 
       await plainClient.comment.delete({
         ...params,
@@ -93,8 +95,7 @@ describe('Comment Api', () => {
       })
     })
 
-    test('Reply to comment', async () => {
-      // create
+    it('Reply to comment', async () => {
       const params = {
         spaceId: space.sys.id,
         environmentId: environment.sys.id,
@@ -108,14 +109,12 @@ describe('Comment Api', () => {
         { body: commentBodyReply }
       )
 
-      // check
       const response = await plainClient.comment.getMany(params)
-      expect(response.items).to.be.an('array')
-      expect(response.items.find((item) => item.sys.id === replyComment.sys.id)?.body).to.eq(
+      expect(response.items).toBeInstanceOf(Array)
+      expect(response.items.find((item) => item.sys.id === replyComment.sys.id)?.body).toBe(
         commentBodyReply
       )
 
-      // delete
       await plainClient.comment.delete({
         ...params,
         commentId: replyComment.sys.id,
@@ -129,8 +128,7 @@ describe('Comment Api', () => {
       })
     })
 
-    test('Parent reference', async () => {
-      // create
+    it('Parent reference', async () => {
       const params = {
         spaceId: space.sys.id,
         environmentId: environment.sys.id,
@@ -142,15 +140,13 @@ describe('Comment Api', () => {
         sys: { id, version },
       } = await plainClient.comment.create(params, { body: commentBody })
 
-      // check
       const response = await plainClient.comment.getMany(params)
-      expect(response.items).to.be.an('array')
-      expect(response.items.map((item) => item.sys.id)).to.include(id)
+      expect(response.items).toBeInstanceOf(Array)
+      expect(response.items.map((item) => item.sys.id)).toContain(id)
       expect(
         response.items.map((item) => (item.sys.parentEntity.sys as { ref: string }).ref)
-      ).to.include('fields.firstField')
+      ).toContain('fields.firstField')
 
-      // delete
       await plainClient.comment.delete({
         ...params,
         commentId: id,

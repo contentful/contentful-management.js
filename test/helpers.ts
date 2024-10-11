@@ -1,6 +1,6 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
 import { createClient } from '../lib/contentful-management'
-import type { Organization } from '../lib/contentful-management'
+import type { Organization, Space } from '../lib/contentful-management'
 import { TestDefaults } from './defaults'
 
 import * as testUtils from '@contentful/integration-test-utils'
@@ -125,7 +125,7 @@ export const createTestSpace = async (client, testSuiteName = '') => {
     repo: 'CMA',
     language: 'JS',
     testSuiteName,
-  })
+  }) as unknown as Space
 }
 
 export const createTestEnvironment = async (space, environmentName) => {

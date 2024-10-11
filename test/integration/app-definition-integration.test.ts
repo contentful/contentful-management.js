@@ -139,7 +139,7 @@ describe('AppDefinition api', { sequential: true }, () => {
     expect(appDefinition.name).toBe('Test App Updated')
   })
 
-  test('getAppDefinition (top level)', async () => {
+  test('getAppDefinition (top level)', { timeout: 10000 }, async () => {
     const { orgId, appId } = await createAppDefinition()
     const appDefinition = await getAppDefinition(orgId, appId)
 
