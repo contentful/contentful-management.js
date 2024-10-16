@@ -58,51 +58,47 @@ describe('Asset API - Write', { concurrent: true }, () => {
     }
   })
 
-  test(
-    'Create, process, update, publish, unpublish, archive, unarchive and delete asset',
-    { timeout: 15000 },
-    async () => {
-      const asset = await environment.createAsset({
-        fields: {
-          title: { 'en-US': 'this is the title' },
-          file: {
-            'en-US': {
-              contentType: 'image/jpeg',
-              fileName: 'shiba-stuck.jpg',
-              upload: TEST_IMAGE_SOURCE_URL,
-            },
+  test('Create, process, update, publish, unpublish, archive, unarchive and delete asset', async () => {
+    const asset = await environment.createAsset({
+      fields: {
+        title: { 'en-US': 'this is the title' },
+        file: {
+          'en-US': {
+            contentType: 'image/jpeg',
+            fileName: 'shiba-stuck.jpg',
+            upload: TEST_IMAGE_SOURCE_URL,
           },
         },
-      })
-      expect(asset.fields.title['en-US']).toBe('this is the title')
+      },
+    })
+    expect(asset.fields.title['en-US']).toBe('this is the title')
 
-      const processedAsset = await asset.processForLocale('en-US', { processingCheckWait: 10000 })
-      expect(asset.isDraft()).toBe(true)
-      expect(processedAsset.fields.file['en-US'].url).toBeTruthy()
+    const processedAsset = await asset.processForLocale('en-US', { processingCheckWait: 10000 })
+    expect(asset.isDraft()).toBe(true)
+    expect(processedAsset.fields.file['en-US'].url).toBeTruthy()
 
-      const publishedAsset = await processedAsset.publish()
-      expect(publishedAsset.isPublished()).toBe(true)
+    const publishedAsset = await processedAsset.publish()
+    expect(publishedAsset.isPublished()).toBe(true)
 
-      publishedAsset.fields.title['en-US'] = 'title has changed'
-      const updatedAsset = await publishedAsset.update()
-      expect(updatedAsset.isUpdated()).toBe(true)
-      expect(updatedAsset.fields.title['en-US']).toBe('title has changed')
+    publishedAsset.fields.title['en-US'] = 'title has changed'
+    const updatedAsset = await publishedAsset.update()
+    expect(updatedAsset.isUpdated()).toBe(true)
+    expect(updatedAsset.fields.title['en-US']).toBe('title has changed')
 
-      const unpublishedAsset = await updatedAsset.unpublish()
-      expect(unpublishedAsset.isDraft()).toBe(true)
+    const unpublishedAsset = await updatedAsset.unpublish()
+    expect(unpublishedAsset.isDraft()).toBe(true)
 
-      const archivedAsset = await unpublishedAsset.archive()
-      expect(archivedAsset.isArchived()).toBe(true)
+    const archivedAsset = await unpublishedAsset.archive()
+    expect(archivedAsset.isArchived()).toBe(true)
 
-      const unarchivedAsset = await archivedAsset.unarchive()
-      expect(unarchivedAsset.isArchived()).toBe(false)
-      expect(unarchivedAsset.isDraft()).toBe(true)
+    const unarchivedAsset = await archivedAsset.unarchive()
+    expect(unarchivedAsset.isArchived()).toBe(false)
+    expect(unarchivedAsset.isDraft()).toBe(true)
 
-      await unarchivedAsset.delete()
-    }
-  )
+    await unarchivedAsset.delete()
+  })
 
-  test('Create and process asset with multiple locales', { timeout: 15000 }, async () => {
+  test('Create and process asset with multiple locales', async () => {
     const asset = await environment.createAsset({
       fields: {
         title: { 'en-US': 'this is the title' },
@@ -126,34 +122,30 @@ describe('Asset API - Write', { concurrent: true }, () => {
     expect(processedAsset.fields.file['de-DE'].url).toBeTruthy()
   })
 
-  test(
-    'Upload and process asset from files with multiple locales',
-    { timeout: 15000 },
-    async () => {
-      const asset = await environment.createAssetFromFiles({
-        fields: {
-          title: { 'en-US': 'SVG upload test' },
-          description: { 'en-US': '' },
-          file: {
-            'en-US': {
-              contentType: 'image/svg+xml',
-              fileName: 'blue-square.svg',
-              file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
-            },
-            'de-DE': {
-              contentType: 'image/svg+xml',
-              fileName: 'red-square.svg',
-              file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
-            },
+  test('Upload and process asset from files with multiple locales', async () => {
+    const asset = await environment.createAssetFromFiles({
+      fields: {
+        title: { 'en-US': 'SVG upload test' },
+        description: { 'en-US': '' },
+        file: {
+          'en-US': {
+            contentType: 'image/svg+xml',
+            fileName: 'blue-square.svg',
+            file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
+          },
+          'de-DE': {
+            contentType: 'image/svg+xml',
+            fileName: 'red-square.svg',
+            file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
           },
         },
-      })
+      },
+    })
 
-      const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
-      expect(processedAsset.fields.file['en-US'].url).toBeTruthy()
-      expect(processedAsset.fields.file['de-DE'].url).toBeTruthy()
-    }
-  )
+    const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
+    expect(processedAsset.fields.file['en-US'].url).toBeTruthy()
+    expect(processedAsset.fields.file['de-DE'].url).toBeTruthy()
+  })
 
   test.skip('Upload and process asset from files with multiple locales in non-master environment', async () => {
     environment = await space.createEnvironment({ name: 'Asset Processing Non-Master' })

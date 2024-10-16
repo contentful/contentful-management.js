@@ -139,7 +139,7 @@ describe('AppDefinition api', { sequential: true }, () => {
     expect(appDefinition.name).toBe('Test App Updated')
   })
 
-  test('getAppDefinition (top level)', { timeout: 10000 }, async () => {
+  test('getAppDefinition (top level)', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appDefinition = await getAppDefinition(orgId, appId)
 
@@ -147,14 +147,14 @@ describe('AppDefinition api', { sequential: true }, () => {
     expect(appDefinition.sys.id).toBe(appId)
   })
 
-  test('getInstallationsForOrg returns', { timeout: 10000 }, async () => {
+  test('getInstallationsForOrg returns', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appDefinition = await getAppDefinition(orgId, appId)
     const installationsForOrg = await appDefinition.getInstallationsForOrg()
     expect(installationsForOrg.sys.type).toBe('Array')
   })
 
-  test('getInstallationsForOrg returns installations', { timeout: 10000 }, async () => {
+  test('getInstallationsForOrg returns installations', async () => {
     const { orgId, appId } = await createAppDefinition()
     const appInstallation: AppInstallation = await createAppInstallation(appId)
     const appDefinition = await getAppDefinition(orgId, appId)

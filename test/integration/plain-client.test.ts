@@ -55,87 +55,83 @@ describe('ContentType Api', () => {
   })
 
   describe('write', { concurrent: true }, () => {
-    it(
-      'Create, update, publish, getEditorInterface, unpublish and delete content type',
-      { timeout: 10000 },
-      async () => {
-        const contentType = await writeEnvironment.createContentType({
-          name: 'testentity',
-          fields: [],
-        })
+    it('Create, update, publish, getEditorInterface, unpublish and delete content type', async () => {
+      const contentType = await writeEnvironment.createContentType({
+        name: 'testentity',
+        fields: [],
+      })
 
-        expect(contentType.isDraft()).toBeTruthy()
-        expect(contentType.sys.type).toBe('ContentType')
-        expect(contentType.name).toBe('testentity')
+      expect(contentType.isDraft()).toBeTruthy()
+      expect(contentType.sys.type).toBe('ContentType')
+      expect(contentType.name).toBe('testentity')
 
-        const publishedContentType = await contentType.publish()
-        expect(publishedContentType.isPublished()).toBeTruthy()
+      const publishedContentType = await contentType.publish()
+      expect(publishedContentType.isPublished()).toBeTruthy()
 
-        publishedContentType.fields = [
-          {
-            id: 'field',
-            name: 'field',
-            type: 'Text',
-            required: false,
-            localized: false,
+      publishedContentType.fields = [
+        {
+          id: 'field',
+          name: 'field',
+          type: 'Text',
+          required: false,
+          localized: false,
+        },
+        {
+          id: 'field2delete',
+          name: 'field2delete',
+          type: 'Text',
+          required: false,
+          localized: false,
+        },
+        {
+          id: 'multiRefXSpace',
+          name: 'multiRefXSpace',
+          type: 'Array',
+          required: false,
+          localized: false,
+          items: {
+            type: 'ResourceLink',
+            validations: [],
           },
-          {
-            id: 'field2delete',
-            name: 'field2delete',
-            type: 'Text',
-            required: false,
-            localized: false,
-          },
-          {
-            id: 'multiRefXSpace',
-            name: 'multiRefXSpace',
-            type: 'Array',
-            required: false,
-            localized: false,
-            items: {
-              type: 'ResourceLink',
-              validations: [],
+          allowedResources: [
+            {
+              type: 'Contentful:Entry',
+              source: 'crn:contentful:::content:spaces/bkg4k0bz2fhq',
+              contentTypes: ['textBlock'],
             },
-            allowedResources: [
-              {
-                type: 'Contentful:Entry',
-                source: 'crn:contentful:::content:spaces/bkg4k0bz2fhq',
-                contentTypes: ['textBlock'],
-              },
-            ],
-          },
-        ]
+          ],
+        },
+      ]
 
-        const tryContentType = await publishedContentType.update()
-        expect(tryContentType.isUpdated()).toBeTruthy()
+      const tryContentType = await publishedContentType.update()
+      expect(tryContentType.isUpdated()).toBeTruthy()
 
-        const updatedContentType = await tryContentType.publish()
-        expect(updatedContentType.isUpdated()).toBeFalsy()
-        expect(updatedContentType.fields[0].id).toBe('field')
-        expect(updatedContentType.fields[1].id).toBe('field2delete')
-        expect(updatedContentType.fields[2].id).toBe('multiRefXSpace')
+      const updatedContentType = await tryContentType.publish()
+      expect(updatedContentType.isUpdated()).toBeFalsy()
+      expect(updatedContentType.fields[0].id).toBe('field')
+      expect(updatedContentType.fields[1].id).toBe('field2delete')
+      expect(updatedContentType.fields[2].id).toBe('multiRefXSpace')
 
-        const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
-        expect(
-          deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
-        ).toHaveLength(0)
+      const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
+      expect(
+        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
+      ).toHaveLength(0)
 
-        expect(deletedFieldContentType.getEditorInterface).toBeTruthy()
+      expect(deletedFieldContentType.getEditorInterface).toBeTruthy()
 
-        const publishedAgainContentType = await deletedFieldContentType.publish()
-        const editorInterface = await publishedAgainContentType.getEditorInterface()
+      const publishedAgainContentType = await deletedFieldContentType.publish()
+      const editorInterface = await publishedAgainContentType.getEditorInterface()
 
-        expect(editorInterface.controls).toBeTruthy()
-        expect(editorInterface.sys).toBeTruthy()
+      expect(editorInterface.controls).toBeTruthy()
+      expect(editorInterface.sys).toBeTruthy()
 
-        await editorInterface.update()
+      await editorInterface.update()
 
-        const unpublishedContentType = await updatedContentType.unpublish()
-        expect(unpublishedContentType.isDraft()).toBeTruthy()
+      const unpublishedContentType = await updatedContentType.unpublish()
+      expect(unpublishedContentType.isDraft()).toBeTruthy()
 
-        await unpublishedContentType.delete()
-      }
-    )
+      await unpublishedContentType.delete()
+    })
 
     it('Create with id and delete content type', async () => {
       const id = generateRandomId('testCT')

@@ -40,7 +40,7 @@ describe('AppKey api', { sequential: true }, () => {
     await client.appKey.delete(entityId)
   })
 
-  test('getAppKey', { timeout: 15000 }, async () => {
+  test('getAppKey', async () => {
     let key = await client.appKey.create(entityId, { generate: true })
     entityId.fingerprint = key.sys.id
 
@@ -50,7 +50,7 @@ describe('AppKey api', { sequential: true }, () => {
     await client.appKey.delete(entityId)
   })
 
-  test('getAppKeys', { timeout: 15000 }, async () => {
+  test('getAppKeys', async () => {
     const key1 = await client.appKey.create(entityId, { generate: true })
     const key2 = await client.appKey.create(entityId, { generate: true })
 
@@ -61,7 +61,7 @@ describe('AppKey api', { sequential: true }, () => {
     await client.appKey.delete({ ...entityId, fingerprint: key2.sys.id })
   })
 
-  test('deleteAppKey', { timeout: 15000 }, async () => {
+  test('deleteAppKey', async () => {
     const key = await client.appKey.create(entityId, { generate: true })
     entityId.fingerprint = key.sys.id
 
