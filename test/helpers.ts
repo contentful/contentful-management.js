@@ -23,7 +23,7 @@ if (process.env.API_INTEGRATION_TESTS) {
 // Eg: getAll() fn in prod doesn't have any args. I change it in my PR to getAll({ query })
 // if I used testUtils.initClient({}), it would have the version of cma repo that would still have getAll() without args
 // making it impossible for me to cover my changes with tests
-export const initClient = (options: Partial<CreateHttpClientParams>) => {
+export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
   const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   if (!accessToken) {
     throw new Error('CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN is required')

@@ -1,14 +1,13 @@
-import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
-import type { Environment } from '../../lib/entities/environment'
+import { beforeAll, afterAll, describe, test, expect } from 'vitest'
+import type { Environment } from '../../lib/export-types'
 import type { Release, ReleasePayload } from '../../lib/entities/release'
 import type { ReleaseAction } from '../../lib/entities/release-action'
-import type { Space } from '../../lib/entities/space'
+import type { Space } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 import { createTestSpace, initClient, initPlainClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe('ReleaseAction Api', async () => {
+describe('ReleaseAction Api', () => {
   let testSpace: Space
   let testEnvironment: Environment
   let testRelease: Release
@@ -17,8 +16,8 @@ describe('ReleaseAction Api', async () => {
   let testReleaseAction: ReleaseAction
   let testReleaseAction2: ReleaseAction
 
-  before(async () => {
-    testSpace = (await createTestSpace(initClient(), 'Release Actions')) as unknown as Space
+  beforeAll(async () => {
+    testSpace = (await createTestSpace(initClient(), 'Release Actions')) as Space
     testEnvironment = await testSpace.getEnvironment('master')
 
     const contentType = await testEnvironment.createContentTypeWithId('testContentType', {
@@ -57,15 +56,11 @@ describe('ReleaseAction Api', async () => {
       testEnvironment.createRelease(releasePayload),
     ])
 
-    /**
-     * @summary Runs 2 Release Actions (validations) since we can only
-     * run 2 per minute per environment (backend limitation).
-     * **/
     testReleaseAction = await testRelease.validate()
     testReleaseAction2 = await testRelease2.validate()
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (testSpace) {
       return testSpace.delete()
     }
@@ -78,7 +73,7 @@ describe('ReleaseAction Api', async () => {
         releaseId: testRelease.sys.id,
       })
 
-      expect(releaseAction.sys.id).to.eql(testReleaseAction.sys.id)
+      expect(releaseAction.sys.id).toBe(testReleaseAction.sys.id)
     })
 
     test('Get ReleaseAction with another release ID', async () => {
@@ -87,7 +82,7 @@ describe('ReleaseAction Api', async () => {
         releaseId: testRelease2.sys.id,
       })
 
-      expect(releaseAction.sys.id).to.eql(testReleaseAction2.sys.id)
+      expect(releaseAction.sys.id).toBe(testReleaseAction2.sys.id)
     })
 
     test('Get ReleaseAction with an incorrect ID', async () => {
@@ -97,10 +92,10 @@ describe('ReleaseAction Api', async () => {
           actionId: 'fakeId',
         })
       } catch (error) {
-        const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(404)
-        expect(parsed.message).to.eql('The resource could not be found.')
-        expect(parsed.details).to.eql({
+        const parsed = JSON.parse((error as Error).message)
+        expect(parsed.status).toBe(404)
+        expect(parsed.message).toBe('The resource could not be found.')
+        expect(parsed.details).toEqual({
           type: 'ReleaseAction',
           environment: testEnvironment.sys.id,
           space: testEnvironment.sys.space.sys.id,
@@ -121,9 +116,8 @@ describe('ReleaseAction Api', async () => {
         },
       })
 
-      // Returns the filtered results based on the limit
-      expect(queryResult.items.length).to.eql(queryLimit)
-      expect(queryResult.items[0].sys.release.sys.id).to.eql(testRelease2.sys.id)
+      expect(queryResult.items.length).toBe(queryLimit)
+      expect(queryResult.items[0].sys.release.sys.id).toBe(testRelease2.sys.id)
     })
   })
 
@@ -140,9 +134,8 @@ describe('ReleaseAction Api', async () => {
         query: { 'sys.release.sys.id[in]': testRelease.sys.id, limit: 1, action: 'validate' },
       })
 
-      // Returns the filtered results based on the limit
-      expect(queryResult.items.length).to.eql(1)
-      expect(queryResult.items[0].sys.release.sys.id).to.eql(testRelease.sys.id)
+      expect(queryResult.items.length).toBe(1)
+      expect(queryResult.items[0].sys.release.sys.id).toBe(testRelease.sys.id)
     })
 
     test('releaseAction.get', async () => {
@@ -158,10 +151,9 @@ describe('ReleaseAction Api', async () => {
         actionId: testReleaseAction.sys.id,
       })
 
-      // Returns the filtered results based on the limit
-      expect(queryResult.action).to.eql('validate')
-      expect(queryResult.sys.id).to.eql(testReleaseAction.sys.id)
-      expect(queryResult.sys.release.sys.id).to.eql(testRelease.sys.id)
+      expect(queryResult.action).toBe('validate')
+      expect(queryResult.sys.id).toBe(testReleaseAction.sys.id)
+      expect(queryResult.sys.release.sys.id).toBe(testRelease.sys.id)
     })
   })
 })

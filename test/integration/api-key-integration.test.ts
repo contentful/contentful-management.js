@@ -5,7 +5,7 @@ describe('ApiKey api', { sequential: true }, () => {
   let space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient({}), 'ApiKey')
+    space = await createTestSpace(initClient(), 'ApiKey')
   })
 
   afterAll(async () => {

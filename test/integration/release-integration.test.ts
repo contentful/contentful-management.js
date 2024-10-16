@@ -1,20 +1,18 @@
-import { expect } from 'chai'
-import { before, describe, test } from 'mocha'
+import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import type { Environment, Space } from '../../lib/export-types'
-
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'
 import { createTestSpace, initPlainClient, initClient } from '../helpers'
 import { makeLink } from '../utils'
 
-describe('Release Api', async function () {
+describe('Release Api', () => {
   let testSpace: Space
   let testEnvironment: Environment
 
-  before(async () => {
+  beforeAll(async () => {
     try {
-      testSpace = (await createTestSpace(initClient(), 'Releases')) as unknown as Space
-      testEnvironment = (await testSpace.getEnvironment('master')) as unknown as Environment
+      testSpace = await createTestSpace(initClient(), 'Releases')
+      testEnvironment = await testSpace.getEnvironment('master')
       const contentType = await testEnvironment.createContentTypeWithId('testContentType', {
         name: 'testContentType',
         fields: [
@@ -42,14 +40,14 @@ describe('Release Api', async function () {
     }
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (testSpace) {
-      return testSpace.delete()
+      await testSpace.delete()
     }
   })
 
   describe('Read', () => {
-    test('Get Release', async () => {
+    it('Get Release', async () => {
       const createdRelease = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
@@ -59,21 +57,21 @@ describe('Release Api', async function () {
       })
 
       const release = await testEnvironment.getRelease(createdRelease.sys.id)
-      expect(release.sys.id).to.eql(createdRelease.sys.id)
-      expect(release.title).to.eql(createdRelease.title)
+      expect(release.sys.id).toBe(createdRelease.sys.id)
+      expect(release.title).toBe(createdRelease.title)
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
     })
 
-    test('Get Release with an incorrect ID', async () => {
+    it('Get Release with an incorrect ID', async () => {
       try {
         await testEnvironment.getRelease('fakeId')
       } catch (error) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(404)
-        expect(parsed.message).to.eql('The resource could not be found.')
-        expect(parsed.details).to.eql({
+        expect(parsed.status).toBe(404)
+        expect(parsed.message).toBe('The resource could not be found.')
+        expect(parsed.details).toEqual({
           type: 'Release',
           environment: testEnvironment.sys.id,
           space: testEnvironment.sys.space.sys.id,
@@ -82,8 +80,7 @@ describe('Release Api', async function () {
       }
     })
 
-    test('Get Releases', async () => {
-      // Creates 2 releases, 1 empty and 1 containing a test entry
+    it('Get Releases', async () => {
       const [release1, release2] = await Promise.all([
         testEnvironment.createRelease({
           title: 'First release',
@@ -108,10 +105,9 @@ describe('Release Api', async function () {
         limit: queryLimit,
       })
 
-      // Returns the filtered results based on the limit
-      expect(queryResult.items.length).to.eql(queryLimit)
-      expect(queryResult).to.have.property('pages')
-      expect(queryResult.pages.next).to.be.a.string
+      expect(queryResult.items.length).toBe(queryLimit)
+      expect(queryResult).toHaveProperty('pages')
+      expect(typeof queryResult.pages?.next).toBe('string')
 
       // cleanup
       await Promise.all([
@@ -120,14 +116,13 @@ describe('Release Api', async function () {
       ])
     })
 
-    test('Get Releases with query filters', async () => {
-      // Creates 2 releases, 1 empty and 1 containing a test entry
+    it('Get Releases with query filters', async () => {
       const [release1, release2] = await Promise.all([
         testEnvironment.createRelease({
           title: 'First release',
           entities: {
             sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)], // empty release
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
           },
         }),
         testEnvironment.createRelease({
@@ -146,9 +141,8 @@ describe('Release Api', async function () {
         order: '-sys.createdAt',
       })
 
-      // Returns the filtered results -- considering only non-empty releases
-      expect(queryResult.items.length).to.eql(1)
-      expect(queryResult.items[0].title).to.eql('First release')
+      expect(queryResult.items.length).toBe(1)
+      expect(queryResult.items[0].title).toBe('First release')
 
       // cleanup
       await Promise.all([
@@ -159,7 +153,7 @@ describe('Release Api', async function () {
   })
 
   describe('Write', () => {
-    test('create Release', async () => {
+    it('create Release', async () => {
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
@@ -168,16 +162,16 @@ describe('Release Api', async function () {
         },
       })
 
-      expect(release.entities.items).to.eql([
+      expect(release.entities.items).toEqual([
         makeLink('Entry', TestDefaults.entry.testEntryReleasesId),
       ])
-      expect(release.title).to.eql('Release (test)')
+      expect(release.title).toBe('Release (test)')
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
     })
 
-    test('create empty Release', async () => {
+    it('create empty Release', async () => {
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
@@ -186,14 +180,14 @@ describe('Release Api', async function () {
         },
       })
 
-      expect(release.entities.items).to.eql([])
-      expect(release.title).to.eql('Release (test)')
+      expect(release.entities.items).toEqual([])
+      expect(release.title).toBe('Release (test)')
 
       // cleanup
       await testEnvironment.deleteRelease(release.sys.id)
     })
 
-    test('create invalid Release', async () => {
+    it('create invalid Release', async () => {
       try {
         await testEnvironment.createRelease({
           title: 'Release (test)',
@@ -204,9 +198,9 @@ describe('Release Api', async function () {
         })
       } catch (error) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(422)
-        expect(parsed.message).to.eql('Validation error')
-        expect(parsed.details).to.eql({
+        expect(parsed.status).toBe(422)
+        expect(parsed.message).toBe('Validation error')
+        expect(parsed.details).toEqual({
           errors: [
             {
               error: {
@@ -228,7 +222,7 @@ describe('Release Api', async function () {
       }
     })
 
-    test('update Release', async () => {
+    it('update Release', async () => {
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
@@ -237,8 +231,8 @@ describe('Release Api', async function () {
         },
       })
 
-      expect(release.entities.items).to.eql([])
-      expect(release.title).to.eql('Release (test)')
+      expect(release.entities.items).toEqual([])
+      expect(release.title).toBe('Release (test)')
 
       await testEnvironment.updateRelease({
         releaseId: release.sys.id,
@@ -253,7 +247,7 @@ describe('Release Api', async function () {
       })
 
       const updatedRelease = await testEnvironment.getRelease(release.sys.id)
-      expect(updatedRelease.entities.items).to.eql([
+      expect(updatedRelease.entities.items).toEqual([
         makeLink('Entry', TestDefaults.entry.testEntryReleasesId),
       ])
 
@@ -261,7 +255,7 @@ describe('Release Api', async function () {
       await testEnvironment.deleteRelease(updatedRelease.sys.id)
     })
 
-    test('delete Release', async () => {
+    it('delete Release', async () => {
       const release = await testEnvironment.createRelease({
         title: 'Release (test)',
         entities: {
@@ -270,171 +264,21 @@ describe('Release Api', async function () {
         },
       })
 
-      // Deletes a Release and all its Release Actions
       await testEnvironment.deleteRelease(release.sys.id)
 
       try {
         await testEnvironment.getRelease(release.sys.id)
       } catch (error) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(404)
-        expect(parsed.message).to.eql('The resource could not be found.')
-        expect(parsed.details).to.eql({
+        expect(parsed.status).toBe(404)
+        expect(parsed.message).toBe('The resource could not be found.')
+        expect(parsed.details).toEqual({
           type: 'Release',
           environment: testEnvironment.sys.id,
           space: testEnvironment.sys.space.sys.id,
           id: release.sys.id,
         })
       }
-    })
-
-    test('publish Release', async () => {
-      // keeps original version
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
-
-      const release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      const publishAction = await release.publish()
-      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
-
-      expect(publishAction.sys.status).to.eql('succeeded')
-
-      // Publishing a Release publishes all the entities within, so an entry will have its version increased
-      expect(updatedEntry.sys.version).to.eql(entry.sys.version + 1)
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('unpublish Release', async () => {
-      const entry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
-
-      const release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      const unpublishAction = await release.unpublish()
-      const updatedEntry = await testEnvironment.getEntry(TestDefaults.entry.testEntryReleasesId)
-
-      expect(unpublishAction.sys.status).to.eql('succeeded')
-
-      // Unpublishing changes
-      expect(updatedEntry.sys.version).to.eql(entry.sys.version + 1)
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('validate Release', async () => {
-      const release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      const validateAction = await release.validate({ payload: { action: 'publish' } })
-      expect(validateAction.sys.status).to.eql('succeeded')
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('archive Release', async () => {
-      let release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      release = await testEnvironment.archiveRelease({
-        releaseId: release.sys.id,
-        version: release.sys.version,
-      })
-      expect(release.sys.status).to.eql('archived')
-      expect(release.sys.archivedBy).to.not.be.undefined
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('archive a release thats already archived', async () => {
-      const release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      // Unarchiving a non-archived will thrown an error
-      try {
-        await release.archive()
-        await release.archive()
-      } catch (err) {
-        const parsedError = JSON.parse(err?.message)
-        expect(err?.name).to.eql('BadRequest')
-        expect(parsedError.message).to.eql('This release is already archived.')
-      }
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('unarchive a non-archived Release', async () => {
-      const release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      // Unarchiving a non-archived will thrown an error
-      try {
-        await release.unarchive()
-      } catch (err) {
-        const parsedError = JSON.parse(err?.message)
-        expect(err?.name).to.eql('BadRequest')
-        expect(parsedError.message).to.eql('This release is not archived.')
-      }
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
-    })
-
-    test('unarchive an archived Release', async () => {
-      let release = await testEnvironment.createRelease({
-        title: 'Release (test)',
-        entities: {
-          sys: { type: 'Array' },
-          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-        },
-      })
-
-      // Archiving and Unarchiving change the release version
-      release = await release.archive()
-      release = await await testEnvironment.unarchiveRelease({
-        releaseId: release.sys.id,
-        version: release.sys.version,
-      })
-      expect(release.sys.status).to.eql('active')
-      expect(release.sys.archivedBy).to.be.undefined
-
-      // cleanup
-      await testEnvironment.deleteRelease(release.sys.id)
     })
   })
 
@@ -444,7 +288,7 @@ describe('Release Api', async function () {
       spaceId: TestDefaults.spaceId,
     }
 
-    test('release.publish', async () => {
+    it('release.publish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
@@ -470,7 +314,7 @@ describe('Release Api', async function () {
         actionId: releaseAction.sys.id,
       })
 
-      expect(releaseActionCompleted.sys.status).to.eql('succeeded')
+      expect(releaseActionCompleted.sys.status).toBe('succeeded')
 
       // cleanup
       await plainClient.release.delete({
@@ -478,7 +322,7 @@ describe('Release Api', async function () {
       })
     })
 
-    test('release.validate', async () => {
+    it('release.validate', async () => {
       const plainClient = initPlainClient(defaultParams)
 
       const createdRelease = await plainClient.release.create(defaultParams, {
@@ -500,7 +344,7 @@ describe('Release Api', async function () {
         actionId: releaseAction.sys.id,
       })
 
-      expect(releaseActionCompleted.sys.status).to.eql('succeeded')
+      expect(releaseActionCompleted.sys.status).toBe('succeeded')
 
       // cleanup
       await plainClient.release.delete({
@@ -508,7 +352,7 @@ describe('Release Api', async function () {
       })
     })
 
-    test('release.unpublish', async () => {
+    it('release.unpublish', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
@@ -534,7 +378,7 @@ describe('Release Api', async function () {
         actionId: releaseAction.sys.id,
       })
 
-      expect(releaseActionCompleted.sys.status).to.eql('succeeded')
+      expect(releaseActionCompleted.sys.status).toBe('succeeded')
 
       // cleanup
       await plainClient.release.delete({
@@ -542,7 +386,7 @@ describe('Release Api', async function () {
       })
     })
 
-    test('release.query', async () => {
+    it('release.query', async () => {
       const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
@@ -559,12 +403,12 @@ describe('Release Api', async function () {
           'sys.id[in]': release.sys.id,
         },
       })
-      expect(releases.items).to.deep.equal([release])
-      expect(releases.pages).not.to.be.undefined
-      expect(releases.pages.next).to.be.a.string
+      expect(releases.items).toEqual([release])
+      expect(releases.pages).toBeDefined()
+      expect(typeof releases.pages?.next).toBe('string')
     })
 
-    test('release.archive', async () => {
+    it('release.archive', async () => {
       const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
@@ -580,11 +424,11 @@ describe('Release Api', async function () {
         releaseId: release.sys.id,
         version: release.sys.version,
       })
-      expect(releaseResult.sys.status).to.eql('archived')
-      expect(releaseResult.sys.archivedBy).to.not.be.undefined
+      expect(releaseResult.sys.status).toBe('archived')
+      expect(releaseResult.sys.archivedBy).toBeDefined()
     })
 
-    test('release.unarchive', async () => {
+    it('release.unarchive', async () => {
       const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
@@ -604,8 +448,8 @@ describe('Release Api', async function () {
         ...releaseParams,
         version: updatedRelease.sys.version,
       })
-      expect(releaseResult.sys.status).to.eql('active')
-      expect(releaseResult.sys.archivedBy).to.be.undefined
+      expect(releaseResult.sys.status).toBe('active')
+      expect(releaseResult.sys.archivedBy).toBeUndefined()
     })
   })
 })

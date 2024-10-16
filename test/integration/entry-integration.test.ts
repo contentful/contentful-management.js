@@ -24,7 +24,7 @@ describe('Environment API', () => {
   let space: Space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient({}), 'Environment')
+    space = await createTestSpace(initClient(), 'Environment')
   })
 
   afterAll(async () => {

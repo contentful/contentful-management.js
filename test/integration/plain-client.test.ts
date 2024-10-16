@@ -20,7 +20,7 @@ describe('ContentType Api', () => {
     readEnvironment = await readSpace.getEnvironment('master')
     readContentType = await readEnvironment.getContentType('vxVZs5JbhI9MwMupax3dm')
 
-    writeSpace = await createTestSpace(initClient({}), 'ContentType')
+    writeSpace = await createTestSpace(initClient(), 'ContentType')
     writeEnvironment = (await createTestEnvironment(
       writeSpace,
       'Testing Environment'
