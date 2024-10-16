@@ -1,4 +1,4 @@
-import { after, before, describe, test } from 'mocha'
+import { afterAll, beforeAll, describe, test, expect } from 'vitest'
 import {
   initClient,
   createTestSpace,
@@ -7,19 +7,29 @@ import {
   getTestOrganization,
   getDefaultSpace,
 } from '../helpers'
-import { expect } from 'chai'
 import { readFileSync } from 'fs'
+import type {
+  Space,
+  Environment,
+  Organization,
+  AppDefinition,
+  AppUpload,
+  AppBundle,
+  AppInstallation,
+  ResourceProvider,
+  ResourceType,
+} from '../../lib/export-types'
 
-describe('Environment Api', function () {
-  let space
+describe('Environment Api', () => {
+  let space: Space
 
-  before(async () => {
-    space = await createTestSpace(initClient(), 'Environment')
+  beforeAll(async () => {
+    space = await createTestSpace(initClient({}), 'Environment')
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (space) {
-      return space.delete()
+      await space.delete()
     }
   })
 
@@ -29,8 +39,8 @@ describe('Environment Api', function () {
     const environment = await space.createEnvironment({ name: envName })
     await waitForEnvironmentToBeReady(space, environment)
 
-    expect(environment.sys.type).equals('Environment', 'env is created')
-    expect(environment.name).equals(envName, 'env is created with name')
+    expect(environment.sys.type).toBe('Environment')
+    expect(environment.name).toBe(envName)
   })
 
   test('creates an environment with an id', async () => {
@@ -40,12 +50,12 @@ describe('Environment Api', function () {
     const environment = await space.createEnvironmentWithId(envId, { name: envName })
     await waitForEnvironmentToBeReady(space, environment)
 
-    expect(environment.sys.type).equals('Environment', 'env is created')
-    expect(environment.name).equals(envName, 'env was created with correct name')
-    expect(environment.sys.id).equals(envId, 'env was created with correct id')
+    expect(environment.sys.type).toBe('Environment')
+    expect(environment.name).toBe(envName)
+    expect(environment.sys.id).toBe(envId)
   })
 
-  describe('With a NER app installed in the environment', async () => {
+  describe('With a NER app installed in the environment', () => {
     const functionManifest = {
       id: 'tmdbMockFunction',
       name: 'Mocked TMDB lookup function',
@@ -55,16 +65,16 @@ describe('Environment Api', function () {
       accepts: ['resources.lookup', 'resources.search'],
     }
 
-    let organization
-    let appDefinition
-    let appUpload
-    let appBundle
-    let appInstallation
-    let resourceProvider
-    let resourceType
-    let env
+    let organization: Organization
+    let appDefinition: AppDefinition
+    let appUpload: AppUpload
+    let appBundle: AppBundle
+    let appInstallation: AppInstallation
+    let resourceProvider: ResourceProvider
+    let resourceType: ResourceType
+    let env: Environment
 
-    before(async () => {
+    beforeAll(async () => {
       organization = await getTestOrganization()
       appDefinition = await organization.createAppDefinition({
         name: 'Test',
@@ -110,8 +120,8 @@ describe('Environment Api', function () {
         },
       })
 
-      const space = await getDefaultSpace()
-      env = await space.getEnvironment('master')
+      const defaultSpace = await getDefaultSpace()
+      env = await defaultSpace.getEnvironment('master')
       appInstallation = await env.createAppInstallation(
         appDefinition.sys.id,
         {
@@ -123,7 +133,7 @@ describe('Environment Api', function () {
       )
     })
 
-    after(async () => {
+    afterAll(async () => {
       if (appInstallation) {
         await appInstallation.delete()
       }
@@ -146,9 +156,9 @@ describe('Environment Api', function () {
     test('gets all resource types for that environment', async () => {
       const resourceTypes = await env.getResourceTypes()
 
-      expect(resourceTypes.items.length).equal(2)
-      expect(resourceTypes.items[0].sys.id).equal('Contentful:Entry')
-      expect(resourceTypes.items[1].sys.id).equal('TMDB:Movie')
+      expect(resourceTypes.items.length).toBe(2)
+      expect(resourceTypes.items[0].sys.id).toBe('Contentful:Entry')
+      expect(resourceTypes.items[1].sys.id).toBe('TMDB:Movie')
     })
   })
 })
