@@ -1,6 +1,5 @@
-import { test } from 'mocha'
+import { describe, it, beforeEach, afterEach, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { expect } from 'chai'
 import { getTestOrganization, initPlainClient } from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
@@ -23,7 +22,7 @@ describe('ResourceProvider API', () => {
   let appBundle: AppBundle
 
   beforeEach(async () => {
-    organization = (await getTestOrganization()) as Organization
+    organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
       name: 'Test',
       src: 'http://localhost:2222',
@@ -55,19 +54,19 @@ describe('ResourceProvider API', () => {
     }
   })
 
-  test('create ResourceProvider', async () => {
+  it('create ResourceProvider', async () => {
     const resourceProvider = await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
       function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
     })
 
-    expect(resourceProvider.sys.id).to.equal('test')
-    expect(resourceProvider.type).to.equal('function')
-    expect(resourceProvider.function.sys.id).to.equal(functionManifest.id)
+    expect(resourceProvider.sys.id).toBe('test')
+    expect(resourceProvider.type).toBe('function')
+    expect(resourceProvider.function.sys.id).toBe(functionManifest.id)
   })
 
-  test('update ResourceProvider', async () => {
+  it('update ResourceProvider', async () => {
     const resourceProvider = await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
@@ -89,12 +88,12 @@ describe('ResourceProvider API', () => {
     resourceProvider.function.sys.id = updateFunctionManifest.id
     const updatedResourceProvider = await resourceProvider.upsert()
 
-    expect(updatedResourceProvider.sys.id).to.equal('test')
-    expect(updatedResourceProvider.type).to.equal('function')
-    expect(updatedResourceProvider.function.sys.id).to.equal(updateFunctionManifest.id)
+    expect(updatedResourceProvider.sys.id).toBe('test')
+    expect(updatedResourceProvider.type).toBe('function')
+    expect(updatedResourceProvider.function.sys.id).toBe(updateFunctionManifest.id)
   })
 
-  test('get ResourceProvider', async () => {
+  it('get ResourceProvider', async () => {
     await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
@@ -103,12 +102,12 @@ describe('ResourceProvider API', () => {
 
     const resourceProvider = await appDefinition.getResourceProvider()
 
-    expect(resourceProvider.sys.id).to.equal('test')
-    expect(resourceProvider.type).to.equal('function')
-    expect(resourceProvider.function.sys.id).to.equal(functionManifest.id)
+    expect(resourceProvider.sys.id).toBe('test')
+    expect(resourceProvider.type).toBe('function')
+    expect(resourceProvider.function.sys.id).toBe(functionManifest.id)
   })
 
-  test('delete ResourceProvider', async () => {
+  it('delete ResourceProvider', async () => {
     const resourceProvider = await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
@@ -117,12 +116,12 @@ describe('ResourceProvider API', () => {
 
     await resourceProvider.delete()
 
-    await expect(appDefinition.getResourceProvider()).to.be.rejectedWith(
+    await expect(appDefinition.getResourceProvider()).rejects.toThrow(
       'The resource could not be found'
     )
   })
 
-  test('upsertResourceType', async () => {
+  it('upsertResourceType', async () => {
     const resourceProvider = await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
@@ -136,10 +135,10 @@ describe('ResourceProvider API', () => {
       },
     })
 
-    expect(resourceType.sys.id).to.equal('test:resourceTypeId')
+    expect(resourceType.sys.id).toBe('test:resourceTypeId')
   })
 
-  test('getResourceType', async () => {
+  it('getResourceType', async () => {
     const resourceProvider = await appDefinition.upsertResourceProvider({
       sys: { id: 'test' },
       type: 'function',
@@ -155,12 +154,13 @@ describe('ResourceProvider API', () => {
 
     const resourceType = await resourceProvider.getResourceType('test:resourceTypeId')
 
-    expect(resourceType.name).to.equal('resourceType')
+    expect(resourceType.name).toBe('resourceType')
   })
 
-  describe('PlainClient', async () => {
+  describe('PlainClient', () => {
     const plainClient = initPlainClient()
-    test('create ResourceProvider', async () => {
+
+    it('create ResourceProvider', async () => {
       const resourceProvider = await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
         {
@@ -170,12 +170,12 @@ describe('ResourceProvider API', () => {
         }
       )
 
-      expect(resourceProvider.sys.id).to.equal('test')
-      expect(resourceProvider.type).to.equal('function')
-      expect(resourceProvider.function.sys.id).to.equal(functionManifest.id)
+      expect(resourceProvider.sys.id).toBe('test')
+      expect(resourceProvider.type).toBe('function')
+      expect(resourceProvider.function.sys.id).toBe(functionManifest.id)
     })
 
-    test('update ResourceProvider', async () => {
+    it('update ResourceProvider', async () => {
       await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
         {
@@ -214,12 +214,12 @@ describe('ResourceProvider API', () => {
         }
       )
 
-      expect(updatedResourceProvider.sys.id).to.equal('test')
-      expect(updatedResourceProvider.type).to.equal('function')
-      expect(updatedResourceProvider.function.sys.id).to.equal(updateFunctionManifest.id)
+      expect(updatedResourceProvider.sys.id).toBe('test')
+      expect(updatedResourceProvider.type).toBe('function')
+      expect(updatedResourceProvider.function.sys.id).toBe(updateFunctionManifest.id)
     })
 
-    test('get ResourceProvider', async () => {
+    it('get ResourceProvider', async () => {
       await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
         {
@@ -234,12 +234,12 @@ describe('ResourceProvider API', () => {
         appDefinitionId: appDefinition.sys.id,
       })
 
-      expect(resourceProvider.sys.id).to.equal('test')
-      expect(resourceProvider.type).to.equal('function')
-      expect(resourceProvider.function.sys.id).to.equal(functionManifest.id)
+      expect(resourceProvider.sys.id).toBe('test')
+      expect(resourceProvider.type).toBe('function')
+      expect(resourceProvider.function.sys.id).toBe(functionManifest.id)
     })
 
-    test('delete ResourceProvider', async () => {
+    it('delete ResourceProvider', async () => {
       await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
         {
@@ -259,7 +259,7 @@ describe('ResourceProvider API', () => {
           organizationId: organization.sys.id,
           appDefinitionId: appDefinition.sys.id,
         })
-      ).to.be.rejectedWith('The resource could not be found')
+      ).rejects.toThrow('The resource could not be found')
     })
   })
 })

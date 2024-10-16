@@ -1,6 +1,5 @@
-import { test } from 'mocha'
+import { describe, it, beforeAll, beforeEach, afterAll, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { expect } from 'chai'
 import { getTestOrganization, initPlainClient, getDefaultSpace } from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
@@ -34,8 +33,8 @@ describe('Resource API', () => {
   let resourceType: ResourceType
   let env: Environment
 
-  before(async () => {
-    organization = (await getTestOrganization()) as Organization
+  beforeAll(async () => {
+    organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
       name: 'Test',
       src: 'http://localhost:2222',
@@ -90,11 +89,12 @@ describe('Resource API', () => {
       { acceptAllTerms: true }
     )
   })
+
   beforeEach(async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000))
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (appInstallation) {
       await appInstallation.delete()
     }
@@ -104,37 +104,35 @@ describe('Resource API', () => {
     if (resourceProvider) {
       await resourceProvider.delete()
     }
-
     if (appUpload) {
       await appUpload.delete()
     }
-
     if (appDefinition) {
       await appDefinition.delete()
     }
   })
 
-  test('get Resources with search params', async () => {
+  it('get Resources with search params', async () => {
     const resources = await env.getResourcesForResourceType(resourceTypeId, {
       query: '',
       limit: 1,
     })
 
-    expect(resources.items.length).to.equal(10)
+    expect(resources.items.length).toBe(10)
   })
 
-  test('get Resources with lookup params', async () => {
+  it('get Resources with lookup params', async () => {
     const resources = await env.getResourcesForResourceType(resourceTypeId, {
       'sys.urn[in]': '1022789,945961',
     })
 
-    expect(resources.items.length).to.equal(2)
+    expect(resources.items.length).toBe(2)
   })
 
-  describe('PlainClient', async () => {
+  describe('PlainClient', () => {
     const plainClient = initPlainClient()
 
-    test('get Resources with search params', async () => {
+    it('get Resources with search params', async () => {
       const resources = await plainClient.resource.getMany({
         spaceId: TestDefaults.spaceId,
         environmentId: 'master',
@@ -145,10 +143,10 @@ describe('Resource API', () => {
         },
       })
 
-      expect(resources.items.length).to.equal(1)
+      expect(resources.items.length).toBe(1)
     })
 
-    test('get Resources with lookup params', async () => {
+    it('get Resources with lookup params', async () => {
       const resources = await plainClient.resource.getMany({
         spaceId: TestDefaults.spaceId,
         environmentId: 'master',
@@ -158,7 +156,7 @@ describe('Resource API', () => {
         },
       })
 
-      expect(resources.items.length).to.equal(2)
+      expect(resources.items.length).toBe(2)
     })
   })
 })

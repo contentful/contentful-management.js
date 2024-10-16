@@ -1,6 +1,5 @@
-import { test } from 'mocha'
+import { describe, it, beforeAll, beforeEach, afterEach, afterAll, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { expect } from 'chai'
 import { getTestOrganization, initPlainClient } from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
@@ -34,8 +33,8 @@ describe('ResourceType API', () => {
   let resourceTypePlain: ResourceTypeProps | null
   let appInstallationPlain: AppInstallationProps | null
 
-  before(async () => {
-    organization = (await getTestOrganization()) as Organization
+  beforeAll(async () => {
+    organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
       name: 'Test',
       src: 'http://localhost:2222',
@@ -83,17 +82,17 @@ describe('ResourceType API', () => {
       })
     }
     if (resourceType) {
-      resourceType.delete()
+      await resourceType.delete()
     }
 
     if (resourceTypePlain) {
-      ;(await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
+      await (await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (resourceProvider) {
       await resourceProvider.delete()
     }
@@ -111,7 +110,7 @@ describe('ResourceType API', () => {
     }
   })
 
-  test('create ResourceType', async () => {
+  it('create ResourceType', async () => {
     resourceType = await resourceProvider.upsertResourceType('resourceProvider:resourceTypeId', {
       name: 'resourceType',
       defaultFieldMapping: {
@@ -119,11 +118,11 @@ describe('ResourceType API', () => {
       },
     })
 
-    expect(resourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
-    expect(resourceType.name).to.equal('resourceType')
+    expect(resourceType.sys.id).toBe('resourceProvider:resourceTypeId')
+    expect(resourceType.name).toBe('resourceType')
   })
 
-  test('update ResourceType', async () => {
+  it('update ResourceType', async () => {
     resourceType = await resourceProvider.upsertResourceType('resourceProvider:resourceTypeId', {
       name: 'resourceType',
       defaultFieldMapping: {
@@ -135,11 +134,11 @@ describe('ResourceType API', () => {
 
     const updatedResourceType = await resourceType.upsert()
 
-    expect(updatedResourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
-    expect(updatedResourceType.name).to.equal('updatedResourceType')
+    expect(updatedResourceType.sys.id).toBe('resourceProvider:resourceTypeId')
+    expect(updatedResourceType.name).toBe('updatedResourceType')
   })
 
-  test('get ResourceType', async () => {
+  it('get ResourceType', async () => {
     await resourceProvider.upsertResourceType('resourceProvider:resourceTypeId', {
       name: 'resourceType',
       defaultFieldMapping: {
@@ -149,11 +148,11 @@ describe('ResourceType API', () => {
 
     resourceType = await resourceProvider.getResourceType('resourceProvider:resourceTypeId')
 
-    expect(resourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
-    expect(resourceType.name).to.equal('resourceType')
+    expect(resourceType.sys.id).toBe('resourceProvider:resourceTypeId')
+    expect(resourceType.name).toBe('resourceType')
   })
 
-  test('get ResourceTypes', async () => {
+  it('get ResourceTypes', async () => {
     await resourceProvider.upsertResourceType('resourceProvider:resourceTypeId', {
       name: 'resourceType',
       defaultFieldMapping: {
@@ -164,11 +163,11 @@ describe('ResourceType API', () => {
     const response = await resourceProvider.getResourceTypes()
     resourceType = response.items[0]
 
-    expect(resourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
-    expect(resourceType.name).to.equal('resourceType')
+    expect(resourceType.sys.id).toBe('resourceProvider:resourceTypeId')
+    expect(resourceType.name).toBe('resourceType')
   })
 
-  test('delete ResourceType', async () => {
+  it('delete ResourceType', async () => {
     const resourceType = await resourceProvider.upsertResourceType(
       'resourceProvider:resourceTypeId',
       {
@@ -183,12 +182,13 @@ describe('ResourceType API', () => {
 
     await expect(
       resourceProvider.getResourceType('resourceProvider:resourceTypeId')
-    ).to.be.rejectedWith('The resource could not be found')
+    ).rejects.toThrow('The resource could not be found')
   })
 
-  describe('PlainClient', async () => {
+  describe('PlainClient', () => {
     const plainClient = initPlainClient()
-    test('create ResourceType', async () => {
+
+    it('create ResourceType', async () => {
       resourceTypePlain = await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -203,11 +203,11 @@ describe('ResourceType API', () => {
         }
       )
 
-      expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
-      expect(resourceTypePlain.name).to.equal('resourceType')
+      expect(resourceTypePlain?.sys.id).toBe('resourceProvider:resourceTypeId')
+      expect(resourceTypePlain?.name).toBe('resourceType')
     })
 
-    test('creating ResourceType without Provider fails', async () => {
+    it('creating ResourceType without Provider fails', async () => {
       await expect(
         plainClient.resourceType.upsert(
           {
@@ -222,10 +222,10 @@ describe('ResourceType API', () => {
             },
           }
         )
-      ).to.be.rejectedWith('The resource could not be found')
+      ).rejects.toThrow('The resource could not be found')
     })
 
-    test('update ResourceType', async () => {
+    it('update ResourceType', async () => {
       resourceTypePlain = await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -254,11 +254,11 @@ describe('ResourceType API', () => {
         }
       )
 
-      expect(updatedResourceType.sys.id).to.equal('resourceProvider:resourceTypeId')
-      expect(updatedResourceType.name).to.equal('updatedResourceType')
+      expect(updatedResourceType.sys.id).toBe('resourceProvider:resourceTypeId')
+      expect(updatedResourceType.name).toBe('updatedResourceType')
     })
 
-    test('get ResourceType', async () => {
+    it('get ResourceType', async () => {
       await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -279,11 +279,11 @@ describe('ResourceType API', () => {
         resourceTypeId: 'resourceProvider:resourceTypeId',
       })
 
-      expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
-      expect(resourceTypePlain.name).to.equal('resourceType')
+      expect(resourceTypePlain?.sys.id).toBe('resourceProvider:resourceTypeId')
+      expect(resourceTypePlain?.name).toBe('resourceType')
     })
 
-    test('get many ResourceTypes', async () => {
+    it('get many ResourceTypes', async () => {
       await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -305,11 +305,11 @@ describe('ResourceType API', () => {
 
       resourceTypePlain = response.items[0]
 
-      expect(resourceTypePlain.sys.id).to.equal('resourceProvider:resourceTypeId')
-      expect(resourceTypePlain.name).to.equal('resourceType')
+      expect(resourceTypePlain?.sys.id).toBe('resourceProvider:resourceTypeId')
+      expect(resourceTypePlain?.name).toBe('resourceType')
     })
 
-    test('getForEnvironment ResourceType', async () => {
+    it('getForEnvironment ResourceType', async () => {
       resourceTypePlain = await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -323,6 +323,7 @@ describe('ResourceType API', () => {
           },
         }
       )
+
       const { spaceId, environmentId } = TestDefaults
       appInstallationPlain = await plainClient.appInstallation.upsert(
         { spaceId, environmentId, appDefinitionId: appDefinition.sys.id },
@@ -335,21 +336,22 @@ describe('ResourceType API', () => {
         environmentId,
       })
 
-      expect(resourceTypesPlain.items.length).to.equal(2)
-      expect(resourceTypesPlain.items[0].sys.id).to.equal('Contentful:Entry')
-      expect(resourceTypesPlain.items[1].sys.id).to.equal('resourceProvider:resourceTypeId')
+      expect(resourceTypesPlain.items.length).toBe(2)
+      expect(resourceTypesPlain.items[0].sys.id).toBe('Contentful:Entry')
+      expect(resourceTypesPlain.items[1].sys.id).toBe('resourceProvider:resourceTypeId')
     })
 
-    test('getMany returns empty array if no Resource Types are present', async () => {
+    it('getMany returns empty array if no Resource Types are present', async () => {
       const response = await plainClient.resourceType.getMany({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
       })
 
-      expect(response.items).to.be.an('array').that.is.empty
+      expect(response.items).toBeInstanceOf(Array)
+      expect(response.items).toHaveLength(0)
     })
 
-    test('delete ResourceType', async () => {
+    it('delete ResourceType', async () => {
       await plainClient.resourceType.upsert(
         {
           organizationId: organization.sys.id,
@@ -376,7 +378,7 @@ describe('ResourceType API', () => {
           appDefinitionId: appDefinition.sys.id,
           resourceTypeId: 'resourceProvider:resourceTypeId',
         })
-      ).to.be.rejectedWith('The resource could not be found')
+      ).rejects.toThrow('The resource could not be found')
     })
   })
 })
