@@ -59,7 +59,10 @@ describe('ContentType Api', () => {
       'Create, update, publish, getEditorInterface, unpublish and delete content type',
       { timeout: 10000 },
       async () => {
-        const contentType = await writeEnvironment.createContentType({ name: 'testentity' })
+        const contentType = await writeEnvironment.createContentType({
+          name: 'testentity',
+          fields: [],
+        })
 
         expect(contentType.isDraft()).toBeTruthy()
         expect(contentType.sys.type).toBe('ContentType')
@@ -73,16 +76,22 @@ describe('ContentType Api', () => {
             id: 'field',
             name: 'field',
             type: 'Text',
+            required: false,
+            localized: false,
           },
           {
             id: 'field2delete',
             name: 'field2delete',
             type: 'Text',
+            required: false,
+            localized: false,
           },
           {
             id: 'multiRefXSpace',
             name: 'multiRefXSpace',
             type: 'Array',
+            required: false,
+            localized: false,
             items: {
               type: 'ResourceLink',
               validations: [],
@@ -132,6 +141,7 @@ describe('ContentType Api', () => {
       const id = generateRandomId('testCT')
       const contentType = await writeEnvironment.createContentTypeWithId(id, {
         name: 'testentitywithid',
+        fields: [],
       })
 
       expect(contentType.sys.id).toBe(id)
