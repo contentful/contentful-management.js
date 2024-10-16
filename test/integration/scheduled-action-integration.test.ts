@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expect } from 'chai'
-import { before, after, describe, test, beforeEach, afterEach } from 'mocha'
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
+import { expect } from 'vitest'
 import type { Asset } from '../../lib/entities/asset'
 import type { Entry } from '../../lib/entities/entry'
 import type { Environment } from '../../lib/entities/environment'
@@ -22,7 +22,7 @@ const cleanup = async (testSpace: Space, environmentId: string) => {
   await Promise.all(scheduledActions.items.map((action) => action.delete()))
 }
 
-describe('Scheduled Actions API', async function () {
+describe('Scheduled Actions API', () => {
   let testSpace: Space
   let asset: Asset
   let environment: Environment
@@ -36,8 +36,8 @@ describe('Scheduled Actions API', async function () {
     },
   }
 
-  before(async () => {
-    testSpace = (await getDefaultSpace()) as unknown as Space
+  beforeAll(async () => {
+    testSpace = (await getDefaultSpace()) as Space
     environment = await testSpace.getEnvironment('master')
     asset = await environment.createAsset({
       fields: {
@@ -50,12 +50,12 @@ describe('Scheduled Actions API', async function () {
     await cleanup(testSpace, environment.sys.id)
   })
 
-  after(async () => {
+  afterAll(async () => {
     await cleanup(testSpace, environment.sys.id)
   })
 
   describe('Read', () => {
-    test('Get Scheduled action', async () => {
+    it('Get Scheduled action', async () => {
       const createdAction = await testSpace.createScheduledAction({
         entity: makeLink('Entry', TestDefaults.entry.testEntryId),
         environment: makeLink('Environment', environment.sys.id),
@@ -70,14 +70,12 @@ describe('Scheduled Actions API', async function () {
         scheduledActionId: createdAction.sys.id,
       })
 
-      expect(fetchedAction.sys.id).to.eql(createdAction.sys.id)
-      expect(fetchedAction.action).to.eql(createdAction.action)
-      expect(fetchedAction.entity).to.eql(createdAction.entity)
+      expect(fetchedAction.sys.id).toBe(createdAction.sys.id)
+      expect(fetchedAction.action).toBe(createdAction.action)
+      expect(fetchedAction.entity).toEqual(createdAction.entity)
     })
 
-    test.skip('Query Scheduled Actions', async function () {
-      this.timeout(180000)
-      // Creates 2 scheduled actions
+    it.skip('Query Scheduled Actions', async () => {
       const [action1, action2] = await Promise.all([
         testSpace.createScheduledAction({
           entity: makeLink('Entry', TestDefaults.entry.testEntryId),
@@ -110,16 +108,12 @@ describe('Scheduled Actions API', async function () {
           'sys.status': 'scheduled',
           'sys.id[in]': `${action1.sys.id}, ${action2.sys.id}`,
           limit: queryLimit,
-          timeout: 180000,
         })
-        // Returns the filtered results based on the limit
-        expect(queryResult.items.length).to.eql(queryLimit)
-        expect(queryResult).to.have.property('pages')
+
+        expect(queryResult.items.length).toBe(queryLimit)
+        expect(queryResult).toHaveProperty('pages')
       } catch (error) {
-        // FIXME: We see a lot of 503 server errors in Splunk for this request
-        console.error(
-          `Querying scheduled actions at '${error?.config?.url}' failed '${error?.attempts}' times before giving up.`
-        )
+        console.error(`Querying scheduled actions failed after multiple attempts.`)
         console.error(error.message)
         throw error
       }
@@ -127,7 +121,7 @@ describe('Scheduled Actions API', async function () {
   })
 
   describe('Write', () => {
-    test('create Scheduled Action', async () => {
+    it('create Scheduled Action', async () => {
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Entry', TestDefaults.entry.testEntryId),
         environment: makeLink('Environment', environment.sys.id),
@@ -137,16 +131,14 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
-      expect(scheduledAction.entity).to.deep.equal(
-        makeLink('Entry', TestDefaults.entry.testEntryId)
-      )
-      expect(scheduledAction.action).to.eql('publish')
-      expect(scheduledAction.scheduledFor).to.deep.equal({
+      expect(scheduledAction.entity).toEqual(makeLink('Entry', TestDefaults.entry.testEntryId))
+      expect(scheduledAction.action).toBe('publish')
+      expect(scheduledAction.scheduledFor).toEqual({
         datetime,
       })
     })
 
-    test('create scheduled action for an asset', async () => {
+    it('create scheduled action for an asset', async () => {
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', asset.sys.id),
         environment: makeLink('Environment', environment.sys.id),
@@ -156,9 +148,9 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
-      expect(scheduledAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
-      expect(scheduledAction.action).to.eql('unpublish')
-      expect(scheduledAction.scheduledFor).to.deep.equal({
+      expect(scheduledAction.entity).toEqual(makeLink('Asset', asset.sys.id))
+      expect(scheduledAction.action).toBe('unpublish')
+      expect(scheduledAction.scheduledFor).toEqual({
         datetime,
       })
     })
@@ -170,7 +162,6 @@ describe('Scheduled Actions API', async function () {
             ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
           },
         }
-        const environment = await testSpace.getEnvironment('master')
         contentType = await environment.createContentType({
           name: 'Page',
           fields: [
@@ -193,7 +184,7 @@ describe('Scheduled Actions API', async function () {
         await contentType.delete()
       })
 
-      test('create scheduled action for an aggregate root entry', async () => {
+      it('create scheduled action for an aggregate root entry', async () => {
         entry = await environment.createEntry(contentType.sys.id, {
           fields: { title: { 'en-US': 'this is the title' } },
         })
@@ -208,16 +199,16 @@ describe('Scheduled Actions API', async function () {
           payload: aggregateRootPayload,
         })
 
-        expect(scheduledAction.entity).to.deep.equal(makeLink('Entry', entry.sys.id))
-        expect(scheduledAction.action).to.eql('publish')
-        expect(scheduledAction.scheduledFor).to.deep.equal({
+        expect(scheduledAction.entity).toEqual(makeLink('Entry', entry.sys.id))
+        expect(scheduledAction.action).toBe('publish')
+        expect(scheduledAction.scheduledFor).toEqual({
           datetime,
         })
-        expect(scheduledAction.payload).to.deep.equal(aggregateRootPayload)
+        expect(scheduledAction.payload).toEqual(aggregateRootPayload)
       })
     })
 
-    test('create invalid scheduled action', async () => {
+    it('create invalid scheduled action', async () => {
       try {
         await testSpace.createScheduledAction({
           entity: makeLink('Asset', 'invalid-id'),
@@ -227,17 +218,17 @@ describe('Scheduled Actions API', async function () {
             datetime,
           },
         })
-      } catch (error) {
+      } catch (error: any) {
         const parsed = JSON.parse(error.message)
-        expect(parsed.status).to.eql(400)
-        expect(parsed.statusText).to.eql('Bad Request')
-        expect(parsed.message).to.eql('The resource could not be found.')
+        expect(parsed.status).toBe(400)
+        expect(parsed.statusText).toBe('Bad Request')
+        expect(parsed.message).toBe('The resource could not be found.')
       }
     })
   })
 
   describe('Update', () => {
-    test('update scheduled actions', async () => {
+    it('update scheduled actions', async () => {
       const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
 
       const scheduledAction = await testSpace.createScheduledAction({
@@ -249,8 +240,8 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
-      expect(scheduledAction.entity).to.eql(makeLink('Asset', asset.sys.id))
-      expect(scheduledAction.scheduledFor).to.deep.equal({
+      expect(scheduledAction.entity).toEqual(makeLink('Asset', asset.sys.id))
+      expect(scheduledAction.scheduledFor).toEqual({
         datetime,
       })
 
@@ -268,14 +259,17 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
+      if (!payload.environment) {
+        throw new Error('payload.environment can not be undefined')
+      }
       const updatedAction = await testSpace.getScheduledAction({
         environmentId: payload.environment.sys.id,
         scheduledActionId: scheduledAction.sys.id,
       })
 
-      expect(updatedAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
-      expect(updatedAction.action).to.eql('unpublish')
-      expect(updatedAction.scheduledFor).to.deep.equal({
+      expect(updatedAction.entity).toEqual(makeLink('Asset', asset.sys.id))
+      expect(updatedAction.action).toBe('unpublish')
+      expect(updatedAction.scheduledFor).toEqual({
         datetime: updatedSchedule,
         timezone: 'Europe/Kiev',
       })
@@ -284,7 +278,7 @@ describe('Scheduled Actions API', async function () {
       await updatedAction.delete()
     })
 
-    test('update scheduled actions with instance method', async () => {
+    it('update scheduled actions with instance method', async () => {
       const updatedSchedule = new Date(new Date(datetime).getTime() + ONE_DAY_MS).toISOString()
 
       const scheduledAction = await testSpace.createScheduledAction({
@@ -296,31 +290,34 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
-      expect(scheduledAction.entity).to.eql(makeLink('Asset', asset.sys.id))
-      expect(scheduledAction.scheduledFor).to.deep.equal({
+      expect(scheduledAction.entity).toEqual(makeLink('Asset', asset.sys.id))
+      expect(scheduledAction.scheduledFor).toEqual({
         datetime,
       })
 
       scheduledAction.scheduledFor.timezone = 'Europe/Kiev'
       scheduledAction.scheduledFor.datetime = updatedSchedule
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { sys, ...payload } = await scheduledAction.update()
+      const payload = await scheduledAction.update()
+
+      if (!payload.environment) {
+        throw new Error('payload.environment can not be undefined')
+      }
 
       const updatedAction = await testSpace.getScheduledAction({
         environmentId: payload.environment.sys.id,
         scheduledActionId: scheduledAction.sys.id,
       })
 
-      expect(updatedAction.entity).to.deep.equal(makeLink('Asset', asset.sys.id))
-      expect(updatedAction.action).to.eql('unpublish')
-      expect(updatedAction.scheduledFor).to.deep.equal({
+      expect(updatedAction.entity).toEqual(makeLink('Asset', asset.sys.id))
+      expect(updatedAction.action).toBe('unpublish')
+      expect(updatedAction.scheduledFor).toEqual({
         datetime: updatedSchedule,
         timezone: 'Europe/Kiev',
       })
     })
 
-    test('delete scheduled action', async () => {
+    it('delete scheduled action', async () => {
       const scheduledAction = await testSpace.createScheduledAction({
         entity: makeLink('Asset', asset.sys.id),
         environment: makeLink('Environment', environment.sys.id),
@@ -330,18 +327,21 @@ describe('Scheduled Actions API', async function () {
         },
       })
 
-      // Calling delete will cancel the scheduled action (not actually delete it)
       await testSpace.deleteScheduledAction({
         environmentId: environment.sys.id,
         scheduledActionId: scheduledAction.sys.id,
       })
+
+      if (!scheduledAction.environment) {
+        throw new Error('scheduledAction.environment can not be undefined')
+      }
 
       const deletedScheduledAction = await testSpace.getScheduledAction({
         environmentId: scheduledAction.environment.sys.id,
         scheduledActionId: scheduledAction.sys.id,
       })
 
-      expect(deletedScheduledAction.sys.status).to.eql('canceled')
+      expect(deletedScheduledAction.sys.status).toBe('canceled')
     })
   })
 
@@ -351,7 +351,7 @@ describe('Scheduled Actions API', async function () {
       spaceId: TestDefaults.spaceId,
     }
 
-    test('lifecycle of a scheduled action (create, read, update, delete)', async () => {
+    it('lifecycle of a scheduled action (create, read, update, delete)', async () => {
       const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
@@ -374,7 +374,7 @@ describe('Scheduled Actions API', async function () {
         scheduledActionId: action.sys.id,
       })
 
-      expect(scheduledAction.sys.id).to.equal(action.sys.id)
+      expect(scheduledAction.sys.id).toBe(action.sys.id)
 
       const { sys, ...payload } = action
       const updatedAction = await plainClient.scheduledActions.update(
@@ -383,12 +383,12 @@ describe('Scheduled Actions API', async function () {
           ...payload,
           scheduledFor: {
             ...payload.scheduledFor,
-            timezone: 'Europe/Berlin', // adds timezone
+            timezone: 'Europe/Berlin',
           },
         }
       )
 
-      expect(updatedAction.scheduledFor.timezone).to.equal('Europe/Berlin')
+      expect(updatedAction.scheduledFor.timezone).toBe('Europe/Berlin')
     })
 
     describe('for AggregateRoot annotated entry', () => {
@@ -398,7 +398,6 @@ describe('Scheduled Actions API', async function () {
             ContentType: [makeLink('Annotation', 'Contentful:AggregateRoot')],
           },
         }
-        const environment = await testSpace.getEnvironment('master')
         contentType = await environment.createContentType({
           name: 'Page',
           fields: [
@@ -421,7 +420,7 @@ describe('Scheduled Actions API', async function () {
         await contentType.delete()
       })
 
-      test('create and read with payload', async () => {
+      it('create and read with payload', async () => {
         const plainClient = initPlainClient(defaultParams)
 
         entry = await environment.createEntry(contentType.sys.id, {
@@ -446,8 +445,8 @@ describe('Scheduled Actions API', async function () {
           scheduledActionId: action.sys.id,
         })
 
-        expect(scheduledAction.sys.id).to.equal(action.sys.id)
-        expect(scheduledAction.payload).to.deep.equal(aggregateRootPayload)
+        expect(scheduledAction.sys.id).toBe(action.sys.id)
+        expect(scheduledAction.payload).toEqual(aggregateRootPayload)
       })
     })
   })
