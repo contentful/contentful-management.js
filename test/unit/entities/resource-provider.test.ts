@@ -7,8 +7,7 @@ import {
   entityWrappedTest,
   entityDeleteTest,
 } from '../test-creators/instance-entity-methods'
-import { describe, test } from 'mocha'
-import { expect } from 'chai'
+import { describe, it, expect } from 'vitest'
 import type { ResourceTypeProps } from '../../../lib/entities/resource-type'
 import type { CollectionProp } from '../../../lib/common-types'
 
@@ -29,54 +28,58 @@ function setupResourceType(
 }
 
 describe('Entity ResourceProvider', () => {
-  test('ResourceProvider is wrapped', async () => {
-    return entityWrappedTest(setup, { wrapperMethod: wrapResourceProvider })
+  it('ResourceProvider is wrapped', async () => {
+    await entityWrappedTest(setup, { wrapperMethod: wrapResourceProvider })
   })
 
-  test('ResourceProvider upsert', async () => {
-    return entityActionTest(setup, {
+  it('ResourceProvider upsert', async () => {
+    await entityActionTest(setup, {
       wrapperMethod: wrapResourceProvider,
       actionMethod: 'upsert',
     })
   })
 
-  test('ResourceProvider delete', async () => {
-    return entityDeleteTest(setup, {
+  it('ResourceProvider delete', async () => {
+    await entityDeleteTest(setup, {
       wrapperMethod: wrapResourceProvider,
     })
   })
 
-  test('API call upsertResourceType', async () => {
-    const { makeRequest, entityMock } = setupResourceType(new Promise((r) => r(resourceTypeMock)))
+  it('API call upsertResourceType', async () => {
+    const { makeRequest, entityMock } = setupResourceType(Promise.resolve(resourceTypeMock))
     const entity = wrapResourceProvider(makeRequest, entityMock)
 
     const response = await entity['upsertResourceType'](
       'resourceProvider:resourceTypeId',
       resourceTypeMock
     )
-    expect(response).to.deep.equal(resourceTypeMock)
-    expect(response.toPlainObject, 'response is wrapped').to.be.ok
+    expect(response).toEqual(resourceTypeMock)
+    expect(response.toPlainObject).toBeTruthy()
   })
 
-  test('API call getResourceType', async () => {
-    const { makeRequest, entityMock } = setupResourceType(new Promise((r) => r(resourceTypeMock)))
+  it('API call getResourceType', async () => {
+    const { makeRequest, entityMock } = setupResourceType(Promise.resolve(resourceTypeMock))
     const entity = wrapResourceProvider(makeRequest, entityMock)
 
     const response = await entity['getResourceType']('resourceTypeId')
-    expect(response).to.deep.equal(resourceTypeMock)
-    expect(response.toPlainObject, 'response is wrapped').to.be.ok
+    expect(response).toEqual(resourceTypeMock)
+    expect(response.toPlainObject).toBeTruthy()
   })
 
-  test('API call getResourceTypes', async () => {
+  it('API call getResourceTypes', async () => {
     const { makeRequest, entityMock } = setupResourceType(
-      new Promise((r) =>
-        r({ items: [resourceTypeMock], total: 1, skip: 0, limit: 100, sys: { type: 'Array' } })
-      )
+      Promise.resolve({
+        items: [resourceTypeMock],
+        total: 1,
+        skip: 0,
+        limit: 100,
+        sys: { type: 'Array' },
+      })
     )
     const entity = wrapResourceProvider(makeRequest, entityMock)
     const response = await entity['getResourceTypes']()
 
-    expect(response.items[0]).to.deep.equal(resourceTypeMock)
-    expect(response.items[0].toPlainObject, 'response is wrapped').to.be.ok
+    expect(response.items[0]).toEqual(resourceTypeMock)
+    expect(response.items[0].toPlainObject).toBeTruthy()
   })
 })

@@ -5,7 +5,7 @@ import {
   entityWrappedTest,
   entityDeleteTest,
 } from '../test-creators/instance-entity-methods'
-import { describe, test } from 'mocha'
+import { describe, it } from 'vitest'
 import { wrapResourceType, type ResourceTypeProps } from '../../../lib/entities/resource-type'
 
 function setup(promise: Promise<ResourceTypeProps>) {
@@ -16,19 +16,19 @@ function setup(promise: Promise<ResourceTypeProps>) {
 }
 
 describe('Entity ResourceType', () => {
-  test('ResourceType is wrapped', async () => {
-    return entityWrappedTest(setup, { wrapperMethod: wrapResourceType })
+  it('ResourceType is wrapped', async () => {
+    await entityWrappedTest(setup, { wrapperMethod: wrapResourceType })
   })
 
-  test('ResourceType upsert', async () => {
-    return entityActionTest(setup, {
+  it('ResourceType upsert', async () => {
+    await entityActionTest(setup, {
       wrapperMethod: wrapResourceType,
       actionMethod: 'upsert',
     })
   })
 
-  test('ResourceType delete', async () => {
-    return entityDeleteTest(setup, {
+  it('ResourceType delete', async () => {
+    await entityDeleteTest(setup, {
       wrapperMethod: wrapResourceType,
     })
   })
