@@ -19,7 +19,7 @@ vi.mock('contentful-sdk-core', async (importOriginal) => {
   }
 })
 
-describe('Rest Asset', async () => {
+describe('Rest Asset', { concurrent: true }, async () => {
   test('Asset processing for multiple locales succeeds', async () => {
     const responseMock = cloneMock('asset')
     responseMock.fields = {
