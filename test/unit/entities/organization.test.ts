@@ -1,5 +1,4 @@
-import { describe, test } from 'vitest'
-import { expect } from 'chai'
+import { describe, test, expect } from 'vitest'
 import { cloneMock, mockCollection, organizationMock } from '../mocks/entities'
 import type { Organization } from '../../../lib/entities/organization'
 import { wrapOrganization, wrapOrganizationCollection } from '../../../lib/entities/organization'

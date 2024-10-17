@@ -1,8 +1,7 @@
-import { describe, test } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import { cloneMock, mockCollection, spaceMock } from '../mocks/entities'
 import type { Space } from '../../../lib/entities/space'
 import { wrapSpace, wrapSpaceCollection } from '../../../lib/entities/space'
-import { expect } from 'chai'
 import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {

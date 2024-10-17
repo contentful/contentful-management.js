@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expect, describe, it, beforeAll } from 'vitest'
+import { expect, describe, it, beforeAll, vi } from 'vitest'
 import { cloneDeep } from 'lodash'
-import sinon from 'sinon'
 import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
@@ -213,7 +212,7 @@ describe('BulkActions Api', () => {
       })
 
       // returns the same bulkAction with status = created
-      sinon.stub(createdBulkAction, 'get').returns(createdBulkAction)
+      vi.spyOn(createdBulkAction, 'get').mockResolvedValue(createdBulkAction)
 
       try {
         await createdBulkAction.waitProcessing({
@@ -242,7 +241,7 @@ describe('BulkActions Api', () => {
       // returns the same bulkAction with status = failed
       const failedAction = cloneDeep(createdBulkAction)
       failedAction.sys.status = 'failed'
-      sinon.stub(createdBulkAction, 'get').returns(failedAction)
+      vi.spyOn(createdBulkAction, 'get').mockResolvedValue(failedAction)
 
       try {
         await createdBulkAction.waitProcessing({
