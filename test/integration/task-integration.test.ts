@@ -1,35 +1,36 @@
-import { expect } from 'chai'
-import { before, describe, test, after } from 'mocha'
+import { describe, it, beforeAll, afterAll } from 'vitest'
+import { expect } from 'vitest'
 import { initClient, createTestSpace, getTestUser, waitForEnvironmentToBeReady } from '../helpers'
+import type { Space, Environment, Entry, Task, Link } from '../../lib/export-types'
 
-describe('Task Api', () => {
-  let space
-  let environment
-  let entry
-  let assignee
+describe('Task API', () => {
+  let space: Space
+  let environment: Environment
+  let entry: Entry
+  let assignee: Link<'User'>
   const taskBody = 'JS SDK Task Integration Test'
 
-  before('Load test organization and user', async () => {
+  beforeAll(async () => {
     const testUser = await getTestUser()
     assignee = { sys: { id: testUser.sys.id, linkType: 'User', type: 'Link' } }
   })
 
-  before(async () => {
+  beforeAll(async () => {
     space = await createTestSpace(initClient(), 'Task')
     environment = await space.createEnvironment({ name: 'Task Testing Environment' })
     await waitForEnvironmentToBeReady(space, environment)
-    const contentType = await environment.createContentType({ name: 'Content Type' })
+    const contentType = await environment.createContentType({ name: 'Content Type', fields: [] })
     await contentType.publish()
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
   })
 
-  after(async () => {
+  afterAll(async () => {
     if (space) {
-      return space.delete()
+      await space.delete()
     }
   })
 
-  test('Get tasks', async () => {
+  it('Gets tasks', async () => {
     const {
       sys: { id },
     } = await entry.createTask({
@@ -39,27 +40,27 @@ describe('Task Api', () => {
     })
 
     const response = await entry.getTasks()
-    expect(response.items).to.be.an('array')
-    expect(response.items.map((item) => item.sys.id)).to.include(id)
+    expect(response.items).toBeInstanceOf(Array)
+    expect(response.items.map((item: Task) => item.sys.id)).toContain(id)
 
     const task = await entry.getTask(id)
-    expect(task.body).to.eq(taskBody)
+    expect(task.body).toBe(taskBody)
     await task.delete()
   })
 
-  test('Create, update, delete task', async () => {
+  it('Creates, updates, deletes task', async () => {
     const task = await entry.createTask({
       body: taskBody,
       status: 'active',
       assignedTo: assignee,
     })
 
-    expect(task.body).to.eq(taskBody, 'body is set')
+    expect(task.body).toBe(taskBody)
     task.body = 'new body'
 
-    const updatedBody = await task.update()
-    expect(updatedBody.body).to.eq('new body')
+    const updatedTask = await task.update()
+    expect(updatedTask.body).toBe('new body')
 
-    await updatedBody.delete()
+    await updatedTask.delete()
   })
 })

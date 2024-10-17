@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { afterEach, beforeEach, describe, test } from 'mocha'
+import { describe, it, beforeEach, afterEach, expect } from 'vitest'
 import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
 import { getTestOrganizationId, initPlainClient } from '../helpers'
@@ -39,7 +38,7 @@ describe('Taxonomy Integration', () => {
     }
   })
 
-  test('delete a concept', async () => {
+  it('deletes a concept', async () => {
     const concept: CreateConceptProps = {
       prefLabel: {
         'en-US': 'Test Concept',
@@ -48,8 +47,8 @@ describe('Taxonomy Integration', () => {
     const result = await client.concept.create({}, concept)
 
     isConceptProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test Concept')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test Concept')
+    expect(result.uri).toBeNull()
 
     await client.concept.delete({
       conceptId: result.sys.id,
@@ -60,10 +59,10 @@ describe('Taxonomy Integration', () => {
       client.concept.get({
         conceptId: result.sys.id,
       })
-    ).to.be.rejectedWith('The resource could not be found')
+    ).rejects.toThrow('The resource could not be found')
   })
 
-  test('create a concept with minimum input', async () => {
+  it('creates a concept with minimum input', async () => {
     const concept: CreateConceptProps = {
       prefLabel: {
         'en-US': 'Test Concept',
@@ -74,11 +73,11 @@ describe('Taxonomy Integration', () => {
     conceptsToDelete.push(result)
 
     isConceptProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test Concept')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test Concept')
+    expect(result.uri).toBeNull()
   })
 
-  test('create a concept with all fields', async () => {
+  it('creates a concept with all fields', async () => {
     const concept: CreateConceptProps = {
       uri: 'https://example.com/concept',
       example: { 'en-US': 'Example' },
@@ -97,19 +96,19 @@ describe('Taxonomy Integration', () => {
     conceptsToDelete.push(result)
 
     isConceptProps(result)
-    expect(result.uri).to.equal('https://example.com/concept')
-    expect(result.prefLabel['en-US']).to.equal('Test Concept')
-    expect(result.example['en-US']).to.equal('Example')
-    expect(result.altLabels['en-US']).to.eql(['Hello', 'World'])
-    expect(result.definition['en-US']).to.equal('Definition')
-    expect(result.hiddenLabels['en-US']).to.eql(['Hidden Label'])
-    expect(result.note['en-US']).to.equal('Note')
-    expect(result.historyNote['en-US']).to.equal('History Note')
-    expect(result.notations).to.eql(['notation1', 'notation2'])
-    expect(result.scopeNote['en-US']).to.eql('Scope Note')
+    expect(result.uri).toBe('https://example.com/concept')
+    expect(result.prefLabel['en-US']).toBe('Test Concept')
+    expect(result.example['en-US']).toBe('Example')
+    expect(result.altLabels['en-US']).toEqual(['Hello', 'World'])
+    expect(result.definition['en-US']).toBe('Definition')
+    expect(result.hiddenLabels['en-US']).toEqual(['Hidden Label'])
+    expect(result.note['en-US']).toBe('Note')
+    expect(result.historyNote['en-US']).toBe('History Note')
+    expect(result.notations).toEqual(['notation1', 'notation2'])
+    expect(result.scopeNote['en-US']).toEqual('Scope Note')
   })
 
-  test('create and update a concept', async () => {
+  it('creates and updates a concept', async () => {
     const concept: CreateConceptProps = {
       prefLabel: {
         'en-US': 'Test Concept',
@@ -117,8 +116,8 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.concept.create({}, concept)
     isConceptProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test Concept')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test Concept')
+    expect(result.uri).toBeNull()
     conceptsToDelete.push(result)
 
     const updatedConcept = await client.concept.update(
@@ -136,10 +135,10 @@ describe('Taxonomy Integration', () => {
     )
 
     isConceptProps(updatedConcept)
-    expect(updatedConcept.uri).to.eql('https://example.com/concept')
+    expect(updatedConcept.uri).toBe('https://example.com/concept')
   })
 
-  test('concept getTotal', async () => {
+  it('gets the total number of concepts', async () => {
     await Promise.all(
       Array(3)
         .fill(null)
@@ -155,12 +154,12 @@ describe('Taxonomy Integration', () => {
         })
     )
 
-    const { total: total } = await client.concept.getTotal({})
+    const { total } = await client.concept.getTotal({})
 
-    expect(total).to.eq(3)
+    expect(total).toBe(3)
   })
 
-  test('get list of all concepts', async () => {
+  it('gets a list of all concepts', async () => {
     await Promise.all(
       Array(3)
         .fill(null)
@@ -177,10 +176,10 @@ describe('Taxonomy Integration', () => {
     )
 
     const { items } = await client.concept.getMany({})
-    expect(items.length).to.eq(3)
+    expect(items.length).toBe(3)
   })
 
-  test('create concept with broader concept', async () => {
+  it('creates a concept with a broader concept', async () => {
     const first = await client.concept.create(
       {},
       {
@@ -210,14 +209,14 @@ describe('Taxonomy Integration', () => {
 
     conceptsToDelete.push(second, first)
 
-    expect(second.broader[0].sys).to.eql({
+    expect(second.broader[0].sys).toEqual({
       id: first.sys.id,
       type: 'Link',
       linkType: 'TaxonomyConcept',
     })
   })
 
-  test('ancestors & Descendants', async () => {
+  it('gets ancestors and descendants of a concept', async () => {
     const first = await client.concept.create(
       {},
       {
@@ -247,28 +246,28 @@ describe('Taxonomy Integration', () => {
 
     conceptsToDelete.push(second, first)
     const { items: descendants } = await client.concept.getDescendants({ conceptId: first.sys.id })
-    expect(descendants.length).to.eq(1)
-    expect(descendants[0].sys.id).to.eq(second.sys.id)
-    expect(descendants[0].prefLabel['en-US']).to.equal('Test Concept 2')
+    expect(descendants.length).toBe(1)
+    expect(descendants[0].sys.id).toBe(second.sys.id)
+    expect(descendants[0].prefLabel['en-US']).toBe('Test Concept 2')
 
     const { items: ancestors } = await client.concept.getAncestors({ conceptId: second.sys.id })
-    expect(ancestors.length).to.eq(1)
-    expect(ancestors[0].sys.id).to.eq(first.sys.id)
-    expect(ancestors[0].prefLabel['en-US']).to.equal('Test Concept 1')
+    expect(ancestors.length).toBe(1)
+    expect(ancestors[0].sys.id).toBe(first.sys.id)
+    expect(ancestors[0].prefLabel['en-US']).toBe('Test Concept 1')
   })
 
-  test('delete a conceptScheme', async () => {
-    const ConceptScheme: CreateConceptSchemeProps = {
+  it('deletes a concept scheme', async () => {
+    const conceptScheme: CreateConceptSchemeProps = {
       prefLabel: {
         'en-US': 'Test ConceptScheme',
       },
     }
 
-    const result = await client.conceptScheme.create({}, ConceptScheme)
+    const result = await client.conceptScheme.create({}, conceptScheme)
 
     isConceptSchemeProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
+    expect(result.uri).toBeNull()
 
     await client.conceptScheme.delete({
       conceptSchemeId: result.sys.id,
@@ -279,10 +278,10 @@ describe('Taxonomy Integration', () => {
       client.conceptScheme.get({
         conceptSchemeId: result.sys.id,
       })
-    ).to.be.rejectedWith('The resource could not be found')
+    ).rejects.toThrow('The resource could not be found')
   })
 
-  test('create a conceptScheme with minimum input', async () => {
+  it('creates a concept scheme with minimum input', async () => {
     const conceptScheme: CreateConceptSchemeProps = {
       prefLabel: {
         'en-US': 'Test ConceptScheme',
@@ -293,11 +292,11 @@ describe('Taxonomy Integration', () => {
     conceptSchemesToDelete.push(result)
 
     isConceptSchemeProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
+    expect(result.uri).toBeNull()
   })
 
-  test('create a conceptScheme with all fields', async () => {
+  it('creates a concept scheme with all fields', async () => {
     const conceptScheme: CreateConceptSchemeProps = {
       uri: 'https://example.com/conceptScheme',
       prefLabel: { 'en-US': 'Test ConceptScheme' },
@@ -308,12 +307,12 @@ describe('Taxonomy Integration', () => {
     conceptSchemesToDelete.push(result)
 
     isConceptSchemeProps(result)
-    expect(result.uri).to.equal('https://example.com/conceptScheme')
-    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
-    expect(result.definition['en-US']).to.equal('Definition')
+    expect(result.uri).toBe('https://example.com/conceptScheme')
+    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
+    expect(result.definition['en-US']).toBe('Definition')
   })
 
-  test('create and update a conceptScheme', async () => {
+  it('creates and updates a concept scheme', async () => {
     const conceptScheme: CreateConceptSchemeProps = {
       prefLabel: {
         'en-US': 'Test ConceptScheme',
@@ -321,8 +320,8 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.conceptScheme.create({}, conceptScheme)
     isConceptSchemeProps(result)
-    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
-    expect(result.uri).to.null
+    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
+    expect(result.uri).toBeNull()
     conceptSchemesToDelete.push(result)
 
     const updatedConceptScheme = await client.conceptScheme.update(
@@ -340,10 +339,10 @@ describe('Taxonomy Integration', () => {
     )
 
     isConceptSchemeProps(updatedConceptScheme)
-    expect(updatedConceptScheme.uri).to.eql('https://example.com/updatedConceptScheme')
+    expect(updatedConceptScheme.uri).toBe('https://example.com/updatedConceptScheme')
   })
 
-  test('conceptScheme getTotal', async () => {
+  it('gets the total number of concept schemes', async () => {
     await Promise.all(
       Array(3)
         .fill(null)
@@ -359,19 +358,19 @@ describe('Taxonomy Integration', () => {
         })
     )
 
-    const { total: total } = await client.conceptScheme.getTotal({})
+    const { total } = await client.conceptScheme.getTotal({})
 
-    expect(total).to.eq(3)
+    expect(total).toBe(3)
   })
 
-  test('get list of all conceptsSchemes', async () => {
+  it('gets a list of all concept schemes', async () => {
     await Promise.all(
       Array(3)
         .fill(null)
         .map(async (i) => {
           const conceptScheme: CreateConceptSchemeProps = {
             prefLabel: {
-              'en-US': `Test Concept ${i}`,
+              'en-US': `Test ConceptScheme ${i}`,
             },
           }
 
@@ -381,13 +380,13 @@ describe('Taxonomy Integration', () => {
     )
 
     const { items } = await client.conceptScheme.getMany({})
-    expect(items.length).to.eq(3)
+    expect(items.length).toBe(3)
   })
 })
 
 function isConceptProps(concept: any) {
-  expect(concept.sys?.type).to.eql('TaxonomyConcept')
-  expect(Object.keys(concept).sort()).to.eql(
+  expect(concept.sys?.type).toBe('TaxonomyConcept')
+  expect(Object.keys(concept).sort()).toEqual(
     [
       'altLabels',
       'broader',
@@ -409,8 +408,8 @@ function isConceptProps(concept: any) {
 }
 
 function isConceptSchemeProps(conceptScheme: any) {
-  expect(conceptScheme.sys?.type).to.eql('TaxonomyConceptScheme')
-  expect(Object.keys(conceptScheme).sort()).to.eql(
+  expect(conceptScheme.sys?.type).toBe('TaxonomyConceptScheme')
+  expect(Object.keys(conceptScheme).sort()).toEqual(
     ['definition', 'prefLabel', 'topConcepts', 'concepts', 'totalConcepts', 'sys', 'uri'].sort()
   )
 }
