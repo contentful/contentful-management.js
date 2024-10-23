@@ -1,8 +1,10 @@
 import { defineWorkspace } from 'vitest/config'
+import vitestConfig from './vitest.config'
 
 export default defineWorkspace([
   {
     test: {
+      ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'unit',
       environment: 'node',
@@ -11,6 +13,7 @@ export default defineWorkspace([
   },
   {
     test: {
+      ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'integration',
       environment: 'node',
@@ -23,6 +26,7 @@ export default defineWorkspace([
   },
   {
     test: {
+      ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'browser-unit',
       maxConcurrency: 10,
@@ -35,6 +39,7 @@ export default defineWorkspace([
   },
   {
     test: {
+      ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'browser-integration',
       browser: {
@@ -45,6 +50,10 @@ export default defineWorkspace([
       maxConcurrency: 1,
       testTimeout: 15000,
       hookTimeout: 15000,
+      env: {
+        CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN,
+        CONTENTFUL_ORGANIZATION_ID: process.env.CONTENTFUL_ORGANIZATION_ID,
+      },
     },
     teardownTimeout: 30000,
     slowTestThreshold: 1000,
