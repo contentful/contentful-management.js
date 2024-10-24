@@ -51,38 +51,33 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     )
   })
 
-  it(
-    're-polls if getCallDetails throws',
-    {
-      timeout: 30_000,
-    },
-    async () => {
-      const responseMock = cloneMock('appActionCallResponse')
-      const { httpMock, adapterMock, entityMock } = setup(
-        Promise.resolve({ data: responseMock }),
-        'appActionCallResponse'
-      )
+  it('re-polls if getCallDetails throws', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
 
-      httpMock.get.mockRejectedValue(Error('getCallDetails error'))
+    httpMock.get.mockRejectedValue(Error('getCallDetails error'))
 
-      const entity = wrapAppActionCallResponse(
-        ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-        entityMock
-      )
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock,
+      { retryInterval: 100 }
+    )
 
-      await expect(entity.createWithResponse()).rejects.toThrow(
-        'The app action response is taking longer than expected to process.'
-      )
+    await expect(entity.createWithResponse()).rejects.toThrow(
+      'The app action response is taking longer than expected to process.'
+    )
 
-      expect(
-        httpMock.get.mock.calls.filter((call) =>
-          call.includes(
-            `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-          )
+    expect(
+      httpMock.get.mock.calls.filter((call) =>
+        call.includes(
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
         )
-      ).toHaveLength(15)
-    }
-  )
+      )
+    ).toHaveLength(15)
+  })
 
   it('should successfully retry and resolve after a non-successful status code', async () => {
     const responseMock = cloneMock('appActionCallResponse')
@@ -101,7 +96,8 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
+      { retryInterval: 100 }
     )
 
     const result = await entity.createWithResponse()
@@ -117,69 +113,61 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     ).toHaveLength(3)
   })
 
-  it(
-    're-polls if getCallDetails returns 400',
-    {
-      timeout: 30_000,
-    },
-    async () => {
-      const responseMock = cloneMock('appActionCallResponse')
-      responseMock.statusCode = 400
+  it('re-polls if getCallDetails returns 400', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 400
 
-      const { httpMock, adapterMock, entityMock } = setup(
-        Promise.resolve({ data: responseMock }),
-        'appActionCallResponse'
-      )
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
 
-      const entity = wrapAppActionCallResponse(
-        ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-        entityMock
-      )
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock,
+      { retryInterval: 100 }
+    )
 
-      await expect(entity.createWithResponse()).rejects.toThrow(
-        'The app action response is taking longer than expected to process.'
-      )
+    await expect(entity.createWithResponse()).rejects.toThrow(
+      'The app action response is taking longer than expected to process.'
+    )
 
-      expect(
-        httpMock.get.mock.calls.filter((call) =>
-          call.includes(
-            `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-          )
+    expect(
+      httpMock.get.mock.calls.filter((call) =>
+        call.includes(
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
         )
-      ).toHaveLength(15)
-    }
-  )
-
-  it(
-    're-polls if logs are not set yet (getCallDetails returns 404)',
-    { timeout: 30_000 },
-    async () => {
-      const responseMock = cloneMock('appActionCallResponse')
-      responseMock.statusCode = 404
-
-      const { httpMock, adapterMock, entityMock } = setup(
-        Promise.resolve({ data: responseMock }),
-        'appActionCallResponse'
       )
+    ).toHaveLength(15)
+  })
 
-      const entity = wrapAppActionCallResponse(
-        ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-        entityMock
-      )
+  it('re-polls if logs are not set yet (getCallDetails returns 404)', async () => {
+    const responseMock = cloneMock('appActionCallResponse')
+    responseMock.statusCode = 404
 
-      await expect(entity.createWithResponse()).rejects.toThrow(
-        'The app action response is taking longer than expected to process.'
-      )
+    const { httpMock, adapterMock, entityMock } = setup(
+      Promise.resolve({ data: responseMock }),
+      'appActionCallResponse'
+    )
 
-      expect(
-        httpMock.get.mock.calls.filter((call) =>
-          call.includes(
-            `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-          )
+    const entity = wrapAppActionCallResponse(
+      ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
+      entityMock,
+      { retryInterval: 100 }
+    )
+
+    await expect(entity.createWithResponse()).rejects.toThrow(
+      'The app action response is taking longer than expected to process.'
+    )
+
+    expect(
+      httpMock.get.mock.calls.filter((call) =>
+        call.includes(
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
         )
-      ).toHaveLength(15)
-    }
-  )
+      )
+    ).toHaveLength(15)
+  })
 
   it('stops re-polling if app action is not found', async () => {
     const responseMock = cloneMock('appActionCallResponse')
@@ -224,7 +212,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retries: numRetries, retryInterval: 500 }
+      { retries: numRetries, retryInterval: 250 }
     )
 
     await expect(entity.createWithResponse()).rejects.toThrow(
