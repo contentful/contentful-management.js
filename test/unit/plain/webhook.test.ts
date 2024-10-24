@@ -1,9 +1,7 @@
-import { vi, describe, test, expect } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import crypto from 'crypto'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
-
-vi.mock('contentful-sdk-core')
 
 describe('Webhook', () => {
   const spaceId = 'space-id'
@@ -18,12 +16,9 @@ describe('Webhook', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.redactedValue).toBe('abcd')
 
-    expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/signing_secret`,
-      {
-        baseURL: 'https://api.contentful.com',
-      }
-    )
+    expect(httpMock.get).toHaveBeenCalledWith(`/spaces/space-id/webhook_settings/signing_secret`, {
+      baseURL: 'https://api.contentful.com',
+    })
   })
 
   test('upsertSigningSecret', async () => {
@@ -39,7 +34,7 @@ describe('Webhook', () => {
     expect(response.redactedValue).toBe('abcd')
 
     expect(httpMock.put).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/signing_secret`,
+      `/spaces/space-id/webhook_settings/signing_secret`,
       payload,
       {
         baseURL: 'https://api.contentful.com',
@@ -53,7 +48,7 @@ describe('Webhook', () => {
     await plainClient.webhook.deleteSigningSecret({ spaceId })
 
     expect(httpMock.delete).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/signing_secret`,
+      `/spaces/space-id/webhook_settings/signing_secret`,
       {
         baseURL: 'https://api.contentful.com',
       }
@@ -70,12 +65,9 @@ describe('Webhook', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.maxRetries).toBe(15)
 
-    expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/retry_policy`,
-      {
-        baseURL: 'https://api.contentful.com',
-      }
-    )
+    expect(httpMock.get).toHaveBeenCalledWith(`/spaces/space-id/webhook_settings/retry_policy`, {
+      baseURL: 'https://api.contentful.com',
+    })
   })
 
   test('upsertRetryPolicy', async () => {
@@ -91,7 +83,7 @@ describe('Webhook', () => {
     expect(response.maxRetries).toBe(15)
 
     expect(httpMock.put).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/retry_policy`,
+      `/spaces/space-id/webhook_settings/retry_policy`,
       payload,
       {
         baseURL: 'https://api.contentful.com',
@@ -104,11 +96,8 @@ describe('Webhook', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     await plainClient.webhook.deleteRetryPolicy({ spaceId })
 
-    expect(httpMock.delete).toHaveBeenCalledWith(
-      `/spaces/mock-space-id/webhook_settings/retry_policy`,
-      {
-        baseURL: 'https://api.contentful.com',
-      }
-    )
+    expect(httpMock.delete).toHaveBeenCalledWith(`/spaces/space-id/webhook_settings/retry_policy`, {
+      baseURL: 'https://api.contentful.com',
+    })
   })
 })

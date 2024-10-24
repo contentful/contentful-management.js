@@ -52,7 +52,7 @@ export const initPlainClient = (defaults = {}) => {
 }
 
 export function getTestOrganizationId() {
-  return orgId
+  return orgId as string
 }
 
 export async function getTestOrganization(): Promise<Organization> {

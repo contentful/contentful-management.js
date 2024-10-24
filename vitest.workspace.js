@@ -29,7 +29,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'browser-unit',
-      setupFiles: ['./vitest.setup.browser.ts'],
+      setupFiles: ['./vitest.setup.ts', './vitest.setup.browser.ts'],
       maxConcurrency: 10,
       browser: {
         enabled: true,
@@ -43,7 +43,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'browser-integration',
-      setupFiles: ['./vitest.setup.browser.ts'],
+      setupFiles: ['./vitest.setup.ts', './vitest.setup.browser.ts'],
       browser: {
         enabled: true,
         provider: 'playwright',
