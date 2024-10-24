@@ -1,5 +1,4 @@
 import { describe, test, expect } from 'vitest'
-import crypto from 'crypto'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
@@ -27,7 +26,7 @@ describe('Webhook', () => {
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
-    const payload = { value: crypto.randomBytes(32).toString('hex') }
+    const payload = { value: btoa(String(Math.random())).substring(0, 32) }
     const response = await plainClient.webhook.upsertSigningSecret({ spaceId }, payload)
 
     expect(response).toBeInstanceOf(Object)
