@@ -7,6 +7,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'unit',
+      setupFiles: ['./vitest.setup.ts', './vitest.setup.unit.ts'],
       environment: 'node',
       maxConcurrency: 10,
     },
@@ -16,6 +17,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'integration',
+      setupFiles: ['./vitest.setup.ts'],
       environment: 'node',
       maxConcurrency: 1,
       testTimeout: 15000,
@@ -29,7 +31,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'browser-unit',
-      setupFiles: ['./vitest.setup.ts', './vitest.setup.browser.ts'],
+      setupFiles: ['./vitest.setup.browser.ts', './vitest.setup.ts', './vitest.setup.unit.ts'],
       maxConcurrency: 10,
       browser: {
         enabled: true,
@@ -43,7 +45,7 @@ export default defineWorkspace([
       ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'browser-integration',
-      setupFiles: ['./vitest.setup.ts', './vitest.setup.browser.ts'],
+      setupFiles: ['./vitest.setup.browser.ts', './vitest.setup.ts'],
       browser: {
         enabled: true,
         provider: 'playwright',

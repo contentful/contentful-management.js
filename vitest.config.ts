@@ -7,6 +7,5 @@ export default defineConfig({
     coverage: {
       include: ['lib/**/*.{ts,tsx,js,jsx}'],
     },
-    setupFiles: ['./vitest.setup.ts'],
   },
 })
