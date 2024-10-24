@@ -1,7 +1,7 @@
 import { describe, test, afterEach, expect, vi } from 'vitest'
 import createEntryApi from '../../lib/create-entry-api'
 import { wrapEntry, wrapEntryCollection } from '../../lib/entities/entry'
-import { commentMock, cloneMock, setupEntitiesMock, taskMock, entryMock } from './mocks/entities'
+import { commentMock, cloneMock, taskMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
   entityActionTest,
@@ -23,6 +23,7 @@ import { makeEntityMethodFailingTest } from './test-creators/static-entity-metho
 function setup(promise: Promise<unknown>) {
   const makeRequest = setupMakeRequest(promise)
   const api = createEntryApi(makeRequest)
+  const entryMock = cloneMock('entry')
 
   return {
     api: {
@@ -181,10 +182,7 @@ describe('createEntryApi', () => {
   })
 
   test('Entry createTask', async () => {
-    const entitiesMock = setupEntitiesMock()
-    entitiesMock.task.wrapTask.mockReturnValue(taskMock)
-
-    const { api, makeRequest } = setup(Promise.resolve({}))
+    const { api, makeRequest } = setup(Promise.resolve(taskMock))
     const result = await api.createTask(taskMock)
 
     expect(result).toEqual(taskMock)
@@ -198,10 +196,7 @@ describe('createEntryApi', () => {
   })
 
   test('Entry createComment', async () => {
-    const entitiesMock = setupEntitiesMock()
-    entitiesMock.comment.wrapComment.mockReturnValue(commentMock)
-
-    const { api, makeRequest } = setup(Promise.resolve({}))
+    const { api, makeRequest } = setup(Promise.resolve(commentMock))
     const result = await api.createComment(commentMock)
 
     expect(result).toEqual(commentMock)
