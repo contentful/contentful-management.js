@@ -12,7 +12,7 @@ function setup(promise, params = {}) {
 
 describe('Rest Team', () => {
   test('Team update', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({ data: {} }))
     entityMock.sys.version = 2
     const entity = wrapTeam((...args) => adapterMock.makeRequest(...args), entityMock)
     entity.description = 'new description'
@@ -35,7 +35,7 @@ describe('Rest Team', () => {
   })
 
   test('Team delete', async () => {
-    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({}))
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({ data: {} }))
     entityMock.sys.version = 2
     const entity = wrapTeam((...args) => adapterMock.makeRequest(...args), entityMock)
     return entity.delete().then((response) => {

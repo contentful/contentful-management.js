@@ -12,7 +12,7 @@ function setup(promise, params = {}) {
 
 describe('Rest Team Membership', () => {
   test('TeamMembership update', async () => {
-    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({}))
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({ data: {} }))
     entityMock.sys.version = 2
     entityMock.sys.team = { sys: { id: 'team1', linkType: 'Team', type: 'Link' } }
     const entity = wrapTeamMembership((...args) => adapterMock.makeRequest(...args), entityMock)
@@ -36,7 +36,7 @@ describe('Rest Team Membership', () => {
   })
 
   test('TeamMembership delete', async () => {
-    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({}))
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({ data: {} }))
     entityMock.sys.version = 2
     entityMock.sys.team = { sys: { id: 'team1', linkType: 'Team', type: 'Link' } }
     const entity = wrapTeamMembership((...args) => adapterMock.makeRequest(...args), entityMock)

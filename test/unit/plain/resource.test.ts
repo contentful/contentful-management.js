@@ -26,7 +26,7 @@ describe('Resource', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.items[0].sys.urn).toBe('resource-urn')
 
-    expect(httpMock.get).toHaveBeenCalledWith(
+    expect(httpMock.get.mock.calls[0][0]).toBe(
       `/spaces/spaceId/environments/envId/resource_types/${resourceTypeId}/resources`
     )
   })

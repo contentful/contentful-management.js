@@ -17,7 +17,7 @@ describe('ResourceProvider', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.sys.id).toBe('id')
 
-    expect(httpMock.get).toHaveBeenCalledWith(
+    expect(httpMock.get.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })
@@ -39,7 +39,7 @@ describe('ResourceProvider', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.sys.id).toBe('id')
 
-    expect(httpMock.put).toHaveBeenCalledWith(
+    expect(httpMock.put.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })
@@ -49,7 +49,7 @@ describe('ResourceProvider', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     await plainClient.resourceProvider.delete({ organizationId, appDefinitionId })
 
-    expect(httpMock.delete).toHaveBeenCalledWith(
+    expect(httpMock.delete.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider`
     )
   })

@@ -12,7 +12,7 @@ function setup(promise, params = {}) {
 
 describe('Rest UserUIConfig', () => {
   test('UIConfig update works', async () => {
-    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+    const { httpMock, adapterMock } = setup(Promise.resolve({ data: {} }))
     const entityMock = cloneMock('userUIConfig')
     entityMock.sys.version = 2
     const entity = wrapUIConfig((...args) => adapterMock.makeRequest(...args), entityMock)
@@ -20,7 +20,7 @@ describe('Rest UserUIConfig', () => {
 
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
-      expect(httpMock.put.mock.calls[0][1].entryListViews[0]).equals('view', 'metadata is sent')
+      expect(httpMock.put.mock.calls[0][1].entryListViews[0].id).equals('view', 'metadata is sent')
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
         'version header is sent'

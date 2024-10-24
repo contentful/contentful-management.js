@@ -20,7 +20,7 @@ describe('ResourceType', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.sys.id).toBe('id')
 
-    expect(httpMock.get).toHaveBeenCalledWith(
+    expect(httpMock.get.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })
@@ -38,7 +38,7 @@ describe('ResourceType', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.items[0].sys.id).toBe('id')
 
-    expect(httpMock.get).toHaveBeenCalledWith(
+    expect(httpMock.get.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types`
     )
   })
@@ -56,7 +56,7 @@ describe('ResourceType', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.items[0].sys.id).toBe('id')
 
-    expect(httpMock.get).toHaveBeenCalledWith(`/spaces/spaceId/environments/envId/resource_types`)
+    expect(httpMock.get.mock.calls[0][0]).toBe(`/spaces/spaceId/environments/envId/resource_types`)
   })
 
   test('upsert', async () => {
@@ -75,7 +75,7 @@ describe('ResourceType', () => {
     expect(response).toBeInstanceOf(Object)
     expect(response.sys.id).toBe('id')
 
-    expect(httpMock.put).toHaveBeenCalledWith(
+    expect(httpMock.put.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })
@@ -85,7 +85,7 @@ describe('ResourceType', () => {
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     await plainClient.resourceType.delete({ organizationId, appDefinitionId, resourceTypeId })
 
-    expect(httpMock.delete).toHaveBeenCalledWith(
+    expect(httpMock.delete.mock.calls[0][0]).toBe(
       `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
     )
   })

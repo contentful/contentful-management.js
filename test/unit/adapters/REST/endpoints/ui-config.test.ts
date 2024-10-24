@@ -12,7 +12,7 @@ function setup(promise, params = {}) {
 
 describe('Rest UIConfig', () => {
   test('UIConfig update works', async () => {
-    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+    const { httpMock, adapterMock } = setup(Promise.resolve({ data: {} }))
     const entityMock = cloneMock('uiConfig')
     entityMock.sys.version = 2
     const entity = wrapUIConfig((...args) => adapterMock.makeRequest(...args), entityMock)
