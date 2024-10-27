@@ -1,5 +1,5 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initPlainClient, getTestOrganization } from '../helpers'
+import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
 
 describe('AppEventSubscription api', { sequential: true }, () => {
@@ -26,6 +26,7 @@ describe('AppEventSubscription api', { sequential: true }, () => {
     if (appDefinition) {
       await appDefinition.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   test('createAppEventSubscription', async () => {

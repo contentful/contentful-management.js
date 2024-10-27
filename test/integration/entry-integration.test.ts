@@ -1,11 +1,12 @@
 import { beforeAll, afterAll, describe, it, expect } from 'vitest'
 import {
-  initClient,
+  defaultClient,
   createTestSpace,
   generateRandomId,
   waitForEnvironmentToBeReady,
   getTestOrganization,
   getDefaultSpace,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import { readFileSync } from 'fs'
 import type {
@@ -24,13 +25,14 @@ describe('Environment API', () => {
   let space: Space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'Environment')
+    space = await createTestSpace(defaultClient, 'Environment')
   })
 
   afterAll(async () => {
     if (space) {
       await space.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   it('creates an environment', async () => {

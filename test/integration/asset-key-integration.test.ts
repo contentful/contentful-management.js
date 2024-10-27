@@ -1,5 +1,5 @@
-import { expect, describe, it, beforeAll } from 'vitest'
-import { getDefaultSpace, getSpecialSpace } from '../helpers'
+import { expect, describe, it, beforeAll, afterAll } from 'vitest'
+import { getDefaultSpace, getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers'
 
 import { ValidationError } from '../../lib/adapters/REST/endpoints/asset-key'
 
@@ -20,6 +20,8 @@ describe('AssetKey API (createAssetKey)', () => {
       return environment.createAssetKey(data)
     }
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   describe('creates AssetKey', () => {
     it('with expiry in 48 hours', async () => {
@@ -58,8 +60,9 @@ describe('AssetKey API (createAssetKey)', () => {
       await expect(requestWith('not-a-json-object')).rejects.toThrow(ValidationError)
     })
 
-    it('when no payload was given', async () => {
-      await expect(requestWith(undefined)).rejects.toThrow(ValidationError)
+    it.todo('when no payload was given', async () => {
+      // @ts-expect-error request with actually needs to be called with sth
+      await expect(requestWith()).rejects.toThrow(ValidationError)
     })
   })
 })

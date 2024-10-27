@@ -1,7 +1,7 @@
-import { describe, it, beforeEach, afterEach, expect } from 'vitest'
+import { describe, it, beforeEach, afterEach, expect, afterAll } from 'vitest'
 import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
-import { getTestOrganizationId, initPlainClient } from '../helpers'
+import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []
@@ -37,6 +37,8 @@ describe('Taxonomy Integration', () => {
       })
     }
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   it('deletes a concept', async () => {
     const concept: CreateConceptProps = {

@@ -1,6 +1,11 @@
 import { describe, it, beforeAll, afterAll, afterEach } from 'vitest'
 import { expect } from 'vitest'
-import { initClient, generateRandomId, createTestSpace } from '../helpers'
+import {
+  defaultClient,
+  generateRandomId,
+  createTestSpace,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Space, Environment, Tag, Link } from '../../lib/export-types'
 
 function randomTagId(): string {
@@ -18,7 +23,7 @@ describe('Tags API', () => {
   let environment: Environment
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'Tags Api')
+    space = await createTestSpace(defaultClient, 'Tags Api')
     environment = await space.getEnvironment('master')
   })
 
@@ -30,6 +35,8 @@ describe('Tags API', () => {
 
   afterAll(async () => {
     await space.delete()
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('can create a tag with default visibility of "private"', async () => {

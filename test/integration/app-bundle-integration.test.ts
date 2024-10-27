@@ -1,6 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, getDefaultSpace } from '../helpers'
+import { getTestOrganization, getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
 import type {
   Organization,
   AppDefinition,
@@ -42,6 +42,7 @@ describe('AppBundle api', { sequential: true }, () => {
     if (appUpload) {
       await appUpload.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   test('createAppBundle', async () => {

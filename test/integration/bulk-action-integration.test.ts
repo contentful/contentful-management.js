@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expect, describe, it, beforeAll, vi } from 'vitest'
+import { expect, describe, it, beforeAll, vi, afterAll } from 'vitest'
 import { cloneDeep } from 'lodash'
 import type {
   BulkActionPublishPayload,
@@ -9,7 +9,7 @@ import type {
 import type { Environment, Space } from '../../lib/contentful-management'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
 describe('BulkActions Api', () => {
@@ -20,6 +20,8 @@ describe('BulkActions Api', () => {
     testSpace = await getDefaultSpace()
     testEnvironment = await testSpace.getEnvironment('master')
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   describe('Read', () => {
     it('Get BulkAction', async () => {
@@ -133,9 +135,9 @@ describe('BulkActions Api', () => {
       environmentId: TestDefaults.environmentId,
       spaceId: TestDefaults.spaceId,
     }
+    const plainClient = initPlainClient(defaultParams)
 
     it('bulkAction.publish', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryBulkActionId,
       })
@@ -158,7 +160,6 @@ describe('BulkActions Api', () => {
     })
 
     it('bulkAction.unpublish', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
       const bulkActionInProgress = await plainClient.bulkAction.unpublish(defaultParams, {
@@ -179,7 +180,6 @@ describe('BulkActions Api', () => {
     })
 
     it('bulkAction.validate', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
 
       const bulkActionInProgress = await plainClient.bulkAction.validate(defaultParams, {

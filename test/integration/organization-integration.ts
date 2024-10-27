@@ -1,10 +1,17 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, afterAll } from 'vitest'
 import { TestDefaults } from '../defaults'
-import { initPlainClient, initClient, getTestOrganization } from '../helpers'
+import {
+  initPlainClient,
+  defaultClient,
+  getTestOrganization,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 
 describe('Organization API', async function () {
+  afterAll(timeoutToCalmRateLimiting)
+
   describe('Contentful client', () => {
-    const client = initClient()
+    const client = defaultClient
 
     describe('getOrganizations', () => {
       test('should return all organizations', async () => {

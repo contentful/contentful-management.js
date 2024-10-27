@@ -1,6 +1,6 @@
-import { beforeAll, describe, test, expect } from 'vitest'
+import { beforeAll, describe, test, expect, afterAll } from 'vitest'
 import type { Organization } from '../../lib/export-types'
-import { getTestOrganization } from '../helpers'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 
 const { organizationSpaceMembershipId } = TestDefaults
@@ -11,6 +11,8 @@ describe('OrganizationSpaceMembership Api', function () {
   beforeAll(async () => {
     organization = await getTestOrganization()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   test('Gets organizationSpaceMemberships', async () => {
     return organization.getOrganizationSpaceMemberships().then((response) => {

@@ -5,6 +5,7 @@ import {
   getTestOrganization,
   createAppInstallation,
   getDefaultSpace,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import type {
   Organization,
@@ -34,6 +35,7 @@ describe('AppDefinition api', { sequential: true }, () => {
     for (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   test('createAppDefinition', async () => {

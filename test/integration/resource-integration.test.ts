@@ -1,6 +1,11 @@
-import { describe, it, beforeAll, beforeEach, afterAll, expect } from 'vitest'
+import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, initPlainClient, getDefaultSpace } from '../helpers'
+import {
+  getTestOrganization,
+  initPlainClient,
+  getDefaultSpace,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
 import type { AppUpload } from '../../lib/entities/app-upload'
@@ -90,10 +95,6 @@ describe('Resource API', () => {
     )
   })
 
-  beforeEach(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-  })
-
   afterAll(async () => {
     if (appInstallation) {
       await appInstallation.delete()
@@ -110,6 +111,7 @@ describe('Resource API', () => {
     if (appDefinition) {
       await appDefinition.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   it('get Resources with search params', async () => {

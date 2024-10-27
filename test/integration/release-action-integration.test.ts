@@ -1,10 +1,15 @@
 import { beforeAll, afterAll, describe, test, expect } from 'vitest'
-import type { Environment } from '../../lib/export-types'
+import type { Environment, PlainClientAPI } from '../../lib/export-types'
 import type { Release, ReleasePayload } from '../../lib/entities/release'
 import type { ReleaseAction } from '../../lib/entities/release-action'
 import type { Space } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
-import { createTestSpace, initClient, initPlainClient } from '../helpers'
+import {
+  createTestSpace,
+  defaultClient,
+  initPlainClient,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import { makeLink } from '../utils'
 
 describe('ReleaseAction Api', () => {
@@ -17,7 +22,7 @@ describe('ReleaseAction Api', () => {
   let testReleaseAction2: ReleaseAction
 
   beforeAll(async () => {
-    testSpace = (await createTestSpace(initClient(), 'Release Actions')) as Space
+    testSpace = (await createTestSpace(defaultClient, 'Release Actions')) as Space
     testEnvironment = await testSpace.getEnvironment('master')
 
     const contentType = await testEnvironment.createContentTypeWithId('testContentType', {
@@ -64,6 +69,7 @@ describe('ReleaseAction Api', () => {
     if (testSpace) {
       return testSpace.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   describe('Read', () => {
@@ -122,14 +128,18 @@ describe('ReleaseAction Api', () => {
   })
 
   describe('PlainClient API', () => {
-    test('releaseAction.getMany', async () => {
+    let plainClient: PlainClientAPI
+
+    beforeAll(() => {
       const defaultParams = {
         environmentId: testEnvironment.sys.id,
         spaceId: testSpace.sys.id,
       }
 
-      const plainClient = initPlainClient(defaultParams)
+      plainClient = initPlainClient(defaultParams)
+    })
 
+    test('releaseAction.getMany', async () => {
       const queryResult = await plainClient.releaseAction.getMany({
         query: { 'sys.release.sys.id[in]': testRelease.sys.id, limit: 1, action: 'validate' },
       })
@@ -139,13 +149,6 @@ describe('ReleaseAction Api', () => {
     })
 
     test('releaseAction.get', async () => {
-      const defaultParams = {
-        environmentId: testEnvironment.sys.id,
-        spaceId: testSpace.sys.id,
-      }
-
-      const plainClient = initPlainClient(defaultParams)
-
       const queryResult = await plainClient.releaseAction.get({
         releaseId: testRelease.sys.id,
         actionId: testReleaseAction.sys.id,

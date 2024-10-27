@@ -1,5 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { getSpecialSpace } from '../helpers'
+import { getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers'
 import type { Space } from '../../lib/export-types'
 
 describe('EnvironmentAlias API', () => {
@@ -14,6 +14,7 @@ describe('EnvironmentAlias API', () => {
       const alias = await space.getEnvironmentAlias('master')
       alias.environment.sys.id = 'previously-master-env'
       await alias.update()
+      await timeoutToCalmRateLimiting()
     })
 
     it('Gets aliases', async () => {

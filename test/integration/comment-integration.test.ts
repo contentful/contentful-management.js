@@ -1,5 +1,11 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import { initClient, createTestEnvironment, createTestSpace, initPlainClient } from '../helpers'
+import {
+  defaultClient,
+  createTestEnvironment,
+  createTestSpace,
+  initPlainClient,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Comment Api', () => {
@@ -13,7 +19,7 @@ describe('Comment Api', () => {
 
   beforeAll(async () => {
     plainClient = initPlainClient()
-    space = (await createTestSpace(initClient(), 'Comment')) as Space
+    space = (await createTestSpace(defaultClient, 'Comment')) as Space
     environment = (await createTestEnvironment(
       space,
       'Comment Testing Environment'
@@ -38,6 +44,7 @@ describe('Comment Api', () => {
     if (space) {
       await space.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   describe('Entry comment', () => {

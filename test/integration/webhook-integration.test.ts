@@ -1,5 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { initClient, createTestSpace } from '../helpers'
+import { defaultClient, createTestSpace, timeoutToCalmRateLimiting } from '../helpers'
 import type { Space } from '../../lib/export-types'
 import type { WebhookRetryPolicyProps } from '../../lib/entities/webhook'
 
@@ -7,13 +7,15 @@ describe('Webhook API', () => {
   let space: Space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'Webhook')
+    space = await createTestSpace(defaultClient, 'Webhook')
   })
 
   afterAll(async () => {
     if (space) {
       await space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Gets webhooks', async () => {
@@ -79,7 +81,7 @@ describe('Webhook API', () => {
   })
 
   // TODO: enable (and debug) these tests once this is not in EAP and feature flagged since space IDs are not stable
-  describe('TODO: Webhook retry policies', () => {
+  describe.skip('TODO: Webhook retry policies', () => {
     let retryPolicy: WebhookRetryPolicyProps
 
     describe('given no webhook retry policy', () => {

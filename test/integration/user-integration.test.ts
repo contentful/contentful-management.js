@@ -1,5 +1,5 @@
-import { describe, it, beforeAll, expect } from 'vitest'
-import { getTestOrganization } from '../helpers'
+import { describe, it, beforeAll, expect, afterAll } from 'vitest'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import type { Organization } from '../../lib/export-types'
 
@@ -11,6 +11,8 @@ describe('User API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   it('Gets organization users', async () => {
     const response = await organization.getUsers()

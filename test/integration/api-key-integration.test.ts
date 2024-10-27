@@ -1,17 +1,24 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initClient, createTestSpace, generateRandomId } from '../helpers'
+import {
+  defaultClient,
+  createTestSpace,
+  generateRandomId,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 
 describe('ApiKey api', { sequential: true }, () => {
   let space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'ApiKey')
+    space = await createTestSpace(defaultClient, 'ApiKey')
   })
 
   afterAll(async () => {
     if (space) {
       return space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   test('Gets apiKeys', async () => {

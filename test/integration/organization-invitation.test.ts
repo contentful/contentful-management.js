@@ -1,5 +1,5 @@
-import { beforeAll, describe, test, expect } from 'vitest'
-import { getTestOrganization } from '../helpers'
+import { beforeAll, describe, test, expect, afterAll } from 'vitest'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/export-types'
 
 describe('OrganizationMembership Invitation API', () => {
@@ -8,6 +8,8 @@ describe('OrganizationMembership Invitation API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   test('Creates, gets an invitation in the organization and removes membership after test', async () => {
     const response = await organization.createOrganizationInvitation({

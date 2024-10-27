@@ -1,6 +1,12 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { initClient, createTestSpace, getTestUser, waitForEnvironmentToBeReady } from '../helpers'
+import {
+  defaultClient,
+  createTestSpace,
+  getTestUser,
+  waitForEnvironmentToBeReady,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Space, Environment, Entry, Task, Link } from '../../lib/export-types'
 
 describe('Task API', () => {
@@ -16,7 +22,7 @@ describe('Task API', () => {
   })
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'Task')
+    space = await createTestSpace(defaultClient, 'Task')
     environment = await space.createEnvironment({ name: 'Task Testing Environment' })
     await waitForEnvironmentToBeReady(space, environment)
     const contentType = await environment.createContentType({ name: 'Content Type', fields: [] })
@@ -28,6 +34,8 @@ describe('Task API', () => {
     if (space) {
       await space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Gets tasks', async () => {

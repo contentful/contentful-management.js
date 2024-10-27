@@ -8,7 +8,7 @@ import type { Space } from '../../lib/entities/space'
 import type { ContentType, ContentTypeMetadata } from '../../lib/export-types'
 import { ScheduledActionReferenceFilters } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { makeLink } from '../utils'
 
 const ONE_DAY_MS = 3600 * 1000 * 24
@@ -52,6 +52,8 @@ describe('Scheduled Actions API', () => {
 
   afterAll(async () => {
     await cleanup(testSpace, environment.sys.id)
+
+    await timeoutToCalmRateLimiting()
   })
 
   describe('Read', () => {
@@ -350,9 +352,9 @@ describe('Scheduled Actions API', () => {
       environmentId: TestDefaults.environmentId,
       spaceId: TestDefaults.spaceId,
     }
+    const plainClient = initPlainClient(defaultParams)
 
     it('lifecycle of a scheduled action (create, read, update, delete)', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReferenceId,
       })
@@ -421,8 +423,6 @@ describe('Scheduled Actions API', () => {
       })
 
       it('create and read with payload', async () => {
-        const plainClient = initPlainClient(defaultParams)
-
         entry = await environment.createEntry(contentType.sys.id, {
           fields: { title: { 'en-US': 'this is the title' } },
         })

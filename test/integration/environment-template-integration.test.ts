@@ -1,12 +1,13 @@
 import { afterAll, beforeAll, describe, it, afterEach, expect } from 'vitest'
 import type { ClientAPI } from '../../lib/create-contentful-api'
 import {
-  initClient,
+  defaultClient,
   getTestOrganizationId,
   createTestSpace,
   createTestEnvironment,
   generateRandomId,
   baseEnvironmentTemplateDescription,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import type {
   CreateEnvironmentTemplateProps,
@@ -19,9 +20,11 @@ import type {
 type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
 
 describe('Environment template API', () => {
-  const client = initClient()
+  const client = defaultClient
   const orgId = getTestOrganizationId()
   const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
+
+  afterAll(timeoutToCalmRateLimiting)
 
   afterEach(async () => {
     await clearEnvironmentTemplates(client, orgId, templateDescription)

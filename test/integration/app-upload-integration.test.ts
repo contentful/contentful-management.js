@@ -1,6 +1,6 @@
-import { expect, describe, test, beforeAll } from 'vitest'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization } from '../helpers'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/contentful-management'
 
 describe('AppUpload api', { sequential: true }, () => {
@@ -9,6 +9,8 @@ describe('AppUpload api', { sequential: true }, () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   test('createAppUpload', async () => {
     const appUpload = await organization.createAppUpload(

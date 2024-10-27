@@ -1,5 +1,5 @@
-import { expect, beforeAll, describe, test } from 'vitest'
-import { getDefaultSpace } from '../helpers'
+import { expect, beforeAll, describe, test, afterAll } from 'vitest'
+import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
 import type { Space } from '../../lib/export-types'
 
 describe('PreviewApiKeys Api', () => {
@@ -8,6 +8,8 @@ describe('PreviewApiKeys Api', () => {
   beforeAll(async () => {
     space = await getDefaultSpace()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   test('Gets previewApiKeys', async () => {
     const response = await space.getPreviewApiKeys()

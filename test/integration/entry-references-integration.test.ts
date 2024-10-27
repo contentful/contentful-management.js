@@ -1,9 +1,9 @@
-import { expect, describe, it, beforeAll } from 'vitest'
+import { expect, describe, it, beforeAll, afterAll } from 'vitest'
 import type { PlainClientAPI } from '../../lib/contentful-management'
 import type { Environment } from '../../lib/entities/environment'
 import type { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient } from '../helpers'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 
 const ENTRY_WITH_REFERENCES_ID = TestDefaults.entry.testEntryReferenceId
 const WRONG_ENTRY_ID = '123123XD'
@@ -16,6 +16,8 @@ describe('Entry References', () => {
     testSpace = await getDefaultSpace()
     testEnvironment = await testSpace.getEnvironment('master')
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   describe('Environment Scoped', () => {
     let entryWithReferences: any

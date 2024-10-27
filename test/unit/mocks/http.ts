@@ -13,13 +13,31 @@ interface MockedHttp<T, R> extends Mock<[T], R> {
 }
 
 export default function setupHttpMock(promise = Promise.resolve({ data: {} })) {
-  const mock: MockedHttp<{}, typeof promise> = vi.fn().mockReturnValue(promise)
+  const mock: MockedHttp<{}, typeof promise> = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via direct call')
+    return promise
+  })
 
-  mock.get = vi.fn().mockReturnValue(promise)
-  mock.post = vi.fn().mockReturnValue(promise)
-  mock.put = vi.fn().mockReturnValue(promise)
-  mock.patch = vi.fn().mockReturnValue(promise)
-  mock.delete = vi.fn().mockReturnValue(promise)
+  mock.get = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via get call')
+    return promise
+  })
+  mock.post = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via post call')
+    return promise
+  })
+  mock.put = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via put call')
+    return promise
+  })
+  mock.patch = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via patch call')
+    return promise
+  })
+  mock.delete = vi.fn().mockImplementation(() => {
+    console.log('Mock: Returning promise via delete call')
+    return promise
+  })
 
   mock.defaults = {
     baseURL: 'https://api.contentful.com/spaces/',

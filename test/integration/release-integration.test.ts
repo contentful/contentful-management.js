@@ -2,7 +2,12 @@ import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import type { Environment, Space } from '../../lib/export-types'
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'
-import { createTestSpace, initPlainClient, initClient } from '../helpers'
+import {
+  createTestSpace,
+  initPlainClient,
+  defaultClient,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import { makeLink } from '../utils'
 
 describe('Release Api', () => {
@@ -11,7 +16,7 @@ describe('Release Api', () => {
 
   beforeAll(async () => {
     try {
-      testSpace = await createTestSpace(initClient(), 'Releases')
+      testSpace = await createTestSpace(defaultClient, 'Releases')
       testEnvironment = await testSpace.getEnvironment('master')
       const contentType = await testEnvironment.createContentTypeWithId('testContentType', {
         name: 'testContentType',
@@ -44,6 +49,7 @@ describe('Release Api', () => {
     if (testSpace) {
       await testSpace.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   describe('Read', () => {
@@ -86,7 +92,7 @@ describe('Release Api', () => {
           title: 'First release',
           entities: {
             sys: { type: 'Array' },
-            items: [],
+            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
           },
         }),
         testEnvironment.createRelease({
@@ -287,9 +293,9 @@ describe('Release Api', () => {
       environmentId: TestDefaults.environmentId,
       spaceId: TestDefaults.spaceId,
     }
+    const plainClient = initPlainClient(defaultParams)
 
     it('release.publish', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })
@@ -323,8 +329,6 @@ describe('Release Api', () => {
     })
 
     it('release.validate', async () => {
-      const plainClient = initPlainClient(defaultParams)
-
       const createdRelease = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
         entities: {
@@ -353,7 +357,6 @@ describe('Release Api', () => {
     })
 
     it('release.unpublish', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })
@@ -387,7 +390,6 @@ describe('Release Api', () => {
     })
 
     it('release.query', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
         entities: {
@@ -404,12 +406,10 @@ describe('Release Api', () => {
         },
       })
       expect(releases.items).toEqual([release])
-      expect(releases.pages).toBeDefined()
-      expect(typeof releases.pages?.next).toBe('string')
+      expect(releases.pages).toStrictEqual({})
     })
 
     it('release.archive', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
         entities: {
@@ -429,7 +429,6 @@ describe('Release Api', () => {
     })
 
     it('release.unarchive', async () => {
-      const plainClient = initPlainClient(defaultParams)
       const release = await plainClient.release.create(defaultParams, {
         title: 'Test Release',
         entities: {

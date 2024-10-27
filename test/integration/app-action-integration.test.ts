@@ -5,7 +5,9 @@ import {
   getTestOrganization,
   getDefaultSpace,
   createAppInstallation,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
+import { afterEach } from 'node:test'
 
 describe('AppAction api', function () {
   let appDefinition
@@ -27,6 +29,9 @@ describe('AppAction api', function () {
       environmentId: 'master',
     })
   })
+
+  // App actions need some extra timeouts
+  afterEach(timeoutToCalmRateLimiting)
 
   afterAll(async () => {
     if (appDefinition) {

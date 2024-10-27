@@ -1,10 +1,11 @@
-import { describe, it, beforeEach, afterEach, expect } from 'vitest'
+import { describe, it, beforeEach, afterEach, expect, beforeAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, initPlainClient } from '../helpers'
+import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
 import type { AppUpload } from '../../lib/entities/app-upload'
 import type { AppBundle } from '../../lib/entities/app-bundle'
+import type { PlainClientAPI } from '../../lib/export-types'
 
 describe('ResourceProvider API', () => {
   const functionManifest = {
@@ -22,6 +23,8 @@ describe('ResourceProvider API', () => {
   let appBundle: AppBundle
 
   beforeEach(async () => {
+    await timeoutToCalmRateLimiting()
+
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
       name: 'Test',
@@ -52,6 +55,8 @@ describe('ResourceProvider API', () => {
     for await (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('create ResourceProvider', async () => {
@@ -158,7 +163,11 @@ describe('ResourceProvider API', () => {
   })
 
   describe('PlainClient', () => {
-    const plainClient = initPlainClient()
+    let plainClient: PlainClientAPI
+
+    beforeAll(() => {
+      plainClient = initPlainClient()
+    })
 
     it('create ResourceProvider', async () => {
       const resourceProvider = await plainClient.resourceProvider.upsert(

@@ -1,5 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { initClient, createTestSpace } from '../helpers'
+import { defaultClient, createTestSpace, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import type { Space, Link } from '../../lib/export-types'
 
@@ -9,7 +9,7 @@ describe('TeamSpaceMembership API', () => {
   let space: Space | null
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'TSM')
+    space = await createTestSpace(defaultClient, 'TSM')
   })
 
   afterAll(async () => {
@@ -17,6 +17,8 @@ describe('TeamSpaceMembership API', () => {
       await space.delete()
       space = null
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Creates, updates, and deletes teamSpaceMembership', async () => {

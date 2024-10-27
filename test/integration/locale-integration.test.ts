@@ -1,5 +1,10 @@
 import { afterAll, beforeAll, describe, it, expect } from 'vitest'
-import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
+import {
+  defaultClient,
+  createTestEnvironment,
+  createTestSpace,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Space, Environment } from '../../lib/export-types'
 
 describe('Locale API', () => {
@@ -7,7 +12,7 @@ describe('Locale API', () => {
   let environment: Environment
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'Locale')
+    space = await createTestSpace(defaultClient, 'Locale')
     environment = await createTestEnvironment(space, 'Test')
   })
 
@@ -15,6 +20,7 @@ describe('Locale API', () => {
     if (space) {
       await space.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   it('Gets locales', async () => {
@@ -27,6 +33,7 @@ describe('Locale API', () => {
     const createdLocale = await environment.createLocale({
       name: 'German (Austria)',
       code: 'de-AT',
+      fallbackCode: null,
     })
 
     expect(createdLocale.code).toBe('de-AT')

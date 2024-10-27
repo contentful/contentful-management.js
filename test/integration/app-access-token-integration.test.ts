@@ -4,6 +4,7 @@ import {
   getDefaultSpace,
   createAppInstallation,
   getTestOrganization,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import { sign } from 'jsonwebtoken'
 import type {
@@ -63,6 +64,8 @@ describe('AppAccessToken api', { sequential: true }, () => {
       await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
       await appDefinition.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   test('createAppAccessToken', async () => {

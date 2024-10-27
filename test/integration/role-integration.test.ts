@@ -1,5 +1,11 @@
 import type { Organization, RoleProps, Space } from '../../lib/export-types'
-import { initClient, createTestSpace, generateRandomId, getTestOrganization } from '../helpers'
+import {
+  defaultClient,
+  createTestSpace,
+  generateRandomId,
+  getTestOrganization,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import { beforeAll, afterAll, describe, it, expect } from 'vitest'
 
 const roleDefinition: Omit<RoleProps, 'sys'> = {
@@ -33,13 +39,15 @@ describe('Role API', () => {
 
   beforeAll(async () => {
     org = await getTestOrganization()
-    space = await createTestSpace(initClient(), 'Role')
+    space = await createTestSpace(defaultClient, 'Role')
   })
 
   afterAll(async () => {
     if (space) {
       await space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Gets roles', async () => {

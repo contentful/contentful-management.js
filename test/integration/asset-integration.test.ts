@@ -2,7 +2,7 @@ const TEST_IMAGE_SOURCE_URL =
   'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
 
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initClient, getDefaultSpace, createTestSpace } from '../helpers'
+import { initClient, getDefaultSpace, createTestSpace, timeoutToCalmRateLimiting } from '../helpers'
 import type { Environment, Space } from '../../lib/contentful-management'
 
 describe('Asset API - Read', () => {
@@ -56,6 +56,7 @@ describe('Asset API - Write', { concurrent: true }, () => {
     if (space) {
       await space.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   test('Create, process, update, publish, unpublish, archive, unarchive and delete asset', async () => {

@@ -1,6 +1,6 @@
-import { describe, it, beforeAll } from 'vitest'
+import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { getDefaultSpace } from '../helpers'
+import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import type { Space } from '../../lib/export-types'
 
@@ -12,6 +12,8 @@ describe('SpaceUser API', () => {
   beforeAll(async () => {
     space = await getDefaultSpace()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   it('Gets users', async () => {
     const response = await space.getSpaceUsers()

@@ -1,6 +1,11 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { initClient, createTestSpace, generateRandomId } from '../helpers'
+import {
+  defaultClient,
+  createTestSpace,
+  generateRandomId,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import { TestDefaults } from '../defaults'
 import type { Space } from '../../lib/export-types'
 
@@ -10,13 +15,15 @@ describe('SpaceMembership API', () => {
   let space: Space
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'SMembership')
+    space = await createTestSpace(defaultClient, 'SMembership')
   })
 
   afterAll(async () => {
     if (space) {
       await space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Gets space memberships', async () => {

@@ -1,5 +1,5 @@
-import { beforeAll, describe, it, expect } from 'vitest'
-import { getTestOrganization } from '../helpers'
+import { beforeAll, describe, it, expect, afterAll } from 'vitest'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import type { Organization } from '../../lib/export-types'
 
@@ -11,6 +11,8 @@ describe('TeamSpaceMembership API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
   })
+
+  afterAll(timeoutToCalmRateLimiting)
 
   it('Gets a single Team Space Membership', async () => {
     const response = await organization.getTeamSpaceMembership(teamSpaceMembershipId)

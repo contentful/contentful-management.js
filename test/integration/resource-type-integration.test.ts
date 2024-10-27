@@ -1,12 +1,13 @@
 import { describe, it, beforeAll, beforeEach, afterEach, afterAll, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, initPlainClient } from '../helpers'
+import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/entities/organization'
 import type { AppDefinition } from '../../lib/entities/app-definition'
 import type { AppUpload } from '../../lib/entities/app-upload'
 import type { AppBundle } from '../../lib/entities/app-bundle'
 import type {
   AppInstallationProps,
+  PlainClientAPI,
   ResourceProvider,
   ResourceType,
   ResourceTypeProps,
@@ -32,6 +33,7 @@ describe('ResourceType API', () => {
   let resourceType: ResourceType | null
   let resourceTypePlain: ResourceTypeProps | null
   let appInstallationPlain: AppInstallationProps | null
+  let plainClient: PlainClientAPI
 
   beforeAll(async () => {
     organization = await getTestOrganization()
@@ -64,6 +66,8 @@ describe('ResourceType API', () => {
       src: 'http://localhost:2222',
       locations: [{ location: 'entry-sidebar' }],
     })
+
+    plainClient = initPlainClient()
   })
 
   beforeEach(() => {
@@ -74,7 +78,6 @@ describe('ResourceType API', () => {
 
   afterEach(async () => {
     if (appInstallationPlain) {
-      const plainClient = initPlainClient()
       await plainClient.appInstallation.delete({
         appDefinitionId: appDefinition.sys.id,
         environmentId: TestDefaults.environmentId,
@@ -88,8 +91,6 @@ describe('ResourceType API', () => {
     if (resourceTypePlain) {
       await (await resourceProvider.getResourceType('resourceProvider:resourceTypeId')).delete()
     }
-
-    await new Promise((resolve) => setTimeout(resolve, 1000))
   })
 
   afterAll(async () => {
@@ -108,6 +109,8 @@ describe('ResourceType API', () => {
     if (appDefinitionNoProvider) {
       await appDefinitionNoProvider.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('create ResourceType', async () => {
@@ -186,8 +189,6 @@ describe('ResourceType API', () => {
   })
 
   describe('PlainClient', () => {
-    const plainClient = initPlainClient()
-
     it('create ResourceType', async () => {
       resourceTypePlain = await plainClient.resourceType.upsert(
         {

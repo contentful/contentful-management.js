@@ -11,7 +11,18 @@ if (!accessToken || !orgId) {
   throw new Error('Integration test CMA token or organisation id are missing')
 }
 
-const params: Partial<CreateHttpClientParams> = {}
+const params: Partial<CreateHttpClientParams> = {
+  responseLogger: (response) => {
+    if (response instanceof Error) {
+      return
+    }
+    if (response.headers['X-Contentful-RateLimit-Reset']) {
+      lastRateLimitDelayValue = response.headers['X-Contentful-RateLimit-Reset'] * 1000
+      console.log('rate limited!!!!!!!!!!!')
+      console.dir(response.headers, { depth: null })
+    }
+  },
+}
 
 if (process.env.API_INTEGRATION_TESTS) {
   params.host = '127.0.0.1:5000'
@@ -35,6 +46,9 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
   })
 }
 
+// Shared instance to reduce rate limiting issues due to recreation of clients and therefore loosing track of requests per second
+export const defaultClient = initClient({ ...params })
+
 /**
  * @returns {import('../lib/contentful-management').PlainClientAPI}
  */
@@ -57,7 +71,7 @@ export function getTestOrganizationId() {
 
 export async function getTestOrganization(): Promise<Organization> {
   const testOrgId = getTestOrganizationId()
-  const organizations = await initClient({}).getOrganizations()
+  const organizations = await defaultClient.getOrganizations()
   const org = organizations.items.find(({ sys: { id } }) => id === testOrgId)
   if (!org) {
     throw new Error('Test org not available')
@@ -195,3 +209,7 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
     )
   )
 }
+
+let lastRateLimitDelayValue = 2000
+export const timeoutToCalmRateLimiting = () =>
+  new Promise((resolve) => setTimeout(resolve, lastRateLimitDelayValue))

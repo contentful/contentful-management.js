@@ -1,10 +1,11 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
 import {
-  initClient,
+  defaultClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import type { Environment, ContentType, Space } from '../../lib/export-types'
 
@@ -20,7 +21,7 @@ describe('ContentType Api', () => {
     readEnvironment = await readSpace.getEnvironment('master')
     readContentType = await readEnvironment.getContentType('vxVZs5JbhI9MwMupax3dm')
 
-    writeSpace = await createTestSpace(initClient(), 'ContentType')
+    writeSpace = await createTestSpace(defaultClient, 'ContentType')
     writeEnvironment = (await createTestEnvironment(
       writeSpace,
       'Testing Environment'
@@ -31,6 +32,8 @@ describe('ContentType Api', () => {
     if (writeSpace) {
       await writeSpace.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   describe('read', { concurrent: true }, () => {

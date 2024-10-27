@@ -1,10 +1,11 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
 import {
-  initClient,
+  defaultClient,
   createTestEnvironment,
   createTestSpace,
   generateRandomId,
   getDefaultSpace,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import type { Environment, ContentType, Space } from '../../lib/export-types'
 
@@ -20,7 +21,7 @@ describe('ContentType Api', () => {
     readEnvironment = await readSpace.getEnvironment('master')
     readContentType = await readEnvironment.getContentType('vxVZs5JbhI9MwMupax3dm')
 
-    writeSpace = await createTestSpace(initClient(), 'ContentType')
+    writeSpace = await createTestSpace(defaultClient, 'ContentType')
     writeEnvironment = await createTestEnvironment(writeSpace, 'Testing Environment')
   })
 
@@ -28,6 +29,7 @@ describe('ContentType Api', () => {
     if (writeSpace) {
       await writeSpace.delete()
     }
+    await timeoutToCalmRateLimiting()
   })
 
   describe('read', () => {
@@ -52,78 +54,74 @@ describe('ContentType Api', () => {
   })
 
   describe('write', () => {
-    it(
-      'Create, update, publish, getEditorInterface, unpublish and delete content type',
-      { timeout: 15000 },
-      async () => {
-        const contentType = await writeEnvironment.createContentType({ name: 'testentity' })
+    it('Create, update, publish, getEditorInterface, unpublish and delete content type', async () => {
+      const contentType = await writeEnvironment.createContentType({ name: 'testentity' })
 
-        expect(contentType.isDraft()).toBeTruthy()
-        expect(contentType.sys.type).toBe('ContentType')
-        expect(contentType.name).toBe('testentity')
+      expect(contentType.isDraft()).toBeTruthy()
+      expect(contentType.sys.type).toBe('ContentType')
+      expect(contentType.name).toBe('testentity')
 
-        const publishedContentType = await contentType.publish()
-        expect(publishedContentType.isPublished()).toBeTruthy()
+      const publishedContentType = await contentType.publish()
+      expect(publishedContentType.isPublished()).toBeTruthy()
 
-        publishedContentType.fields = [
-          {
-            id: 'field',
-            name: 'field',
-            type: 'Text',
+      publishedContentType.fields = [
+        {
+          id: 'field',
+          name: 'field',
+          type: 'Text',
+        },
+        {
+          id: 'field2delete',
+          name: 'field2delete',
+          type: 'Text',
+        },
+        {
+          id: 'multiRefXSpace',
+          name: 'multiRefXSpace',
+          type: 'Array',
+          items: {
+            type: 'ResourceLink',
+            validations: [],
           },
-          {
-            id: 'field2delete',
-            name: 'field2delete',
-            type: 'Text',
-          },
-          {
-            id: 'multiRefXSpace',
-            name: 'multiRefXSpace',
-            type: 'Array',
-            items: {
-              type: 'ResourceLink',
-              validations: [],
+          allowedResources: [
+            {
+              type: 'Contentful:Entry',
+              source: 'crn:contentful:::content:spaces/bkg4k0bz2fhq',
+              contentTypes: ['textBlock'],
             },
-            allowedResources: [
-              {
-                type: 'Contentful:Entry',
-                source: 'crn:contentful:::content:spaces/bkg4k0bz2fhq',
-                contentTypes: ['textBlock'],
-              },
-            ],
-          },
-        ]
+          ],
+        },
+      ]
 
-        const tryContentType = await publishedContentType.update()
-        expect(tryContentType.isUpdated()).toBeTruthy()
+      const tryContentType = await publishedContentType.update()
+      expect(tryContentType.isUpdated()).toBeTruthy()
 
-        const updatedContentType = await tryContentType.publish()
-        expect(updatedContentType.isUpdated()).toBeFalsy()
-        expect(updatedContentType.fields[0].id).toBe('field')
-        expect(updatedContentType.fields[1].id).toBe('field2delete')
-        expect(updatedContentType.fields[2].id).toBe('multiRefXSpace')
+      const updatedContentType = await tryContentType.publish()
+      expect(updatedContentType.isUpdated()).toBeFalsy()
+      expect(updatedContentType.fields[0].id).toBe('field')
+      expect(updatedContentType.fields[1].id).toBe('field2delete')
+      expect(updatedContentType.fields[2].id).toBe('multiRefXSpace')
 
-        const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
-        expect(
-          deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
-        ).toHaveLength(0)
+      const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
+      expect(
+        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
+      ).toHaveLength(0)
 
-        expect(deletedFieldContentType.getEditorInterface).toBeTruthy()
+      expect(deletedFieldContentType.getEditorInterface).toBeTruthy()
 
-        const publishedAgainContentType = await deletedFieldContentType.publish()
-        const editorInterface = await publishedAgainContentType.getEditorInterface()
+      const publishedAgainContentType = await deletedFieldContentType.publish()
+      const editorInterface = await publishedAgainContentType.getEditorInterface()
 
-        expect(editorInterface.controls).toBeTruthy()
-        expect(editorInterface.sys).toBeTruthy()
+      expect(editorInterface.controls).toBeTruthy()
+      expect(editorInterface.sys).toBeTruthy()
 
-        await editorInterface.update()
+      await editorInterface.update()
 
-        const unpublishedContentType = await updatedContentType.unpublish()
-        expect(unpublishedContentType.isDraft()).toBeTruthy()
+      const unpublishedContentType = await updatedContentType.unpublish()
+      expect(unpublishedContentType.isDraft()).toBeTruthy()
 
-        await unpublishedContentType.delete()
-      }
-    )
+      await unpublishedContentType.delete()
+    })
 
     it('Create with id and delete content type', async () => {
       const id = generateRandomId('testCT')

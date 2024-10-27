@@ -1,5 +1,10 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { initClient, createTestEnvironment, createTestSpace } from '../helpers'
+import {
+  defaultClient,
+  createTestEnvironment,
+  createTestSpace,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Space, Environment } from '../../lib/export-types'
 
 describe('Extension API', () => {
@@ -7,7 +12,7 @@ describe('Extension API', () => {
   let environment: Environment
 
   beforeAll(async () => {
-    space = await createTestSpace(initClient(), 'TSM')
+    space = await createTestSpace(defaultClient, 'TSM')
     environment = await createTestEnvironment(space, 'Test')
   })
 
@@ -15,6 +20,8 @@ describe('Extension API', () => {
     if (space) {
       await space.delete()
     }
+
+    await timeoutToCalmRateLimiting()
   })
 
   it('Creates, updates, gets, gets all, and deletes UI Extension', async () => {
