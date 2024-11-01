@@ -70,9 +70,9 @@ describe('Locale Api', function () {
     })
     // wait for the locale to be created
     await new Promise((res) => setTimeout(res, 3000))
-    const pagedLocals = environment.getLocales({ limit: 1 })
-    expect(pagedLocals.items.length).equals(1)
-    expect(pagedLocals.total).equals(2)
+    const pagedLocales = await environment.getLocales({ limit: 1 })
+    expect(pagedLocales.items.length).equals(1)
+    expect(pagedLocales.total).equals(2)
     await createdLocal.delete()
   })
 })
