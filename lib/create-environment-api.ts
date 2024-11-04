@@ -1243,7 +1243,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getLocales() {
+    getLocales(query: BasicQueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Locale',
@@ -1251,6 +1251,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapLocaleCollection(makeRequest, data))
     },

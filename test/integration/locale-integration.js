@@ -24,6 +24,12 @@ describe('Locale Api', function () {
     })
   })
 
+  test('Gets locales respects skip', async () => {
+    return environment.getLocales({ skip: 1 }).then((response) => {
+      expect(response.items.length).equals(0)
+    })
+  })
+
   test('Creates, gets, updates and deletes a locale', async () => {
     return environment
       .createLocale({
@@ -55,5 +61,18 @@ describe('Locale Api', function () {
           }, 3000)
         })
       })
+  })
+
+  test('Creates, gets page (respects limit), deletes a locale', async () => {
+    const createdLocal = await environment.createLocale({
+      name: 'Chinese (Simplified, China)',
+      code: 'zh-Hans-CN',
+    })
+    // wait for the locale to be created
+    await new Promise((res) => setTimeout(res, 3000))
+    const pagedLocales = await environment.getLocales({ limit: 1 })
+    expect(pagedLocales.items.length).equals(1)
+    expect(pagedLocales.total).equals(2)
+    await createdLocal.delete()
   })
 })
