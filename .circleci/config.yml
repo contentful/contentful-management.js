@@ -81,6 +81,12 @@ jobs:
       - store_artifacts:
           path: ./reports/unit-results.xml
 
+  size:
+    executor: docker-with-node
+    steps:
+      - with-workspace
+      - run: npm run test:size
+
   integration:
     executor: docker-with-node
     steps:
@@ -122,6 +128,10 @@ workflows:
             - build
             - unit
             - lint
+      - size:
+          requires:
+            - prepare
+            - build
 
       - release:
           context: vault
