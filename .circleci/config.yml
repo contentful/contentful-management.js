@@ -62,6 +62,7 @@ jobs:
     steps:
       - with-workspace
       - run: npm run build
+      - persist-workspace
 
   lint:
     executor: docker-with-node
