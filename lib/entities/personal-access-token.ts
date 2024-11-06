@@ -12,6 +12,11 @@ export type PersonalAccessTokenProps = {
   token?: string
 }
 
+/**
+ * @deprecated Use `PersonalAccessTokenProps` instead.
+ */
+export type PersonalAccessTokenProp = PersonalAccessTokenProps
+
 export type CreatePersonalAccessTokenProps = Pick<PersonalAccessToken, 'name' | 'scopes'> & {
   expiresIn?: number
 }

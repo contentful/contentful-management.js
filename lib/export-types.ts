@@ -144,7 +144,7 @@ export type {
 } from './entities/extension'
 export type { FieldType } from './entities/field-type'
 export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale'
-export type { Organization, OrganizationProps } from './entities/organization'
+export type { Organization, OrganizationProp, OrganizationProps } from './entities/organization'
 export type {
   CreateOrganizationInvitationProps,
   OrganizationInvitation,
@@ -157,7 +157,8 @@ export type {
 export type {
   CreatePersonalAccessTokenProps,
   PersonalAccessToken,
-  PersonalAccessTokenProps as PersonalAccessTokenProp,
+  PersonalAccessTokenProp,
+  PersonalAccessTokenProps,
 } from './entities/personal-access-token'
 export type {
   CreatePersonalAccessTokenProps as CreatePATProps,

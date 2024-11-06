@@ -256,6 +256,11 @@ export interface MetaSysProps extends BasicMetaSysProps {
 }
 
 export interface EntityMetaSysProps extends MetaSysProps {
+  /**
+   * @deprecated `contentType` only exists on entries. Please refactor to use a
+   * type guard to get the correct `EntryMetaSysProps` type with this property.
+   */
+  contentType: SysLink
   space: SysLink
   status?: SysLink
   environment: SysLink
