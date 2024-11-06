@@ -95,7 +95,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-rewire-ts": "1.4.0",
     "better-docs": "2.7.3",
-    "bundlesize": "0.18.1",
+    "bundlesize2": "0.0.31",
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.2",
     "contentful-sdk-jsdoc": "3.1.0",
