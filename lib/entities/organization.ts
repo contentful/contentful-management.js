@@ -22,6 +22,11 @@ export type OrganizationProps = {
 }
 
 /**
+ * @deprecated Use `OrganizationProps` instead.
+ */
+export type OrganizationProp = OrganizationProps
+
+/**
  * This method creates the API for the given organization with all the methods for
  * reading and creating other entities. It also passes down a clone of the
  * http client with an organization id, so the base path for requests now has the
