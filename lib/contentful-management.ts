@@ -60,31 +60,20 @@ function createClient(params: ClientOptions): ClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
-    type: 'plain'
+    // type: 'plain'
     defaults?: DefaultParams
   }
 ): PlainClientAPI
-// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
-/**
- * @deprecated The `alphaFeatures` option is no longer supported. Please use the function without this option.
- */
+
 function createClient(
   params: ClientOptions,
   opts: {
-    type?: 'plain'
-    alphaFeatures: string[]
-    defaults?: DefaultParams
-  }
-): ClientAPI | PlainClientAPI
-function createClient(
-  params: ClientOptions,
-  opts: {
-    type?: 'plain'
+    type?: 'legacy'
     defaults?: DefaultParams
   } = {}
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
-    opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+    opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
     // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
@@ -101,9 +90,9 @@ function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
-  if (opts.type === 'plain') {
-    return createPlainClient(makeRequest, opts.defaults)
-  } else {
+  if (opts.type === 'legacy') {
     return createContentfulApi(makeRequest) as ClientAPI
+  } else {
+    return createPlainClient(makeRequest, opts.defaults)
   }
 }

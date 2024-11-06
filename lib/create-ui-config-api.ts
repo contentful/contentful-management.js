@@ -46,6 +46,7 @@ export default function createUIConfigApi(makeRequest: MakeRequest) {
      * .then((uiConfig) => console.log(`UIConfig updated.`))
      * .catch(console.error)
      * ```
+     * @deprecated The `old` client is deprecated in favor of the `plain` client since version 12.0.0.
      */
     update: async function update() {
       const { raw, params } = getParams(this)
