@@ -246,6 +246,11 @@ export interface BasicMetaSysProps {
 
 export interface MetaSysProps extends BasicMetaSysProps {
   space?: SysLink
+  /**
+   * @deprecated `status` only exists on entities. Please refactor to use a
+   * type guard to get the correct `EntityMetaSysProps` type with this property.
+   */
+  status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
   archivedBy?: SysLink
