@@ -30,6 +30,24 @@ export type ConceptPlainClientAPI = {
   ): Promise<ConceptProps>
 
   /**
+   * Create Concept With Id
+   * @returns ConceptProps
+   * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/create-a-concept-with-user-defined-id}
+   * @example
+   * ```javascript
+   * const concept = await client.concept.createWithId({
+   *   organizationId: '<organization_id>',
+   *   conceptId: '<concept_id>',
+   * }, conceptProps);
+   * ```
+   */
+  createWithId(
+    params: SetOptional<GetConceptParams, 'organizationId'>,
+    payload: CreateConceptProps
+  ): Promise<ConceptProps>
+
+  /**
    * Update Concept
    * @returns the updated Concept
    * @throws if the request fails

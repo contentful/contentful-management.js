@@ -29,6 +29,24 @@ export type ConceptSchemePlainClientAPI = {
   ): Promise<ConceptSchemeProps>
 
   /**
+   * Create Concept Scheme With Id
+   * @returns the created Concept Scheme
+   * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/create-a-concept-scheme-with-user-defined-id}
+   * @example
+   * ```javascript
+   * const concept = await client.conceptScheme.createWithId({
+   *   organizationId: '<organization_id>',
+   *   conceptSchemeId: '<concept_scheme_id>',
+   * }, conceptSchemeProps);
+   * ```
+   */
+  createWithId(
+    params: SetOptional<GetConceptSchemeParams, 'organizationId'>,
+    payload: CreateConceptSchemeProps
+  ): Promise<ConceptSchemeProps>
+
+  /**
    * Update Concept Scheme
    * @returns the updated Concept Scheme
    * @throws if the request fails
