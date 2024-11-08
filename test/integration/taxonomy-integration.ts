@@ -78,6 +78,22 @@ describe('Taxonomy Integration', () => {
     expect(result.uri).to.null
   })
 
+  test('create a concept with id', async () => {
+    const concept: CreateConceptProps = {
+      prefLabel: {
+        'en-US': 'Test Concept',
+      },
+    }
+    const result = await client.concept.createWithId({ conceptId: 'test-concept-id' }, concept)
+
+    conceptsToDelete.push(result)
+
+    isConceptProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test Concept')
+    expect(result.uri).to.null
+    expect(result.sys.id).to.equal('test-concept-id')
+  })
+
   test('create a concept with all fields', async () => {
     const concept: CreateConceptProps = {
       uri: 'https://example.com/concept',
@@ -295,6 +311,25 @@ describe('Taxonomy Integration', () => {
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
     expect(result.uri).to.null
+  })
+
+  test('create a conceptScheme with id', async () => {
+    const conceptScheme: CreateConceptSchemeProps = {
+      prefLabel: {
+        'en-US': 'Test ConceptScheme',
+      },
+    }
+    const result = await client.conceptScheme.createWithId(
+      { conceptSchemeId: 'test-concept-scheme-id' },
+      conceptScheme
+    )
+
+    conceptSchemesToDelete.push(result)
+
+    isConceptSchemeProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
+    expect(result.uri).to.null
+    expect(result.sys.id).to.equal('test-concept-scheme-id')
   })
 
   test('create a conceptScheme with all fields', async () => {

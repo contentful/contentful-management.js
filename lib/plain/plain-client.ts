@@ -106,6 +106,7 @@ export const createPlainClient = (
     },
     concept: {
       create: wrap(wrapParams, 'Concept', 'create'),
+      createWithId: wrap(wrapParams, 'Concept', 'createWithId'),
       get: wrap(wrapParams, 'Concept', 'get'),
       delete: wrap(wrapParams, 'Concept', 'delete'),
       update: wrap(wrapParams, 'Concept', 'update'),
@@ -120,6 +121,7 @@ export const createPlainClient = (
       getTotal: wrap(wrapParams, 'ConceptScheme', 'getTotal'),
       delete: wrap(wrapParams, 'ConceptScheme', 'delete'),
       create: wrap(wrapParams, 'ConceptScheme', 'create'),
+      createWithId: wrap(wrapParams, 'ConceptScheme', 'createWithId'),
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
     },
     function: {

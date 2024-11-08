@@ -58,6 +58,18 @@ export const create: RestEndpoint<'ConceptScheme', 'create'> = (
   return raw.post<ConceptSchemeProps>(http, basePath(params.organizationId), data)
 }
 
+export const createWithId: RestEndpoint<'ConceptScheme', 'createWithId'> = (
+  http: AxiosInstance,
+  params: GetConceptSchemeParams,
+  data: CreateConceptSchemeProps
+) => {
+  return raw.put<ConceptSchemeProps>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
+    data
+  )
+}
+
 export const update: RestEndpoint<'ConceptScheme', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptSchemeParams,

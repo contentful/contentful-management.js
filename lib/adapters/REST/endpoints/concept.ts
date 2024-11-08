@@ -26,6 +26,14 @@ export const create: RestEndpoint<'Concept', 'create'> = (
   return raw.post<ConceptProps>(http, basePath(params.organizationId), data)
 }
 
+export const createWithId: RestEndpoint<'Concept', 'createWithId'> = (
+  http: AxiosInstance,
+  params: GetConceptParams,
+  data: CreateConceptProps
+) => {
+  return raw.put<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`, data)
+}
+
 export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,

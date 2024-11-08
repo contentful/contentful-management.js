@@ -457,6 +457,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
   (opts: MROpts<'Concept', 'getDescendants', UA>): MRReturn<'Concept', 'getDescendants'>
   (opts: MROpts<'Concept', 'create', UA>): MRReturn<'Concept', 'create'>
+  (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
@@ -464,6 +465,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'getMany', UA>): MRReturn<'ConceptScheme', 'getMany'>
   (opts: MROpts<'ConceptScheme', 'getTotal', UA>): MRReturn<'ConceptScheme', 'getTotal'>
   (opts: MROpts<'ConceptScheme', 'create', UA>): MRReturn<'ConceptScheme', 'create'>
+  (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
@@ -1189,6 +1191,11 @@ export type MRActions = {
       payload: CreateConceptProps
       return: ConceptProps
     }
+    createWithId: {
+      params: GetConceptParams
+      payload: CreateConceptProps
+      return: ConceptProps
+    }
     update: {
       params: UpdateConceptParams
       payload: OpPatch[]
@@ -1222,6 +1229,11 @@ export type MRActions = {
   ConceptScheme: {
     create: {
       params: GetOrganizationParams
+      payload: CreateConceptSchemeProps
+      return: ConceptSchemeProps
+    }
+    createWithId: {
+      params: GetConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps
     }
