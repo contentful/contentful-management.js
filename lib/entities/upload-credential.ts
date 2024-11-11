@@ -36,7 +36,7 @@ export interface UploadCredential
 /**
  * @private
  */
-function createUploadApi(makeRequest: MakeRequest) {
+function createUploadCredentialsApi(makeRequest: MakeRequest) {
   return {
     create: async function create() {
       const raw = this.toPlainObject() as UploadCredentialProps
@@ -65,7 +65,7 @@ export function wrapUploadCredential(
   const uploadCredential = toPlainObject(copy(data))
   const uploadCredentialWithMethods = enhanceWithMethods(
     uploadCredential,
-    createUploadApi(makeRequest)
+    createUploadCredentialsApi(makeRequest)
   )
   return freezeSys(uploadCredentialWithMethods)
 }
