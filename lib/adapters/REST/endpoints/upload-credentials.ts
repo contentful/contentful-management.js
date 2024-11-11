@@ -5,10 +5,9 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) => {
-  const defaultPath = `/spaces/${params.spaceId}/environments/master/upload_credentials`
-  const environmentPath = `/spaces/${params.spaceId}/environments/${params.environmentId}/upload_credentials`
-  const path = params.environmentId ? environmentPath : defaultPath
-  return path
+  return `/spaces/${params.spaceId}/environments/${
+    params.environmentId ?? 'master'
+  }/upload_credentials`
 }
 
 export const create: RestEndpoint<'UploadCredential', 'create'> = (
