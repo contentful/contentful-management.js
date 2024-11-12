@@ -1,6 +1,11 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type { OpPatch } from 'json-patch'
 import type { Stream } from 'stream'
+import type {
+  AccessTokenProps,
+  CreatePersonalAccessTokenProps as CreatePATProps,
+} from './entities/access-token'
+import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
 import type { AppActionProps, CreateAppActionProps } from './entities/app-action'
 import type {
   AppActionCallProps,
@@ -8,16 +13,35 @@ import type {
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
-import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import type { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
+import type {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from './entities/app-definition'
+import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
 import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
+import type {
+  AppSignedRequestProps,
+  CreateAppSignedRequestProps,
+} from './entities/app-signed-request'
+import type {
+  AppSigningSecretProps,
+  CreateAppSigningSecretProps,
+} from './entities/app-signing-secret'
+import type { AppUploadProps } from './entities/app-upload'
 import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from './entities/asset'
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type {
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
 import type {
   CommentProps,
   CreateCommentParams,
@@ -32,6 +56,7 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
@@ -39,8 +64,8 @@ import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
 } from './entities/environment-alias'
+import type { CreateExtensionProps, ExtensionProps } from './entities/extension'
 import type { CreateLocaleProps, LocaleProps } from './entities/locale'
-import type { AppInstallationsForOrganizationProps } from './entities/app-definition'
 import type { OrganizationProps } from './entities/organization'
 import type {
   CreateOrganizationInvitationProps,
@@ -51,11 +76,18 @@ import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProps,
 } from './entities/personal-access-token'
-import type {
-  AccessTokenProps,
-  CreatePersonalAccessTokenProps as CreatePATProps,
-} from './entities/access-token'
 import type { PreviewApiKeyProps } from './entities/preview-api-key'
+import type {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from './entities/release'
+import type {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
@@ -69,7 +101,6 @@ import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import type { CreateExtensionProps, ExtensionProps } from './entities/extension'
 import type { UsageProps } from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
@@ -83,34 +114,6 @@ import type {
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from './entities/webhook'
-import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
-import type { AppUploadProps } from './entities/app-upload'
-import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
-import type {
-  AppSignedRequestProps,
-  CreateAppSignedRequestProps,
-} from './entities/app-signed-request'
-import type {
-  AppSigningSecretProps,
-  CreateAppSigningSecretProps,
-} from './entities/app-signing-secret'
-import type {
-  BulkActionProps,
-  BulkActionPublishPayload,
-  BulkActionUnpublishPayload,
-  BulkActionValidatePayload,
-} from './entities/bulk-action'
-import type {
-  ReleasePayload,
-  ReleaseProps,
-  ReleaseQueryOptions,
-  ReleaseValidatePayload,
-} from './entities/release'
-import type {
-  ReleaseAction,
-  ReleaseActionProps,
-  ReleaseActionQueryOptions,
-} from './entities/release-action'
 
 import type {
   CreateTaskParams,
@@ -121,27 +124,14 @@ import type {
   UpdateTaskProps,
 } from './entities/task'
 
+import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
 import type {
-  CreateWorkflowDefinitionParams,
-  CreateWorkflowDefinitionProps,
-  DeleteWorkflowDefinitionParams,
-  WorkflowDefinitionProps,
-  WorkflowDefinitionQueryOptions,
-} from './entities/workflow-definition'
-import type {
-  CompleteWorkflowParams,
-  CreateWorkflowParams,
-  CreateWorkflowProps,
-  DeleteWorkflowParams,
-  WorkflowProps,
-  WorkflowQueryOptions,
-} from './entities/workflow'
-import type {
-  WorkflowsChangelogEntryProps,
-  WorkflowsChangelogQueryOptions,
-} from './entities/workflows-changelog-entry'
-import type { UIConfigProps } from './entities/ui-config'
-import type { UserUIConfigProps } from './entities/user-ui-config'
+  AppEventSubscriptionProps,
+  CreateAppEventSubscriptionProps,
+} from './entities/app-event-subscription'
+import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+import type { ConceptProps, CreateConceptProps } from './entities/concept'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -153,14 +143,7 @@ import type {
   ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
 import type { FunctionProps } from './entities/function'
-import type {
-  AppEventSubscriptionProps,
-  CreateAppEventSubscriptionProps,
-} from './entities/app-event-subscription'
-import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
-import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
-import type { ConceptProps, CreateConceptProps } from './entities/concept'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type { ResourceProps, ResourceQueryOptions } from './entities/resource'
 import type {
   ResourceProviderProps,
   UpsertResourceProviderProps,
@@ -170,7 +153,27 @@ import type {
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
-import type { ResourceProps, ResourceQueryOptions } from './entities/resource'
+import type { UIConfigProps } from './entities/ui-config'
+import type { UserUIConfigProps } from './entities/user-ui-config'
+import type {
+  CompleteWorkflowParams,
+  CreateWorkflowParams,
+  CreateWorkflowProps,
+  DeleteWorkflowParams,
+  WorkflowProps,
+  WorkflowQueryOptions,
+} from './entities/workflow'
+import type {
+  CreateWorkflowDefinitionParams,
+  CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
+  WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
+} from './entities/workflow-definition'
+import type {
+  WorkflowsChangelogEntryProps,
+  WorkflowsChangelogQueryOptions,
+} from './entities/workflows-changelog-entry'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -723,6 +726,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
+
+  (opts: MROpts<'UploadCredential', 'create', UA>): MRReturn<'UploadCredential', 'create'>
 
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
@@ -1876,6 +1881,12 @@ export type MRActions = {
       return: any
     }
     delete: { params: GetSpaceEnvironmentUploadParams; return: any }
+  }
+  UploadCredential: {
+    create: {
+      params: GetSpaceEnvironmentParams
+      return: any
+    }
   }
   Usage: {
     getManyForSpace: {
