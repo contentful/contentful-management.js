@@ -275,6 +275,9 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'Upload', 'create'),
       delete: wrap(wrapParams, 'Upload', 'delete'),
     },
+    uploadCredential: {
+      create: wrap(wrapParams, 'UploadCredential', 'create'),
+    },
     locale: {
       get: wrap(wrapParams, 'Locale', 'get'),
       getMany: wrap(wrapParams, 'Locale', 'getMany'),

@@ -1,15 +1,16 @@
+import * as AccessToken from './access-token'
 import * as ApiKey from './api-key'
+import * as AppAccessToken from './app-access-token'
 import * as AppAction from './app-action'
 import * as AppActionCall from './app-action-call'
 import * as AppBundle from './app-bundle'
 import * as AppDefinition from './app-definition'
 import * as AppDetails from './app-details'
+import * as AppEventSubscription from './app-event-subscription'
 import * as AppInstallation from './app-installation'
+import * as AppKey from './app-key'
 import * as AppSignedRequest from './app-signed-request'
 import * as AppSigningSecret from './app-signing-secret'
-import * as AppEventSubscription from './app-event-subscription'
-import * as AppKey from './app-key'
-import * as AppAccessToken from './app-access-token'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
@@ -31,7 +32,6 @@ import * as Organization from './organization'
 import * as OrganizationInvitation from './organization-invitation'
 import * as OrganizationMembership from './organization-membership'
 import * as PersonalAccessToken from './personal-access-token'
-import * as AccessToken from './access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
 import * as ReleaseAction from './release-action'
@@ -51,6 +51,7 @@ import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
+import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
 import * as UserUIConfig from './user-ui-config'
@@ -113,6 +114,7 @@ export default {
   TeamSpaceMembership,
   UIConfig,
   Upload,
+  UploadCredential,
   Usage,
   User,
   UserUIConfig,
