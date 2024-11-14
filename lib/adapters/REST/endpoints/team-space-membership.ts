@@ -1,19 +1,19 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   GetTeamSpaceMembershipParams,
   QueryParams,
 } from '../../../common-types'
-import {
+import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from '../../../entities/team-space-membership'
-import { RestEndpoint } from '../types'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/team_space_memberships`

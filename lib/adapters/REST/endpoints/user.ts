@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import { UserProps } from '../../../entities/user'
-import { RestEndpoint } from '../types'
+import type { UserProps } from '../../../entities/user'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const getForSpace: RestEndpoint<'User', 'getForSpace'> = (

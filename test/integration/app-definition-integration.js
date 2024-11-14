@@ -5,18 +5,25 @@ import {
   getAppDefinition,
   getTestOrganization,
   createAppInstallation,
+  getDefaultSpace,
 } from '../helpers'
 
 describe('AppDefinition api', function () {
-  let organization
+  let organization, space, env
 
   before(async () => {
     organization = await getTestOrganization()
+    space = await getDefaultSpace()
+    env = await space.getEnvironment('master')
   })
 
   after(async () => {
     const { items: appDefinitions } = await organization.getAppDefinitions()
-    for (const appDefinition of appDefinitions) {
+    const { items: appInstallations } = await env.getAppInstallations()
+    for await (const appInstallation of appInstallations) {
+      await appInstallation.delete()
+    }
+    for await (const appDefinition of appDefinitions) {
       await appDefinition.delete()
     }
   })
@@ -34,6 +41,34 @@ describe('AppDefinition api', function () {
 
     expect(appDefinition.sys.type).equals('AppDefinition', 'type')
     expect(appDefinition.name).equals('Test App', 'name')
+  })
+
+  test('createAppDefinition with secret installation param', async () => {
+    const appDefinition = await organization.createAppDefinition({
+      name: 'Test App',
+      src: 'http://localhost:3000',
+      locations: [
+        {
+          location: 'app-config',
+        },
+      ],
+      parameters: {
+        installation: [
+          {
+            name: 'my-secret-param',
+            id: 'secret',
+            type: 'Secret',
+          },
+        ],
+      },
+    })
+
+    expect(appDefinition.sys.type).equals('AppDefinition', 'type')
+    expect(appDefinition.name).equals('Test App', 'name')
+    expect(appDefinition.parameters.installation[0].id).equals(
+      'secret',
+      'installation parameter id'
+    )
   })
 
   test('getAppDefintion', async () => {

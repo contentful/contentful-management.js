@@ -1,6 +1,10 @@
-import { PaginationQueryParams, CollectionProp, GetOrganizationParams } from '../../common-types'
-import { OrganizationProp } from '../../entities/organization'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type {
+  PaginationQueryParams,
+  CollectionProp,
+  GetOrganizationParams,
+} from '../../common-types'
+import type { OrganizationProps } from '../../entities/organization'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type OrganizationPlainClientAPI = {
   /**
@@ -19,7 +23,7 @@ export type OrganizationPlainClientAPI = {
    */
   getAll(
     params?: OptionalDefaults<PaginationQueryParams>
-  ): Promise<CollectionProp<OrganizationProp>>
+  ): Promise<CollectionProp<OrganizationProps>>
   /**
    * Fetch a single organization by its ID
    * @param params the organization ID
@@ -32,5 +36,5 @@ export type OrganizationPlainClientAPI = {
    * })
    * ```
    */
-  get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProp>
+  get(params: OptionalDefaults<GetOrganizationParams>): Promise<OrganizationProps>
 }

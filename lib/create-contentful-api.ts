@@ -1,5 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import {
+import type {
   Collection,
   MakeRequest,
   PaginationQueryParams,
@@ -11,18 +11,18 @@ import {
   BasicCursorPaginationOptions,
 } from './common-types'
 import entities from './entities'
-import { Organization, OrganizationProp } from './entities/organization'
-import { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import { Space, SpaceProps } from './entities/space'
-import { AppDefinition } from './entities/app-definition'
-import { UsageQuery } from './entities/usage'
-import { UserProps } from './entities/user'
-import {
+import type { Organization, OrganizationProps } from './entities/organization'
+import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
+import type { Space, SpaceProps } from './entities/space'
+import type { AppDefinition } from './entities/app-definition'
+import type { UsageQuery } from './entities/usage'
+import type { UserProps } from './entities/user'
+import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplate,
   EnvironmentTemplateProps,
 } from './entities/environment-template'
-import { RawAxiosRequestConfig } from 'axios'
+import type { RawAxiosRequestConfig } from 'axios'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -260,7 +260,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizations: function getOrganizations(
       query: PaginationQueryParams['query'] = {}
-    ): Promise<Collection<Organization, OrganizationProp>> {
+    ): Promise<Collection<Organization, OrganizationProps>> {
       return makeRequest({
         entityType: 'Organization',
         action: 'getMany',

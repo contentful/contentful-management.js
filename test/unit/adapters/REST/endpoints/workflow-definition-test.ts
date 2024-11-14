@@ -2,11 +2,9 @@ import { expect } from 'chai'
 import { describe, test } from 'mocha'
 import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import {
-  WorkflowDefinitionProps,
-  wrapWorkflowDefinition,
-} from '../../../../../lib/entities/workflow-definition'
-import { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
+import type { WorkflowDefinitionProps } from '../../../../../lib/entities/workflow-definition'
+import { wrapWorkflowDefinition } from '../../../../../lib/entities/workflow-definition'
+import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
 function setup(params = {}) {
   const entityMock: WorkflowDefinitionProps = cloneMock('workflowDefinition')

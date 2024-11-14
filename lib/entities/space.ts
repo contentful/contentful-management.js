@@ -1,8 +1,9 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import createSpaceApi, { ContentfulSpaceAPI } from '../create-space-api'
+import type { ContentfulSpaceAPI } from '../create-space-api'
+import createSpaceApi from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
 export type SpaceProps = {

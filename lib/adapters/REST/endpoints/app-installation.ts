@@ -1,22 +1,22 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
 import { normalizeSelect, normalizeSpaceId } from './utils'
 import copy from 'fast-copy'
-import {
+import type {
   GetAppInstallationParams,
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
   GetAppInstallationsForOrgParams,
   SpaceQueryParams,
 } from '../../../common-types'
-import {
+import type {
   AppInstallationProps,
   CreateAppInstallationProps,
 } from '../../../entities/app-installation'
-import { AppInstallationsForOrganizationProps } from '../../../entities/app-definition'
-import { CollectionProp } from '../../../common-types'
-import { RestEndpoint } from '../types'
+import type { AppInstallationsForOrganizationProps } from '../../../entities/app-definition'
+import type { CollectionProp } from '../../../common-types'
+import type { RestEndpoint } from '../types'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations`

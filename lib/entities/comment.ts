@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { Node, Text } from '@contentful/rich-text-types'
+import type { Node, Text } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
-import {
+import type {
   BasicMetaSysProps,
   DefaultElements,
   GetCommentParams,

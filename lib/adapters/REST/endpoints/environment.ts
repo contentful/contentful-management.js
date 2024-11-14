@@ -1,15 +1,15 @@
-import { RawAxiosRequestHeaders } from 'axios'
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { SetOptional } from 'type-fest'
-import {
+import type { SetOptional } from 'type-fest'
+import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
 } from '../../../common-types'
-import { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment'
-import { RestEndpoint } from '../types'
+import type { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 export const get: RestEndpoint<'Environment', 'get'> = (

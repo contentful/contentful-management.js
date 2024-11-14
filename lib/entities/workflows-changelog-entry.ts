@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   DefaultElements,
   Link,
   MakeRequest,
@@ -20,6 +20,7 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
   'workflow.sys.id'?: string
   'eventAt[lte]'?: string
   'eventAt[gte]'?: string
+  'workflowDefinition.sys.id[in]'?: string
 }
 
 export type WorkflowsChangelogEntryProps = {

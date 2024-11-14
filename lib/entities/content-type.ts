@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { Except, SetOptional, RequireAtLeastOne } from 'type-fest'
-import {
+import type { Except, RequireAtLeastOne, SetOptional } from 'type-fest'
+import type {
   BasicMetaSysProps,
   Collection,
   DefaultElements,
@@ -13,9 +13,11 @@ import {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { isDraft, isPublished, isUpdated } from '../plain/checks'
-import { ContentFields } from './content-type-fields'
-import { EditorInterface, wrapEditorInterface } from './editor-interface'
-import { Snapshot, SnapshotProps, wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import type { ContentFields } from './content-type-fields'
+import type { EditorInterface } from './editor-interface'
+import { wrapEditorInterface } from './editor-interface'
+import type { Snapshot, SnapshotProps } from './snapshot'
+import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
 import { omitAndDeleteField } from '../methods/content-type'
 
 export type ContentTypeMetadata = {
@@ -26,6 +28,7 @@ export type ContentTypeMetadata = {
     },
     'ContentType' | 'ContentTypeField'
   >
+  taxonomy?: Array<Link<'TaxonomyConcept'> | Link<'TaxonomyConceptScheme'>>
 }
 
 export type AnnotationAssignment = Link<'Annotation'> & {

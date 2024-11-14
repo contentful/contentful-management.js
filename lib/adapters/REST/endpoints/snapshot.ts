@@ -1,15 +1,15 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   CollectionProp,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
   KeyValueMap,
   QueryParams,
 } from '../../../common-types'
-import { ContentTypeProps } from '../../../entities/content-type'
-import { EntryProps } from '../../../entities/entry'
-import { SnapshotProps } from '../../../entities/snapshot'
-import { RestEndpoint } from '../types'
+import type { ContentTypeProps } from '../../../entities/content-type'
+import type { EntryProps } from '../../../entities/entry'
+import type { SnapshotProps } from '../../../entities/snapshot'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

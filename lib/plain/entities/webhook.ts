@@ -1,12 +1,12 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   CollectionProp,
   GetSpaceParams,
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   QueryParams,
 } from '../../common-types'
-import {
+import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
@@ -17,7 +17,7 @@ import {
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from '../../entities/webhook'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type WebhookPlainClientAPI = {
   // Webhooks
@@ -164,47 +164,18 @@ export type WebhookPlainClientAPI = {
 
   // Webhook Retry Policies
   /**
-   * Fetch the webhook retry policy for a given Space
-   * @param params entity IDs to identify the Space which the retry policy belongs to
-   * @returns the maxRetries value configured in the Retry Policy
-   * @throws if the request fails, the Space is not found, or the retry policy does not exist
-   * @example
-   * ```javascript
-   * const retryPolicy = await client.webhook.getRetryPolicy({
-   *   spaceId: '<space_id>',
-   * });
+   * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
    */
   getRetryPolicy(params: OptionalDefaults<GetSpaceParams>): Promise<WebhookRetryPolicyProps>
   /**
-   * Creates or updates the webhook retry policy for a given Space
-   * @param params entity IDs to identify the Space which the retry policy belongs to
-   * @param rawData the maxRetries with integer value >= 2 and <= 99 value to set in the Retry Policy
-   * @returns the webhook retry policy
-   * @throws if the request fails, the Space is not found, or the payload is malformed
-   * @example
-   * ```javascript
-   * const retryPolicy = await client.webhook.upsertRetryPolicy({
-   *   spaceId: '<space_id>',
-   * },
-   * {
-   *   maxRetries: 15,
-   * });
-   * ```
+   * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
    */
   upsertRetryPolicy(
     params: OptionalDefaults<GetSpaceParams>,
     rawData: WebhookRetryPolicyPayload
   ): Promise<WebhookRetryPolicyProps>
   /**
-   * Removes the webhook retry policy for a given Space
-   * @param params entity IDs to identify the Space which the retry policy belongs to
-   * @throws if the request fails, the Space is not found, or the retry policy does not exist
-   * @example
-   * ```javascript
-   * await client.webhook.deleteRetryPolicy({
-   *  spaceId: '<space_id>',
-   * });
-   * ```
+   * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
    */
   deleteRetryPolicy(params: OptionalDefaults<GetSpaceParams>): Promise<void>
 

@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import {
+import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import { ScheduledActionProps } from '../../../entities/scheduled-action'
-import { RestEndpoint } from '../types'
+import type { ScheduledActionProps } from '../../../entities/scheduled-action'
+import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 

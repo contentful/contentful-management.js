@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   DefaultElements,
   ISO8601Timestamp,
   MetaLinkProps,
@@ -17,7 +17,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 /**
  * Represents that state of the scheduled action
  */
-enum ScheduledActionStatus {
+export enum ScheduledActionStatus {
   /** action is pending execution */
   scheduled = 'scheduled',
   /** action has been started and pending completion */

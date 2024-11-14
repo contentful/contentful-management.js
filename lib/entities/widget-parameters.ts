@@ -1,11 +1,12 @@
-type ParameterType = 'Boolean' | 'Symbol' | 'Number' | 'Enum'
-type ParameterOption = string | { [key: string]: string }
+export type ParameterType = 'Boolean' | 'Symbol' | 'Number' | 'Enum'
+export type InstallationParameterType = ParameterType | 'Secret'
+export type ParameterOption = string | { [key: string]: string }
 
-export interface ParameterDefinition {
+export interface ParameterDefinition<T = ParameterType> {
   name: string
   id: string
   description?: string
-  type: ParameterType
+  type: T
   required?: boolean
   default?: boolean | string | number
   options?: ParameterOption[]

@@ -213,6 +213,22 @@ const appDefinitionMock = {
       fieldTypes: [{ type: 'Symbol' }],
     },
   ],
+  parameters: {
+    instance: [
+      {
+        name: 'my-bool-param',
+        id: 'param',
+        type: 'Boolean',
+      },
+    ],
+    installation: [
+      {
+        name: 'my-secret-param',
+        id: 'param',
+        type: 'Secret',
+      },
+    ],
+  },
 }
 
 const appUploadMock = {
@@ -270,6 +286,18 @@ const appKeyMock = {
     kid: 'kid',
     x5t: 'x5t',
   },
+}
+
+const appAccessTokenMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AppAccessToken',
+    space: { sys: { id: 'space-id' } },
+    environment: { sys: { id: 'environment-id' } },
+    appDefinition: { sys: { id: 'app-definition-id' } },
+    expiresAt: '2020-03-30T13:38:37.000Z',
+  }),
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImViZWY2MDJlLTMxZGItNGMzYi1iZjAwL',
+  id: undefined,
 }
 
 const appDetailsMock = {
@@ -468,6 +496,25 @@ const uploadMock = {
       sys: { id: 'environment-id' },
     },
   }),
+}
+
+const uploadCredentialMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UploadCredential',
+    id: 'some_random_id',
+    space: {
+      sys: { id: 'space-id' },
+    },
+    environment: {
+      sys: { id: 'environment-id' },
+    },
+  }),
+  uploadCredential: {
+    policy: 'some-policy',
+    signature: 'some-signature',
+    createdAt: '2020-03-30T13:38:37.000Z',
+    expiresAt: '2020-03-30T13:38:37.000Z',
+  },
 }
 
 const localeMock = {
@@ -743,6 +790,94 @@ const commentMock = {
   body: 'Body',
 }
 
+const conceptMock = {
+  sys: {
+    id: 'concept-id',
+    type: 'TaxonomyConcept',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organization: {
+      sys: {
+        id: 'organization-id',
+        type: 'Link',
+        linkType: 'Organization',
+      },
+    },
+    createdBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    updatedBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    version: 1,
+  },
+  uri: null,
+  prefLabel: {
+    'en-US': 'c1',
+  },
+  altLabels: {
+    'en-US': [],
+  },
+  hiddenLabels: {
+    'en-US': [],
+  },
+  note: null,
+  changeNote: null,
+  definition: null,
+  editorialNote: null,
+  example: null,
+  historyNote: null,
+  scopeNote: null,
+  notations: [],
+  broader: [],
+  related: [],
+}
+
+const conceptSchemeMock = {
+  sys: {
+    id: 'concept-scheme-id',
+    type: 'TaxonomyConceptScheme',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    organization: {
+      sys: {
+        id: 'organization-id',
+        type: 'Link',
+        linkType: 'Organization',
+      },
+    },
+    createdBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    updatedBy: {
+      sys: {
+        id: 'user-id',
+        type: 'Link',
+        linkType: 'User',
+      },
+    },
+    version: 1,
+  },
+  prefLabel: {
+    'en-US': 'cs1',
+  },
+  definition: null,
+  concepts: [],
+  topConcepts: [],
+}
+
 const errorMock = {
   config: {
     url: 'requesturl',
@@ -934,6 +1069,62 @@ export const userUIConfigMock = {
   entryListViews: [],
 }
 
+const resourceProviderMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'ResourceProvider',
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
+  }),
+  type: 'function',
+  function: { sys: { id: 'function-id' } },
+}
+
+const resourceTypeMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'ResourceType',
+    appDefinition: { sys: { id: 'appDefinition-id', linkType: 'AppDefinition', type: 'Link' } },
+    organization: { sys: { id: 'organization-id', linkType: 'Organization', type: 'Link' } },
+    resourceProvider: {
+      sys: { id: 'resourceProvider-id', linkType: 'ResourceProvider', type: 'Link' },
+    },
+  }),
+  name: 'resourceType',
+  defaultFieldMapping: {
+    title: 'title',
+  },
+}
+
+const resourceMock = {
+  sys: {
+    type: 'Resource',
+    urn: 'resource-urn',
+    resourceType: {
+      sys: {
+        type: 'Link',
+        linkType: 'ResourceType',
+        id: 'resourceTypeId',
+      },
+    },
+    resourceProvider: {
+      sys: {
+        type: 'Link',
+        linkType: 'ResourceProvider',
+        id: 'resourceProvider-id',
+      },
+    },
+    appDefinition: {
+      sys: {
+        type: 'Link',
+        linkType: 'AppDefinition',
+        id: 'appDefinitionId',
+      },
+    },
+  },
+  fields: {
+    title: 'Resource title',
+  },
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -948,6 +1139,7 @@ const mocks = {
   appSigningSecret: appSigningSecretMock,
   appEventSubscription: appEventSubscriptionMock,
   appKey: appKeyMock,
+  appAccessToken: appAccessTokenMock,
   appDetails: appDetailsMock,
   asset: assetMock,
   assetKey: assetKeyMock,
@@ -955,6 +1147,8 @@ const mocks = {
   bulkAction: bulkActionMock,
   bulkActionPublish: bulkActionPublishMock,
   comment: commentMock,
+  concept: conceptMock,
+  conceptScheme: conceptSchemeMock,
   contentType: contentTypeMock,
   editorInterface: editorInterfaceMock,
   entry: entryMock,
@@ -980,6 +1174,9 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  resource: resourceMock,
+  resourceProvider: resourceProviderMock,
+  resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
@@ -991,6 +1188,7 @@ const mocks = {
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
+  uploadCredential: uploadCredentialMock,
   usage: usageMock,
   uiConfig: uiConfigMock,
   user: userMock,
@@ -1049,6 +1247,9 @@ function setupEntitiesMock(rewiredModuleApi) {
     appKey: {
       wrapAppKey: sinon.stub(),
       wrapAppKeyCollection: sinon.stub(),
+    },
+    appAccessToken: {
+      wrapAppAccessToken: sinon.stub(),
     },
     appDetails: {
       wrapAppDetails: sinon.stub(),
@@ -1128,6 +1329,15 @@ function setupEntitiesMock(rewiredModuleApi) {
     },
     releaseAction: {
       wrapReleaseAction: sinon.stub(),
+    },
+    resourceProvider: {
+      wrapResourceProvider: sinon.stub(),
+    },
+    resourceType: {
+      wrapResourceType: sinon.stub(),
+    },
+    resource: {
+      wrapResourceCollection: sinon.stub(),
     },
     apiKey: {
       wrapApiKey: sinon.stub(),
@@ -1218,60 +1428,64 @@ function setupEntitiesMock(rewiredModuleApi) {
 }
 
 export {
-  appActionMock,
+  accessTokenMock,
+  apiKeyMock,
+  appAccessTokenMock,
   appActionCallMock,
+  appActionMock,
   appBundleMock,
-  appInstallationMock,
   appDefinitionMock,
-  appUploadMock,
+  appDetailsMock,
+  appEventSubscriptionMock,
+  appInstallationMock,
+  appInstallationsForOrgMock,
+  appKeyMock,
   appSignedRequestMock,
   appSigningSecretMock,
-  appEventSubscriptionMock,
-  appKeyMock,
-  appDetailsMock,
-  linkMock,
-  sysMock,
-  spaceMock,
+  appUploadMock,
+  assetKeyMock,
+  assetMock,
+  assetWithFilesMock,
   bulkActionMock,
+  cloneMock,
   commentMock,
   contentTypeMock,
   editorInterfaceMock,
   entryMock,
-  entryWithReferencesMock,
   entryReferencesCollectionMock,
+  entryWithReferencesMock,
+  environmentAliasMock,
+  environmentMock,
+  environmentTemplateInstallationMock,
+  environmentTemplateMock,
+  environmentTemplateValidationMock,
+  errorMock,
   extensionMock,
-  assetMock,
-  assetWithFilesMock,
-  assetKeyMock,
+  linkMock,
   localeMock,
-  webhookMock,
+  mockCollection,
+  organizationInvitationMock,
+  organizationMembershipMock,
+  organizationMock,
+  personalAccessTokenMock,
+  previewApiKeyMock,
+  releaseMock,
+  resourceMock,
+  resourceProviderMock,
+  resourceTypeMock,
+  roleMock,
+  setupEntitiesMock,
+  snapShotMock,
   spaceMemberMock,
   spaceMembershipMock,
-  teamSpaceMembershipMock,
-  organizationMembershipMock,
-  teamMock,
-  teamMembershipMock,
-  organizationInvitationMock,
-  appInstallationsForOrgMock,
-  releaseMock,
-  roleMock,
-  apiKeyMock,
-  previewApiKeyMock,
-  errorMock,
-  cloneMock,
-  mockCollection,
-  setupEntitiesMock,
-  uploadMock,
-  organizationMock,
-  snapShotMock,
-  userMock,
-  personalAccessTokenMock,
-  accessTokenMock,
-  environmentMock,
-  usageMock,
-  environmentAliasMock,
-  environmentTemplateMock,
-  environmentTemplateInstallationMock,
-  environmentTemplateValidationMock,
+  spaceMock,
+  sysMock,
   taskMock,
+  teamMembershipMock,
+  teamMock,
+  teamSpaceMembershipMock,
+  uploadMock,
+  usageMock,
+  userMock,
+  webhookMock,
 }

@@ -1,7 +1,8 @@
-import { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
+import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
-import { PlainClientAPI } from './common-types'
-import { DefaultParams, wrap } from './wrappers/wrap'
+import type { PlainClientAPI } from './common-types'
+import type { DefaultParams } from './wrappers/wrap'
+import { wrap } from './wrappers/wrap'
 
 export type { DefaultParams } from './wrappers/wrap'
 
@@ -99,6 +100,27 @@ export const createPlainClient = (
       upsert: wrap(wrapParams, 'AppSigningSecret', 'upsert'),
       get: wrap(wrapParams, 'AppSigningSecret', 'get'),
       delete: wrap(wrapParams, 'AppSigningSecret', 'delete'),
+    },
+    appAccessToken: {
+      create: wrap(wrapParams, 'AppAccessToken', 'create'),
+    },
+    concept: {
+      create: wrap(wrapParams, 'Concept', 'create'),
+      get: wrap(wrapParams, 'Concept', 'get'),
+      delete: wrap(wrapParams, 'Concept', 'delete'),
+      update: wrap(wrapParams, 'Concept', 'update'),
+      getMany: wrap(wrapParams, 'Concept', 'getMany'),
+      getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
+      getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
+      getTotal: wrap(wrapParams, 'Concept', 'getTotal'),
+    },
+    conceptScheme: {
+      get: wrap(wrapParams, 'ConceptScheme', 'get'),
+      getMany: wrap(wrapParams, 'ConceptScheme', 'getMany'),
+      getTotal: wrap(wrapParams, 'ConceptScheme', 'getTotal'),
+      delete: wrap(wrapParams, 'ConceptScheme', 'delete'),
+      create: wrap(wrapParams, 'ConceptScheme', 'create'),
+      update: wrap(wrapParams, 'ConceptScheme', 'update'),
     },
     function: {
       getMany: wrap(wrapParams, 'Function', 'getMany'),
@@ -253,6 +275,9 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'Upload', 'create'),
       delete: wrap(wrapParams, 'Upload', 'delete'),
     },
+    uploadCredential: {
+      create: wrap(wrapParams, 'UploadCredential', 'create'),
+    },
     locale: {
       get: wrap(wrapParams, 'Locale', 'get'),
       getMany: wrap(wrapParams, 'Locale', 'getMany'),
@@ -350,6 +375,21 @@ export const createPlainClient = (
       getForOrganization: wrap(wrapParams, 'AppInstallation', 'getForOrganization'),
       upsert: wrap(wrapParams, 'AppInstallation', 'upsert'),
       delete: wrap(wrapParams, 'AppInstallation', 'delete'),
+    },
+    resource: {
+      getMany: wrap(wrapParams, 'Resource', 'getMany'),
+    },
+    resourceProvider: {
+      get: wrap(wrapParams, 'ResourceProvider', 'get'),
+      upsert: wrap(wrapParams, 'ResourceProvider', 'upsert'),
+      delete: wrap(wrapParams, 'ResourceProvider', 'delete'),
+    },
+    resourceType: {
+      get: wrap(wrapParams, 'ResourceType', 'get'),
+      getMany: wrap(wrapParams, 'ResourceType', 'getMany'),
+      upsert: wrap(wrapParams, 'ResourceType', 'upsert'),
+      delete: wrap(wrapParams, 'ResourceType', 'delete'),
+      getForEnvironment: wrap(wrapParams, 'ResourceType', 'getForEnvironment'),
     },
     extension: {
       get: wrap(wrapParams, 'Extension', 'get'),

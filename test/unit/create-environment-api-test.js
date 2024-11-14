@@ -18,6 +18,7 @@ import {
   snapShotMock,
   UiExtensionMock,
   uploadMock,
+  appAccessTokenMock,
 } from './mocks/entities'
 import { afterEach, describe, test } from 'mocha'
 import { expect } from 'chai'
@@ -554,6 +555,14 @@ describe('A createEnvironmentApi', () => {
   test('API call getAppInstallations fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getAppInstallations',
+    })
+  })
+
+  test('API call createAppAccessToken', async () => {
+    return makeCreateEntityWithIdTest(setup, {
+      entityType: 'appAccessToken',
+      mockToReturn: appAccessTokenMock,
+      methodToTest: 'createAppAccessToken',
     })
   })
 

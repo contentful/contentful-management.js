@@ -1,13 +1,13 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetTagParams,
   GetSpaceEnvironmentParams,
   QueryParams,
   CollectionProp,
 } from '../../common-types'
-import { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
-import { TagProps, CreateTagProps } from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
+import type { TagProps, CreateTagProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TagPlainClientAPI = {
   /**

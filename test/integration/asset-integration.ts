@@ -3,8 +3,14 @@ const TEST_IMAGE_SOURCE_URL =
 
 import { expect } from 'chai'
 import { after, before, describe, test } from 'mocha'
-import { initClient, getDefaultSpace, createTestSpace } from '../helpers'
-import type { Environment, Space } from '../../lib/export-types'
+import {
+  initClient,
+  getDefaultSpace,
+  createTestSpace,
+  initPlainClient,
+  getTestOrganizationId,
+} from '../helpers'
+import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Asset api', function () {
   describe('Read', () => {
@@ -48,10 +54,14 @@ describe('Asset api', function () {
 
   // Write test seems currently broken
   describe('Write', function () {
-    let space
-    let environment
+    let space: Space
+    let environment: Environment
+    let client: PlainClientAPI
 
     before(async () => {
+      client = initPlainClient({
+        organizationId: getTestOrganizationId(),
+      })
       space = await createTestSpace(initClient({ retryOnError: false }), 'Assets')
       environment = await space.getEnvironment('master')
       await environment.createLocale({
@@ -146,6 +156,7 @@ describe('Asset api', function () {
               file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
             },
           },
+          description: {},
         },
       })
 
@@ -171,6 +182,7 @@ describe('Asset api', function () {
               file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
             },
           },
+          description: {},
         },
       })
       const processedAsset = await asset.processForAllLocales({ processingCheckWait: 5000 })
@@ -192,6 +204,7 @@ describe('Asset api', function () {
                     file: '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
                   },
                 },
+                description: {},
               },
             },
             {
@@ -202,6 +215,146 @@ describe('Asset api', function () {
       } catch (e) {
         expect(e).to.be.instanceOf(Error)
       }
+    })
+
+    describe('Taxonomy', () => {
+      const conceptsToCleanUp: ConceptProps[] = []
+
+      after(async () => {
+        for (const conceptToBeDeleted of conceptsToCleanUp) {
+          await client.concept.delete({
+            conceptId: conceptToBeDeleted.sys.id,
+            version: conceptToBeDeleted.sys.version,
+          })
+        }
+      })
+
+      test('should create asset with concepts assigned when concepts provided', async () => {
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
+
+        const createdAsset = await environment.createAsset({
+          fields: {
+            title: {
+              'en-US': 'this is the title of a newly created asset with a concept assigned',
+            },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          metadata: {
+            concepts: [
+              {
+                sys: {
+                  id: newConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+            tags: [],
+          },
+        })
+
+        expect(createdAsset.metadata.concepts).lengthOf(1)
+        expect(createdAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
+      })
+
+      test('should update asset with concepts assigned when concepts are provided', async () => {
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
+
+        const assetToUpdate = await environment.createAsset({
+          fields: {
+            title: { 'en-US': 'this asset should be updated with a concept assigned' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          // `metadata` intentionally omitted
+        })
+        expect(assetToUpdate.metadata.concepts).to.be.an('array').that.is.empty
+
+        assetToUpdate.metadata = {
+          concepts: [
+            {
+              sys: {
+                id: newConcept.sys.id,
+                linkType: 'TaxonomyConcept',
+                type: 'Link',
+              },
+            },
+          ],
+          tags: [],
+        }
+        const updatedAsset = await assetToUpdate.update()
+        expect(updatedAsset.metadata.concepts).lengthOf(1)
+        expect(updatedAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
+      })
+
+      test('should update asset with concepts removed when concepts already exist', async () => {
+        const newConcept = await client.concept.create(
+          {},
+          {
+            prefLabel: {
+              'en-US': 'Concept to be assigned',
+            },
+          }
+        )
+        conceptsToCleanUp.push(newConcept)
+        const assetToDeleteConceptFrom = await environment.createAsset({
+          fields: {
+            title: { 'en-US': 'this is the title of an asset with a concept already assigned' },
+            file: {
+              'en-US': {
+                contentType: 'image/jpeg',
+                fileName: 'shiba-stuck.jpg',
+                upload: TEST_IMAGE_SOURCE_URL,
+              },
+            },
+          },
+          metadata: {
+            concepts: [
+              {
+                sys: {
+                  id: newConcept.sys.id,
+                  linkType: 'TaxonomyConcept',
+                  type: 'Link',
+                },
+              },
+            ],
+            tags: [],
+          },
+        })
+        expect(assetToDeleteConceptFrom.metadata.concepts).lengthOf(1)
+
+        assetToDeleteConceptFrom.metadata.concepts = []
+        const updatedAsset = await assetToDeleteConceptFrom.update()
+
+        expect(updatedAsset.metadata.concepts).to.be.an('array').that.is.empty
+      })
     })
   })
 })

@@ -1,11 +1,11 @@
-import {
+import type {
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
 } from '../../common-types'
-import { UserProps } from '../../export-types'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { UserProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type UserPlainClientAPI = {
   /** Fetches all users in a space

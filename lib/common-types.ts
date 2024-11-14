@@ -1,75 +1,109 @@
-import { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import { OpPatch } from 'json-patch'
-import { Stream } from 'stream'
-import { AppActionProps, CreateAppActionProps } from './entities/app-action'
-import {
+import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
+import type { OpPatch } from 'json-patch'
+import type { Stream } from 'stream'
+import type {
+  AccessTokenProps,
+  CreatePersonalAccessTokenProps as CreatePATProps,
+} from './entities/access-token'
+import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+import type { AppActionProps, CreateAppActionProps } from './entities/app-action'
+import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
-import { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
-import { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import { AppDefinitionProps, CreateAppDefinitionProps } from './entities/app-definition'
-import { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
-import {
+import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
+import type {
+  AppDefinitionProps,
+  AppInstallationsForOrganizationProps,
+  CreateAppDefinitionProps,
+} from './entities/app-definition'
+import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
+import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
+import type {
+  AppSignedRequestProps,
+  CreateAppSignedRequestProps,
+} from './entities/app-signed-request'
+import type {
+  AppSigningSecretProps,
+  CreateAppSigningSecretProps,
+} from './entities/app-signing-secret'
+import type { AppUploadProps } from './entities/app-upload'
+import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from './entities/asset'
-import { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import {
+import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type {
+  BulkActionProps,
+  BulkActionPublishPayload,
+  BulkActionUnpublishPayload,
+  BulkActionValidatePayload,
+} from './entities/bulk-action'
+import type {
+  CommentProps,
   CreateCommentParams,
   CreateCommentProps,
   DeleteCommentParams,
-  CommentProps,
+  GetCommentParentEntityParams,
+  GetManyCommentsParams,
+  PlainTextBodyFormat,
+  RichTextBodyFormat,
+  RichTextCommentBodyPayload,
+  RichTextCommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
-  GetManyCommentsParams,
-  RichTextBodyFormat,
-  RichTextCommentProps,
-  PlainTextBodyFormat,
-  RichTextCommentBodyPayload,
-  GetCommentParentEntityParams,
 } from './entities/comment'
-import { EditorInterfaceProps } from './entities/editor-interface'
-import { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
-import { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
-import { CreateEnvironmentAliasProps, EnvironmentAliasProps } from './entities/environment-alias'
-import { CreateLocaleProps, LocaleProps } from './entities/locale'
-import { AppInstallationsForOrganizationProps } from './entities/app-definition'
-import { OrganizationProp } from './entities/organization'
-import {
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import type { EditorInterfaceProps } from './entities/editor-interface'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
+import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
+import type {
+  CreateEnvironmentAliasProps,
+  EnvironmentAliasProps,
+} from './entities/environment-alias'
+import type { CreateExtensionProps, ExtensionProps } from './entities/extension'
+import type { CreateLocaleProps, LocaleProps } from './entities/locale'
+import type { OrganizationProps } from './entities/organization'
+import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
 } from './entities/organization-invitation'
-import { OrganizationMembershipProps } from './entities/organization-membership'
-import {
+import type { OrganizationMembershipProps } from './entities/organization-membership'
+import type {
   CreatePersonalAccessTokenProps,
-  PersonalAccessTokenProp,
+  PersonalAccessTokenProps,
 } from './entities/personal-access-token'
-import {
-  AccessTokenProp,
-  CreatePersonalAccessTokenProps as CreatePATProps,
-} from './entities/access-token'
-import { PreviewApiKeyProps } from './entities/preview-api-key'
-import { CreateRoleProps, RoleProps } from './entities/role'
-import { ScheduledActionProps } from './entities/scheduled-action'
-import { SnapshotProps } from './entities/snapshot'
-import { SpaceProps } from './entities/space'
-import { SpaceMemberProps } from './entities/space-member'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
-import { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
-import { CreateTeamProps, TeamProps } from './entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
-import {
+import type { PreviewApiKeyProps } from './entities/preview-api-key'
+import type {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from './entities/release'
+import type {
+  ReleaseAction,
+  ReleaseActionProps,
+  ReleaseActionQueryOptions,
+} from './entities/release-action'
+import type { CreateRoleProps, RoleProps } from './entities/role'
+import type { ScheduledActionProps } from './entities/scheduled-action'
+import type { SnapshotProps } from './entities/snapshot'
+import type { SpaceProps } from './entities/space'
+import type { SpaceMemberProps } from './entities/space-member'
+import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
+import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
+import type { CreateTeamProps, TeamProps } from './entities/team'
+import type { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
+import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import { CreateExtensionProps, ExtensionProps } from './entities/extension'
-import { UsageProps } from './entities/usage'
-import { UserProps } from './entities/user'
-import {
+import type { UsageProps } from './entities/usage'
+import type { UserProps } from './entities/user'
+import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookCallDetailsProps,
@@ -80,30 +114,8 @@ import {
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
 } from './entities/webhook'
-import { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
-import { AppUploadProps } from './entities/app-upload'
-import { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
-import { AppSignedRequestProps, CreateAppSignedRequestProps } from './entities/app-signed-request'
-import { AppSigningSecretProps, CreateAppSigningSecretProps } from './entities/app-signing-secret'
-import {
-  BulkActionProps,
-  BulkActionPublishPayload,
-  BulkActionUnpublishPayload,
-  BulkActionValidatePayload,
-} from './entities/bulk-action'
-import {
-  ReleasePayload,
-  ReleaseProps,
-  ReleaseQueryOptions,
-  ReleaseValidatePayload,
-} from './entities/release'
-import {
-  ReleaseAction,
-  ReleaseActionProps,
-  ReleaseActionQueryOptions,
-} from './entities/release-action'
 
-import {
+import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
@@ -112,14 +124,38 @@ import {
   UpdateTaskProps,
 } from './entities/task'
 
-import {
-  CreateWorkflowDefinitionParams,
-  CreateWorkflowDefinitionProps,
-  DeleteWorkflowDefinitionParams,
-  WorkflowDefinitionProps,
-  WorkflowDefinitionQueryOptions,
-} from './entities/workflow-definition'
-import {
+import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
+import type {
+  AppEventSubscriptionProps,
+  CreateAppEventSubscriptionProps,
+} from './entities/app-event-subscription'
+import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+import type { ConceptProps, CreateConceptProps } from './entities/concept'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type {
+  CreateEnvironmentTemplateProps,
+  EnvironmentTemplateProps,
+} from './entities/environment-template'
+import type {
+  CreateEnvironmentTemplateInstallationProps,
+  EnvironmentTemplateInstallationProps,
+  EnvironmentTemplateValidationProps,
+  ValidateEnvironmentTemplateInstallationProps,
+} from './entities/environment-template-installation'
+import type { FunctionProps } from './entities/function'
+import type { ResourceProps, ResourceQueryOptions } from './entities/resource'
+import type {
+  ResourceProviderProps,
+  UpsertResourceProviderProps,
+} from './entities/resource-provider'
+import type {
+  ResourceTypeProps,
+  SpaceEnvResourceTypeProps,
+  UpsertResourceTypeProps,
+} from './entities/resource-type'
+import type { UIConfigProps } from './entities/ui-config'
+import type { UserUIConfigProps } from './entities/user-ui-config'
+import type {
   CompleteWorkflowParams,
   CreateWorkflowParams,
   CreateWorkflowProps,
@@ -127,28 +163,17 @@ import {
   WorkflowProps,
   WorkflowQueryOptions,
 } from './entities/workflow'
-import {
+import type {
+  CreateWorkflowDefinitionParams,
+  CreateWorkflowDefinitionProps,
+  DeleteWorkflowDefinitionParams,
+  WorkflowDefinitionProps,
+  WorkflowDefinitionQueryOptions,
+} from './entities/workflow-definition'
+import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
-import { UIConfigProps } from './entities/ui-config'
-import { UserUIConfigProps } from './entities/user-ui-config'
-import {
-  CreateEnvironmentTemplateProps,
-  EnvironmentTemplateProps,
-} from './entities/environment-template'
-import {
-  CreateEnvironmentTemplateInstallationProps,
-  EnvironmentTemplateInstallationProps,
-  ValidateEnvironmentTemplateInstallationProps,
-  EnvironmentTemplateValidationProps,
-} from './entities/environment-template-installation'
-import { FunctionProps } from './entities/function'
-import {
-  AppEventSubscriptionProps,
-  CreateAppEventSubscriptionProps,
-} from './entities/app-event-subscription'
-import { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -224,6 +249,10 @@ export interface BasicMetaSysProps {
 
 export interface MetaSysProps extends BasicMetaSysProps {
   space?: SysLink
+  /**
+   * @deprecated `status` only exists on entities. Please refactor to use a
+   * type guard to get the correct `EntityMetaSysProps` type with this property.
+   */
   status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
@@ -235,8 +264,13 @@ export interface MetaSysProps extends BasicMetaSysProps {
 }
 
 export interface EntityMetaSysProps extends MetaSysProps {
-  space: SysLink
+  /**
+   * @deprecated `contentType` only exists on entries. Please refactor to use a
+   * type guard to get the correct `EntryMetaSysProps` type with this property.
+   */
   contentType: SysLink
+  space: SysLink
+  status?: SysLink
   environment: SysLink
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
@@ -246,6 +280,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: SysLink
   automationTags: Link<'Tag'>[]
 }
 
@@ -257,6 +292,7 @@ export interface MetaLinkProps {
 
 export interface MetadataProps {
   tags: Link<'Tag'>[]
+  concepts?: Link<'TaxonomyConcept'>[]
 }
 
 export interface SysLink {
@@ -403,6 +439,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppKey', 'create', UA>): MRReturn<'AppKey', 'create'>
   (opts: MROpts<'AppKey', 'delete', UA>): MRReturn<'AppKey', 'delete'>
 
+  (opts: MROpts<'AppAccessToken', 'create', UA>): MRReturn<'AppAccessToken', 'create'>
+
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
   (opts: MROpts<'BulkAction', 'get', UA>): MRReturn<'BulkAction', 'get'>
@@ -416,6 +454,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
+
+  (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
+  (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
+  (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
+  (opts: MROpts<'Concept', 'getDescendants', UA>): MRReturn<'Concept', 'getDescendants'>
+  (opts: MROpts<'Concept', 'create', UA>): MRReturn<'Concept', 'create'>
+  (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
+  (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
+
+  (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
+  (opts: MROpts<'ConceptScheme', 'getMany', UA>): MRReturn<'ConceptScheme', 'getMany'>
+  (opts: MROpts<'ConceptScheme', 'getTotal', UA>): MRReturn<'ConceptScheme', 'getTotal'>
+  (opts: MROpts<'ConceptScheme', 'create', UA>): MRReturn<'ConceptScheme', 'create'>
+  (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
+  (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -559,6 +612,19 @@ type MRInternal<UA extends boolean> = {
     'ReleaseAction',
     'queryForRelease'
   >
+  (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
+  (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
+  (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
+  (opts: MROpts<'ResourceProvider', 'delete', UA>): MRReturn<'ResourceProvider', 'delete'>
+
+  (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
+  (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
+  (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
+  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
+    'ResourceType',
+    'getForEnvironment'
+  >
+  (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
   (opts: MROpts<'Role', 'getMany', UA>): MRReturn<'Role', 'getMany'>
@@ -661,6 +727,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
   (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
 
+  (opts: MROpts<'UploadCredential', 'create', UA>): MRReturn<'UploadCredential', 'create'>
+
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
 
@@ -732,6 +800,41 @@ export interface Adapter {
  * @private
  */
 export type MRActions = {
+  Resource: {
+    getMany: {
+      params: GetResourceParams & { query?: ResourceQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<ResourceProps>
+    }
+  }
+  ResourceProvider: {
+    get: { params: GetResourceProviderParams; return: ResourceProviderProps }
+    upsert: {
+      params: GetResourceProviderParams
+      payload: UpsertResourceProviderProps
+      headers?: RawAxiosRequestHeaders
+      return: ResourceProviderProps
+    }
+    delete: { params: GetResourceProviderParams; return: any }
+  }
+  ResourceType: {
+    get: { params: GetResourceTypeParams; return: ResourceTypeProps }
+    getMany: {
+      params: Omit<GetResourceTypeParams, 'resourceTypeId'>
+      return: CollectionProp<ResourceTypeProps>
+    }
+    upsert: {
+      params: GetResourceTypeParams
+      payload: UpsertResourceTypeProps
+      headers?: RawAxiosRequestHeaders
+      return: ResourceTypeProps
+    }
+    delete: { params: GetResourceTypeParams; return: any }
+    getForEnvironment: {
+      params: GetSpaceEnvironmentParams & { query?: BasicCursorPaginationOptions }
+      return: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
+    }
+  }
   Http: {
     get: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     patch: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
@@ -944,6 +1047,13 @@ export type MRActions = {
       return: void
     }
   }
+  AppAccessToken: {
+    create: {
+      params: GetAppInstallationParams
+      payload: CreateAppAccessTokenProps
+      return: AppAccessTokenProps
+    }
+  }
   Asset: {
     getPublished: {
       params: GetSpaceEnvironmentParams & QueryParams
@@ -1077,6 +1187,70 @@ export type MRActions = {
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
+  }
+  Concept: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptProps
+      return: ConceptProps
+    }
+    update: {
+      params: UpdateConceptParams
+      payload: OpPatch[]
+      return: ConceptProps
+    }
+    delete: {
+      params: DeleteConceptParams
+      return: void
+    }
+    get: {
+      params: GetConceptParams
+      return: ConceptProps
+    }
+    getMany: {
+      params: GetManyConceptParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
+    getDescendants: {
+      params: GetConceptDescendantsParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+    getAncestors: {
+      params: GetConceptDescendantsParams
+      return: CursorPaginatedCollectionProp<ConceptProps>
+    }
+  }
+  ConceptScheme: {
+    create: {
+      params: GetOrganizationParams
+      payload: CreateConceptSchemeProps
+      return: ConceptSchemeProps
+    }
+    update: {
+      params: UpdateConceptSchemeParams
+      payload: OpPatch[]
+      return: ConceptSchemeProps
+    }
+    get: {
+      params: GetConceptSchemeParams
+      return: ConceptSchemeProps
+    }
+    getMany: {
+      params: GetManyConceptSchemeParams
+      return: CursorPaginatedCollectionProp<ConceptSchemeProps>
+    }
+    getTotal: {
+      params: GetOrganizationParams
+      return: { total: number }
+    }
+    delete: {
+      params: DeleteConceptSchemeParams
+      return: void
+    }
   }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
@@ -1356,8 +1530,8 @@ export type MRActions = {
     }
   }
   Organization: {
-    getMany: { params: PaginationQueryParams; return: CollectionProp<OrganizationProp> }
-    get: { params: GetOrganizationParams; return: OrganizationProp }
+    getMany: { params: PaginationQueryParams; return: CollectionProp<OrganizationProps> }
+    get: { params: GetOrganizationParams; return: OrganizationProps }
   }
   OrganizationInvitation: {
     get: {
@@ -1387,29 +1561,29 @@ export type MRActions = {
     delete: { params: GetOrganizationMembershipParams; return: any }
   }
   PersonalAccessToken: {
-    get: { params: { tokenId: string }; return: PersonalAccessTokenProp }
-    getMany: { params: QueryParams; return: CollectionProp<PersonalAccessTokenProp> }
+    get: { params: { tokenId: string }; return: PersonalAccessTokenProps }
+    getMany: { params: QueryParams; return: CollectionProp<PersonalAccessTokenProps> }
     create: {
       params: {}
       payload: CreatePersonalAccessTokenProps
       headers?: RawAxiosRequestHeaders
-      return: PersonalAccessTokenProp
+      return: PersonalAccessTokenProps
     }
-    revoke: { params: { tokenId: string }; return: PersonalAccessTokenProp }
+    revoke: { params: { tokenId: string }; return: PersonalAccessTokenProps }
   }
   AccessToken: {
-    get: { params: { tokenId: string }; return: AccessTokenProp }
-    getMany: { params: QueryParams; return: CollectionProp<AccessTokenProp> }
+    get: { params: { tokenId: string }; return: AccessTokenProps }
+    getMany: { params: QueryParams; return: CollectionProp<AccessTokenProps> }
     createPersonalAccessToken: {
       params: {}
       payload: CreatePATProps
       headers?: RawAxiosRequestHeaders
-      return: AccessTokenProp
+      return: AccessTokenProps
     }
-    revoke: { params: { tokenId: string }; return: AccessTokenProp }
+    revoke: { params: { tokenId: string }; return: AccessTokenProps }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
-      return: CollectionProp<AccessTokenProp>
+      return: CollectionProp<AccessTokenProps>
     }
   }
   PreviewApiKey: {
@@ -1708,6 +1882,12 @@ export type MRActions = {
     }
     delete: { params: GetSpaceEnvironmentUploadParams; return: any }
   }
+  UploadCredential: {
+    create: {
+      params: GetSpaceEnvironmentParams
+      return: any
+    }
+  }
   Usage: {
     getManyForSpace: {
       params: { organizationId: string } & QueryParams
@@ -1936,6 +2116,33 @@ export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
+  query?: { depth?: number; pageUrl?: string }
+}
+export type GetManyConceptParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+        Omit<PaginationQueryOptions, 'skip'>)
+}
+
+export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+export type GetManyConceptSchemeParams = GetOrganizationParams & {
+  query?:
+    | { pageUrl?: string }
+    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+}
+export type DeleteConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
+}
+export type UpdateConceptSchemeParams = GetOrganizationParams & {
+  conceptSchemeId: string
+  version: number
+}
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
@@ -1948,9 +2155,16 @@ export type GetWorkflowParams = GetSpaceEnvironmentParams & {
 export type GetUIConfigParams = GetSpaceEnvironmentParams
 export type GetUserUIConfigParams = GetUIConfigParams
 
+export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
+
+export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
+
+export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: string }
+
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
 }

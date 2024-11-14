@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import { DefaultElements, MakeRequest, BasicMetaSysProps, SysLink } from '../common-types'
+import type { DefaultElements, MakeRequest, BasicMetaSysProps, SysLink } from '../common-types'
 
 type Application = {
   id?: string
@@ -17,7 +17,7 @@ type AccessTokenSysProps = BasicMetaSysProps & {
   redactedValue: string
 }
 
-export type AccessTokenProp = {
+export type AccessTokenProps = {
   sys: AccessTokenSysProps
   name: string
   scopes: 'content_management_manage'[]
@@ -25,11 +25,16 @@ export type AccessTokenProp = {
   token?: string
 }
 
+/**
+ * @deprecated Use `AccessTokenProps` instead.
+ */
+export type AccessTokenProp = AccessTokenProps
+
 export type CreatePersonalAccessTokenProps = Pick<AccessToken, 'name' | 'scopes'> & {
   expiresIn: number
 }
 
-export interface AccessToken extends AccessTokenProp, DefaultElements<AccessTokenProp> {
+export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTokenProps> {
   /**
    * Revokes access token
    * @return Object the revoked access token
@@ -56,7 +61,7 @@ export interface AccessToken extends AccessTokenProp, DefaultElements<AccessToke
  * @param data - Raw  access token data
  * @return Wrapped access token
  */
-export function wrapAccessToken(makeRequest: MakeRequest, data: AccessTokenProp): AccessToken {
+export function wrapAccessToken(makeRequest: MakeRequest, data: AccessTokenProps): AccessToken {
   const AccessToken = toPlainObject(copy(data))
   const accessTokenWithMethods = enhanceWithMethods(AccessToken, {
     revoke: function () {

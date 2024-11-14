@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { before, describe, test } from 'mocha'
-import { Environment, Space } from '../../lib/export-types'
+import type { Environment, Space } from '../../lib/export-types'
 
 import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
 import { TestDefaults } from '../defaults'

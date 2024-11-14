@@ -9,6 +9,7 @@ import * as appSignedRequest from './app-signed-request'
 import * as appSigningSecret from './app-signing-secret'
 import * as appEventSubscription from './app-event-subscription'
 import * as appKey from './app-key'
+import * as appAccessToken from './app-access-token'
 import * as appUpload from './app-upload'
 import * as asset from './asset'
 import * as assetKey from './asset-key'
@@ -49,6 +50,11 @@ import * as user from './user'
 import * as userUIConfig from './user-ui-config'
 import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
+import * as concept from './concept'
+import * as conceptScheme from './concept-scheme'
+import * as resourceProvider from './resource-provider'
+import * as resourceType from './resource-type'
+import * as resource from './resource'
 
 export default {
   accessToken,
@@ -64,10 +70,13 @@ export default {
   appSigningSecret,
   appEventSubscription,
   appKey,
+  appAccessToken,
   asset,
   assetKey,
   bulkAction,
   comment,
+  concept,
+  conceptScheme,
   contentType,
   editorInterface,
   entry,
@@ -84,6 +93,9 @@ export default {
   previewApiKey,
   release,
   releaseAction,
+  resourceProvider,
+  resourceType,
+  resource,
   role,
   scheduledAction,
   snapshot,

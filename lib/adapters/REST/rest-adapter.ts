@@ -1,8 +1,10 @@
-import axios, { RawAxiosRequestHeaders } from 'axios'
-import { AxiosInstance, createHttpClient, CreateHttpClientParams } from 'contentful-sdk-core'
+import type { RawAxiosRequestHeaders } from 'axios'
+import axios from 'axios'
+import type { AxiosInstance, CreateHttpClientParams } from 'contentful-sdk-core'
+import { createHttpClient } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { OpPatch } from 'json-patch'
-import { Adapter, MakeRequestOptions, MakeRequestPayload } from '../../common-types'
+import type { OpPatch } from 'json-patch'
+import type { Adapter, MakeRequestOptions, MakeRequestPayload } from '../../common-types'
 import endpoints from './endpoints'
 
 export type RestAdapterParams = CreateHttpClientParams & {

@@ -1,121 +1,122 @@
-import { RawAxiosRequestHeaders, RawAxiosRequestConfig } from 'axios'
-import { OpPatch } from 'json-patch'
-import {
+import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
+import type { OpPatch } from 'json-patch'
+import type {
+  BasicCursorPaginationOptions,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  EnvironmentTemplateParams,
   GetAppDefinitionParams,
+  GetBulkActionParams,
   GetContentTypeParams,
+  GetEnvironmentTemplateParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
-  GetTeamMembershipParams,
-  GetTeamParams,
-  GetTeamSpaceMembershipParams,
   KeyValueMap,
   QueryParams,
-  GetBulkActionParams,
-  GetReleaseParams,
-  CursorPaginatedCollectionProp,
-  GetEnvironmentTemplateParams,
-  BasicCursorPaginationOptions,
-  EnvironmentTemplateParams,
 } from '../common-types'
-import { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
-import {
+import type {
+  AccessTokenProps,
+  CreatePersonalAccessTokenProps as CreatePATProps,
+} from '../entities/access-token'
+import type { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
+import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
 } from '../entities/asset'
-import { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
-import {
-  CreateOrganizationInvitationProps,
-  OrganizationInvitationProps,
-} from '../entities/organization-invitation'
-import { OrganizationMembershipProps } from '../entities/organization-membership'
-import {
-  CreatePersonalAccessTokenProps,
-  PersonalAccessTokenProp,
-} from '../entities/personal-access-token'
-import {
-  AccessTokenProp,
-  CreatePersonalAccessTokenProps as CreatePATProps,
-} from '../entities/access-token'
-import { PreviewApiKeyProps } from '../entities/preview-api-key'
-import {
-  ScheduledActionProps,
-  CreateUpdateScheduledActionProps,
-} from '../entities/scheduled-action'
-import { SnapshotProps } from '../entities/snapshot'
-import { CreateTeamProps, TeamProps } from '../entities/team'
-import { CreateTeamMembershipProps, TeamMembershipProps } from '../entities/team-membership'
-import {
-  CreateTeamSpaceMembershipProps,
-  TeamSpaceMembershipProps,
-} from '../entities/team-space-membership'
-import { UsageProps } from '../entities/usage'
-import { DefaultParams, OptionalDefaults } from './wrappers/wrap'
-import { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
-import { FunctionProps } from '../entities/function'
-import {
+import type { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
+import type {
   BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
 } from '../entities/bulk-action'
-import {
-  ReleasePayload,
-  ReleaseProps,
-  ReleaseQueryOptions,
-  ReleaseValidatePayload,
-} from '../entities/release'
-import { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
-import {
+import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
+import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from '../entities/environment-template'
-import {
+import type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import { AppActionPlainClientAPI } from './entities/app-action'
-import { AppActionCallPlainClientAPI } from './entities/app-action-call'
-import { EditorInterfacePlainClientAPI } from './entities/editor-interface'
-import { UIConfigPlainClientAPI } from './entities/ui-config'
-import { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
-import { AppDefinitionPlainClientAPI } from './entities/app-definition'
-import { AppUploadPlainClientAPI } from './entities/app-upload'
-import { AppBundlePlainClientAPI } from './entities/app-bundle'
-import { AppDetailsPlainClientAPI } from './entities/app-details'
-import { AppInstallationPlainClientAPI } from './entities/app-installation'
-import { WebhookPlainClientAPI } from './entities/webhook'
-import { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
-import { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
-import { ExtensionPlainClientAPI } from './entities/extension'
-import { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
-import { AppKeyPlainClientAPI } from './entities/app-key'
-import { UserPlainClientAPI } from './entities/user'
-import { UploadPlainClientAPI } from './entities/upload'
-import { OrganizationPlainClientAPI } from './entities/organization'
-import { LocalePlainClientAPI } from './entities/locale'
-import { SpacePlainClientAPI } from './entities/space'
-import { SpaceMembershipPlainClientAPI } from './entities/space-membership'
-import { SpaceMemberPlainClientAPI } from './entities/space-member'
-import { EnvironmentPlainClientAPI } from './entities/environment'
-import { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import { CommentPlainClientAPI } from './entities/comment'
-import { TaskPlainClientAPI } from './entities/task'
-import { WorkflowPlainClientAPI } from './entities/workflow'
-import { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
-import { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
-import { RolePlainClientAPI } from './entities/role'
-import { TagPlainClientAPI } from './entities/tag'
+import type { FunctionProps } from '../entities/function'
+import type {
+  CreateOrganizationInvitationProps,
+  OrganizationInvitationProps,
+} from '../entities/organization-invitation'
+import type { OrganizationMembershipProps } from '../entities/organization-membership'
+import type {
+  CreatePersonalAccessTokenProps,
+  PersonalAccessTokenProps,
+} from '../entities/personal-access-token'
+import type { PreviewApiKeyProps } from '../entities/preview-api-key'
+import type {
+  ReleasePayload,
+  ReleaseProps,
+  ReleaseQueryOptions,
+  ReleaseValidatePayload,
+} from '../entities/release'
+import type { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
+import type {
+  CreateUpdateScheduledActionProps,
+  ScheduledActionProps,
+} from '../entities/scheduled-action'
+import type { SnapshotProps } from '../entities/snapshot'
+import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
+import type { AppActionPlainClientAPI } from './entities/app-action'
+import type { AppActionCallPlainClientAPI } from './entities/app-action-call'
+import type { AppBundlePlainClientAPI } from './entities/app-bundle'
+import type { AppDefinitionPlainClientAPI } from './entities/app-definition'
+import type { AppDetailsPlainClientAPI } from './entities/app-details'
+import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
+import type { AppInstallationPlainClientAPI } from './entities/app-installation'
+import type { AppKeyPlainClientAPI } from './entities/app-key'
+import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
+import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
+import type { AppUploadPlainClientAPI } from './entities/app-upload'
+import type { CommentPlainClientAPI } from './entities/comment'
+import type { ConceptPlainClientAPI } from './entities/concept'
+import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
+import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
+import type { EnvironmentPlainClientAPI } from './entities/environment'
+import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
+import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { LocalePlainClientAPI } from './entities/locale'
+import type { OrganizationPlainClientAPI } from './entities/organization'
+import type { ResourcePlainAPI } from './entities/resource'
+import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
+import type { ResourceTypePlainClientAPI } from './entities/resource-type'
+import type { RolePlainClientAPI } from './entities/role'
+import type { SpacePlainClientAPI } from './entities/space'
+import type { SpaceMemberPlainClientAPI } from './entities/space-member'
+import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
+import type { TagPlainClientAPI } from './entities/tag'
+import type { TaskPlainClientAPI } from './entities/task'
+import type { TeamPlainClientAPI } from './entities/team'
+import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
+import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { UIConfigPlainClientAPI } from './entities/ui-config'
+import type { UploadPlainClientAPI } from './entities/upload'
+import type { UploadCredentialAPI } from './entities/upload-credential'
+import type { UsagePlainClientAPI } from './entities/usage'
+import type { UserPlainClientAPI } from './entities/user'
+import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
+import type { WebhookPlainClientAPI } from './entities/webhook'
+import type { WorkflowPlainClientAPI } from './entities/workflow'
+import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
+import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 
 export type PlainClientAPI = {
   raw: {
@@ -135,6 +136,7 @@ export type PlainClientAPI = {
   appKey: AppKeyPlainClientAPI
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
+  appAccessToken: AppAccessTokenPlainClientAPI
   function: {
     getMany(
       params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
@@ -228,6 +230,8 @@ export type PlainClientAPI = {
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: CommentPlainClientAPI
+  concept: ConceptPlainClientAPI
+  conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
@@ -385,36 +389,32 @@ export type PlainClientAPI = {
     ): Promise<AssetKeyProps>
   }
   upload: UploadPlainClientAPI
+  uploadCredential: UploadCredentialAPI
   locale: LocalePlainClientAPI
   personalAccessToken: {
-    get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<PersonalAccessTokenProp>>
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
+    getMany(
+      params: OptionalDefaults<QueryParams>
+    ): Promise<CollectionProp<PersonalAccessTokenProps>>
     create(
       rawData: CreatePersonalAccessTokenProps,
       headers?: RawAxiosRequestHeaders
-    ): Promise<PersonalAccessTokenProp>
-    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProp>
+    ): Promise<PersonalAccessTokenProps>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
   accessToken: {
-    get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
-    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProp>>
+    get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
+    getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProps>>
     createPersonalAccessToken(
       rawData: CreatePATProps,
       headers?: RawAxiosRequestHeaders
-    ): Promise<AccessTokenProp>
-    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProp>
+    ): Promise<AccessTokenProps>
+    revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
     getManyForOrganization(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<AccessTokenProp>>
+    ): Promise<CollectionProp<AccessTokenProps>>
   }
-  usage: {
-    getManyForSpace(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-    getManyForOrganization(
-      params: OptionalDefaults<{ organizationId: string } & QueryParams>
-    ): Promise<CollectionProp<UsageProps>>
-  }
+  usage: UsagePlainClientAPI
   release: {
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
@@ -455,6 +455,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
+  resource: ResourcePlainAPI
+  resourceProvider: ResourceProviderPlainClientAPI
+  resourceType: ResourceTypePlainClientAPI
   role: RolePlainClientAPI
   scheduledActions: {
     get(
@@ -556,69 +559,9 @@ export type PlainClientAPI = {
   spaceMember: SpaceMemberPlainClientAPI
   spaceMembership: SpaceMembershipPlainClientAPI
   task: TaskPlainClientAPI
-  team: {
-    get(params: OptionalDefaults<GetTeamParams>): Promise<TeamProps>
-    getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    getManyForSpace(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamProps>>
-    create(
-      params: OptionalDefaults<GetOrganizationParams>,
-      rawData: CreateTeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<any>
-    update(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: TeamProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamProps>
-    delete(params: OptionalDefaults<GetTeamParams>): Promise<any>
-  }
-  teamMembership: {
-    get(params: OptionalDefaults<GetTeamMembershipParams>): Promise<TeamMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    getManyForTeam(
-      params: OptionalDefaults<GetTeamParams & QueryParams>
-    ): Promise<CollectionProp<TeamMembershipProps>>
-    create(
-      params: OptionalDefaults<GetTeamParams>,
-      rawData: CreateTeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamMembershipParams>,
-      rawData: TeamMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamMembershipProps>
-    delete(params: OptionalDefaults<GetTeamMembershipParams>): Promise<any>
-  }
-  teamSpaceMembership: {
-    get(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<TeamSpaceMembershipProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    getForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>
-    ): Promise<TeamSpaceMembershipProps>
-    getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>
-    ): Promise<CollectionProp<TeamSpaceMembershipProps>>
-    create(
-      params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
-      rawData: CreateTeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    update(
-      params: OptionalDefaults<GetTeamSpaceMembershipParams>,
-      rawData: TeamSpaceMembershipProps,
-      headers?: RawAxiosRequestHeaders
-    ): Promise<TeamSpaceMembershipProps>
-    delete(params: OptionalDefaults<GetTeamSpaceMembershipParams>): Promise<any>
-  }
+  team: TeamPlainClientAPI
+  teamMembership: TeamMembershipPlainClientAPI
+  teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI

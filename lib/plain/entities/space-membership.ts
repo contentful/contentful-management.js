@@ -1,13 +1,16 @@
-import { RawAxiosRequestHeaders } from 'axios'
-import {
+import type { RawAxiosRequestHeaders } from 'axios'
+import type {
   GetSpaceMembershipProps,
   GetSpaceParams,
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
 } from '../../common-types'
-import { OptionalDefaults } from '../wrappers/wrap'
-import { CreateSpaceMembershipProps, SpaceMembershipProps } from '../../entities/space-membership'
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type {
+  CreateSpaceMembershipProps,
+  SpaceMembershipProps,
+} from '../../entities/space-membership'
 
 export type SpaceMembershipPlainClientAPI = {
   /**

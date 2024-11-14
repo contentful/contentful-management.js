@@ -1,7 +1,7 @@
-import { Stream } from 'stream'
+import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
-import { BasicQueryOptions, MakeRequest } from './common-types'
+import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
@@ -21,19 +21,15 @@ import type {
   BulkActionValidatePayload,
 } from './entities/bulk-action'
 
-import {
-  ReleaseActionQueryOptions,
-  wrapReleaseAction,
-  wrapReleaseActionCollection,
-} from './entities/release-action'
+import type { ReleaseActionQueryOptions } from './entities/release-action'
+import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action'
 
-import {
-  wrapRelease,
+import type {
   ReleasePayload,
-  wrapReleaseCollection,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from './entities/release'
+import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type {
@@ -42,13 +38,16 @@ import type {
   EntryReferenceOptionsProps,
   EntryReferenceProps,
 } from './entities/entry'
-import { EnvironmentProps } from './entities/environment'
+import type { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
 import type { CreateLocaleProps } from './entities/locale'
-import { TagVisibility, wrapTag, wrapTagCollection } from './entities/tag'
+import type { TagVisibility } from './entities/tag'
+import { wrapTag, wrapTagCollection } from './entities/tag'
 import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
+import type { CreateAppAccessTokenProps } from './entities/app-access-token'
+import type { ResourceQueryOptions } from './entities/resource'
 
 /**
  * @private
@@ -76,6 +75,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppSignedRequest } = entities.appSignedRequest
   const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
+  const { wrapAppAccessToken } = entities.appAccessToken
+  const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
+  const { wrapResourceCollection } = entities.resource
 
   return {
     /**
@@ -1241,7 +1243,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getLocales() {
+    getLocales(query: BasicQueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Locale',
@@ -1249,6 +1251,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapLocaleCollection(makeRequest, data))
     },
@@ -1624,6 +1627,45 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((payload) => wrapAppSignedRequest(makeRequest, payload))
+    },
+    /**
+     * Creates an app access token
+     * @param appDefinitionId - AppDefinition ID
+     * @param data - Json Web Token
+     * @return Promise for an app access token
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const { sign } = require('jsonwebtoken')
+     *
+     * const signOptions = { algorithm: 'RS256', issuer: '<app_definition_id>', expiresIn: '10m' }
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * const data = {
+     *   jwt: sign({}, '<private_key>', signOptions)
+     * }
+     *
+     * client.getSpace('<space_id>')
+     *  .then((space) => space.getEnvironment('<environment-id>'))
+     *  .then((environment) => environment.createAppAccessToken('<app_definition_id>', data)
+     *  .then((appAccessToken) => console.log(appAccessToken))
+     *  .catch(console.error)
+     *  ```
+     */
+    createAppAccessToken(appDefinitionId: string, data: CreateAppAccessTokenProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppAccessToken',
+        action: 'create',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+        },
+        payload: data,
+      }).then((payload) => wrapAppAccessToken(makeRequest, payload))
     },
     /**
      * Gets all snapshots of an entry
@@ -2241,6 +2283,82 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
         },
       }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of all resource types based on native external references app installations in the environment
+     * @param query - BasicCursorPaginationOptions
+     * @return Promise for a collection of ResourceTypes
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getResourceTypes({limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getResourceTypes(query?: BasicCursorPaginationOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'ResourceType',
+        action: 'getForEnvironment',
+        params: {
+          query,
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapResourceTypesForEnvironmentCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of all resources for a given resource type based on native external references app installations in the environment
+     * @param resourceTypeId - Id of the resourceType to get its resources
+     * @param query - Either LookupQuery options with 'sys.urn[in]' param or a Search query with 'query' param, in both cases you can add pagination options
+     * @return Promise for a collection of Resources for a given resourceTypeId
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * // Search Query
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * // <search_query> is a string you want to search for in the external resources
+     * .then((environment) => environment.getResourcesForResourceType('<resource_type_id>', {query: '<search_query>', limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     *
+     * // Lookup query
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getResourcesForResourceType('<resource_type_id>', {'sys.urn[in]': '<resource_urn1>,<resource_urn2>', limit: 10}))
+     * .then((installations) => console.log(installations.items))
+     * .catch(console.error)
+     * ```
+     */
+    async getResourcesForResourceType(resourceTypeId: string, query?: ResourceQueryOptions) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'Resource',
+        action: 'getMany',
+        params: {
+          query,
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          resourceTypeId,
+        },
+      }).then((data) => wrapResourceCollection(makeRequest, data))
     },
   }
 }

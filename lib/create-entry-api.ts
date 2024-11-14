@@ -1,8 +1,8 @@
 import type { OpPatch } from 'json-patch'
-import { MakeRequest } from './common-types'
-import { CreateCommentParams, CreateCommentProps } from './entities/comment'
-import { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
-import { CreateTaskProps } from './entities/task'
+import type { MakeRequest } from './common-types'
+import type { CreateCommentParams, CreateCommentProps } from './entities/comment'
+import type { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
+import type { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
 import entities from './entities'
 

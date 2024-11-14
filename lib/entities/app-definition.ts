@@ -1,14 +1,21 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest, Link } from '../common-types'
+import type {
+  DefaultElements,
+  BasicMetaSysProps,
+  SysLink,
+  MakeRequest,
+  Link,
+} from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import createAppDefinitionApi, { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
-import { SetOptional, Except } from 'type-fest'
-import { FieldType } from './field-type'
-import { ParameterDefinition } from './widget-parameters'
-import { AppInstallationProps } from './app-installation'
-import { EnvironmentProps } from './environment'
+import type { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
+import createAppDefinitionApi from '../create-app-definition-api'
+import type { SetOptional, Except } from 'type-fest'
+import type { FieldType } from './field-type'
+import type { InstallationParameterType, ParameterDefinition } from './widget-parameters'
+import type { AppInstallationProps } from './app-installation'
+import type { EnvironmentProps } from './environment'
 
 export interface NavigationItem {
   name: string
@@ -62,7 +69,7 @@ export type AppDefinitionProps = {
    */
   parameters?: {
     instance?: ParameterDefinition[]
-    installation?: ParameterDefinition[]
+    installation?: ParameterDefinition<InstallationParameterType>[]
   }
 }
 

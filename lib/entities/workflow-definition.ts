@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import {
+import type {
   BasicMetaSysProps,
   DefaultElements,
   GetSpaceEnvironmentParams,
@@ -25,6 +25,7 @@ export enum WorkflowStepPermissionType {
 export enum WorkflowStepPermissionAction {
   Edit = 'edit',
   Publish = 'publish',
+  Delete = 'delete',
 }
 
 export enum WorkflowStepPermissionEffect {

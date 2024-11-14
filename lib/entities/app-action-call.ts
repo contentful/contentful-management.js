@@ -1,15 +1,14 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
-import { Except } from 'type-fest'
-import {
+import type { Except } from 'type-fest'
+import type {
   BasicMetaSysProps,
   CreateWithResponseParams,
   DefaultElements,
-  GetAppActionCallDetailsParams,
   MakeRequest,
   SysLink,
 } from '../common-types'
-import { WebhookCallDetailsProps } from './webhook'
+import type { WebhookCallDetailsProps } from './webhook'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {

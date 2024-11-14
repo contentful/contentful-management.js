@@ -1,6 +1,6 @@
-import { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../common-types'
-import { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
-import { OptionalDefaults } from '../wrappers/wrap'
+import type { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../common-types'
+import type { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppKeyPlainClientAPI = {
   /**

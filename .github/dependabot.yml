@@ -1,7 +1,14 @@
 version: 2
-
+registries:
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.NPM_REGISTRY_REGISTRY_GH_ORG_TOKEN}}
 updates:
   - package-ecosystem: npm
+    versioning-strategy: lockfile-only
+    registries:
+      - npm-github
     directory: "/"
     schedule:
       interval: daily
@@ -25,3 +32,20 @@ updates:
     commit-message:
       prefix: build
       include: scope
+    groups:
+      production-dependencies:
+        applies-to: version-updates
+        dependency-type: production
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'
+      dev-dependencies:
+        applies-to: version-updates
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+        patterns:
+          - '*'

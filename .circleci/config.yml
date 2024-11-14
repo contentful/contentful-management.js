@@ -1,11 +1,12 @@
 version: 2.1
 orbs:
   vault: contentful/vault@1
+  node: circleci/node@5.2.0
 
 executors:
   docker-with-node:
     docker:
-      - image: cimg/node:18.18
+      - image: cimg/node:18.19
     working_directory: ~/build-and-test
 
 commands:
@@ -15,6 +16,10 @@ commands:
           keys:
             - npm-cache-{{ arch }}-{{ checksum ".nvmrc" }}-{{ checksum "package-lock.json" }}
             - npm-cache
+      - vault/get-secrets:
+          template-preset: 'packages-read'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_READ_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
       - run: npm ci --prefer-offline
 
   cache-dependencies:
@@ -40,6 +45,8 @@ commands:
     steps:
       - vault/get-secrets:
           template-preset: 'semantic-release-ecosystem'
+      - run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_WRITE_TOKEN}" > ~/.npmrc
+      - run: echo "@contentful:registry=https://npm.pkg.github.com" >> ~/.npmrc
 
 jobs:
   prepare:
@@ -48,7 +55,6 @@ jobs:
       - checkout
       - run: node --version
       - install-dependencies
-      - cache-dependencies
       - persist-workspace
 
   build:
@@ -56,6 +62,7 @@ jobs:
     steps:
       - with-workspace
       - run: npm run build
+      - persist-workspace
 
   lint:
     executor: docker-with-node
@@ -75,6 +82,12 @@ jobs:
       - store_artifacts:
           path: ./reports/unit-results.xml
 
+  size:
+    executor: docker-with-node
+    steps:
+      - with-workspace
+      - run: npm run test:size
+
   integration:
     executor: docker-with-node
     steps:
@@ -90,15 +103,17 @@ jobs:
     executor: docker-with-node
     steps:
       - checkout
-      - use-vault
       - install-dependencies
+      - use-vault
+      - run: npm install -g json
       - run: npm run semantic-release
 
 workflows:
   version: 2
   build_and_test:
     jobs:
-      - prepare
+      - prepare:
+          context: vault
       - build:
           requires:
             - prepare
@@ -114,6 +129,10 @@ workflows:
             - build
             - unit
             - lint
+      - size:
+          requires:
+            - prepare
+            - build
 
       - release:
           context: vault
@@ -127,5 +146,4 @@ workflows:
             branches:
               only:
                 - master
-#                - next
-#                - next-major
+                - beta
