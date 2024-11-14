@@ -14,8 +14,8 @@ export interface UploadCredential
   extends UploadCredentialProps,
     DefaultElements<UploadCredentialProps> {
   /**
-   * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * creates the upload credentials.
+   * @return upload credentials for file uploads
    * @example
    * const contentful = require('contentful-management')
    *
@@ -23,12 +23,18 @@ export interface UploadCredential
    *   accessToken: '<content_management_api_key>'
    * })
    *
-   * client.getSpace('<space_id>')
-   * .then((space) => space.getEnvironment('<environment_id>'))
-   * .then((environment) => environment.getUpload('<upload_id>'))
-   * .then((upload) => upload.delete())
-   * .then((upload) => console.log(`upload ${upload.sys.id} updated.`))
-   * .catch(console.error)
+   * try {
+   *   const space = await client.getSpace('<space_id>')
+   *   const environment = await space.getEnvironment('<environment_id>')
+   *
+   *   const upload = await client.uploadCredential.create({
+   *     spaceId: space.sys.id,
+   *     environmentId: environment.sys.id
+   *   })
+   * } catch (error) {
+   *  console.error(error)
+   * }
+   *
    */
   create(): Promise<UploadCredentialProps>
 }
