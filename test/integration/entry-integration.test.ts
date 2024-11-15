@@ -8,6 +8,7 @@ import {
   initPlainClient,
   waitForEnvironmentToBeReady,
   getTestOrganizationId,
+  timeoutToCalmRateLimiting,
 } from '../helpers'
 import type {
   ConceptProps,
@@ -19,6 +20,8 @@ import type {
 import { TestDefaults } from '../defaults'
 
 describe('Entry Api', () => {
+  afterAll(async () => await timeoutToCalmRateLimiting())
+
   describe('read', () => {
     let space: Space
     let environment: Environment

@@ -11,18 +11,7 @@ if (!accessToken || !orgId) {
   throw new Error('Integration test CMA token or organisation id are missing')
 }
 
-const params: Partial<CreateHttpClientParams> = {
-  responseLogger: (response) => {
-    if (response instanceof Error) {
-      return
-    }
-    if (response.headers['X-Contentful-RateLimit-Reset']) {
-      lastRateLimitDelayValue = response.headers['X-Contentful-RateLimit-Reset'] * 1000
-      console.log('rate limited!!!!!!!!!!!')
-      console.dir(response.headers, { depth: null })
-    }
-  },
-}
+const params: Partial<CreateHttpClientParams> = {}
 
 if (process.env.API_INTEGRATION_TESTS) {
   params.host = '127.0.0.1:5000'
@@ -210,6 +199,4 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
   )
 }
 
-let lastRateLimitDelayValue = 2000
-export const timeoutToCalmRateLimiting = () =>
-  new Promise((resolve) => setTimeout(resolve, lastRateLimitDelayValue))
+export const timeoutToCalmRateLimiting = () => new Promise((resolve) => setTimeout(resolve, 1000))
