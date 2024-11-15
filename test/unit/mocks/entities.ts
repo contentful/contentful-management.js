@@ -612,7 +612,7 @@ const uploadCredentialMock = {
   },
 }
 
-const localeMock: LocaleProps = {
+const localeMock: Omit<LocaleProps, 'internal_code'> = {
   sys: Object.assign(cloneDeep(sysMock), {
     space: makeLink('Space', 'mock-space-id'),
     environment: makeLink('Environment', 'mock-environment-id'),
@@ -623,7 +623,6 @@ const localeMock: LocaleProps = {
   contentDeliveryApi: true,
   contentManagementApi: true,
   default: true,
-  internal_code: 'en',
   fallbackCode: null,
   optional: false,
 }

@@ -25,8 +25,7 @@ describe('Entity Locale', () => {
     })
   })
 
-  // @todo why is this failing?
-  test.skip('Locale collection is wrapped', async () => {
+  test('Locale collection is wrapped', async () => {
     return entityCollectionWrappedTest(setup, {
       wrapperMethod: wrapLocaleCollection,
     })
