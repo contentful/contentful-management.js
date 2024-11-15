@@ -597,6 +597,21 @@ const uploadMock: UploadProps = {
   }),
 }
 
+const uploadCredentialMock = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'UploadCredential',
+    id: 'some_random_id',
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+  }),
+  uploadCredential: {
+    policy: 'some-policy',
+    signature: 'some-signature',
+    createdAt: '2020-03-30T13:38:37.000Z',
+    expiresAt: '2020-03-30T13:38:37.000Z',
+  },
+}
+
 const localeMock: LocaleProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     space: makeLink('Space', 'mock-space-id'),
@@ -1517,6 +1532,7 @@ export {
   mockCollection,
   setupEntitiesMock,
   uploadMock,
+  uploadCredentialMock,
   organizationMock,
   snapShotMock,
   userMock,

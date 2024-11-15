@@ -2,8 +2,15 @@ const TEST_IMAGE_SOURCE_URL =
   'https://raw.githubusercontent.com/contentful/contentful-management.js/master/test/integration/fixtures/shiba-stuck-bush.jpg'
 
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initClient, getDefaultSpace, createTestSpace, timeoutToCalmRateLimiting } from '../helpers'
-import type { Environment, Space } from '../../lib/contentful-management'
+import {
+  initClient,
+  getDefaultSpace,
+  createTestSpace,
+  timeoutToCalmRateLimiting,
+  initPlainClient,
+  getTestOrganizationId,
+} from '../helpers'
+import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Asset API - Read', () => {
   let space: Space
@@ -194,5 +201,168 @@ describe('Asset API - Write', { concurrent: true }, () => {
         }
       )
     ).rejects.toThrow(Error)
+  })
+
+  describe('Taxonomy', () => {
+    const conceptsToCleanUp: ConceptProps[] = []
+
+    let plainClient: PlainClientAPI
+
+    beforeAll(() => {
+      plainClient = initPlainClient({
+        organizationId: getTestOrganizationId(),
+      })
+    })
+
+    afterAll(async () => {
+      for (const conceptToBeDeleted of conceptsToCleanUp) {
+        await plainClient.concept.delete({
+          conceptId: conceptToBeDeleted.sys.id,
+          version: conceptToBeDeleted.sys.version,
+        })
+      }
+    })
+
+    test('should create asset with concepts assigned when concepts provided', async () => {
+      const newConcept = await plainClient.concept.create(
+        {},
+        {
+          prefLabel: {
+            'en-US': 'Concept to be assigned',
+          },
+        }
+      )
+      conceptsToCleanUp.push(newConcept)
+
+      const createdAsset = await environment.createAsset({
+        fields: {
+          title: {
+            'en-US': 'this is the title of a newly created asset with a concept assigned',
+          },
+          file: {
+            'en-US': {
+              contentType: 'image/jpeg',
+              fileName: 'shiba-stuck.jpg',
+              upload: TEST_IMAGE_SOURCE_URL,
+            },
+          },
+        },
+        metadata: {
+          concepts: [
+            {
+              sys: {
+                id: newConcept.sys.id,
+                linkType: 'TaxonomyConcept',
+                type: 'Link',
+              },
+            },
+          ],
+          tags: [],
+        },
+      })
+
+      if (!createdAsset.metadata?.concepts) {
+        throw new Error('created asset is missing metadata concepts')
+      }
+      expect(createdAsset.metadata.concepts).lengthOf(1)
+      expect(createdAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
+    })
+
+    test('should update asset with concepts assigned when concepts are provided', async () => {
+      const newConcept = await plainClient.concept.create(
+        {},
+        {
+          prefLabel: {
+            'en-US': 'Concept to be assigned',
+          },
+        }
+      )
+      conceptsToCleanUp.push(newConcept)
+
+      const assetToUpdate = await environment.createAsset({
+        fields: {
+          title: { 'en-US': 'this asset should be updated with a concept assigned' },
+          file: {
+            'en-US': {
+              contentType: 'image/jpeg',
+              fileName: 'shiba-stuck.jpg',
+              upload: TEST_IMAGE_SOURCE_URL,
+            },
+          },
+        },
+        // `metadata` intentionally omitted
+      })
+      if (!assetToUpdate.metadata?.concepts) {
+        throw new Error('asset to update is missing metadata concepts')
+      }
+      expect(assetToUpdate.metadata.concepts).to.be.an('array').that.is.empty
+
+      assetToUpdate.metadata = {
+        concepts: [
+          {
+            sys: {
+              id: newConcept.sys.id,
+              linkType: 'TaxonomyConcept',
+              type: 'Link',
+            },
+          },
+        ],
+        tags: [],
+      }
+      const updatedAsset = await assetToUpdate.update()
+      if (!updatedAsset.metadata?.concepts) {
+        throw new Error('asset to update is missing metadata concepts')
+      }
+      expect(updatedAsset.metadata.concepts).lengthOf(1)
+      expect(updatedAsset.metadata.concepts[0].sys.id).to.eq(newConcept.sys.id)
+    })
+
+    test('should update asset with concepts removed when concepts already exist', async () => {
+      const newConcept = await plainClient.concept.create(
+        {},
+        {
+          prefLabel: {
+            'en-US': 'Concept to be assigned',
+          },
+        }
+      )
+      conceptsToCleanUp.push(newConcept)
+      const assetToDeleteConceptFrom = await environment.createAsset({
+        fields: {
+          title: { 'en-US': 'this is the title of an asset with a concept already assigned' },
+          file: {
+            'en-US': {
+              contentType: 'image/jpeg',
+              fileName: 'shiba-stuck.jpg',
+              upload: TEST_IMAGE_SOURCE_URL,
+            },
+          },
+        },
+        metadata: {
+          concepts: [
+            {
+              sys: {
+                id: newConcept.sys.id,
+                linkType: 'TaxonomyConcept',
+                type: 'Link',
+              },
+            },
+          ],
+          tags: [],
+        },
+      })
+      if (!assetToDeleteConceptFrom.metadata?.concepts) {
+        throw new Error('asset to delete is missing metadata concepts')
+      }
+      expect(assetToDeleteConceptFrom.metadata.concepts).lengthOf(1)
+
+      assetToDeleteConceptFrom.metadata.concepts = []
+      const updatedAsset = await assetToDeleteConceptFrom.update()
+      if (!updatedAsset.metadata?.concepts) {
+        throw new Error('updated asset is missing metadata concepts')
+      }
+
+      expect(updatedAsset.metadata.concepts).to.be.an('array').that.is.empty
+    })
   })
 })

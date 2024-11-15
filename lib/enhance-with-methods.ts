@@ -13,7 +13,6 @@ export default function enhanceWithMethods<
   B extends Record<string, unknown>,
   M extends Record<string, Function>
 >(baseObject: B, methodsObject: M): M & B {
-  // @ts-expect-error
   return Object.keys(methodsObject).reduce((enhancedObject, methodName) => {
     Object.defineProperty(enhancedObject, methodName, {
       enumerable: false,
@@ -22,5 +21,5 @@ export default function enhanceWithMethods<
       value: methodsObject[methodName],
     })
     return enhancedObject
-  }, baseObject)
+  }, baseObject as M & B)
 }

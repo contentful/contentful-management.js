@@ -29,6 +29,12 @@ describe('Locale API', () => {
     expect(response.items[0].code).toBe('en-US')
   })
 
+  it('Gets locales respects skip', async () => {
+    return environment.getLocales({ skip: 1 }).then((response) => {
+      expect(response.items.length).equals(0)
+    })
+  })
+
   it('Creates, gets, updates, and deletes a locale', async () => {
     const createdLocale = await environment.createLocale({
       name: 'German (Austria)',
@@ -52,5 +58,19 @@ describe('Locale API', () => {
     expect(updatedLocale.fallbackCode).toBe('en-US')
 
     await updatedLocale.delete()
+  })
+
+  it('Creates, gets page (respects limit), deletes a locale', async () => {
+    const createdLocal = await environment.createLocale({
+      name: 'Chinese (Simplified, China)',
+      code: 'zh-Hans-CN',
+      fallbackCode: 'en-US',
+    })
+    // wait for the locale to be created
+    await new Promise((res) => setTimeout(res, 3000))
+    const pagedLocales = await environment.getLocales({ limit: 1 })
+    expect(pagedLocales.items.length).equals(1)
+    expect(pagedLocales.total).equals(2)
+    await createdLocal.delete()
   })
 })
