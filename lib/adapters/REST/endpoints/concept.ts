@@ -2,6 +2,7 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type { OpPatch } from 'json-patch'
 import type {
+  CreateConceptWithIdParams,
   CursorPaginatedCollectionProp,
   DeleteConceptParams,
   GetConceptDescendantsParams,
@@ -28,10 +29,21 @@ export const create: RestEndpoint<'Concept', 'create'> = (
 
 export const createWithId: RestEndpoint<'Concept', 'createWithId'> = (
   http: AxiosInstance,
-  params: GetConceptParams,
-  data: CreateConceptProps
+  params: CreateConceptWithIdParams,
+  data: CreateConceptProps,
+  headers?: RawAxiosRequestHeaders
 ) => {
-  return raw.put<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`, data)
+  return raw.put<ConceptProps>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version ?? 1,
+        ...headers,
+      },
+    }
+  )
 }
 
 export const update: RestEndpoint<'Concept', 'update'> = (
@@ -66,7 +78,7 @@ export const del: RestEndpoint<'Concept', 'delete'> = (
 ) =>
   raw.del<void>(http, `${basePath(params.organizationId)}/${params.conceptId}`, {
     headers: {
-      'X-Contentful-Version': params.version ?? 0,
+      'X-Contentful-Version': params.version ?? 1,
       ...headers,
     },
   })

@@ -2118,6 +2118,10 @@ export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+export type CreateConceptWithIdParams = GetOrganizationParams & {
+  conceptId: string
+  version?: number
+}
 export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
 export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
 export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {

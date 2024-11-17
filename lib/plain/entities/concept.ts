@@ -1,4 +1,5 @@
 import type {
+  CreateConceptWithIdParams,
   CursorPaginatedCollectionProp,
   DeleteConceptParams,
   GetConceptDescendantsParams,
@@ -43,7 +44,7 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   createWithId(
-    params: SetOptional<GetConceptParams, 'organizationId'>,
+    params: SetOptional<CreateConceptWithIdParams, 'organizationId'>,
     payload: CreateConceptProps
   ): Promise<ConceptProps>
 
