@@ -46,7 +46,7 @@ export const patch: RestEndpoint<'Concept', 'patch'> = (
     data,
     {
       headers: {
-        'X-Contentful-Version': params.version ?? 0,
+        'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
@@ -66,7 +66,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
     data,
     {
       headers: {
-        'X-Contentful-Version': params.version ?? 0,
+        'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
@@ -86,7 +86,7 @@ export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
     data,
     {
       headers: {
-        'X-Contentful-Version': params.version ?? 0,
+        'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
