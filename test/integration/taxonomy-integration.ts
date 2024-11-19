@@ -155,6 +155,63 @@ describe('Taxonomy Integration', () => {
     expect(updatedConcept.uri).to.eql('https://example.com/concept')
   })
 
+  test('create and update a concept - patch', async () => {
+    const concept: CreateConceptProps = {
+      prefLabel: {
+        'en-US': 'Test Concept',
+      },
+    }
+    const result = await client.concept.create({}, concept)
+    isConceptProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test Concept')
+    expect(result.uri).to.null
+    conceptsToDelete.push(result)
+
+    const updatedConcept = await client.concept.patch(
+      {
+        version: result.sys.version,
+        conceptId: result.sys.id,
+      },
+      [
+        {
+          path: '/uri',
+          op: 'replace',
+          value: 'https://example.com/concept',
+        },
+      ]
+    )
+
+    isConceptProps(updatedConcept)
+    expect(updatedConcept.uri).to.eql('https://example.com/concept')
+  })
+
+  test('create and update a concept - put', async () => {
+    const concept: CreateConceptProps = {
+      prefLabel: {
+        'en-US': 'Test Concept',
+      },
+    }
+    const result = await client.concept.create({}, concept)
+    isConceptProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test Concept')
+    expect(result.uri).to.null
+    conceptsToDelete.push(result)
+
+    const updatedConcept = await client.concept.updatePut(
+      {
+        version: result.sys.version,
+        conceptId: result.sys.id,
+      },
+      {
+        ...concept,
+        uri: 'https://example.com/concept',
+      }
+    )
+
+    isConceptProps(updatedConcept)
+    expect(updatedConcept.uri).to.eql('https://example.com/concept')
+  })
+
   test('concept getTotal', async () => {
     await Promise.all(
       Array(3)
@@ -372,6 +429,63 @@ describe('Taxonomy Integration', () => {
           value: 'https://example.com/updatedConceptScheme',
         },
       ]
+    )
+
+    isConceptSchemeProps(updatedConceptScheme)
+    expect(updatedConceptScheme.uri).to.eql('https://example.com/updatedConceptScheme')
+  })
+
+  test('create and update a conceptScheme - patch', async () => {
+    const conceptScheme: CreateConceptSchemeProps = {
+      prefLabel: {
+        'en-US': 'Test ConceptScheme',
+      },
+    }
+    const result = await client.conceptScheme.create({}, conceptScheme)
+    isConceptSchemeProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
+    expect(result.uri).to.null
+    conceptSchemesToDelete.push(result)
+
+    const updatedConceptScheme = await client.conceptScheme.patch(
+      {
+        version: result.sys.version,
+        conceptSchemeId: result.sys.id,
+      },
+      [
+        {
+          path: '/uri',
+          op: 'replace',
+          value: 'https://example.com/updatedConceptScheme',
+        },
+      ]
+    )
+
+    isConceptSchemeProps(updatedConceptScheme)
+    expect(updatedConceptScheme.uri).to.eql('https://example.com/updatedConceptScheme')
+  })
+
+  test('create and update a conceptScheme - put', async () => {
+    const conceptScheme: CreateConceptSchemeProps = {
+      prefLabel: {
+        'en-US': 'Test ConceptScheme',
+      },
+    }
+    const result = await client.conceptScheme.create({}, conceptScheme)
+    isConceptSchemeProps(result)
+    expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
+    expect(result.uri).to.null
+    conceptSchemesToDelete.push(result)
+
+    const updatedConceptScheme = await client.conceptScheme.updatePut(
+      {
+        version: result.sys.version,
+        conceptSchemeId: result.sys.id,
+      },
+      {
+        ...conceptScheme,
+        uri: 'https://example.com/updatedConceptScheme',
+      }
     )
 
     isConceptSchemeProps(updatedConceptScheme)

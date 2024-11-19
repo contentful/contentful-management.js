@@ -93,6 +93,26 @@ describe('ConceptScheme', () => {
       })
   })
 
+  test('patch', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+    httpMock.patch.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ConceptScheme',
+        action: 'patch',
+        params: {
+          organizationId: 'organization-id',
+          conceptSchemeId: 'concept-scheme-id',
+        },
+      })
+      .then(() => {
+        expect(httpMock.patch.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+        )
+      })
+  })
+
   test('update', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
     httpMock.patch.returns(Promise.resolve({ data: entityMock }))
@@ -108,6 +128,27 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.patch.args[0][0]).to.eql(
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+        )
+      })
+  })
+
+  test('updatePut', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+    httpMock.put.returns(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ConceptScheme',
+        action: 'updatePut',
+        params: {
+          organizationId: 'organization-id',
+          conceptSchemeId: 'concept-scheme-id',
+        },
+        payload: entityMock,
+      })
+      .then(() => {
+        expect(httpMock.put.args[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
         )
       })
