@@ -123,7 +123,6 @@ export const updatePut: RestEndpoint<'ConceptScheme', 'updatePut'> = (
     {
       headers: {
         'X-Contentful-Version': params.version,
-        'Content-Type': 'application/json-patch+json',
         ...headers,
       },
     }
