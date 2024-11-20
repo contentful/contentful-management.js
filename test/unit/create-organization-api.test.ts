@@ -43,10 +43,6 @@ function setup<T>(promise: Promise<T>) {
 }
 
 describe('A createOrganizationApi', () => {
-  // afterEach(() => {
-  //   createEnvironmentApiRewireApi.__ResetDependency__('entities')
-  // })
-
   test('API call getAppDefinition', async () => {
     return makeGetEntityTest(setup, {
       entityType: 'appDefinition',
