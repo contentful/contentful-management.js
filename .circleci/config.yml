@@ -127,7 +127,7 @@ workflows:
           requires:
             - prepare
             - build
-            # - unit @todo READD THIS BEFORE MERGE
+            - unit
             - lint
       - size:
           requires:
