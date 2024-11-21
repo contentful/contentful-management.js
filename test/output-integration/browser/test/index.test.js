@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { page } from './vitest.setup'
 import { version as packageVersion } from '../../../../package.json'
 
-describe('Contentful.js Browser Test', () => {
+describe('contentful-management.js Browser Test', () => {
   it('Entry has been loaded successfully', async () => {
     const text = await page.$eval('#content', (el) => el.innerHTML)
     expect(text).toEqual('nyancat')
