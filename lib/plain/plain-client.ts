@@ -106,9 +106,12 @@ export const createPlainClient = (
     },
     concept: {
       create: wrap(wrapParams, 'Concept', 'create'),
+      createWithId: wrap(wrapParams, 'Concept', 'createWithId'),
       get: wrap(wrapParams, 'Concept', 'get'),
       delete: wrap(wrapParams, 'Concept', 'delete'),
+      patch: wrap(wrapParams, 'Concept', 'patch'),
       update: wrap(wrapParams, 'Concept', 'update'),
+      updatePut: wrap(wrapParams, 'Concept', 'updatePut'),
       getMany: wrap(wrapParams, 'Concept', 'getMany'),
       getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
       getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
@@ -120,7 +123,10 @@ export const createPlainClient = (
       getTotal: wrap(wrapParams, 'ConceptScheme', 'getTotal'),
       delete: wrap(wrapParams, 'ConceptScheme', 'delete'),
       create: wrap(wrapParams, 'ConceptScheme', 'create'),
+      createWithId: wrap(wrapParams, 'ConceptScheme', 'createWithId'),
+      patch: wrap(wrapParams, 'ConceptScheme', 'patch'),
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
+      updatePut: wrap(wrapParams, 'ConceptScheme', 'updatePut'),
     },
     function: {
       getMany: wrap(wrapParams, 'Function', 'getMany'),

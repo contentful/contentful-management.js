@@ -58,6 +58,38 @@ export const create: RestEndpoint<'ConceptScheme', 'create'> = (
   return raw.post<ConceptSchemeProps>(http, basePath(params.organizationId), data)
 }
 
+export const createWithId: RestEndpoint<'ConceptScheme', 'createWithId'> = (
+  http: AxiosInstance,
+  params: GetConceptSchemeParams,
+  data: CreateConceptSchemeProps
+) => {
+  return raw.put<ConceptSchemeProps>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
+    data
+  )
+}
+
+export const patch: RestEndpoint<'ConceptScheme', 'patch'> = (
+  http: AxiosInstance,
+  params: UpdateConceptSchemeParams,
+  data: OpPatch[],
+  headers?: RawAxiosRequestHeaders
+) => {
+  return raw.patch<ConceptSchemeProps>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+        'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
+    }
+  )
+}
+
 export const update: RestEndpoint<'ConceptScheme', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptSchemeParams,
@@ -72,6 +104,25 @@ export const update: RestEndpoint<'ConceptScheme', 'update'> = (
       headers: {
         'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
+    }
+  )
+}
+
+export const updatePut: RestEndpoint<'ConceptScheme', 'updatePut'> = (
+  http: AxiosInstance,
+  params: UpdateConceptSchemeParams,
+  data: CreateConceptSchemeProps,
+  headers?: RawAxiosRequestHeaders
+) => {
+  return raw.put<ConceptSchemeProps>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
         ...headers,
       },
     }
