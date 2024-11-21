@@ -127,7 +127,7 @@ describe('Concept', () => {
   test('createWithId', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-    httpMock.put.returns(Promise.resolve({ data: entityMock }))
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
@@ -138,10 +138,11 @@ describe('Concept', () => {
           conceptId: 'concept-id',
         },
         payload: entityMock,
+        userAgent: 'mocked',
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.put.args[0][0]).to.eql(
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concepts/concept-id'
         )
       })
@@ -149,7 +150,7 @@ describe('Concept', () => {
   test('patch', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-    httpMock.patch.returns(Promise.resolve({ data: entityMock }))
+    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
@@ -159,9 +160,10 @@ describe('Concept', () => {
           organizationId: 'organization-id',
           conceptId: 'concept-id',
         },
+        userAgent: 'mocked',
       })
       .then(() => {
-        expect(httpMock.patch.args[0][0]).to.eql(
+        expect(httpMock.patch.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concepts/concept-id'
         )
       })
@@ -190,7 +192,7 @@ describe('Concept', () => {
   test('updatePut', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-    httpMock.put.returns(Promise.resolve({ data: entityMock }))
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
@@ -201,9 +203,10 @@ describe('Concept', () => {
           conceptId: 'concept-id',
         },
         payload: entityMock,
+        userAgent: 'mocked',
       })
       .then(() => {
-        expect(httpMock.put.args[0][0]).to.eql(
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concepts/concept-id'
         )
       })
