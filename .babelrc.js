@@ -67,11 +67,4 @@ if (env === 'node') {
   })
 }
 
-if (env === 'test') {
-  babelConfig = Object.assign(babelConfig, {
-    presets: [['@babel/preset-env', testBabelPresetEnvConfig], '@babel/typescript'],
-    plugins: babelConfig.plugins.concat(['rewire-ts']),
-  })
-}
-
 module.exports = babelConfig
