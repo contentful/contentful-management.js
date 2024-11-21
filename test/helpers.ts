@@ -8,7 +8,7 @@ import * as testUtils from '@contentful/integration-test-utils'
 const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
 const orgId = process.env.CONTENTFUL_ORGANIZATION_ID
 if (!accessToken || !orgId) {
-  throw new Error('Integration test CMA token or organisation id are missing')
+  throw new Error('Integration test CMA token or organization id are missing')
 }
 
 const params: Partial<CreateHttpClientParams> = {}
