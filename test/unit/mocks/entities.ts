@@ -1255,7 +1255,7 @@ const mocks = {
   workflowsChangelogEntry: workflowsChangelogEntryMock,
 }
 
-function cloneMock<T extends keyof typeof mocks>(name: T): typeof mocks[T] {
+function cloneMock<T extends keyof typeof mocks>(name: T): (typeof mocks)[T] {
   return cloneDeep(mocks[name])
 }
 
