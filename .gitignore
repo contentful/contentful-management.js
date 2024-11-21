@@ -1,6 +1,6 @@
 dist
 gh-pages
-webpack-build-log.json
+test/output-integration/browser/public/contentful*.js
 
 # Esdoc dirs
 out

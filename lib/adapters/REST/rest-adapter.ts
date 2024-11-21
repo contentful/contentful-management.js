@@ -5,7 +5,7 @@ import { createHttpClient } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { OpPatch } from 'json-patch'
 import type { Adapter, MakeRequestOptions, MakeRequestPayload } from '../../common-types'
-import endpoints from './endpoints'
+import endpoints from './endpoints/index'
 
 export type RestAdapterParams = CreateHttpClientParams & {
   /**

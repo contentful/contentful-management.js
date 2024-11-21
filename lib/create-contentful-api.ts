@@ -10,7 +10,7 @@ import type {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
 } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceProps } from './entities/space'
