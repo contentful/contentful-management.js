@@ -44,9 +44,14 @@ export class RestAdapter implements Adapter {
       throw new TypeError('Expected parameter accessToken')
     }
 
+    const copiedParams = copy(params)
+    // httpAgent and httpsAgent cannot be copied because they can contain private fields
+    copiedParams.httpAgent = params.httpAgent
+    copiedParams.httpsAgent = params.httpsAgent
+
     this.params = {
       ...defaultHostParameters,
-      ...copy(params),
+      ...copiedParams,
     }
 
     this.axiosInstance = createHttpClient(axios, {
