@@ -5,10 +5,8 @@ import { TestDefaults } from './defaults'
 
 import * as testUtils from '@contentful/integration-test-utils'
 
-// const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
-const accessToken = 'CFW-C-_CaVQy0nncpX-_dOGtIbbhocicb-jeFMjz7ZXBpHg'
-// const orgId = process.env.CONTENTFUL_ORGANIZATION_ID
-const orgId = '41OC7bygteGCVK5ULOxm6l'
+const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
+const orgId = process.env.CONTENTFUL_ORGANIZATION_ID
 if (!accessToken || !orgId) {
   throw new Error('Integration test CMA token or organization id are missing')
 }
