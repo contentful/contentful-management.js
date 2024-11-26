@@ -8,8 +8,7 @@ let page: Page
 
 beforeAll(async () => {
   browser = await puppeteer.launch({
-    headless: false,
-    product: 'firefox',
+    headless: true,
   })
 })
 
@@ -21,7 +20,7 @@ beforeEach(async () => {
 
   await page.goto(`file:${path.join(__dirname, 'public/index.html')}`)
 
-  await page.waitForSelector('#contentful-loaded', { timeout: 5_000 })
+  await page.waitForSelector('#contentful-management-loaded', { timeout: 5_000 })
 })
 
 afterAll(async () => {

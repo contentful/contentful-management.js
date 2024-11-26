@@ -7,7 +7,9 @@
   "scripts": {
     "test": "vitest --run",
     "dev": "npx serve public",
-    "preinstall": "cp ../../../dist/contentful-management.browser.min.js ./public/."
+    "preinstall": "npm run preinstall:bundle && npm run preinstall:env",
+    "preinstall:bundle": "cp ../../../dist/contentful-management.browser.min.js ./public/.",
+    "preinstall:env": "node scripts/inject-env.js"
   },
   "author": "",
   "license": "ISC",

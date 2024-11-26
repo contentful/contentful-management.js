@@ -5,7 +5,7 @@ import { version as packageVersion } from '../../../../package.json'
 describe('contentful-management.js Browser Test', () => {
   it('Entry has been loaded successfully', async () => {
     const text = await page.$eval('#content', (el) => el.innerHTML)
-    expect(text).toEqual('nyancat')
+    expect(text).toEqual('segpl12szpe6')
   })
 
   it('Has correct user agent version', async () => {
