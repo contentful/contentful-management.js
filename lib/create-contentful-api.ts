@@ -43,6 +43,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     entities.environmentTemplate
 
   return {
+    version: __VERSION__,
     /**
      * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID

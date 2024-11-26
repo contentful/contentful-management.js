@@ -86,7 +86,6 @@ function createClient(
   const sdkMain =
     opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
