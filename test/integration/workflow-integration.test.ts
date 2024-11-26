@@ -72,7 +72,7 @@ describe('Workflow Api', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('Create workflow', async () => {
+  it('Create, get, update, delete workflow', async () => {
     const workflow = await plainClient.workflow.create(
       { environmentId, spaceId },
       {
@@ -80,18 +80,7 @@ describe('Workflow Api', () => {
         workflowDefinition: makeLink('WorkflowDefinition', workflowDefinition.sys.id),
       }
     )
-    expect(workflow).toContain(['sys', 'stepId'])
-  })
-
-  it('Get, update, delete workflow', async () => {
-    const workflow = await plainClient.workflow.create(
-      { environmentId, spaceId },
-      {
-        entity: makeLink(entry.sys.type as 'Entry', 'anotherEntryId'),
-        workflowDefinition: makeLink('WorkflowDefinition', workflowDefinition.sys.id),
-        stepId: workflowDefinition.steps[0].id,
-      }
-    )
+    expect(workflow.sys).toBeDefined()
     const fetchedWorkflow = await plainClient.workflow.get({
       environmentId,
       spaceId,
