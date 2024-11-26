@@ -13,7 +13,7 @@ interface MockedHttp<T, R> extends Mock<[T], R> {
 }
 
 export default function setupHttpMock(promise = Promise.resolve({ data: {} })) {
-  const mock: MockedHttp<{}, typeof promise> = vi.fn().mockImplementation(() => {
+  const mock: MockedHttp<object, typeof promise> = vi.fn().mockImplementation(() => {
     console.log('Mock: Returning promise via direct call')
     return promise
   })
@@ -48,5 +48,5 @@ export default function setupHttpMock(promise = Promise.resolve({ data: {} })) {
 
   mock.cloneWithNewParams = () => mock
 
-  return mock as Required<MockedHttp<{}, typeof promise>>
+  return mock as Required<MockedHttp<object, typeof promise>>
 }
