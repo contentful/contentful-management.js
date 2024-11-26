@@ -7,7 +7,7 @@ async function run() {
     accessToken: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN,
   })
 
-  const response = await client.getEntry('nyancat')
+  const response = await client.getSpace('segpl12szpe6')
 
   const loadedDiv = document.createElement('div')
   loadedDiv.id = 'contentful-management-loaded'
