@@ -48,7 +48,13 @@ describe('Workflow Api', () => {
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
     workflowDefinition = await plainClient.workflowDefinition.create(
       { environmentId, spaceId },
-      { name: 'Workflow Definition', steps: [{ name: 'Step 1', actions: [] }] }
+      {
+        name: 'Workflow Definition',
+        steps: [
+          { name: 'Step 1', actions: [] },
+          { name: 'Step 2', actions: [] },
+        ],
+      }
     )
   })
 
@@ -70,12 +76,13 @@ describe('Workflow Api', () => {
     expect(workflow).toContain(['sys', 'stepId'])
   })
 
-  it('Get workflow', async () => {
+  it('Get, update, delete workflow', async () => {
     const workflow = await plainClient.workflow.create(
       { environmentId, spaceId },
       {
         entity: makeLink(entry.sys.type as 'Entry', 'anotherEntryId'),
         workflowDefinition: makeLink('WorkflowDefinition', workflowDefinition.sys.id),
+        stepId: workflowDefinition.steps[0].id,
       }
     )
     const fetchedWorkflow = await plainClient.workflow.get({
@@ -85,5 +92,27 @@ describe('Workflow Api', () => {
     })
 
     expect(fetchedWorkflow).toEqual(workflow)
+
+    const updatedWorkflow = await plainClient.workflow.update(
+      { environmentId, spaceId, workflowId: workflow.sys.id },
+      { stepId: workflowDefinition.steps[1].id, sys: { version: workflow.sys.version } }
+    )
+
+    expect(updatedWorkflow.stepId).toBe(workflowDefinition.steps[1].id)
+
+    await plainClient.workflow.delete({
+      version: updatedWorkflow.sys.version,
+      environmentId,
+      spaceId,
+      workflowId: updatedWorkflow.sys.id,
+    })
+
+    await expect(
+      plainClient.workflow.get({
+        environmentId,
+        spaceId,
+        workflowId: updatedWorkflow.sys.id,
+      })
+    ).rejects.toThrow()
   })
 })

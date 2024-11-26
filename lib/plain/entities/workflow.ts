@@ -104,7 +104,9 @@ export type WorkflowPlainClientAPI = {
    *   workflowId: '<workflow_id>',
    * }, {
    *   stepId: '<step_id>'
-   * });
+   *   sys: {
+   *        version: <current_version>
+   * }});
    * ```
    */
   update(
