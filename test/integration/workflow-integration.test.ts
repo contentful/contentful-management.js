@@ -54,6 +54,13 @@ describe('Workflow Api', () => {
           { name: 'Step 1', actions: [] },
           { name: 'Step 2', actions: [] },
         ],
+        appliesTo: [
+          {
+            type: 'Link',
+            linkType: 'Entry',
+            validations: [{ linkContentType: [contentType.sys.id] }],
+          },
+        ],
       }
     )
   })
