@@ -503,6 +503,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),
     },
     workflow: {
+      get: wrap(wrapParams, 'Workflow', 'get'),
       getMany: wrap(wrapParams, 'Workflow', 'getMany'),
       create: wrap(wrapParams, 'Workflow', 'create'),
       update: wrap(wrapParams, 'Workflow', 'update'),

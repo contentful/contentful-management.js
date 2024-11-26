@@ -48,6 +48,7 @@ export type CompleteWorkflowParams = DeleteWorkflowParams
 
 type WorkflowApi = {
   update(): Promise<Workflow>
+  get(): Promise<Workflow>
   delete(): Promise<void>
   complete(): Promise<void>
 }
@@ -89,6 +90,15 @@ export default function createWorkflowApi(makeRequest: MakeRequest): WorkflowApi
         action: 'update',
         params: getParams(raw),
         payload: raw,
+      }).then((data) => wrapWorkflow(makeRequest, data))
+    },
+    get: function () {
+      const raw = this.toPlainObject() as WorkflowProps
+
+      return makeRequest({
+        entityType: 'Workflow',
+        action: 'get',
+        params: getParams(raw),
       }).then((data) => wrapWorkflow(makeRequest, data))
     },
 
