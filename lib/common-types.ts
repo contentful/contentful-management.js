@@ -769,6 +769,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'WorkflowDefinition', 'update', UA>): MRReturn<'WorkflowDefinition', 'update'>
   (opts: MROpts<'WorkflowDefinition', 'delete', UA>): MRReturn<'WorkflowDefinition', 'delete'>
 
+  (opts: MROpts<'Workflow', 'get', UA>): MRReturn<'Workflow', 'get'>
   (opts: MROpts<'Workflow', 'getMany', UA>): MRReturn<'Workflow', 'getMany'>
   (opts: MROpts<'Workflow', 'create', UA>): MRReturn<'Workflow', 'create'>
   (opts: MROpts<'Workflow', 'update', UA>): MRReturn<'Workflow', 'update'>
@@ -2016,6 +2017,11 @@ export type MRActions = {
     }
   }
   Workflow: {
+    get: {
+      params: GetWorkflowParams
+      headers?: RawAxiosRequestHeaders
+      return: WorkflowProps
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
       headers?: RawAxiosRequestHeaders

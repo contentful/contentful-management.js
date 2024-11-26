@@ -1,5 +1,9 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
+import type {
+  GetSpaceEnvironmentParams,
+  CollectionProp,
+  GetWorkflowParams,
+} from '../../common-types'
 import type {
   CreateWorkflowParams,
   UpdateWorkflowParams,
@@ -13,6 +17,25 @@ import type {
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type WorkflowPlainClientAPI = {
+  /**
+   * Get Workflow by ID
+   * @param params entity IDs to identify the Space/Environment
+   * @returns an object containing the Workflow
+   * @throws if the request fails, or the Space/Environment is not found
+   * @example
+   * ```javascript
+   * const workflow = await client.workflow.get({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   workflowId: '<workflow_id>',
+   * });
+   * ```
+   */
+  get(
+    params: OptionalDefaults<GetWorkflowParams>,
+    headers?: RawAxiosRequestHeaders
+  ): Promise<WorkflowProps>
+
   /**
    * Query Workflows with certain filters
    * @param params entity IDs to identify the Space/Environment, optional query parameters to filter returned Workflows
