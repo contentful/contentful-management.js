@@ -48,7 +48,7 @@ describe('Workflow Api', () => {
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
     workflowDefinition = await plainClient.workflowDefinition.create(
       { environmentId, spaceId },
-      { name: 'Workflow Definition', steps: [{ id: 'step1', name: 'Step 1', actions: [] }] }
+      { name: 'Workflow Definition', steps: [{ name: 'Step 1', actions: [] }] }
     )
   })
 
