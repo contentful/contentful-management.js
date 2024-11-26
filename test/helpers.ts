@@ -24,8 +24,7 @@ if (process.env.API_INTEGRATION_TESTS) {
 // if I used testUtils.initClient({}), it would have the version of cma repo that would still have getAll() without args
 // making it impossible for me to cover my changes with tests
 export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
-  // const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
-  const accessToken = 'CFW-C-_CaVQy0nncpX-_dOGtIbbhocicb-jeFMjz7ZXBpHg'
+  const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
   if (!accessToken) {
     throw new Error('CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN is required')
   }
