@@ -12,6 +12,7 @@
     "typeRoots": ["node_modules/@types"]
   },
   "include": ["lib", "global-types"],
+  "exclude": ["**/*.test-d.ts"],
   "typedocOptions": {
     "out": "./out",
     "entryPoints": ["./lib/contentful-management.ts"],
