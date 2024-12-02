@@ -20,7 +20,6 @@ export default defineWorkspace([
       maxConcurrency: 10,
       typecheck: {
         enabled: true,
-        tsconfig: './tsconfig.test-types.json',
       },
     },
   },

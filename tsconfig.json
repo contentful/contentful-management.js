@@ -9,10 +9,10 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitThis": false,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
   },
   "include": ["lib", "global-types"],
-  "exclude": ["**/*.test-d.ts"],
   "typedocOptions": {
     "out": "./out",
     "entryPoints": ["./lib/contentful-management.ts"],
