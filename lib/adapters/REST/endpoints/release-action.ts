@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type { ReleaseActionQueryOptions } from '../../../entities/release-action'
