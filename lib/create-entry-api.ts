@@ -4,7 +4,7 @@ import type { CreateCommentParams, CreateCommentProps } from './entities/comment
 import type { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import type { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
-import entities from './entities'
+import entities from './entities/index'
 
 /**
  * @private
