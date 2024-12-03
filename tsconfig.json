@@ -9,7 +9,8 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "noImplicitThis": false,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "skipLibCheck": true
   },
   "include": ["lib", "global-types"],
   "typedocOptions": {

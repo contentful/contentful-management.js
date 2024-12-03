@@ -15,6 +15,17 @@ export default defineWorkspace([
   {
     test: {
       ...vitestConfig.test,
+      include: ['lib/**/*.test-d.ts'],
+      name: 'types',
+      maxConcurrency: 10,
+      typecheck: {
+        enabled: true,
+      },
+    },
+  },
+  {
+    test: {
+      ...vitestConfig.test,
       include: ['test/integration/**/*.{test,spec}.ts'],
       name: 'integration',
       setupFiles: ['./vitest.setup.ts'],

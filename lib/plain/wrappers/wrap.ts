@@ -10,9 +10,7 @@ export type DefaultParams = {
  * @private
  */
 export type OptionalDefaults<T> = Omit<T, keyof DefaultParams> &
-  ('organizationId' extends keyof T ? { organizationId?: string } : Record<string, unknown>) &
-  ('spaceId' extends keyof T ? { spaceId?: string } : Record<string, unknown>) &
-  ('environmentId' extends keyof T ? { environmentId?: string } : Record<string, unknown>)
+  Partial<Pick<T, Extract<keyof T, keyof DefaultParams>>>
 
 /**
  * @private
