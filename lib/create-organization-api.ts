@@ -1,5 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import entities from './entities'
+import entities from './entities/index'
 import type { Stream } from 'stream'
 import type { CreateTeamMembershipProps } from './entities/team-membership'
 import type { CreateTeamProps } from './entities/team'
