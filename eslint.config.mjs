@@ -19,6 +19,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unsafe-function-type': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
       // Things we won't allow
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-this-alias': [
