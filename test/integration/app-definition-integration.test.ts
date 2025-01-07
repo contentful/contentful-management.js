@@ -12,7 +12,7 @@ import type {
   Space,
   Environment,
   AppInstallation,
-} from '../../lib/contentful-management'
+} from '../../lib'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization

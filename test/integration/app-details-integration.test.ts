@@ -5,7 +5,7 @@ import type {
   PlainClientAPI,
   Organization,
   AppDefinition,
-} from '../../lib/contentful-management'
+} from '../../lib'
 
 describe('AppDetails api', { sequential: true }, () => {
   let appDefinition: AppDefinition
