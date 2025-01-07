@@ -5,6 +5,7 @@ import type {
   GetAppInstallationParams,
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
+  SpaceQueryParams,
 } from '../../common-types'
 import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
 import type {
@@ -59,7 +60,7 @@ export type AppInstallationPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetAppDefinitionParams>
+    params: OptionalDefaults<GetAppDefinitionParams & SpaceQueryParams>
   ): Promise<AppInstallationsForOrganizationProps>
   /**
    * Creates or updates an App Installation
