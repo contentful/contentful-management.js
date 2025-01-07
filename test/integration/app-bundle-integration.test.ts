@@ -7,7 +7,7 @@ import type {
   AppUpload,
   Space,
   Environment,
-} from '../../lib/contentful-management'
+} from '../../lib'
 
 describe('AppBundle api', { sequential: true }, () => {
   let organization: Organization
