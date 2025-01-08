@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type { GetBulkActionParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
