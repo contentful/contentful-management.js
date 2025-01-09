@@ -27,4 +27,22 @@ describe('OptionalDefaults', () => {
 
     expectTypeOf<Result>().toMatchTypeOf<Expected>()
   })
+
+  it('handles intersection types', () => {
+    type Result = OptionalDefaults<{ foo1: 'bar1' } | { foo2: 'bar2' }>
+
+    type Expected = { foo1: 'bar1' } | { foo2: 'bar2' }
+
+    expectTypeOf<Result>().toMatchTypeOf<Expected>()
+  })
+
+  it('handles union with intersection types', () => {
+    type Result = OptionalDefaults<{ spaceId: string } & ({ foo1: 'bar1' } | { foo2: 'bar2' })>
+
+    type Expected =
+      | { spaceId?: string | undefined; foo1: 'bar1' }
+      | { spaceId?: string | undefined; foo2: 'bar2' }
+
+    expectTypeOf<Result>().toMatchTypeOf<Expected>()
+  })
 })
