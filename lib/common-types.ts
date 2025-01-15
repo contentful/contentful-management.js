@@ -277,6 +277,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
+  fieldStatus: { '*': Record<string, string> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
