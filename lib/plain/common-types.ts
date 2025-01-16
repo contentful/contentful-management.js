@@ -5,7 +5,6 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
-  GetAppDefinitionParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
@@ -137,11 +136,7 @@ export type PlainClientAPI = {
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
-  function: {
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
-  }
+  function: FunctionPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
