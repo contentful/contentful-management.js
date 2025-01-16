@@ -1,18 +1,19 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import { normalizeSelect } from './utils'
 import type {
   CollectionProp,
   GetFunctionForEnvParams,
   GetFunctionParams,
+  GetManyFunctionParams,
 } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import type { FunctionProps } from '../../../entities/function'
 
-const getBaseUrl = (params: GetFunctionParams) =>
+// Base URL
+const getManyUrl = (params: GetManyFunctionParams) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/functions`
 
-const getFunctionUrl = (params: GetFunctionParams) => `${getBaseUrl(params)}/${params.functionId}`
+const getFunctionUrl = (params: GetFunctionParams) => `${getManyUrl(params)}/${params.functionId}`
 
 const getFunctionsEnvURL = (params: GetFunctionForEnvParams) => {
   return `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appInstallationId}/functions`
@@ -27,9 +28,9 @@ export const get: RestEndpoint<'Function', 'get'> = (
 
 export const getMany: RestEndpoint<'Function', 'getMany'> = (
   http: AxiosInstance,
-  params: GetFunctionParams
+  params: GetManyFunctionParams
 ) => {
-  return raw.get<CollectionProp<FunctionProps>>(http, getBaseUrl(params))
+  return raw.get<CollectionProp<FunctionProps>>(http, getManyUrl(params))
 }
 
 export const getManyForEnvironment: RestEndpoint<'Function', 'getManyForEnvironment'> = (

@@ -49,7 +49,6 @@ import type {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import type { FunctionProps } from '../entities/function'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,

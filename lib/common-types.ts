@@ -1549,7 +1549,7 @@ export type MRActions = {
   }
   Function: {
     get: { params: GetFunctionParams; return: FunctionProps }
-    getMany: { params: GetFunctionParams; return: CollectionProp<FunctionProps> }
+    getMany: { params: GetManyFunctionParams; return: CollectionProp<FunctionProps> }
     getManyForEnvironment: {
       params: GetFunctionForEnvParams
       return: CollectionProp<FunctionProps>
@@ -2148,7 +2148,8 @@ export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentType
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
-export type GetFunctionParams = GetAppDefinitionParams & { functionId?: string }
+export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+export type GetManyFunctionParams = GetAppDefinitionParams
 export type GetFunctionForEnvParams = GetSpaceParams & { environmentId: string } & {
   appInstallationId: string
 }

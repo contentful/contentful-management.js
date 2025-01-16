@@ -2,7 +2,7 @@ import type {
   CollectionProp,
   GetFunctionParams,
   GetFunctionForEnvParams,
-  QueryParams,
+  GetManyFunctionParams,
 } from '../../common-types'
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -37,9 +37,7 @@ export type FunctionPlainClientAPI = {
    * });
    * ```
    */
-  getMany(
-    params: OptionalDefaults<GetFunctionParams & QueryParams>
-  ): Promise<CollectionProp<FunctionProps>>
+  getMany(params: OptionalDefaults<GetManyFunctionParams>): Promise<CollectionProp<FunctionProps>>
 
   /**
    * Fetches all functions for the given environment
@@ -56,6 +54,6 @@ export type FunctionPlainClientAPI = {
    * ```
    */
   getManyForEnvironment(
-    params: OptionalDefaults<GetFunctionForEnvParams & QueryParams>
+    params: OptionalDefaults<GetFunctionForEnvParams>
   ): Promise<CollectionProp<FunctionProps>>
 }
