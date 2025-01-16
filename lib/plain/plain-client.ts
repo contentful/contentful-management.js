@@ -123,7 +123,9 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
     },
     function: {
+      get: wrap(wrapParams, 'Function', 'get'),
       getMany: wrap(wrapParams, 'Function', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'Function', 'getManyForEnvironment')
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),

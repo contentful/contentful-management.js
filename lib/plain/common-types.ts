@@ -5,7 +5,6 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
-  GetAppDefinitionParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
@@ -87,19 +86,19 @@ import type { AppInstallationPlainClientAPI } from './entities/app-installation'
 import type { WebhookPlainClientAPI } from './entities/webhook'
 import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
 import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
-import type { ExtensionPlainClientAPI } from './entities/extension'
 import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
 import type { AppKeyPlainClientAPI } from './entities/app-key'
 import type { UserPlainClientAPI } from './entities/user'
 import type { UploadPlainClientAPI } from './entities/upload'
-import type { OrganizationPlainClientAPI } from './entities/organization'
-import type { LocalePlainClientAPI } from './entities/locale'
-import type { SpacePlainClientAPI } from './entities/space'
-import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
-import type { SpaceMemberPlainClientAPI } from './entities/space-member'
 import type { EnvironmentPlainClientAPI } from './entities/environment'
 import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import type { CommentPlainClientAPI } from './entities/comment'
+import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { FunctionPlainClientAPI } from './entities/function'
+import type { LocalePlainClientAPI } from './entities/locale'
+import type { OrganizationPlainClientAPI } from './entities/organization'
+import type { SpacePlainClientAPI } from './entities/space'
+import type { SpaceMemberPlainClientAPI } from './entities/space-member'
+import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
 import type { TaskPlainClientAPI } from './entities/task'
 import type { WorkflowPlainClientAPI } from './entities/workflow'
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
@@ -136,11 +135,7 @@ export type PlainClientAPI = {
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
-  function: {
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
-  }
+  function: FunctionPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
