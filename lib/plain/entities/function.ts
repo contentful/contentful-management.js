@@ -23,7 +23,7 @@ export type FunctionPlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetFunctionParams>): Promise<FunctionProps>
-  
+
   /**
    * Fetches all functions for the given app
    * @param params organization ID, app definition ID to identify the functions
@@ -40,7 +40,7 @@ export type FunctionPlainClientAPI = {
   getMany(
     params: OptionalDefaults<GetFunctionParams & QueryParams>
   ): Promise<CollectionProp<FunctionProps>>
-  
+
   /**
    * Fetches all functions for the given environment
    * @param params space ID, environment ID, app installation ID to identify the functions

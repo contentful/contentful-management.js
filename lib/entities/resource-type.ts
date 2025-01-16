@@ -54,7 +54,7 @@ type OptionalSysFields =
 
 export type SpaceEnvResourceTypeProps = Pick<
   ResourceTypeProps,
-  (typeof publicResourceTypeFields)[number]
+  typeof publicResourceTypeFields[number]
 > & {
   // we mark timestamps and users as optional to include system types like `Contentful:Entry` into the public response
   sys: Partial<Pick<ResourceTypeProps['sys'], OptionalSysFields>> &

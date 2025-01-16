@@ -12,11 +12,10 @@ import type { FunctionProps } from '../../../entities/function'
 const getBaseUrl = (params: GetFunctionParams) =>
   `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/functions`
 
-const getFunctionUrl = (params: GetFunctionParams) =>
-  `${getBaseUrl(params)}/${params.functionId}`
+const getFunctionUrl = (params: GetFunctionParams) => `${getBaseUrl(params)}/${params.functionId}`
 
 const getFunctionsEnvURL = (params: GetFunctionForEnvParams) => {
-    return `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appInstallationId}/functions`
+  return `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appInstallationId}/functions`
 }
 
 export const get: RestEndpoint<'Function', 'get'> = (

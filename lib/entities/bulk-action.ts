@@ -33,7 +33,7 @@ export enum BulkActionStatus {
 }
 
 const STATUSES = Object.values(BulkActionStatus)
-type BulkActionStatuses = (typeof STATUSES)[number]
+type BulkActionStatuses = typeof STATUSES[number]
 
 interface BulkActionFailedError {
   sys: { type: 'Error'; id: 'BulkActionFailed' }
