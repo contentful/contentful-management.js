@@ -291,11 +291,11 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
@@ -345,11 +345,11 @@ export type PlainClientAPI = {
     ): Promise<AssetProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
       rawData: AssetProps
     ): Promise<AssetProps>
     unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>
     ): Promise<AssetProps>
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
