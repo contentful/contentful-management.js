@@ -97,13 +97,15 @@ export const del: RestEndpoint<'Asset', 'delete'> = (
 
 export const publish: RestEndpoint<'Asset', 'publish'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string; locales?: string[] },
   rawData: AssetProps
 ) => {
+  const payload = params.locales?.length ? { add: { fields: { '*': params.locales } } } : null
+
   return raw.put<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`,
-    null,
+    payload,
     {
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
@@ -114,12 +116,27 @@ export const publish: RestEndpoint<'Asset', 'publish'> = (
 
 export const unpublish: RestEndpoint<'Asset', 'unpublish'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string; locales?: string[] },
+  rawData?: AssetProps
 ) => {
-  return raw.del<AssetProps>(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`
-  )
+  if (params.locales?.length) {
+    const payload = { remove: { fields: { '*': params.locales } } }
+    return raw.put<AssetProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`,
+      payload,
+      {
+        headers: {
+          'X-Contentful-Version': rawData?.sys.version,
+        },
+      }
+    )
+  } else {
+    return raw.del<AssetProps>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`
+    )
+  }
 }
 
 export const archive: RestEndpoint<'Asset', 'archive'> = (
