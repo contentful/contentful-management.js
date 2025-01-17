@@ -117,13 +117,15 @@ export const del: RestEndpoint<'Entry', 'delete'> = (
 
 export const publish: RestEndpoint<'Entry', 'publish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string },
+  params: GetSpaceEnvironmentParams & { entryId: string; locales?: string[] },
   rawData: EntryProps<T>
 ) => {
+  const payload = params.locales?.length ? { add: { fields: { '*': params.locales } } } : null
+
   return raw.put<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`,
-    null,
+    payload,
     {
       headers: {
         'X-Contentful-Version': rawData.sys.version,
@@ -134,12 +136,27 @@ export const publish: RestEndpoint<'Entry', 'publish'> = <T extends KeyValueMap 
 
 export const unpublish: RestEndpoint<'Entry', 'unpublish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string; locales?: string[] },
+  rawData?: EntryProps<T>
 ) => {
-  return raw.del<EntryProps<T>>(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`
-  )
+  if (params.locales?.length) {
+    const payload = { remove: { fields: { '*': params.locales } } }
+    return raw.put<EntryProps<T>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`,
+      payload,
+      {
+        headers: {
+          'X-Contentful-Version': rawData?.sys.version,
+        },
+      }
+    )
+  } else {
+    return raw.del<EntryProps<T>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`
+    )
+  }
 }
 
 export const archive: RestEndpoint<'Entry', 'archive'> = <T extends KeyValueMap = KeyValueMap>(
