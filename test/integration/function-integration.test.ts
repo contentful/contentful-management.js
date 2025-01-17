@@ -1,4 +1,4 @@
-import { expect, describe, test, beforeAll, afterAll } from 'vitest'
+import { expect, describe, beforeAll, afterAll, it } from 'vitest'
 import { readFileSync } from 'fs'
 import {
   initPlainClient,
@@ -57,10 +57,30 @@ describe('AppBundle api', { sequential: true }, () => {
     await timeoutToCalmRateLimiting()
   })
 
-  test('getManyFunction', async () => {
+  it('getManyFunction', async () => {
     const funcs = await client.function.getMany({
       organizationId: organization.sys.id,
       appDefinitionId: appDefinition.sys.id,
+    })
+    expect(funcs).toBeDefined()
+    expect(funcs.items).toBeInstanceOf(Array)
+  })
+
+  it('getFunction', async () => {
+    const func = await client.function.get({
+      organizationId: organization.sys.id,
+      appDefinitionId: appDefinition.sys.id,
+      functionId: 'mock-function-id',
+    })
+    expect(func).toBeDefined()
+    expect(func.sys.id).toBe('mock-function-id')
+  })
+
+  it('getManyForEnvironmentFunction', async () => {
+    const funcs = await client.function.getManyForEnvironment({
+      spaceId: space.sys.id,
+      environmentId: env.sys.id,
+      appInstallationId: 'mock-app-installation-id',
     })
     expect(funcs).toBeDefined()
     expect(funcs.items).toBeInstanceOf(Array)
