@@ -2151,7 +2151,7 @@ export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: stri
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
 export type GetManyFunctionParams = GetAppDefinitionParams
-export type GetFunctionForEnvParams = GetSpaceParams & { environmentId: string } & {
+export type GetFunctionForEnvParams = GetSpaceEnvironmentParams & {
   appInstallationId: string
 }
 export type GetOrganizationParams = { organizationId: string }
