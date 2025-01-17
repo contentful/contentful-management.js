@@ -28,9 +28,9 @@ export interface Function extends FunctionProps, DefaultElements<FunctionProps> 
 
 /**
  * @private
- * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle data
- * @return Wrapped App Bundle data
+ * @param makeRequest - (real) function to make requests via an adapter
+ * @param data - raw contentful-Function data
+ * @return Wrapped Function data
  */
 export function wrapFunction(
   makeRequest: MakeRequest,
@@ -45,8 +45,8 @@ export function wrapFunction(
 
 /**
  * @private
- * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle collection data
- * @return Wrapped App Bundle collection data
+ * @param makeRequest - real) function to make requests via an adapter
+ * @param data - raw contentful-function data
+ * @return Wrapped App Function collection data
  */
 export const wrapFunctionCollection = wrapCollection(wrapFunction)
