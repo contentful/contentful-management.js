@@ -80,7 +80,7 @@ describe('AppBundle api', { sequential: true }, () => {
     const funcs = await client.function.getManyForEnvironment({
       spaceId: space.sys.id,
       environmentId: env.sys.id,
-      appInstallationId: 'mock-app-installation-id',
+      appInstallationId: appDefinition.sys.id,
     })
     expect(funcs).toBeDefined()
     expect(funcs.items).toBeInstanceOf(Array)
