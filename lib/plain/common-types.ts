@@ -5,7 +5,6 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
-  GetAppDefinitionParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
@@ -50,7 +49,6 @@ import type {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import type { FunctionProps } from '../entities/function'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -92,6 +90,7 @@ import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import type { EnvironmentPlainClientAPI } from './entities/environment'
 import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { FunctionPlainClientAPI } from './entities/function'
 import type { LocalePlainClientAPI } from './entities/locale'
 import type { OrganizationPlainClientAPI } from './entities/organization'
 import type { ResourcePlainAPI } from './entities/resource'
@@ -137,11 +136,7 @@ export type PlainClientAPI = {
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
-  function: {
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
-  }
+  function: FunctionPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
