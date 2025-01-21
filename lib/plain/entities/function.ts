@@ -9,9 +9,9 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type FunctionPlainClientAPI = {
   /**
-   * Fetches the specified function
+   * Fetches the specified Function
    * @param params organization ID, app definition ID, entity ID to identify the function
-   * @returns the function
+   * @returns the Function
    * @throws if the request fails, or the Function is not found
    * @example
    * ```javascript
@@ -25,7 +25,7 @@ export type FunctionPlainClientAPI = {
   get(params: OptionalDefaults<GetFunctionParams>): Promise<FunctionProps>
 
   /**
-   * Fetches all functions for the given app
+   * Fetches all Functions for the given app
    * @param params organization ID, app definition ID to identify the functions
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the App is not found
@@ -40,7 +40,7 @@ export type FunctionPlainClientAPI = {
   getMany(params: OptionalDefaults<GetManyFunctionParams>): Promise<CollectionProp<FunctionProps>>
 
   /**
-   * Fetches all functions for the given environment
+   * Fetches all Functions for the given environment
    * @param params space ID, environment ID, app installation ID to identify the functions
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the Environment is not found
