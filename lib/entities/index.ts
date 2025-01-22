@@ -24,6 +24,7 @@ import * as environmentTemplate from './environment-template'
 import * as environmentTemplateInstallation from './environment-template-installation'
 import * as extension from './extension'
 import * as func from './function'
+import * as functionLog from './function-log'
 import * as locale from './locale'
 import * as organization from './organization'
 import * as organizationInvitation from './organization-invitation'
@@ -87,6 +88,7 @@ export default {
   environmentTemplateInstallation,
   extension,
   func,
+  functionLog,
   locale,
   organization,
   organizationInvitation,
