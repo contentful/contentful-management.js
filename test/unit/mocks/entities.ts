@@ -76,6 +76,7 @@ import type { WorkflowProps } from '../../../lib/entities/workflow'
 import type { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
 import type { UIConfigProps } from '../../../lib/entities/ui-config'
 import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
+import type { FunctionLogProps } from '../../../lib/entities/function-log'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1207,6 +1208,44 @@ const functionCollectionMock = {
   skip: 0,
 }
 
+const functionLogMock: FunctionLogProps = {
+  sys: {
+    id: 'function-id',
+    type: 'FunctionLog',
+    createdBy: makeLink('User', 'user-id'), // Only users can CRUD
+    createdAt: '2022-02-20T10:00:00Z',
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  severity: {
+    info: 0,
+    warn: 0,
+    error: 1,
+  },
+  requestId: 'request-id',
+  event: {
+    type: 'http',
+    query: 'GET',
+    isIntrospectionQuery: false,
+    variables: {},
+  },
+  messages: [
+    {
+      timestamp: 1645363200000,
+      type: 'ERROR',
+      message: 'error message',
+    },
+  ],
+}
+
+const functionLogCollectionMock = {
+  items: [functionLogMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1243,6 +1282,7 @@ const mocks = {
   error: errorMock,
   extension: extensionMock,
   function: functionMock,
+  functionLog: functionLogMock,
   link: linkMock,
   locale: localeMock,
   organization: organizationMock,
@@ -1510,6 +1550,10 @@ function setupEntitiesMock() {
       wrapFunction: vi.fn(),
       wrapFunctionCollection: vi.fn(),
     },
+    FunctionLog: {
+      wrapFunctionLog: vi.fn(),
+      wrapFunctionLogCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1580,4 +1624,6 @@ export {
   resourceMock,
   functionMock,
   functionCollectionMock,
+  functionLogMock,
+  functionLogCollectionMock,
 }

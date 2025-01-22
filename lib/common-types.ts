@@ -174,6 +174,7 @@ import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import type { FunctionLogProps } from './entities/function-log'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -559,6 +560,9 @@ type MRInternal<UA extends boolean> = {
     'Function',
     'getManyForEnvironment'
   >
+
+  (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
+  (opts: MROpts<'FunctionLog', 'getAll', UA>): MRReturn<'FunctionLog', 'getAll'>
 
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
@@ -1556,6 +1560,20 @@ export type MRActions = {
       return: CollectionProp<FunctionProps>
     }
   }
+
+  FunctionLog: {
+    get: {
+      params: GetFunctionLogParams
+      return: FunctionLogProps
+      headers?: RawAxiosRequestHeaders
+    }
+    getAll: {
+      params: GetAllFunctionLogParams
+      return: CollectionProp<FunctionLogProps>
+      headers?: RawAxiosRequestHeaders
+    }
+  }
+
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
     getMany: {
@@ -2154,6 +2172,10 @@ export type GetManyFunctionParams = GetAppDefinitionParams
 export type GetFunctionForEnvParams = GetSpaceEnvironmentParams & {
   appInstallationId: string
 }
+export type GetAllFunctionLogParams = GetFunctionForEnvParams & {
+  functionId: string
+}
+export type GetFunctionLogParams = GetAllFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
