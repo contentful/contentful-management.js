@@ -7,7 +7,7 @@ import type { FunctionLogProps } from '../../entities/function-log'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type FunctionLogPlainClientAPI = {
-/**
+  /**
    * Fetches the specified FunctionLog
    * @param params - spaceId, environmentId, appInstallationId, functionId, logId
    * @returns the FunctionLog
@@ -22,7 +22,7 @@ export type FunctionLogPlainClientAPI = {
    *    logId: '<log_id>'
    * });
    * ```
-   */  
+   */
   get(params: OptionalDefaults<GetFunctionLogParams>): Promise<FunctionLogProps>
 
   /**
