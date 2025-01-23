@@ -1,5 +1,5 @@
 import type { MakeRequest } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { FunctionProps } from './entities/function'
 
 /**
