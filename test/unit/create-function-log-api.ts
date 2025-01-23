@@ -32,7 +32,7 @@ describe('A createFunctionLogApi', () => {
     return makeGetEntityTest(setup, {
       entityType: 'FunctionLog',
       mockToReturn: functionLogCollectionMock,
-      methodToTest: 'getAll',
+      methodToTest: 'getMany',
     })
   })
 })

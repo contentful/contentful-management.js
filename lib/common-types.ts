@@ -562,7 +562,7 @@ type MRInternal<UA extends boolean> = {
   >
 
   (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
-  (opts: MROpts<'FunctionLog', 'getAll', UA>): MRReturn<'FunctionLog', 'getAll'>
+  (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
 
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
@@ -1567,7 +1567,7 @@ export type MRActions = {
       return: FunctionLogProps
       headers?: RawAxiosRequestHeaders
     }
-    getAll: {
+    getMany: {
       params: GetAllFunctionLogParams
       return: CollectionProp<FunctionLogProps>
       headers?: RawAxiosRequestHeaders
@@ -2173,9 +2173,10 @@ export type GetFunctionForEnvParams = QueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
-export type GetAllFunctionLogParams = GetFunctionForEnvParams & {
-  functionId: string
-}
+export type GetAllFunctionLogParams = QueryParams &
+  GetFunctionForEnvParams & {
+    functionId: string
+  }
 export type GetFunctionLogParams = GetAllFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }

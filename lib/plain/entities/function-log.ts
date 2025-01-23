@@ -40,7 +40,7 @@ export type FunctionLogPlainClientAPI = {
    * });
    * ```
    */
-  getAll(
+  getMany(
     params: OptionalDefaults<GetAllFunctionLogParams>
   ): Promise<CollectionProp<FunctionLogProps>>
 }

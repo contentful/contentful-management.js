@@ -44,7 +44,7 @@ describe('FunctionLog', () => {
     return adapterMock
       .makeRequest({
         entityType: 'FunctionLog',
-        action: 'getAll',
+        action: 'getMany',
         userAgent: 'mocked',
         params: {
           spaceId: 'space-id',

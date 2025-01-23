@@ -1731,7 +1731,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
       return makeRequest({
         entityType: 'FunctionLog',
-        action: 'getAll',
+        action: 'getMany',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,

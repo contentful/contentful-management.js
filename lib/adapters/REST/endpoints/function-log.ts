@@ -29,7 +29,7 @@ export const get: RestEndpoint<'FunctionLog', 'get'> = (
   })
 }
 
-export const getAll: RestEndpoint<'FunctionLog', 'getAll'> = (
+export const getMany: RestEndpoint<'FunctionLog', 'getMany'> = (
   http: AxiosInstance,
   params: GetAllFunctionLogParams
 ) => {

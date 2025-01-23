@@ -70,7 +70,7 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      *    accessToken: '<content_management_api_key>'
      * })
      *
-     * client.functionLog.getAll({
+     * client.functionLog.getMany({
      *    spaceId: '<space_id>',
      *    environmentId: '<environment_id>',
      *    appInstallationId: '<app_installation_id>',
@@ -80,11 +80,11 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getAll() {
+    getMany() {
       const raw = this.toPlainObject() as FunctionLogProps
       return makeRequest({
         entityType: 'FunctionLog',
-        action: 'getAll',
+        action: 'getMany',
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.environment.sys.id,

@@ -135,7 +135,7 @@ export const createPlainClient = (
     },
     functionLog: {
       get: wrap(wrapParams, 'FunctionLog', 'get'),
-      getAll: wrap(wrapParams, 'FunctionLog', 'getAll'),
+      getMany: wrap(wrapParams, 'FunctionLog', 'getMany'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
