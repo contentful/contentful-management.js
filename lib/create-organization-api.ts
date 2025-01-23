@@ -41,6 +41,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapAppKey, wrapAppKeyCollection } = entities.appKey
   const { wrapAppDetails } = entities.appDetails
   const { wrapAppAction, wrapAppActionCollection } = entities.appAction
+  const { wrapFunction, wrapFunctionCollection } = entities.func
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
 
@@ -1142,6 +1143,25 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then((payload) => wrapAppActionCollection(makeRequest, payload))
+    },
+    getFunction(appDefinitionId: string, functionId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'Function',
+        action: 'get',
+        params: { organizationId: raw.sys.id, appDefinitionId, functionId },
+      }).then((payload) => wrapFunction(makeRequest, payload))
+    },
+
+    getFunctions(appDefinitionId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'Function',
+        action: 'getMany',
+        params: { organizationId: raw.sys.id, appDefinitionId },
+      }).then((payload) => wrapFunctionCollection(makeRequest, payload))
     },
   }
 }
