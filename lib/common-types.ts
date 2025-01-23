@@ -278,7 +278,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
-  fieldStatus: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -2123,7 +2123,7 @@ export type MRReturn<
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MakeRequestPayload {}
 
 export interface MakeRequestOptions {
