@@ -2168,10 +2168,11 @@ export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
-export type GetManyFunctionParams = GetAppDefinitionParams
-export type GetFunctionForEnvParams = GetSpaceEnvironmentParams & {
-  appInstallationId: string
-}
+export type GetManyFunctionParams = QueryParams & GetAppDefinitionParams
+export type GetFunctionForEnvParams = QueryParams &
+  GetSpaceEnvironmentParams & {
+    appInstallationId: string
+  }
 export type GetAllFunctionLogParams = GetFunctionForEnvParams & {
   functionId: string
 }
