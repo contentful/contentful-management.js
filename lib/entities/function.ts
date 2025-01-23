@@ -36,11 +36,11 @@ export function wrapFunction(
   makeRequest: MakeRequest,
   data: FunctionProps
 ): FunctionProps & ReturnType<typeof createFunctionApi> {
-  const appAction = toPlainObject(copy(data))
+  const func = toPlainObject(copy(data))
 
-  const appActionWithMethods = enhanceWithMethods(appAction, createFunctionApi(makeRequest))
+  const funcWithMethods = enhanceWithMethods(func, createFunctionApi(makeRequest))
 
-  return freezeSys(appActionWithMethods)
+  return freezeSys(funcWithMethods)
 }
 
 /**

@@ -47,11 +47,11 @@ export function wrapFunctionLog(
   makeRequest: MakeRequest,
   data: FunctionLogProps
 ): FunctionLogProps & ReturnType<typeof createFunctionLogApi> {
-  const appAction = toPlainObject(copy(data))
+  const functionLog = toPlainObject(copy(data))
 
-  const appActionWithMethods = enhanceWithMethods(appAction, createFunctionLogApi(makeRequest))
+  const functionLogWithMethods = enhanceWithMethods(functionLog, createFunctionLogApi(makeRequest))
 
-  return freezeSys(appActionWithMethods)
+  return freezeSys(functionLogWithMethods)
 }
 
 /**
