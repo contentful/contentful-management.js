@@ -78,8 +78,6 @@ jobs:
     steps:
       - with-workspace
       - run: npm run test:cover-unit
-      - store_test_results:
-          path: reports
 
   size:
     executor: docker-with-node
@@ -92,8 +90,6 @@ jobs:
     steps:
       - with-workspace
       - run: npm run test:cover-integration
-      - store_test_results:
-          path: reports
 
   # Do not use the workspace for the release step
   release:
