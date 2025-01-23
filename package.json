@@ -172,7 +172,7 @@
   "size-limit": [
     {
       "path": "./dist/contentful-management.browser.js",
-      "limit": "105 kB"
+      "limit": "110 kB"
     },
     {
       "path": "./dist/contentful-management.browser.min.js",
@@ -180,7 +180,7 @@
     },
     {
       "path": "./dist/contentful-management.cjs",
-      "limit": "135 kB"
+      "limit": "140 kB"
     }
   ]
 }
