@@ -1,5 +1,4 @@
-import { expect } from 'chai'
-import { describe, test } from 'mocha'
+import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import type { Environment, PlainClientAPI, Space } from '../../lib/export-types'
 import {
   createTestEnvironment,
@@ -14,14 +13,14 @@ describe('Upload Credential Integration', () => {
   let environment: Environment
   let client: PlainClientAPI
 
-  before(async () => {
+  beforeAll(async () => {
     space = (await createTestSpace(initClient(), 'Entry')) as Space
     environment = (await createTestEnvironment(space, 'Testing Environment')) as Environment
     client = initPlainClient()
     await waitForEnvironmentToBeReady(space, environment)
   })
 
-  after(() => {
+  afterAll(() => {
     if (space) {
       return space.delete()
     }
