@@ -71,7 +71,7 @@ jobs:
       - with-workspace
       - run: npm run prettier:check
       - run: npm run lint
-      - run: npm run check-types
+      - run: npm run test:types
 
   unit:
     executor: docker-with-node
@@ -80,8 +80,6 @@ jobs:
       - run: npm run test:cover-unit
       - store_test_results:
           path: reports
-      - store_artifacts:
-          path: ./reports/unit-results.xml
 
   size:
     executor: docker-with-node
@@ -96,8 +94,6 @@ jobs:
       - run: npm run test:cover-integration
       - store_test_results:
           path: reports
-      - store_artifacts:
-          path: ./reports/integration-results.xml
 
   # Do not use the workspace for the release step
   release:
