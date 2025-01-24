@@ -31,6 +31,7 @@ import * as Locale from './locale'
 import * as Organization from './organization'
 import * as OrganizationInvitation from './organization-invitation'
 import * as OrganizationMembership from './organization-membership'
+import * as OAuthApplication from './oauth_application'
 import * as PersonalAccessToken from './personal-access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
@@ -93,6 +94,7 @@ export default {
   Organization,
   OrganizationInvitation,
   OrganizationMembership,
+  OAuthApplication,
   PersonalAccessToken,
   AccessToken,
   PreviewApiKey,

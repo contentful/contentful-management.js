@@ -117,6 +117,7 @@ import type { WorkflowPlainClientAPI } from './entities/workflow'
 import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
+import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
 
 export type PlainClientAPI = {
   raw: {
@@ -567,4 +568,5 @@ export type PlainClientAPI = {
   workflowDefinition: WorkflowDefinitionPlainClientAPI
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  oauthApplication: OAuthApplicationPlainClientAPI
 }

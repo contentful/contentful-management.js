@@ -9,6 +9,8 @@ import type {
   CursorPaginatedCollection,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
+  GetOAuthAppilicationParams,
+  GetUserParams,
 } from './common-types'
 import entities from './entities'
 import type { Organization, OrganizationProps } from './entities/organization'
@@ -23,6 +25,8 @@ import type {
   EnvironmentTemplateProps,
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
+import type { OAuthApplicationProps } from './export-types'
+import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -289,6 +293,61 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'getCurrent',
         params,
       }).then((data) => wrapUser<T>(makeRequest, data))
+    },
+
+    /**
+     *
+     * @param params
+     * @returns Promise of a OAuthApplication
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOAuthApplication({
+     * userId: 'TestUserId'
+     * oauthApplicationId: 'TestOAuthAppId'
+     * }).then(oauthApplication => console.log(oauthApplication))
+     * .catch(console.error)
+     */
+    getOAuthApplication: function getOAuthApplication(
+      params: GetOAuthAppilicationParams
+    ): Promise<OAuthApplicationProps> {
+      const { userId } = params
+      return makeRequest({
+        entityType: 'OAuthApplication',
+        action: 'get',
+        params,
+      }).then((data) => wrapOAuthApplication(makeRequest, data, userId))
+    },
+
+    /**
+     *
+     * @param params
+     * @returns Promise of the current user OAuthApplications
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOAuthApplications({
+     * userId: 'TestUserId'
+     * }).then(oauthApplication => console.log(oauthApplication))
+     * .catch(console.error)
+     */
+    getOAuthApplications: function getOAuthApplications(
+      params: GetUserParams
+    ): Promise<CursorPaginatedCollection<OAuthApplicationProps, OAuthApplicationProps>> {
+      const { userId } = params
+      return makeRequest({
+        entityType: 'OAuthApplication',
+        action: 'getManyForUser',
+        params,
+      }).then((data) => wrapOAuthApplicationCollection(makeRequest, data, userId))
     },
 
     /**
