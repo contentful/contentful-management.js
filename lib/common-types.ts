@@ -281,7 +281,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
-  fieldStatus: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -556,6 +556,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Extension', 'createWithId', UA>): MRReturn<'Extension', 'createWithId'>
   (opts: MROpts<'Extension', 'update', UA>): MRReturn<'Extension', 'update'>
   (opts: MROpts<'Extension', 'delete', UA>): MRReturn<'Extension', 'delete'>
+
+  (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
+  (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
+  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
+    'Function',
+    'getManyForEnvironment'
+  >
 
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
@@ -1342,12 +1349,6 @@ export type MRActions = {
       return: EditorInterfaceProps
     }
   }
-  Function: {
-    getMany: {
-      params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<FunctionProps>
-    }
-  }
   Environment: {
     get: { params: GetSpaceEnvironmentParams; return: EnvironmentProps }
     getMany: {
@@ -1559,6 +1560,14 @@ export type MRActions = {
       return: ExtensionProps
     }
     delete: { params: GetExtensionParams; return: any }
+  }
+  Function: {
+    get: { params: GetFunctionParams; return: FunctionProps }
+    getMany: { params: GetManyFunctionParams; return: CollectionProp<FunctionProps> }
+    getManyForEnvironment: {
+      params: GetFunctionForEnvParams
+      return: CollectionProp<FunctionProps>
+    }
   }
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
@@ -2129,7 +2138,7 @@ export type MRReturn<
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MakeRequestPayload {}
 
 export interface MakeRequestOptions {
@@ -2173,6 +2182,11 @@ export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentType
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+export type GetManyFunctionParams = GetAppDefinitionParams
+export type GetFunctionForEnvParams = GetSpaceEnvironmentParams & {
+  appInstallationId: string
+}
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }

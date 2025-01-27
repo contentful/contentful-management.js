@@ -36,6 +36,7 @@ import type { ContentTypeProps } from '../../../lib/entities/content-type'
 import type { SnapshotProps } from '../../../lib/entities/snapshot'
 import type { EntryProps } from '../../../lib/entities/entry'
 import type { EditorInterfaceProps } from '../../../lib/entities/editor-interface'
+import type { FunctionProps } from '../../../lib/entities/function'
 import type { AssetProps } from '../../../lib/entities/asset'
 import type { AssetKeyProps } from '../../../lib/entities/asset-key'
 import type { UploadProps } from '../../../lib/entities/upload'
@@ -1197,6 +1198,31 @@ const resourceMock = {
   },
 }
 
+const functionMock: FunctionProps = {
+  sys: {
+    id: 'function-id',
+    type: 'Function',
+    createdBy: makeLink('User', 'user-id'),
+    createdAt: '2022-02-20T10:00:00Z',
+    updatedBy: makeLink('User', 'user-id'),
+    updatedAt: '2022-02-20T10:00:01Z',
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  name: 'function-name',
+  description: 'desc',
+  path: 'path',
+  accepts: ['application/json'],
+  allowNetworks: ['test'],
+}
+
+const functionCollectionMock = {
+  items: [functionMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1232,6 +1258,7 @@ const mocks = {
   environmentTemplateInstallation: environmentTemplateInstallationMock,
   error: errorMock,
   extension: extensionMock,
+  function: functionMock,
   link: linkMock,
   locale: localeMock,
   organization: organizationMock,
@@ -1261,6 +1288,7 @@ const mocks = {
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
+  uploadCredential: uploadCredentialMock,
   usage: usageMock,
   uiConfig: uiConfigMock,
   user: userMock,
@@ -1500,6 +1528,10 @@ function setupEntitiesMock() {
       wrapEnvironmentTemplateInstallation: vi.fn(),
       wrapEnvironmentTemplateInstallationCollection: vi.fn(),
     },
+    Function: {
+      wrapFunction: vi.fn(),
+      wrapFunctionCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1569,4 +1601,6 @@ export {
   resourceProviderMock,
   resourceTypeMock,
   resourceMock,
+  functionMock,
+  functionCollectionMock,
 }
