@@ -10,7 +10,6 @@ import type {
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
   GetOAuthAppilicationParams,
-  GetUserParams,
 } from './common-types'
 import entities from './entities'
 import type { Organization, OrganizationProps } from './entities/organization'
@@ -26,7 +25,6 @@ import type {
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
 import type { OAuthApplicationProps } from './export-types'
-import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -45,6 +43,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition } = entities.appDefinition
   const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
     entities.environmentTemplate
+  const { wrapOAuthApplication } = entities.oauthApplication
 
   return {
     /**
@@ -321,33 +320,6 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'get',
         params,
       }).then((data) => wrapOAuthApplication(makeRequest, data, userId))
-    },
-
-    /**
-     *
-     * @param params
-     * @returns Promise of the current user OAuthApplications
-     * @example ```javascript
-     * const contentful = require('contentful-management')
-     *
-     * const client = contentful.createClient({
-     *  accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getOAuthApplications({
-     * userId: 'TestUserId'
-     * }).then(oauthApplication => console.log(oauthApplication))
-     * .catch(console.error)
-     */
-    getOAuthApplications: function getOAuthApplications(
-      params: GetUserParams
-    ): Promise<CursorPaginatedCollection<OAuthApplicationProps, OAuthApplicationProps>> {
-      const { userId } = params
-      return makeRequest({
-        entityType: 'OAuthApplication',
-        action: 'getManyForUser',
-        params,
-      }).then((data) => wrapOAuthApplicationCollection(makeRequest, data, userId))
     },
 
     /**

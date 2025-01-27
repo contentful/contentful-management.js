@@ -13,22 +13,8 @@ import type {
 
 export type OAuthApplicationPlainClientAPI = {
   /**
-   * Retrieves details of a specific OAuth application.
-   * @param params the user and oauth application IDs
-   * @returns the requested OAuth Application
-   * @throws if the request fails, or the OAuth Application or user are not found
-   * @example
-   * ```javascript
-   * const oauthApplication = await client.oauthApplication.get({
-   *   userId: '<user_id>',
-   *   oauthApplicationId: '<oauth_application_id>'
-   * })
-   * ```
-   */
-  get(params: OptionalDefaults<GetOAuthAppilicationParams>): Promise<OAuthApplicationProps>
-  /**
    * Retrieves a list of OAuth applications associated with the current user.
-   * @param params the user ID and optional pagination query parameters
+   * @param userId the user ID
    * @returns A collection of oauth applications
    * @throws if the request fails, or the user is not found
    * @example
@@ -44,9 +30,26 @@ export type OAuthApplicationPlainClientAPI = {
   getManyForUser(
     params: OptionalDefaults<GetOAuthAppilicationParams & QueryParams>
   ): Promise<CursorPaginatedCollectionProp<OAuthApplicationProps>>
+
+  /**
+   * Retrieves details of a specific OAuth application.
+   * @param userId the user ID
+   * @param oauthApplicationId the OAuth application ID
+   * @returns the requested OAuth Application
+   * @throws if the request fails, or the OAuth Application or user are not found
+   * @example
+   * ```javascript
+   * const oauthApplication = await client.oauthApplication.get({
+   *   userId: '<user_id>',
+   *   oauthApplicationId: '<oauth_application_id>'
+   * })
+   * ```
+   */
+  get(params: OptionalDefaults<GetOAuthAppilicationParams>): Promise<OAuthApplicationProps>
+
   /**
    * Creates a new OAuth application.
-   * @param params the user ID
+   * @param userId the user ID
    * @param rawData the oauth application payload
    * @returns the created OAuth Application
    * @throws if the request fails, or the user is not found
@@ -68,6 +71,7 @@ export type OAuthApplicationPlainClientAPI = {
     rawData: CreateOAuthApplicationProps,
     headers?: RawAxiosRequestHeaders
   ): Promise<OAuthApplicationProps>
+
   /**
    * Updates details of a specific OAuth application.
    * @param params the user and oauth application IDs
@@ -92,6 +96,7 @@ export type OAuthApplicationPlainClientAPI = {
     rawData: OAuthApplicationProps,
     headers?: RawAxiosRequestHeaders
   ): Promise<OAuthApplicationProps>
+
   /**
    * Deletes a specific OAuth application.
    * @param params the user and oauth application IDs

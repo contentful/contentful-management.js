@@ -36,16 +36,15 @@ export interface OAuthApplication
   extends OAuthApplicationProps,
     DefaultElements<OAuthApplicationProps> {
   /**
-   * Updates an OAuth application
-   * @return Promise for the updated OAuth application
-   */
-  update(): Promise<OAuthApplicationProps>
-
-  /**
    * Deletes an OAuth application
    * @return Promise for the deleted OAuth application
    */
   delete(): Promise<void>
+  /**
+   * Updates an OAuth application
+   * @return Promise for the updated OAuth application
+   */
+  update(): Promise<OAuthApplicationProps>
 }
 
 /**
