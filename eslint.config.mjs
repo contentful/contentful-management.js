@@ -6,6 +6,9 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
+  {
+    ignores: ['test/output-integration/**/*'],
+  },
   // Library
   {
     files: ['lib/**/*'],
@@ -16,6 +19,7 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unsafe-function-type': 'warn',
       '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'warn',
       // Things we won't allow
       '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/no-this-alias': [
