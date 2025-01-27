@@ -41,6 +41,9 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from './entities/bulk-action'
 import type {
   CommentProps,
@@ -1141,18 +1144,18 @@ export type MRActions = {
     }
     publish: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionPublishPayload
-      return: BulkActionProps<BulkActionPublishPayload>
+      payload: BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>
+      return: BulkActionProps<BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>>
     }
     unpublish: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionUnpublishPayload
-      return: BulkActionProps<BulkActionUnpublishPayload>
+      payload: BulkActionUnpublishPayload | UnpublishBulkActionV2Payload
+      return: BulkActionProps<BulkActionUnpublishPayload | UnpublishBulkActionV2Payload>
     }
     validate: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionValidatePayload
-      return: BulkActionProps<BulkActionValidatePayload>
+      payload: BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>
+      return: BulkActionProps<BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>>
     }
   }
   Comment: {

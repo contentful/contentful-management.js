@@ -69,6 +69,49 @@ export interface BulkActionPublishPayload extends MakeRequestPayload {
   }
 }
 
+interface AddFieldsEntity<L extends Link<Entity> | VersionedLink<Entity>> {
+  entity: L
+  add?: {
+    fields: Record<'*', string[]>
+  }
+}
+
+interface RemoveFieldsEntity<L extends Link<Entity> | VersionedLink<Entity>> {
+  entity: L
+  remove?: {
+    fields: Record<'*', string[]>
+  }
+}
+type BulkActionEntity<L extends Link<Entity> | VersionedLink<Entity>> = {
+  entity: L
+}
+
+export interface PublishBulkActionV2Payload<PublishActionType extends 'add' | 'remove' = 'add'> {
+  action: 'publish'
+  entities: PublishActionType extends 'remove'
+    ? RemoveFieldsEntity<VersionedLink<Entity>>[]
+    : AddFieldsEntity<VersionedLink<Entity>>[]
+}
+
+export interface ValidateBulkActionV2Payload<PublishActionType extends 'add' | 'remove' = 'add'> {
+  action: 'validate'
+  entities: PublishActionType extends 'remove'
+    ? RemoveFieldsEntity<Link<Entity>>[]
+    : AddFieldsEntity<Link<Entity>>[]
+}
+
+export interface UnpublishBulkActionV2Payload {
+  action: 'unpublish'
+  entities: BulkActionEntity<Link<Entity>>[]
+}
+
+export type BulkActionV2Payload =
+  | PublishBulkActionV2Payload<'add'>
+  | PublishBulkActionV2Payload<'remove'>
+  | UnpublishBulkActionV2Payload
+  | ValidateBulkActionV2Payload<'add'>
+  | ValidateBulkActionV2Payload<'remove'>
+
 export type BulkActionSysProps = {
   id: string
   type: 'BulkAction'
@@ -81,7 +124,7 @@ export type BulkActionSysProps = {
 }
 
 /** The object returned by the BulkActions API */
-export interface BulkActionProps<TPayload extends BulkActionPayload = any> {
+export interface BulkActionProps<TPayload extends BulkActionPayload | BulkActionV2Payload = any> {
   sys: BulkActionSysProps
   action: BulkActionType
   /** original payload when BulkAction was created */
@@ -120,7 +163,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
         params,
       }).then((bulkAction) => wrapBulkAction(makeRequest, bulkAction))
     },
-    async waitProcessing<TPayload extends BulkActionPayload = any>(
+    async waitProcessing<TPayload extends BulkActionPayload | BulkActionV2Payload = any>(
       options?: AsyncActionProcessingOptions
     ): Promise<BulkActionProps<TPayload>> {
       return pollAsyncActionStatus<BulkActionProps<TPayload>>(async () => this.get(), options)
@@ -128,7 +171,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
   }
 }
 
-export interface BulkAction<T extends BulkActionPayload = any>
+export interface BulkAction<T extends BulkActionPayload | BulkActionV2Payload = any>
   extends BulkActionProps<T>,
     BulkActionApiMethods,
     DefaultElements<BulkActionProps<T>> {}
@@ -139,9 +182,9 @@ export interface BulkAction<T extends BulkActionPayload = any>
  * @param data - Raw BulkAction data
  * @return Wrapped BulkAction data
  */
-export function wrapBulkAction<TPayload extends BulkActionPayload = any>(
+export function wrapBulkAction<TPayload extends BulkActionPayload | BulkActionV2Payload = any>(
   makeRequest: MakeRequest,
-  data: BulkActionProps<BulkActionPayload>
+  data: BulkActionProps<BulkActionPayload | BulkActionV2Payload>
 ): BulkAction<TPayload> {
   const bulkAction = toPlainObject(copy(data))
   const bulkActionWithApiMethods = enhanceWithMethods(
