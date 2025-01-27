@@ -346,6 +346,27 @@ export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 's
   pagePrev?: string
 }
 
+// Base interface for shared fields
+interface CursorPaginationBase {
+  limit?: number
+}
+
+// Interfaces for each “exclusive” shape
+interface CursorPaginationPageNext extends CursorPaginationBase {
+  pageNext: string
+  pagePrev?: never
+}
+
+interface CursorPaginationPagePrev extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev: string
+}
+
+interface CursorPaginationNone extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev?: never
+}
+
 export type KeyValueMap = Record<string, any>
 
 /**
@@ -2173,10 +2194,8 @@ export type GetFunctionForEnvParams = QueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
-export type GetAllFunctionLogParams = QueryParams &
-  GetFunctionForEnvParams & {
-    functionId: string
-  }
+export type GetAllFunctionLogParams = CursorBasedParams &
+  GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetAllFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
@@ -2245,6 +2264,12 @@ export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: st
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export type CursorPaginationXORParams = {
+  query?: CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone
+}
+export type CursorBasedParams = CursorPaginationXORParams & {
+  limit?: number
+}
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',

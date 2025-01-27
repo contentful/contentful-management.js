@@ -1,4 +1,5 @@
-import type { MakeRequest } from './common-types'
+import { createRequestConfig } from 'contentful-sdk-core'
+import type { CursorBasedParams, MakeRequest } from './common-types'
 import entities from './entities'
 import type { FunctionLogProps } from './entities/function-log'
 import { wrapFunctionLogCollection } from './entities/function-log'
@@ -80,7 +81,7 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getMany() {
+    getMany(query: CursorBasedParams = { limit: 100 }) {
       const raw = this.toPlainObject() as FunctionLogProps
       return makeRequest({
         entityType: 'FunctionLog',
@@ -90,6 +91,7 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.environment.sys.id,
           appInstallationId: raw.sys.appDefinition.sys.id,
           functionId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapFunctionLogCollection(makeRequest, data))
     },

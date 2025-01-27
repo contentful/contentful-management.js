@@ -1,6 +1,6 @@
 import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
+import type { BasicCursorPaginationOptions, CursorBasedParams, QueryOptions } from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -1726,7 +1726,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *     .catch(console.error)
      * ```
      */
-    getFunctionLogs(appInstallationId: string, functionId: string) {
+    getFunctionLogs(
+      appInstallationId: string,
+      functionId: string,
+      query?: CursorBasedParams
+    ) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
@@ -1737,6 +1741,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           appInstallationId,
           functionId,
+          query: query ? createRequestConfig({ query }).params : undefined,
         },
       }).then((data) => wrapFunctionLogCollection(makeRequest, data))
     },
