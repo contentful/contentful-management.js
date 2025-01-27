@@ -118,6 +118,7 @@ import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-chan
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 
 export type PlainClientAPI = {
+  version: string
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>

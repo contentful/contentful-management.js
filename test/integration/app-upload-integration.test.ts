@@ -1,7 +1,7 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
 import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/contentful-management'
+import type { Organization } from '../../lib'
 
 describe('AppUpload api', { sequential: true }, () => {
   let organization: Organization
