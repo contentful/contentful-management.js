@@ -36,6 +36,9 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from '../entities/bulk-action'
 import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
@@ -213,16 +216,16 @@ export type PlainClientAPI = {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPublishPayload
-    ): Promise<BulkActionProps<BulkActionPublishPayload>>
+      payload: BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>
+    ): Promise<BulkActionProps<BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>>>
     unpublish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionUnpublishPayload
-    ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
+      payload: BulkActionUnpublishPayload | UnpublishBulkActionV2Payload
+    ): Promise<BulkActionProps<BulkActionUnpublishPayload | UnpublishBulkActionV2Payload>>
     validate(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionValidatePayload
-    ): Promise<BulkActionProps<BulkActionValidatePayload>>
+      payload: BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>
+    ): Promise<BulkActionProps<BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>>>
   }
   comment: CommentPlainClientAPI
   concept: ConceptPlainClientAPI
