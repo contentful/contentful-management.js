@@ -3,7 +3,7 @@ import * as raw from './raw'
 import type {
   CollectionProp,
   GetFunctionLogParams,
-  GetManyFunctionLogParams,
+  GetAllFunctionLogParams,
 } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import type { FunctionLogProps } from '../../../entities/function-log'
@@ -12,7 +12,7 @@ const FunctionLogAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'function-logs',
 }
 
-const baseURL = (params: GetManyFunctionLogParams) =>
+const baseURL = (params: GetAllFunctionLogParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appInstallationId}/functions/${params.functionId}/logs`
 
 const getURL = (params: GetFunctionLogParams) =>
@@ -31,7 +31,7 @@ export const get: RestEndpoint<'FunctionLog', 'get'> = (
 
 export const getMany: RestEndpoint<'FunctionLog', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyFunctionLogParams
+  params: GetAllFunctionLogParams
 ) => {
   return raw.get<CollectionProp<FunctionLogProps>>(http, baseURL(params), {
     params: params.query,

@@ -1593,7 +1593,7 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
     }
     getMany: {
-      params: GetManyFunctionLogParams
+      params: GetAllFunctionLogParams
       return: CollectionProp<FunctionLogProps>
       headers?: RawAxiosRequestHeaders
     }
@@ -2198,9 +2198,9 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
-export type GetManyFunctionLogParams = CursorBasedParams &
+export type GetAllFunctionLogParams = CursorBasedParams &
   GetFunctionForEnvParams & { functionId: string }
-export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
+export type GetFunctionLogParams = GetAllFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }

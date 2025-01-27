@@ -11,7 +11,9 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionPlainClientAPI = {
   /**
    * Fetches the specified Function
-   * @params organizationId, appDefinitionId, functionId
+   * @param organizationID
+   * @param appDefinitionId
+   * @param entityID
    * @returns the Function
    * @throws if the request fails, or the Function is not found
    * @example
@@ -27,7 +29,9 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given app
-   * @params organizationId, appDefinitionId, query
+   * @param organizationID
+   * @param appDefinitionID
+   * @param {import('../common-types').AcceptsQueryParams} query  - optional query parameter to filter by action
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the App is not found
    * @example
@@ -43,7 +47,10 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given environment
-   * @params spaceId, environmentId, appInstallationId, query
+   * @param spaceID
+   * @param environmentID
+   * @param appInstallationId
+   * @param {import('../common-types').AcceptsQueryParams} query  - optional query parameter to filter by action
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the Environment is not found
    * @example
