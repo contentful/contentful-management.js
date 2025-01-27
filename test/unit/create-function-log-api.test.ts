@@ -22,7 +22,7 @@ function setup<T>(promise: Promise<T>) {
 describe('A createFunctionLogApi', () => {
   test('API call getFunctionLog', async () => {
     return makeGetEntityTest(setup, {
-      entityType: 'Function',
+      entityType: 'FunctionLog',
       mockToReturn: functionLogMock,
       methodToTest: 'get',
     })

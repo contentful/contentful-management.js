@@ -1753,6 +1753,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a FunctionLog by appInstallationId, functionId and logId
      * @param appInstallationId
      * @param functionId
+     * @param logId
      * @return Promise containing a wrapped FunctionLog
      * @example ```javascript
      * const contentful = require('contentful-management')

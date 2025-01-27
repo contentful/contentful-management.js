@@ -1,7 +1,7 @@
 import type {
   CollectionProp,
   GetFunctionLogParams,
-  GetAllFunctionLogParams,
+  GetManyFunctionLogParams,
 } from '../../common-types'
 import type { FunctionLogProps } from '../../entities/function-log'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -9,11 +9,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionLogPlainClientAPI = {
   /**
    * Fetches the specified FunctionLog
-   * @param spaceId
-   * @param environmentId
-   * @param appInstallationId
-   * @param functionId
-   * @param logId
+   * @params spaceId, environmentId, appInstallationId, functionId, logId
    * @returns the FunctionLog
    * @throws if the request fails, or the FunctionLog is not found
    * @example
@@ -31,11 +27,7 @@ export type FunctionLogPlainClientAPI = {
 
   /**
    * Fetches all FunctionLogs for the given function
-   * @param spaceId
-   * @param environmentId
-   * @param appInstallationId
-   * @param functionId
-   * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
+   * @params spaceId, environmentId, appInstallationId, functionId, query
    * @returns an object containing an array of FunctionLogs
    * @throws if the request fails, or the FunctionLogs are not found
    * @example
@@ -50,6 +42,6 @@ export type FunctionLogPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAllFunctionLogParams>
+    params: OptionalDefaults<GetManyFunctionLogParams>
   ): Promise<CollectionProp<FunctionLogProps>>
 }
