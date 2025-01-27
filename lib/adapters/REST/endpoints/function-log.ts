@@ -34,6 +34,7 @@ export const getMany: RestEndpoint<'FunctionLog', 'getMany'> = (
   params: GetAllFunctionLogParams
 ) => {
   return raw.get<CollectionProp<FunctionLogProps>>(http, baseURL(params), {
+    params: params.query,
     headers: {
       ...FunctionLogAlphaHeaders,
     },

@@ -3,6 +3,7 @@ import type {
   GetFunctionParams,
   GetFunctionForEnvParams,
   GetManyFunctionParams,
+  AcceptsQueryParams,
 } from '../../common-types'
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -10,7 +11,9 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionPlainClientAPI = {
   /**
    * Fetches the specified Function
-   * @param params organization ID, app definition ID, entity ID to identify the function
+   * @param organizationID
+   * @param appDefinitionId
+   * @param entityID
    * @returns the Function
    * @throws if the request fails, or the Function is not found
    * @example
@@ -26,7 +29,9 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given app
-   * @param params organization ID, app definition ID to identify the functions
+   * @param organizationID
+   * @param appDefinitionID
+   * @param {import('../common-types').AcceptsQueryParams} query  - optional query parameter to filter by action
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the App is not found
    * @example
@@ -34,6 +39,7 @@ export type FunctionPlainClientAPI = {
    * const functions = await client.function.getMany({
    *   organizationId: "<org_id>",
    *   appDefinitionId: "<app_definition_id>",
+   *   query: { 'accepts[all]': '<action>' },
    * });
    * ```
    */
@@ -41,7 +47,10 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given environment
-   * @param params space ID, environment ID, app installation ID to identify the functions
+   * @param spaceID
+   * @param environmentID
+   * @param appInstallationId
+   * @param {import('../common-types').AcceptsQueryParams} query  - optional query parameter to filter by action
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the Environment is not found
    * @example
@@ -50,6 +59,7 @@ export type FunctionPlainClientAPI = {
    *   spaceId: "<space_id>",
    *   environmentId: "<environment_id>",
    *   appInstallationId: "<app_installation_id>",
+   *   query: { 'accepts[all]': '<action>' },
    * });
    * ```
    */

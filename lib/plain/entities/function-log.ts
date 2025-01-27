@@ -9,7 +9,11 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionLogPlainClientAPI = {
   /**
    * Fetches the specified FunctionLog
-   * @param params - spaceId, environmentId, appInstallationId, functionId, logId
+   * @param spaceId
+   * @param environmentId
+   * @param appInstallationId
+   * @param functionId
+   * @param logId
    * @returns the FunctionLog
    * @throws if the request fails, or the FunctionLog is not found
    * @example
@@ -27,7 +31,11 @@ export type FunctionLogPlainClientAPI = {
 
   /**
    * Fetches all FunctionLogs for the given function
-   * @param params - spaceId, environmentId, appInstallationId, functionId
+   * @param spaceId
+   * @param environmentId
+   * @param appInstallationId
+   * @param functionId
+   * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
    * @returns an object containing an array of FunctionLogs
    * @throws if the request fails, or the FunctionLogs are not found
    * @example
@@ -36,7 +44,8 @@ export type FunctionLogPlainClientAPI = {
    *    spaceId: '<space_id>',
    *    environmentId: '<environment_id>',
    *    appInstallationId: '<app_installation_id>',
-   *    functionId: '<function_id>'
+   *    functionId: '<function_id>',
+   *    query: { limit: 100 }
    * });
    * ```
    */

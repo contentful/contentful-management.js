@@ -18,7 +18,8 @@ export default function createFunctionApi(makeRequest: MakeRequest) {
      * Gets all Functions for an App Definition
      * @Param organizationId - Organization ID
      * @Param appDefinitionId - App Definition ID
-     * @returns a collection of Functions
+     * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
+     * @return a collection of Functions
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -28,7 +29,8 @@ export default function createFunctionApi(makeRequest: MakeRequest) {
      *
      * client.function.getMany({
      *   organizationId: <organizationId>,
-     *   appDefinitionId: <appDefinitionId>
+     *   appDefinitionId: <appDefinitionId>,
+     *   query: { 'accepts[all]': '<action>' }
      * })
      * .then((response) => console.log(response.items))
      * .catch(console.error)
@@ -86,6 +88,7 @@ export default function createFunctionApi(makeRequest: MakeRequest) {
      * @Param organizationId - Organization ID
      * @Param appDefinitionId - App Definition ID
      * @Param functionId - Function ID
+     * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
      * @returns a collection of Functions
      * ```javascript
      * const contentful = require('contentful-management')
@@ -97,7 +100,8 @@ export default function createFunctionApi(makeRequest: MakeRequest) {
      * client.function.get({
      *   environmentId: <environmentId>,
      *   spaceId: <spaceId>,
-     *   appInstallationId: <appInstallationId>
+     *   appInstallationId: <appInstallationId>,
+     *   query: { 'accepts[all]': '<action>' }
      * })
      * .then((response) => console.log(response.items))
      * .catch(console.error)

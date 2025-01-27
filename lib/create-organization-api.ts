@@ -4,7 +4,14 @@ import type { Stream } from 'stream'
 import type { CreateTeamMembershipProps } from './entities/team-membership'
 import type { CreateTeamProps } from './entities/team'
 import type { CreateOrganizationInvitationProps } from './entities/organization-invitation'
-import type { BasicQueryOptions, MakeRequest, QueryOptions, QueryParams } from './common-types'
+import type {
+  AcceptsQueryOptions,
+  AcceptsQueryParams,
+  BasicQueryOptions,
+  MakeRequest,
+  QueryOptions,
+  QueryParams,
+} from './common-types'
 import type { CreateAppDefinitionProps } from './entities/app-definition'
 import type { CreateAppActionProps } from './entities/app-action'
 import type { CreateAppSigningSecretProps } from './entities/app-signing-secret'
@@ -1144,6 +1151,19 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         params: { organizationId: raw.sys.id, appDefinitionId },
       }).then((payload) => wrapAppActionCollection(makeRequest, payload))
     },
+    /**
+     * Gets an app function
+     * @param appDefinitionId
+     * @param functionId
+     * @returns Promise for a Function
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const functions = await org.getFunction('<app_definition_id>', '<function_id>')
+     */
     getFunction(appDefinitionId: string, functionId: string) {
       const raw = this.toPlainObject() as OrganizationProps
 
@@ -1154,13 +1174,26 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
       }).then((payload) => wrapFunction(makeRequest, payload))
     },
 
-    getFunctions(appDefinitionId: string) {
+    /**
+     * Gets a collection of app functions.
+     * @param appDefinitionId
+     * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
+     * @returns Promise for a Function
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const functions = await org.getFunctions('<app_definition_id>', { 'accepts[all]': '<action>' })
+     */
+    getFunctions(appDefinitionId: string, query?: AcceptsQueryOptions) {
       const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
         entityType: 'Function',
         action: 'getMany',
-        params: { organizationId: raw.sys.id, appDefinitionId },
+        params: { organizationId: raw.sys.id, appDefinitionId, query },
       }).then((payload) => wrapFunctionCollection(makeRequest, payload))
     },
   }

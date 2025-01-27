@@ -367,6 +367,10 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+export interface AcceptsQueryOptions {
+  'accepts[all]'?: string
+}
+
 export type KeyValueMap = Record<string, any>
 
 /**
@@ -2189,8 +2193,8 @@ export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
-export type GetManyFunctionParams = QueryParams & GetAppDefinitionParams
-export type GetFunctionForEnvParams = QueryParams &
+export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+export type GetFunctionForEnvParams = AcceptsQueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
@@ -2265,11 +2269,12 @@ export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 export type CursorPaginationXORParams = {
-  query?: CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone
+  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
+    limit?: number
+  }
 }
-export type CursorBasedParams = CursorPaginationXORParams & {
-  limit?: number
-}
+export type CursorBasedParams = CursorPaginationXORParams
+export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',

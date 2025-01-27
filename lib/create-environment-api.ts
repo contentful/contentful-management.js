@@ -1,6 +1,11 @@
 import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { BasicCursorPaginationOptions, CursorBasedParams, QueryOptions } from './common-types'
+import type {
+  AcceptsQueryOptions,
+  BasicCursorPaginationOptions,
+  CursorBasedParams,
+  QueryOptions,
+} from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -1669,11 +1674,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         payload: data,
       }).then((payload) => wrapAppAccessToken(makeRequest, payload))
     },
-
     /**
      * Gets a collection of Functions for a given environment
      * @param appInstallationId
-     * @returns Promise containing wrapped collection of Functions in an environment
+     * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
+     * @return Promise containing wrapped collection of Functions in an environment
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1684,12 +1689,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * client
      *    .getSpace('<space-id>')
      *    .then((space) => space.getEnvironment('<environment-id>'))
-     *    .then((environment) => environment.getFunctionsForEnvironment('<app-installation-id>'))
+     *    .then((environment) => environment.getFunctionsForEnvironment('<app-installation-id>',  { 'accepts[all]': '<action>' }))
      *    .then((functions) => console.log(functions.items))
      *    .catch(console.error)
      * ```
      */
-    getFunctionsForEnvironment(appInstallationId: string) {
+    getFunctionsForEnvironment(appInstallationId: string, query?: AcceptsQueryOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Function',
@@ -1698,6 +1703,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
           appInstallationId,
+          query,
         },
       }).then((data) => wrapFunctionCollection(makeRequest, data))
     },
@@ -1705,7 +1711,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of FunctionLogs for a given app installation id and FunctionId
      * @param appInstallationId
      * @param functionId
-     * @returns Promise containing wrapped collection of FunctionLogs
+     * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
+     * @return Promise containing wrapped collection of FunctionLogs
      * * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -1719,18 +1726,15 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *    .then((environment) =>
      *       environment.getFunctionLogs(
      *          '<app-installation-id>',
-     *          '<function-id>'
+     *          '<function-id>',
+     *          { limit: 10 },
      *       )
      *     )
      *     .then((functionLogs) => console.log(functionLog.items))
      *     .catch(console.error)
      * ```
      */
-    getFunctionLogs(
-      appInstallationId: string,
-      functionId: string,
-      query?: CursorBasedParams
-    ) {
+    getFunctionLogs(appInstallationId: string, functionId: string, query?: CursorBasedParams) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
@@ -1745,12 +1749,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapFunctionLogCollection(makeRequest, data))
     },
-
     /**
      * Gets a FunctionLog by appInstallationId, functionId and logId
      * @param appInstallationId
      * @param functionId
-     * @returns Promise containing a wrapped FunctionLog
+     * @return Promise containing a wrapped FunctionLog
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

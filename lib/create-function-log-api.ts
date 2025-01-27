@@ -23,7 +23,7 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      * @Param appInstallationId - App Installation ID
      * @Param functionId - Function ID
      * @Param logId - Log ID
-     * @returns a function log
+     * @return a function log
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -63,7 +63,8 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      * @Param environmentId - Environment ID
      * @Param appInstallationId - App Installation ID
      * @Param functionId - Function ID
-     * @returns a collection of FunctionLogs
+     * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
+     * @return a collection of FunctionLogs
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -75,13 +76,14 @@ export default function createFunctionLogApi(makeRequest: MakeRequest) {
      *    spaceId: '<space_id>',
      *    environmentId: '<environment_id>',
      *    appInstallationId: '<app_installation_id>',
-     *    functionId: '<function_id>'
+     *    functionId: '<function_id>',
+     *    query: { limit: 1 }
      * })
      * .then((response) => console.log(response.items))
      * .catch(console.error)
      * ```
      */
-    getMany(query: CursorBasedParams = { limit: 100 }) {
+    getMany(query: CursorBasedParams = { query: { limit: 1 } }) {
       const raw = this.toPlainObject() as FunctionLogProps
       return makeRequest({
         entityType: 'FunctionLog',
