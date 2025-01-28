@@ -30,12 +30,14 @@ export const getMany: RestEndpoint<'Function', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyFunctionParams
 ) => {
-  return raw.get<CollectionProp<FunctionProps>>(http, getManyUrl(params))
+  return raw.get<CollectionProp<FunctionProps>>(http, getManyUrl(params), { params: params.query })
 }
 
 export const getManyForEnvironment: RestEndpoint<'Function', 'getManyForEnvironment'> = (
   http: AxiosInstance,
   params: GetFunctionForEnvParams
 ) => {
-  return raw.get<CollectionProp<FunctionProps>>(http, getFunctionsEnvURL(params))
+  return raw.get<CollectionProp<FunctionProps>>(http, getFunctionsEnvURL(params), {
+    params: params.query,
+  })
 }
