@@ -1179,7 +1179,9 @@ export type MRActions = {
     validateV2: {
       params: GetSpaceEnvironmentParams
       payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
-      return: BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
+      return: BulkActionProps<
+        ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      >
     }
   }
   Comment: {

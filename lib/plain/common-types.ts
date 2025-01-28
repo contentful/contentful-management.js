@@ -239,7 +239,9 @@ export type PlainClientAPI = {
     validateV2(
       params: GetSpaceEnvironmentParams,
       payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
-    ): Promise<BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>>
+    ): Promise<
+      BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
+    >
   }
   comment: CommentPlainClientAPI
   concept: ConceptPlainClientAPI
