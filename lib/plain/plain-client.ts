@@ -133,6 +133,10 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Function', 'getMany'),
       getManyForEnvironment: wrap(wrapParams, 'Function', 'getManyForEnvironment'),
     },
+    functionLog: {
+      get: wrap(wrapParams, 'FunctionLog', 'get'),
+      getMany: wrap(wrapParams, 'FunctionLog', 'getMany'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),
