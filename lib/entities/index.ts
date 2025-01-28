@@ -25,6 +25,7 @@ import * as environmentTemplateInstallation from './environment-template-install
 import * as extension from './extension'
 import * as func from './function'
 import * as locale from './locale'
+import * as oauthApplication from './oauth-application'
 import * as organization from './organization'
 import * as organizationInvitation from './organization-invitation'
 import * as organizationMembership from './organization-membership'
@@ -88,6 +89,7 @@ export default {
   extension,
   func,
   locale,
+  oauthApplication,
   organization,
   organizationInvitation,
   organizationMembership,
