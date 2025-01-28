@@ -40,6 +40,7 @@ import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
+  BulkActionV2Payload,
   BulkActionValidatePayload,
   PublishBulkActionV2Payload,
   UnpublishBulkActionV2Payload,
@@ -451,6 +452,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
+  (opts: MROpts<'BulkAction', 'getV2', UA>): MRReturn<'BulkAction', 'getV2'>
+  (opts: MROpts<'BulkAction', 'publishV2', UA>): MRReturn<'BulkAction', 'publishV2'>
+  (opts: MROpts<'BulkAction', 'unpublishV2', UA>): MRReturn<'BulkAction', 'unpublishV2'>
+  (opts: MROpts<'BulkAction', 'validateV2', UA>): MRReturn<'BulkAction', 'validateV2'>
 
   (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
   (opts: MROpts<'Comment', 'getMany', UA>): MRReturn<'Comment', 'getMany'>
@@ -1144,18 +1149,37 @@ export type MRActions = {
     }
     publish: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>
-      return: BulkActionProps<BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>>
+      payload: BulkActionPublishPayload
+      return: BulkActionProps<BulkActionPublishPayload>
     }
     unpublish: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionUnpublishPayload | UnpublishBulkActionV2Payload
-      return: BulkActionProps<BulkActionUnpublishPayload | UnpublishBulkActionV2Payload>
+      payload: BulkActionUnpublishPayload
+      return: BulkActionProps<BulkActionUnpublishPayload>
     }
     validate: {
       params: GetSpaceEnvironmentParams
-      payload: BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>
-      return: BulkActionProps<BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>>
+      payload: BulkActionValidatePayload
+      return: BulkActionProps<BulkActionValidatePayload>
+    }
+    getV2: {
+      params: GetBulkActionParams
+      return: BulkActionProps<BulkActionV2Payload>
+    }
+    publishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'add'>
+      return: BulkActionProps<PublishBulkActionV2Payload<'add'>>
+    }
+    unpublishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload
+      return: BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>
+    }
+    validateV2: {
+      params: GetSpaceEnvironmentParams
+      payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      return: BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
     }
   }
   Comment: {

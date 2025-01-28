@@ -35,6 +35,7 @@ import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
+  BulkActionV2Payload,
   BulkActionValidatePayload,
   PublishBulkActionV2Payload,
   UnpublishBulkActionV2Payload,
@@ -216,16 +217,29 @@ export type PlainClientAPI = {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>
-    ): Promise<BulkActionProps<BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>>>
+      payload: BulkActionPublishPayload
+    ): Promise<BulkActionProps<BulkActionPublishPayload>>
     unpublish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionUnpublishPayload | UnpublishBulkActionV2Payload
-    ): Promise<BulkActionProps<BulkActionUnpublishPayload | UnpublishBulkActionV2Payload>>
+      payload: BulkActionUnpublishPayload
+    ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
     validate(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>
-    ): Promise<BulkActionProps<BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>>>
+      payload: BulkActionValidatePayload
+    ): Promise<BulkActionProps<BulkActionValidatePayload>>
+    getV2(params: GetBulkActionParams): Promise<BulkActionProps<BulkActionV2Payload>>
+    publishV2(
+      params: GetSpaceEnvironmentParams,
+      payload: PublishBulkActionV2Payload<'add'>
+    ): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>>
+    unpublishV2(
+      params: GetSpaceEnvironmentParams,
+      payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload
+    ): Promise<BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>>
+    validateV2(
+      params: GetSpaceEnvironmentParams,
+      payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+    ): Promise<BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>>
   }
   comment: CommentPlainClientAPI
   concept: ConceptPlainClientAPI

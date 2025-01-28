@@ -22,47 +22,84 @@ export const get: RestEndpoint<'BulkAction', 'get'> = (
   )
 }
 
-type PublishPayload = BulkActionPublishPayload | PublishBulkActionV2Payload<'add'>
-type UnpublishPayload = BulkActionUnpublishPayload | UnpublishBulkActionV2Payload
-type ValidatePayload = BulkActionValidatePayload | ValidateBulkActionV2Payload<'add'>
-
-export async function publish(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: BulkActionPublishPayload): Promise<BulkActionProps<BulkActionPublishPayload>>
-export async function publish(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: PublishBulkActionV2Payload<'add'>): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>>
-export async function publish(
+export const publish: RestEndpoint<'BulkAction', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  payload: PublishPayload,
-): Promise<BulkActionProps<PublishPayload>> {
-  const url = 'action' in payload && payload.action === 'publish'
-    ? `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`
-    : `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/publish`
-
-  return raw.post(http, url, payload)
+  payload: BulkActionPublishPayload,
+): Promise<BulkActionProps<BulkActionPublishPayload>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/publish`,
+    payload
+  )
 }
 
-export async function unpublish(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: BulkActionUnpublishPayload): Promise<BulkActionProps<BulkActionUnpublishPayload>>
-export async function unpublish(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: UnpublishBulkActionV2Payload): Promise<BulkActionProps<UnpublishBulkActionV2Payload>>
-export async function unpublish(
+export const unpublish: RestEndpoint<'BulkAction', 'unpublish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  payload: UnpublishPayload
-): Promise<BulkActionProps<UnpublishPayload>> {
-  const url = 'action' in payload && payload.action === 'unpublish'
-    ? `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`
-    : `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/unpublish`
-
-  return raw.post(http, url, payload)
+  payload: BulkActionUnpublishPayload
+): Promise<BulkActionProps<BulkActionUnpublishPayload>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/unpublish`,
+    payload
+  )
 }
-export async function validate(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: BulkActionValidatePayload): Promise<BulkActionProps<BulkActionValidatePayload>>
-export async function validate(http: AxiosInstance, params: GetSpaceEnvironmentParams, payload: ValidateBulkActionV2Payload<'add'>): Promise<BulkActionProps<ValidateBulkActionV2Payload<'add'>>>
-export async function validate(
+
+export const validate: RestEndpoint<'BulkAction', 'validate'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  payload: ValidatePayload
-): Promise<BulkActionProps<ValidatePayload>> {
-  const url = 'action' in payload && payload.action === 'validate'
-    ? `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`
-    : `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/validate`
+  payload: BulkActionValidatePayload
+): Promise<BulkActionProps<BulkActionValidatePayload>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/validate`,
+    payload
+  )
+}
 
-  return raw.post(http, url, payload)
+export const getV2: RestEndpoint<'BulkAction', 'getV2'> = (
+  http: AxiosInstance,
+  params: GetBulkActionParams
+) => {
+  return raw.get(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/${params.bulkActionId}`
+  )
+}
+
+export const publishV2: RestEndpoint<'BulkAction', 'publishV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: PublishBulkActionV2Payload<'add'>,
+): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
+    payload
+  )
+}
+
+export const unpublishV2: RestEndpoint<'BulkAction', 'unpublishV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload,
+): Promise<BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
+    payload
+  )
+}
+
+export const validateV2: RestEndpoint<'BulkAction', 'validateV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>,
+): Promise<BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
+    payload
+  )
 }
