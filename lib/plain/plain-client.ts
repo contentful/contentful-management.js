@@ -182,6 +182,10 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'BulkAction', 'publish'),
       unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
+      getV2: wrap(wrapParams, 'BulkAction', 'getV2'),
+      publishV2: wrap(wrapParams, 'BulkAction', 'publishV2'),
+      unpublishV2: wrap(wrapParams, 'BulkAction', 'unpublishV2'),
+      validateV2: wrap(wrapParams, 'BulkAction', 'validateV2'),
     },
     comment: {
       get: wrap(wrapParams, 'Comment', 'get') as PlainClientAPI['comment']['get'],
