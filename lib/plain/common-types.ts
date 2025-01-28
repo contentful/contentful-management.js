@@ -292,7 +292,8 @@ export type PlainClientAPI = {
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
+      rawData?: EntryProps<T>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
@@ -346,7 +347,8 @@ export type PlainClientAPI = {
       rawData: AssetProps
     ): Promise<AssetProps>
     unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
+      rawData?: AssetProps
     ): Promise<AssetProps>
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
