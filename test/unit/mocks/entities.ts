@@ -1271,6 +1271,7 @@ const mocks = {
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
+  uploadCredential: uploadCredentialMock,
   usage: usageMock,
   uiConfig: uiConfigMock,
   user: userMock,

@@ -281,7 +281,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
-  fieldStatus: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
