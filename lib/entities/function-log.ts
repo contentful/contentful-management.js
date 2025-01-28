@@ -4,7 +4,6 @@ import copy from 'fast-copy'
 import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import createFunctionLogApi from '../create-function-log-api'
 
 export type FunctionLogProps = {
   sys: {
@@ -46,12 +45,9 @@ export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionL
 export function wrapFunctionLog(
   makeRequest: MakeRequest,
   data: FunctionLogProps
-): FunctionLogProps & ReturnType<typeof createFunctionLogApi> {
+): FunctionLogProps {
   const functionLog = toPlainObject(copy(data))
-
-  const functionLogWithMethods = enhanceWithMethods(functionLog, createFunctionLogApi(makeRequest))
-
-  return freezeSys(functionLogWithMethods)
+  return freezeSys(functionLog)
 }
 
 /**
