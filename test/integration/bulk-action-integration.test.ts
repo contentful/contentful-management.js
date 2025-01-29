@@ -12,7 +12,7 @@ import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 
-describe('BulkActions Api', () => {
+describe('BulkActions Api v1', () => {
   let testSpace: Space
   let testEnvironment: Environment
 
@@ -255,5 +255,86 @@ describe('BulkActions Api', () => {
         expect(error.action.sys.status).toBe('failed')
       }
     })
+  })
+})
+
+describe('BulkActions Api v2 (Plain Client only)', () => {
+  afterAll(timeoutToCalmRateLimiting)
+
+  const defaultParams = {
+    environmentId: TestDefaults.environmentId,
+    spaceId: TestDefaults.spaceId,
+  }
+  const plainClient = initPlainClient(defaultParams)
+
+  it('bulkAction.publishV2', async () => {
+    const entry = await plainClient.entry.get({
+      entryId: TestDefaults.entry.testEntryBulkActionId,
+    })
+
+    const bulkActionInProgress = await plainClient.bulkAction.publishV2(defaultParams, {
+      action: 'publish',
+      entities: [
+        {
+          entity: makeVersionedLink('Entry', entry.sys.id, entry.sys.version),
+          add: { fields: { '*': ['en-US'] } },
+        },
+      ],
+    })
+
+    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionPublishPayload>({
+      ...defaultParams,
+      plainClient,
+      bulkActionId: bulkActionInProgress.sys.id,
+    })
+
+    expect(bulkActionCompleted.sys.status).toBe('succeeded')
+    expect(bulkActionCompleted.action).toBe('publish')
+  })
+
+  it('bulkAction.unpublishV2', async () => {
+    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+    const bulkActionInProgress = await plainClient.bulkAction.unpublishV2(defaultParams, {
+      action: 'publish',
+      entities: [
+        {
+          entity: makeVersionedLink('Entry', entry.sys.id, entry.sys.version),
+          remove: { fields: { '*': ['en-US'] } },
+        },
+      ],
+    })
+
+    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionUnpublishPayload>({
+      ...defaultParams,
+      plainClient,
+      bulkActionId: bulkActionInProgress.sys.id,
+    })
+
+    expect(bulkActionCompleted.sys.status).toBe('succeeded')
+    expect(bulkActionCompleted.action).toBe('unpublish')
+  })
+
+  it('bulkAction.validateV2', async () => {
+    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+
+    const bulkActionInProgress = await plainClient.bulkAction.validateV2(defaultParams, {
+      action: 'validate',
+      entities: [
+        {
+          entity: makeLink('Entry', entry.sys.id),
+          add: { fields: { '*': ['en-US'] } },
+        },
+      ],
+    })
+
+    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionValidatePayload>({
+      ...defaultParams,
+      plainClient,
+      bulkActionId: bulkActionInProgress.sys.id,
+    })
+
+    expect(bulkActionCompleted.sys.status).toBe('succeeded')
+    expect(bulkActionCompleted.action).toBe('validate')
   })
 })
