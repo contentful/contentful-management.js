@@ -177,6 +177,7 @@ import type {
 import type {
   CreateOAuthApplicationProps,
   OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
 
 export interface DefaultElements<TPlainObject extends object = object> {
@@ -1638,7 +1639,7 @@ export type MRActions = {
     }
   }
   OAuthApplication: {
-    get: { params: GetOAuthAppilicationParams; return: OAuthApplicationProps }
+    get: { params: GetOAuthApplicationParams; return: OAuthApplicationProps }
     getManyForUser: {
       params: GetUserParams & QueryParams
       return: CursorPaginatedCollectionProp<OAuthApplicationProps>
@@ -1650,12 +1651,12 @@ export type MRActions = {
       return: OAuthApplicationProps
     }
     update: {
-      params: GetOAuthAppilicationParams
-      payload: CreateOAuthApplicationProps
+      params: GetOAuthApplicationParams
+      payload: UpdateOAuthApplicationProps
       headers?: RawAxiosRequestHeaders
       return: OAuthApplicationProps
     }
-    delete: { params: GetOAuthAppilicationParams; return: void }
+    delete: { params: GetOAuthApplicationParams; return: void }
   }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
@@ -2241,7 +2242,7 @@ export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 
-export type GetOAuthAppilicationParams = { userId: string; oauthApplicationId: string }
+export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
 export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {

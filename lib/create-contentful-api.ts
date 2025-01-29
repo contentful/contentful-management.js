@@ -9,7 +9,8 @@ import type {
   CursorPaginatedCollection,
   GetEnvironmentTemplateParams,
   BasicCursorPaginationOptions,
-  GetOAuthAppilicationParams,
+  GetOAuthApplicationParams,
+  GetUserParams,
 } from './common-types'
 import entities from './entities'
 import type { Organization, OrganizationProps } from './entities/organization'
@@ -24,7 +25,11 @@ import type {
   EnvironmentTemplateProps,
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
-import type { OAuthApplicationProps } from './export-types'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplication,
+  OAuthApplicationProps,
+} from './export-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -43,7 +48,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapAppDefinition } = entities.appDefinition
   const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
     entities.environmentTemplate
-  const { wrapOAuthApplication } = entities.oauthApplication
+  const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
 
   return {
     /**
@@ -306,13 +311,13 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOAuthApplication({
-     * userId: 'TestUserId'
-     * oauthApplicationId: 'TestOAuthAppId'
+     * userId: '<user_id>'
+     * oauthApplicationId: '<oauth_application_id>'
      * }).then(oauthApplication => console.log(oauthApplication))
      * .catch(console.error)
      */
     getOAuthApplication: function getOAuthApplication(
-      params: GetOAuthAppilicationParams
+      params: GetOAuthApplicationParams
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -322,6 +327,64 @@ export default function createClientApi(makeRequest: MakeRequest) {
       }).then((data) => wrapOAuthApplication(makeRequest, data, userId))
     },
 
+    /**
+     *
+     * @param params
+     * @returns Promise of list of user's OAuthApplications
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOAuthApplications({
+     * userId: '<user_id>'}).then(oauthApplications => console.log(oauthApplications))
+     * .catch(console.error)
+     */
+    getOAuthApplications: function getOAuthApplications(
+      params: GetUserParams & QueryParams
+    ): Promise<CursorPaginatedCollection<OAuthApplication, OAuthApplicationProps>> {
+      const { userId } = params
+      return makeRequest({
+        entityType: 'OAuthApplication',
+        action: 'getManyForUser',
+        params,
+      }).then((data) => wrapOAuthApplicationCollection(makeRequest, data, userId))
+    },
+
+    /**
+     *
+     * @param params
+     * @returns Promise of a new OAuth application.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *  accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.createOAuthApplication({
+     * userId: '<user_id>'},
+     * { name: '<name>',
+     *   description: '<description>',
+     *   scopes: ['scope'],
+     *   redirectUri: '<redirectUri>',
+     *   confidential: '<true/false>'}).then(oauthApplications => console.log(oauthApplications))
+     * .catch(console.error)
+     */
+    createOAuthApplication: function createOAuthApplication(
+      params: GetUserParams,
+      rawData: CreateOAuthApplicationProps
+    ): Promise<OAuthApplicationProps> {
+      const { userId } = params
+      return makeRequest({
+        entityType: 'OAuthApplication',
+        action: 'create',
+        params,
+        payload: rawData,
+      }).then((data) => wrapOAuthApplication(makeRequest, data, userId))
+    },
     /**
      * Gets App Definition
      * @return Promise for App Definition

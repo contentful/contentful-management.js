@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
-  GetOAuthAppilicationParams,
+  GetOAuthApplicationParams,
   QueryParams,
   CursorPaginatedCollectionProp,
   GetUserParams,
@@ -9,6 +9,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
 } from '../../entities/oauth-application'
 
 export type OAuthApplicationPlainClientAPI = {
@@ -19,7 +20,7 @@ export type OAuthApplicationPlainClientAPI = {
    * @throws if the request fails, or the user is not found
    * @example
    * ```javascript
-   * const oauthApplication = await client.oauthApplication.getMany({
+   * const oauthApplication = await client.oauthApplication.getManyForUser({
    *  userId: '<user_id>',
    *   query: {
    *     limit: 10,
@@ -28,7 +29,7 @@ export type OAuthApplicationPlainClientAPI = {
    * ```
    */
   getManyForUser(
-    params: OptionalDefaults<GetOAuthAppilicationParams & QueryParams>
+    params: OptionalDefaults<GetUserParams & QueryParams>
   ): Promise<CursorPaginatedCollectionProp<OAuthApplicationProps>>
 
   /**
@@ -45,7 +46,7 @@ export type OAuthApplicationPlainClientAPI = {
    * })
    * ```
    */
-  get(params: OptionalDefaults<GetOAuthAppilicationParams>): Promise<OAuthApplicationProps>
+  get(params: OptionalDefaults<GetOAuthApplicationParams>): Promise<OAuthApplicationProps>
 
   /**
    * Creates a new OAuth application.
@@ -92,8 +93,8 @@ export type OAuthApplicationPlainClientAPI = {
    * ```
    */
   update(
-    params: OptionalDefaults<GetOAuthAppilicationParams>,
-    rawData: OAuthApplicationProps,
+    params: OptionalDefaults<GetOAuthApplicationParams>,
+    rawData: UpdateOAuthApplicationProps,
     headers?: RawAxiosRequestHeaders
   ): Promise<OAuthApplicationProps>
 
@@ -109,5 +110,5 @@ export type OAuthApplicationPlainClientAPI = {
    * })
    * ```
    */
-  delete(params: OptionalDefaults<GetOAuthAppilicationParams>): Promise<void>
+  delete(params: OptionalDefaults<GetOAuthApplicationParams>): Promise<void>
 }
