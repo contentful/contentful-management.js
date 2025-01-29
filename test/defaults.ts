@@ -24,4 +24,5 @@ export const TestDefaults = {
   organizationSpaceMembershipId: '1nYAKCEkzkKmioitxMb1Vd',
   organizationMembershipId: '0DeAVut1GiI2T1oj1nje4i',
   organizationMembershipId2: '5EpPPjxx4v23D5J92uaI8m',
+  oauthApplicationId: 'sfhkdiuwv74gj697dgjje6',
 }

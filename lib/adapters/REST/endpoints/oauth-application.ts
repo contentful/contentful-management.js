@@ -2,7 +2,7 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CursorPaginatedCollectionProp,
-  GetOAuthAppilicationParams,
+  GetOAuthApplicationParams,
   GetUserParams,
   QueryParams,
 } from '../../../common-types'
@@ -11,6 +11,7 @@ import * as raw from './raw'
 import type {
   OAuthApplicationProps,
   CreateOAuthApplicationProps,
+  UpdateOAuthApplicationProps,
 } from '../../../entities/oauth-application'
 
 /**
@@ -37,7 +38,7 @@ import type {
  */
 export const get: RestEndpoint<'OAuthApplication', 'get'> = (
   http: AxiosInstance,
-  params: GetOAuthAppilicationParams
+  params: GetOAuthApplicationParams
 ) => {
   return raw.get<OAuthApplicationProps>(
     http,
@@ -62,7 +63,7 @@ export const get: RestEndpoint<'OAuthApplication', 'get'> = (
  *  },
  *  { type: 'plain' }
  * )
- * plainClient.getMany({userId: 'TestUserId'})
+ * plainClient.getManyForUser({userId: 'TestUserId'})
  *  .then(result => console.log(result.items))
  *  .catch(console.error)
  * ```
@@ -148,8 +149,8 @@ export const create: RestEndpoint<'OAuthApplication', 'create'> = (
  */
 export const update: RestEndpoint<'OAuthApplication', 'update'> = (
   http: AxiosInstance,
-  params: GetOAuthAppilicationParams,
-  rawData: CreateOAuthApplicationProps,
+  params: GetOAuthApplicationParams,
+  rawData: UpdateOAuthApplicationProps,
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.put<OAuthApplicationProps>(
@@ -186,7 +187,7 @@ export const update: RestEndpoint<'OAuthApplication', 'update'> = (
  */
 export const del: RestEndpoint<'OAuthApplication', 'delete'> = (
   http: AxiosInstance,
-  params: GetOAuthAppilicationParams
+  params: GetOAuthApplicationParams
 ) => {
   return raw.del<void>(
     http,

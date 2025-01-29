@@ -32,6 +32,14 @@ export type CreateOAuthApplicationProps = {
   confidential: boolean
 }
 
+export type UpdateOAuthApplicationProps = {
+  name?: string
+  description?: string
+  redirectUri?: string
+  scopes?: ScopeValues[]
+  confidential?: boolean
+}
+
 export interface OAuthApplication
   extends OAuthApplicationProps,
     DefaultElements<OAuthApplicationProps> {
