@@ -268,9 +268,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
   const plainClient = initPlainClient(defaultParams)
 
   it('bulkAction.publishV2', async () => {
-    const entry = await plainClient.entry.get({
-      entryId: TestDefaults.entry.testEntryBulkActionId,
-    })
+    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryBulkActionId })
 
     const bulkActionInProgress = await plainClient.bulkAction.publishV2(defaultParams, {
       action: 'publish',
@@ -293,7 +291,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
   })
 
   it('bulkAction.unpublishV2', async () => {
-    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryBulkActionId })
 
     const bulkActionInProgress = await plainClient.bulkAction.unpublishV2(defaultParams, {
       action: 'publish',
@@ -316,7 +314,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
   })
 
   it('bulkAction.validateV2', async () => {
-    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryId })
+    const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryBulkActionId })
 
     const bulkActionInProgress = await plainClient.bulkAction.validateV2(defaultParams, {
       action: 'validate',
