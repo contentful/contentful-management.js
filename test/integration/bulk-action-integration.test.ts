@@ -7,10 +7,11 @@ import type {
   BulkActionValidatePayload,
 } from '../../lib/contentful-management'
 import type { Environment, Space } from '../../lib/contentful-management'
-import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
+import { waitForBulkActionProcessing, waitForBulkActionV2Processing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
+import { PublishBulkActionV2Payload, ValidateBulkActionV2Payload } from '../../lib/entities/bulk-action'
 
 describe('BulkActions Api v1', () => {
   let testSpace: Space
@@ -280,7 +281,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
       ],
     })
 
-    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionPublishPayload>({
+    const bulkActionCompleted = await waitForBulkActionV2Processing<PublishBulkActionV2Payload<"add">>({
       ...defaultParams,
       plainClient,
       bulkActionId: bulkActionInProgress.sys.id,
@@ -303,7 +304,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
       ],
     })
 
-    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionUnpublishPayload>({
+    const bulkActionCompleted = await waitForBulkActionV2Processing<PublishBulkActionV2Payload<'remove'>>({
       ...defaultParams,
       plainClient,
       bulkActionId: bulkActionInProgress.sys.id,
@@ -326,7 +327,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
       ],
     })
 
-    const bulkActionCompleted = await waitForBulkActionProcessing<BulkActionValidatePayload>({
+    const bulkActionCompleted = await waitForBulkActionV2Processing<ValidateBulkActionV2Payload>({
       ...defaultParams,
       plainClient,
       bulkActionId: bulkActionInProgress.sys.id,
