@@ -174,6 +174,11 @@ import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
+} from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
 
 export interface DefaultElements<TPlainObject extends object = object> {
@@ -634,6 +639,15 @@ type MRInternal<UA extends boolean> = {
     'AccessToken',
     'getManyForOrganization'
   >
+
+  (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
+  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
+    'OAuthApplication',
+    'getManyForUser'
+  >
+  (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
+  (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
+  (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
@@ -1676,6 +1690,26 @@ export type MRActions = {
       return: CollectionProp<AccessTokenProps>
     }
   }
+  OAuthApplication: {
+    get: { params: GetOAuthApplicationParams; return: OAuthApplicationProps }
+    getManyForUser: {
+      params: GetUserParams & QueryParams
+      return: CursorPaginatedCollectionProp<OAuthApplicationProps>
+    }
+    create: {
+      params: GetUserParams
+      payload: CreateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    update: {
+      params: GetOAuthApplicationParams
+      payload: UpdateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    delete: { params: GetOAuthApplicationParams; return: void }
+  }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
@@ -2275,6 +2309,9 @@ export type CursorPaginationXORParams = {
 }
 export type CursorBasedParams = CursorPaginationXORParams
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
+
+export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
