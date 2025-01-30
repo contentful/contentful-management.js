@@ -1,4 +1,4 @@
-import { describe, test } from 'mocha'
+import { describe, test } from 'vitest'
 import { wrapUploadCredential } from '../../../lib/entities/upload-credential'
 import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'

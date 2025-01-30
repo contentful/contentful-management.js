@@ -26,6 +26,8 @@ import * as EnvironmentAlias from './environment-alias'
 import * as EnvironmentTemplate from './environment-template'
 import * as EnvironmentTemplateInstallation from './environment-template-installation'
 import * as Extension from './extension'
+import * as Function from './function'
+import * as FunctionLog from './function-log'
 import * as Http from './http'
 import * as Locale from './locale'
 import * as Organization from './organization'
@@ -89,6 +91,8 @@ export default {
   EnvironmentTemplate,
   EnvironmentTemplateInstallation,
   Extension,
+  Function,
+  FunctionLog,
   Http,
   Locale,
   Organization,

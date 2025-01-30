@@ -11,6 +11,7 @@ export type AppInstallationProps = {
     appDefinition: SysLink
     environment: SysLink
     space: SysLink
+    organization: SysLink
   }
   /**
    * Free-form installation parameters (API limits stringified length to 32KB)

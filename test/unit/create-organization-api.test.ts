@@ -17,6 +17,8 @@ import {
   teamMock,
   teamSpaceMembershipMock,
   userMock,
+  functionCollectionMock,
+  functionMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -832,5 +834,35 @@ describe('A createOrganizationApi', () => {
         expect(errorResponse).eql(error)
       }
     )
+  })
+
+  test('API call getFunction', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'Function',
+      mockToReturn: functionMock,
+      methodToTest: 'getFunction',
+    })
+  })
+
+  test('API call getFunction fails', async () => {
+    const error = new Error('Failed to get function')
+    const { api } = setup(Promise.reject(error))
+    await expect(api.getFunction('app-def-id', 'function-id')).rejects.toThrow(error)
+  })
+
+  test('API call getFunctions', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'Function',
+      mockToReturn: functionCollectionMock,
+      methodToTest: 'getFunctions',
+    })
+  })
+
+  test('API call getFunctions fails', async () => {
+    const error = new Error('Failed to get functions')
+    const { api } = setup(Promise.reject(error))
+    await expect(
+      api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' })
+    ).rejects.toThrow(error)
   })
 })

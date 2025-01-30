@@ -5,7 +5,6 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
-  GetAppDefinitionParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
@@ -50,7 +49,6 @@ import type {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import type { FunctionProps } from '../entities/function'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -92,6 +90,7 @@ import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import type { EnvironmentPlainClientAPI } from './entities/environment'
 import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { FunctionPlainClientAPI } from './entities/function'
 import type { LocalePlainClientAPI } from './entities/locale'
 import type { OrganizationPlainClientAPI } from './entities/organization'
 import type { ResourcePlainAPI } from './entities/resource'
@@ -118,6 +117,7 @@ import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-defin
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
+import type { FunctionLogPlainClientAPI } from './entities/function-log'
 
 export type PlainClientAPI = {
   raw: {
@@ -138,11 +138,8 @@ export type PlainClientAPI = {
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
-  function: {
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
-  }
+  function: FunctionPlainClientAPI
+  functionLog: FunctionLogPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
@@ -296,7 +293,8 @@ export type PlainClientAPI = {
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
+      rawData?: EntryProps<T>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
@@ -350,7 +348,8 @@ export type PlainClientAPI = {
       rawData: AssetProps
     ): Promise<AssetProps>
     unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
+      rawData?: AssetProps
     ): Promise<AssetProps>
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>

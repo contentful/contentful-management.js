@@ -23,6 +23,8 @@ import * as environmentAlias from './environment-alias'
 import * as environmentTemplate from './environment-template'
 import * as environmentTemplateInstallation from './environment-template-installation'
 import * as extension from './extension'
+import * as func from './function'
+import * as functionLog from './function-log'
 import * as locale from './locale'
 import * as oauthApplication from './oauth-application'
 import * as organization from './organization'
@@ -86,6 +88,8 @@ export default {
   environmentTemplate,
   environmentTemplateInstallation,
   extension,
+  func,
+  functionLog,
   locale,
   oauthApplication,
   organization,

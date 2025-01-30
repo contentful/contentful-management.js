@@ -36,6 +36,7 @@ import type { ContentTypeProps } from '../../../lib/entities/content-type'
 import type { SnapshotProps } from '../../../lib/entities/snapshot'
 import type { EntryProps } from '../../../lib/entities/entry'
 import type { EditorInterfaceProps } from '../../../lib/entities/editor-interface'
+import type { FunctionProps } from '../../../lib/entities/function'
 import type { AssetProps } from '../../../lib/entities/asset'
 import type { AssetKeyProps } from '../../../lib/entities/asset-key'
 import type { UploadProps } from '../../../lib/entities/upload'
@@ -77,6 +78,7 @@ import type { UIConfigProps } from '../../../lib/entities/ui-config'
 import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
 import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
 import { ScopeValues } from '../../../lib/entities/oauth-application'
+import type { FunctionLogProps } from '../../../lib/entities/function-log'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1197,6 +1199,69 @@ const resourceMock = {
   },
 }
 
+const functionMock: FunctionProps = {
+  sys: {
+    id: 'function-id',
+    type: 'Function',
+    createdBy: makeLink('User', 'user-id'),
+    createdAt: '2022-02-20T10:00:00Z',
+    updatedBy: makeLink('User', 'user-id'),
+    updatedAt: '2022-02-20T10:00:01Z',
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  name: 'function-name',
+  description: 'desc',
+  path: 'path',
+  accepts: ['application/json'],
+  allowNetworks: ['test'],
+}
+
+const functionCollectionMock = {
+  items: [functionMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
+const functionLogMock: FunctionLogProps = {
+  sys: {
+    id: 'function-id',
+    type: 'FunctionLog',
+    createdBy: makeLink('User', 'user-id'), // Only users can CRUD
+    createdAt: '2022-02-20T10:00:00Z',
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  severity: {
+    info: 0,
+    warn: 0,
+    error: 1,
+  },
+  requestId: 'request-id',
+  event: {
+    type: 'http',
+    query: 'GET',
+    isIntrospectionQuery: false,
+    variables: {},
+  },
+  messages: [
+    {
+      timestamp: 1645363200000,
+      type: 'ERROR',
+      message: 'error message',
+    },
+  ],
+}
+
+const functionLogCollectionMock = {
+  items: [functionLogMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1232,6 +1297,8 @@ const mocks = {
   environmentTemplateInstallation: environmentTemplateInstallationMock,
   error: errorMock,
   extension: extensionMock,
+  function: functionMock,
+  functionLog: functionLogMock,
   link: linkMock,
   locale: localeMock,
   organization: organizationMock,
@@ -1261,6 +1328,7 @@ const mocks = {
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
+  uploadCredential: uploadCredentialMock,
   usage: usageMock,
   uiConfig: uiConfigMock,
   user: userMock,
@@ -1500,6 +1568,14 @@ function setupEntitiesMock() {
       wrapEnvironmentTemplateInstallation: vi.fn(),
       wrapEnvironmentTemplateInstallationCollection: vi.fn(),
     },
+    Function: {
+      wrapFunction: vi.fn(),
+      wrapFunctionCollection: vi.fn(),
+    },
+    FunctionLog: {
+      wrapFunctionLog: vi.fn(),
+      wrapFunctionLogCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1569,4 +1645,8 @@ export {
   resourceProviderMock,
   resourceTypeMock,
   resourceMock,
+  functionMock,
+  functionCollectionMock,
+  functionLogMock,
+  functionLogCollectionMock,
 }

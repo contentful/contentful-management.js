@@ -179,6 +179,7 @@ import type {
   OAuthApplicationProps,
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
+import type { FunctionLogProps } from './entities/function-log'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -282,7 +283,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
-  fieldStatus: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -348,6 +349,31 @@ export interface BasicQueryOptions {
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
   pageNext?: string
   pagePrev?: string
+}
+
+// Base interface for shared fields
+interface CursorPaginationBase {
+  limit?: number
+}
+
+// Interfaces for each “exclusive” shape
+interface CursorPaginationPageNext extends CursorPaginationBase {
+  pageNext: string
+  pagePrev?: never
+}
+
+interface CursorPaginationPagePrev extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev: string
+}
+
+interface CursorPaginationNone extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev?: never
+}
+
+export interface AcceptsQueryOptions {
+  'accepts[all]'?: string
 }
 
 export type KeyValueMap = Record<string, any>
@@ -557,6 +583,16 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Extension', 'createWithId', UA>): MRReturn<'Extension', 'createWithId'>
   (opts: MROpts<'Extension', 'update', UA>): MRReturn<'Extension', 'update'>
   (opts: MROpts<'Extension', 'delete', UA>): MRReturn<'Extension', 'delete'>
+
+  (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
+  (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
+  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
+    'Function',
+    'getManyForEnvironment'
+  >
+
+  (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
+  (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
 
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
@@ -1343,12 +1379,6 @@ export type MRActions = {
       return: EditorInterfaceProps
     }
   }
-  Function: {
-    getMany: {
-      params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<FunctionProps>
-    }
-  }
   Environment: {
     get: { params: GetSpaceEnvironmentParams; return: EnvironmentProps }
     getMany: {
@@ -1561,6 +1591,28 @@ export type MRActions = {
     }
     delete: { params: GetExtensionParams; return: any }
   }
+  Function: {
+    get: { params: GetFunctionParams; return: FunctionProps }
+    getMany: { params: GetManyFunctionParams; return: CollectionProp<FunctionProps> }
+    getManyForEnvironment: {
+      params: GetFunctionForEnvParams
+      return: CollectionProp<FunctionProps>
+    }
+  }
+
+  FunctionLog: {
+    get: {
+      params: GetFunctionLogParams
+      return: FunctionLogProps
+      headers?: RawAxiosRequestHeaders
+    }
+    getMany: {
+      params: GetManyFunctionLogParams
+      return: CollectionProp<FunctionLogProps>
+      headers?: RawAxiosRequestHeaders
+    }
+  }
+
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
     getMany: {
@@ -2130,7 +2182,7 @@ export type MRReturn<
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MakeRequestPayload {}
 
 export interface MakeRequestOptions {
@@ -2174,6 +2226,15 @@ export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentType
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+export type GetFunctionForEnvParams = AcceptsQueryParams &
+  GetSpaceEnvironmentParams & {
+    appInstallationId: string
+  }
+export type GetManyFunctionLogParams = CursorBasedParams &
+  GetFunctionForEnvParams & { functionId: string }
+export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
@@ -2241,6 +2302,13 @@ export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: st
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export type CursorPaginationXORParams = {
+  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
+    limit?: number
+  }
+}
+export type CursorBasedParams = CursorPaginationXORParams
+export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
 export type GetUserParams = { userId: string }
