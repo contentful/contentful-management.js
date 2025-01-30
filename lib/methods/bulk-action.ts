@@ -1,4 +1,8 @@
-import type { BulkActionPayload, BulkActionProps, BulkActionV2Payload } from '../entities/bulk-action'
+import type {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionV2Payload,
+} from '../entities/bulk-action'
 import type { PlainClientAPI } from '../plain/common-types'
 import type { AsyncActionProcessingOptions } from './action'
 import { pollAsyncActionStatus } from './action'
