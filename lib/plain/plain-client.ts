@@ -454,6 +454,13 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'OrganizationMembership', 'update'),
       delete: wrap(wrapParams, 'OrganizationMembership', 'delete'),
     },
+    oauthApplication: {
+      get: wrap(wrapParams, 'OAuthApplication', 'get'),
+      getManyForUser: wrap(wrapParams, 'OAuthApplication', 'getManyForUser'),
+      update: wrap(wrapParams, 'OAuthApplication', 'update'),
+      delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
+      create: wrap(wrapParams, 'OAuthApplication', 'create'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
