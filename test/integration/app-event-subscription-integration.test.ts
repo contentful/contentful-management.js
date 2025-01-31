@@ -1,6 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
+import type { PlainClientAPI, Organization, AppDefinition } from '../../lib'
 
 describe('AppEventSubscription api', { sequential: true }, () => {
   let appDefinition: AppDefinition
