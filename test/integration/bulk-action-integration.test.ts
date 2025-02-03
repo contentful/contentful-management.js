@@ -312,9 +312,7 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
       ],
     })
 
-    const bulkActionCompleted = await waitForBulkActionV2Processing<
-      UnpublishBulkActionV2Payload
-    >({
+    const bulkActionCompleted = await waitForBulkActionV2Processing<UnpublishBulkActionV2Payload>({
       ...defaultParams,
       plainClient,
       bulkActionId: bulkActionInProgress.sys.id,
