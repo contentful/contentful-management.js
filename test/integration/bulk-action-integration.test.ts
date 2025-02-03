@@ -5,6 +5,7 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  UnpublishBulkActionV2Payload,
 } from '../../lib/contentful-management'
 import type { Environment, Space } from '../../lib/contentful-management'
 import {
@@ -303,17 +304,16 @@ describe('BulkActions Api v2 (Plain Client only)', () => {
     const entry = await plainClient.entry.get({ entryId: TestDefaults.entry.testEntryBulkActionId })
 
     const bulkActionInProgress = await plainClient.bulkAction.unpublishV2(defaultParams, {
-      action: 'publish',
+      action: 'unpublish',
       entities: [
         {
-          entity: makeVersionedLink('Entry', entry.sys.id, entry.sys.version),
-          remove: { fields: { '*': ['en-US'] } },
+          entity: makeLink('Entry', entry.sys.id),
         },
       ],
     })
 
     const bulkActionCompleted = await waitForBulkActionV2Processing<
-      PublishBulkActionV2Payload<'remove'>
+      UnpublishBulkActionV2Payload
     >({
       ...defaultParams,
       plainClient,
