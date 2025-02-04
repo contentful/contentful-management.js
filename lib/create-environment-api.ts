@@ -7,7 +7,7 @@ import type {
   QueryOptions,
 } from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
