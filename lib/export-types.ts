@@ -154,6 +154,11 @@ export type { FunctionProps } from './entities/function'
 export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale'
 export type { Organization, OrganizationProp, OrganizationProps } from './entities/organization'
 export type {
+  OAuthApplication,
+  OAuthApplicationProps,
+  CreateOAuthApplicationProps,
+} from './entities/oauth-application'
+export type {
   CreateOrganizationInvitationProps,
   OrganizationInvitation,
   OrganizationInvitationProps,

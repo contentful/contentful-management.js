@@ -178,6 +178,12 @@ import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
+} from './entities/oauth-application'
+import type { FunctionLogProps } from './entities/function-log'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -347,6 +353,31 @@ export interface BasicQueryOptions {
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
   pageNext?: string
   pagePrev?: string
+}
+
+// Base interface for shared fields
+interface CursorPaginationBase {
+  limit?: number
+}
+
+// Interfaces for each “exclusive” shape
+interface CursorPaginationPageNext extends CursorPaginationBase {
+  pageNext: string
+  pagePrev?: never
+}
+
+interface CursorPaginationPagePrev extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev: string
+}
+
+interface CursorPaginationNone extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev?: never
+}
+
+export interface AcceptsQueryOptions {
+  'accepts[all]'?: string
 }
 
 export type KeyValueMap = Record<string, any>
@@ -568,6 +599,9 @@ type MRInternal<UA extends boolean> = {
     'getManyForEnvironment'
   >
 
+  (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
+  (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
+
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
   (opts: MROpts<'Locale', 'delete', UA>): MRReturn<'Locale', 'delete'>
@@ -613,6 +647,15 @@ type MRInternal<UA extends boolean> = {
     'AccessToken',
     'getManyForOrganization'
   >
+
+  (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
+  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
+    'OAuthApplication',
+    'getManyForUser'
+  >
+  (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
+  (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
+  (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
@@ -1585,6 +1628,20 @@ export type MRActions = {
       return: CollectionProp<FunctionProps>
     }
   }
+
+  FunctionLog: {
+    get: {
+      params: GetFunctionLogParams
+      return: FunctionLogProps
+      headers?: RawAxiosRequestHeaders
+    }
+    getMany: {
+      params: GetManyFunctionLogParams
+      return: CollectionProp<FunctionLogProps>
+      headers?: RawAxiosRequestHeaders
+    }
+  }
+
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
     getMany: {
@@ -1661,6 +1718,26 @@ export type MRActions = {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<AccessTokenProps>
     }
+  }
+  OAuthApplication: {
+    get: { params: GetOAuthApplicationParams; return: OAuthApplicationProps }
+    getManyForUser: {
+      params: GetUserParams & QueryParams
+      return: CursorPaginatedCollectionProp<OAuthApplicationProps>
+    }
+    create: {
+      params: GetUserParams
+      payload: CreateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    update: {
+      params: GetOAuthApplicationParams
+      payload: UpdateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    delete: { params: GetOAuthApplicationParams; return: void }
   }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
@@ -2179,10 +2256,14 @@ export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
-export type GetManyFunctionParams = GetAppDefinitionParams
-export type GetFunctionForEnvParams = GetSpaceEnvironmentParams & {
-  appInstallationId: string
-}
+export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+export type GetFunctionForEnvParams = AcceptsQueryParams &
+  GetSpaceEnvironmentParams & {
+    appInstallationId: string
+  }
+export type GetManyFunctionLogParams = CursorBasedParams &
+  GetFunctionForEnvParams & { functionId: string }
+export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
@@ -2250,6 +2331,16 @@ export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: st
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export type CursorPaginationXORParams = {
+  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
+    limit?: number
+  }
+}
+export type CursorBasedParams = CursorPaginationXORParams
+export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
+
+export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',

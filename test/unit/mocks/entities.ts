@@ -76,6 +76,9 @@ import type { WorkflowProps } from '../../../lib/entities/workflow'
 import type { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
 import type { UIConfigProps } from '../../../lib/entities/ui-config'
 import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
+import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
+import { ScopeValues } from '../../../lib/entities/oauth-application'
+import type { FunctionLogProps } from '../../../lib/entities/function-log'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -690,6 +693,20 @@ const organizationMembershipMock: OrganizationMembershipProps = {
   status: false,
 }
 
+const oauthApplicationMock: OAuthApplicationProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'OAuthApplication',
+    lastUsedAt: '2020-03-30T13:38:37.000Z',
+  }),
+  name: 'mocked-name',
+  clientId: 'mocked-client-id',
+  clientSecret: 'mocked-client-secret',
+  redirectUri: 'https://example.com',
+  scopes: [ScopeValues.Read],
+  confidential: false,
+  description: 'mocked-description',
+}
+
 const teamMock: TeamProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
@@ -1207,6 +1224,44 @@ const functionCollectionMock = {
   skip: 0,
 }
 
+const functionLogMock: FunctionLogProps = {
+  sys: {
+    id: 'function-id',
+    type: 'FunctionLog',
+    createdBy: makeLink('User', 'user-id'), // Only users can CRUD
+    createdAt: '2022-02-20T10:00:00Z',
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  severity: {
+    info: 0,
+    warn: 0,
+    error: 1,
+  },
+  requestId: 'request-id',
+  event: {
+    type: 'http',
+    query: 'GET',
+    isIntrospectionQuery: false,
+    variables: {},
+  },
+  messages: [
+    {
+      timestamp: 1645363200000,
+      type: 'ERROR',
+      message: 'error message',
+    },
+  ],
+}
+
+const functionLogCollectionMock = {
+  items: [functionLogMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
 const mocks = {
   apiKey: apiKeyMock,
   appAction: appActionMock,
@@ -1243,11 +1298,13 @@ const mocks = {
   error: errorMock,
   extension: extensionMock,
   function: functionMock,
+  functionLog: functionLogMock,
   link: linkMock,
   locale: localeMock,
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
+  oauthApplication: oauthApplicationMock,
   appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   accessToken: accessTokenMock,
@@ -1448,6 +1505,10 @@ function setupEntitiesMock() {
       wrapOrganization: vi.fn(),
       wrapOrganizationCollection: vi.fn(),
     },
+    oauthApplication: {
+      wrapOAuthApplication: vi.fn(),
+      wrapOAuthApplicationCollection: vi.fn(),
+    },
     extension: {
       wrapExtension: vi.fn(),
       wrapExtensionCollection: vi.fn(),
@@ -1511,6 +1572,10 @@ function setupEntitiesMock() {
       wrapFunction: vi.fn(),
       wrapFunctionCollection: vi.fn(),
     },
+    FunctionLog: {
+      wrapFunctionLog: vi.fn(),
+      wrapFunctionLogCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1550,6 +1615,7 @@ export {
   spaceMembershipMock,
   teamSpaceMembershipMock,
   organizationMembershipMock,
+  oauthApplicationMock,
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
@@ -1581,4 +1647,6 @@ export {
   resourceMock,
   functionMock,
   functionCollectionMock,
+  functionLogMock,
+  functionLogCollectionMock,
 }

@@ -120,6 +120,8 @@ import type { WorkflowPlainClientAPI } from './entities/workflow'
 import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
+import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
+import type { FunctionLogPlainClientAPI } from './entities/function-log'
 
 export type PlainClientAPI = {
   raw: {
@@ -141,6 +143,7 @@ export type PlainClientAPI = {
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
   function: FunctionPlainClientAPI
+  functionLog: FunctionLogPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
@@ -309,7 +312,8 @@ export type PlainClientAPI = {
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
+      rawData?: EntryProps<T>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
@@ -363,7 +367,8 @@ export type PlainClientAPI = {
       rawData: AssetProps
     ): Promise<AssetProps>
     unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
+      rawData?: AssetProps
     ): Promise<AssetProps>
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
@@ -581,4 +586,5 @@ export type PlainClientAPI = {
   workflowDefinition: WorkflowDefinitionPlainClientAPI
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  oauthApplication: OAuthApplicationPlainClientAPI
 }

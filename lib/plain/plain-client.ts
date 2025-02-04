@@ -133,6 +133,10 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Function', 'getMany'),
       getManyForEnvironment: wrap(wrapParams, 'Function', 'getManyForEnvironment'),
     },
+    functionLog: {
+      get: wrap(wrapParams, 'FunctionLog', 'get'),
+      getMany: wrap(wrapParams, 'FunctionLog', 'getMany'),
+    },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
       getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),
@@ -453,6 +457,13 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'OrganizationMembership', 'getMany'),
       update: wrap(wrapParams, 'OrganizationMembership', 'update'),
       delete: wrap(wrapParams, 'OrganizationMembership', 'delete'),
+    },
+    oauthApplication: {
+      get: wrap(wrapParams, 'OAuthApplication', 'get'),
+      getManyForUser: wrap(wrapParams, 'OAuthApplication', 'getManyForUser'),
+      update: wrap(wrapParams, 'OAuthApplication', 'update'),
+      delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
+      create: wrap(wrapParams, 'OAuthApplication', 'create'),
     },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
