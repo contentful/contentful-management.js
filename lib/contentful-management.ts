@@ -23,6 +23,7 @@ export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
+export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
