@@ -98,7 +98,7 @@ jobs:
       - checkout
       - install-dependencies
       - use-vault
-      - run: npm install -g --unsafe-perm json
+      - run: npm install json
       - run: npm run semantic-release
 
 workflows:
