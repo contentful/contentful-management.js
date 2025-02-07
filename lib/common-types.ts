@@ -372,6 +372,11 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+interface IntervalQueryOptions {
+  timeStart?: string
+  timeEnd?: string
+}
+
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -2233,6 +2238,7 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
     appInstallationId: string
   }
 export type GetManyFunctionLogParams = CursorBasedParams &
+  IntervalParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
@@ -2308,6 +2314,7 @@ export type CursorPaginationXORParams = {
   }
 }
 export type CursorBasedParams = CursorPaginationXORParams
+export type IntervalParams = { query?: IntervalQueryOptions }
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
