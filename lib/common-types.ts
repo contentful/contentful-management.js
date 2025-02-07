@@ -373,8 +373,8 @@ interface CursorPaginationNone extends CursorPaginationBase {
 }
 
 interface IntervalQueryOptions {
-  timeStart?: string
-  timeEnd?: string
+  timeStart?: Date
+  timeEnd?: Date
 }
 
 export interface AcceptsQueryOptions {
