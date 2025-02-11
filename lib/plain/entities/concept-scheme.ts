@@ -47,47 +47,26 @@ export type ConceptSchemePlainClientAPI = {
   ): Promise<ConceptSchemeProps>
 
   /**
-   * Update Concept Scheme
-   * @returns the updated Concept Scheme
-   * @throws if the request fails
-   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
-   * @deprecated The behavior of this method as a PATCH is being deprecated, and will be replaced with a PUT in the next major version. Use the `patch` method instead.
-   * @example
-   * ```javascript
-   * const updatedConcept = await client.conceptScheme.update({
-   *   organizationId: '<organization_id>',
-   *   conceptSchemeId: '<concept_scheme_id>',
-   *   version: 1,
-   * }, conceptSchemePatch);
-   * ```
-   */
-  update(
-    params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: OpPatch[]
-  ): Promise<ConceptSchemeProps>
-
-  /**
    * Update Concept Scheme with PUT
    * @returns the updated Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
-   * @deprecated In the next major version, this method will be replaced with the standard `update` method which will be updated to use PUT instead of PATCH.
    * @example
    * ```javascript
    * const updatedConcept = await client.conceptScheme.update({
    *   organizationId: '<organization_id>',
    *   conceptSchemeId: '<concept_scheme_id>',
    *   version: 1,
-   * }, CreateConceptSchemeProps);
+   * }, conceptSchemeProps);
    * ```
    */
-  updatePut(
+  update(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
     payload: CreateConceptSchemeProps
   ): Promise<ConceptSchemeProps>
 
   /**
-   * Update Concept Scheme
+   * Update Concept Scheme with PATCH
    * @returns the updated Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
