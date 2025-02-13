@@ -174,7 +174,7 @@ Using `contentful-management@latest` will always get you the latest version, but
 
 ```html
 <!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@12.0.0/dist/contentful-management.browser.min.js"></script>
 ```
 
 The Contentful Management library will be accessible via the `contentfulManagement` global variable.
