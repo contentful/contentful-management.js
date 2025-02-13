@@ -5,6 +5,16 @@ export default defineWorkspace([
   {
     test: {
       ...vitestConfig.test,
+      include: ['test/output-integration/**/*.{test,spec}.ts'],
+      name: 'output',
+      setupFiles: ['./vitest.setup.ts'],
+      environment: 'node',
+      maxConcurrency: 10,
+    },
+  },
+  {
+    test: {
+      ...vitestConfig.test,
       include: ['test/unit/**/*.{test,spec}.ts'],
       name: 'unit',
       setupFiles: ['./vitest.setup.ts', './vitest.setup.unit.ts'],
