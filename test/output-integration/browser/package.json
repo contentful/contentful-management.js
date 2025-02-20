@@ -1,0 +1,19 @@
+{
+  "name": "contentful-js-browser-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.test.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest --run",
+    "dev": "npx serve public",
+    "preinstall": "npm run preinstall:bundle && npm run preinstall:env",
+    "preinstall:bundle": "cp ../../../dist/contentful-management.browser.min.js ./public/.",
+    "preinstall:env": "node scripts/inject-env.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "puppeteer": "^22.15.0"
+  }
+}
