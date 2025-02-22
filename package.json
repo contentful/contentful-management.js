@@ -10,6 +10,10 @@
   "engines": {
     "node": ">=18"
   },
+  "exports": {
+    "import": "./dist/es-modules/contentful-management.js",
+    "require": "./dist/contentful-management.node.js"
+  },
   "browserslist": [
     ">0.3%",
     "Chrome >= 75",
@@ -26,7 +30,6 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npm run build:modules && npm run build:standalone && npm run build:types",
-    "postbuild": "npm run test:demo-projects",
     "build:modules": "BABEL_ENV=modules babel --extensions \".ts\" --extensions \".js\" lib -d dist/es-modules/",
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
