@@ -11,8 +11,12 @@
     "node": ">=18"
   },
   "exports": {
-    "import": "./dist/es-modules/contentful-management.js",
-    "require": "./dist/contentful-management.node.js"
+    ".": {
+      "types": "./dist/typings/contentful-management.d.ts",
+      "browser": "./dist/contentful-management.browser.js",
+      "import": "./dist/es-modules/contentful-management.js",
+      "require": "./dist/contentful-management.node.js"
+    }
   },
   "browserslist": [
     ">0.3%",
