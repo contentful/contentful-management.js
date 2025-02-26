@@ -372,6 +372,22 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+type ComparisonOperator = 'gt' | 'gte' | 'lt' | 'lte'
+type StartOperators = 'gt' | 'gte'
+type EndOperators = 'lt' | 'lte'
+
+// Helper type for creating property paths with operators
+// For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
+type WithOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+
+// Type for valid date range combinations - only start, only end, or both
+type IntervalQuery<P extends string> =
+  | Partial<Record<WithOperator<P, StartOperators>, string | Date>>
+  | Partial<Record<WithOperator<P, EndOperators>, string | Date>>
+  | (Partial<Record<WithOperator<P, StartOperators>, string | Date>> & 
+     Partial<Record<WithOperator<P, EndOperators>, string | Date>>)
+
+export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -2233,6 +2249,7 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
     appInstallationId: string
   }
 export type GetManyFunctionLogParams = CursorBasedParams &
+  CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
@@ -2308,6 +2325,7 @@ export type CursorPaginationXORParams = {
   }
 }
 export type CursorBasedParams = CursorPaginationXORParams
+export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
