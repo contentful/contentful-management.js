@@ -106,7 +106,7 @@ jobs:
       - checkout
       - install-dependencies
       - use-vault
-      - run: npm install -g json
+      - run: npm install --prefix=$HOME/.local -g json
       - run: npm run semantic-release
 
 workflows:
