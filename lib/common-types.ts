@@ -378,14 +378,14 @@ type EndOperators = 'lt' | 'lte'
 
 // Helper type for creating property paths with operators
 // For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
-type WithOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+type WithComparisonOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
 
 // Type for valid date range combinations - only start, only end, or both
 type IntervalQuery<P extends string> =
-  | Partial<Record<WithOperator<P, StartOperators>, string | Date>>
-  | Partial<Record<WithOperator<P, EndOperators>, string | Date>>
-  | (Partial<Record<WithOperator<P, StartOperators>, string | Date>> & 
-     Partial<Record<WithOperator<P, EndOperators>, string | Date>>)
+  | Partial<Record<WithComparisonOperator<P, StartOperators>, string | Date>>
+  | Partial<Record<WithComparisonOperator<P, EndOperators>, string | Date>>
+  | (Partial<Record<WithComparisonOperator<P, StartOperators>, string | Date>> &
+      Partial<Record<WithComparisonOperator<P, EndOperators>, string | Date>>)
 
 export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
 export interface AcceptsQueryOptions {
