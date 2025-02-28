@@ -3,7 +3,6 @@ import type {
   GetFunctionParams,
   GetFunctionForEnvParams,
   GetManyFunctionParams,
-  AcceptsQueryParams,
 } from '../../common-types'
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -11,8 +10,6 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionPlainClientAPI = {
   /**
    * Fetches the specified Function
-   * @params organizationId, appDefinitionId, functionId
-   * @returns the Function
    * @throws if the request fails, or the Function is not found
    * @example
    * ```javascript
@@ -27,8 +24,6 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given app
-   * @params organizationId, appDefinitionId, query
-   * @returns an object containing an array of Functions
    * @throws if the request fails, or the App is not found
    * @example
    * ```javascript
@@ -43,8 +38,6 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given environment
-   * @params spaceId, environmentId, appInstallationId, query
-   * @returns an object containing an array of Functions
    * @throws if the request fails, or the Environment is not found
    * @example
    * ```javascript
