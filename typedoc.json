@@ -1,0 +1,29 @@
+{
+  "name": "contentful-management.js",
+  "entryPoints": [
+    "lib/contentful-management.ts",
+    "lib/plain/plain-client.ts",
+    "lib/plain/wrappers/wrap.ts",
+    "lib/contentful-management.ts",
+    "lib/create-adapter.ts",
+    "lib/create-contentful-api.ts",
+    "lib/entities/app-action.ts",
+    "lib/entities/environment-template-installation.ts"
+  ],
+  "out": "out",
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Clients", "Entities", "Utilities", "*"],
+  "readme": "README.md",
+  "excludePrivate": false,
+  "excludeInternal": false,
+  "excludeProtected": false,
+  "treatWarningsAsErrors": true,
+  "sort": ["source-order"],
+  "plugin": [
+    "typedoc-plugin-missing-exports",
+    "typedoc-github-theme"
+    //"typedoc-plugin-markdown"
+  ],
+  "theme": "typedoc-github-theme"
+}

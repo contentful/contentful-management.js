@@ -18,7 +18,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param params the space and membership IDs
    * @returns the space membership
    * @throws if the request fails, or the space membership is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMembership = await client.spaceMembership.get({
    *   spaceId: '<space_id>',
    *   spaceMembershipId: '<membership_id>',
@@ -31,7 +32,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param params a space ID
    * @returns a collection of space memberships
    * @throws if the request fails, the space is not found, or the query parameters are malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMemberships = await client.spaceMembership.getMany({
    *   spaceId: '<space_id>',
    *   spaceMembershipId: '<membership_id>',
@@ -46,7 +48,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param params the organization and membership IDs
    * @returns the space membership
    * @throws if the request fails, or the organization or the space membership is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMembership = await client.spaceMembership.getForOrganization({
    *   spaceId: '<space_id>',
    *   spaceMembershipId: '<membership_id>',
@@ -61,7 +64,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param params the organization and query parameterss
    * @returns a collection of space memberships
    * @throws if the request fails, the organization is not found, or the query parameters are malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMemberships = await client.spaceMembership.getManyForOrganization({
    *   organizationId: '<organization_id>',
    *   spaceMembershipId: '<membership_id>',
@@ -77,7 +81,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param data the space membership data
    * @returns the created space membership
    * @throws if the request fails, the space cannot be found, or the data is malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMembership = await client.spaceMembership.create(
    *   {
    *     spaceId: '<space_id>',
@@ -109,7 +114,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param data the space membership data
    * @returns the created space membership
    * @throws if the request fails, the space cannot be found, or the data is malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMembership = await client.spaceMembership.createWithId(
    *   {
    *     spaceId: '<space_id>',
@@ -142,7 +148,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param rawData the space membership update
    * @returns the updated space membership
    * @throws if the request fails, the space membership is not found, or the payload is malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * let spaceMembership = await client.spaceMembership.get({
    *   spaceId: '<space_id>',
    *   spaceMembershipId: '<membership_id>',
@@ -170,7 +177,8 @@ export type SpaceMembershipPlainClientAPI = {
    * @param params the space and membership IDs
    * @returns void
    * @throws if the request fails, or the space membership is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * await client.spaceMembership.delete({
    *   spaceId: '<space_id>',
    *   spaceMembershipId: '<membership_id>',
