@@ -36,7 +36,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Sends an update to the server with any changes made to the object's properties
      * @return Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -68,7 +69,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Sends an JSON patch to the server with any changes made to the object's properties
      * @return Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -106,7 +108,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Deletes this object on the server.
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -130,7 +133,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Publishes the object
      * @return Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -159,7 +163,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Unpublishes the object
      * @return Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -188,7 +193,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Archives the object
      * @return Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -216,7 +222,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Unarchives the object
      * @return Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -243,7 +250,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all snapshots of an entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -271,7 +279,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Gets a snapshot of an entry
      * @param snapshotId - Id of the snapshot
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -300,7 +309,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * Creates a new comment for an entry
      * @param data Object representation of the Comment to be created
      * @returns Promise for the newly created Comment
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -391,7 +401,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * Creates a new task for an entry
      * @param data Object representation of the Task to be created
      * @returns Promise for the newly created Task
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({

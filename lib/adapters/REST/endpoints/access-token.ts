@@ -15,7 +15,8 @@ import * as raw from './raw'
  * @param {Object} params - Parameters for the request.
  * @param {string} params.tokenId - The unique token ID of the access token to retrieve.
  * @returns {Promise<AccessTokenProps>} A Promise that resolves with the retrieved access token information.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -42,7 +43,8 @@ export const get: RestEndpoint<'AccessToken', 'get'> = (
  * @param {AxiosInstance} http - An Axios HTTP client instance.
  * @param {QueryParams} params - Query parameters to filter and customize the request.
  * @returns {Promise<CollectionProp<AccessTokenProps>>} A Promise that resolves with a collection of access token properties.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -73,7 +75,8 @@ export const getMany: RestEndpoint<'AccessToken', 'getMany'> = (
  * @param {CreatePersonalAccessTokenProps} rawData - Data for creating the personal access token.
  * @param {RawAxiosRequestHeaders} [headers] - Optional HTTP headers for the request.
  * @returns {Promise<AccessTokenProps>} A Promise that resolves with the created personal access token.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -105,7 +108,8 @@ export const createPersonalAccessToken: RestEndpoint<'AccessToken', 'createPerso
  * @param {Object} params - The parameters for revoking the access token.
  * @param {string} params.tokenId - The unique identifier of the access token to revoke.
  * @returns {Promise<AccessTokenProps>} A Promise that resolves with the updated access token information after revocation.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -133,7 +137,8 @@ export const revoke: RestEndpoint<'AccessToken', 'revoke'> = (
  * @param {GetOrganizationParams & QueryParams} params - Parameters for the request, including organization ID and query parameters.
  * @param {string} params.organizationId - The unique identifier of the organization.
  * @returns {Promise<CollectionProp<AccessTokenProps>>} A promise that resolves to a collection of access tokens.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
