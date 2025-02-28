@@ -44,7 +44,7 @@ export interface ReleaseActionQueryOptions {
   /**
    * Limit of how many records are returned in the query result
    * @default 100
-   * */
+   **/
   limit?: number
 }
 

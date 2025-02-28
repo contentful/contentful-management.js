@@ -14,7 +14,8 @@ export type SpacePlainClientAPI = {
    * @param params the space ID
    * @returns the space
    * @throws if the request fails, or the space is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const space = await client.space.get({
    *   spaceId: '<space_id>',
    * });
@@ -26,7 +27,8 @@ export type SpacePlainClientAPI = {
    * @param params (optional) filter and pagination query parameters
    * @returns a collection of spaces
    * @throws if the request fails, or the query parameters are malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const space = await client.space.getMany({
    *   query: {
    *     limit: 10,
@@ -40,7 +42,8 @@ export type SpacePlainClientAPI = {
    * @param params the organization ID and query parameters
    * @returns a collection of spaces
    * @throws if the request fails, the organization is not found, or the query parameters are malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const space = await client.space.getManyForOrganization({
    *   organizationId: '<organization_id>',
    *   query: {
@@ -58,7 +61,8 @@ export type SpacePlainClientAPI = {
    * @param payload the space to create
    * @returns the created space
    * @throws if the request fails, or the payload is malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const space = await client.space.create(
    *   {
    *     organizationId: '<organization_id>',
@@ -80,7 +84,8 @@ export type SpacePlainClientAPI = {
    * @param payload the space update
    * @returns the updated space
    * @throws if the request fails, the space is not found, or the payload is malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * let space = await client.space.get({
    *   spaceId: '<space_id>',
    * });
@@ -106,7 +111,8 @@ export type SpacePlainClientAPI = {
    * @param params the space ID
    * @returns void
    * @throws if the request fails, or the space is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * await client.space.delete({
    *   spaceId: '<space_id>',
    * });
