@@ -22,7 +22,8 @@ import type {
  * @param {string} params.userId - The unique user ID of the user.
  * @param {string} params.oauthApplicationId - The unique application ID of the OAuth application.
  * @returns {Promise<OAuthApplicationProps>} A Promise that resolves with the retrieved OAuth Application.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -54,7 +55,8 @@ export const get: RestEndpoint<'OAuthApplication', 'get'> = (
  * @param {string} params.userId - The unique user ID of the user.
  * @param {QueryParams} params - Query parameters to filter and customize the request.
  * @returns {Promise<CursorPaginatedCollectionProp<OAuthApplicationProps>>} A Promise that resolves with a collection of oauth application properties.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -89,7 +91,8 @@ export const getManyForUser: RestEndpoint<'OAuthApplication', 'getManyForUser'> 
  * @param {string} params.userId - The unique user ID of the user.
  * @param {RawAxiosRequestHeaders} [headers] - Optional HTTP headers for the request.
  * @returns {Promise<OAuthApplicationProps>} A Promise that resolves with the created oauth application.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -130,7 +133,8 @@ export const create: RestEndpoint<'OAuthApplication', 'create'> = (
  * @param {string} params.userId - The unique user ID of the user.
  * @param {string} params.oauthApplicationId - The unique application ID of the OAuth application.
  * @returns {Promise<OAuthApplicationProps>} A Promise that resolves with the updated oauth application.
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(
@@ -171,7 +175,8 @@ export const update: RestEndpoint<'OAuthApplication', 'update'> = (
  * @param {string} params.userId - The unique user ID of the user.
  * @param {string} params.oauthApplicationId - The unique application ID of the OAuth application.
  * @returns {Promise<void>}
- * @example ```javascript
+ * @example
+ * ```javascript
  * const contentful = require('contentful-management')
  *
  * const plainClient = contentful.createClient(

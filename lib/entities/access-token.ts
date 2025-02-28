@@ -38,7 +38,8 @@ export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTok
   /**
    * Revokes access token
    * @return Object the revoked access token
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

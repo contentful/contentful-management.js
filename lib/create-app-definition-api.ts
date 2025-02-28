@@ -26,7 +26,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     /**
      * Sends an update to the server with any changes made to the object's properties
      * @return Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -57,7 +58,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     /**
      * Deletes this object on the server.
      * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -84,7 +86,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * Gets an app bundle
      * @param id - AppBundle ID
      * @return Promise for an AppBundle
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -113,7 +116,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of AppBundles
      * @return Promise for a collection of AppBundles
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -139,7 +143,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * Creates an app bundle
      * @param Object representation of the App Bundle to be created
      * @return Promise for the newly created AppBundle
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -168,7 +173,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * Gets a list of App Installations across an org for given organization and App Definition
      * If a spaceId is provided in the query object, it will return the App Installations for that specific space.
      * @return Promise for the newly created AppBundle
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -197,7 +203,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
      * Creates or updates a resource provider
      * @param data representation of the ResourceProvider
      * @return Promise for the newly created or updated ResourceProvider
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -238,7 +245,8 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
     /**
      * Gets a Resource Provider
      * @return Promise for a Resource Provider
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'

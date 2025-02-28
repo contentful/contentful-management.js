@@ -49,7 +49,7 @@ export type WorkflowDefinitionPlainClientAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<
       GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }

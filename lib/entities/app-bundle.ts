@@ -60,7 +60,8 @@ export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProp
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

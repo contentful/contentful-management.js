@@ -54,7 +54,7 @@ export interface ReleaseQueryOptions {
   /**
    * Limit how many records are returned in the result
    * @default 100
-   * */
+   **/
   limit?: number
   /**
    * Order releases
@@ -63,7 +63,7 @@ export interface ReleaseQueryOptions {
    *  - `sys.updatedAt`, `-sys.updatedAt`
    *  - `sys.createdAt`, `-sys.createdAt`
    * @default -sys.updatedAt
-   * */
+   **/
   order?: string
 }
 
@@ -119,13 +119,13 @@ export interface ReleaseApiMethods {
    * Archives a release and locks any actions such as adding new entities or publishing/unpublishing.
    * This operation increases the sys.version property
    * @throws {BadRequest} if the release is already archived
-   * */
+   **/
 
   archive(): Promise<Release>
   /**
    * Unarchives an `archived` release and unlocks operations on the Release. This operation increases the sys.version property
    * @throws {BadRequest} if the release is not archived
-   * */
+   **/
   unarchive(): Promise<Release>
   /** Updates a Release and returns the updated Release object */
   update(payload: ReleasePayload): Promise<Release>
