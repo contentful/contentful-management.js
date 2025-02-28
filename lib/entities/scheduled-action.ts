@@ -143,7 +143,8 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
     /**
      * Cancels the current Scheduled Action schedule.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      *  const contentful = require('contentful-management');
      *
      *  const client = contentful.createClient({
@@ -190,7 +191,8 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
     /**
      * Update the current scheduled action. Currently, only changes made to the `scheduledFor` property will be saved.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      *  const contentful = require('contentful-management');
      *
      *  const client = contentful.createClient({

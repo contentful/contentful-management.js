@@ -11,12 +11,10 @@
 <h3 align="center">JavaScript</h3>
 
 <p align="center">
-  <a href="README.md">Readme</a> ·
-  <a href="SETUP.md">Setup</a> ·
-  <a href="MIGRATION.md">Migration</a> ·
-  <a href="CHANGELOG.md">Changelog</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a> ·
-  <a href="SUPPORT.md">Support Policy</a>
+  <a href="README.md">Readme</a> · 
+  <a href="SETUP.md">Setup</a> · 
+  <a href="CHANGELOG.md">Changelog</a> · 
+  <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 <p align="center">
@@ -43,20 +41,19 @@
 
 <!-- TOC -->
 
-- [Features](#features)
-- [Supported Environments](#supported-environments)
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
   - [Installation](#installation)
-    - [Node](#node)
-    - [Browser](#browser-bundle-in-script-tag)
-    - [Typings](#typings)
+    - [Node:](#node)
+    - [Browser bundle in script tag:](#browser-bundle-in-script-tag)
+  - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
-  - [Your first Request](#your-first-request)
+  - [Using CommonJS require imports](#using-commonjs-require-imports)
+  - [Your first request](#your-first-request)
   - [Legacy Client Interface](#legacy-client-interface)
-- [App Framework](#app-framework)
-- [Troubleshooting](#troubleshooting)
-- [Documentation/References](#documentationreferences)
+  - [App Framework](#app-framework)
+  - [Troubleshooting](#troubleshooting)
+  - [Documentation/References](#documentationreferences)
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
