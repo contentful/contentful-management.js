@@ -69,7 +69,8 @@ type AssetApi = {
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @return Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -109,7 +110,8 @@ type AssetApi = {
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @return Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -134,11 +136,12 @@ type AssetApi = {
    * .catch(console.error)
    * ```
    */
-  processForLocale(locale: string, Options?: AssetProcessingForLocale): Promise<Asset>
+  processForLocale(locale: string, options?: AssetProcessingForLocale): Promise<Asset>
   /**
    * Publishes the object
    * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -157,7 +160,8 @@ type AssetApi = {
   /**
    * Archives the object
    * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -176,7 +180,8 @@ type AssetApi = {
   /**
    * Deletes this object on the server.
    * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -195,7 +200,8 @@ type AssetApi = {
   /**
    * Unarchives the object
    * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -214,7 +220,8 @@ type AssetApi = {
   /**
    * Unpublishes the object
    * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -233,7 +240,8 @@ type AssetApi = {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @return Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

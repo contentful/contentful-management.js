@@ -31,7 +31,7 @@
     "build:standalone": "webpack && NODE_ENV=production webpack",
     "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
     "build:types": "rimraf dist/typings && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
-    "build:docs": "typedoc",
+    "build:docs": "typedoc --options typedoc.json",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
@@ -70,7 +70,10 @@
     "axios": "^1.7.9",
     "contentful-sdk-core": "^9.0.1",
     "fast-copy": "^3.0.0",
-    "globals": "^15.15.0"
+    "globals": "^15.15.0",
+    "typedoc-github-theme": "^0.2.1",
+    "typedoc-plugin-markdown": "^4.4.2",
+    "typedoc-plugin-missing-exports": "^3.1.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.6",
@@ -113,7 +116,7 @@
     "semantic-release": "^22.0.12",
     "size-limit": "^11.1.6",
     "type-fest": "^4.18.3",
-    "typedoc": "^0.26.2",
+    "typedoc": "^0.27.9",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.16.0",
     "vitest": "^2.1.5",
