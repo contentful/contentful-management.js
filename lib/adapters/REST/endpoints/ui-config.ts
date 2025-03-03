@@ -16,16 +16,29 @@ export const get: RestEndpoint<'UIConfig', 'get'> = (
   return raw.get<UIConfigProps>(http, getUrl(params))
 }
 
-export const update: RestEndpoint<'UIConfig', 'update'> = (
+export const update: RestEndpoint<'UIConfig', 'update'> = async(
   http: AxiosInstance,
   params: GetUIConfigParams,
   rawData: UIConfigProps
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
-  return raw.put<UIConfigProps>(http, getUrl(params), data, {
-    headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
-    },
-  })
+  try{
+    return await raw.put<UIConfigProps>(http, getUrl(params), data, {
+      headers: {
+        'X-Contentful-Version': rawData.sys.version ?? 0,
+      },
+    })
+  } catch(error){
+    throw {
+      sys: {
+        type: 'Error',
+        id: 'Failed',
+      },
+      message: 'Update has failed',
+      details: 'Saved view could not be updated',
+      message_code: 'savedViews.update.Failed',
+    }
+  }
 }
+
