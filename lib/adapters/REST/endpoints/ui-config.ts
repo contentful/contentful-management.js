@@ -16,20 +16,20 @@ export const get: RestEndpoint<'UIConfig', 'get'> = (
   return raw.get<UIConfigProps>(http, getUrl(params))
 }
 
-export const update: RestEndpoint<'UIConfig', 'update'> = async(
+export const update: RestEndpoint<'UIConfig', 'update'> = async (
   http: AxiosInstance,
   params: GetUIConfigParams,
   rawData: UIConfigProps
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
-  try{
+  try {
     return await raw.put<UIConfigProps>(http, getUrl(params), data, {
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
       },
     })
-  } catch(error){
+  } catch (error) {
     throw {
       sys: {
         type: 'Error',
@@ -41,4 +41,3 @@ export const update: RestEndpoint<'UIConfig', 'update'> = async(
     }
   }
 }
-
