@@ -32,12 +32,21 @@ export type FunctionLogPlainClientAPI = {
    * @throws if the request fails, or the FunctionLogs are not found
    * @example
    * ```javascript
-   * const functionLogs = await client.functionLog.getAll({
+   * const start = new Date()
+   * const end = new Date()
+   * start.setHours(start.getHours() - 1)
+   * 
+   * const functionLogs = await client.functionLog.getMany({
    *    spaceId: '<space_id>',
    *    environmentId: '<environment_id>',
    *    appInstallationId: '<app_installation_id>',
    *    functionId: '<function_id>',
-   *    query: { limit: 100 }
+   *    query: { 
+   *      limit: 100,
+   *      // optional interval query
+   *      'sys.createdAt[gte]': start,
+   *      'sys.createdAt[lte]': end,
+   *    }
    * });
    * ```
    */
