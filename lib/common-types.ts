@@ -372,6 +372,34 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+type StartOperator = 'gt' | 'gte'
+type EndOperator = 'lt' | 'lte'
+type ComparisonOperator = StartOperator | EndOperator
+
+// Helper type for creating property paths with comparison operators
+// For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
+type WithComparisonOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+
+// Helper types to ensure only one start operator can be used and only one end operator can be used
+type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C> = {
+  [K in WithComparisonOperator<P, O>]: string | Date
+} & {
+  [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
+}
+type WithStartOperator<P extends string> =
+  | WithOneOperator<P, StartOperator, 'gt'>
+  | WithOneOperator<P, StartOperator, 'gte'>
+type WithEndOperator<P extends string> =
+  | WithOneOperator<P, EndOperator, 'lt'>
+  | WithOneOperator<P, EndOperator, 'lte'>
+
+// Type for valid date range combinations - only start, only end, or both
+type IntervalQuery<P extends string> =
+  | Partial<WithStartOperator<P>>
+  | Partial<WithEndOperator<P>>
+  | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
+
+export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -2233,6 +2261,7 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
     appInstallationId: string
   }
 export type GetManyFunctionLogParams = CursorBasedParams &
+  CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
@@ -2308,6 +2337,7 @@ export type CursorPaginationXORParams = {
   }
 }
 export type CursorBasedParams = CursorPaginationXORParams
+export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
