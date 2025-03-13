@@ -67,7 +67,7 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /**
    * Order workflows by
    * @default -sys.createdAt
-   * */
+   **/
   order?: OrderQueryParam
 }
 

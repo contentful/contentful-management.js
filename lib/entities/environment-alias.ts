@@ -25,8 +25,6 @@ export interface EnvironmentAlias
     DefaultElements<EnvironmentAliasProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties. Currently, you can only change the id of the alias's underlying environment. See the example below.
-   * @memberof EnvironmentAlias
-   * @func update
    * @return {Promise<EnvironmentAlias>} Object returned from the server with updated changes.
    * ```javascript
    * const contentful = require('contentful-management')
@@ -49,8 +47,6 @@ export interface EnvironmentAlias
 
   /**
    * Deletes this object on the server.
-   * @memberof EnvironmentAlias
-   * @func delete
    * @return {Promise<void>} Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * ```javascript
    * const contentful = require('contentful-management')
