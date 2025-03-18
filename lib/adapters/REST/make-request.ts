@@ -33,9 +33,15 @@ export const makeRequest = async <R>({
     throw new Error('Unknown endpoint')
   }
 
-  return await endpoint(axiosInstance, params, payload, {
+  const response = await endpoint(axiosInstance, params, payload, {
     ...headers,
     // overwrite the userAgent with the one passed in the request
     ...(userAgent ? { 'X-Contentful-User-Agent': userAgent } : {}),
   })
+
+  if (response instanceof ReadableStream) {
+    return await new Response(response).json()
+  }
+
+  return response
 }
