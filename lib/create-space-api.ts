@@ -28,7 +28,7 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 /**
  * Creates API object with methods to access the Space API
  * @param {MakeRequest} makeRequest - function to make requests via an adapter
- * @return {ContentfulSpaceAPI}
+ * @returns {ContentfulSpaceAPI}
  * @private
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
@@ -50,7 +50,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   return {
     /**
      * Deletes the space
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -75,7 +75,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Updates the space
-     * @return Promise for the updated space.
+     * @returns Promise for the updated space.
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -106,7 +106,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets an environment
      * @param id - Environment ID
-     * @return Promise for an Environment
+     * @returns Promise for an Environment
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -133,7 +133,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of Environments
-     * @return Promise for a collection of Environment
+     * @returns Promise for a collection of Environment
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -160,7 +160,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates an environment
      * @param data - Object representation of the Environment to be created
-     * @return Promise for the newly created Environment
+     * @returns Promise for the newly created Environment
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -192,7 +192,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * @param id - Environment ID
      * @param data - Object representation of the Environment to be created
      * @param sourceEnvironmentId - ID of the source environment that will be copied to create the new environment. Default is "master"
-     * @return Promise for the newly created Environment
+     * @returns Promise for the newly created Environment
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -228,7 +228,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a Webhook
      * @param id - Webhook ID
-     * @return Promise for a Webhook
+     * @returns Promise for a Webhook
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -254,7 +254,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of Webhooks
-     * @return Promise for a collection of Webhooks
+     * @returns Promise for a collection of Webhooks
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -333,7 +333,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates a Webhook
      * @param data - Object representation of the Webhook to be created
-     * @return Promise for the newly created Webhook
+     * @returns Promise for the newly created Webhook
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -367,7 +367,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates a Webhook with a custom ID
      * @param id - Webhook ID
      * @param  data - Object representation of the Webhook to be created
-     * @return Promise for the newly created Webhook
+     * @returns Promise for the newly created Webhook
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -511,7 +511,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a Role
      * @param id - Role ID
-     * @return Promise for a Role
+     * @returns Promise for a Role
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -542,7 +542,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets a collection of Roles
-     * @return Promise for a collection of Roles
+     * @returns Promise for a collection of Roles
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -569,7 +569,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates a Role
      * @param data - Object representation of the Role to be created
-     * @return  Promise for the newly created Role
+     * @returns  Promise for the newly created Role
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -626,7 +626,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates a Role with a custom ID
      * @param id - Role ID
      * @param data - Object representation of the Role to be created
-     * @return Promise for the newly created Role
+     * @returns Promise for the newly created Role
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -682,7 +682,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a User
      * @param userId - User ID
-     * @return Promise for a User
+     * @returns Promise for a User
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -707,7 +707,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Users in a space
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise a collection of Users in a space
+     * @returns Promise a collection of Users in a space
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -733,7 +733,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of teams for a space
      * @param query
-     * @return Promise for a collection of teams for a space
+     * @returns Promise for a collection of teams for a space
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -758,7 +758,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a Space Member
      * @param id Get Space Member by user_id
-     * @return Promise for a Space Member
+     * @returns Promise for a Space Member
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -780,7 +780,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Space Members
      * @param query
-     * @return Promise for a collection of Space Members
+     * @returns Promise for a collection of Space Members
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -806,7 +806,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Gets a Space Membership
      * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
      * @param id - Space Membership ID
-     * @return Promise for a Space Membership
+     * @returns Promise for a Space Membership
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -829,7 +829,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Gets a collection of Space Memberships
      * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Space Memberships
+     * @returns Promise for a collection of Space Memberships
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -856,7 +856,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates a Space Membership
      * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
      * @param  data - Object representation of the Space Membership to be created
-     * @return Promise for the newly created Space Membership
+     * @returns Promise for the newly created Space Membership
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -897,7 +897,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Warning: the user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user).
      * @param id - Space Membership ID
      * @param data - Object representation of the Space Membership to be created
-     * @return Promise for the newly created Space Membership
+     * @returns Promise for the newly created Space Membership
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -938,7 +938,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a Team Space Membership
      * @param id - Team Space Membership ID
-     * @return Promise for a Team Space Membership
+     * @returns Promise for a Team Space Membership
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -964,7 +964,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Team Space Memberships
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
-     * @return Promise for a collection of Team Space Memberships
+     * @returns Promise for a collection of Team Space Memberships
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -990,7 +990,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
    * Creates a Team Space Membership
    * @param id - Team ID
    * @param data - Object representation of the Team Space Membership to be created
-   * @return Promise for the newly created Team Space Membership
+   * @returns Promise for the newly created Team Space Membership
    * @example
 * ```javascript
    * const contentful = require('contentful-management')
@@ -1031,7 +1031,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a Api Key
      * @param id - API Key ID
-     * @return  Promise for a Api Key
+     * @returns  Promise for a Api Key
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1059,7 +1059,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets a collection of Api Keys
-     * @return Promise for a collection of Api Keys
+     * @returns Promise for a collection of Api Keys
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1086,7 +1086,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets a collection of preview Api Keys
-     * @return Promise for a collection of Preview Api Keys
+     * @returns Promise for a collection of Preview Api Keys
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1114,7 +1114,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets a preview Api Key
      * @param id - Preview API Key ID
-     * @return  Promise for a Preview Api Key
+     * @returns  Promise for a Preview Api Key
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1143,7 +1143,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates a Api Key
      * @param payload - Object representation of the Api Key to be created
-     * @return Promise for the newly created Api Key
+     * @returns Promise for the newly created Api Key
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1183,7 +1183,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates a Api Key with a custom ID
      * @param id - Api Key ID
      * @param payload - Object representation of the Api Key to be created
-     * @return Promise for the newly created Api Key
+     * @returns Promise for the newly created Api Key
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1224,7 +1224,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * Creates an EnvironmentAlias with a custom ID
      * @param environmentAliasId - EnvironmentAlias ID
      * @param data - Object representation of the EnvironmentAlias to be created
-     * @return Promise for the newly created EnvironmentAlias
+     * @returns Promise for the newly created EnvironmentAlias
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1256,7 +1256,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Gets an Environment Alias
      * @param Environment Alias ID
-     * @return Promise for an Environment Alias
+     * @returns Promise for an Environment Alias
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1281,7 +1281,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets a collection of Environment Aliases
-     * @return Promise for a collection of Environment Aliases
+     * @returns Promise for a collection of Environment Aliases
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -1309,7 +1309,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Query for scheduled actions in space.
      * @param query - Object with search parameters. The enviroment id field is mandatory. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/scheduled-actions/scheduled-actions-collection">REST API reference</a> for more details.
-     * @return Promise for the scheduled actions query
+     * @returns Promise for the scheduled actions query
      *
      * @example
      * ```javascript
@@ -1381,7 +1381,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates a scheduled action
      * @param data - Object representation of the scheduled action to be created
-     * @return Promise for the newly created scheduled actions
+     * @returns Promise for the newly created scheduled actions
      * @example
      * ```javascript
      *  const contentful = require('contentful-management');

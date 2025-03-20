@@ -121,7 +121,7 @@ export interface EditorInterface
     DefaultElements<EditorInterfaceProps> {
   /**
    * Gets a control for a specific field
-   * @return control object for specific field
+   * @returns control object for specific field
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -143,7 +143,7 @@ export interface EditorInterface
   getControlForField(id: string): null | Control
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * ```javascript
    * const contentful = require('contentful-management')
    *

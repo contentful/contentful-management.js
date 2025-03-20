@@ -96,7 +96,7 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
- * @return Wrapped Release data
+ * @returns Wrapped Release data
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,

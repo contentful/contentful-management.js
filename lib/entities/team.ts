@@ -26,7 +26,7 @@ export type CreateTeamProps = Omit<TeamProps, 'sys'>
 export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -47,7 +47,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
 
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -103,7 +103,7 @@ function createTeamApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw team data
- * @return Wrapped team data
+ * @returns Wrapped team data
  */
 export function wrapTeam(makeRequest: MakeRequest, data: TeamProps): Team {
   const team = toPlainObject(copy(data))

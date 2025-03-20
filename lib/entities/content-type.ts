@@ -67,7 +67,7 @@ type ContentTypeApi = {
    * delete it by setting the attribute "deleted" to true. See the "Deleting fields" section in the
    * <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/content-types/content-type">API reference</a> for more reasoning. Alternatively,
    * you may use the convenience method omitAndDeleteField to do both steps at once.
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -91,7 +91,7 @@ type ContentTypeApi = {
 
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -111,7 +111,7 @@ type ContentTypeApi = {
   delete(): Promise<void>
   /**
    * Publishes the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -131,7 +131,7 @@ type ContentTypeApi = {
   publish(): Promise<ContentType>
   /**
    * Unpublishes the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -153,7 +153,7 @@ type ContentTypeApi = {
    * Gets the editor interface for the object <br />
    * <strong>Important note</strong>: The editor interface only represent a published contentType.<br />
    * To get the most recent representation of the contentType make sure to publish it first
-   * @return Object returned from the server with the current editor interface.
+   * @returns Object returned from the server with the current editor interface.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -187,7 +187,7 @@ type ContentTypeApi = {
   /**
    * Omits and deletes a field if it exists on the contentType. This is a convenience method which does both operations at once and potentially less
    * safe than the standard way. See note about deleting fields on the Update method.
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    */
   omitAndDeleteField(id: string): Promise<ContentType>
 
@@ -354,7 +354,7 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
- * @return Wrapped content type data
+ * @returns Wrapped content type data
  */
 export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(copy(data))

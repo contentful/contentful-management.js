@@ -28,7 +28,7 @@ export default function createUIConfigApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example
      * ```javascript
      * const contentful = require('contentful-management')

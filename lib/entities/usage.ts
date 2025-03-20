@@ -63,7 +63,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Normalized usage
+ * @returns Normalized usage
  */
 export function wrapUsage(_makeRequest: MakeRequest, data: UsageProps): Usage {
   const usage = toPlainObject(copy(data))
