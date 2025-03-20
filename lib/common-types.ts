@@ -174,6 +174,11 @@ import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
+} from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
 
 export interface DefaultElements<TPlainObject extends object = object> {
@@ -367,6 +372,34 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+type StartOperator = 'gt' | 'gte'
+type EndOperator = 'lt' | 'lte'
+type ComparisonOperator = StartOperator | EndOperator
+
+// Helper type for creating property paths with comparison operators
+// For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
+type WithComparisonOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+
+// Helper types to ensure only one start operator can be used and only one end operator can be used
+type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C> = {
+  [K in WithComparisonOperator<P, O>]: string | Date
+} & {
+  [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
+}
+type WithStartOperator<P extends string> =
+  | WithOneOperator<P, StartOperator, 'gt'>
+  | WithOneOperator<P, StartOperator, 'gte'>
+type WithEndOperator<P extends string> =
+  | WithOneOperator<P, EndOperator, 'lt'>
+  | WithOneOperator<P, EndOperator, 'lte'>
+
+// Type for valid date range combinations - only start, only end, or both
+type IntervalQuery<P extends string> =
+  | Partial<WithStartOperator<P>>
+  | Partial<WithEndOperator<P>>
+  | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
+
+export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -634,6 +667,15 @@ type MRInternal<UA extends boolean> = {
     'AccessToken',
     'getManyForOrganization'
   >
+
+  (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
+  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
+    'OAuthApplication',
+    'getManyForUser'
+  >
+  (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
+  (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
+  (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
@@ -1676,6 +1718,26 @@ export type MRActions = {
       return: CollectionProp<AccessTokenProps>
     }
   }
+  OAuthApplication: {
+    get: { params: GetOAuthApplicationParams; return: OAuthApplicationProps }
+    getManyForUser: {
+      params: GetUserParams & QueryParams
+      return: CursorPaginatedCollectionProp<OAuthApplicationProps>
+    }
+    create: {
+      params: GetUserParams
+      payload: CreateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    update: {
+      params: GetOAuthApplicationParams
+      payload: UpdateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    delete: { params: GetOAuthApplicationParams; return: void }
+  }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<PreviewApiKeyProps> }
@@ -2199,6 +2261,7 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
     appInstallationId: string
   }
 export type GetManyFunctionLogParams = CursorBasedParams &
+  CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
@@ -2274,7 +2337,11 @@ export type CursorPaginationXORParams = {
   }
 }
 export type CursorBasedParams = CursorPaginationXORParams
+export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
+
+export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',

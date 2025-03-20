@@ -1,6 +1,6 @@
 import { beforeAll, beforeEach, afterAll } from 'vitest'
 
-import puppeteer, { Browser, Page, PuppeteerNode } from 'puppeteer'
+import puppeteer, { Browser, Page } from 'puppeteer'
 import path from 'path'
 
 let browser: Browser

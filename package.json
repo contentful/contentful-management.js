@@ -79,7 +79,9 @@
     "contentful-sdk-core": "^9.0.1",
     "es-check": "^7.2.1",
     "fast-copy": "^3.0.0",
-    "json-patch": "^0.7.0"
+    "globals": "^15.15.0",
+    "json-patch": "^0.7.0",
+    "puppeteer": "^24.4.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.24.7",

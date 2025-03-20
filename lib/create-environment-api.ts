@@ -3,6 +3,7 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
   BasicCursorPaginationOptions,
+  CreatedAtIntervalParams,
   CursorBasedParams,
   QueryOptions,
 } from './common-types'
@@ -1727,14 +1728,28 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *       environment.getFunctionLogs(
      *          '<app-installation-id>',
      *          '<function-id>',
-     *          { limit: 10 },
+     *          {
+     *            query: {
+     *              // optional limit
+     *              limit: 10,
+     *              // optional interval query
+     *              'sys.createdAt[gte]': start,
+     *              'sys.createdAt[lt]': end,
+     *              // optional cursor based pagination parameters
+     *              pagePrev: '<page_prev>',
+     *            },
+     *          },
      *       )
      *     )
      *     .then((functionLogs) => console.log(functionLog.items))
      *     .catch(console.error)
      * ```
      */
-    getFunctionLogs(appInstallationId: string, functionId: string, query?: CursorBasedParams) {
+    getFunctionLogs(
+      appInstallationId: string,
+      functionId: string,
+      query?: CursorBasedParams & CreatedAtIntervalParams
+    ) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({

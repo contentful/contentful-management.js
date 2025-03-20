@@ -76,6 +76,8 @@ import type { WorkflowProps } from '../../../lib/entities/workflow'
 import type { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
 import type { UIConfigProps } from '../../../lib/entities/ui-config'
 import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
+import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
+import { ScopeValues } from '../../../lib/entities/oauth-application'
 import type { FunctionLogProps } from '../../../lib/entities/function-log'
 
 const linkMock: MetaLinkProps = {
@@ -691,6 +693,20 @@ const organizationMembershipMock: OrganizationMembershipProps = {
   status: false,
 }
 
+const oauthApplicationMock: OAuthApplicationProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'OAuthApplication',
+    lastUsedAt: '2020-03-30T13:38:37.000Z',
+  }),
+  name: 'mocked-name',
+  clientId: 'mocked-client-id',
+  clientSecret: 'mocked-client-secret',
+  redirectUri: 'https://example.com',
+  scopes: [ScopeValues.Read],
+  confidential: false,
+  description: 'mocked-description',
+}
+
 const teamMock: TeamProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
@@ -1288,6 +1304,7 @@ const mocks = {
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
+  oauthApplication: oauthApplicationMock,
   appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   accessToken: accessTokenMock,
@@ -1488,6 +1505,10 @@ function setupEntitiesMock() {
       wrapOrganization: vi.fn(),
       wrapOrganizationCollection: vi.fn(),
     },
+    oauthApplication: {
+      wrapOAuthApplication: vi.fn(),
+      wrapOAuthApplicationCollection: vi.fn(),
+    },
     extension: {
       wrapExtension: vi.fn(),
       wrapExtensionCollection: vi.fn(),
@@ -1594,6 +1615,7 @@ export {
   spaceMembershipMock,
   teamSpaceMembershipMock,
   organizationMembershipMock,
+  oauthApplicationMock,
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { describe, it, expect } from 'vitest'
 import { page } from './vitest.setup'
 import { version as packageVersion } from '../../../../package.json'
