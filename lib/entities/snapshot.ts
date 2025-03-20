@@ -26,7 +26,7 @@ function createSnapshotApi() {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot data
- * @return Wrapped snapshot data
+ * @returns Wrapped snapshot data
  */
 export function wrapSnapshot<T>(_makeRequest: MakeRequest, data: SnapshotProps<T>): Snapshot<T> {
   const snapshot = toPlainObject(copy(data))
@@ -38,6 +38,6 @@ export function wrapSnapshot<T>(_makeRequest: MakeRequest, data: SnapshotProps<T
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot collection data
- * @return Wrapped snapshot collection data
+ * @returns Wrapped snapshot collection data
  */
 export const wrapSnapshotCollection = wrapCollection(wrapSnapshot)

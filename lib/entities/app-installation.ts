@@ -26,7 +26,7 @@ export interface AppInstallation
     DefaultElements<AppInstallationProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -49,7 +49,7 @@ export interface AppInstallation
   update(): Promise<AppInstallation>
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
    * ```javascript
    * const contentful = require('contentful-management')
@@ -106,7 +106,7 @@ function createAppInstallationApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Installation data
- * @return Wrapped App installation data
+ * @returns Wrapped App installation data
  */
 export function wrapAppInstallation(
   makeRequest: MakeRequest,
