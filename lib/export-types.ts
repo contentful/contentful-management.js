@@ -10,6 +10,7 @@ export type {
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
+export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
 export type {
   AppAction,
   AppActionCategoryProps,

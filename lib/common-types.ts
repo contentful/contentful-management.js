@@ -180,6 +180,11 @@ import type {
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
+import type { AiActionProps, CreateAiActionProps } from './entities/ai-action'
+import type {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from './entities/ai-action-invocation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -416,6 +421,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'put', UA>): MRReturn<'Http', 'put'>
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
   (opts: MROpts<'Http', 'request', UA>): MRReturn<'Http', 'request'>
+
+  (opts: MROpts<'AiAction', 'get', UA>): MRReturn<'AiAction', 'get'>
+  (opts: MROpts<'AiAction', 'getMany', UA>): MRReturn<'AiAction', 'getMany'>
+  (opts: MROpts<'AiAction', 'create', UA>): MRReturn<'AiAction', 'create'>
+  (opts: MROpts<'AiAction', 'update', UA>): MRReturn<'AiAction', 'update'>
+  (opts: MROpts<'AiAction', 'delete', UA>): MRReturn<'AiAction', 'delete'>
+  (opts: MROpts<'AiAction', 'publish', UA>): MRReturn<'AiAction', 'publish'>
+  (opts: MROpts<'AiAction', 'unpublish', UA>): MRReturn<'AiAction', 'unpublish'>
+
+  (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
+  (opts: MROpts<'AiActionInvocation', 'invoke', UA>): MRReturn<'AiActionInvocation', 'invoke'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -928,6 +944,49 @@ export type MRActions = {
     put: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
+  }
+  AiActionInvocation: {
+    invoke: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionInvocationType
+      headers?: RawAxiosRequestHeaders
+      return: AiActionInvocationProps
+    }
+    get: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
+      return: AiActionInvocationProps
+    }
+  }
+  AiAction: {
+    get: { params: GetSpaceEnvironmentParams & { aiActionId: string }; return: AiActionProps }
+    getMany: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      return: CollectionProp<AiActionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    delete: { params: GetSpaceEnvironmentParams & { aiActionId: string }; return: any }
+    publish: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    unpublish: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
   }
   AppAction: {
     get: { params: GetAppActionParams; return: AppActionProps }
