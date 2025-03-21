@@ -79,6 +79,8 @@ import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
 import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
 import { ScopeValues } from '../../../lib/entities/oauth-application'
 import type { FunctionLogProps } from '../../../lib/entities/function-log'
+import { AiActionProps } from '../../../lib/entities/ai-action'
+import { AiActionInvocationProps } from '../../../lib/entities/ai-action-invocation'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -809,6 +811,75 @@ const releaseActionUnpublishMock: ReleaseActionProps = {
   action: 'unpublish',
 }
 
+const aiActionMock: AiActionProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AiAction' as const,
+    id: 'mocked-ai-action-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+  }),
+  name: 'Mocked AI Action',
+  description: 'This is a mocked AI Action for testing purposes.',
+  configuration: {
+    modelType: 'mock-model-type',
+    modelTemperature: 0.5,
+  },
+  instruction: {
+    template: 'Process input: {{var.input}} and {{var.standard}}',
+    variables: [
+      {
+        id: 'input',
+        name: 'Input',
+        type: 'Text',
+        configuration: {
+          in: ['Option 1', 'Option 2'],
+          strict: true,
+        },
+      },
+      {
+        id: 'standard',
+        name: 'Standard Input',
+        type: 'StandardInput',
+      },
+    ],
+    conditions: [],
+  },
+  testCases: [],
+}
+
+const aiActionInvocationMock: AiActionInvocationProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AiActionInvocation' as const,
+    id: 'mocked-ai-action-invocation-id',
+    status: 'COMPLETED' as const,
+    space: { sys: { id: 'mocked-space-id', type: 'Link', linkType: 'Space' } },
+    environment: { sys: { id: 'mocked-environment-id', type: 'Link', linkType: 'Environment' } },
+    aiAction: { sys: { id: 'mocked-ai-action-id', type: 'Link', linkType: 'AiAction' } },
+    version: 1,
+  },
+  result: {
+    content: 'Mocked invocation result content',
+    type: 'text',
+    metadata: {
+      statusChangedDates: [
+        {
+          status: 'SCHEDULED' as const,
+          date: '2025-03-21T15:35:31.165Z',
+        },
+        {
+          status: 'IN_PROGRESS' as const,
+          date: '2025-03-21T15:35:37.736Z',
+        },
+        {
+          status: 'COMPLETED' as const,
+          date: '2025-03-21T15:35:42.754Z',
+        },
+      ],
+    },
+  },
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -1263,6 +1334,8 @@ const functionLogCollectionMock = {
 }
 
 const mocks = {
+  aiAction: aiActionMock,
+  aiActionInvocation: aiActionInvocationMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
