@@ -12,7 +12,7 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceProps } from './entities/space'
@@ -51,6 +51,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
   const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
 
   return {
+    version: __VERSION__,
     /**
      * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID

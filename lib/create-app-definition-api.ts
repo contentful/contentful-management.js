@@ -1,5 +1,5 @@
 import type { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { CreateAppBundleProps } from './entities/app-bundle'
 import type { AppDefinitionProps } from './entities/app-definition'
 import { wrapAppDefinition } from './entities/app-definition'

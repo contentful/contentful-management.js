@@ -16,6 +16,7 @@ export const createPlainClient = (
   const wrapParams = { makeRequest, defaults }
 
   return {
+    version: __VERSION__,
     raw: {
       getDefaultParams: () => defaults,
       get: (url, config) =>

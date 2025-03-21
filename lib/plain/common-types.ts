@@ -120,6 +120,7 @@ import type { OAuthApplicationPlainClientAPI } from './entities/oauth-applicatio
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
 
 export type PlainClientAPI = {
+  version: string
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
