@@ -85,4 +85,11 @@ describe.only('Entity AiAction', () => {
       actionMethod: 'unpublish',
     })
   })
+
+  test('AiAction invoke', async () => {
+    return entityActionTest(setup, {
+      wrapperMethod: wrapAiAction,
+      actionMethod: 'invoke',
+    })
+  })
 })

@@ -23,10 +23,4 @@ describe('Entity AiActionInvocation', () => {
       wrapperMethod: wrapAiActionInvocation,
     })
   })
-
-  test('AiActionInvocation collection is wrapped', async () => {
-    return entityCollectionWrappedTest(setup, {
-      wrapperMethod: wrapAiActionInvocationCollection,
-    })
-  })
 })

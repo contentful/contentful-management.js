@@ -1,10 +1,16 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import type {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetSpaceParams,
+  QueryParams,
+} from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import type { AiActionProps, CreateAiActionProps } from '../../../entities/ai-action'
+import type { AiActionInvocationType } from '../../../entities/ai-action-invocation'
 
 export const get: RestEndpoint<'AiAction', 'get'> = (
   http: AxiosInstance,
@@ -92,4 +98,18 @@ export const unpublish: RestEndpoint<'AiAction', 'unpublish'> = (
   return raw.del(http, `/spaces/${params.spaceId}/ai/actions/${params.aiActionId}/published`, {
     headers,
   })
+}
+
+export const invoke: RestEndpoint<'AiAction', 'invoke'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { aiActionId: string },
+  data: AiActionInvocationType,
+  headers?: RawAxiosRequestHeaders
+) => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/actions/${params.aiActionId}/invoke`,
+    data,
+    { headers }
+  )
 }

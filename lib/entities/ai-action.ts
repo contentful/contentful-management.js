@@ -3,6 +3,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
+import { wrapAiActionInvocation, type AiActionInvocationType } from './ai-action-invocation'
 
 export type AiActionProps = {
   sys: MetaSysProps & {
@@ -98,6 +99,20 @@ function createAiActionApi(makeRequest: MakeRequest) {
         action: 'unpublish',
         params: getParams(self),
       }).then((data) => wrapAiAction(makeRequest, data))
+    },
+
+    invoke: function invoke(payload: AiActionInvocationType) {
+      const self = this as AiActionProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'invoke',
+        params: {
+          spaceId: self.sys.space.sys.id,
+          environmentId: self.sys.environment.sys.id,
+          aiActionId: self.sys.id,
+        },
+        payload,
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
     },
   }
 }

@@ -429,9 +429,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AiAction', 'delete', UA>): MRReturn<'AiAction', 'delete'>
   (opts: MROpts<'AiAction', 'publish', UA>): MRReturn<'AiAction', 'publish'>
   (opts: MROpts<'AiAction', 'unpublish', UA>): MRReturn<'AiAction', 'unpublish'>
+  (opts: MROpts<'AiAction', 'invoke', UA>): MRReturn<'AiAction', 'invoke'>
 
   (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
-  (opts: MROpts<'AiActionInvocation', 'invoke', UA>): MRReturn<'AiActionInvocation', 'invoke'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -945,18 +945,6 @@ export type MRActions = {
     delete: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
   }
-  AiActionInvocation: {
-    invoke: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
-      payload: AiActionInvocationType
-      headers?: RawAxiosRequestHeaders
-      return: AiActionInvocationProps
-    }
-    get: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
-      return: AiActionInvocationProps
-    }
-  }
   AiAction: {
     get: { params: GetSpaceEnvironmentParams & { aiActionId: string }; return: AiActionProps }
     getMany: {
@@ -986,6 +974,18 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { aiActionId: string }
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
+    }
+    invoke: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionInvocationType
+      headers?: RawAxiosRequestHeaders
+      return: AiActionInvocationProps
+    }
+  }
+  AiActionInvocation: {
+    get: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
+      return: AiActionInvocationProps
     }
   }
   AppAction: {
