@@ -946,32 +946,32 @@ export type MRActions = {
     request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
   }
   AiAction: {
-    get: { params: GetSpaceEnvironmentParams & { aiActionId: string }; return: AiActionProps }
+    get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceParams & QueryParams
       return: CollectionProp<AiActionProps>
     }
     create: {
-      params: GetSpaceEnvironmentParams
+      params: GetSpaceParams
       payload: CreateAiActionProps
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
     }
     update: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceParams & { aiActionId: string }
       payload: AiActionProps
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
     }
-    delete: { params: GetSpaceEnvironmentParams & { aiActionId: string }; return: any }
+    delete: { params: GetSpaceParams & { aiActionId: string }; return: any }
     publish: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceParams & { aiActionId: string }
       payload: AiActionProps
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
     }
     unpublish: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceParams & { aiActionId: string }
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
     }

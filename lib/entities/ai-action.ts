@@ -5,6 +5,17 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapAiActionInvocation, type AiActionInvocationType } from './ai-action-invocation'
 
+export enum StatusFilter {
+  ALL = 'all',
+  PUBLISHED = 'published',
+}
+
+export interface AiActionQueryOptions {
+  limit?: number
+  skip?: number
+  status?: StatusFilter
+}
+
 export type AiActionProps = {
   sys: MetaSysProps & {
     type: 'AiAction'

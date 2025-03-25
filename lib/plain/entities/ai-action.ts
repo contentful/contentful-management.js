@@ -1,4 +1,9 @@
-import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../common-types'
+import type {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  GetSpaceParams,
+  QueryParams,
+} from '../../common-types'
 import type { AiActionProps, CreateAiActionProps } from '../../entities/ai-action'
 import type {
   AiActionInvocationProps,
@@ -14,9 +19,7 @@ export type AiActionPlainClientAPI = {
    * @returns The AI Action.
    * @throws if the request fails or the AI Action is not found.
    */
-  get(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>
-  ): Promise<AiActionProps>
+  get(params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>): Promise<AiActionProps>
   /**
    * Fetches all AI Actions for the given space and environment.
    * @param params Entity IDs and query options.
@@ -24,7 +27,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the entities are not found.
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>
   ): Promise<CollectionProp<AiActionProps>>
   /**
    * Deletes the AI Action.
@@ -32,9 +35,7 @@ export type AiActionPlainClientAPI = {
    * @returns void.
    * @throws if the request fails or the AI Action is not found.
    */
-  delete(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>
-  ): Promise<void>
+  delete(params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>): Promise<void>
   /**
    * Creates an AI Action.
    * @param params Entity IDs to scope where to create the AI Action.
@@ -44,7 +45,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the payload is malformed.
    */
   create(
-    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    params: OptionalDefaults<GetSpaceParams>,
     payload: CreateAiActionProps,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
@@ -57,7 +58,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails, the AI Action is not found, or the payload is malformed.
    */
   update(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>,
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>,
     payload: AiActionProps,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
@@ -70,7 +71,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the payload is malformed.
    */
   publish(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>,
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>,
     payload: AiActionProps,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
@@ -81,7 +82,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the AI Action is not found.
    */
   unpublish(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>
   ): Promise<AiActionProps>
   /**
    * Invokes an AI Action.
