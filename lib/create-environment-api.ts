@@ -8,7 +8,6 @@ import type {
   QueryOptions,
 } from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
@@ -54,6 +53,23 @@ import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 import { wrapFunctionCollection } from './entities/function'
 import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
+import { wrapEnvironment } from './entities/environment'
+import { wrapContentType, wrapContentTypeCollection } from './entities/content-type'
+import { wrapEntry, wrapEntryCollection } from './entities/entry'
+import { wrapAsset, wrapAssetCollection } from './entities/asset'
+import { wrapAssetKey } from './entities/asset-key'
+import { wrapLocale, wrapLocaleCollection } from './entities/locale'
+import { wrapSnapshotCollection } from './entities/snapshot'
+import { wrapEditorInterface, wrapEditorInterfaceCollection } from './entities/editor-interface'
+import { wrapUpload } from './entities/upload'
+import { wrapExtension, wrapExtensionCollection } from './entities/extension'
+import { wrapAppInstallation, wrapAppInstallationCollection } from './entities/app-installation'
+import { wrapAppSignedRequest } from './entities/app-signed-request'
+import { wrapAppActionCall } from './entities/app-action-call'
+import { wrapBulkAction } from './entities/bulk-action'
+import { wrapAppAccessToken } from './entities/app-access-token'
+import { wrapResourceTypesForEnvironmentCollection } from './entities/resource-type'
+import { wrapResourceCollection } from './entities/resource'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 
@@ -69,24 +85,6 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * @private
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
-  const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
-  const { wrapAssetKey } = entities.assetKey
-  const { wrapLocale, wrapLocaleCollection } = entities.locale
-  const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
-  const { wrapUpload } = entities.upload
-  const { wrapExtension, wrapExtensionCollection } = entities.extension
-  const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
-  const { wrapAppSignedRequest } = entities.appSignedRequest
-  const { wrapAppActionCall } = entities.appActionCall
-  const { wrapBulkAction } = entities.bulkAction
-  const { wrapAppAccessToken } = entities.appAccessToken
-  const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
-  const { wrapResourceCollection } = entities.resource
-
   return {
     /**
      * Deletes the environment

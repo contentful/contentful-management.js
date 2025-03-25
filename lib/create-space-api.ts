@@ -5,7 +5,6 @@
 
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
-import entities from './entities'
 import type { CreateApiKeyProps } from './entities/api-key'
 import type { CreateEnvironmentProps } from './entities/environment'
 import type { CreateEnvironmentAliasProps } from './entities/environment-alias'
@@ -20,6 +19,23 @@ import type {
   WebhookRetryPolicyPayload,
 } from './entities/webhook'
 
+import { wrapSpace } from './entities/space'
+import { wrapEnvironment, wrapEnvironmentCollection } from './entities/environment'
+import { wrapWebhook, wrapWebhookCollection } from './entities/webhook'
+import { wrapRole, wrapRoleCollection } from './entities/role'
+import { wrapUser, wrapUserCollection } from './entities/user'
+import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member'
+import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
+import {
+  wrapTeamSpaceMembership,
+  wrapTeamSpaceMembershipCollection,
+} from './entities/team-space-membership'
+import { wrapTeamCollection } from './entities/team'
+import { wrapApiKey, wrapApiKeyCollection } from './entities/api-key'
+import { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } from './entities/environment-alias'
+import { wrapPreviewApiKey, wrapPreviewApiKeyCollection } from './entities/preview-api-key'
+import { wrapScheduledAction, wrapScheduledActionCollection } from './entities/scheduled-action'
+
 /**
  * @private
  */
@@ -32,21 +48,6 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @private
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
-  const { wrapSpace } = entities.space
-  const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
-  const { wrapWebhook, wrapWebhookCollection } = entities.webhook
-  const { wrapRole, wrapRoleCollection } = entities.role
-  const { wrapUser, wrapUserCollection } = entities.user
-  const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
-  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
-    entities.teamSpaceMembership
-  const { wrapTeamCollection } = entities.team
-  const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
-  const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
-  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
-  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
-
   return {
     /**
      * Deletes the space
