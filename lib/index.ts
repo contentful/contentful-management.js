@@ -48,7 +48,7 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
 
 /**
  * Create a client instance
- * @param params - Client initialization parameters
+ * @param clientOptions - Client initialization parameters
  *
  * ```javascript
  * const client = contentfulManagement.createClient({
@@ -56,9 +56,9 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
  * })
  * ```
  */
-function createClient(params: ClientOptions): PlainClientAPI
+function createClient(clientOptions: ClientOptions): PlainClientAPI
 function createClient(
-  params: ClientOptions,
+  clientOptions: ClientOptions,
   opts: {
     type?: 'plain'
     defaults?: DefaultParams
@@ -68,7 +68,7 @@ function createClient(
  * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
  */
 function createClient(
-  params: ClientOptions,
+  clientOptions: ClientOptions,
   opts: {
     type: 'legacy'
   },
@@ -78,7 +78,7 @@ function createClient(
  * @deprecated The `alphaFeatures` option is no longer supported. Please use the function without this option.
  */
 function createClient(
-  params: ClientOptions,
+  clientOptions: ClientOptions,
   opts: {
     type?: 'plain' | 'legacy'
     alphaFeatures: string[]
@@ -86,7 +86,7 @@ function createClient(
   },
 ): ClientAPI | PlainClientAPI
 function createClient(
-  params: ClientOptions,
+  clientOptions: ClientOptions,
   opts: {
     type?: 'plain' | 'legacy'
     defaults?: DefaultParams
@@ -97,12 +97,12 @@ function createClient(
   const userAgent = getUserAgentHeader(
     // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
-    params.application,
-    params.integration,
-    params.feature,
+    clientOptions.application,
+    clientOptions.integration,
+    clientOptions.feature,
   )
 
-  const adapter = createAdapter({ ...params, userAgent })
+  const adapter = createAdapter({ ...clientOptions, userAgent })
 
   // Parameters<?> and ReturnType<?> only return the types of the last overload
   // https://github.com/microsoft/TypeScript/issues/26591
