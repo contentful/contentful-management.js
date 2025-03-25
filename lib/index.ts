@@ -21,6 +21,8 @@ export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/plain-client-types'
+
+
 export { RestAdapter } from './adapters/REST/rest-adapter'
 export type { RestAdapterParams } from './adapters/REST/rest-adapter'
 export { makeRequest } from './adapters/REST/make-request'
