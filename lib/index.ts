@@ -74,7 +74,7 @@ export function createClient(
     type: 'legacy'
   },
 ): ClientAPI
-// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
+// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDoc's correctly
 export function createClient(
   clientOptions: ClientOptions,
   opts: {
