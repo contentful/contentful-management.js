@@ -291,7 +291,7 @@ export type {
   WorkflowStepProps,
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
-export * from './plain/common-types'
+export * from './plain/plain-client-types'
 export { OptionalDefaults } from './plain/wrappers/wrap' // was previously deep imported in user_interface
 
 export {
