@@ -1,5 +1,5 @@
 import type { BulkActionPayload, BulkActionProps } from '../entities/bulk-action'
-import type { PlainClientAPI } from '../plain/common-types'
+import type { PlainClientAPI } from '../plain/plain-client-types'
 import type { AsyncActionProcessingOptions } from './action'
 import { pollAsyncActionStatus } from './action'
 
