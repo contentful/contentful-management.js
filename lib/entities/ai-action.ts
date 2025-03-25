@@ -3,7 +3,11 @@ import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { wrapAiActionInvocation, type AiActionInvocationType, type AiActionInvocation } from './ai-action-invocation'
+import {
+  wrapAiActionInvocation,
+  type AiActionInvocationType,
+  type AiActionInvocation,
+} from './ai-action-invocation'
 
 export enum StatusFilter {
   ALL = 'all',

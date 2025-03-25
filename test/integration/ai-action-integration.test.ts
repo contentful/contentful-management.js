@@ -89,14 +89,16 @@ describe('AiAction api', { sequential: true }, () => {
       .then((aiAction) => {
         expect(aiAction.name).equals(name, 'name')
         const updatedName = generateRandomId('updatedname')
-        
-        return space.updateAiAction(aiAction.sys.id, {
-          ...aiAction,
-          name: updatedName
-        }).then((updatedAction) => {
-          expect(updatedAction.name).equals(updatedName, 'updated name')
-          return updatedAction.delete()
-        })
+
+        return space
+          .updateAiAction(aiAction.sys.id, {
+            ...aiAction,
+            name: updatedName,
+          })
+          .then((updatedAction) => {
+            expect(updatedAction.name).equals(updatedName, 'updated name')
+            return updatedAction.delete()
+          })
       })
   })
 
@@ -163,15 +165,17 @@ describe('AiAction api', { sequential: true }, () => {
       .then((aiAction) => {
         return space
           .publishAiAction(aiAction.sys.id, aiAction)
-          .then((publishedAction) => environment.invokeAiAction(publishedAction.sys.id, {
-            outputFormat: 'PlainText',
-            variables: [
-              {
-                id: 'stdInput',
-                value: 'Hello world'
-              }
-            ]
-          }))
+          .then((publishedAction) =>
+            environment.invokeAiAction(publishedAction.sys.id, {
+              outputFormat: 'PlainText',
+              variables: [
+                {
+                  id: 'stdInput',
+                  value: 'Hello world',
+                },
+              ],
+            })
+          )
           .then((invocation) => {
             expect(invocation.sys.type).equals('AiActionInvocation')
             return aiAction.delete()
