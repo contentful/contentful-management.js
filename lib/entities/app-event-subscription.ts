@@ -1,7 +1,13 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type {
+  BasicMetaSysProps,
+  DefaultElements,
+  Link,
+  MakeRequest,
+  SysLink,
+} from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type AppEventSubscriptionSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
@@ -15,9 +21,15 @@ export type AppEventSubscriptionProps = {
    */
   sys: AppEventSubscriptionSys
   /** Subscription url that will receive events */
-  targetUrl: string
+  targetUrl?: string
   /** List of topics to subscribe to */
   topics: string[]
+  /** Optional filter, transformation, or handler function */
+  functions?: {
+    filter?: Link<'Function'>
+    transformation?: Link<'Function'>
+    handler?: Link<'Function'>
+  }
 }
 
 export type CreateAppEventSubscriptionProps = Except<AppEventSubscriptionProps, 'sys'>
