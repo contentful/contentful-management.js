@@ -4,7 +4,7 @@ import type { GetSpaceEnvironmentParams } from '../../../common-types'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const getInvocation: RestEndpoint<'AiActionInvocation', 'get'> = (
+export const get: RestEndpoint<'AiActionInvocation', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string },
   headers?: RawAxiosRequestHeaders

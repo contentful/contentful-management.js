@@ -11,6 +11,7 @@ export type {
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
 export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
+export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
 export type {
   AppAction,
   AppActionCategoryProps,
