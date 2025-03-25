@@ -44,11 +44,6 @@ interface UserAgentParams {
   feature?: string
 }
 
-/**
- * @deprecated
- */
-export type ClientParams = RestAdapterParams & UserAgentParams
-
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
