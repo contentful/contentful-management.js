@@ -6,7 +6,7 @@ import type {
   CollectionProp,
   GetSpaceParams,
 } from '../../common-types'
-import type { TeamProps, CreateTeamProps } from '../../export-types'
+import type { TeamProps, CreateTeamProps } from '../../entities/team'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamPlainClientAPI = {
