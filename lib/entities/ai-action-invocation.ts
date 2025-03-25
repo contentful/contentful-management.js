@@ -1,31 +1,73 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest } from '../common-types'
+import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
+import type { BLOCKS, TopLevelBlock } from '@contentful/rich-text-types'
 
-/**
- * Raw data representation of an AI Action Invocation.
- */
+export enum InvocationStatus {
+  Scheduled = 'SCHEDULED',
+  InProgress = 'IN_PROGRESS',
+  Failed = 'FAILED',
+  Completed = 'COMPLETED',
+  Cancelled = 'CANCELLED',
+}
+
+interface Node {
+  readonly nodeType: string
+  data: Record<string, unknown>
+}
+
+export interface NonRecursiveRichTextDocument extends Node {
+  nodeType: BLOCKS.DOCUMENT
+  content: TopLevelBlock[]
+}
+
+export enum FlowResultType {
+  Text = 'text',
+}
+
+export const AiActionOutputFormat = {
+  RichText: 'RichText',
+  Markdown: 'Markdown',
+  PlainText: 'PlainText',
+} as const
+
+export type AiActionOutputFormatType =
+  (typeof AiActionOutputFormat)[keyof typeof AiActionOutputFormat]
+
+export type AiActionInvocationMetadata = {
+  invocationResult?: {
+    modelProvider?: string
+    modelId?: string
+    wordCount?: number
+    outputFormat?: AiActionOutputFormatType
+    outputMetadata?: {
+      customNodesMap: Record<string, Node>
+    }
+  }
+  statusChangedDates?: {
+    status: InvocationStatus
+    date: string
+  }[]
+}
+
+export interface FlowResult {
+  content: string | NonRecursiveRichTextDocument // tsoa client gen can't handle recursive rich text document
+  type: FlowResultType
+  metadata: AiActionInvocationMetadata
+}
+
 export type AiActionInvocationProps = {
   sys: {
-    errorCode?: string
-    status: 'SCHEDULED' | 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'CANCELLED'
-    aiAction: { sys: { id: string; linkType: 'AiAction'; type: 'Link' } }
-    environment: { sys: { id: string; linkType: 'Environment'; type: 'Link' } }
-    space: { sys: { id: string; linkType: 'Space'; type: 'Link' } }
-    type: 'AiActionInvocation'
     id: string
-    version?: number
+    type: 'AiActionInvocation'
+    space: SysLink
+    environment: SysLink
+    aiAction: SysLink
+    status: InvocationStatus
+    errorCode?: string
   }
-  /**
-   * The result of the AI Action invocation. Its structure may vary,
-   * for simplicity we use `any` or you could refine it further as needed.
-   */
-  result: {
-    content: string | any
-    type: string
-    metadata: any
-  }
+  result?: FlowResult
 }
 
 export type AiActionInvocationType = {

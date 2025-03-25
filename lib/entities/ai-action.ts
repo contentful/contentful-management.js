@@ -3,11 +3,97 @@ import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { wrapAiActionInvocation, type AiActionInvocationType } from './ai-action-invocation'
+import { wrapAiActionInvocation, type AiActionInvocationType, type AiActionInvocation } from './ai-action-invocation'
 
 export enum StatusFilter {
   ALL = 'all',
   PUBLISHED = 'published',
+}
+
+export enum VariableType {
+  RESOURCE_LINK = 'ResourceLink',
+  TEXT = 'Text',
+  STRING_OPTIONS_LIST = 'StringOptionsList',
+  FREE_FORM_INPUT = 'FreeFormInput',
+  STANDARD_INPUT = 'StandardInput',
+  LOCALE = 'Locale',
+  MEDIA_REFERENCE = 'MediaReference',
+  REFERENCE = 'Reference',
+  SMART_CONTEXT = 'SmartContext',
+}
+
+export enum EntityTypeEntry {
+  ENTRY = 'Entry',
+}
+
+export type ReferenceVariableConfiguration = {
+  allowedEntities: Array<EntityTypeEntry>
+}
+
+export type VariableConfiguration =
+  | {
+      strict: boolean
+      in: Array<string>
+    }
+  | {
+      allowFreeFormInput?: boolean
+      values: Array<string>
+    }
+  | ReferenceVariableConfiguration
+
+export type Variable = {
+  configuration?: VariableConfiguration
+  description?: string
+  name?: string
+  type: VariableType
+  id: string
+}
+
+export type Condition = {
+  variable: string
+  id: string
+} & (
+  | {
+      value: string
+      operator: 'eq' | 'neq'
+    }
+  | {
+      value: Array<string>
+      operator: 'in' | 'nin'
+    }
+)
+
+export type Instruction = {
+  conditions?: Array<Condition>
+  variables: Array<Variable>
+  template: string
+}
+
+export type Configuration = {
+  modelType: string
+  modelTemperature: number
+}
+
+export type AiActionTestCase =
+  | {
+      type?: 'Text'
+      value?: string
+    }
+  | {
+      type?: 'Reference'
+      value?: {
+        entityPath?: string
+        entityType?: 'Entry'
+        entityId?: string
+      }
+    }
+
+export type SysLinkUserOrApp = {
+  sys: {
+    id: string
+    linkType: 'User' | 'App'
+    type: 'Link'
+  }
 }
 
 export interface AiActionQueryOptions {
@@ -20,38 +106,21 @@ export type AiActionProps = {
   sys: MetaSysProps & {
     type: 'AiAction'
     space: { sys: { id: string } }
-    environment: { sys: { id: string } }
+    publishedBy?: SysLinkUserOrApp
+    updatedBy: SysLinkUserOrApp
+    createdBy: SysLinkUserOrApp
+    publishedVersion?: number
+    version: number
+    publishedAt?: string
+    updatedAt: string
+    createdAt: string
+    id: string
   }
   name: string
   description: string
-  configuration: {
-    modelType: string
-    modelTemperature: number
-  }
-  instruction: {
-    template: string
-    conditions?: Array<{
-      variable: string
-      id: string
-      value?: string
-      operator?: 'eq' | 'neq' | 'in' | 'nin'
-    }>
-    // Allowed variable types now: Text (combined), StandardInput, Reference, Locale, MediaReference, SmartContext.
-    variables: Array<{
-      id: string
-      name: string
-      description?: string
-      type: 'Text' | 'StandardInput' | 'Reference' | 'Locale' | 'MediaReference' | 'SmartContext'
-      /**
-       * For Text variables, configuration (if provided) should have:
-       *  - in: string[] (allowed values, at least one)
-       *  - strict: boolean
-       * For StandardInput, configuration can be omitted.
-       */
-      configuration?: any
-    }>
-  }
-  testCases: any[]
+  configuration: Configuration
+  instruction: Instruction
+  testCases?: Array<AiActionTestCase>
 }
 
 export type CreateAiActionProps = Pick<
@@ -64,12 +133,12 @@ export interface AiAction extends AiActionProps, DefaultElements<AiActionProps> 
   delete(): Promise<void>
   publish(): Promise<AiAction>
   unpublish(): Promise<AiAction>
+  invoke(environmentId: string, payload: AiActionInvocationType): Promise<AiActionInvocation>
 }
 
 function createAiActionApi(makeRequest: MakeRequest) {
   const getParams = (data: AiActionProps) => ({
     spaceId: data.sys.space.sys.id,
-    environmentId: data.sys.environment.sys.id,
     aiActionId: data.sys.id,
   })
 
@@ -112,14 +181,14 @@ function createAiActionApi(makeRequest: MakeRequest) {
       }).then((data) => wrapAiAction(makeRequest, data))
     },
 
-    invoke: function invoke(payload: AiActionInvocationType) {
+    invoke: function invoke(environmentId: string, payload: AiActionInvocationType) {
       const self = this as AiActionProps
       return makeRequest({
         entityType: 'AiAction',
         action: 'invoke',
         params: {
           spaceId: self.sys.space.sys.id,
-          environmentId: self.sys.environment.sys.id,
+          environmentId,
           aiActionId: self.sys.id,
         },
         payload,
