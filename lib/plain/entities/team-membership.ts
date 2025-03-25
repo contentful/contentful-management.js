@@ -6,7 +6,7 @@ import type {
   CollectionProp,
   GetTeamParams,
 } from '../../common-types'
-import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../export-types'
+import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../entities/team-membership'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamMembershipPlainClientAPI = {
