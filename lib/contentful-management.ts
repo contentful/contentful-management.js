@@ -63,17 +63,6 @@ function createClient(
   }
 ): PlainClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
-/**
- * @deprecated The `alphaFeatures` option is no longer supported. Please use the function without this option.
- */
-function createClient(
-  clientOptions: ClientOptions,
-  opts: {
-    type?: 'plain'
-    alphaFeatures: string[]
-    defaults?: DefaultParams
-  }
-): ClientAPI | PlainClientAPI
 function createClient(
   clientOptions: ClientOptions,
   opts: {
