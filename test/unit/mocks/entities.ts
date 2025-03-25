@@ -80,7 +80,10 @@ import type { OAuthApplicationProps } from '../../../lib/entities/oauth-applicat
 import { ScopeValues } from '../../../lib/entities/oauth-application'
 import type { FunctionLogProps } from '../../../lib/entities/function-log'
 import { AiActionProps } from '../../../lib/entities/ai-action'
-import { AiActionInvocationProps } from '../../../lib/entities/ai-action-invocation'
+import {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from '../../../lib/entities/ai-action-invocation'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -847,6 +850,24 @@ const aiActionMock: AiActionProps = {
   testCases: [],
 }
 
+const aiActionInvocationPayloadMock: AiActionInvocationType = {
+  outputFormat: 'RichText',
+  variables: [
+    {
+      id: 'input',
+      value: 'Test input content',
+    },
+    {
+      id: 'entry',
+      value: {
+        entityType: 'Entry',
+        entityId: 'entry123',
+        entityPath: 'fields.content',
+      },
+    },
+  ],
+}
+
 const aiActionInvocationMock: AiActionInvocationProps = {
   sys: {
     ...cloneDeep(sysMock),
@@ -1336,6 +1357,7 @@ const functionLogCollectionMock = {
 const mocks = {
   aiAction: aiActionMock,
   aiActionInvocation: aiActionInvocationMock,
+  aiActionInvocationPayload: aiActionInvocationPayloadMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1431,6 +1453,13 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
 
 function setupEntitiesMock() {
   const entitiesMock = {
+    aiAction: {
+      wrapAiAction: vi.fn(),
+      wrapAiActionCollection: vi.fn(),
+    },
+    aiActionInvocation: {
+      wrapAiActionInvocation: vi.fn(),
+    },
     appAction: {
       wrapAppAction: vi.fn(),
       wrapAppActionCollection: vi.fn(),
