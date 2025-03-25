@@ -292,6 +292,7 @@ export type {
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
 export * from './plain/common-types'
+export { OptionalDefaults } from './plain/wrappers/wrap' // was previously deep imported in user_interface
 
 export {
   WorkflowStepPermissionAction,

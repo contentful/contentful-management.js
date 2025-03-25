@@ -26,6 +26,11 @@ import {
   wrapEnvironmentTemplate,
   wrapEnvironmentTemplateCollection,
 } from './entities/environment-template'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplication,
+  OAuthApplicationProps,
+} from './entities/oauth-application'
 import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
 
 import type { Organization, OrganizationProps } from './entities/organization'
@@ -40,11 +45,6 @@ import type {
   EnvironmentTemplateProps,
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
-import type {
-  CreateOAuthApplicationProps,
-  OAuthApplication,
-  OAuthApplicationProps,
-} from './export-types'
 
 /**
  * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
