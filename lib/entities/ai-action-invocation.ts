@@ -52,7 +52,7 @@ export type AiActionInvocationMetadata = {
 }
 
 export interface FlowResult {
-  content: string | NonRecursiveRichTextDocument // tsoa client gen can't handle recursive rich text document
+  content: string | NonRecursiveRichTextDocument
   type: FlowResultType
   metadata: AiActionInvocationMetadata
 }
@@ -102,9 +102,7 @@ export type AiActionInvocationType = {
  */
 export interface AiActionInvocation
   extends AiActionInvocationProps,
-    DefaultElements<AiActionInvocationProps> {
-  // Optionally, add any helper methods specific to AI Action Invocations here.
-}
+    DefaultElements<AiActionInvocationProps> {}
 
 /**
  * Wraps raw AI Action Invocation data with SDK helper methods.
