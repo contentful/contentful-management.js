@@ -4,30 +4,30 @@
  * @packageDocumentation
  */
 
-import { getUserAgentHeader } from 'contentful-sdk-core'
-import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequest, XOR } from './common-types'
 import type { AdapterParams } from './create-adapter'
-import { createAdapter } from './create-adapter'
 import type { ClientAPI } from './create-contentful-api'
-import createContentfulApi from './create-contentful-api'
-import type { PlainClientAPI } from './plain/plain-client-types'
 import type { DefaultParams } from './plain/plain-client'
+import type { MakeRequest, XOR } from './common-types'
+import type { PlainClientAPI } from './plain/plain-client-types'
+import type { RestAdapterParams } from './adapters/REST/rest-adapter'
+
+import { createAdapter } from './create-adapter'
 import { createPlainClient } from './plain/plain-client'
-import * as editorInterfaceDefaults from './constants/editor-interface-defaults/index'
+import { getUserAgentHeader } from 'contentful-sdk-core'
+import createContentfulApi from './create-contentful-api'
 
 export type { ClientAPI } from './create-contentful-api'
+export type { PlainClientAPI } from './plain/plain-client-types'
+export type { RestAdapterParams } from './adapters/REST/rest-adapter'
+export type * from './export-types'
+export type PlainClientDefaultParams = DefaultParams
+
 export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
-export type { PlainClientAPI } from './plain/plain-client-types'
-export { createClient }
-export { RestAdapter } from './adapters/REST/rest-adapter'
-export type { RestAdapterParams } from './adapters/REST/rest-adapter'
 export { makeRequest } from './adapters/REST/make-request'
-export { editorInterfaceDefaults }
-export type PlainClientDefaultParams = DefaultParams
-export type * from './export-types'
+export { RestAdapter } from './adapters/REST/rest-adapter'
+export * as editorInterfaceDefaults from './constants/editor-interface-defaults/index'
 
 interface UserAgentParams {
   /**
@@ -105,3 +105,5 @@ function createClient(
     return createContentfulApi(makeRequest) as ClientAPI
   }
 }
+
+export { createClient }
