@@ -27,7 +27,7 @@ export type { RestAdapterParams } from './adapters/REST/rest-adapter'
 export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
-export * from './export-types'
+export type * from './export-types'
 
 interface UserAgentParams {
   /**
