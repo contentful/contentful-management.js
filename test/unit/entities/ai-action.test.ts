@@ -19,7 +19,7 @@ function setup(promise) {
   }
 }
 
-describe.only('Entity AiAction', () => {
+describe('Entity AiAction', () => {
   test('AiAction is wrapped', async () => {
     return entityWrappedTest(setup, {
       wrapperMethod: wrapAiAction,
