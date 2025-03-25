@@ -45,16 +45,33 @@ interface UserAgentParams {
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
- * Create a client instance
- * @param clientOptions - Client initialization parameters
+ * Create a plain client instance
  *
+ * @param clientOptions
+ * @param opts
+ *
+ * @example Plain Client
  * ```javascript
  * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain'
+ *   }
+ * })
+ * ```
+ * @example Plain Client with defaults
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain',
+ *     defaults: {
+ *        ...
+ *     }
+ *   }
  * })
  * ```
  */
-function createClient(clientOptions: ClientOptions): ClientAPI
 function createClient(
   clientOptions: ClientOptions,
   opts: {
@@ -62,16 +79,35 @@ function createClient(
     defaults?: DefaultParams
   }
 ): PlainClientAPI
-// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
+/**
+ * Create a legacy, chainable client instance
+ * @param clientOptions
+ *
+ * @example Legacy Chainable Client
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken'
+ * })
+ * ```
+ */
+function createClient(clientOptions: ClientOptions): ClientAPI
+/**
+ * Create a legacy or plain client instance
+ *
+ * Please check the responding section below:
+ *
+ * * [Plain Client](#createclient)
+ * * [Legacy Chainable Client](#createclient-1)
+ */
 function createClient(
   clientOptions: ClientOptions,
-  opts: {
-    type?: 'plain'
+  opts?: {
+    type?: string
     defaults?: DefaultParams
-  } = {}
+  }
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
-    opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+    opts && opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
     // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
@@ -88,7 +124,7 @@ function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
-  if (opts.type === 'plain') {
+  if (opts && opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)
   } else {
     return createContentfulApi(makeRequest) as ClientAPI
