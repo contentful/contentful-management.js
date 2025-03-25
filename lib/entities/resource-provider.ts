@@ -52,8 +52,9 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
-     * @example ```javascript
+     * @returns Object returned from the server with updated changes.
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -82,8 +83,9 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
     },
     /**
      * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -148,7 +150,7 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
 /**
  * @private
  * @param data - raw ResourceProvider Object
- * @return Object containing the http params for the ResourceProvider request: organizationId and appDefinitionId
+ * @returns Object containing the http params for the ResourceProvider request: organizationId and appDefinitionId
  */
 const getParams = (data: ResourceProviderProps) => ({
   organizationId: data.sys.organization.sys.id,
@@ -157,7 +159,7 @@ const getParams = (data: ResourceProviderProps) => ({
 /**
  * @private
  * @param data - raw ResourceProvider Object
- * @return UpsertResourceProviderProps
+ * @returns UpsertResourceProviderProps
  */
 const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderProps => ({
   sys: { id: data.sys.id },
@@ -169,7 +171,7 @@ const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderPro
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Provider data
- * @return Wrapped Resource Provider data
+ * @returns Wrapped Resource Provider data
  */
 export function wrapResourceProvider(
   makeRequest: MakeRequest,
