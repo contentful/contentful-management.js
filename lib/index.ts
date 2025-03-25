@@ -48,18 +48,35 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
+ * @param opts
  *
+ * @example Plain Client
  * ```javascript
  * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain'
+ *   }
+ * })
+ * ```
+ * @example Plain Client with defaults
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain',
+ *     defaults: {
+ *        ...
+ *     }
+ *   }
  * })
  * ```
  */
 export function createClient(clientOptions: ClientOptions): PlainClientAPI
 export function createClient(
   clientOptions: ClientOptions,
-  opts: {
-    type?: 'plain'
+  opts?: {
+    type?: string
     defaults?: PlainClientDefaultParams
   },
 ): PlainClientAPI
@@ -96,6 +113,7 @@ export function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
+<<<<<<< HEAD
   if (opts.type === 'legacy') {
     console.warn(
       '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
