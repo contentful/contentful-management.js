@@ -1,7 +1,7 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../common-types'
+import type { MetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { DefinedParameters } from './widget-parameters'
 
@@ -86,9 +86,9 @@ export interface SidebarItem {
 
 export type EditorInterfaceProps = {
   sys: MetaSysProps & {
-    space: { sys: MetaLinkProps }
-    environment: { sys: MetaLinkProps }
-    contentType: { sys: MetaLinkProps }
+    space: Link<'Space'>
+    environment: Link<'Environment'>
+    contentType: Link<'ContentType'>
   }
   /**
    * Array of fields and their associated widgetId

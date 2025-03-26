@@ -8,7 +8,6 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -101,8 +100,8 @@ export type WorkflowDefinitionSysProps = Pick<
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'WorkflowDefinition'
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   isLocked: boolean
 }
 

@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -8,10 +8,8 @@ export type ApiKeyProps = {
   sys: MetaSysProps
   name: string
   accessToken: string
-  environments: {
-    sys: MetaLinkProps
-  }[]
-  preview_api_key: { sys: MetaLinkProps }
+  environments: Link<'Environment'>[]
+  preview_api_key: Link<'PreviewApiKey'>
   description?: string
   policies?: { effect: string; action: string }[]
 }

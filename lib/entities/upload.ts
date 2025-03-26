@@ -1,13 +1,13 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
-import type { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 
 export type UploadProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { space: SysLink; environment?: SysLink }
+  sys: MetaSysProps & { space: Link<'Space'>; environment?: Link<'Environment'> }
 }
 
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {

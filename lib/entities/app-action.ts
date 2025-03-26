@@ -7,14 +7,13 @@ import type {
   DefaultElements,
   Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import type { ParameterDefinition } from './widget-parameters'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
-  appDefinition: SysLink
-  organization: SysLink
+  appDefinition: Link<'AppDefinition'>
+  organization: Link<'Organization'>
 }
 
 export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>

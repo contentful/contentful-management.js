@@ -5,6 +5,7 @@ import type {
   BasicMetaSysProps,
   AppActionCallRetryOptions,
   DefaultElements,
+  Link,
   MakeRequest,
   SysLink,
   CreateWithResponseParams,
@@ -16,10 +17,10 @@ import type { WebhookCallDetailsProps } from './webhook'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
-  appDefinition: SysLink
-  space: SysLink
-  environment: SysLink
-  action: SysLink
+  appDefinition: Link<'AppDefinition'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
+  action: Link<'AppAction'>
   appActionCallResponse?: SysLink
 } & (AppActionCallSucceeded | AppActionCallProcessing | AppActionCallFailed)
 
@@ -94,8 +95,8 @@ export interface AppActionCallRawResponseProps {
 
 export interface AppActionCallResponseData
   extends AppActionCallResponse,
-    DefaultElements<AppActionCallResponse>,
-    AppActionCallApi {}
+  DefaultElements<AppActionCallResponse>,
+  AppActionCallApi { }
 
 export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallProps>
 

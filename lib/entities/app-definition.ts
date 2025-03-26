@@ -3,7 +3,6 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type {
   DefaultElements,
   BasicMetaSysProps,
-  SysLink,
   MakeRequest,
   Link,
 } from '../common-types'
@@ -59,7 +58,7 @@ export type AppDefinitionProps = {
    * System metadata
    */
   sys: BasicMetaSysProps & {
-    organization: SysLink
+    organization: Link<'Organization'>
     shared: boolean
   }
   /**

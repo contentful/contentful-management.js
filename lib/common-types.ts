@@ -258,25 +258,25 @@ export interface BasicMetaSysProps {
   type: string
   id: string
   version: number
-  createdBy?: SysLink
+  createdBy?: Link<'User'> | Link<'AppDefinition'>
   createdAt: string
-  updatedBy?: SysLink
+  updatedBy?: Link<'User'> | Link<'AppDefinition'>
   updatedAt: string
 }
 
 export interface MetaSysProps extends BasicMetaSysProps {
-  space?: SysLink
+  space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
    * type guard to get the correct `EntityMetaSysProps` type with this property.
    */
-  status?: SysLink
+  status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: SysLink
+  archivedBy?: Link<'User'> | Link<'AppDefinition'>
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: SysLink
+  deletedBy?: Link<'User'> | Link<'AppDefinition'>
   deletedAt?: string
 }
 
@@ -285,10 +285,9 @@ export interface EntityMetaSysProps extends MetaSysProps {
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
    */
-  contentType: SysLink
-  space: SysLink
-  status?: SysLink
-  environment: SysLink
+  contentType: Link<'ContentType'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
@@ -299,24 +298,24 @@ export interface EntityMetaSysProps extends MetaSysProps {
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
-  contentType: SysLink
+  contentType: Link<'ContentType'>
   automationTags: Link<'Tag'>[]
 }
 
-export interface MetaLinkProps {
-  type: string
-  linkType: string
-  id: string
-}
+/**
+ * @deprecated Use more specific `Link<T>` instead
+ */
+export interface MetaLinkProps extends Link<string> {}
 
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
-export interface SysLink {
-  sys: MetaLinkProps
-}
+/**
+ * @deprecated Use more specific `Link<T>` instead
+ */
+export interface SysLink extends Link<string> {}
 
 export interface CollectionProp<TObj> {
   sys: {

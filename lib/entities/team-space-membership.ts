@@ -4,8 +4,8 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type {
   DefaultElements,
+  Link,
   MakeRequest,
-  MetaLinkProps,
   MetaSysProps,
   QueryOptions,
 } from '../common-types'
@@ -19,7 +19,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { team: { sys: MetaLinkProps }; space: { sys: MetaLinkProps } }
+  sys: MetaSysProps & { team: Link<'Team'>; space: Link<'Space'> }
 
   /**
    * Is admin
@@ -29,7 +29,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * Roles
    */
-  roles: { sys: MetaLinkProps }[]
+  roles: Link<'Role'>[]
 }
 
 export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>

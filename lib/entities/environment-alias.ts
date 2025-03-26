@@ -4,18 +4,17 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type {
   DefaultElements,
-  MetaLinkProps,
   BasicMetaSysProps,
-  SysLink,
   MakeRequest,
+  Link,
 } from '../common-types'
 
 export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: BasicMetaSysProps & { space: SysLink }
-  environment: { sys: MetaLinkProps }
+  sys: BasicMetaSysProps & { space: Link<'Space'> }
+  environment: Link<'Environment'>
 }
 
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
