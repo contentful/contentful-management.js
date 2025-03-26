@@ -2,7 +2,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
-import type { BLOCKS, TopLevelBlock } from '@contentful/rich-text-types'
+import type { Document as RichTextDocument } from '@contentful/rich-text-types'
 
 export enum InvocationStatus {
   Scheduled = 'SCHEDULED',
@@ -10,16 +10,6 @@ export enum InvocationStatus {
   Failed = 'FAILED',
   Completed = 'COMPLETED',
   Cancelled = 'CANCELLED',
-}
-
-interface Node {
-  readonly nodeType: string
-  data: Record<string, unknown>
-}
-
-export interface NonRecursiveRichTextDocument extends Node {
-  nodeType: BLOCKS.DOCUMENT
-  content: TopLevelBlock[]
 }
 
 export enum InvocationResultType {
@@ -49,7 +39,7 @@ export type AiActionInvocationMetadata = {
 }
 
 export interface InvocationResult {
-  content: string | NonRecursiveRichTextDocument
+  content: string | RichTextDocument
   type: InvocationResultType
   metadata: AiActionInvocationMetadata
 }
