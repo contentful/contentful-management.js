@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import fs from 'fs'
 import { resolve } from 'path'
 import * as url from 'url'

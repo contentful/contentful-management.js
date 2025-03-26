@@ -5,7 +5,7 @@
 
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { CreateApiKeyProps } from './entities/api-key'
 import type { CreateEnvironmentProps } from './entities/environment'
 import type { CreateEnvironmentAliasProps } from './entities/environment-alias'

@@ -14,7 +14,7 @@ import type {
   Environment,
   PlainClientAPI,
   AppKeyProps,
-} from '../../lib/contentful-management'
+} from '../../lib'
 
 describe('AppAccessToken api', { sequential: true }, () => {
   let organization: Organization
