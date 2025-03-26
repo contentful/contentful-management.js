@@ -22,7 +22,7 @@ export interface NonRecursiveRichTextDocument extends Node {
   content: TopLevelBlock[]
 }
 
-export enum FlowResultType {
+export enum InvocationResultType {
   Text = 'text',
 }
 
@@ -41,9 +41,6 @@ export type AiActionInvocationMetadata = {
     modelId?: string
     wordCount?: number
     outputFormat?: AiActionOutputFormatType
-    outputMetadata?: {
-      customNodesMap: Record<string, Node>
-    }
   }
   statusChangedDates?: {
     status: InvocationStatus
@@ -51,9 +48,9 @@ export type AiActionInvocationMetadata = {
   }[]
 }
 
-export interface FlowResult {
+export interface InvocationResult {
   content: string | NonRecursiveRichTextDocument
-  type: FlowResultType
+  type: InvocationResultType
   metadata: AiActionInvocationMetadata
 }
 
@@ -67,31 +64,31 @@ export type AiActionInvocationProps = {
     status: InvocationStatus
     errorCode?: string
   }
-  result?: FlowResult
+  result?: InvocationResult
 }
 
 export type AiActionInvocationType = {
-  outputFormat?: 'RichText' | 'Markdown' | 'PlainText'
+  outputFormat: 'RichText' | 'Markdown' | 'PlainText'
   variables?: Array<
     | {
-        value?: string
-        id?: string
+        value: string
+        id: string
       }
     | {
-        value?: {
-          entityPath?: string
-          entityType?: 'Entry' | 'Asset' | 'ResourceLink'
-          entityId?: string
+        value: {
+          entityPath: string
+          entityType: 'Entry' | 'Asset' | 'ResourceLink'
+          entityId: string
         }
-        id?: string
+        id: string
       }
     | {
-        value?: {
-          entityPaths?: Array<string>
-          entityType?: 'Entry'
-          entityId?: string
+        value: {
+          entityPaths: Array<string>
+          entityType: 'Entry'
+          entityId: string
         }
-        id?: string
+        id: string
       }
   >
 }

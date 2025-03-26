@@ -128,7 +128,7 @@ export type AiActionProps = {
 }
 
 export type CreateAiActionProps = Pick<
-  AiActionProps,
+  Omit<AiActionProps, 'sys'>,
   'name' | 'description' | 'configuration' | 'instruction' | 'testCases'
 >
 
