@@ -2,12 +2,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
 import { wrapCollection } from '../common-utils'
-import type {
-  BasicMetaSysProps,
-  DefaultElements,
-  Link,
-  MakeRequest,
-} from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 import type { ParameterDefinition } from './widget-parameters'
 import enhanceWithMethods from '../enhance-with-methods'
 
