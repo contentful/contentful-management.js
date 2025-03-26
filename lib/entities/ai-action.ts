@@ -17,8 +17,6 @@ export enum StatusFilter {
 export enum VariableType {
   RESOURCE_LINK = 'ResourceLink',
   TEXT = 'Text',
-  STRING_OPTIONS_LIST = 'StringOptionsList',
-  FREE_FORM_INPUT = 'FreeFormInput',
   STANDARD_INPUT = 'StandardInput',
   LOCALE = 'Locale',
   MEDIA_REFERENCE = 'MediaReference',
@@ -39,10 +37,6 @@ export type VariableConfiguration =
       strict: boolean
       in: Array<string>
     }
-  | {
-      allowFreeFormInput?: boolean
-      values: Array<string>
-    }
   | ReferenceVariableConfiguration
 
 export type Variable = {
@@ -53,22 +47,7 @@ export type Variable = {
   id: string
 }
 
-export type Condition = {
-  variable: string
-  id: string
-} & (
-  | {
-      value: string
-      operator: 'eq' | 'neq'
-    }
-  | {
-      value: Array<string>
-      operator: 'in' | 'nin'
-    }
-)
-
 export type Instruction = {
-  conditions?: Array<Condition>
   variables: Array<Variable>
   template: string
 }
