@@ -5,17 +5,17 @@ import type {
   BasicMetaSysProps,
   CreateWithResponseParams,
   DefaultElements,
+  Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import type { WebhookCallDetailsProps } from './webhook'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
-  appDefinition: SysLink
-  space: SysLink
-  environment: SysLink
-  action: SysLink
+  appDefinition: Link<'AppDefinition'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
+  action: Link<'AppAction'>
 }
 
 type RetryOptions = Pick<CreateWithResponseParams, 'retries' | 'retryInterval'>

@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -10,7 +10,7 @@ type AppUploadSys = Except<BasicMetaSysProps, 'version'>
 export type AppUploadProps = {
   sys: AppUploadSys & {
     expiresAt: string
-    organization: SysLink
+    organization: Link<'Organization'>
   }
 }
 

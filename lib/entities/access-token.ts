@@ -2,12 +2,12 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements, MakeRequest, BasicMetaSysProps, SysLink } from '../common-types'
+import type { DefaultElements, MakeRequest, BasicMetaSysProps, Link } from '../common-types'
 
 type Application = {
   id?: string
   name?: string
-  sys: SysLink
+  sys: Link<'Application'>
 }
 
 type AccessTokenSysProps = BasicMetaSysProps & {

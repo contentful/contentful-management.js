@@ -5,9 +5,8 @@ import type {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,
+  Link,
   MakeRequest,
-  MetaLinkProps,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -133,7 +132,7 @@ export type WebhookHealthProps = {
   /**
    * System metadata
    */
-  sys: WebhookHealthSys & { space: { sys: MetaLinkProps } }
+  sys: WebhookHealthSys & { space: Link<'Space'> }
 
   /**
    * Webhook call statistics
@@ -144,7 +143,7 @@ export type WebhookHealthProps = {
 export type WebhookSigningSecretSys = Except<BasicMetaSysProps, 'version'>
 
 export type WebhookSigningSecretProps = {
-  sys: WebhookSigningSecretSys & { space: { sys: MetaLinkProps } }
+  sys: WebhookSigningSecretSys & { space: Link<'Space'> }
   redactedValue: string
 }
 
@@ -155,7 +154,7 @@ export type WebhookRetryPolicyPayload = {
 export type WebhookRetryPolicySys = Except<BasicMetaSysProps, 'version'>
 
 export type WebhookRetryPolicyProps = {
-  sys: WebhookRetryPolicySys & { space: { sys: MetaLinkProps } }
+  sys: WebhookRetryPolicySys & { space: Link<'Space'> }
   maxRetries: number
 }
 
@@ -163,7 +162,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { space: SysLink }
+  sys: BasicMetaSysProps & { space: Link<'Space'> }
 
   /**
    * Webhook name
