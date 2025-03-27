@@ -258,7 +258,7 @@ export type {
   WorkflowStepProps,
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
-export * from './plain/common-types'
+export * from './plain/plain-client-types'
 
 export {
   WorkflowStepPermissionAction,

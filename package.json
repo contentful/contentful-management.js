@@ -112,7 +112,7 @@
     "semantic-release": "^22.0.12",
     "size-limit": "^11.1.6",
     "type-fest": "^4.18.3",
-    "typedoc": "^0.28.1",
+    "typedoc": "^0.27.9",
     "typedoc-github-theme": "^0.2.1",
     "typedoc-plugin-missing-exports": "^3.1.0",
     "typescript": "^5.6.3",

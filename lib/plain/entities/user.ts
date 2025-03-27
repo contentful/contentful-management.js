@@ -4,7 +4,7 @@ import type {
   GetSpaceParams,
   QueryParams,
 } from '../../common-types'
-import type { UserProps } from '../../export-types'
+import type { UserProps } from '../../entities/user'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type UserPlainClientAPI = {
