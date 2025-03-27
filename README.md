@@ -49,29 +49,17 @@
   - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
-  - [Your first request](#your-first-request)
-  - [Legacy Client Interface](#legacy-client-interface)
+  - [Using the Plain Client](#using-the-plain-client)
+    - [With scoped space and environment](#with-scoped-space-and-environment)
+  - [Using the Legacy Client](#using-the-legacy-client)
   - [App Framework](#app-framework)
   - [Troubleshooting](#troubleshooting)
   - [Documentation/References](#documentationreferences)
-  - [Configuration](#configuration)
-    - [accessToken (required, when `apiAdapter` is not set)](#accesstoken-required-when-apiadapter-is-not-set)
-    - [host (default: `'api.contentful.com'`)](#host-default-apicontentfulcom)
-    - [hostUpload (default: `'upload.contentful.com'`)](#hostupload-default-uploadcontentfulcom)
-    - [basePath (default: \`\`)](#basepath-default-)
-    - [httpAgent (default: `undefined`)](#httpagent-default-undefined)
-    - [httpsAgent (default: `undefined`)](#httpsagent-default-undefined)
-    - [headers (default: `{}`)](#headers-default-)
-    - [proxy (default: `undefined`)](#proxy-default-undefined)
-    - [retryOnError (default: `true`)](#retryonerror-default-true)
-    - [logHandler (default: `function (level, data) {}`)](#loghandler-default-function-level-data-)
-    - [requestLogger (default: `function (config) {}`)](#requestlogger-default-function-config-)
-    - [responseLogger (default: `function (response) {}`)](#responselogger-default-function-response-)
-    - [apiAdapter (default: `new RestAdapter(configuration)`)](#apiadapter-default-new-restadapterconfiguration)
-    - [throttle (default: `0`)](#throttle-default-0)
+    - [REST API reference with examples](#rest-api-reference-with-examples)
     - [Reference documentation](#reference-documentation)
-    - [Contentful JavaScript resources](#contentful-javascript-resources)
-    - [REST API reference](#rest-api-reference)
+    - [Configuration](#configuration)
+      - [Request configuration options](#request-configuration-options)
+    - [Tutorials \& other resources](#tutorials--other-resources)
   - [Versioning](#versioning)
   - [Reach out to us](#reach-out-to-us)
     - [You have questions about how to use this library?](#you-have-questions-about-how-to-use-this-library)
@@ -89,6 +77,9 @@
 - Content management and retrieval through Contentful's [Content Management API](https://www.contentful.com/developers/docs/references/content-management-api/).
 - Built in rate limiting with recovery procedures
 - Asset processing helpers
+- Two different types of clients:
+  - [Plain Client](#using-the-plain-client)
+  - [Legacy Chainable Client ](#using-the-legacy-client)
 
 ## Supported environments
 
@@ -154,7 +145,7 @@ Check the [releases](https://github.com/contentful/contentful-management.js/rele
 
 ## Typings
 
-This library also comes with typings to use with typescript.
+This library includes TypeScript typings out of the box.
 
 ## Authentication
 
@@ -166,7 +157,7 @@ If you'd like to create an app which would make use of this library but that wou
 
 ## Using ES6 import
 
-You can use the es6 import with the library as follows
+You can import the library using ES6 syntax as follows:
 
 ```js
 // import createClient directly
@@ -181,7 +172,7 @@ const client = contentful.createClient(
 //....
 ```
 
-## Your first request
+## Using the Plain Client
 
 Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
 
@@ -207,8 +198,11 @@ const entries = await plainClient.entry.getMany({
     limit: 100,
   },
 })
+```
 
-// With scoped space and environment
+### With scoped space and environment
+
+```javascript
 const scopedPlainClient = contentful.createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
@@ -241,7 +235,7 @@ The benefits of using the "plain" version of the client, over the legacy version
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
-## Legacy Client Interface
+## Using the Legacy Client
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
@@ -316,112 +310,86 @@ contentfulApp.init((sdk) => {
 
 ## Documentation/References
 
-To help you get the most out of this library, we've prepared reference documentation, tutorials and other examples that will help you learn and understand how to use this library.
+To help you get the most out of this library, we've prepared full client configuration options, reference documentation, tutorials, and other examples to help you learn and understand how to use this library effectively.
 
-## Configuration
+- [REST API reference with examples](#rest-api-reference-with-examples)
+- [Configuration](#configuration)
+- [Reference documentation](#reference-documentation)
+- [Tutorials & other resources](#tutorials--other-resources)
 
-The `createClient` method supports several options you may set to achieve the expected behavior:
+### REST API reference with examples
 
-```js
-contentful.createClient({
-  ... your config here ...
-})
-```
+This library is a wrapper around the [Contentful Management REST API](https://www.contentful.com/developers/docs/references/content-management-api/).
 
-#### accessToken (required, when `apiAdapter` is not set)
+You can use the API reference to find full, copy-paste-ready examples for both the **plain** and **legacy** clients of this library.  
+[For example, here’s how to create, update, publish, or fetch an entry](https://www.contentful.com/developers/docs/references/content-management-api/#/reference/entries/entry).
 
-Your CMA access token.
+It’s your go-to resource for:
 
-#### host (default: `'api.contentful.com'`)
-
-Set the host used to build the request URI's.
-
-#### hostUpload (default: `'upload.contentful.com'`)
-
-Set the host used to build the upload related request uri's.
-
-#### basePath (default: ``)
-
-This path gets appended to the host to allow request urls like `https://gateway.example.com/contentful/` for custom gateways/proxies.
-
-#### httpAgent (default: `undefined`)
-
-Custom agent to perform HTTP requests. Find further information in the [axios request config documentation](https://github.com/mzabriskie/axios#request-config).
-
-#### httpsAgent (default: `undefined`)
-
-Custom agent to perform HTTPS requests. Find further information in the [axios request config documentation](https://github.com/mzabriskie/axios#request-config).
-
-#### headers (default: `{}`)
-
-Additional headers to attach to the requests. We add/overwrite the following headers:
-
-- Content-Type: `application/vnd.contentful.management.v1+json`
-- X-Contentful-User-Agent: `sdk contentful-management.js/1.2.3; platform node.js/1.2.3; os macOS/1.2.3`
-  (Automatically generated)
-
-#### proxy (default: `undefined`)
-
-Axios proxy configuration. See the [axios request config documentation](https://github.com/mzabriskie/axios#request-config) for further information about the supported values.
-
-#### retryOnError (default: `true`)
-
-By default, this library is retrying requests which resulted in a 500 server error and 429 rate limit response. Set this to `false` to disable this behavior.
-
-#### logHandler (default: `function (level, data) {}`)
-
-Errors and warnings will be logged by default to the node or browser console. Pass your own log handler to intercept here and handle errors, warnings and info on your own.
-
-#### requestLogger (default: `function (config) {}`)
-
-Interceptor called on every request. Takes Axios request config as an arg. Default does nothing. Pass your own function to log any desired data.
-
-#### responseLogger (default: `function (response) {}`)
-
-Interceptor called on every response. Takes Axios response object as an arg. Default does nothing. Pass your own function to log any desired data.
-
-#### apiAdapter (default: `new RestAdapter(configuration)`)
-
-An [`Adapter`](https://github.com/contentful/contentful-management.js/blob/2350b47053459694b21b19c71025632fe57815cc/lib/common-types.ts#L493-L495)
-that can be utilized to issue requests. It defaults to a [`RestAdapter`](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)
-initialized with provided configuration.
-
-> **Please Note**
->
-> The Adapter will take precedence over the other options. Therefore, ensure you're providing the Adapter all the
-> information it needs to issue the request (e.g., host or auth headers)
-
-#### throttle (default: `0`)
-
-Maximum number of requests per second.
-
-- `1`-`30` (fixed number of limit),
-- `'auto'` (calculated limit based on your plan),
-- `'0%'` - `'100%'` (calculated % limit based on your plan)
+- Quickly grabbing example snippets for specific operations in the Contentful Management API
+- Complete and detailed endpoint descriptions
+- Previewing request and response payloads
+- Understanding query filters and pagination
 
 ### Reference documentation
 
-The [Contentful's JS library reference](https://contentful.github.io/contentful-management.js) documents what objects and methods are exposed by this library, what arguments they expect and what kind of data is returned.
+The [Contentful JS SDK TypeDoc reference](https://contentful.github.io/contentful-management.js) documents all exported objects, types, functions, and instance methods.
 
-Most methods also have examples which show you how to use them.
+> From version `1.0.0` onward, access version-specific docs at  
+> `https://contentful.github.io/contentful-management.js/contentful-management/<VERSION>`
 
-You can start by looking at the top level `contentfulManagement` namespace.
+---
 
-The `ContentfulClientAPI` namespace defines the methods at the Client level which allow you to create and get spaces.
+### Configuration
 
-The `ContentfulSpaceAPI` namespace defines the methods at the Space level which allow you to create and get entries, assets, content types and other possible entities.
+The `createClient` method accepts several options to configure the client behavior:
 
-The `Entry`, `Asset` and `ContentType` namespaces show you the instance methods you can use on each of these entities, once you retrieve them from the server.
+```js
+contentful.createClient({
+  ...your config here...
+})
+```
 
-> From version 1.0.0 onwards, you can access documentation for a specific version by visiting `https://contentful.github.io/contentful-management.js/contentful-management/<VERSION>`
+```js
+// The plain client accepts the same configuration options
+contentful.createClient(
+  {
+   ...your config here...
+  },
+  { type: 'plain' }
+)
+```
 
-### Contentful JavaScript resources
+#### Request configuration options
 
-Read the [Contentful for JavaScript](https://www.contentful.com/developers/docs/javascript/) page for Tutorials, Demo Apps, and more information on other ways of using JavaScript with Contentful
+| Name             | Default                          | Description                                                                                                                                                                                                                                                                                                          |
+| ---------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accessToken`    |                                  | **Required** (unless using `apiAdapter`). Your CMA access token.                                                                                                                                                                                                                                                     |
+| `host`           | `'api.contentful.com'`           | The base host used for API requests.                                                                                                                                                                                                                                                                                 |
+| `hostUpload`     | `'upload.contentful.com'`        | The host used for upload-related API requests.                                                                                                                                                                                                                                                                       |
+| `basePath`       | `''`                             | Appended to the host. Useful for custom gateways/proxies like `https://gateway.example.com/contentful/`.                                                                                                                                                                                                             |
+| `httpAgent`      | `undefined`                      | Custom HTTP agent. See [Axios request config](https://github.com/axios/axios#request-config).                                                                                                                                                                                                                        |
+| `httpsAgent`     | `undefined`                      | Custom HTTPS agent. See [Axios request config](https://github.com/axios/axios#request-config).                                                                                                                                                                                                                       |
+| `headers`        | `{}`                             | Additional headers for all requests. The SDK automatically sets:<br>• `Content-Type: application/vnd.contentful.management.v1+json`<br>• `X-Contentful-User-Agent: sdk contentful-management.js/x.y.z; platform ...; os ...`                                                                                         |
+| `proxy`          | `undefined`                      | Axios proxy configuration. See [Axios request config](https://github.com/axios/axios#request-config).                                                                                                                                                                                                                |
+| `retryOnError`   | `true`                           | Retries requests on `500` or `429` responses. Set to `false` to disable retry behavior.                                                                                                                                                                                                                              |
+| `throttle`       | `0`                              | Max requests per second:<br>• Fixed: `1`–`30`<br>• `'auto'`: based on your plan<br>• `'0%'`–`'100%'`: percentage-based rate based on plan limit                                                                                                                                                                      |
+| `application`    | `undefined`                      | Custom application identifier, e.g. `'myApp/version'`. Added to the `X-Contentful-User-Agent` header.                                                                                                                                                                                                                |
+| `integration`    | `undefined`                      | Custom integration identifier, e.g. `'react/version'`. Added to the `X-Contentful-User-Agent` header.                                                                                                                                                                                                                |
+| `timeout`        | `30000`                          | Timeout in milliseconds for requests.                                                                                                                                                                                                                                                                                |
+| `retryLimit`     | `5`                              | Maximum number of retry attempts for recoverable errors.                                                                                                                                                                                                                                                             |
+| `logHandler`     | `function (level, data) {}`      | Custom log handler for SDK logs (errors, warnings, info). Defaults to console logging.                                                                                                                                                                                                                               |
+| `requestLogger`  | `function (config) {}`           | Called before each request. Receives the Axios request config. No-op by default.                                                                                                                                                                                                                                     |
+| `responseLogger` | `function (response) {}`         | Called after each response. Receives the Axios response object. No-op by default.                                                                                                                                                                                                                                    |
+| `apiAdapter`     | `new RestAdapter(configuration)` | Custom adapter that overrides request handling.<br>👉 [View adapter source](https://github.com/contentful/contentful-management.js/blob/b50534c629a8ddc81637170a07bc63477d136cec/lib/adapters/REST/rest-adapter.ts)<br><br>**Note**: Takes full control of requests. Must handle headers, host, and auth internally. |
 
-### REST API reference
+### Tutorials & other resources
 
-This library is a wrapper around our Contentful Management REST API. Some more specific details such as search parameters and pagination are better explained on the [REST API reference](https://www.contentful.com/developers/docs/references/content-management-api/), and you can also get a better understanding of how the requests look under the hood.
+Check out the [Contentful for JavaScript](https://www.contentful.com/developers/docs/javascript/) page for:
+
+- Hands-on tutorials
+- Example applications
+- Integration guides for frameworks and tools
 
 ## Versioning
 
