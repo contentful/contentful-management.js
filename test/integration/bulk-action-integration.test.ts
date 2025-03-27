@@ -5,8 +5,8 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../../lib/contentful-management'
-import type { Environment, Space } from '../../lib/contentful-management'
+} from '../../lib'
+import type { Environment, Space } from '../../lib'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'

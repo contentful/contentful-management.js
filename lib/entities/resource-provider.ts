@@ -9,7 +9,7 @@ import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
-import entities from '.'
+import entities from './index'
 
 export type ResourceProviderProps = {
   /**
