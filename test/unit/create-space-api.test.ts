@@ -478,4 +478,125 @@ describe('A createSpaceApi', () => {
       methodToTest: 'updateScheduledAction',
     })
   })
+
+  test('API call getAiAction', async () => {
+    await makeGetEntityTest(setup, {
+      entityType: 'aiAction',
+      mockToReturn: cloneMock('aiAction'),
+      methodToTest: 'getAiAction',
+    })
+  })
+
+  test('API call getAiAction fails', async () => {
+    await makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAiAction',
+    })
+  })
+
+  test('API call getAiActions', async () => {
+    await makeGetCollectionTest(setup, {
+      entityType: 'aiAction',
+      mockToReturn: cloneMock('aiAction'),
+      methodToTest: 'getAiActions',
+    })
+  })
+
+  test('API call getAiActions fails', async () => {
+    await makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAiActions',
+    })
+  })
+
+  test('API call createAiAction', async () => {
+    await makeCreateEntityTest(setup, {
+      entityType: 'aiAction',
+      mockToReturn: cloneMock('aiAction'),
+      methodToTest: 'createAiAction',
+    })
+  })
+
+  test('API call createAiAction fails', async () => {
+    await makeEntityMethodFailingTest(setup, {
+      methodToTest: 'createAiAction',
+    })
+  })
+
+  test('API call updateAiAction', async () => {
+    const aiAction = cloneMock('aiAction')
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(aiAction))
+    entitiesMock.aiAction.wrapAiAction.mockReturnValue(aiAction)
+
+    await api.updateAiAction('aiActionId', aiAction).then((r) => {
+      expect(r).to.eql(aiAction)
+      expect(makeRequest.mock.calls[0][0].payload).to.eql(aiAction, 'data is sent')
+      expect(makeRequest.mock.calls[0][0].params.aiActionId).to.eql('aiActionId')
+    })
+  })
+
+  test('API call updateAiAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    const aiAction = cloneMock('aiAction')
+
+    try {
+      await api.updateAiAction('aiActionId', aiAction)
+    } catch (e) {
+      expect(e).to.eq(error)
+    }
+  })
+
+  test('API call publishAiAction', async () => {
+    const aiAction = cloneMock('aiAction')
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(aiAction))
+    entitiesMock.aiAction.wrapAiAction.mockReturnValue(aiAction)
+
+    await api.publishAiAction('aiActionId', aiAction).then((r) => {
+      expect(r).to.eql(aiAction)
+      expect(makeRequest.mock.calls[0][0].payload).to.eql(aiAction)
+      expect(makeRequest.mock.calls[0][0].params.aiActionId).to.eql('aiActionId')
+      expect(makeRequest.mock.calls[0][0].action).to.eql('publish')
+    })
+  })
+
+  test('API call publishAiAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    const aiAction = cloneMock('aiAction')
+
+    try {
+      await api.publishAiAction('aiActionId', aiAction)
+    } catch (e) {
+      expect(e).to.eq(error)
+    }
+  })
+
+  test('API call unpublishAiAction', async () => {
+    const aiAction = cloneMock('aiAction')
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(aiAction))
+    entitiesMock.aiAction.wrapAiAction.mockReturnValue(aiAction)
+
+    await api.unpublishAiAction('aiActionId').then((r) => {
+      expect(r).to.eql(aiAction)
+      expect(makeRequest.mock.calls[0][0].params.aiActionId).to.eql('aiActionId')
+      expect(makeRequest.mock.calls[0][0].action).to.eql('unpublish')
+    })
+  })
+
+  test('API call unpublishAiAction fails', async () => {
+    await makeEntityMethodFailingTest(setup, {
+      methodToTest: 'unpublishAiAction',
+    })
+  })
+
+  test('API call deleteAiAction', async () => {
+    const { api } = setup(Promise.resolve({}))
+    await expect(api.deleteAiAction('aiActionId')).resolves.not.toThrow()
+  })
+
+  test('API call deleteAiAction fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    await expect(api.deleteAiAction('aiActionId')).rejects.toEqual(error)
+  })
 })
