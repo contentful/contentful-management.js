@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
@@ -280,9 +284,6 @@ type AssetApi = {
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
-/**
- * @private
- */
 function createAssetApi(makeRequest: MakeRequest): AssetApi {
   const getParams = (raw: AssetProps) => {
     return {

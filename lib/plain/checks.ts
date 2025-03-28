@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Plain Client
+ */
 import type { MetaSysProps } from '../common-types'
 
 export const isPublished = (data: { sys: MetaSysProps }) => !!data.sys.publishedVersion
