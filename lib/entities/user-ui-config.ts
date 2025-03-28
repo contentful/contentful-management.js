@@ -14,7 +14,7 @@ export type UserUIConfigProps = {
   entryListViews: ViewFolder[]
 }
 
-export interface UserUIConfigSysProps extends BasicMetaSysProps {
+export interface UserUIConfigSysProps extends BasicMetaSysProps<'User' | 'AppDefinition'> {
   space: Link<'Space'>
   environment: Link<'Environment'>
 }

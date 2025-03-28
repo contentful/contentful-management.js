@@ -20,7 +20,7 @@ export type ConstraintType = {
 }
 
 export type RoleProps = {
-  sys: BasicMetaSysProps & { space: Link<'Space'> }
+  sys: BasicMetaSysProps<'User'> & { space: Link<'Space'> }
   name: string
   description?: string
   /**

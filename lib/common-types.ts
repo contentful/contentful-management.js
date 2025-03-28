@@ -243,17 +243,18 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps {
+export interface BasicMetaSysProps<TSubject extends string = string> {
   type: string
   id: string
   version: number
-  createdBy?: Link<'User'> | Link<'AppDefinition'>
+  createdBy?: { [Subject in TSubject]: Link<Subject> }
   createdAt: string
-  updatedBy?: Link<'User'> | Link<'AppDefinition'>
+  updatedBy?: { [Subject in TSubject]: Link<Subject> }
   updatedAt: string
 }
 
-export interface MetaSysProps extends BasicMetaSysProps {
+export interface MetaSysProps<TSubject extends string = string>
+  extends BasicMetaSysProps<TSubject> {
   space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
@@ -262,14 +263,14 @@ export interface MetaSysProps extends BasicMetaSysProps {
   status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: Link<'User'> | Link<'AppDefinition'>
+  archivedBy?: { [Subject in TSubject]: Link<Subject> }
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: Link<'User'> | Link<'AppDefinition'>
+  deletedBy?: { [Subject in TSubject]: Link<Subject> }
   deletedAt?: string
 }
 
-export interface EntityMetaSysProps extends MetaSysProps {
+export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition'> {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
@@ -283,11 +284,6 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
-}
-
-export interface EntryMetaSysProps extends EntityMetaSysProps {
-  contentType: Link<'ContentType'>
-  automationTags: Link<'Tag'>[]
 }
 
 /**
@@ -1178,7 +1174,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
-      payload: Omit<AssetFileProp, 'sys'>
+      payload: AssetFileProp
       return: AssetProps
     }
     processForAllLocales: {

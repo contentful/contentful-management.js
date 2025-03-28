@@ -11,7 +11,7 @@ import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 import type { SetRequired, RequireExactlyOne } from 'type-fest'
 
-type ExtensionSysProps = BasicMetaSysProps & {
+type ExtensionSysProps = BasicMetaSysProps<'User'> & {
   space: Link<'Space'>
   environment: Link<'Environment'>
   srcdocSha256?: string

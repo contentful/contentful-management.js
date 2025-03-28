@@ -1,12 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type {
-  DefaultElements,
-  Link,
-  MakeRequest,
-  MetaSysProps,
-  QueryOptions,
-} from '../common-types'
+import type { DefaultElements, Link, MakeRequest, QueryOptions } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -22,7 +16,9 @@ export type UsageProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & {
+  sys: {
+    id: string
+    type: string
     organization?: Link<'Organization'>
   }
 

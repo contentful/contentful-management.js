@@ -367,7 +367,7 @@ export type PlainClientAPI = {
     ): Promise<AssetProps>
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: Omit<AssetFileProp, 'sys'>
+      data: AssetFileProp
     ): Promise<AssetProps>
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,

@@ -13,7 +13,7 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
 export type WorkflowSysProps = Pick<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'User' | 'AppDefinition'>,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Workflow'

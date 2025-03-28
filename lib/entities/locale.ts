@@ -6,7 +6,10 @@ import { wrapCollection } from '../common-utils'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types'
 
 export type LocaleProps = {
-  sys: BasicMetaSysProps & { space: Link<'Space'>; environment: Link<'Environment'> }
+  sys: BasicMetaSysProps<'User' | 'AppDefinition'> & {
+    space: Link<'Space'>
+    environment: Link<'Environment'>
+  }
   /**
    * Locale name
    */

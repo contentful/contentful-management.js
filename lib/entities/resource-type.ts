@@ -15,7 +15,7 @@ export type ResourceTypeProps = {
   /**
    * System metadata
    */
-  sys: Omit<BasicMetaSysProps, 'version'> & {
+  sys: Omit<BasicMetaSysProps<'User'>, 'version'> & {
     appDefinition: Link<'AppDefinition'>
     resourceProvider: Link<'ResourceProvider'>
     organization: Link<'Organization'>

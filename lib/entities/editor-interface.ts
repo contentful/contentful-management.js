@@ -85,7 +85,7 @@ export interface SidebarItem {
 }
 
 export type EditorInterfaceProps = {
-  sys: MetaSysProps & {
+  sys: MetaSysProps<'User' | 'AppDefinition'> & {
     space: Link<'Space'>
     environment: Link<'Environment'>
     contentType: Link<'ContentType'>
