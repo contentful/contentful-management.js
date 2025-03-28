@@ -3,9 +3,9 @@ import copy from 'fast-copy'
 import type {
   DefaultElements,
   GetTagParams,
+  Link,
   MakeRequest,
   MetaSysProps,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -13,13 +13,13 @@ import enhanceWithMethods from '../enhance-with-methods'
 export type TagVisibility = 'private' | 'public'
 
 export type TagSysProps = Pick<
-  MetaSysProps,
+  MetaSysProps<'User'>,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Tag'
   visibility: TagVisibility
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
 }
 
 export type TagProps = {

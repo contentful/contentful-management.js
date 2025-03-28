@@ -2,16 +2,16 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
+import type { DefaultElements, MetaSysProps, MakeRequest, Link } from '../common-types'
 
 export type TeamMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & {
-    team: { sys: MetaLinkProps }
-    organization: { sys: MetaLinkProps }
-    organizationMembership: { sys: MetaLinkProps }
+  sys: MetaSysProps<'User'> & {
+    team: Link<'Team'>
+    organization: Link<'Organization'>
+    organizationMembership: Link<'OrganizationMembership'>
   }
 
   /**

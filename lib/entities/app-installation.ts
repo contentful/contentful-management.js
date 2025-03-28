@@ -2,16 +2,16 @@ import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 import type { Except } from 'type-fest'
 import type { FreeFormParameters } from './widget-parameters'
 
 export type AppInstallationProps = {
-  sys: Omit<BasicMetaSysProps, 'id'> & {
-    appDefinition: SysLink
-    environment: SysLink
-    space: SysLink
-    organization: SysLink
+  sys: Omit<BasicMetaSysProps<'User'>, 'id'> & {
+    appDefinition: Link<'AppDefinition'>
+    environment: Link<'Environment'>
+    space: Link<'Space'>
+    organization: Link<'Organization'>
   }
   /**
    * Free-form installation parameters (API limits stringified length to 32KB)

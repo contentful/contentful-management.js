@@ -5,7 +5,7 @@ export type UploadCredential = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & {
+  sys: MetaSysProps<'User'> & {
     type: 'UploadCredential'
   }
 

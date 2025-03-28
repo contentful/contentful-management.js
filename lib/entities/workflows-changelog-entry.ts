@@ -5,7 +5,6 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-  SysLink,
   VersionedLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
@@ -25,7 +24,7 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
 
 export type WorkflowsChangelogEntryProps = {
   event: string
-  eventBy: SysLink
+  eventBy: Link<'User'> | Link<'AppDefinition'>
   eventAt: string
   workflow: VersionedLink<'Workflow'>
   workflowDefinition: Link<'WorkflowDefinition'>
