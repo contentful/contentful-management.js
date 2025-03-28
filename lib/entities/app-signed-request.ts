@@ -3,7 +3,7 @@ import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 
-type AppSignedRequestSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
+type AppSignedRequestSys = Except<BasicMetaSysProps<'User'>, 'version' | 'id'> & {
   appDefinition: Link<'AppDefinition'>
   space: Link<'Space'>
   environment: Link<'Environment'>

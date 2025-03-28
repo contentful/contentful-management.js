@@ -254,17 +254,18 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps {
+export interface BasicMetaSysProps<TSubject extends string = string> {
   type: string
   id: string
   version: number
-  createdBy?: Link<'User'> | Link<'AppDefinition'>
+  createdBy?: { [Subject in TSubject]: Link<Subject> }
   createdAt: string
-  updatedBy?: Link<'User'> | Link<'AppDefinition'>
+  updatedBy?: { [Subject in TSubject]: Link<Subject> }
   updatedAt: string
 }
 
-export interface MetaSysProps extends BasicMetaSysProps {
+export interface MetaSysProps<TSubject extends string = string>
+  extends BasicMetaSysProps<TSubject> {
   space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
@@ -273,14 +274,14 @@ export interface MetaSysProps extends BasicMetaSysProps {
   status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: Link<'User'> | Link<'AppDefinition'>
+  archivedBy?: { [Subject in TSubject]: Link<Subject> }
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: Link<'User'> | Link<'AppDefinition'>
+  deletedBy?: { [Subject in TSubject]: Link<Subject> }
   deletedAt?: string
 }
 
-export interface EntityMetaSysProps extends MetaSysProps {
+export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition'> {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
@@ -297,15 +298,10 @@ export interface EntityMetaSysProps extends MetaSysProps {
   release?: Link<'Release'>
 }
 
-export interface EntryMetaSysProps extends EntityMetaSysProps {
-  contentType: Link<'ContentType'>
-  automationTags: Link<'Tag'>[]
-}
-
 /**
  * @deprecated Use more specific `Link<T>` instead
  */
-export interface MetaLinkProps extends Link<string> {}
+export interface MetaLinkProps extends Link<string> { }
 
 export interface MetadataProps {
   tags: Link<'Tag'>[]
@@ -315,7 +311,7 @@ export interface MetadataProps {
 /**
  * @deprecated Use more specific `Link<T>` instead
  */
-export interface SysLink extends Link<string> {}
+export interface SysLink extends Link<string> { }
 
 export interface CollectionProp<TObj> {
   sys: {
@@ -337,11 +333,11 @@ export interface CursorPaginatedCollectionProp<TObj>
 
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
-    DefaultElements<CollectionProp<TPlain>> {}
+  DefaultElements<CollectionProp<TPlain>> { }
 
 export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
-    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
+  DefaultElements<CursorPaginatedCollectionProp<TPlain>> { }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -1265,7 +1261,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string }
-      payload: Omit<AssetFileProp, 'sys'>
+      payload: AssetFileProp
       return: AssetProps
     }
     processForAllLocales: {
@@ -1335,50 +1331,50 @@ export type MRActions = {
   }
   Comment: {
     get:
-      | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
-      | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
+    | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
+    | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
     getMany:
-      | {
-          params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
-          return: CollectionProp<CommentProps>
-        }
-      | {
-          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichTextCommentProps>
-        }
+    | {
+      params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
+      return: CollectionProp<CommentProps>
+    }
+    | {
+      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+      return: CollectionProp<RichTextCommentProps>
+    }
     getAll:
-      | {
-          params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
-          return: CollectionProp<CommentProps>
-        }
-      | {
-          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichTextCommentProps>
-        }
+    | {
+      params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
+      return: CollectionProp<CommentProps>
+    }
+    | {
+      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+      return: CollectionProp<RichTextCommentProps>
+    }
     create:
-      | {
-          params: CreateCommentParams & PlainTextBodyFormat
-          payload: CreateCommentProps
-          return: CommentProps
-        }
-      | {
-          params: CreateCommentParams & RichTextBodyFormat
-          payload: RichTextCommentBodyPayload
-          return: RichTextCommentProps
-        }
+    | {
+      params: CreateCommentParams & PlainTextBodyFormat
+      payload: CreateCommentProps
+      return: CommentProps
+    }
+    | {
+      params: CreateCommentParams & RichTextBodyFormat
+      payload: RichTextCommentBodyPayload
+      return: RichTextCommentProps
+    }
     update:
-      | {
-          params: UpdateCommentParams
-          payload: UpdateCommentProps
-          headers?: RawAxiosRequestHeaders
-          return: CommentProps
-        }
-      | {
-          params: UpdateCommentParams
-          payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
-          headers?: RawAxiosRequestHeaders
-          return: RichTextCommentProps
-        }
+    | {
+      params: UpdateCommentParams
+      payload: UpdateCommentProps
+      headers?: RawAxiosRequestHeaders
+      return: CommentProps
+    }
+    | {
+      params: UpdateCommentParams
+      payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
+      headers?: RawAxiosRequestHeaders
+      return: RichTextCommentProps
+    }
     delete: { params: DeleteCommentParams; return: void }
   }
   Concept: {
@@ -1634,9 +1630,9 @@ export type MRActions = {
     }
     getForEnvironment: {
       params: BasicCursorPaginationOptions &
-        EnvironmentTemplateParams & {
-          installationId?: string
-        }
+      EnvironmentTemplateParams & {
+        installationId?: string
+      }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
   }
@@ -2384,18 +2380,18 @@ export type MROpts<
 } & (UA extends true ? { userAgent: string } : {}) &
   ('params' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['params']
-      ? { params?: MRActions[ET][Action]['params'] }
-      : { params: MRActions[ET][Action]['params'] }
+    ? { params?: MRActions[ET][Action]['params'] }
+    : { params: MRActions[ET][Action]['params'] }
     : {}) &
   ('payload' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['payload']
-      ? { payload?: MRActions[ET][Action]['payload'] }
-      : { payload: MRActions[ET][Action]['payload'] }
+    ? { payload?: MRActions[ET][Action]['payload'] }
+    : { payload: MRActions[ET][Action]['payload'] }
     : {}) &
   ('headers' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['headers']
-      ? { headers?: MRActions[ET][Action]['headers'] }
-      : { headers: MRActions[ET][Action]['headers'] }
+    ? { headers?: MRActions[ET][Action]['headers'] }
+    : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
 /**
@@ -2408,7 +2404,7 @@ export type MRReturn<
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 
-export interface MakeRequestPayload {}
+export interface MakeRequestPayload { }
 
 export interface MakeRequestOptions {
   entityType: keyof MRActions
@@ -2549,16 +2545,16 @@ export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: s
 }
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
-    | { pageUrl?: string }
-    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
-        Omit<PaginationQueryOptions, 'skip'>)
+  | { pageUrl?: string }
+  | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+    Omit<PaginationQueryOptions, 'skip'>)
 }
 
 export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
-    | { pageUrl?: string }
-    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+  | { pageUrl?: string }
+  | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string

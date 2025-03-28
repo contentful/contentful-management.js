@@ -3,8 +3,9 @@ import copy from 'fast-copy'
 import type {
   CollectionProp,
   DefaultElements,
-  EntryMetaSysProps,
+  EntityMetaSysProps,
   KeyValueMap,
+  Link,
   MakeRequest,
   MetadataProps,
 } from '../common-types'
@@ -13,6 +14,11 @@ import type { ContentfulEntryApi } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
+
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: Link<'ContentType'>
+  automationTags: Link<'Tag'>[]
+}
 
 export type EntryProps<T = KeyValueMap, S = unknown> = {
   sys: EntryMetaSysProps & S
@@ -46,12 +52,12 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
-export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi { }
 
 export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
   ? Omit<T, 'sys'> & {
-      sys: Sys & { urn: string }
-    }
+    sys: Sys & { urn: string }
+  }
   : never
 
 /**

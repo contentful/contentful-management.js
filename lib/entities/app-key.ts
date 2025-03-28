@@ -5,7 +5,7 @@ import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../c
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 
-type AppKeySys = Except<BasicMetaSysProps, 'version'> & {
+type AppKeySys = Except<BasicMetaSysProps<'User'>, 'version'> & {
   appDefinition: Link<'AppDefinition'>
   organization: Link<'Organization'>
 }

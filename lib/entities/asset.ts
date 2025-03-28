@@ -42,7 +42,6 @@ export type CreateAssetProps = Omit<AssetProps, 'sys'>
 export type CreateAssetFromFilesOptions = { uploadTimeout?: number }
 
 export interface AssetFileProp {
-  sys: MetaSysProps
   fields: {
     title: { [key: string]: string }
     description: { [key: string]: string }

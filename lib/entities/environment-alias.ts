@@ -8,7 +8,7 @@ export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: BasicMetaSysProps & { space: Link<'Space'> }
+  sys: BasicMetaSysProps<'User'> & { space: Link<'Space'> }
   environment: Link<'Environment'>
 }
 

@@ -3,7 +3,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 
 export type OrganizationInvitationProps = {
-  sys: MetaSysProps & {
+  sys: MetaSysProps<'User'> & {
     organizationMembership: Link<'OrganizationMembership'>
     user: Record<string, any> | null
     invitationUrl: string

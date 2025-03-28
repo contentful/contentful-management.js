@@ -23,7 +23,7 @@ interface LinkWithReference<T extends string> extends Link<T> {
 }
 
 export type CommentSysProps = Pick<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'User'>,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Comment'

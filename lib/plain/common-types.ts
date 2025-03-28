@@ -412,7 +412,7 @@ export type PlainClientAPI = {
     ): Promise<AssetProps>
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
-      data: Omit<AssetFileProp, 'sys'>,
+      data: AssetFileProp,
     ): Promise<AssetProps>
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
@@ -489,7 +489,7 @@ export type PlainClientAPI = {
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
       createFromFiles(
         params: OptionalDefaults<CreateWithFilesReleaseAssetParams & QueryParams>,
-        data: Omit<AssetFileProp, 'sys'>,
+        data: AssetFileProp,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
       processForLocale(

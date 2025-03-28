@@ -221,7 +221,7 @@ export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
 export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = async (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string },
-  data: Omit<AssetFileProp, 'sys'>,
+  data: AssetFileProp
 ) => {
   if (params.releaseId) {
     return releaseAsset.createFromFiles(http, params as CreateWithFilesReleaseAssetParams, data, {})

@@ -133,7 +133,9 @@ export type {
   EntryProps,
   EntryReferenceProps, // was previously deep imported in user_interface
   WithResourceName,
+  EntryMetaSysProps
 } from './entities/entry'
+
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
   CreateEnvironmentAliasProps,

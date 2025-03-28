@@ -48,11 +48,11 @@ export type WebhookCallRequest = {
 export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
 
 export type WebhookHealthSys = Except<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'User'>,
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
 
-export type WebhookCallDetailsSys = Except<BasicMetaSysProps, 'version' | 'updatedAt' | 'updatedBy'>
+export type WebhookCallDetailsSys = Except<BasicMetaSysProps<'User'>, 'version' | 'updatedAt' | 'updatedBy'>
 
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
@@ -140,7 +140,7 @@ export type WebhookHealthProps = {
   calls: WebhookCalls
 }
 
-export type WebhookSigningSecretSys = Except<BasicMetaSysProps, 'version'>
+export type WebhookSigningSecretSys = Except<BasicMetaSysProps<'User'>, 'version'>
 
 export type WebhookSigningSecretProps = {
   sys: WebhookSigningSecretSys & { space: Link<'Space'> }
@@ -151,7 +151,7 @@ export type WebhookRetryPolicyPayload = {
   maxRetries: number
 }
 
-export type WebhookRetryPolicySys = Except<BasicMetaSysProps, 'version'>
+export type WebhookRetryPolicySys = Except<BasicMetaSysProps<'User'>, 'version'>
 
 export type WebhookRetryPolicyProps = {
   sys: WebhookRetryPolicySys & { space: Link<'Space'> }
@@ -162,7 +162,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { space: Link<'Space'> }
+  sys: BasicMetaSysProps<'User'> & { space: Link<'Space'> }
 
   /**
    * Webhook name
