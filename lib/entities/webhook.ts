@@ -52,7 +52,10 @@ export type WebhookHealthSys = Except<
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
 
-export type WebhookCallDetailsSys = Except<BasicMetaSysProps<'WebhookDefinition'>, 'version' | 'updatedAt' | 'updatedBy'>
+export type WebhookCallDetailsSys = Except<
+  BasicMetaSysProps<'WebhookDefinition'>,
+  'version' | 'updatedAt' | 'updatedBy'
+>
 
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
