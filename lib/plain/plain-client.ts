@@ -1,17 +1,22 @@
+/**
+ * @module
+ * @category Plain Client
+ */
+
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './plain-client-types'
-import type { DefaultParams } from './wrappers/wrap'
+import type { PlainClientDefaultParams } from './wrappers/wrap'
 import { wrap } from './wrappers/wrap'
 
-export type { DefaultParams } from './wrappers/wrap'
+export type { PlainClientDefaultParams } from './wrappers/wrap'
 
 /**
  * @private
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined
+  defaults: PlainClientDefaultParams | undefined
 ): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
