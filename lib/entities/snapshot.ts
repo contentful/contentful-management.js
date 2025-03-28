@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type SnapshotProps<T> = {
-  sys: MetaSysProps<'User' | 'AppDefinition'> & {
+  sys: MetaSysProps<'User'> & {
     snapshotType: string
     snapshotEntityType: string
   }
