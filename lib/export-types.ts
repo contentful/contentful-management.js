@@ -135,7 +135,6 @@ export type {
   WithResourceName,
   EntryMetaSysProps
 } from './entities/entry'
-
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
   CreateEnvironmentAliasProps,
