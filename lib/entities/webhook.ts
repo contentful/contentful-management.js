@@ -48,7 +48,7 @@ export type WebhookCallRequest = {
 export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
 
 export type WebhookHealthSys = Except<
-  BasicMetaSysProps<'User'>,
+  BasicMetaSysProps<'WebhookDefinition'>,
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
 
