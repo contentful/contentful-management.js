@@ -56,7 +56,7 @@ type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 /**
  * @private
  */
-export default function createClientApi(makeRequest: MakeRequest) {
+export function createClientApi(makeRequest: MakeRequest) {
   return {
     /**
      * Gets all environment templates for a given organization with the lasted version
