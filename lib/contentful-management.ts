@@ -46,7 +46,8 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
+
+export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
  * Create a client instance
