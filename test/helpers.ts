@@ -1,6 +1,6 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import { createClient } from '../lib/contentful-management'
-import type { Environment, Organization, Space } from '../lib/contentful-management'
+import { createClient } from '../lib'
+import type { Environment, Organization, Space } from '../lib'
 import { TestDefaults } from './defaults'
 
 import * as testUtils from '@contentful/integration-test-utils'
@@ -39,7 +39,7 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
 export const defaultClient = initClient({ ...params })
 
 /**
- * @returns {import('../lib/contentful-management').PlainClientAPI}
+ * @returns {import('../lib').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {
   return createClient(
