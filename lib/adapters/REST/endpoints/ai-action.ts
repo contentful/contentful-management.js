@@ -50,6 +50,7 @@ export const update: RestEndpoint<'AiAction', 'update'> = (
 ) => {
   const data = copy(rawData)
   const { sys, ...payload } = data
+
   return raw.put<AiActionProps>(
     http,
     `/spaces/${params.spaceId}/ai/actions/${params.aiActionId}`,
@@ -73,8 +74,7 @@ export const del: RestEndpoint<'AiAction', 'delete'> = (
 
 export const publish: RestEndpoint<'AiAction', 'publish'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { aiActionId: string },
-  rawData: AiActionProps,
+  params: GetSpaceParams & { aiActionId: string, version: number },
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.put<AiActionProps>(
@@ -83,7 +83,7 @@ export const publish: RestEndpoint<'AiAction', 'publish'> = (
     null,
     {
       headers: {
-        'X-Contentful-Version': rawData.sys.version,
+        'X-Contentful-Version': params.version,
         ...headers,
       },
     }

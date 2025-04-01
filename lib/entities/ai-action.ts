@@ -150,8 +150,11 @@ function createAiActionApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'AiAction',
         action: 'publish',
-        params: getParams(self),
-        payload: self,
+        params: {
+          aiActionId: self.sys.id,
+          spaceId: self.sys.space.sys.id,
+          version: self.sys.version,
+        },
       }).then((data) => wrapAiAction(makeRequest, data))
     },
 
