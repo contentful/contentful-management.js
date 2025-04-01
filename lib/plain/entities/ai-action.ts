@@ -70,7 +70,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the payload is malformed.
    */
   publish(
-    params: OptionalDefaults<GetSpaceParams & { aiActionId: string, version: number }>,
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string; version: number }>,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
   /**
