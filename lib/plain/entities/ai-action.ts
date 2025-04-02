@@ -71,6 +71,7 @@ export type AiActionPlainClientAPI = {
    */
   publish(
     params: OptionalDefaults<GetSpaceParams & { aiActionId: string; version: number }>,
+    payload: AiActionProps,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
   /**
