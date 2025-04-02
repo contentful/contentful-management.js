@@ -73,8 +73,8 @@ export const del: RestEndpoint<'AiAction', 'delete'> = (
 
 export const publish: RestEndpoint<'AiAction', 'publish'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { aiActionId: string },
-  rawData: AiActionProps,
+  params: GetSpaceParams & { aiActionId: string; version: number },
+  rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.put<AiActionProps>(
@@ -83,7 +83,7 @@ export const publish: RestEndpoint<'AiAction', 'publish'> = (
     null,
     {
       headers: {
-        'X-Contentful-Version': rawData.sys.version,
+        'X-Contentful-Version': params.version,
         ...headers,
       },
     }

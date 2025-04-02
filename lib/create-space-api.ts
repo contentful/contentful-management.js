@@ -1608,14 +1608,12 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .catch(console.error)
      * ```
      */
-    publishAiAction(aiActionId: string, data: AiActionProps) {
+    publishAiAction(aiActionId: string, { version }: { version: number }) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({
         entityType: 'AiAction',
         action: 'publish',
-        params: { spaceId: raw.sys.id, aiActionId },
-        payload: data,
-        headers: { 'X-Contentful-Version': data.sys.version },
+        params: { spaceId: raw.sys.id, aiActionId, version },
       }).then((response) => wrapAiAction(makeRequest, response))
     },
 
