@@ -127,7 +127,7 @@ describe('AiAction api', { sequential: true }, () => {
       })
       .then((aiAction) => {
         return space
-          .publishAiAction(aiAction.sys.id, aiAction)
+          .publishAiAction(aiAction.sys.id, { version: aiAction.sys.version })
           .then((publishedAction) => {
             expect(publishedAction.sys.publishedVersion).to.be.ok
             return space.unpublishAiAction(publishedAction.sys.id)
@@ -164,7 +164,7 @@ describe('AiAction api', { sequential: true }, () => {
       })
       .then((aiAction) => {
         return space
-          .publishAiAction(aiAction.sys.id, aiAction)
+          .publishAiAction(aiAction.sys.id, { version: aiAction.sys.version })
           .then((publishedAction) =>
             environment.invokeAiAction(publishedAction.sys.id, {
               outputFormat: 'PlainText',

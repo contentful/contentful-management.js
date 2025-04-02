@@ -67,7 +67,7 @@ describe('AiActionInvocation api', { sequential: true }, () => {
       testCases: [],
     })
 
-    await space.publishAiAction(aiAction.sys.id, aiAction)
+    await space.publishAiAction(aiAction.sys.id, { version: aiAction.sys.version })
 
     // First invoke the action
     invocation = await environment.invokeAiAction(aiAction.sys.id, {
@@ -144,7 +144,7 @@ describe('AiActionInvocation api', { sequential: true }, () => {
       testCases: [],
     })
 
-    await space.publishAiAction(otherAiAction.sys.id, otherAiAction)
+    await space.publishAiAction(otherAiAction.sys.id, { version: otherAiAction.sys.version })
 
     try {
       await environment.getAiActionInvocation({

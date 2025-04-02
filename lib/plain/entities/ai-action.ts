@@ -65,14 +65,13 @@ export type AiActionPlainClientAPI = {
   /**
    * Publishes the AI Action.
    * @param params Entity IDs to identify the AI Action.
-   * @param payload The AI Action details.
    * @param headers Optional headers for the request.
    * @returns The published AI Action and its metadata.
    * @throws if the request fails or the payload is malformed.
    */
   publish(
-    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>,
-    payload: AiActionProps,
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string; version: number }>,
+    payload?: unknown,
     headers?: Partial<RawAxiosRequestHeaders>
   ): Promise<AiActionProps>
   /**
