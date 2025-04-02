@@ -74,6 +74,7 @@ export const del: RestEndpoint<'AiAction', 'delete'> = (
 export const publish: RestEndpoint<'AiAction', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string; version: number },
+  rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
   return raw.put<AiActionProps>(
