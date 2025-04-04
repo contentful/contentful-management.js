@@ -248,41 +248,41 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps {
+export interface BasicMetaSysProps<TSubject extends string = string> {
   type: string
   id: string
   version: number
-  createdBy?: SysLink
+  createdBy?: { [Subject in TSubject]: Link<Subject> }
   createdAt: string
-  updatedBy?: SysLink
+  updatedBy?: { [Subject in TSubject]: Link<Subject> }
   updatedAt: string
 }
 
-export interface MetaSysProps extends BasicMetaSysProps {
-  space?: SysLink
+export interface MetaSysProps<TSubject extends string = string>
+  extends BasicMetaSysProps<TSubject> {
+  space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
    * type guard to get the correct `EntityMetaSysProps` type with this property.
    */
-  status?: SysLink
+  status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: SysLink
+  archivedBy?: { [Subject in TSubject]: Link<Subject> }
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: SysLink
+  deletedBy?: { [Subject in TSubject]: Link<Subject> }
   deletedAt?: string
 }
 
-export interface EntityMetaSysProps extends MetaSysProps {
+export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition'> {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
    */
-  contentType: SysLink
-  space: SysLink
-  status?: SysLink
-  environment: SysLink
+  contentType: Link<'ContentType'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
@@ -291,25 +291,20 @@ export interface EntityMetaSysProps extends MetaSysProps {
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
-export interface EntryMetaSysProps extends EntityMetaSysProps {
-  contentType: SysLink
-  automationTags: Link<'Tag'>[]
-}
-
-export interface MetaLinkProps {
-  type: string
-  linkType: string
-  id: string
-}
+/**
+ * @deprecated Use more specific `Link<T>` instead
+ */
+export interface MetaLinkProps extends Link<string> {}
 
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
-export interface SysLink {
-  sys: MetaLinkProps
-}
+/**
+ * @deprecated Use more specific `Link<T>` instead
+ */
+export interface SysLink extends Link<string> {}
 
 export interface CollectionProp<TObj> {
   sys: {
@@ -1237,7 +1232,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
-      payload: Omit<AssetFileProp, 'sys'>
+      payload: AssetFileProp
       return: AssetProps
     }
     processForAllLocales: {

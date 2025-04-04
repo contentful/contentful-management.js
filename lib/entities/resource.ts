@@ -1,8 +1,8 @@
 import type {
   BasicCursorPaginationOptions,
   CursorPaginatedCollectionProp,
+  Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
@@ -23,9 +23,9 @@ export type ResourceProps = {
   sys: {
     type: 'Resource'
     urn: string
-    resourceType: SysLink
-    resourceProvider: SysLink
-    appDefinition: SysLink
+    resourceType: Link<'ResourceType'>
+    resourceProvider: Link<'ResourceProvider'>
+    appDefinition: Link<'AppDefinition'>
   }
   fields: {
     title: string
