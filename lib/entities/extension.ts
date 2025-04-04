@@ -64,8 +64,9 @@ export type CreateExtensionProps = {
 export interface Extension extends ExtensionProps, DefaultElements<ExtensionProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
-   * @example ```javascript
+   * @returns Object returned from the server with updated changes.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -86,8 +87,9 @@ export interface Extension extends ExtensionProps, DefaultElements<ExtensionProp
   update(): Promise<Extension>
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -140,7 +142,7 @@ function createExtensionApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw UI Extension data
- * @return Wrapped UI Extension data
+ * @returns Wrapped UI Extension data
  */
 export function wrapExtension(makeRequest: MakeRequest, data: ExtensionProps): Extension {
   const extension = toPlainObject(copy(data))

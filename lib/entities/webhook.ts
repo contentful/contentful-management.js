@@ -214,7 +214,7 @@ export type WebhookProps = {
 export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -236,7 +236,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -255,7 +255,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 
   /**
    * List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
-   * @return Promise for list of calls
+   * @returns Promise for list of calls
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -274,7 +274,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 
   /**
    * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
-   * @return Promise for call details
+   * @returns Promise for call details
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -293,7 +293,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 
   /**
    * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
-   * @return Promise for health info
+   * @returns Promise for health info
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -369,7 +369,7 @@ function createWebhookApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw webhook data
- * @return Wrapped webhook data
+ * @returns Wrapped webhook data
  */
 export function wrapWebhook(makeRequest: MakeRequest, data: WebhookProps): WebHooks {
   const webhook = toPlainObject(copy(data))

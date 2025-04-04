@@ -24,7 +24,7 @@ function createPreviewApiKeyApi() {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
- * @return Wrapped preview api key data
+ * @returns Wrapped preview api key data
  */
 export function wrapPreviewApiKey(
   _makeRequest: MakeRequest,
