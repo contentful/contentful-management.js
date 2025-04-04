@@ -54,6 +54,10 @@ export type AppBundleProps = {
    * A comment that describes this bundle
    */
   comment?: string
+  /**
+   * List of all functions in the bundle
+   */
+  functions?: FunctionManifestProps[]
 }
 
 export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProps> {
