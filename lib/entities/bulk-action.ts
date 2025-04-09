@@ -137,7 +137,7 @@ export interface BulkAction<T extends BulkActionPayload = any>
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw BulkAction data
- * @return Wrapped BulkAction data
+ * @returns Wrapped BulkAction data
  */
 export function wrapBulkAction<TPayload extends BulkActionPayload = any>(
   makeRequest: MakeRequest,

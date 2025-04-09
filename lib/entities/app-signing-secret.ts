@@ -28,8 +28,9 @@ export interface AppSigningSecret
     DefaultElements<AppSigningSecretProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -67,7 +68,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppSigningSecret data
- * @return Wrapped AppSigningSecret data
+ * @returns Wrapped AppSigningSecret data
  */
 export function wrapAppSigningSecret(
   makeRequest: MakeRequest,

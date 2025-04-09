@@ -53,8 +53,9 @@ export type CreateAppKeyProps = {
 export interface AppKey extends AppKeyProps, DefaultElements<AppKeyProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -93,7 +94,7 @@ function createKeyApi(makeRequest: MakeRequest) {
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppKey data
- * @return Wrapped AppKey data
+ * @returns Wrapped AppKey data
  */
 export function wrapAppKey(makeRequest: MakeRequest, data: AppKeyProps): AppKey {
   const key = toPlainObject(copy(data))
@@ -104,6 +105,6 @@ export function wrapAppKey(makeRequest: MakeRequest, data: AppKeyProps): AppKey 
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Key collection data
- * @return Wrapped App Key collection data
+ * @returns Wrapped App Key collection data
  */
 export const wrapAppKeyCollection = wrapCollection(wrapAppKey)
