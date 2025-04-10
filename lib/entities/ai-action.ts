@@ -78,7 +78,7 @@ export interface AiActionQueryOptions {
 }
 
 export type AiActionProps = {
-  sys: MetaSysProps<'User' | 'AppDefinition'> & {
+  sys: MetaSysProps<'AiAction', 'User' | 'AppDefinition'> & {
     type: 'AiAction'
     space: Link<'Space'>
     publishedBy?: Link<'User'> | Link<'AppDefinition'>

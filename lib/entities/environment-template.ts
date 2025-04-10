@@ -29,7 +29,7 @@ export interface ContentTypeTemplateProps extends Omit<ContentTypeProps, 'sys'> 
 }
 
 export type EnvironmentTemplateProps = {
-  sys: BasicMetaSysProps<'User'> & { version: number; organization: Link<'Organization'> }
+  sys: BasicMetaSysProps<'EnvironmentTemplate', 'User'> & { version: number; organization: Link<'Organization'> }
   name: string
   description?: string
   versionName: string

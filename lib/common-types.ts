@@ -248,8 +248,8 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps<TSubject extends string = string> {
-  type: string
+export interface BasicMetaSysProps<TType extends string, TSubject extends string = string> {
+  type: TType
   id: string
   version: number
   createdBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
@@ -258,8 +258,8 @@ export interface BasicMetaSysProps<TSubject extends string = string> {
   updatedAt: string
 }
 
-export interface MetaSysProps<TSubject extends string = string>
-  extends BasicMetaSysProps<TSubject> {
+export interface MetaSysProps<TType extends string, TSubject extends string = string>
+  extends BasicMetaSysProps<TType, TSubject> {
   space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a

@@ -38,7 +38,7 @@ export type AnnotationAssignment = Link<'Annotation'> & {
 }
 
 export type ContentTypeProps = {
-  sys: BasicMetaSysProps<'User' | 'AppDefinition'> & {
+  sys: BasicMetaSysProps<'ContentType', 'User' | 'AppDefinition'> & {
     space: Link<'Space'>
     environment: Link<'Environment'>
     firstPublishedAt?: string

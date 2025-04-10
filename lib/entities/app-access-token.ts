@@ -3,7 +3,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 
-type AppAccessTokenSys = Except<BasicMetaSysProps<'User'>, 'version' | 'id'> & {
+type AppAccessTokenSys = Except<BasicMetaSysProps<'AppAccessToken', 'User'>, 'version' | 'id'> & {
   space: Link<'Space'>
   environment: Link<'Environment'>
   appDefinition: Link<'AppDefinition'>
