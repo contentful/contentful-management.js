@@ -291,20 +291,10 @@ export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
-/**
- * @deprecated Use more specific `Link<T>` instead
- */
-export interface MetaLinkProps extends Link<string> {}
-
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
 }
-
-/**
- * @deprecated Use more specific `Link<T>` instead
- */
-export interface SysLink extends Link<string> {}
 
 export interface CollectionProp<TObj> {
   sys: {
