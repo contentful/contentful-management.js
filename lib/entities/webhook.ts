@@ -143,7 +143,10 @@ export type WebhookHealthProps = {
   calls: WebhookCalls
 }
 
-export type WebhookSigningSecretSys = Except<BasicMetaSysProps<'WebhookSigningSecret', 'User'>, 'version'>
+export type WebhookSigningSecretSys = Except<
+  BasicMetaSysProps<'WebhookSigningSecret', 'User'>,
+  'version'
+>
 
 export type WebhookSigningSecretProps = {
   sys: WebhookSigningSecretSys & { space: Link<'Space'> }
@@ -154,7 +157,10 @@ export type WebhookRetryPolicyPayload = {
   maxRetries: number
 }
 
-export type WebhookRetryPolicySys = Except<BasicMetaSysProps<'WebhookRetryPolicy', 'User'>, 'version'>
+export type WebhookRetryPolicySys = Except<
+  BasicMetaSysProps<'WebhookRetryPolicy', 'User'>,
+  'version'
+>
 
 export type WebhookRetryPolicyProps = {
   sys: WebhookRetryPolicySys & { space: Link<'Space'> }

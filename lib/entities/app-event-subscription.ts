@@ -4,7 +4,10 @@ import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppEventSubscriptionSys = Except<BasicMetaSysProps<'AppEventSubscription', 'User'>, 'version' | 'id'> & {
+type AppEventSubscriptionSys = Except<
+  BasicMetaSysProps<'AppEventSubscription', 'User'>,
+  'version' | 'id'
+> & {
   appDefinition: Link<'AppDefinition'>
   organization: Link<'Organization'>
 }

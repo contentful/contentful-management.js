@@ -11,7 +11,7 @@ import type {
 import type { WebhookCallDetailsProps } from './webhook'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppActionCallSys = Except<BasicMetaSysProps< 'AppActionCall', 'User'>, 'version'> & {
+type AppActionCallSys = Except<BasicMetaSysProps<'AppActionCall', 'User'>, 'version'> & {
   appDefinition: Link<'AppDefinition'>
   space: Link<'Space'>
   environment: Link<'Environment'>
