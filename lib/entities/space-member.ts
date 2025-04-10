@@ -1,10 +1,10 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 
 export type SpaceMemberProps = {
-  sys: MetaSysProps
+  sys: MetaSysProps<'User'>
   /**
    * User is an admin
    */
@@ -12,7 +12,7 @@ export type SpaceMemberProps = {
   /**
    * Array of Role Links
    */
-  roles: { sys: MetaLinkProps }[]
+  roles: Link<'Role'>[]
 }
 
 export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemberProps> {}
