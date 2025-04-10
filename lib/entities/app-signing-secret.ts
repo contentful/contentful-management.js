@@ -4,7 +4,10 @@ import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppSigningSecretSys = Except<BasicMetaSysProps<'User'>, 'version' | 'id'> & {
+type AppSigningSecretSys = Except<
+  BasicMetaSysProps<'AppSigningSecret', 'User'>,
+  'version' | 'id'
+> & {
   appDefinition: Link<'AppDefinition'>
   organization: Link<'Organization'>
 }

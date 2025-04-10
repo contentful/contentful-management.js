@@ -12,13 +12,17 @@ export interface UsageQuery extends QueryOptions {
   'dateRange.endAt'?: string
 }
 
-export type UsageProps = {
+export type UsageProps<
+  TType extends 'SpacePeriodicUsage' | 'OrganizationPeriodicUsage' =
+    | 'SpacePeriodicUsage'
+    | 'OrganizationPeriodicUsage'
+> = {
   /**
    * System metadata
    */
   sys: {
     id: string
-    type: string
+    type: TType
     organization?: Link<'Organization'>
   }
 
