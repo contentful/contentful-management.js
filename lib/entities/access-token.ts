@@ -10,7 +10,7 @@ type Application = {
   sys: Link<'Application'>
 }
 
-type AccessTokenSysProps = BasicMetaSysProps<'User'> & {
+type AccessTokenSysProps = BasicMetaSysProps<'PersonalAccessToken', 'User'> & {
   application: Application | null
   expiresAt: string | null
   lastUsedAt: string | null

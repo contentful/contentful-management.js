@@ -6,7 +6,7 @@ import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../c
 import type { ParameterDefinition } from './widget-parameters'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppActionSys = Except<BasicMetaSysProps<'User'>, 'version'> & {
+type AppActionSys = Except<BasicMetaSysProps<'AppAction', 'User'>, 'version'> & {
   appDefinition: Link<'AppDefinition'>
   organization: Link<'Organization'>
 }
