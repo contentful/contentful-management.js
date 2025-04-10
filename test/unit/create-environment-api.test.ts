@@ -16,6 +16,8 @@ import {
   uploadMock,
   appAccessTokenMock,
   extensionMock,
+  functionCollectionMock,
+  functionLogMock,
 } from './mocks/entities'
 import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
@@ -649,18 +651,104 @@ describe('A createEnvironmentApi', () => {
       },
     })
   })
-})
 
-// Embargoed Assets
+  test('API call invokeAiAction', async () => {
+    const aiActionInvocation = cloneMock('aiActionInvocation')
+    const aiActionInvocationPayload = cloneMock('aiActionInvocationPayload')
+    const { api, entitiesMock } = setup(Promise.resolve(aiActionInvocation))
+    entitiesMock.aiActionInvocation.wrapAiActionInvocation.mockReturnValue(aiActionInvocation)
 
-test('API call createAssetKey', async () => {
-  const withExpiryIn1Hour = Math.floor(Date.now() / 1000) + 1 * 60 * 60
-  const data = { expiresAt: withExpiryIn1Hour }
-  const assetKey = cloneMock('assetKey')
-  const { api, entitiesMock } = setup(Promise.resolve(assetKey))
-  entitiesMock.assetKey.wrapAssetKey.mockReturnValue(assetKey)
+    return api.invokeAiAction('aiActionId', aiActionInvocationPayload).then((r) => {
+      expect(r).to.eql(aiActionInvocation)
+    })
+  })
 
-  await api.createAssetKey(data).then((r) => {
-    expect(r).eql(assetKey)
+  test('API call invokeAiAction fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'invokeAiAction',
+    })
+  })
+
+  test('API call getAiActionInvocation', async () => {
+    const aiActionInvocation = cloneMock('aiActionInvocation')
+    const { api, entitiesMock } = setup(Promise.resolve(aiActionInvocation))
+    entitiesMock.aiActionInvocation.wrapAiActionInvocation.mockReturnValue(aiActionInvocation)
+
+    return api
+      .getAiActionInvocation({
+        aiActionId: 'aiActionId',
+        invocationId: 'invocationId',
+      })
+      .then((r) => {
+        expect(r).to.eql(aiActionInvocation)
+      })
+  })
+
+  test('API call getAiActionInvocation fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAiActionInvocation',
+    })
+  })
+
+  test('API call getManyFunctionsForEnvironment', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'Function',
+      mockToReturn: functionCollectionMock,
+      methodToTest: 'getFunctionsForEnvironment',
+    })
+  })
+
+  test('API call getManyFunctionsForEnvironment fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getFunctionsForEnvironment',
+    })
+  })
+
+  test('API call getFunctionLog', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'FunctionLog',
+      mockToReturn: functionLogMock,
+      methodToTest: 'getFunctionLog',
+    })
+  })
+
+  test('API call getFunctionLog fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getFunctionLog',
+    })
+  })
+
+  test('API call getManyFunctionLogs', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'FunctionLog',
+      mockToReturn: functionCollectionMock,
+      methodToTest: 'getFunctionLogs',
+    })
+  })
+
+  test('API call getManyFunctionLogs fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getFunctionLogs',
+    })
+  })
+
+  test('API call getManyFunctionLogs fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getFunctionLogs',
+    })
+  })
+
+  // Embargoed Assets
+
+  test('API call createAssetKey', async () => {
+    const withExpiryIn1Hour = Math.floor(Date.now() / 1000) + 1 * 60 * 60
+    const data = { expiresAt: withExpiryIn1Hour }
+    const assetKey = cloneMock('assetKey')
+    const { api, entitiesMock } = setup(Promise.resolve(assetKey))
+    entitiesMock.assetKey.wrapAssetKey.mockReturnValue(assetKey)
+
+    await api.createAssetKey(data).then((r) => {
+      expect(r).eql(assetKey)
+    })
   })
 })

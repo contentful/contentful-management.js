@@ -5,14 +5,16 @@ export type DefaultParams = {
   environmentId?: string
   organizationId?: string
 }
+/**
+ * @private
+ */
+type UnionOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never
 
 /**
  * @private
  */
-export type OptionalDefaults<T> = Omit<T, keyof DefaultParams> &
-  ('organizationId' extends keyof T ? { organizationId?: string } : Record<string, unknown>) &
-  ('spaceId' extends keyof T ? { spaceId?: string } : Record<string, unknown>) &
-  ('environmentId' extends keyof T ? { environmentId?: string } : Record<string, unknown>)
+export type OptionalDefaults<T> = UnionOmit<T, keyof DefaultParams> &
+  Partial<Pick<T, Extract<keyof T, keyof DefaultParams>>>
 
 /**
  * @private

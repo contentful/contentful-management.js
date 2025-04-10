@@ -20,6 +20,9 @@ import type { Snapshot, SnapshotProps } from './snapshot'
 import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
 import { omitAndDeleteField } from '../methods/content-type'
 
+type TaxonomyConceptValidationLink = Link<'TaxonomyConcept'> & { required?: boolean }
+type TaxonomyConceptSchemeValidationLink = Link<'TaxonomyConceptScheme'> & { required?: boolean }
+
 export type ContentTypeMetadata = {
   annotations?: RequireAtLeastOne<
     {
@@ -28,7 +31,7 @@ export type ContentTypeMetadata = {
     },
     'ContentType' | 'ContentTypeField'
   >
-  taxonomy?: Array<Link<'TaxonomyConcept'> | Link<'TaxonomyConceptScheme'>>
+  taxonomy?: Array<TaxonomyConceptValidationLink | TaxonomyConceptSchemeValidationLink>
 }
 
 export type AnnotationAssignment = Link<'Annotation'> & {

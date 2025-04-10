@@ -36,6 +36,7 @@ import type { ContentTypeProps } from '../../../lib/entities/content-type'
 import type { SnapshotProps } from '../../../lib/entities/snapshot'
 import type { EntryProps } from '../../../lib/entities/entry'
 import type { EditorInterfaceProps } from '../../../lib/entities/editor-interface'
+import type { FunctionProps } from '../../../lib/entities/function'
 import type { AssetProps } from '../../../lib/entities/asset'
 import type { AssetKeyProps } from '../../../lib/entities/asset-key'
 import type { UploadProps } from '../../../lib/entities/upload'
@@ -75,6 +76,14 @@ import type { WorkflowProps } from '../../../lib/entities/workflow'
 import type { WorkflowsChangelogEntryProps } from '../../../lib/entities/workflows-changelog-entry'
 import type { UIConfigProps } from '../../../lib/entities/ui-config'
 import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
+import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
+import { ScopeValues } from '../../../lib/entities/oauth-application'
+import type { FunctionLogProps } from '../../../lib/entities/function-log'
+import { AiActionProps } from '../../../lib/entities/ai-action'
+import {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from '../../../lib/entities/ai-action-invocation'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -689,6 +698,20 @@ const organizationMembershipMock: OrganizationMembershipProps = {
   status: false,
 }
 
+const oauthApplicationMock: OAuthApplicationProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'OAuthApplication',
+    lastUsedAt: '2020-03-30T13:38:37.000Z',
+  }),
+  name: 'mocked-name',
+  clientId: 'mocked-client-id',
+  clientSecret: 'mocked-client-secret',
+  redirectUri: 'https://example.com',
+  scopes: [ScopeValues.Read],
+  confidential: false,
+  description: 'mocked-description',
+}
+
 const teamMock: TeamProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Team',
@@ -789,6 +812,93 @@ const releaseActionValidateMock: ReleaseActionProps = {
 const releaseActionUnpublishMock: ReleaseActionProps = {
   ...releaseActionMock,
   action: 'unpublish',
+}
+
+const aiActionMock: AiActionProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AiAction' as const,
+    id: 'mocked-ai-action-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+  }),
+  name: 'Mocked AI Action',
+  description: 'This is a mocked AI Action for testing purposes.',
+  configuration: {
+    modelType: 'mock-model-type',
+    modelTemperature: 0.5,
+  },
+  instruction: {
+    template: 'Process input: {{var.input}} and {{var.standard}}',
+    variables: [
+      {
+        id: 'input',
+        name: 'Input',
+        type: 'Text',
+        configuration: {
+          in: ['Option 1', 'Option 2'],
+          strict: true,
+        },
+      },
+      {
+        id: 'standard',
+        name: 'Standard Input',
+        type: 'StandardInput',
+      },
+    ],
+    conditions: [],
+  },
+  testCases: [],
+}
+
+const aiActionInvocationPayloadMock: AiActionInvocationType = {
+  outputFormat: 'RichText',
+  variables: [
+    {
+      id: 'input',
+      value: 'Test input content',
+    },
+    {
+      id: 'entry',
+      value: {
+        entityType: 'Entry',
+        entityId: 'entry123',
+        entityPath: 'fields.content',
+      },
+    },
+  ],
+}
+
+const aiActionInvocationMock: AiActionInvocationProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AiActionInvocation' as const,
+    id: 'mocked-ai-action-invocation-id',
+    status: 'COMPLETED' as const,
+    space: { sys: { id: 'mocked-space-id', type: 'Link', linkType: 'Space' } },
+    environment: { sys: { id: 'mocked-environment-id', type: 'Link', linkType: 'Environment' } },
+    aiAction: { sys: { id: 'mocked-ai-action-id', type: 'Link', linkType: 'AiAction' } },
+    version: 1,
+  },
+  result: {
+    content: 'Mocked invocation result content',
+    type: 'text',
+    metadata: {
+      statusChangedDates: [
+        {
+          status: 'SCHEDULED' as const,
+          date: '2025-03-21T15:35:31.165Z',
+        },
+        {
+          status: 'IN_PROGRESS' as const,
+          date: '2025-03-21T15:35:37.736Z',
+        },
+        {
+          status: 'COMPLETED' as const,
+          date: '2025-03-21T15:35:42.754Z',
+        },
+      ],
+    },
+  },
 }
 
 const apiKeyMock: ApiKeyProps = {
@@ -1181,7 +1291,73 @@ const resourceMock = {
   },
 }
 
+const functionMock: FunctionProps = {
+  sys: {
+    id: 'function-id',
+    type: 'Function',
+    createdBy: makeLink('User', 'user-id'),
+    createdAt: '2022-02-20T10:00:00Z',
+    updatedBy: makeLink('User', 'user-id'),
+    updatedAt: '2022-02-20T10:00:01Z',
+    organization: makeLink('Organization', 'mock-organization-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  name: 'function-name',
+  description: 'desc',
+  path: 'path',
+  accepts: ['application/json'],
+  allowNetworks: ['test'],
+}
+
+const functionCollectionMock = {
+  items: [functionMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
+const functionLogMock: FunctionLogProps = {
+  sys: {
+    id: 'function-id',
+    type: 'FunctionLog',
+    createdBy: makeLink('User', 'user-id'), // Only users can CRUD
+    createdAt: '2022-02-20T10:00:00Z',
+    space: makeLink('Space', 'mock-space-id'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    appDefinition: makeLink('AppDefinition', 'mock-app-definition-id'),
+  },
+  severity: {
+    info: 0,
+    warn: 0,
+    error: 1,
+  },
+  requestId: 'request-id',
+  event: {
+    type: 'http',
+    query: 'GET',
+    isIntrospectionQuery: false,
+    variables: {},
+  },
+  messages: [
+    {
+      timestamp: 1645363200000,
+      type: 'ERROR',
+      message: 'error message',
+    },
+  ],
+}
+
+const functionLogCollectionMock = {
+  items: [functionLogMock],
+  total: 1,
+  limit: 100,
+  skip: 0,
+}
+
 const mocks = {
+  aiAction: aiActionMock,
+  aiActionInvocation: aiActionInvocationMock,
+  aiActionInvocationPayload: aiActionInvocationPayloadMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1216,11 +1392,14 @@ const mocks = {
   environmentTemplateInstallation: environmentTemplateInstallationMock,
   error: errorMock,
   extension: extensionMock,
+  function: functionMock,
+  functionLog: functionLogMock,
   link: linkMock,
   locale: localeMock,
   organization: organizationMock,
   organizationInvitation: organizationInvitationMock,
   organizationMembership: organizationMembershipMock,
+  oauthApplication: oauthApplicationMock,
   appInstallationsForOrg: appInstallationsForOrgMock,
   personalAccessToken: personalAccessTokenMock,
   accessToken: accessTokenMock,
@@ -1244,6 +1423,7 @@ const mocks = {
   teamMembership: teamMembershipMock,
   teamSpaceMembership: teamSpaceMembershipMock,
   upload: uploadMock,
+  uploadCredential: uploadCredentialMock,
   usage: usageMock,
   uiConfig: uiConfigMock,
   user: userMock,
@@ -1273,6 +1453,13 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
 
 function setupEntitiesMock() {
   const entitiesMock = {
+    aiAction: {
+      wrapAiAction: vi.fn(),
+      wrapAiActionCollection: vi.fn(),
+    },
+    aiActionInvocation: {
+      wrapAiActionInvocation: vi.fn(),
+    },
     appAction: {
       wrapAppAction: vi.fn(),
       wrapAppActionCollection: vi.fn(),
@@ -1420,6 +1607,10 @@ function setupEntitiesMock() {
       wrapOrganization: vi.fn(),
       wrapOrganizationCollection: vi.fn(),
     },
+    oauthApplication: {
+      wrapOAuthApplication: vi.fn(),
+      wrapOAuthApplicationCollection: vi.fn(),
+    },
     extension: {
       wrapExtension: vi.fn(),
       wrapExtensionCollection: vi.fn(),
@@ -1479,6 +1670,14 @@ function setupEntitiesMock() {
       wrapEnvironmentTemplateInstallation: vi.fn(),
       wrapEnvironmentTemplateInstallationCollection: vi.fn(),
     },
+    Function: {
+      wrapFunction: vi.fn(),
+      wrapFunctionCollection: vi.fn(),
+    },
+    FunctionLog: {
+      wrapFunctionLog: vi.fn(),
+      wrapFunctionLogCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1518,6 +1717,7 @@ export {
   spaceMembershipMock,
   teamSpaceMembershipMock,
   organizationMembershipMock,
+  oauthApplicationMock,
   teamMock,
   teamMembershipMock,
   organizationInvitationMock,
@@ -1547,4 +1747,8 @@ export {
   resourceProviderMock,
   resourceTypeMock,
   resourceMock,
+  functionMock,
+  functionCollectionMock,
+  functionLogMock,
+  functionLogCollectionMock,
 }

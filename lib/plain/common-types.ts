@@ -5,7 +5,6 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
-  GetAppDefinitionParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
@@ -50,7 +49,6 @@ import type {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from '../entities/environment-template-installation'
-import type { FunctionProps } from '../entities/function'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
@@ -92,6 +90,7 @@ import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import type { EnvironmentPlainClientAPI } from './entities/environment'
 import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { FunctionPlainClientAPI } from './entities/function'
 import type { LocalePlainClientAPI } from './entities/locale'
 import type { OrganizationPlainClientAPI } from './entities/organization'
 import type { ResourcePlainAPI } from './entities/resource'
@@ -117,6 +116,10 @@ import type { WorkflowPlainClientAPI } from './entities/workflow'
 import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
+import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
+import type { FunctionLogPlainClientAPI } from './entities/function-log'
+import type { AiActionPlainClientAPI } from './entities/ai-action'
+import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
 export type PlainClientAPI = {
   raw: {
@@ -128,6 +131,8 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
+  aiAction: AiActionPlainClientAPI
+  aiActionInvocation: AiActionInvocationPlainClientAPI
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
@@ -137,11 +142,8 @@ export type PlainClientAPI = {
   appSignedRequest: AppSignedRequestPlainClientAPI
   appSigningSecret: AppSigningSecretPlainClientAPI
   appAccessToken: AppAccessTokenPlainClientAPI
-  function: {
-    getMany(
-      params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
-    ): Promise<CollectionProp<FunctionProps>>
-  }
+  function: FunctionPlainClientAPI
+  functionLog: FunctionLogPlainClientAPI
   editorInterface: EditorInterfacePlainClientAPI
   space: SpacePlainClientAPI
   environment: EnvironmentPlainClientAPI
@@ -285,17 +287,18 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
       rawData: EntryProps<T>
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
+      rawData?: EntryProps<T>
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
@@ -345,11 +348,12 @@ export type PlainClientAPI = {
     ): Promise<AssetProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
       rawData: AssetProps
     ): Promise<AssetProps>
     unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
+      rawData?: AssetProps
     ): Promise<AssetProps>
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
@@ -567,4 +571,5 @@ export type PlainClientAPI = {
   workflowDefinition: WorkflowDefinitionPlainClientAPI
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  oauthApplication: OAuthApplicationPlainClientAPI
 }

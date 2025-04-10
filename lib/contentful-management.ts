@@ -23,6 +23,8 @@ export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
+export type { RestAdapterParams } from './adapters/REST/rest-adapter'
+export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
@@ -44,7 +46,8 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
+
+export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
  * Create a client instance

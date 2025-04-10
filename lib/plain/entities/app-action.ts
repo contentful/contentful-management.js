@@ -79,6 +79,7 @@ export type AppActionPlainClientAPI = {
    * @throws if the request fails, an entity is not found, or the payload is malformed
    * @example
    * ```javascript
+   * // app action that targets an endpoint url
    * const appAction = await client.appAction.create(
    *   {
    *     organizationId: "<org_id>",
@@ -92,6 +93,28 @@ export type AppActionPlainClientAPI = {
    *     name: "My Notification",
    *   }
    * );
+   *
+   * // app action that invokes a Contentful Function
+   * const functionAppAction = await client.appAction.create(
+   *  {
+   *    organizationId: '<org_id>',
+   *    appDefinitionId: '<app_definition_id>',
+   *    appActionId: '<app_action_id>',
+   *  },
+   *  {
+   *   type: "function-invocation",
+   *   function: {
+   *     sys: {
+   *       type: "Link",
+   *       linkType: "Function",
+   *       id: '<function_id>'
+   *     }
+   *   },
+   *   category: "Notification.v1.0",
+   *   description: "sends a notification",
+   *   name: "Notification (Function Example)",
+   * }
+   *);
    * ```
    */
   create(
@@ -106,6 +129,7 @@ export type AppActionPlainClientAPI = {
    * @throws if the request fails, the App Action is not found, or the payload is malformed
    * @example
    * ```javascript
+   * // app action that targets an endpoint url
    * const appAction = await client.appAction.update(
    *   {
    *     organizationId: "<org_id>",
@@ -119,6 +143,28 @@ export type AppActionPlainClientAPI = {
    *     name: "My Notification",
    *   }
    * );
+   *
+   * // app action that invokes a Contentful Function
+   * const functionAppAction = await client.appAction.update(
+   *  {
+   *    organizationId: '<org_id>',
+   *    appDefinitionId: '<app_definition_id>',
+   *    appActionId: '<app_action_id>',
+   *  },
+   *  {
+   *   type: "function-invocation",
+   *   function: {
+   *     sys: {
+   *       type: "Link",
+   *       linkType: "Function",
+   *       id: '<function_id>'
+   *     }
+   *   },
+   *   category: "Notification.v1.0",
+   *   description: "sends a notification",
+   *   name: "Notification (Function Example)",
+   * }
+   *);
    * ```
    */
   update(

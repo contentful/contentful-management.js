@@ -2,7 +2,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
 import { wrapCollection } from '../common-utils'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type {
+  BasicMetaSysProps,
+  DefaultElements,
+  Link,
+  MakeRequest,
+  SysLink,
+} from '../common-types'
 import type { ParameterDefinition } from './widget-parameters'
 import enhanceWithMethods from '../enhance-with-methods'
 
@@ -42,24 +48,16 @@ type CustomAppActionProps = {
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
 export type AppActionCategoryType = AppActionCategory['category']
 
+/**
+ * 'function' is deprecated, use 'function-invocation' instead
+ */
 export type AppActionType = 'endpoint' | 'function' | 'function-invocation'
 
-export type CreateAppActionProps = AppActionCategory & {
-  url: string
-  name: string
-  description?: string
-  type?: AppActionType
-}
-
-export type AppActionProps = AppActionCategory & {
+type BaseAppActionProps = AppActionCategory & {
   /**
    * System metadata
    */
   sys: AppActionSys
-  /**
-   * Url that will be called when the action is invoked
-   */
-  url: string
   /**
    * Human readable name for the action
    */
@@ -68,14 +66,74 @@ export type AppActionProps = AppActionCategory & {
    * Human readable description of the action
    */
   description?: string
+}
+
+type CreateEndpointAppActionProps = {
   /**
    * Type of the action, defaults to endpoint if not provided
    * endpoint: action is sent to specified URL
-   * function: deprecated, use function-invocation instead
+   */
+  type?: 'endpoint'
+  /**
+   * Url that will be called when the action is invoked
+   */
+  url: string
+}
+
+type EndpointAppActionProps = {
+  /**
+   * Type of the action
+   * endpoint: action is sent to specified URL
+   */
+  type: 'endpoint'
+  /**
+   * Url that will be called when the action is invoked
+   */
+  url: string
+}
+
+type CreateFunctionAppActionProps = {
+  /**
+   * Type of the action
    * function-invocation: action invokes a contentful function
    */
-  type?: AppActionType
+  type: 'function-invocation'
+  /**
+   * Link to a Function
+   */
+  function: Link<'Function'>
+  /**
+   * ID of the action
+   */
+  id?: string
 }
+
+type FunctionAppActionProps = {
+  /**
+   * Type of the action
+   * function-invocation: action invokes a contentful function
+   */
+  type: 'function-invocation'
+  /**
+   * Link to a Function
+   */
+  function: Link<'Function'>
+}
+
+/**
+ * @deprecated Use FunctionAppActionProps instead
+ */
+type LegacyFunctionAppActionProps = Record<string, unknown> & {
+  type: 'function'
+}
+
+export type CreateAppActionProps = AppActionCategory & {
+  name: string
+  description?: string
+} & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
+
+export type AppActionProps = BaseAppActionProps &
+  (EndpointAppActionProps | FunctionAppActionProps | LegacyFunctionAppActionProps)
 
 export type AppAction = AppActionProps &
   DefaultElements<AppActionProps> & {

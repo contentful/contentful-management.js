@@ -58,6 +58,19 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    aiAction: {
+      get: wrap(wrapParams, 'AiAction', 'get'),
+      getMany: wrap(wrapParams, 'AiAction', 'getMany'),
+      create: wrap(wrapParams, 'AiAction', 'create'),
+      update: wrap(wrapParams, 'AiAction', 'update'),
+      delete: wrap(wrapParams, 'AiAction', 'delete'),
+      publish: wrap(wrapParams, 'AiAction', 'publish'),
+      unpublish: wrap(wrapParams, 'AiAction', 'unpublish'),
+      invoke: wrap(wrapParams, 'AiAction', 'invoke'),
+    },
+    aiActionInvocation: {
+      get: wrap(wrapParams, 'AiActionInvocation', 'get'),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
@@ -127,7 +140,13 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
     },
     function: {
+      get: wrap(wrapParams, 'Function', 'get'),
       getMany: wrap(wrapParams, 'Function', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'Function', 'getManyForEnvironment'),
+    },
+    functionLog: {
+      get: wrap(wrapParams, 'FunctionLog', 'get'),
+      getMany: wrap(wrapParams, 'FunctionLog', 'getMany'),
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
@@ -446,6 +465,13 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'OrganizationMembership', 'update'),
       delete: wrap(wrapParams, 'OrganizationMembership', 'delete'),
     },
+    oauthApplication: {
+      get: wrap(wrapParams, 'OAuthApplication', 'get'),
+      getManyForUser: wrap(wrapParams, 'OAuthApplication', 'getManyForUser'),
+      update: wrap(wrapParams, 'OAuthApplication', 'update'),
+      delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
+      create: wrap(wrapParams, 'OAuthApplication', 'create'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
@@ -501,6 +527,7 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'WorkflowDefinition', 'delete'),
     },
     workflow: {
+      get: wrap(wrapParams, 'Workflow', 'get'),
       getMany: wrap(wrapParams, 'Workflow', 'getMany'),
       create: wrap(wrapParams, 'Workflow', 'create'),
       update: wrap(wrapParams, 'Workflow', 'update'),

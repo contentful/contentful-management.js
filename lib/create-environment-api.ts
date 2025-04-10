@@ -1,6 +1,12 @@
 import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { BasicCursorPaginationOptions, QueryOptions } from './common-types'
+import type {
+  AcceptsQueryOptions,
+  BasicCursorPaginationOptions,
+  CreatedAtIntervalParams,
+  CursorBasedParams,
+  QueryOptions,
+} from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -46,8 +52,12 @@ import { wrapTag, wrapTagCollection } from './entities/tag'
 import { wrapUIConfig } from './entities/ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
+import { wrapFunctionCollection } from './entities/function'
+import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
+import type { AiActionInvocationType } from './entities/ai-action-invocation'
+import { wrapAiActionInvocation } from './entities/ai-action-invocation'
 
 /**
  * @private
@@ -1668,6 +1678,137 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((payload) => wrapAppAccessToken(makeRequest, payload))
     },
     /**
+     * Gets a collection of Functions for a given environment
+     * @param appInstallationId
+     * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
+     * @return Promise containing wrapped collection of Functions in an environment
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client
+     *    .getSpace('<space-id>')
+     *    .then((space) => space.getEnvironment('<environment-id>'))
+     *    .then((environment) => environment.getFunctionsForEnvironment('<app-installation-id>',  { 'accepts[all]': '<action>' }))
+     *    .then((functions) => console.log(functions.items))
+     *    .catch(console.error)
+     * ```
+     */
+    getFunctionsForEnvironment(appInstallationId: string, query?: AcceptsQueryOptions) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Function',
+        action: 'getManyForEnvironment',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appInstallationId,
+          query,
+        },
+      }).then((data) => wrapFunctionCollection(makeRequest, data))
+    },
+    /**
+     * Gets a collection of FunctionLogs for a given app installation id and FunctionId
+     * @param appInstallationId
+     * @param functionId
+     * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
+     * @return Promise containing wrapped collection of FunctionLogs
+     * * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client
+     *    .getSpace('<space-id>')
+     *    .then((space) => space.getEnvironment('<environment-id>'))
+     *    .then((environment) =>
+     *       environment.getFunctionLogs(
+     *          '<app-installation-id>',
+     *          '<function-id>',
+     *          {
+     *            query: {
+     *              // optional limit
+     *              limit: 10,
+     *              // optional interval query
+     *              'sys.createdAt[gte]': start,
+     *              'sys.createdAt[lt]': end,
+     *              // optional cursor based pagination parameters
+     *              pagePrev: '<page_prev>',
+     *            },
+     *          },
+     *       )
+     *     )
+     *     .then((functionLogs) => console.log(functionLog.items))
+     *     .catch(console.error)
+     * ```
+     */
+    getFunctionLogs(
+      appInstallationId: string,
+      functionId: string,
+      query?: CursorBasedParams & CreatedAtIntervalParams
+    ) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'FunctionLog',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appInstallationId,
+          functionId,
+          query: query ? createRequestConfig({ query }).params : undefined,
+        },
+      }).then((data) => wrapFunctionLogCollection(makeRequest, data))
+    },
+    /**
+     * Gets a FunctionLog by appInstallationId, functionId and logId
+     * @param appInstallationId
+     * @param functionId
+     * @param logId
+     * @return Promise containing a wrapped FunctionLog
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client
+     *    .getSpace(<space-id>)
+     *    .then((space) => space.getEnvironment('<environment-id>'))
+     *    .then((environment) =>
+     *       environment.getFunctionLog(
+     *          '<app-installation-id>',
+     *          '<function-id>',
+     *          '<log-id>'
+     *       )
+     *     )
+     *     .then((functionLog) => console.log(functionLog))
+     *     .catch(console.error)
+     * ```
+     */
+    getFunctionLog(appInstallationId: string, functionId: string, logId: string) {
+      const raw: EnvironmentProps = this.toPlainObject()
+
+      return makeRequest({
+        entityType: 'FunctionLog',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appInstallationId,
+          functionId,
+          logId,
+        },
+      }).then((data) => wrapFunctionLog(makeRequest, data))
+    },
+    /**
      * Gets all snapshots of an entry
      * @func getEntrySnapshots
      * @param entryId - Entry ID
@@ -2359,6 +2500,66 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           resourceTypeId,
         },
       }).then((data) => wrapResourceCollection(makeRequest, data))
+    },
+    /**
+     * Invokes an AI Action.
+     * @param aiActionId - The ID of the AI Action to invoke.
+     * @param payload - The invocation payload.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.invokeAiAction('<ai_action_id>', {
+     *     variables: [  ...  ],
+     *     outputFormat: 'RichText'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    invokeAiAction(aiActionId: string, payload: AiActionInvocationType) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'invoke',
+        params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, aiActionId },
+        payload,
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    /**
+     * Retrieves an AI Action Invocation.
+     * @param params - Object containing the AI Action ID and the Invocation ID.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getAiActionInvocation({
+     *      aiActionId: '<ai_action_id>',
+     *      invocationId: '<invocation_id>'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    getAiActionInvocation({
+      aiActionId,
+      invocationId,
+    }: {
+      aiActionId: string
+      invocationId: string
+    }) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiActionInvocation',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          aiActionId,
+          invocationId,
+        },
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
     },
   }
 }

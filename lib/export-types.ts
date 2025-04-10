@@ -10,6 +10,8 @@ export type {
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
+export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
+export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
 export type {
   AppAction,
   AppActionCategoryProps,
@@ -149,6 +151,11 @@ export type { FieldType } from './entities/field-type'
 export type { FunctionProps } from './entities/function'
 export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale'
 export type { Organization, OrganizationProp, OrganizationProps } from './entities/organization'
+export type {
+  OAuthApplication,
+  OAuthApplicationProps,
+  CreateOAuthApplicationProps,
+} from './entities/oauth-application'
 export type {
   CreateOrganizationInvitationProps,
   OrganizationInvitation,

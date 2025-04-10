@@ -36,6 +36,15 @@ export const getMany: RestEndpoint<'Workflow', 'getMany'> = (
     params: params.query,
   })
 
+export const get: RestEndpoint<'Workflow', 'get'> = (
+  http: AxiosInstance,
+  params: GetWorkflowParams,
+  headers?: RawAxiosRequestHeaders
+) =>
+  raw.get<WorkflowProps>(http, getWorkflowUrl(params), {
+    headers,
+  })
+
 export const create: RestEndpoint<'Workflow', 'create'> = (
   http: AxiosInstance,
   params: CreateWorkflowParams,

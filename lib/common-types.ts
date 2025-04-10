@@ -174,6 +174,17 @@ import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplicationProps,
+  UpdateOAuthApplicationProps,
+} from './entities/oauth-application'
+import type { FunctionLogProps } from './entities/function-log'
+import type { AiActionProps, CreateAiActionProps } from './entities/ai-action'
+import type {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from './entities/ai-action-invocation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -277,6 +288,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   firstPublishedAt?: string
   publishedCounter?: number
   locale?: string
+  fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -344,6 +356,59 @@ export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 's
   pagePrev?: string
 }
 
+// Base interface for shared fields
+interface CursorPaginationBase {
+  limit?: number
+}
+
+// Interfaces for each “exclusive” shape
+interface CursorPaginationPageNext extends CursorPaginationBase {
+  pageNext: string
+  pagePrev?: never
+}
+
+interface CursorPaginationPagePrev extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev: string
+}
+
+interface CursorPaginationNone extends CursorPaginationBase {
+  pageNext?: never
+  pagePrev?: never
+}
+
+type StartOperator = 'gt' | 'gte'
+type EndOperator = 'lt' | 'lte'
+type ComparisonOperator = StartOperator | EndOperator
+
+// Helper type for creating property paths with comparison operators
+// For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
+type WithComparisonOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+
+// Helper types to ensure only one start operator can be used and only one end operator can be used
+type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C> = {
+  [K in WithComparisonOperator<P, O>]: string | Date
+} & {
+  [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
+}
+type WithStartOperator<P extends string> =
+  | WithOneOperator<P, StartOperator, 'gt'>
+  | WithOneOperator<P, StartOperator, 'gte'>
+type WithEndOperator<P extends string> =
+  | WithOneOperator<P, EndOperator, 'lt'>
+  | WithOneOperator<P, EndOperator, 'lte'>
+
+// Type for valid date range combinations - only start, only end, or both
+type IntervalQuery<P extends string> =
+  | Partial<WithStartOperator<P>>
+  | Partial<WithEndOperator<P>>
+  | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
+
+export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
+export interface AcceptsQueryOptions {
+  'accepts[all]'?: string
+}
+
 export type KeyValueMap = Record<string, any>
 
 /**
@@ -356,6 +421,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'put', UA>): MRReturn<'Http', 'put'>
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
   (opts: MROpts<'Http', 'request', UA>): MRReturn<'Http', 'request'>
+
+  (opts: MROpts<'AiAction', 'get', UA>): MRReturn<'AiAction', 'get'>
+  (opts: MROpts<'AiAction', 'getMany', UA>): MRReturn<'AiAction', 'getMany'>
+  (opts: MROpts<'AiAction', 'create', UA>): MRReturn<'AiAction', 'create'>
+  (opts: MROpts<'AiAction', 'update', UA>): MRReturn<'AiAction', 'update'>
+  (opts: MROpts<'AiAction', 'delete', UA>): MRReturn<'AiAction', 'delete'>
+  (opts: MROpts<'AiAction', 'publish', UA>): MRReturn<'AiAction', 'publish'>
+  (opts: MROpts<'AiAction', 'unpublish', UA>): MRReturn<'AiAction', 'unpublish'>
+  (opts: MROpts<'AiAction', 'invoke', UA>): MRReturn<'AiAction', 'invoke'>
+
+  (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -550,6 +626,16 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Extension', 'update', UA>): MRReturn<'Extension', 'update'>
   (opts: MROpts<'Extension', 'delete', UA>): MRReturn<'Extension', 'delete'>
 
+  (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
+  (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
+  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
+    'Function',
+    'getManyForEnvironment'
+  >
+
+  (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
+  (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
+
   (opts: MROpts<'Locale', 'get', UA>): MRReturn<'Locale', 'get'>
   (opts: MROpts<'Locale', 'getMany', UA>): MRReturn<'Locale', 'getMany'>
   (opts: MROpts<'Locale', 'delete', UA>): MRReturn<'Locale', 'delete'>
@@ -595,6 +681,15 @@ type MRInternal<UA extends boolean> = {
     'AccessToken',
     'getManyForOrganization'
   >
+
+  (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
+  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
+    'OAuthApplication',
+    'getManyForUser'
+  >
+  (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
+  (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
+  (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
 
   (opts: MROpts<'PreviewApiKey', 'get', UA>): MRReturn<'PreviewApiKey', 'get'>
   (opts: MROpts<'PreviewApiKey', 'getMany', UA>): MRReturn<'PreviewApiKey', 'getMany'>
@@ -767,6 +862,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'WorkflowDefinition', 'update', UA>): MRReturn<'WorkflowDefinition', 'update'>
   (opts: MROpts<'WorkflowDefinition', 'delete', UA>): MRReturn<'WorkflowDefinition', 'delete'>
 
+  (opts: MROpts<'Workflow', 'get', UA>): MRReturn<'Workflow', 'get'>
   (opts: MROpts<'Workflow', 'getMany', UA>): MRReturn<'Workflow', 'getMany'>
   (opts: MROpts<'Workflow', 'create', UA>): MRReturn<'Workflow', 'create'>
   (opts: MROpts<'Workflow', 'update', UA>): MRReturn<'Workflow', 'update'>
@@ -846,6 +942,48 @@ export type MRActions = {
     put: { params: { url: string; config?: RawAxiosRequestConfig }; payload: any; return: any }
     delete: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
+  }
+  AiAction: {
+    get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<AiActionProps>
+    }
+    create: {
+      params: GetSpaceParams
+      payload: CreateAiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    update: {
+      params: GetSpaceParams & { aiActionId: string }
+      payload: AiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    delete: { params: GetSpaceParams & { aiActionId: string }; return: any }
+    publish: {
+      params: GetSpaceParams & { aiActionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    unpublish: {
+      params: GetSpaceParams & { aiActionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    invoke: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionInvocationType
+      headers?: RawAxiosRequestHeaders
+      return: AiActionInvocationProps
+    }
+  }
+  AiActionInvocation: {
+    get: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
+      return: AiActionInvocationProps
+    }
   }
   AppAction: {
     get: { params: GetAppActionParams; return: AppActionProps }
@@ -1315,12 +1453,6 @@ export type MRActions = {
       return: EditorInterfaceProps
     }
   }
-  Function: {
-    getMany: {
-      params: GetAppDefinitionParams & QueryParams
-      return: CollectionProp<FunctionProps>
-    }
-  }
   Environment: {
     get: { params: GetSpaceEnvironmentParams; return: EnvironmentProps }
     getMany: {
@@ -1533,6 +1665,28 @@ export type MRActions = {
     }
     delete: { params: GetExtensionParams; return: any }
   }
+  Function: {
+    get: { params: GetFunctionParams; return: FunctionProps }
+    getMany: { params: GetManyFunctionParams; return: CollectionProp<FunctionProps> }
+    getManyForEnvironment: {
+      params: GetFunctionForEnvParams
+      return: CollectionProp<FunctionProps>
+    }
+  }
+
+  FunctionLog: {
+    get: {
+      params: GetFunctionLogParams
+      return: FunctionLogProps
+      headers?: RawAxiosRequestHeaders
+    }
+    getMany: {
+      params: GetManyFunctionLogParams
+      return: CollectionProp<FunctionLogProps>
+      headers?: RawAxiosRequestHeaders
+    }
+  }
+
   Locale: {
     get: { params: GetSpaceEnvironmentParams & { localeId: string }; return: LocaleProps }
     getMany: {
@@ -1609,6 +1763,26 @@ export type MRActions = {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<AccessTokenProps>
     }
+  }
+  OAuthApplication: {
+    get: { params: GetOAuthApplicationParams; return: OAuthApplicationProps }
+    getManyForUser: {
+      params: GetUserParams & QueryParams
+      return: CursorPaginatedCollectionProp<OAuthApplicationProps>
+    }
+    create: {
+      params: GetUserParams
+      payload: CreateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    update: {
+      params: GetOAuthApplicationParams
+      payload: UpdateOAuthApplicationProps
+      headers?: RawAxiosRequestHeaders
+      return: OAuthApplicationProps
+    }
+    delete: { params: GetOAuthApplicationParams; return: void }
   }
   PreviewApiKey: {
     get: { params: GetSpaceParams & { previewApiKeyId: string }; return: PreviewApiKeyProps }
@@ -2004,6 +2178,11 @@ export type MRActions = {
     }
   }
   Workflow: {
+    get: {
+      params: GetWorkflowParams
+      headers?: RawAxiosRequestHeaders
+      return: WorkflowProps
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }
       headers?: RawAxiosRequestHeaders
@@ -2077,7 +2256,7 @@ export type MRReturn<
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+
 export interface MakeRequestPayload {}
 
 export interface MakeRequestOptions {
@@ -2121,6 +2300,16 @@ export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentType
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+export type GetFunctionForEnvParams = AcceptsQueryParams &
+  GetSpaceEnvironmentParams & {
+    appInstallationId: string
+  }
+export type GetManyFunctionLogParams = CursorBasedParams &
+  CreatedAtIntervalParams &
+  GetFunctionForEnvParams & { functionId: string }
+export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
@@ -2188,6 +2377,17 @@ export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: st
 export type QueryParams = { query?: QueryOptions }
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+export type CursorPaginationXORParams = {
+  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
+    limit?: number
+  }
+}
+export type CursorBasedParams = CursorPaginationXORParams
+export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
+export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
+
+export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
