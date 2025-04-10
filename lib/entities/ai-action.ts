@@ -24,9 +24,9 @@ export type ReferenceVariableConfiguration = {
 
 export type VariableConfiguration =
   | {
-      strict: boolean
-      in: Array<string>
-    }
+    strict: boolean
+    in: Array<string>
+  }
   | ReferenceVariableConfiguration
 
 export type Variable = {
@@ -49,17 +49,17 @@ export type Configuration = {
 
 export type AiActionTestCase =
   | {
-      type?: 'Text'
-      value?: string
-    }
+    type?: 'Text'
+    value?: string
+  }
   | {
-      type?: 'Reference'
-      value?: {
-        entityPath?: string
-        entityType?: 'Entry'
-        entityId?: string
-      }
+    type?: 'Reference'
+    value?: {
+      entityPath?: string
+      entityType?: 'Entry'
+      entityId?: string
     }
+  }
 
 export interface AiActionQueryOptions {
   limit?: number
@@ -68,18 +68,15 @@ export interface AiActionQueryOptions {
 }
 
 export type AiActionProps = {
-  sys: MetaSysProps & {
+  sys: MetaSysProps<'User' | 'AppDefinition'> & {
     type: 'AiAction'
-    space: { sys: { id: string } }
+    space: Link<'Space'>
     publishedBy?: Link<'User'> | Link<'AppDefinition'>
     updatedBy: Link<'User'> | Link<'AppDefinition'>
     createdBy: Link<'User'> | Link<'AppDefinition'>
     publishedVersion?: number
     version: number
     publishedAt?: string
-    updatedAt: string
-    createdAt: string
-    id: string
   }
   name: string
   description: string
