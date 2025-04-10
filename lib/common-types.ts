@@ -258,9 +258,9 @@ export interface BasicMetaSysProps<TSubject extends string = string> {
   type: string
   id: string
   version: number
-  createdBy?: { [Subject in TSubject]: Link<Subject> }
+  createdBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   createdAt: string
-  updatedBy?: { [Subject in TSubject]: Link<Subject> }
+  updatedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   updatedAt: string
 }
 
@@ -274,10 +274,10 @@ export interface MetaSysProps<TSubject extends string = string>
   status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: { [Subject in TSubject]: Link<Subject> }
+  archivedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: { [Subject in TSubject]: Link<Subject> }
+  deletedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   deletedAt?: string
 }
 
