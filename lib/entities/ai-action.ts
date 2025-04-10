@@ -72,9 +72,6 @@ export type AiActionProps = {
     type: 'AiAction'
     space: Link<'Space'>
     publishedBy?: Link<'User'> | Link<'AppDefinition'>
-    updatedBy: Link<'User'> | Link<'AppDefinition'>
-    createdBy: Link<'User'> | Link<'AppDefinition'>
-    publishedVersion?: number
     version: number
     publishedAt?: string
   }
