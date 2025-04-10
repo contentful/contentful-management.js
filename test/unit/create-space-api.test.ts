@@ -550,10 +550,11 @@ describe('A createSpaceApi', () => {
     const { api, makeRequest, entitiesMock } = setup(Promise.resolve(aiAction))
     entitiesMock.aiAction.wrapAiAction.mockReturnValue(aiAction)
 
-    await api.publishAiAction('aiActionId', aiAction).then((r) => {
+    await api.publishAiAction('aiActionId', { version: aiAction.sys.version }).then((r) => {
       expect(r).to.eql(aiAction)
-      expect(makeRequest.mock.calls[0][0].payload).to.eql(aiAction)
+
       expect(makeRequest.mock.calls[0][0].params.aiActionId).to.eql('aiActionId')
+      expect(makeRequest.mock.calls[0][0].params.version).to.eql(aiAction.sys.version)
       expect(makeRequest.mock.calls[0][0].action).to.eql('publish')
     })
   })
@@ -564,7 +565,7 @@ describe('A createSpaceApi', () => {
     const aiAction = cloneMock('aiAction')
 
     try {
-      await api.publishAiAction('aiActionId', aiAction)
+      await api.publishAiAction('aiActionId', { version: aiAction.sys.version })
     } catch (e) {
       expect(e).to.eq(error)
     }

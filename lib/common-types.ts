@@ -960,8 +960,7 @@ export type MRActions = {
     }
     delete: { params: GetSpaceParams & { aiActionId: string }; return: any }
     publish: {
-      params: GetSpaceParams & { aiActionId: string }
-      payload: AiActionProps
+      params: GetSpaceParams & { aiActionId: string; version: number }
       headers?: RawAxiosRequestHeaders
       return: AiActionProps
     }
