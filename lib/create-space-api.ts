@@ -19,6 +19,7 @@ import type {
   UpsertWebhookSigningSecretPayload,
   WebhookRetryPolicyPayload,
 } from './entities/webhook'
+import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
 
 /**
  * @private
@@ -46,6 +47,8 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
   const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
   const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
   const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
+  const { wrapAiAction, wrapAiActionCollection } = entities.aiAction
+  const { wrapAiActionInvocation, wrapAiActionInvocationCollection } = entities.aiActionInvocation
 
   return {
     /**
@@ -1543,6 +1546,162 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           scheduledActionId,
         },
       }).then((response) => wrapScheduledAction(makeRequest, response))
+    },
+    /**
+     * Gets a single AI Action.
+     * @param aiActionId - AI Action ID
+     * @return Promise for an AI Action
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getAiAction('<ai_action_id>'))
+     *   .then((aiAction) => console.log(aiAction))
+     *   .catch(console.error)
+     * ```
+     */
+    getAiAction(aiActionId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'get',
+        params: { spaceId: raw.sys.id, aiActionId },
+      }).then((data) => wrapAiAction(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of AI Actions.
+     * @param query - Object with search parameters.
+     * @return Promise for a collection of AI Actions
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getAiActions({ limit: 10 }))
+     *   .then((response) => console.log(response.items))
+     *   .catch(console.error)
+     * ```
+     */
+    getAiActions(query: AiActionQueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'getMany',
+        params: { spaceId: raw.sys.id, query },
+      }).then((data) => wrapAiActionCollection(makeRequest, data))
+    },
+
+    /**
+     * Creates an AI Action.
+     * @param data - Object representation of the AI Action to be created
+     * @return Promise for the newly created AI Action
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.createAiAction({
+     *     name: 'My AI Action',
+     *     description: 'Description here',
+     *     configuration: { modelType: 'model-x', modelTemperature: 0.7 },
+     *     instruction: { template: 'Do something: {{var.input}}', variables: [], conditions: [] },
+     *     testCases: []
+     *   }))
+     *   .then((aiAction) => console.log(aiAction))
+     *   .catch(console.error)
+     * ```
+     */
+    createAiAction(data: CreateAiActionProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'create',
+        params: { spaceId: raw.sys.id },
+        payload: data,
+      }).then((response) => wrapAiAction(makeRequest, response))
+    },
+
+    /**
+     * Updates an AI Action.
+     * @param aiActionId - AI Action ID
+     * @param data - Object representation of the AI Action update
+     * @return Promise for the updated AI Action
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.updateAiAction('<ai_action_id>', { name: 'New Name', ... }))
+     *   .then((aiAction) => console.log(aiAction))
+     *   .catch(console.error)
+     * ```
+     */
+    updateAiAction(aiActionId: string, data: AiActionProps) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'update',
+        params: { spaceId: raw.sys.id, aiActionId },
+        payload: data,
+        headers: { 'X-Contentful-Version': data.sys.version ?? 0 },
+      }).then((response) => wrapAiAction(makeRequest, response))
+    },
+
+    /**
+     * Publishes an AI Action.
+     * @param aiActionId - AI Action ID
+     * @param data - Object representation of the AI Action to be published
+     * @return Promise for the published AI Action
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.publishAiAction('<ai_action_id>', { ... }))
+     *   .then((aiAction) => console.log(aiAction))
+     *   .catch(console.error)
+     * ```
+     */
+    publishAiAction(aiActionId: string, { version }: { version: number }) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'publish',
+        params: { spaceId: raw.sys.id, aiActionId, version },
+      }).then((response) => wrapAiAction(makeRequest, response))
+    },
+
+    /**
+     * Unpublishes an AI Action.
+     * @param aiActionId - AI Action ID
+     * @return Promise for the unpublished AI Action
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.unpublishAiAction('<ai_action_id>'))
+     *   .then((aiAction) => console.log(aiAction))
+     *   .catch(console.error)
+     * ```
+     */
+    unpublishAiAction(aiActionId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'unpublish',
+        params: { spaceId: raw.sys.id, aiActionId },
+      }).then((response) => wrapAiAction(makeRequest, response))
+    },
+    /**
+     * Deletes an AI Action.
+     * @param aiActionId - AI Action ID
+     * @return Promise for deletion (void)
+     * @example
+     * ```javascript
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.deleteAiAction('<ai_action_id>'))
+     *   .then(() => console.log('AI Action deleted'))
+     *   .catch(console.error)
+     * ```
+     */
+    deleteAiAction(aiActionId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'delete',
+        params: { spaceId: raw.sys.id, aiActionId },
+      })
     },
   }
 }

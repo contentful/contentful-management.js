@@ -56,6 +56,8 @@ import { wrapFunctionCollection } from './entities/function'
 import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
+import type { AiActionInvocationType } from './entities/ai-action-invocation'
+import { wrapAiActionInvocation } from './entities/ai-action-invocation'
 
 /**
  * @private
@@ -2555,6 +2557,66 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           resourceTypeId,
         },
       }).then((data) => wrapResourceCollection(makeRequest, data))
+    },
+    /**
+     * Invokes an AI Action.
+     * @param aiActionId - The ID of the AI Action to invoke.
+     * @param payload - The invocation payload.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.invokeAiAction('<ai_action_id>', {
+     *     variables: [  ...  ],
+     *     outputFormat: 'RichText'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    invokeAiAction(aiActionId: string, payload: AiActionInvocationType) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'invoke',
+        params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, aiActionId },
+        payload,
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    /**
+     * Retrieves an AI Action Invocation.
+     * @param params - Object containing the AI Action ID and the Invocation ID.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getAiActionInvocation({
+     *      aiActionId: '<ai_action_id>',
+     *      invocationId: '<invocation_id>'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    getAiActionInvocation({
+      aiActionId,
+      invocationId,
+    }: {
+      aiActionId: string
+      invocationId: string
+    }) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiActionInvocation',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          aiActionId,
+          invocationId,
+        },
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
     },
   }
 }
