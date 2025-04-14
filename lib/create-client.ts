@@ -80,7 +80,7 @@ export function createClient(clientOptions: ClientOptions): ClientAPI
 /**
  * Create a legacy or plain client instance
  *
- * Please check the responding section below:
+ * Please check the corresponding section below:
  *
  * * [Plain Client](#createclient)
  * * [Legacy Chainable Client](#createclient-1)
