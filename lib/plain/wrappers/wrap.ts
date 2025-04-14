@@ -1,6 +1,6 @@
 import type { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
-export type DefaultParams = {
+export type PlainClientDefaultParams = {
   spaceId?: string
   environmentId?: string
   organizationId?: string
@@ -13,15 +13,15 @@ type UnionOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : neve
 /**
  * @private
  */
-export type OptionalDefaults<T> = UnionOmit<T, keyof DefaultParams> &
-  Partial<Pick<T, Extract<keyof T, keyof DefaultParams>>>
+export type OptionalDefaults<T> = UnionOmit<T, keyof PlainClientDefaultParams> &
+  Partial<Pick<T, Extract<keyof T, keyof PlainClientDefaultParams>>>
 
 /**
  * @private
  */
 export type WrapParams = {
   makeRequest: MakeRequest
-  defaults?: DefaultParams
+  defaults?: PlainClientDefaultParams
 }
 
 /**
