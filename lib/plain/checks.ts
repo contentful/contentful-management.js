@@ -19,7 +19,7 @@ export const isUpdated = (data: { sys: MetaSysProps }) => {
 }
 
 /**
- * Returns true when an entity is has no published version
+ * Returns true when an entity has no published version
  */
 export const isDraft = (data: { sys: MetaSysProps }) => !data.sys.publishedVersion
 
