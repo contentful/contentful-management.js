@@ -1,3 +1,5 @@
+import * as AiAction from './ai-action'
+import * as AiActionInvocation from './ai-action-invocation'
 import * as AccessToken from './access-token'
 import * as ApiKey from './api-key'
 import * as AppAccessToken from './app-access-token'
@@ -64,6 +66,8 @@ import * as WorkflowDefinition from './workflow-definition'
 import * as WorkflowsChangelog from './workflows-changelog'
 
 export default {
+  AiAction,
+  AiActionInvocation,
   ApiKey,
   AppAction,
   AppActionCall,

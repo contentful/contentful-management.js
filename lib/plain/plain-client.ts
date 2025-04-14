@@ -59,6 +59,19 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    aiAction: {
+      get: wrap(wrapParams, 'AiAction', 'get'),
+      getMany: wrap(wrapParams, 'AiAction', 'getMany'),
+      create: wrap(wrapParams, 'AiAction', 'create'),
+      update: wrap(wrapParams, 'AiAction', 'update'),
+      delete: wrap(wrapParams, 'AiAction', 'delete'),
+      publish: wrap(wrapParams, 'AiAction', 'publish'),
+      unpublish: wrap(wrapParams, 'AiAction', 'unpublish'),
+      invoke: wrap(wrapParams, 'AiAction', 'invoke'),
+    },
+    aiActionInvocation: {
+      get: wrap(wrapParams, 'AiActionInvocation', 'get'),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),

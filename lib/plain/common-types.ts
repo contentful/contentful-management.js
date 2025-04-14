@@ -118,6 +118,8 @@ import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-chan
 import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
 import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
+import type { AiActionPlainClientAPI } from './entities/ai-action'
+import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
 export type PlainClientAPI = {
   version: string
@@ -130,6 +132,8 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
+  aiAction: AiActionPlainClientAPI
+  aiActionInvocation: AiActionInvocationPlainClientAPI
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
@@ -284,7 +288,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
