@@ -40,7 +40,7 @@
   - [Security](#security)
     - [Removal of eval](#removal-of-eval)
 
-From version 3.0.0 onwards, you can access documentation for a specific version by visiting `https://contentful.github.io/contentful.js/contentful/<VERSION>`.
+From version 3.0.0 onwards, you can access documentation for a specific version by visiting `https://contentful.github.io/contentful-management.js/contentful-management/<VERSION>`.
 
 You can upgrade to a major version using `npm update contentful`
 
