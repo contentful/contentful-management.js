@@ -40,7 +40,7 @@ export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionL
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - raw contentful-Function data
- * @return Wrapped Function data
+ * @returns Wrapped Function data
  */
 export function wrapFunctionLog(
   makeRequest: MakeRequest,
@@ -54,6 +54,6 @@ export function wrapFunctionLog(
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - raw contentful-function data
- * @return Wrapped App Function collection data
+ * @returns Wrapped App Function collection data
  */
 export const wrapFunctionLogCollection = wrapCollection(wrapFunctionLog)

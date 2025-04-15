@@ -21,7 +21,7 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Space
- * @return {Space}
+ * @returns {Space}
  */
 export function wrapSpace(makeRequest: MakeRequest, data: SpaceProps): Space {
   const space = toPlainObject(copy(data))

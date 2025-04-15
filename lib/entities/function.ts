@@ -75,7 +75,7 @@ function createFunctionApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - (real) function to make requests via an adapter
  * @param data - raw contentful-Function data
- * @return Wrapped Function data
+ * @returns Wrapped Function data
  */
 export function wrapFunction(makeRequest: MakeRequest, data: FunctionProps): FunctionProps {
   const func = toPlainObject(copy(data))
