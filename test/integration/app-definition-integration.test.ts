@@ -7,12 +7,7 @@ import {
   getDefaultSpace,
   timeoutToCalmRateLimiting,
 } from '../helpers'
-import type {
-  Organization,
-  Space,
-  Environment,
-  AppInstallation,
-} from '../../lib/contentful-management'
+import type { Organization, Space, Environment, AppInstallation } from '../../lib'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization

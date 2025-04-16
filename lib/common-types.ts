@@ -248,41 +248,41 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps {
-  type: string
+export interface BasicMetaSysProps<TType extends string, TSubject extends string = string> {
+  type: TType
   id: string
   version: number
-  createdBy?: SysLink
+  createdBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   createdAt: string
-  updatedBy?: SysLink
+  updatedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   updatedAt: string
 }
 
-export interface MetaSysProps extends BasicMetaSysProps {
-  space?: SysLink
+export interface MetaSysProps<TType extends string, TSubject extends string = string>
+  extends BasicMetaSysProps<TType, TSubject> {
+  space?: Link<'Space'>
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
    * type guard to get the correct `EntityMetaSysProps` type with this property.
    */
-  status?: SysLink
+  status?: Link<'Status'>
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: SysLink
+  archivedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: SysLink
+  deletedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
   deletedAt?: string
 }
 
-export interface EntityMetaSysProps extends MetaSysProps {
+export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition'> {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
    */
-  contentType: SysLink
-  space: SysLink
-  status?: SysLink
-  environment: SysLink
+  contentType: Link<'ContentType'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
@@ -291,24 +291,9 @@ export interface EntityMetaSysProps extends MetaSysProps {
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
-export interface EntryMetaSysProps extends EntityMetaSysProps {
-  contentType: SysLink
-  automationTags: Link<'Tag'>[]
-}
-
-export interface MetaLinkProps {
-  type: string
-  linkType: string
-  id: string
-}
-
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
-}
-
-export interface SysLink {
-  sys: MetaLinkProps
 }
 
 export interface CollectionProp<TObj> {
@@ -539,7 +524,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
-  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -549,7 +533,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
-  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
@@ -1237,7 +1220,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
-      payload: Omit<AssetFileProp, 'sys'>
+      payload: AssetFileProp
       return: AssetProps
     }
     processForAllLocales: {
@@ -1350,11 +1333,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: OpPatch[]
-      return: ConceptProps
-    }
-    updatePut: {
-      params: UpdateConceptParams
       payload: CreateConceptProps
       return: ConceptProps
     }
@@ -1400,11 +1378,6 @@ export type MRActions = {
       return: ConceptSchemeProps
     }
     update: {
-      params: UpdateConceptSchemeParams
-      payload: OpPatch[]
-      return: ConceptSchemeProps
-    }
-    updatePut: {
       params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps

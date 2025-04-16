@@ -3,10 +3,8 @@ import copy from 'fast-copy'
 import type {
   DefaultElements,
   ISO8601Timestamp,
-  MetaLinkProps,
   Link,
   MakeRequest,
-  SysLink,
   ScheduledActionReferenceFilters,
   BasicCursorPaginationOptions,
   CollectionProp,
@@ -52,7 +50,7 @@ export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
   version: number
-  space: SysLink
+  space: Link<'Space'>
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
   createdBy: Link<'User'> | Link<'AppDefinition'>
@@ -72,7 +70,7 @@ export type ScheduledActionProps = {
   sys: ScheduledActionSysProps
   action: SchedulableActionType
   entity: Link<SchedulableEntityType>
-  environment?: { sys: MetaLinkProps }
+  environment?: Link<'Environment'>
   scheduledFor: {
     datetime: ISO8601Timestamp
     /**

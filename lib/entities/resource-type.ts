@@ -3,8 +3,8 @@ import type {
   CursorPaginatedCollectionProp,
   DefaultElements,
   GetResourceTypeParams,
+  Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -15,10 +15,10 @@ export type ResourceTypeProps = {
   /**
    * System metadata
    */
-  sys: Omit<BasicMetaSysProps, 'version'> & {
-    appDefinition: SysLink
-    resourceProvider: SysLink
-    organization: SysLink
+  sys: Omit<BasicMetaSysProps<'ResourceType', 'User'>, 'version'> & {
+    appDefinition: Link<'AppDefinition'>
+    resourceProvider: Link<'ResourceProvider'>
+    organization: Link<'Organization'>
   }
   /**
    * Resource Type name

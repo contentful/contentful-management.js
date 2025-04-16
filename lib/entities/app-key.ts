@@ -1,13 +1,13 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 
-type AppKeySys = Except<BasicMetaSysProps, 'version'> & {
-  appDefinition: SysLink
-  organization: SysLink
+type AppKeySys = Except<BasicMetaSysProps<'AppKey', 'User'>, 'version'> & {
+  appDefinition: Link<'AppDefinition'>
+  organization: Link<'Organization'>
 }
 
 export interface JWK {

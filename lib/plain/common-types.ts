@@ -122,6 +122,7 @@ import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
 export type PlainClientAPI = {
+  version: string
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
@@ -287,7 +288,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version: number }>,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
@@ -371,7 +372,7 @@ export type PlainClientAPI = {
     ): Promise<AssetProps>
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: Omit<AssetFileProp, 'sys'>
+      data: AssetFileProp
     ): Promise<AssetProps>
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,

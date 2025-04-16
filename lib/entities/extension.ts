@@ -8,12 +8,12 @@ import type {
   ParameterDefinition,
 } from './widget-parameters'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 import type { SetRequired, RequireExactlyOne } from 'type-fest'
 
-type ExtensionSysProps = BasicMetaSysProps & {
-  space: SysLink
-  environment: SysLink
+type ExtensionSysProps = BasicMetaSysProps<'Extension', 'User'> & {
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   srcdocSha256?: string
 }
 

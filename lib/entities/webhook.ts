@@ -5,9 +5,8 @@ import type {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,
+  Link,
   MakeRequest,
-  MetaLinkProps,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -49,11 +48,14 @@ export type WebhookCallRequest = {
 export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
 
 export type WebhookHealthSys = Except<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'Webhook', 'WebhookDefinition'>,
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
 
-export type WebhookCallDetailsSys = Except<BasicMetaSysProps, 'version' | 'updatedAt' | 'updatedBy'>
+export type WebhookCallDetailsSys = Except<
+  BasicMetaSysProps<'WebhookCallOverview', 'WebhookDefinition'>,
+  'version' | 'updatedAt' | 'updatedBy'
+>
 
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
@@ -133,7 +135,7 @@ export type WebhookHealthProps = {
   /**
    * System metadata
    */
-  sys: WebhookHealthSys & { space: { sys: MetaLinkProps } }
+  sys: WebhookHealthSys & { space: Link<'Space'> }
 
   /**
    * Webhook call statistics
@@ -141,10 +143,13 @@ export type WebhookHealthProps = {
   calls: WebhookCalls
 }
 
-export type WebhookSigningSecretSys = Except<BasicMetaSysProps, 'version'>
+export type WebhookSigningSecretSys = Except<
+  BasicMetaSysProps<'WebhookSigningSecret', 'User'>,
+  'version'
+>
 
 export type WebhookSigningSecretProps = {
-  sys: WebhookSigningSecretSys & { space: { sys: MetaLinkProps } }
+  sys: WebhookSigningSecretSys & { space: Link<'Space'> }
   redactedValue: string
 }
 
@@ -152,10 +157,13 @@ export type WebhookRetryPolicyPayload = {
   maxRetries: number
 }
 
-export type WebhookRetryPolicySys = Except<BasicMetaSysProps, 'version'>
+export type WebhookRetryPolicySys = Except<
+  BasicMetaSysProps<'WebhookRetryPolicy', 'User'>,
+  'version'
+>
 
 export type WebhookRetryPolicyProps = {
-  sys: WebhookRetryPolicySys & { space: { sys: MetaLinkProps } }
+  sys: WebhookRetryPolicySys & { space: Link<'Space'> }
   maxRetries: number
 }
 
@@ -163,7 +171,7 @@ export type WebhookProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & { space: SysLink }
+  sys: BasicMetaSysProps<'Webhook', 'User'> & { space: Link<'Space'> }
 
   /**
    * Webhook name

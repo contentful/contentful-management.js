@@ -2,22 +2,22 @@ import type {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,
+  Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
-import entities from '.'
+import entities from './index'
 
 export type ResourceProviderProps = {
   /**
    * System metadata
    */
-  sys: Omit<BasicMetaSysProps, 'version'> & {
-    organization: SysLink
-    appDefinition: SysLink
+  sys: Omit<BasicMetaSysProps<'ResourceProvider', 'User'>, 'version'> & {
+    organization: Link<'Organization'>
+    appDefinition: Link<'AppDefinition'>
   }
   /**
    * Resource Provider type, value is 'function'
@@ -26,7 +26,7 @@ export type ResourceProviderProps = {
   /**
    * Link to a Contentful function
    */
-  function: SysLink
+  function: Link<'Function'>
 }
 
 export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {

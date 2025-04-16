@@ -27,7 +27,7 @@ export type EnvironmentTemplateInstallationStatus =
   keyof typeof EnvironmentTemplateInstallationStatuses
 
 export type EnvironmentTemplateInstallationProps = {
-  sys: BasicMetaSysProps & {
+  sys: BasicMetaSysProps<'EnvironmentTemplateInstallation', 'User'> & {
     type: 'EnvironmentTemplateInstallation'
     space: Link<'Space'>
     template: VersionedLink<'Template'>

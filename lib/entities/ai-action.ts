@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import {
@@ -71,14 +71,6 @@ export type AiActionTestCase =
       }
     }
 
-export type SysLinkUserOrApp = {
-  sys: {
-    id: string
-    linkType: 'User' | 'App'
-    type: 'Link'
-  }
-}
-
 export interface AiActionQueryOptions {
   limit?: number
   skip?: number
@@ -86,18 +78,12 @@ export interface AiActionQueryOptions {
 }
 
 export type AiActionProps = {
-  sys: MetaSysProps & {
+  sys: MetaSysProps<'AiAction', 'User' | 'AppDefinition'> & {
     type: 'AiAction'
-    space: { sys: { id: string } }
-    publishedBy?: SysLinkUserOrApp
-    updatedBy: SysLinkUserOrApp
-    createdBy: SysLinkUserOrApp
-    publishedVersion?: number
+    space: Link<'Space'>
+    publishedBy?: Link<'User'> | Link<'AppDefinition'>
     version: number
     publishedAt?: string
-    updatedAt: string
-    createdAt: string
-    id: string
   }
   name: string
   description: string

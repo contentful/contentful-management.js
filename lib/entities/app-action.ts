@@ -2,19 +2,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
 import { wrapCollection } from '../common-utils'
-import type {
-  BasicMetaSysProps,
-  DefaultElements,
-  Link,
-  MakeRequest,
-  SysLink,
-} from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 import type { ParameterDefinition } from './widget-parameters'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
-  appDefinition: SysLink
-  organization: SysLink
+type AppActionSys = Except<BasicMetaSysProps<'AppAction', 'User'>, 'version'> & {
+  appDefinition: Link<'AppDefinition'>
+  organization: Link<'Organization'>
 }
 
 export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>

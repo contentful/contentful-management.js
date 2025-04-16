@@ -2,20 +2,14 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import type {
-  DefaultElements,
-  MetaLinkProps,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequest,
-} from '../common-types'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 
 export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: BasicMetaSysProps & { space: SysLink }
-  environment: { sys: MetaLinkProps }
+  sys: BasicMetaSysProps<'EnvironmentAlias', 'User'> & { space: Link<'Space'> }
+  environment: Link<'Environment'>
 }
 
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>

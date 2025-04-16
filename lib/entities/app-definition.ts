@@ -1,12 +1,6 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type {
-  DefaultElements,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequest,
-  Link,
-} from '../common-types'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
@@ -44,8 +38,8 @@ export type AppDefinitionProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps & {
-    organization: SysLink
+  sys: BasicMetaSysProps<'AppDefinition', 'User'> & {
+    organization: Link<'Organization'>
     shared: boolean
   }
   /**

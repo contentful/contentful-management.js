@@ -1,12 +1,15 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 
-type AppSignedRequestSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
-  appDefinition: SysLink
-  space: SysLink
-  environment: SysLink
+type AppSignedRequestSys = Except<
+  BasicMetaSysProps<'AppSignedRequest', 'User'>,
+  'version' | 'id'
+> & {
+  appDefinition: Link<'AppDefinition'>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
 }
 
 export type AppSignedRequestProps = {

@@ -8,7 +8,7 @@ import type {
   QueryOptions,
 } from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities'
+import entities from './entities/index'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type { CreateAppActionCallProps } from './entities/app-action-call'
@@ -1100,7 +1100,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
+    createAssetFromFiles(data: AssetFileProp, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',

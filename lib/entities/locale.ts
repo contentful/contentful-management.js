@@ -3,10 +3,13 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
-import type { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types'
 
 export type LocaleProps = {
-  sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
+  sys: BasicMetaSysProps<'Locale', 'User' | 'AppDefinition'> & {
+    space: Link<'Space'>
+    environment: Link<'Environment'>
+  }
   /**
    * Locale name
    */

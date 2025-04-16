@@ -57,26 +57,6 @@ export const patch: RestEndpoint<'Concept', 'patch'> = (
 export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
-  data: OpPatch[],
-  headers?: RawAxiosRequestHeaders
-) => {
-  return raw.patch<ConceptProps>(
-    http,
-    `${basePath(params.organizationId)}/${params.conceptId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        'Content-Type': 'application/json-patch+json',
-        ...headers,
-      },
-    }
-  )
-}
-
-export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
-  http: AxiosInstance,
-  params: UpdateConceptParams,
   data: CreateConceptProps,
   headers?: RawAxiosRequestHeaders
 ) => {

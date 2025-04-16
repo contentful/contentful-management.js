@@ -7,7 +7,6 @@ import type {
   GetTaskParams,
   Link,
   MakeRequest,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -15,12 +14,12 @@ import enhanceWithMethods from '../enhance-with-methods'
 export type TaskStatus = 'active' | 'resolved'
 
 export type TaskSysProps = Pick<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'Task', 'User' | 'AppDefinition'>,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Task'
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   parentEntity: Link<'Entry'>
 }
 

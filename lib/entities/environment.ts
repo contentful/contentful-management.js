@@ -4,13 +4,13 @@ import enhanceWithMethods from '../enhance-with-methods'
 import type { ContentfulEnvironmentAPI } from '../create-environment-api'
 import createEnvironmentApi from '../create-environment-api'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements, SysLink, BasicMetaSysProps, MakeRequest } from '../common-types'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types'
 
-type EnvironmentMetaSys = BasicMetaSysProps & {
-  status: SysLink
-  space: SysLink
-  aliases?: Array<SysLink>
-  aliasedEnvironment?: SysLink
+type EnvironmentMetaSys = BasicMetaSysProps<'EnvironmentMeta', 'User'> & {
+  status: Link<'Status'>
+  space: Link<'Space'>
+  aliases?: Array<Link<'EnvironmentAlias'>>
+  aliasedEnvironment?: Link<'Environment'>
 }
 
 export type EnvironmentProps = {
