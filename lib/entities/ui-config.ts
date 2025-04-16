@@ -17,7 +17,7 @@ export type UIConfigProps = {
   publish?: { publishMode: 'entryPublishing' | 'localePublishing' }
 }
 
-export interface UIConfigSysProps extends BasicMetaSysProps<'User' | 'AppDefinition'> {
+export interface UIConfigSysProps extends BasicMetaSysProps<'UIConfig', 'User' | 'AppDefinition'> {
   space: Link<'Space'>
   environment: Link<'Environment'>
 }

@@ -5,7 +5,7 @@ import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../c
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
-type AppUploadSys = Except<BasicMetaSysProps<'User'>, 'version'>
+type AppUploadSys = Except<BasicMetaSysProps<'AppUpload', 'User'>, 'version'>
 
 export type AppUploadProps = {
   sys: AppUploadSys & {

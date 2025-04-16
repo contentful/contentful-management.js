@@ -8,7 +8,7 @@ export type UserProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps<'User'>
+  sys: BasicMetaSysProps<'User', 'User'>
 
   /**
    * First name of the user

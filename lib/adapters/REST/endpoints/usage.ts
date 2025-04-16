@@ -8,7 +8,7 @@ export const getManyForSpace: RestEndpoint<'Usage', 'getManyForSpace'> = (
   http: AxiosInstance,
   params: { organizationId: string } & QueryParams
 ) => {
-  return raw.get<CollectionProp<UsageProps>>(
+  return raw.get<CollectionProp<UsageProps<'SpacePeriodicUsage'>>>(
     http,
     `/organizations/${params.organizationId}/space_periodic_usages`,
     {
@@ -21,7 +21,7 @@ export const getManyForOrganization: RestEndpoint<'Usage', 'getManyForOrganizati
   http: AxiosInstance,
   params: { organizationId: string } & QueryParams
 ) => {
-  return raw.get<CollectionProp<UsageProps>>(
+  return raw.get<CollectionProp<UsageProps<'OrganizationPeriodicUsage'>>>(
     http,
     `/organizations/${params.organizationId}/organization_periodic_usages`,
     {
