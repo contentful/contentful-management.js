@@ -122,6 +122,7 @@ import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
 export type PlainClientAPI = {
+  version: string
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
