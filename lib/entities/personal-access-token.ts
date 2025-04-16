@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type PersonalAccessTokenProps = {
-  sys: MetaSysProps & { expiresAt?: string }
+  sys: MetaSysProps<'User'> & { expiresAt?: string }
   name: string
   scopes: 'content_management_manage'[]
   revokedAt: null | string

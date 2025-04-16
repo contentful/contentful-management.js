@@ -3,8 +3,9 @@ import copy from 'fast-copy'
 import type {
   CollectionProp,
   DefaultElements,
-  EntryMetaSysProps,
+  EntityMetaSysProps,
   KeyValueMap,
+  Link,
   MakeRequest,
   MetadataProps,
 } from '../common-types'
@@ -13,6 +14,11 @@ import type { ContentfulEntryApi } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
+
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: Link<'ContentType'>
+  automationTags: Link<'Tag'>[]
+}
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntryMetaSysProps

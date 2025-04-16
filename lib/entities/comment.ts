@@ -9,7 +9,6 @@ import type {
   GetSpaceEnvironmentParams,
   Link,
   MakeRequest,
-  SysLink,
   VersionedLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
@@ -24,12 +23,12 @@ interface LinkWithReference<T extends string> extends Link<T> {
 }
 
 export type CommentSysProps = Pick<
-  BasicMetaSysProps,
+  BasicMetaSysProps<'User'>,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Comment'
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   parentEntity:
     | Link<'ContentType'>
     | LinkWithReference<'ContentType'>

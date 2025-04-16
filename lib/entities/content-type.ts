@@ -8,7 +8,6 @@ import type {
   Link,
   MakeRequest,
   QueryOptions,
-  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -39,9 +38,9 @@ export type AnnotationAssignment = Link<'Annotation'> & {
 }
 
 export type ContentTypeProps = {
-  sys: BasicMetaSysProps & {
-    space: SysLink
-    environment: SysLink
+  sys: BasicMetaSysProps<'User' | 'AppDefinition'> & {
+    space: Link<'Space'>
+    environment: Link<'Environment'>
     firstPublishedAt?: string
     publishedCounter?: number
     publishedVersion?: number
