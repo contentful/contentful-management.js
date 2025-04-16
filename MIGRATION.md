@@ -47,6 +47,7 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - TypeScript projects importing from `contentful-management/types` with older module resolution
 - Code using the `Stream` type
 - Code using the `entry.patch` method
+- Code using taxonomy entities
 
 ### Breaking Changes
 
@@ -154,6 +155,14 @@ import type { Space } from 'contentful-management'
 #### Version param is now required for entry patch method
 
 When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
+
+#### Deprecated Taxonomy management methods removed
+
+There were several deprecated taxonomy management methods that used `updatePut` methods that were removed. Please use the `update` methods instead.
+
+#### Taxonomy update methods modified
+
+The previous `update` methods used 'PATCH' to make updates before. These have been updated to use 'PUT' and their options have been updated to reflect the change. If you still want to patch the entity, use the `patch` method instead.
 
 ### Troubleshooting
 
