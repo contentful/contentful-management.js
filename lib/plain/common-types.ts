@@ -323,7 +323,7 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; version?: number; releaseId?: string }
+        GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       >,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders,
