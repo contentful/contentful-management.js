@@ -284,6 +284,9 @@ type AssetApi = {
 
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
+/**
+ * @private
+ */
 function createAssetApi(makeRequest: MakeRequest): AssetApi {
   const getParams = (raw: AssetProps) => {
     return {
