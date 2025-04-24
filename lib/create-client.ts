@@ -30,6 +30,10 @@ interface UserAgentParams {
 
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
+declare global {
+  const __VERSION__: string
+}
+
 /**
  * Create a plain client instance
  *
@@ -95,7 +99,6 @@ export function createClient(
   const sdkMain =
     opts && opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
     clientOptions.integration,
@@ -104,9 +107,7 @@ export function createClient(
 
   const adapter = createAdapter({ ...clientOptions, userAgent })
 
-  // Parameters<?> and ReturnType<?> only return the types of the last overload
-  // https://github.com/microsoft/TypeScript/issues/26591
-  // @ts-expect-error
+  // @ts-expect-error Parameters<?> and ReturnType<?> only return the types of the last overload (https://github.com/microsoft/TypeScript/issues/26591)
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 

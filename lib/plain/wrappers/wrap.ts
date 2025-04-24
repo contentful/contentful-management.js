@@ -66,21 +66,15 @@ export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[
     ? MRActions[ET][Action]['headers']
     : never
 
-  // It's not really possible to make this type safe as we are overloading `makeRequest`.
-  // This missing typesafety is only within `wrap`. `wrap` has proper public types.
-  // @ts-expect-error
+  // @ts-expect-error It's not really possible to make this type safe as we are overloading `makeRequest`. This missing typesafety is only within `wrap`. `wrap` has proper public types.
   return (params?: Params, payload?: Payload, headers?: Headers): MRReturn<ET, Action> =>
-    // @ts-expect-error
+    // @ts-expect-error see above
     makeRequest({
-      // @ts-expect-error
       entityType,
-      // @ts-expect-error
       action,
-      // @ts-expect-error
       params: { ...defaults, ...params },
       payload,
       // Required after adding optional headers to a delete method for the first time
-      // @ts-expect-error
       headers,
-    })
+    } as unknown)
 }
