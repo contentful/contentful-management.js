@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 export type FieldType =
   | { type: 'Symbol' }
   | { type: 'Text' }
