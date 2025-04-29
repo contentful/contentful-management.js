@@ -44,8 +44,8 @@
 
 - [Getting started](#getting-started)
   - [Installation](#installation)
-    - [Node:](#node)
-    - [Browser:](#browser)
+    - [Node](#node)
+    - [Browser](#browser)
   - [Typings](#typings)
   - [Authentication](#authentication)
   - [Importing the library](#importing-the-library)
@@ -106,7 +106,7 @@ To get started with the Contentful Management JS library you'll need to install 
 
 ## Installation
 
-### Node:
+### Node
 
 Using [npm](http://npmjs.org):
 
@@ -120,7 +120,7 @@ Using [yarn](https://yarnpkg.com/lang/en/):
 yarn add contentful-management
 ```
 
-### Browser:
+### Browser
 
 For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
 
