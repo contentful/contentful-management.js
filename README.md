@@ -48,7 +48,7 @@
     - [Browser:](#browser)
   - [Typings](#typings)
   - [Authentication](#authentication)
-  - [Using ES6 import](#using-es6-import)
+  - [Importing the library](#importing-the-library)
   - [Using the Plain Client](#using-the-plain-client)
     - [With scoped space and environment](#with-scoped-space-and-environment)
   - [Using the Legacy Client](#using-the-legacy-client)
@@ -99,7 +99,7 @@ To get started with the Contentful Management JS library you'll need to install 
 
 - [Installation](#installation)
 - [Authentication](#authentication)
-- [Using ES6 import](#using-es6-import)
+- [Importing the library](#importing-the-library)
 - [Your first request](#your-first-request)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
@@ -155,21 +155,16 @@ If you want to use this library for a simple tool or a local app that you won't 
 
 If you'd like to create an app which would make use of this library but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about [Creating an OAuth Application](https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application)
 
-## Using ES6 import
+## Importing the library
 
-You can import the library using ES6 syntax as follows:
+You can import the library using either modern ES6 modules or CommonJS syntax:
 
 ```js
-// import createClient directly
+// Using ES6 modules
 import contentful from 'contentful-management'
-const client = contentful.createClient(
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
-//....
+
+// Using CommonJS
+const contentful = require('contentful-management')
 ```
 
 ## Using the Plain Client
@@ -177,7 +172,7 @@ const client = contentful.createClient(
 Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
 
 ```javascript
-const contentful = require('contentful-management')
+import contentful from 'contentful-management'
 const plainClient = contentful.createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
@@ -240,7 +235,7 @@ The benefits of using the "plain" version of the client, over the legacy version
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
 ```js
-const contentful = require('contentful-management')
+import contentful from 'contentful-management'
 const client = contentful.createClient({
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -275,10 +270,10 @@ grants your apps access to the supported space-environment scoped entities witho
 need to expose a management token, and without coding any additional backend middleware.
 
 ```javascript
-const contentfulApp = require('@contentful/app-sdk')
-const contentful = require('contentful-management')
+import { init as initContentfulApp } from '@contentful/app-sdk'
+import contentful from 'contentful-management'
 
-contentfulApp.init((sdk) => {
+initContentfulApp((sdk) => {
   const cma = contentful.createClient(
     { apiAdapter: sdk.cmaAdapter },
     {
