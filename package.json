@@ -70,8 +70,7 @@
     "prepublishOnly": "npm run build && npm run test:version"
   },
   "files": [
-    "dist",
-    "types.d.ts"
+    "dist"
   ],
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
