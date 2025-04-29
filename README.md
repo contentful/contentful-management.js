@@ -328,7 +328,7 @@ It’s your go-to resource for:
 
 The [Contentful JS SDK TypeDoc reference](https://contentful.github.io/contentful-management.js) documents all exported objects, types, functions, and instance methods.
 
-> From version `1.0.0` onward, access version-specific docs at  
+> You can access version-specific docs at
 > `https://contentful.github.io/contentful-management.js/contentful-management/<VERSION>`
 
 ---
