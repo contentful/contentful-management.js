@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicMetaSysProps,
   CollectionProp,
@@ -9,7 +13,8 @@ import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
-import entities from '.'
+
+import { wrapResourceType } from './resource-type'
 
 export type ResourceProviderProps = {
   /**
@@ -47,8 +52,6 @@ export interface ResourceProvider
  * @private
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
-  const { wrapResourceType } = entities.resourceType
-
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
