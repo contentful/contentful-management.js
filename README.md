@@ -13,7 +13,7 @@
 <p align="center">
   <a href="README.md">Readme</a> · 
   <a href="SETUP.md">Setup</a> · 
-  <a href="CHANGELOG.md">Changelog</a> · 
+  <a href="https://github.com/contentful/contentful-management.js/releases">Changelog</a> · 
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
