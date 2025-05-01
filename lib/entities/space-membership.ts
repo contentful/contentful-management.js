@@ -20,8 +20,9 @@ export interface SpaceMembership
     DefaultElements<SpaceMembershipProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -38,8 +39,9 @@ export interface SpaceMembership
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
-   * @example ```javascript
+   * @returns Object returned from the server with updated changes.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -92,7 +94,7 @@ function createSpaceMembershipApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
- * @return Wrapped space membership data
+ * @returns Wrapped space membership data
  */
 export function wrapSpaceMembership(
   makeRequest: MakeRequest,
