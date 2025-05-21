@@ -155,6 +155,9 @@ const contentful = require('contentful-management')
 If this does not work, you can directly require the CJS-compatible code:
 
 ```js
+// pure cjs files
+const contentful = require('contentful-management/dist/cjs/index.cjs')
+// bundle
 const contentful = require('contentful-management/dist/contentful-management.cjs')
 ```
 
