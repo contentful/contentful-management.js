@@ -39,6 +39,13 @@ export default tseslint.config(
       ],
     },
   },
+  // Dist
+  {
+    files: ['dist/cjs/**/*'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
   // Tests
   {
     files: ['test/**/*'],

@@ -9,7 +9,7 @@
       "types": "./dist/types/index.d.ts",
       "browser": "./dist/contentful-management.browser.js",
       "import": "./dist/esm/index.js",
-      "require": "./dist/contentful-management.cjs"
+      "require": "./dist/cjs/index.cjs"
     }
   },
   "main": "./dist/esm/index.js",
