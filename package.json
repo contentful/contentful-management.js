@@ -8,8 +8,9 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
-    }
+      "require": "./dist/cjs/index.js"
+    },
+    "./dist/contentful-management.cjs": "./dist/contentful-management.cjs"
   },
   "main": "./dist/esm/index.js",
   "types": "dist/types/index.d.ts",
