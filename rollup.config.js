@@ -1,4 +1,4 @@
-import { resolve, extname, dirname } from 'path';
+import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url'
 
 import pkg from './package.json' with { type: 'json' }
@@ -15,31 +15,8 @@ import { babel } from '@rollup/plugin-babel'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-function renameJsToCjs() {
-  return {
-    name: 'rename-js-to-cjs',
-    generateBundle(options, bundle) {
-      for (const [fileName, file] of Object.entries(bundle)) {
-        if (file.type === 'chunk' && extname(fileName) === '.js') {
-          const newFileName = fileName.replace(/\.js$/, '.cjs');
-
-          // Emit new file with updated name and same code
-          this.emitFile({ type: 'asset', fileName: newFileName, source: file.code });
-
-          // Remove old .js entry
-          delete bundle[fileName];
-        }
-      }
-    },
-  };
-}
-
 const baseConfig = {
   input: 'dist/esm-raw/index.js',
-  output: {
-    file: 'dist/contentful-management.cjs',
-    format: 'cjs',
-  },
   plugins: [
     optimizeLodashImports(),
     replace({
@@ -80,21 +57,22 @@ const cjsConfig = {
     dir: 'dist/cjs',
     format: 'cjs',
     preserveModules: true,
+    entryFileNames: '[name].cjs',
   },
   plugins: [
     replace({
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VERSION__: JSON.stringify(pkg.version),
-    }),
-    renameJsToCjs()
+    })
   ],
 }
 
 const cjsBundleConfig = {
   ...baseConfig,
   output: {
-    ...baseConfig.output,
+    file: 'dist/contentful-management.node.cjs',
+    format: 'cjs',
   },
   plugins: [
     ...baseConfig.plugins,

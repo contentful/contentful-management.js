@@ -8,11 +8,11 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "require": "./dist/cjs/index.cjs"
     },
-    "./dist/contentful-management.cjs": "./dist/contentful-management.cjs"
+    "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs"
   },
-  "main": "./dist/esm/index.js",
+  "main": "./dist/cjs/index.cjs",
   "types": "dist/types/index.d.ts",
   "engines": {
     "node": ">=18"
@@ -32,15 +32,15 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:esm && npm run build:bundles && rm -rf dist/esm-raw",
+    "build": "npm run clean && npm run build:esm && npm run build:rollup && rm -rf dist/esm-raw",
     "build:esm": "tsc",
-    "build:bundles": "NODE_ENV=production rollup -c",
+    "build:rollup": "NODE_ENV=production rollup -c",
     "build:docs": "typedoc",
     "postbuild": "npm run check && npm run test:demo-projects",
     "check": "npm run check:cjs && npm run check:esm && npm run check:browser && npm run check:browser-min",
     "check:browser": "es-check es2018 ./dist/contentful-management.browser.js",
     "check:browser-min": "es-check es2018 ./dist/contentful-management.browser.min.js",
-    "check:cjs": "es-check es2017 './dist/contentful-management.cjs'",
+    "check:cjs": "es-check es2017 './dist/**/*.cjs'",
     "check:esm": "es-check es2017 --module './dist/esm/*.js'",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
