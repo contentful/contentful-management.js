@@ -24,6 +24,7 @@ export type {
 export type {
   AppActionCall,
   AppActionCallProps,
+  AppActionCallResponse,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 export type {
@@ -86,6 +87,7 @@ export type {
 export type {
   Comment,
   CommentProps,
+  CommentStatus,
   CreateCommentProps,
   DeleteCommentParams,
   GetCommentParentEntityParams,
@@ -124,6 +126,7 @@ export type {
   EntryProps,
   WithResourceName,
   EntryMetaSysProps,
+  EntryReferenceProps,
 } from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
@@ -195,7 +198,7 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps } from './entities/role'
+export type { CreateRoleProps, Role, RoleProps, ActionType, ConstraintType } from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
@@ -209,7 +212,7 @@ export type {
   SpaceMembership,
   SpaceMembershipProps,
 } from './entities/space-membership'
-export type { CreateTagProps, Tag, TagProps, TagVisibility } from './entities/tag'
+export type { CreateTagProps, Tag, TagProps, TagVisibility, TagSysProps } from './entities/tag'
 export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
@@ -238,6 +241,9 @@ export type {
   WebhookProps,
   WebhookSigningSecretProps,
   WebhookTransformation,
+  WebhookCallDetailsProps,
+  WebhookCallOverviewProps,
+  WebhookHealthProps,
 } from './entities/webhook'
 export type {
   CreateWorkflowDefinitionParams,
