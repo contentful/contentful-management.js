@@ -179,10 +179,6 @@
     {
       "path": "./dist/contentful-management.browser.min.js",
       "limit": "55 kB"
-    },
-    {
-      "path": "./dist/contentful-management.cjs",
-      "limit": "140 kB"
     }
   ]
 }
