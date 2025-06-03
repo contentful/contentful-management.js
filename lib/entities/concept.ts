@@ -17,7 +17,6 @@ type Concept = {
   notations: string[]
   broader: TaxonomyConceptLink[]
   related: TaxonomyConceptLink[]
-  conceptSchemes?: Link<'TaxonomyConceptScheme'>[]
   sys: {
     type: 'TaxonomyConcept'
     createdAt: string
