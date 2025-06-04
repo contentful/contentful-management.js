@@ -9,6 +9,7 @@ import type {
   GetManyConceptParams,
   GetOrganizationParams,
   UpdateConceptParams,
+  Link,
 } from '../../../common-types'
 import type { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 import type { RestEndpoint } from '../types'
@@ -96,7 +97,11 @@ export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
   params: GetConceptParams
-) => raw.get<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`)
+) =>
+  raw.get<ConceptProps & { conceptSchemes?: Link<'TaxonomyConceptScheme'>[] }>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptId}`
+  )
 
 export const del: RestEndpoint<'Concept', 'delete'> = (
   http: AxiosInstance,
@@ -115,7 +120,11 @@ export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   params: GetManyConceptParams
 ) => {
   const { url, queryParams } = cursorBasedCollection('', params)
-  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, {
+  return raw.get<
+    CursorPaginatedCollectionProp<
+      ConceptProps & { conceptSchemes?: Link<'TaxonomyConceptScheme'>[] }
+    >
+  >(http, url, {
     params: queryParams,
   })
 }
