@@ -542,6 +542,7 @@ function isConceptProps(concept: any) {
       'altLabels',
       'broader',
       'changeNote',
+      'conceptSchemes',
       'definition',
       'editorialNote',
       'example',
