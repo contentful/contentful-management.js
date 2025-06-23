@@ -42,6 +42,18 @@ describe('Contentful Management', () => {
     expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
+  it('creates a plain client with releaseSchema defaults', () => {
+    createClient(
+      { accessToken: 'token' },
+      { type: 'plain', defaults: { releaseSchema: 'Release.v2' } }
+    )
+
+    expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {
+      releaseSchema: 'Release.v2',
+    })
+    expect(createContentfulApiMock).not.toHaveBeenCalled()
+  })
+
   it('generates the correct default user agent', () => {
     createClient({ accessToken: 'token' })
 

@@ -4,6 +4,7 @@ export type DefaultParams = {
   spaceId?: string
   environmentId?: string
   organizationId?: string
+  releaseSchema?: 'Release.v1' | 'Release.v2'
 }
 /**
  * @private
