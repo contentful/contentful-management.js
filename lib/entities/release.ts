@@ -39,6 +39,8 @@ export interface ReleaseQueryOptions {
   /** Comma-separated filter (inclusion) by Release status (active, archived) */
   'sys.status[in]'?: ReleaseStatus
 
+  'sys.schemaVersion'?: 'Release.v1' | 'Release.v2'
+
   /** Comma-separated filter (exclusion) by Release status (active, archived) */
   'sys.status[nin]'?: ReleaseStatus
 
@@ -100,10 +102,13 @@ export interface ReleaseProps {
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
+  sys?: {
+    type: 'Release'
+    schemaVersion: 'Release.v1' | 'Release.v2'
+  }
   title: string
   entities: BaseCollection<Link<Entity>>
 }
-
 export interface ReleaseValidatePayload {
   action?: 'publish'
 }

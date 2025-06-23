@@ -1929,6 +1929,11 @@ export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: stri
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
+
+export type GetReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
+  releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
+}
+
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
