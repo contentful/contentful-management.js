@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
+import type { GetReleaseParams, GetReleaseEnvironmentParams } from '../../../common-types'
 import type {
   ReleasePayload,
   ReleaseQueryOptions,
@@ -21,8 +21,36 @@ export const get: RestEndpoint<'Release', 'get'> = (
 
 export const query: RestEndpoint<'Release', 'query'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+  params: GetReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
 ) => {
+  // console.log(
+  //   '[ CONTENTFUL_MANAGEMENET.js ] release.query() JSON.stringify(params) => ',
+  //   JSON.stringify(params, null, 4)
+  // )
+
+  const releaseSchemaVersion = params.query?.['sys.schemaVersion']
+    ? params.query?.['sys.schemaVersion']
+    : params.releaseSchemaVersion
+    ? params.releaseSchemaVersion
+    : undefined
+
+  // console.log(
+  //   '[ CONTENTFUL_MANAGEMENET.js ] release.query() releaseSchemaVersion => ',
+  //   JSON.stringify(releaseSchemaVersion, null, 4)
+  // )
+
+  if (releaseSchemaVersion) {
+    params.query = {
+      ...params.query,
+      'sys.schemaVersion': releaseSchemaVersion,
+    }
+  }
+
+  // console.log(
+  //   '[ CONTENTFUL_MANAGEMENET.js ] release.query() FINAL params => ',
+  //   JSON.stringify(params, null, 4)
+  // )
+
   return raw.get(http, `/spaces/${params.spaceId}/environments/${params.environmentId}/releases`, {
     params: params.query,
   })
@@ -30,9 +58,43 @@ export const query: RestEndpoint<'Release', 'query'> = (
 
 export const create: RestEndpoint<'Release', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: GetReleaseEnvironmentParams,
   payload: ReleasePayload
 ) => {
+  console.log(
+    '[ CONTENTFUL_MANAGEMENET.js ] release.create() payload => ',
+    JSON.stringify(payload, null, 4)
+  )
+
+  console.log(
+    '[ CONTENTFUL_MANAGEMENET.js ] release.create() params => ',
+    JSON.stringify(params, null, 4)
+  )
+
+  const releaseSchemaVersion = payload.sys?.schemaVersion
+    ? payload.sys?.schemaVersion
+    : params.releaseSchemaVersion
+    ? params.releaseSchemaVersion
+    : undefined
+
+  console.log(
+    '[ CONTENTFUL_MANAGEMENET.js ] release.create() FINAL releaseSchemaVersion => ',
+    releaseSchemaVersion
+  )
+
+  if (releaseSchemaVersion === 'Release.v2') {
+    // modify the payload
+    payload.sys = {
+      type: 'Release',
+      schemaVersion: 'Release.v2',
+    }
+  }
+
+  console.log(
+    '[ CONTENTFUL_MANAGEMENET.js ] release.create() FINAL payload => ',
+    JSON.stringify(payload, null, 4)
+  )
+
   return raw.post(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases`,
