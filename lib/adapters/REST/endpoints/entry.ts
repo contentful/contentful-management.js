@@ -54,6 +54,11 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  console.log(
+    `[ CONTENTFUL_MANAGEMENT ] entry.getMany() params => `,
+    JSON.stringify(params, null, 2)
+  )
+
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
