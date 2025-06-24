@@ -120,5 +120,4 @@ describe('Release Api v2', () => {
       expect(fetchedRelease?.sys.schemaVersion).toEqual('Release.v2')
     })
   })
-
 })
