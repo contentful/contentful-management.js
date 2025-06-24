@@ -49,7 +49,7 @@ describe('Contentful Management', () => {
     )
 
     expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {
-      releaseSchema: 'Release.v2',
+      releaseSchemaVersion: 'Release.v2',
     })
     expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
