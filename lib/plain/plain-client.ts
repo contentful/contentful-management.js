@@ -352,6 +352,10 @@ export const createPlainClient = (
       unarchive: wrap(wrapParams, 'Release', 'unarchive'),
       unpublish: wrap(wrapParams, 'Release', 'unpublish'),
       validate: wrap(wrapParams, 'Release', 'validate'),
+      entries: {
+        getMany: wrap(wrapParams, 'Entry', 'getMany'),
+        get: wrap(wrapParams, 'Entry', 'get'),
+      },
     },
     releaseAction: {
       get: wrap(wrapParams, 'ReleaseAction', 'get'),

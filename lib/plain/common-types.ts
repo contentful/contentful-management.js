@@ -447,6 +447,20 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams>,
       data?: ReleaseValidatePayload
     ): Promise<ReleaseActionProps<'validate'>>
+
+    entries: {
+      // copy/paste of original entry method types.
+      getMany<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<CollectionProp<EntryProps<T>>>
+      get<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<EntryProps<T>>
+    }
   }
   releaseAction: {
     get(

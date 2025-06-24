@@ -59,6 +59,11 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
     JSON.stringify(params, null, 2)
   )
 
+  console.log(
+    `[ CONTENTFUL_MANAGEMENT ] entry.getMany() rawData => `,
+    JSON.stringify(rawData, null, 2)
+  )
+
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
