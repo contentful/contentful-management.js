@@ -10,6 +10,7 @@ import type {
   GetEnvironmentTemplateParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseEntryParams,
   GetReleaseParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
@@ -17,6 +18,7 @@ import type {
   GetSpaceParams,
   KeyValueMap,
   QueryParams,
+  ReleaseEnvironmentParams,
 } from '../common-types'
 import type {
   AccessTokenProps,
@@ -61,6 +63,7 @@ import type {
 import type { PreviewApiKeyProps } from '../entities/preview-api-key'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
@@ -420,14 +423,32 @@ export type PlainClientAPI = {
   }
   usage: UsagePlainClientAPI
   release: {
+    entry: {
+      get<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetReleaseEntryParams>
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
+        >
+      >
+    }
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
     ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
     create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: ReleasePayload
+      params: OptionalDefaults<ReleaseEnvironmentParams>,
+      data: ReleasePayload | ReleasePayloadV2
     ): Promise<ReleaseProps>
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,

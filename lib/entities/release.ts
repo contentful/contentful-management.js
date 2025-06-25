@@ -107,10 +107,19 @@ export interface ReleaseProps {
 export interface ReleasePayload extends MakeRequestPayload {
   sys?: {
     type: 'Release'
-    schemaVersion: 'Release.v1' | 'Release.v2'
+    schemaVersion?: 'Release.v1' | undefined
   }
   title: string
   entities: BaseCollection<Link<Entity>>
+}
+
+export interface ReleasePayloadV2 extends MakeRequestPayload {
+  sys?: {
+    type: 'Release'
+    schemaVersion: 'Release.v2'
+  }
+  title: string
+  entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
 }
 
 export interface ReleaseValidatePayload {

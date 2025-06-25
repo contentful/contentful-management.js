@@ -342,6 +342,9 @@ export const createPlainClient = (
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
     release: {
+      entry: {
+        get: wrap(wrapParams, 'ReleaseEntry', 'get'),
+      },
       archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),

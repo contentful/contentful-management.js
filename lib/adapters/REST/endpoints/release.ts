@@ -3,6 +3,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type { GetReleaseEnvironmentParams, GetReleaseParams } from '../../../common-types'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
 } from '../../../entities/release'
@@ -39,7 +40,7 @@ export const query: RestEndpoint<'Release', 'query'> = (
 export const create: RestEndpoint<'Release', 'create'> = (
   http: AxiosInstance,
   params: GetReleaseEnvironmentParams,
-  payload: ReleasePayload
+  payload: ReleasePayload | ReleasePayloadV2
 ) => {
   const releaseSchemaVersion = payload.sys?.schemaVersion ?? params.releaseSchemaVersion
 
