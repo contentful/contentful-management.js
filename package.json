@@ -10,7 +10,9 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
     },
-    "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs"
+    "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs",
+    "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js",
+    "./dist/contentful-management.react-native.js": "./dist/contentful-management.react-native.js"
   },
   "main": "./dist/cjs/index.cjs",
   "types": "dist/types/index.d.ts",

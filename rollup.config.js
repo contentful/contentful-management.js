@@ -193,4 +193,13 @@ const browserMinConfig = {
   ],
 }
 
-export default [esmConfig, cjsConfig, cjsBundleConfig, browserConfig, browserMinConfig]
+const reactNativeConfig = {
+  ...browserConfig,
+  output: {
+    ...browserConfig.output,
+    file: 'dist/contentful-management.react-native.js',
+    format: 'cjs',
+  },
+}
+
+export default [esmConfig, cjsConfig, cjsBundleConfig, browserConfig, browserMinConfig, reactNativeConfig]

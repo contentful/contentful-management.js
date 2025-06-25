@@ -157,8 +157,15 @@ If this does not work, you can directly require the CJS-compatible code:
 ```js
 // pure cjs files
 const contentful = require('contentful-management/dist/cjs/index.cjs')
-// bundle
-const contentful = require('contentful-management/dist/contentful-management.cjs')
+
+// node bundle
+const contentful = require('contentful-management/dist/contentful-management.node.cjs')
+
+// react-native bundle
+const contentful = require('contentful-management/dist/contentful-management.react-native.js')
+
+// browser bundle
+const contentful = require('contentful-management/dist/contentful-management.browser.js')
 ```
 
 ### Browser:
