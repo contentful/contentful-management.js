@@ -102,7 +102,7 @@ describe('Release Api v2', () => {
         environmentId: TestDefaults.environmentId,
         spaceId: TestDefaults.spaceId,
       })
-    expect(entryInSpace.sys.id).toEqual(entry.sys.id)
+      expect(entryInSpace.sys.id).toEqual(entry.sys.id)
       expect(entryInSpace.sys.release.sys.id).toEqual(release.sys.id)
     })
   })

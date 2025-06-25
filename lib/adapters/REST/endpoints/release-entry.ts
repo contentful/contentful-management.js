@@ -13,4 +13,3 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`
   )
 }
-
