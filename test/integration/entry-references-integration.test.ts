@@ -36,7 +36,7 @@ describe('Entry References', () => {
       expect(entryWithReferences.includes.Entry.length).toBeGreaterThan(0)
     })
 
-    it.only('Should return the correct cities', () => {
+    it('Should return the correct cities', () => {
       const cities = entryWithReferences.includes.Entry.map(
         (entry: any) => entry.fields.name['en-US']
       )
