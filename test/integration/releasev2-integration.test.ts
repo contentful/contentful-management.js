@@ -177,6 +177,43 @@ describe('Release Api v2', () => {
       })
     })
 
+    it('release.update works', async () => {
+      const updatedRelease = await clientWithoutSchemaDefault.release.update({
+        version: release.sys.version,
+        releaseId: release.sys.id,
+      },
+      {
+        title: 'Updated Test Release',
+        sys: {
+          schemaVersion: 'Release.v2',
+          type: 'Release',
+        },
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [
+            {
+              entity: {
+                sys: {
+                  type: 'Link',
+                  linkType: 'Entry',
+                  id: entry.sys.id,
+                },
+              },
+              action: 'publish',
+            },
+          ],
+        },
+        startDate: "2025-08-28T10:00:000Z"
+      }
+    )
+    expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
+    //cleanup
+    await clientWithoutSchemaDefault.release.delete({
+      releaseId: updatedRelease.sys.id,
+    })
+    })
     it('release.query works', async () => {
       const releases = await clientWithoutSchemaDefault.release.query({
         query: {
