@@ -95,6 +95,38 @@ describe('Release Api v2', () => {
       expect(releases.pages).toStrictEqual({})
     })
 
+    it('release.update works', async () => {
+      const updatedRelease = await clientWithSchemaDefault.release.update({
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+        releaseId: release.sys.id,
+        version: release.sys.version,
+      },
+      {
+        title: 'Updated Test Release',
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [
+            {
+              entity: {
+                sys: {
+                  type: 'Link',
+                  linkType: 'Entry',
+                  id: entry.sys.id,
+                },
+              },
+              action: 'publish',
+            },
+          ],
+        },
+        startDate: "2025-08-28T10:00:000Z"
+      }
+    )
+    expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
+  })
+
     it('release.entry.get works', async () => {
       const entryInSpace = await clientWithSchemaDefault.release.entry.get({
         releaseId: release.sys.id,
@@ -141,6 +173,39 @@ describe('Release Api v2', () => {
       })
     })
 
+    it('release.update works', async () => {
+      const updatedRelease = await clientWithoutSchemaDefault.release.update({
+        version: release.sys.version + 1,
+        releaseId: release.sys.id,
+      },
+      {
+        title: 'Updated Test Release',
+        sys: {
+          schemaVersion: 'Release.v2',
+          type: 'Release',
+        },
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [
+            {
+              entity: {
+                sys: {
+                  type: 'Link',
+                  linkType: 'Entry',
+                  id: entry.sys.id,
+                },
+              },
+              action: 'publish',
+            },
+          ],
+        },
+        startDate: "2025-08-28T10:00:000Z"
+      }
+    )
+    expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
+    })
     it('release.query works', async () => {
       const releases = await clientWithoutSchemaDefault.release.query({
         query: {
