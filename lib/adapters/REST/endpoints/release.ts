@@ -57,9 +57,24 @@ export const create: RestEndpoint<'Release', 'create'> = (
 export const update: RestEndpoint<'Release', 'update'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { version: number },
-  payload: ReleasePayload,
+  payload: ReleasePayload | ReleasePayloadV2,
   headers?: RawAxiosRequestHeaders
 ) => {
+  const releaseSchemaVersion = payload.sys?.schemaVersion ?? params.releaseSchemaVersion
+
+  if (releaseSchemaVersion === 'Release.v2') {
+    payload.sys = { ...payload.sys, type: 'Release', schemaVersion: 'Release.v2' }
+    
+    const v2Payload = payload as ReleasePayloadV2
+    if (v2Payload.entities && v2Payload.entities.items) {
+      const hasV2Format = v2Payload.entities.items.length === 0 || 
+        'entity' in (v2Payload.entities.items[0] ?? {})
+      
+      if (!hasV2Format) {
+        throw new Error('Payload is not a ReleasePayloadV2')
+      }
+    }
+  }
   return raw.put(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}`,
