@@ -125,10 +125,6 @@ describe('Release Api v2', () => {
       }
     )
     expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
-    //cleanup
-    await clientWithSchemaDefault.release.delete({
-      releaseId: updatedRelease.sys.id,
-    })
   })
 
     it('release.entry.get works', async () => {
@@ -179,7 +175,7 @@ describe('Release Api v2', () => {
 
     it('release.update works', async () => {
       const updatedRelease = await clientWithoutSchemaDefault.release.update({
-        version: release.sys.version,
+        version: release.sys.version + 1,
         releaseId: release.sys.id,
       },
       {
@@ -209,10 +205,6 @@ describe('Release Api v2', () => {
       }
     )
     expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
-    //cleanup
-    await clientWithoutSchemaDefault.release.delete({
-      releaseId: updatedRelease.sys.id,
-    })
     })
     it('release.query works', async () => {
       const releases = await clientWithoutSchemaDefault.release.query({
