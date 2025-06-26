@@ -22,9 +22,12 @@ describe('Entry References', () => {
     let entryWithReferences: any
 
     beforeAll(async () => {
-      entryWithReferences = await testEnvironment.getEntryReferences(TestDefaults.entry.testEntryReferenceId, {
-        include: 2,
-      })
+      entryWithReferences = await testEnvironment.getEntryReferences(
+        TestDefaults.entry.testEntryReferenceId,
+        {
+          include: 2,
+        }
+      )
     })
 
     it('Get the correct entry with references', () => {
