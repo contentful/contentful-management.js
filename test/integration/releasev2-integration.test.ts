@@ -95,6 +95,42 @@ describe('Release Api v2', () => {
       expect(releases.pages).toStrictEqual({})
     })
 
+    it('release.update works', async () => {
+      const updatedRelease = await clientWithSchemaDefault.release.update({
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+        releaseId: release.sys.id,
+        version: release.sys.version,
+      },
+      {
+        title: 'Updated Test Release',
+        entities: {
+          sys: {
+            type: 'Array',
+          },
+          items: [
+            {
+              entity: {
+                sys: {
+                  type: 'Link',
+                  linkType: 'Entry',
+                  id: entry.sys.id,
+                },
+              },
+              action: 'publish',
+            },
+          ],
+        },
+        startDate: "2025-08-28T10:00:000Z"
+      }
+    )
+    expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
+    //cleanup
+    await clientWithSchemaDefault.release.delete({
+      releaseId: updatedRelease.sys.id,
+    })
+  })
+
     it('release.entry.get works', async () => {
       const entryInSpace = await clientWithSchemaDefault.release.entry.get({
         releaseId: release.sys.id,

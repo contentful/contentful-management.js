@@ -1821,7 +1821,7 @@ export type MRActions = {
     }
     update: {
       params: GetReleaseParams & { version: number }
-      payload: ReleasePayload
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     delete: {
