@@ -2335,9 +2335,6 @@ export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
 }
-export type GetReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
-  releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
-}
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }

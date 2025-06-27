@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { GetReleaseEnvironmentParams, GetReleaseParams } from '../../../common-types'
+import type { ReleaseEnvironmentParams, GetReleaseParams } from '../../../common-types'
 import type {
   ReleasePayload,
   ReleasePayloadV2,
@@ -22,7 +22,7 @@ export const get: RestEndpoint<'Release', 'get'> = (
 
 export const query: RestEndpoint<'Release', 'query'> = (
   http: AxiosInstance,
-  params: GetReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
+  params: ReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
 ) => {
   // Set the schema version in the query if provided in params or query options
   const releaseSchemaVersion =
@@ -39,7 +39,7 @@ export const query: RestEndpoint<'Release', 'query'> = (
 
 export const create: RestEndpoint<'Release', 'create'> = (
   http: AxiosInstance,
-  params: GetReleaseEnvironmentParams,
+  params: ReleaseEnvironmentParams,
   payload: ReleasePayload | ReleasePayloadV2
 ) => {
   const releaseSchemaVersion = payload.sys?.schemaVersion ?? params.releaseSchemaVersion
