@@ -5,7 +5,7 @@ import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   GetWorkflowParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CompleteWorkflowParams,
   CreateWorkflowParams,
@@ -15,9 +15,9 @@ import type {
   UpdateWorkflowProps,
   WorkflowProps,
   WorkflowQueryOptions,
-} from '../../../entities/workflow'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/workflow.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/workflows`

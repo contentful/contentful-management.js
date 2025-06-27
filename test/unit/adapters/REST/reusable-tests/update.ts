@@ -1,5 +1,5 @@
-import setupRestAdapter from '../helpers/setupRestAdapter'
-import { cloneMock } from '../../../mocks/entities'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
+import { cloneMock } from '../../../mocks/entities.js'
 import { expect, it } from 'vitest'
 
 export function reusableEntityUpdateTest(entityType, mockName) {

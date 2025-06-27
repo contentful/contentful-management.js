@@ -1,10 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { GetResourceProviderParams } from '../../common-types'
+import type { GetResourceProviderParams } from '../../common-types.js'
 import type {
   UpsertResourceProviderProps,
   ResourceProviderProps,
-} from '../../entities/resource-provider'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/resource-provider.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type ResourceProviderPlainClientAPI = {
   /**

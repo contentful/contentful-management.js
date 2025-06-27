@@ -1,13 +1,13 @@
-import { wrapAppUpload, wrapAppUploadCollection } from '../../../lib/entities/app-upload'
-import setupMakeRequest from '../mocks/makeRequest'
+import { wrapAppUpload, wrapAppUploadCollection } from '../../../lib/entities/app-upload.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import { describe, test } from 'vitest'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
   failingActionTest,
   entityDeleteTest,
-} from '../test-creators/instance-entity-methods'
-import { appUploadMock } from '../mocks/entities'
+} from '../test-creators/instance-entity-methods.js'
+import { appUploadMock } from '../mocks/entities.js'
 
 function setup(promise) {
   return {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { sleep } from './utils'
+import { sleep } from './utils.js'
 
 const DEFAULT_MAX_RETRIES = 30
 const DEFAULT_INITIAL_DELAY_MS = 1000

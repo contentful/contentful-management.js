@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, Link, MakeRequest } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import type { DefaultElements, Link, MakeRequest } from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'
 
 export enum InvocationStatus {

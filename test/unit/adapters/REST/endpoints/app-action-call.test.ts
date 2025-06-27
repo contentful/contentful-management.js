@@ -1,10 +1,10 @@
 import { expect, describe, it } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
-import type { CreateAppActionCallProps } from '../../../../../lib/entities/app-action-call'
-import { wrapAppActionCallResponse } from '../../../../../lib/entities/app-action-call'
-import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
+import type { CreateAppActionCallProps } from '../../../../../lib/entities/app-action-call.js'
+import { wrapAppActionCallResponse } from '../../../../../lib/entities/app-action-call.js'
+import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types.js'
 
 function setup(promise, mockName, params = {}) {
   const entityMock = cloneMock(mockName)

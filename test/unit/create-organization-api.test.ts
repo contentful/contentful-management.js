@@ -1,4 +1,4 @@
-import createOrganizationApi from '../../lib/create-organization-api'
+import createOrganizationApi from '../../lib/create-organization-api.js'
 import {
   appActionMock,
   appDefinitionMock,
@@ -19,14 +19,14 @@ import {
   userMock,
   functionCollectionMock,
   functionMock,
-} from './mocks/entities'
+} from './mocks/entities.js'
 import {
   makeGetEntityTest,
   makeGetCollectionTest,
   makeCreateEntityTest,
   makeEntityMethodFailingTest,
-} from './test-creators/static-entity-methods'
-import setupMakeRequest from './mocks/makeRequest'
+} from './test-creators/static-entity-methods.js'
+import setupMakeRequest from './mocks/makeRequest.js'
 import { expect, describe, test } from 'vitest'
 
 function setup<T>(promise: Promise<T>) {

@@ -1,6 +1,6 @@
 import { expect, describe, test } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 function setup(promise, params = {}, type = 'concept') {
   return {

@@ -1,14 +1,14 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
 import type {
   DefaultElements,
   Link,
   MakeRequest,
   MetaSysProps,
   QueryOptions,
-} from '../common-types'
+} from '../common-types.js'
 
 export interface Options {
   teamId?: string

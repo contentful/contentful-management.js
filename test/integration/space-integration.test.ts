@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/export-types'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization } from '../../lib/export-types.js'
 
 describe('Space API', () => {
   let organization: Organization

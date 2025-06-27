@@ -18,7 +18,7 @@ import {
   extensionMock,
   functionCollectionMock,
   functionLogMock,
-} from './mocks/entities'
+} from './mocks/entities.js'
 import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
 import {
@@ -28,12 +28,12 @@ import {
   makeGetCollectionTest,
   makeGetEntityTest,
   testGettingEntrySDKObject,
-} from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
-import { wrapTagCollection } from '../../lib/entities/tag'
-import setupMakeRequest from './mocks/makeRequest'
-import createEnvironmentApi from '../../lib/create-environment-api'
+} from './test-creators/static-entity-methods.js'
+import { wrapEntry } from '../../lib/entities/entry.js'
+import { wrapAsset } from '../../lib/entities/asset.js'
+import { wrapTagCollection } from '../../lib/entities/tag.js'
+import setupMakeRequest from './mocks/makeRequest.js'
+import createEnvironmentApi from '../../lib/create-environment-api.js'
 
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()

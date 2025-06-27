@@ -1,6 +1,6 @@
-import type { OptionalDefaults } from '../wrappers/wrap'
-import type { CursorPaginatedCollectionProp, GetResourceParams } from '../../common-types'
-import type { ResourceProps, ResourceQueryOptions } from '../../entities/resource'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { CursorPaginatedCollectionProp, GetResourceParams } from '../../common-types.js'
+import type { ResourceProps, ResourceQueryOptions } from '../../entities/resource.js'
 
 export type ResourcePlainAPI = {
   /**

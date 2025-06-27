@@ -3,15 +3,15 @@ import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
-} from '../../../entities/app-action-call'
-import * as raw from './raw'
-import type { RestEndpoint } from '../types'
+} from '../../../entities/app-action-call.js'
+import * as raw from './raw.js'
+import type { RestEndpoint } from '../types.js'
 import type {
   CreateWithResponseParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,
-} from '../../../common-types'
-import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
+} from '../../../common-types.js'
+import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils.js'
 
 export const create: RestEndpoint<'AppActionCall', 'create'> = (
   http: AxiosInstance,

@@ -6,11 +6,11 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import type { AiActionProps, CreateAiActionProps } from '../../../entities/ai-action'
-import type { AiActionInvocationType } from '../../../entities/ai-action-invocation'
+} from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import type { AiActionProps, CreateAiActionProps } from '../../../entities/ai-action.js'
+import type { AiActionInvocationType } from '../../../entities/ai-action-invocation.js'
 
 export const get: RestEndpoint<'AiAction', 'get'> = (
   http: AxiosInstance,

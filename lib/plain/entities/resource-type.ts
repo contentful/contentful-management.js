@@ -1,15 +1,15 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 import type {
   BasicCursorPaginationOptions,
   CollectionProp,
   CursorPaginatedCollectionProp,
   GetResourceTypeParams,
   GetSpaceEnvironmentParams,
-} from '../../common-types'
-import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
-import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type'
+} from '../../common-types.js'
+import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types.js'
+import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type.js'
 
 export type ResourceTypePlainClientAPI = {
   /*

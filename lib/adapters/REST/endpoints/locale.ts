@@ -2,11 +2,15 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
-import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
-import type { CreateLocaleProps, LocaleProps } from '../../../entities/locale'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+import type {
+  CollectionProp,
+  GetSpaceEnvironmentParams,
+  QueryParams,
+} from '../../../common-types.js'
+import type { CreateLocaleProps, LocaleProps } from '../../../entities/locale.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 export const get: RestEndpoint<'Locale', 'get'> = (
   http: AxiosInstance,

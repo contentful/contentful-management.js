@@ -6,58 +6,58 @@ import type {
   CreatedAtIntervalParams,
   CursorBasedParams,
   QueryOptions,
-} from './common-types'
-import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities/index'
-import type { CreateAppInstallationProps } from './entities/app-installation'
-import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
-import type { CreateAppActionCallProps } from './entities/app-action-call'
+} from './common-types.js'
+import type { BasicQueryOptions, MakeRequest } from './common-types.js'
+import entities from './entities/index.js'
+import type { CreateAppInstallationProps } from './entities/app-installation.js'
+import type { CreateAppSignedRequestProps } from './entities/app-signed-request.js'
+import type { CreateAppActionCallProps } from './entities/app-action-call.js'
 import type {
   AssetFileProp,
   AssetProps,
   CreateAssetFromFilesOptions,
   CreateAssetProps,
-} from './entities/asset'
-import type { CreateAssetKeyProps } from './entities/asset-key'
+} from './entities/asset.js'
+import type { CreateAssetKeyProps } from './entities/asset-key.js'
 import type {
   BulkAction,
   BulkActionPayload,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from './entities/bulk-action'
+} from './entities/bulk-action.js'
 
-import type { ReleaseActionQueryOptions } from './entities/release-action'
-import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action'
+import type { ReleaseActionQueryOptions } from './entities/release-action.js'
+import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action.js'
 
 import type {
   ReleasePayload,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-} from './entities/release'
-import { wrapRelease, wrapReleaseCollection } from './entities/release'
+} from './entities/release.js'
+import { wrapRelease, wrapReleaseCollection } from './entities/release.js'
 
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type.js'
 import type {
   CreateEntryProps,
   EntryProps,
   EntryReferenceOptionsProps,
   EntryReferenceProps,
-} from './entities/entry'
-import type { EnvironmentProps } from './entities/environment'
-import type { CreateExtensionProps } from './entities/extension'
-import type { CreateLocaleProps } from './entities/locale'
-import type { TagVisibility } from './entities/tag'
-import { wrapTag, wrapTagCollection } from './entities/tag'
-import { wrapUIConfig } from './entities/ui-config'
-import { wrapUserUIConfig } from './entities/user-ui-config'
-import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
-import { wrapFunctionCollection } from './entities/function'
-import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
-import type { CreateAppAccessTokenProps } from './entities/app-access-token'
-import type { ResourceQueryOptions } from './entities/resource'
-import type { AiActionInvocationType } from './entities/ai-action-invocation'
-import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+} from './entities/entry.js'
+import type { EnvironmentProps } from './entities/environment.js'
+import type { CreateExtensionProps } from './entities/extension.js'
+import type { CreateLocaleProps } from './entities/locale.js'
+import type { TagVisibility } from './entities/tag.js'
+import { wrapTag, wrapTagCollection } from './entities/tag.js'
+import { wrapUIConfig } from './entities/ui-config.js'
+import { wrapUserUIConfig } from './entities/user-ui-config.js'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation.js'
+import { wrapFunctionCollection } from './entities/function.js'
+import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log.js'
+import type { CreateAppAccessTokenProps } from './entities/app-access-token.js'
+import type { ResourceQueryOptions } from './entities/resource.js'
+import type { AiActionInvocationType } from './entities/ai-action-invocation.js'
+import { wrapAiActionInvocation } from './entities/ai-action-invocation.js'
 
 /**
  * @private

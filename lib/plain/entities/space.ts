@@ -4,9 +4,9 @@ import type {
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
-import type { SpaceProps } from '../../entities/space'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { SpaceProps } from '../../entities/space.js'
 
 export type SpacePlainClientAPI = {
   /**

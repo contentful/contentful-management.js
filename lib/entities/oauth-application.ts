@@ -1,8 +1,8 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 import copy from 'fast-copy'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 type OAuthApplicationSysProps = BasicMetaSysProps<'Application', 'User'> & {
   lastUsedAt: string | null

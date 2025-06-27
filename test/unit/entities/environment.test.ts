@@ -1,8 +1,8 @@
-import { cloneMock, environmentMock, mockCollection } from '../mocks/entities'
-import type { EnvironmentProps } from '../../../lib/entities/environment'
-import { wrapEnvironment, wrapEnvironmentCollection } from '../../../lib/entities/environment'
+import { cloneMock, environmentMock, mockCollection } from '../mocks/entities.js'
+import type { EnvironmentProps } from '../../../lib/entities/environment.js'
+import { wrapEnvironment, wrapEnvironmentCollection } from '../../../lib/entities/environment.js'
 import { describe, test, expect } from 'vitest'
-import setupMakeRequest from '../mocks/makeRequest'
+import setupMakeRequest from '../mocks/makeRequest.js'
 
 function setup(promise) {
   return {

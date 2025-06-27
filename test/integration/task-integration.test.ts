@@ -6,8 +6,8 @@ import {
   getTestUser,
   waitForEnvironmentToBeReady,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type { Space, Environment, Entry, Task, Link } from '../../lib/export-types'
+} from '../helpers.js'
+import type { Space, Environment, Entry, Task, Link } from '../../lib/export-types.js'
 
 describe('Task API', () => {
   let space: Space

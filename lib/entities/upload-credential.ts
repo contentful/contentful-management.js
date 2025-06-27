@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type UploadCredentialProps = {
   /**

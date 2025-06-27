@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { AppDetailsProps, CreateAppDetailsProps } from '../../../entities/app-details'
-import * as raw from './raw'
-import type { RestEndpoint } from '../types'
-import type { GetAppDefinitionParams } from '../../../common-types'
+import type { AppDetailsProps, CreateAppDetailsProps } from '../../../entities/app-details.js'
+import * as raw from './raw.js'
+import type { RestEndpoint } from '../types.js'
+import type { GetAppDefinitionParams } from '../../../common-types.js'
 
 export const get: RestEndpoint<'AppDetails', 'get'> = (
   http: AxiosInstance,

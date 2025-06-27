@@ -8,10 +8,10 @@ import type {
   MakeRequest,
   MakeRequestPayload,
   VersionedLink,
-} from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { AsyncActionProcessingOptions } from '../methods/action'
-import { pollAsyncActionStatus } from '../methods/action'
+} from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import type { AsyncActionProcessingOptions } from '../methods/action.js'
+import { pollAsyncActionStatus } from '../methods/action.js'
 
 /** Entity types supported by the BulkAction API */
 type Entity = 'Entry' | 'Asset'

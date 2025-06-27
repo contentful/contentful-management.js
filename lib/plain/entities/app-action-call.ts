@@ -1,10 +1,10 @@
-import type { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../common-types'
+import type { GetAppActionCallDetailsParams, GetAppActionCallParams } from '../../common-types.js'
 import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
-} from '../../entities/app-action-call'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-action-call.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppActionCallPlainClientAPI = {
   /**

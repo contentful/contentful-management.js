@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, afterEach, expect, afterAll } from 'vitest'
-import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
-import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
+import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept.js'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types.js'
+import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
 
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []

@@ -5,7 +5,7 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   ContentType,
   Entry,
@@ -13,8 +13,8 @@ import type {
   PlainClientAPI,
   Space,
   WorkflowDefinitionProps,
-} from '../../lib/export-types'
-import { makeLink } from '../utils'
+} from '../../lib/export-types.js'
+import { makeLink } from '../utils.js'
 
 describe('Workflow Api', () => {
   let plainClient: PlainClientAPI

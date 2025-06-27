@@ -4,22 +4,29 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
-import entities from './entities/index'
-import type { CreateApiKeyProps } from './entities/api-key'
-import type { CreateEnvironmentProps } from './entities/environment'
-import type { CreateEnvironmentAliasProps } from './entities/environment-alias'
-import type { CreateRoleProps, RoleProps } from './entities/role'
-import type { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
-import type { SpaceProps } from './entities/space'
-import type { CreateSpaceMembershipProps } from './entities/space-membership'
-import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
+import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types.js'
+import entities from './entities/index.js'
+import type { CreateApiKeyProps } from './entities/api-key.js'
+import type { CreateEnvironmentProps } from './entities/environment.js'
+import type { CreateEnvironmentAliasProps } from './entities/environment-alias.js'
+import type { CreateRoleProps, RoleProps } from './entities/role.js'
+import type {
+  ScheduledActionProps,
+  ScheduledActionQueryOptions,
+} from './entities/scheduled-action.js'
+import type { SpaceProps } from './entities/space.js'
+import type { CreateSpaceMembershipProps } from './entities/space-membership.js'
+import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership.js'
 import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
   WebhookRetryPolicyPayload,
-} from './entities/webhook'
-import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
+} from './entities/webhook.js'
+import type {
+  AiActionProps,
+  AiActionQueryOptions,
+  CreateAiActionProps,
+} from './entities/ai-action.js'
 
 /**
  * @private

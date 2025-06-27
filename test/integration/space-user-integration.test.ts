@@ -1,8 +1,8 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
-import { TestDefaults } from '../defaults'
-import type { Space } from '../../lib/export-types'
+import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers.js'
+import { TestDefaults } from '../defaults.js'
+import type { Space } from '../../lib/export-types.js'
 
 const { userId } = TestDefaults
 

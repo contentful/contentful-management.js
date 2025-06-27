@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =>
   `/organizations/${organizationId}/environment_templates/` + pathSegments.join('/')

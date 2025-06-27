@@ -5,14 +5,14 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
   QueryParams,
-} from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 import type {
   OAuthApplicationProps,
   CreateOAuthApplicationProps,
   UpdateOAuthApplicationProps,
-} from '../../../entities/oauth-application'
+} from '../../../entities/oauth-application.js'
 
 /**
  * Retrieves details of a specific OAuth application. by its unique user ID and oauth application ID.

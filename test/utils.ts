@@ -1,4 +1,4 @@
-import type { Link, VersionedLink } from '../lib/common-types'
+import type { Link, VersionedLink } from '../lib/common-types.js'
 
 export function makeLink<T extends string>(type: T, id: string): Link<T> {
   return {

@@ -1,6 +1,6 @@
-import type { MakeRequest } from './common-types'
-import entities from './entities/index'
-import type { UserUIConfig } from './entities/user-ui-config'
+import type { MakeRequest } from './common-types.js'
+import entities from './entities/index.js'
+import type { UserUIConfig } from './entities/user-ui-config.js'
 
 /**
  * @private

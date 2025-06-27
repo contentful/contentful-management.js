@@ -1,4 +1,4 @@
-import type { QueryOptions } from '../../../common-types'
+import type { QueryOptions } from '../../../common-types.js'
 
 export function normalizeSelect(query?: QueryOptions): QueryOptions | undefined {
   if (query && query.select && !/sys/i.test(query.select)) {

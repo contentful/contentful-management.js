@@ -1,9 +1,9 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import entities from './entities/index'
+import entities from './entities/index.js'
 import type { Stream } from 'stream'
-import type { CreateTeamMembershipProps } from './entities/team-membership'
-import type { CreateTeamProps } from './entities/team'
-import type { CreateOrganizationInvitationProps } from './entities/organization-invitation'
+import type { CreateTeamMembershipProps } from './entities/team-membership.js'
+import type { CreateTeamProps } from './entities/team.js'
+import type { CreateOrganizationInvitationProps } from './entities/organization-invitation.js'
 import type {
   AcceptsQueryOptions,
   AcceptsQueryParams,
@@ -11,14 +11,14 @@ import type {
   MakeRequest,
   QueryOptions,
   QueryParams,
-} from './common-types'
-import type { CreateAppDefinitionProps } from './entities/app-definition'
-import type { CreateAppActionProps } from './entities/app-action'
-import type { CreateAppSigningSecretProps } from './entities/app-signing-secret'
-import type { CreateAppEventSubscriptionProps } from './entities/app-event-subscription'
-import type { CreateAppKeyProps } from './entities/app-key'
-import type { CreateAppDetailsProps } from './entities/app-details'
-import type { OrganizationProps } from './entities/organization'
+} from './common-types.js'
+import type { CreateAppDefinitionProps } from './entities/app-definition.js'
+import type { CreateAppActionProps } from './entities/app-action.js'
+import type { CreateAppSigningSecretProps } from './entities/app-signing-secret.js'
+import type { CreateAppEventSubscriptionProps } from './entities/app-event-subscription.js'
+import type { CreateAppKeyProps } from './entities/app-key.js'
+import type { CreateAppDetailsProps } from './entities/app-details.js'
+import type { OrganizationProps } from './entities/organization.js'
 
 /**
  * @private

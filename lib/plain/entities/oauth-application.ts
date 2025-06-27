@@ -4,13 +4,13 @@ import type {
   QueryParams,
   CursorPaginatedCollectionProp,
   GetUserParams,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplicationProps,
   UpdateOAuthApplicationProps,
-} from '../../entities/oauth-application'
+} from '../../entities/oauth-application.js'
 
 export type OAuthApplicationPlainClientAPI = {
   /**

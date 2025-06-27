@@ -9,15 +9,15 @@ import {
   waitForEnvironmentToBeReady,
   getTestOrganizationId,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   ConceptProps,
   ContentType,
   Environment,
   PlainClientAPI,
   Space,
-} from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
+} from '../../lib/export-types.js'
+import { TestDefaults } from '../defaults.js'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())

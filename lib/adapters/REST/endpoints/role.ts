@@ -7,11 +7,11 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types'
-import type { CreateRoleProps, RoleProps } from '../../../entities/role'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../common-types.js'
+import type { CreateRoleProps, RoleProps } from '../../../entities/role.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 export const get: RestEndpoint<'Role', 'get'> = (
   http: AxiosInstance,

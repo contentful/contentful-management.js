@@ -7,8 +7,8 @@ import type {
   Link,
   MakeRequest,
   VersionedLink,
-} from '../common-types'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+} from '../common-types.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 type JsonObject = { [Key in string]?: JsonValue }
 type JsonArray = Array<JsonValue>

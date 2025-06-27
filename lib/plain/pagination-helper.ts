@@ -3,7 +3,7 @@ import type {
   CollectionProp,
   CursorPaginatedCollectionProp,
   PaginationQueryOptions,
-} from '../common-types'
+} from '../common-types.js'
 
 export type OffsetBasedParams = { query?: PaginationQueryOptions }
 export type CursorBasedParams = { query?: BasicCursorPaginationOptions }

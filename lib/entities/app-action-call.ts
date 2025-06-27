@@ -7,9 +7,9 @@ import type {
   DefaultElements,
   Link,
   MakeRequest,
-} from '../common-types'
-import type { WebhookCallDetailsProps } from './webhook'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import type { WebhookCallDetailsProps } from './webhook.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 type AppActionCallSys = Except<BasicMetaSysProps<'AppActionCall', 'User'>, 'version'> & {
   appDefinition: Link<'AppDefinition'>

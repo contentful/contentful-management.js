@@ -2,10 +2,10 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CreateAppSignedRequestProps,
   AppSignedRequestProps,
-} from '../../../entities/app-signed-request'
-import * as raw from './raw'
-import type { RestEndpoint } from '../types'
-import type { GetAppInstallationParams } from '../../../common-types'
+} from '../../../entities/app-signed-request.js'
+import * as raw from './raw.js'
+import type { RestEndpoint } from '../types.js'
+import type { GetAppInstallationParams } from '../../../common-types.js'
 
 export const create: RestEndpoint<'AppSignedRequest', 'create'> = (
   http: AxiosInstance,

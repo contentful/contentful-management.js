@@ -7,7 +7,7 @@ import type {
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
@@ -15,10 +15,10 @@ import type {
   WebhookRetryPolicyPayload,
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
-} from '../../../entities/webhook'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../entities/webhook.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/webhook_definitions`
 

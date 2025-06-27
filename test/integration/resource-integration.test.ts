@@ -5,18 +5,18 @@ import {
   initPlainClient,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type { Organization } from '../../lib/entities/organization'
-import type { AppDefinition } from '../../lib/entities/app-definition'
-import type { AppUpload } from '../../lib/entities/app-upload'
-import type { AppBundle } from '../../lib/entities/app-bundle'
+} from '../helpers.js'
+import type { Organization } from '../../lib/entities/organization.js'
+import type { AppDefinition } from '../../lib/entities/app-definition.js'
+import type { AppUpload } from '../../lib/entities/app-upload.js'
+import type { AppBundle } from '../../lib/entities/app-bundle.js'
 import type {
   AppInstallation,
   Environment,
   ResourceProvider,
   ResourceType,
-} from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
+} from '../../lib/export-types.js'
+import { TestDefaults } from '../defaults.js'
 
 describe('Resource API', () => {
   const resourceTypeId = 'TMDB:Movie'

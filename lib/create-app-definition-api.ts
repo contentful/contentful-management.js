@@ -1,9 +1,9 @@
-import type { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types'
-import entities from './entities/index'
-import type { CreateAppBundleProps } from './entities/app-bundle'
-import type { AppDefinitionProps } from './entities/app-definition'
-import { wrapAppDefinition } from './entities/app-definition'
-import type { UpsertResourceProviderProps } from './entities/resource-provider'
+import type { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types.js'
+import entities from './entities/index.js'
+import type { CreateAppBundleProps } from './entities/app-bundle.js'
+import type { AppDefinitionProps } from './entities/app-definition.js'
+import { wrapAppDefinition } from './entities/app-definition.js'
+import type { UpsertResourceProviderProps } from './entities/resource-provider.js'
 
 /**
  * @private

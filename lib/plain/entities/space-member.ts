@@ -1,6 +1,6 @@
-import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types'
-import type { SpaceMemberProps } from '../../entities/space-member'
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types.js'
+import type { SpaceMemberProps } from '../../entities/space-member.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type SpaceMemberPlainClientAPI = {
   /**

@@ -1,6 +1,6 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
-import type { DefaultElements, MakeRequest } from '../common-types'
+import type { DefaultElements, MakeRequest } from '../common-types.js'
 
 export type AssetKeyProps = {
   /** A JWT describing a policy; needs to be attached to signed URLs */

@@ -1,6 +1,6 @@
 import { expect, beforeAll, describe, test, afterAll } from 'vitest'
-import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
-import type { Space } from '../../lib/export-types'
+import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Space } from '../../lib/export-types.js'
 
 describe('PreviewApiKeys Api', () => {
   let space: Space

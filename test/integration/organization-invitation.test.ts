@@ -1,6 +1,6 @@
 import { beforeAll, describe, test, expect, afterAll } from 'vitest'
-import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/export-types'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization } from '../../lib/export-types.js'
 
 describe('OrganizationMembership Invitation API', () => {
   let organization: Organization

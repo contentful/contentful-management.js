@@ -5,11 +5,11 @@ import type {
   GetResourceTypeParams,
   Link,
   MakeRequest,
-} from '../common-types'
+} from '../common-types.js'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 export type ResourceTypeProps = {
   /**

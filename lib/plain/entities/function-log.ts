@@ -2,9 +2,9 @@ import type {
   CollectionProp,
   GetFunctionLogParams,
   GetManyFunctionLogParams,
-} from '../../common-types'
-import type { FunctionLogProps } from '../../entities/function-log'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { FunctionLogProps } from '../../entities/function-log.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type FunctionLogPlainClientAPI = {
   /**

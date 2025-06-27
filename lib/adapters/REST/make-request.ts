@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { MakeRequestOptions, MakeRequestPayload } from '../../common-types'
+import type { MakeRequestOptions, MakeRequestPayload } from '../../common-types.js'
 import type { OpPatch } from 'json-patch'
 import type { RawAxiosRequestHeaders } from 'axios'
-import endpoints from './endpoints/index'
+import endpoints from './endpoints/index.js'
 
 type makeAxiosRequest = MakeRequestOptions & {
   axiosInstance: AxiosInstance

@@ -1,11 +1,11 @@
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { wrapAppBundle, wrapAppBundleCollection } from '../../../lib/entities/app-bundle'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapAppBundle, wrapAppBundleCollection } from '../../../lib/entities/app-bundle.js'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
   entityDeleteTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 import { describe, test } from 'vitest'
 
 function setup(promise) {

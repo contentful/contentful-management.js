@@ -1,17 +1,20 @@
-export * from './common-types'
+export * from './common-types.js'
 export type {
   AccessToken,
   AccessTokenProps as AccessTokenProp,
   CreatePersonalAccessTokenProps as CreatePATProps,
-} from './entities/access-token'
-export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
+} from './entities/access-token.js'
+export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key.js'
 export type {
   AppAccessToken,
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
-} from './entities/app-access-token'
-export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
-export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
+} from './entities/app-access-token.js'
+export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action.js'
+export type {
+  AiActionInvocation,
+  AiActionInvocationProps,
+} from './entities/ai-action-invocation.js'
 export type {
   AppAction,
   AppActionCategoryProps,
@@ -20,19 +23,19 @@ export type {
   AppActionProps,
   AppActionType,
   CreateAppActionProps,
-} from './entities/app-action'
+} from './entities/app-action.js'
 export type {
   AppActionCall,
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
-} from './entities/app-action-call'
+} from './entities/app-action-call.js'
 export type {
   AppBundle,
   AppBundleFile,
   AppBundleProps,
   CreateAppBundleProps,
-} from './entities/app-bundle'
+} from './entities/app-bundle.js'
 export type {
   AppDefinition,
   AppDefinitionProps,
@@ -42,38 +45,38 @@ export type {
   NavigationItem,
   PageLocation,
   SimpleLocation,
-} from './entities/app-definition'
+} from './entities/app-definition.js'
 export type {
   AppDetails,
   AppDetailsProps,
   AppIcon,
   CreateAppDetailsProps,
   IconType,
-} from './entities/app-details'
+} from './entities/app-details.js'
 export type {
   AppEventSubscription,
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
-} from './entities/app-event-subscription'
+} from './entities/app-event-subscription.js'
 export type {
   AppInstallation,
   AppInstallationProps,
   CreateAppInstallationProps,
-} from './entities/app-installation'
-export type { AppKey, AppKeyProps, CreateAppKeyProps } from './entities/app-key'
+} from './entities/app-installation.js'
+export type { AppKey, AppKeyProps, CreateAppKeyProps } from './entities/app-key.js'
 export type {
   AppSignedRequest,
   AppSignedRequestProps,
   CreateAppSignedRequestProps,
-} from './entities/app-signed-request'
+} from './entities/app-signed-request.js'
 export type {
   AppSigningSecret,
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
-} from './entities/app-signing-secret'
-export type { AppUpload, AppUploadProps } from './entities/app-upload'
-export type { Asset, AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset'
-export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+} from './entities/app-signing-secret.js'
+export type { AppUpload, AppUploadProps } from './entities/app-upload.js'
+export type { Asset, AssetFileProp, AssetProps, CreateAssetProps } from './entities/asset.js'
+export type { AssetKey, AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key.js'
 export type {
   BulkAction,
   BulkActionPayload,
@@ -83,7 +86,7 @@ export type {
   BulkActionType,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from './entities/bulk-action'
+} from './entities/bulk-action.js'
 export type {
   Comment,
   CommentProps,
@@ -95,20 +98,20 @@ export type {
   RichTextCommentDocument,
   RichTextCommentProps,
   UpdateCommentProps,
-} from './entities/comment'
+} from './entities/comment.js'
 export type {
   AnnotationAssignment,
   ContentType,
   ContentTypeMetadata,
   ContentTypeProps,
   CreateContentTypeProps,
-} from './entities/content-type'
+} from './entities/content-type.js'
 export type {
   ContentFields,
   ContentTypeFieldValidation,
   ContentfulEntryResource,
   ExternalResource,
-} from './entities/content-type-fields'
+} from './entities/content-type-fields.js'
 export type {
   Control,
   Editor,
@@ -119,7 +122,7 @@ export type {
   FieldItem,
   GroupControl,
   SidebarItem,
-} from './entities/editor-interface'
+} from './entities/editor-interface.js'
 export type {
   CreateEntryProps,
   Entry,
@@ -127,13 +130,17 @@ export type {
   WithResourceName,
   EntryMetaSysProps,
   EntryReferenceProps,
-} from './entities/entry'
-export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
+} from './entities/entry.js'
+export type {
+  CreateEnvironmentProps,
+  Environment,
+  EnvironmentProps,
+} from './entities/environment.js'
 export type {
   CreateEnvironmentAliasProps,
   EnvironmentAlias,
   EnvironmentAliasProps,
-} from './entities/environment-alias'
+} from './entities/environment-alias.js'
 export type {
   ContentTypeTemplateProps,
   CreateEnvironmentTemplateProps,
@@ -141,7 +148,7 @@ export type {
   EnvironmentTemplate,
   EnvironmentTemplateProps,
   Hint,
-} from './entities/environment-template'
+} from './entities/environment-template.js'
 export type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallation,
@@ -150,37 +157,37 @@ export type {
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
   ValidationFinding,
-} from './entities/environment-template-installation'
+} from './entities/environment-template-installation.js'
 export type {
   CreateExtensionProps as CreateUIExtensionProps,
   Extension as UIExtension,
   ExtensionProps as UIExtensionProps,
-} from './entities/extension'
-export type { FieldType } from './entities/field-type'
-export type { FunctionProps } from './entities/function'
-export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale'
-export type { Organization, OrganizationProp, OrganizationProps } from './entities/organization'
+} from './entities/extension.js'
+export type { FieldType } from './entities/field-type.js'
+export type { FunctionProps } from './entities/function.js'
+export type { CreateLocaleProps, Locale, LocaleProps } from './entities/locale.js'
+export type { Organization, OrganizationProp, OrganizationProps } from './entities/organization.js'
 export type {
   OAuthApplication,
   OAuthApplicationProps,
   CreateOAuthApplicationProps,
-} from './entities/oauth-application'
+} from './entities/oauth-application.js'
 export type {
   CreateOrganizationInvitationProps,
   OrganizationInvitation,
   OrganizationInvitationProps,
-} from './entities/organization-invitation'
+} from './entities/organization-invitation.js'
 export type {
   OrganizationMembership,
   OrganizationMembershipProps,
-} from './entities/organization-membership'
+} from './entities/organization-membership.js'
 export type {
   CreatePersonalAccessTokenProps,
   PersonalAccessToken,
   PersonalAccessTokenProp,
   PersonalAccessTokenProps,
-} from './entities/personal-access-token'
-export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key'
+} from './entities/personal-access-token.js'
+export type { PreviewApiKey, PreviewApiKeyProps } from './entities/preview-api-key.js'
 export type {
   Release,
   ReleaseMetadata,
@@ -190,47 +197,53 @@ export type {
   ReleaseReferenceFilters,
   ReleaseSysProps,
   ReleaseValidateOptions,
-} from './entities/release'
+} from './entities/release.js'
 export type {
   ReleaseAction,
   ReleaseActionProps,
   ReleaseActionQueryOptions,
   ReleaseActionSysProps,
   ReleaseActionTypes,
-} from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps, ActionType, ConstraintType } from './entities/role'
+} from './entities/release-action.js'
+export type {
+  CreateRoleProps,
+  Role,
+  RoleProps,
+  ActionType,
+  ConstraintType,
+} from './entities/role.js'
 export type {
   ScheduledAction,
   ScheduledActionProps,
   ScheduledActionSysProps,
-} from './entities/scheduled-action'
-export type { Snapshot, SnapshotProps } from './entities/snapshot'
-export type { Space, SpaceProps } from './entities/space'
-export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
+} from './entities/scheduled-action.js'
+export type { Snapshot, SnapshotProps } from './entities/snapshot.js'
+export type { Space, SpaceProps } from './entities/space.js'
+export type { SpaceMember, SpaceMemberProps } from './entities/space-member.js'
 export type {
   CreateSpaceMembershipProps,
   SpaceMembership,
   SpaceMembershipProps,
-} from './entities/space-membership'
-export type { CreateTagProps, Tag, TagProps, TagVisibility, TagSysProps } from './entities/tag'
-export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
-export type { CreateTeamProps, Team, TeamProps } from './entities/team'
+} from './entities/space-membership.js'
+export type { CreateTagProps, Tag, TagProps, TagVisibility, TagSysProps } from './entities/tag.js'
+export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task.js'
+export type { CreateTeamProps, Team, TeamProps } from './entities/team.js'
 export type {
   CreateTeamMembershipProps,
   TeamMembership,
   TeamMembershipProps,
-} from './entities/team-membership'
+} from './entities/team-membership.js'
 export type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembership,
   TeamSpaceMembershipProps,
-} from './entities/team-space-membership'
-export type { UIConfig, UIConfigProps } from './entities/ui-config'
-export type { Upload, UploadProps } from './entities/upload'
-export type { UploadCredential, UploadCredentialProps } from './entities/upload-credential'
-export type { Usage, UsageProps } from './entities/usage'
-export type { User, UserProps } from './entities/user'
-export type { UserUIConfig, UserUIConfigProps } from './entities/user-ui-config'
+} from './entities/team-space-membership.js'
+export type { UIConfig, UIConfigProps } from './entities/ui-config.js'
+export type { Upload, UploadProps } from './entities/upload.js'
+export type { UploadCredential, UploadCredentialProps } from './entities/upload-credential.js'
+export type { Usage, UsageProps } from './entities/usage.js'
+export type { User, UserProps } from './entities/user.js'
+export type { UserUIConfig, UserUIConfigProps } from './entities/user-ui-config.js'
 export type {
   CreateWebhooksProps,
   UpdateWebhookProps,
@@ -244,7 +257,7 @@ export type {
   WebhookCallDetailsProps,
   WebhookCallOverviewProps,
   WebhookHealthProps,
-} from './entities/webhook'
+} from './entities/webhook.js'
 export type {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
@@ -271,29 +284,29 @@ export type {
   WorkflowStepPermissionActors,
   WorkflowStepProps,
   WorkflowStepTaskAction,
-} from './entities/workflow-definition'
-export * from './plain/common-types'
+} from './entities/workflow-definition.js'
+export * from './plain/common-types.js'
 
 export {
   WorkflowStepPermissionAction,
   WorkflowStepPermissionEffect,
   WorkflowStepPermissionType,
-} from './entities/workflow-definition'
+} from './entities/workflow-definition.js'
 
-export type { ConceptProps, CreateConceptProps } from './entities/concept'
-export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
-export type { ResourceProps, ResourceQueryOptions } from './entities/resource'
+export type { ConceptProps, CreateConceptProps } from './entities/concept.js'
+export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme.js'
+export type { ResourceProps, ResourceQueryOptions } from './entities/resource.js'
 export type {
   ResourceProvider,
   ResourceProviderProps,
   UpsertResourceProviderProps,
-} from './entities/resource-provider'
+} from './entities/resource-provider.js'
 export type {
   ResourceType,
   ResourceTypeProps,
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
-} from './entities/resource-type'
+} from './entities/resource-type.js'
 export type {
   DefinedParameters,
   FreeFormParameters,
@@ -301,7 +314,7 @@ export type {
   ParameterDefinition,
   ParameterOption,
   ParameterType,
-} from './entities/widget-parameters'
+} from './entities/widget-parameters.js'
 export type {
   CreateWorkflowProps,
   DeleteWorkflowParams,
@@ -309,9 +322,9 @@ export type {
   Workflow,
   WorkflowProps,
   WorkflowQueryOptions,
-} from './entities/workflow'
+} from './entities/workflow.js'
 export type {
   WorkflowsChangelogEntry,
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
-} from './entities/workflows-changelog-entry'
+} from './entities/workflows-changelog-entry.js'

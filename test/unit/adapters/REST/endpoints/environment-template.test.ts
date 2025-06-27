@@ -1,6 +1,6 @@
 import { describe, expect } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 describe('Environment Template', async () => {
   const mockName = 'environmentTemplate'

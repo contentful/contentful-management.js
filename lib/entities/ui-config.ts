@@ -1,8 +1,8 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
-import createUIConfigApi from '../create-ui-config-api'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
+import createUIConfigApi from '../create-ui-config-api.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type UIConfigProps = {
   /**

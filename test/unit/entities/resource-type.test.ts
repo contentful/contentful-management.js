@@ -1,12 +1,12 @@
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityActionTest,
   entityWrappedTest,
   entityDeleteTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 import { describe, it } from 'vitest'
-import { wrapResourceType, type ResourceTypeProps } from '../../../lib/entities/resource-type'
+import { wrapResourceType, type ResourceTypeProps } from '../../../lib/entities/resource-type.js'
 
 function setup(promise: Promise<ResourceTypeProps>) {
   return {

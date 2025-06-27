@@ -8,9 +8,9 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 /* Workflow Step Permission */
 type NonEmptyArray<T> = [T, ...T[]]

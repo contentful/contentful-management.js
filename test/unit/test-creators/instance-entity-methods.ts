@@ -1,7 +1,7 @@
-import type { MakeRequest, MetaSysProps } from '../../../lib/common-types'
-import type { ContentTypeProps } from '../../../lib/entities/content-type'
-import type { errorMock } from '../mocks/entities'
-import { cloneMock, mockCollection } from '../mocks/entities'
+import type { MakeRequest, MetaSysProps } from '../../../lib/common-types.js'
+import type { ContentTypeProps } from '../../../lib/entities/content-type.js'
+import type { errorMock } from '../mocks/entities.js'
+import { cloneMock, mockCollection } from '../mocks/entities.js'
 import { expect, vi } from 'vitest'
 
 export function entityWrappedTest(setup, { wrapperMethod }) {

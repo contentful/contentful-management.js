@@ -6,8 +6,8 @@ import {
   generateRandomId,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type { Environment, ContentType, Space } from '../../lib/export-types'
+} from '../helpers.js'
+import type { Environment, ContentType, Space } from '../../lib/export-types.js'
 
 describe('ContentType Api', () => {
   let readSpace: Space

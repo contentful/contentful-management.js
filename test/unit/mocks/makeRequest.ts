@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import type { Mock } from 'vitest'
-import type { MakeRequest } from '../../../lib/common-types'
+import type { MakeRequest } from '../../../lib/common-types.js'
 
 export default function setupMakeRequest<T>(
   promise: Promise<T>

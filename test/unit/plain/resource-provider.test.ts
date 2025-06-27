@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib'
-import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
-import { resourceProviderMock } from '../mocks/entities'
+import { createClient } from '../../../lib.js'
+import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
+import { resourceProviderMock } from '../mocks/entities.js'
 
 describe('ResourceProvider', () => {
   const organizationId = 'organizationId'

@@ -1,9 +1,12 @@
 import { describe, test, afterEach, vi } from 'vitest'
-import createUIConfigApi from '../../lib/create-ui-config-api'
-import { wrapUIConfig } from '../../lib/entities/ui-config'
-import { cloneMock } from './mocks/entities'
-import setupMakeRequest from './mocks/makeRequest'
-import { entityUpdateTest, failingVersionActionTest } from './test-creators/instance-entity-methods'
+import createUIConfigApi from '../../lib/create-ui-config-api.js'
+import { wrapUIConfig } from '../../lib/entities/ui-config.js'
+import { cloneMock } from './mocks/entities.js'
+import setupMakeRequest from './mocks/makeRequest.js'
+import {
+  entityUpdateTest,
+  failingVersionActionTest,
+} from './test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   const makeRequest = setupMakeRequest(promise)

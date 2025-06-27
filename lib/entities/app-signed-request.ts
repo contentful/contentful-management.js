@@ -1,7 +1,7 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
 
 type AppSignedRequestSys = Except<
   BasicMetaSysProps<'AppSignedRequest', 'User'>,

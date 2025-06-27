@@ -7,10 +7,10 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types'
-import type { SpaceProps } from '../../../entities/space'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { SpaceProps } from '../../../entities/space.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: GetSpaceParams) =>
   raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)

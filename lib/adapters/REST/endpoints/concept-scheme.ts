@@ -8,10 +8,13 @@ import type {
   GetManyConceptSchemeParams,
   GetOrganizationParams,
   UpdateConceptSchemeParams,
-} from '../../../common-types'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../../entities/concept-scheme'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type {
+  ConceptSchemeProps,
+  CreateConceptSchemeProps,
+} from '../../../entities/concept-scheme.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 function basePath(orgId: string) {
   return `/organizations/${orgId}/taxonomy/concept-schemes`

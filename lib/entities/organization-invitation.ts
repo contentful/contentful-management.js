@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types.js'
 
 export type OrganizationInvitationProps = {
   sys: MetaSysProps<'User'> & {

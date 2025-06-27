@@ -7,15 +7,15 @@ import type {
   GetSpaceEnvironmentParams,
   GetTagParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateTagProps,
   DeleteTagParams,
   TagProps,
   UpdateTagProps,
-} from '../../../entities/tag'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/tag.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/tags`

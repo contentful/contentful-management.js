@@ -2,9 +2,9 @@ import { describe, test } from 'vitest'
 import {
   wrapWorkflowDefinition,
   wrapWorkflowDefinitionCollection,
-} from '../../../lib/entities/workflow-definition'
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+} from '../../../lib/entities/workflow-definition.js'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
@@ -12,7 +12,7 @@ import {
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

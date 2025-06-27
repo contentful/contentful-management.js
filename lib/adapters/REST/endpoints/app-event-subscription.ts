@@ -2,10 +2,10 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CreateAppEventSubscriptionProps,
   AppEventSubscriptionProps,
-} from '../../../entities/app-event-subscription'
-import * as raw from './raw'
-import type { RestEndpoint } from '../types'
-import type { GetAppDefinitionParams } from '../../../common-types'
+} from '../../../entities/app-event-subscription.js'
+import * as raw from './raw.js'
+import type { RestEndpoint } from '../types.js'
+import type { GetAppDefinitionParams } from '../../../common-types.js'
 
 export const get: RestEndpoint<'AppEventSubscription', 'get'> = (
   http: AxiosInstance,

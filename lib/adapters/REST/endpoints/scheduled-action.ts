@@ -4,11 +4,11 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types'
-import type { ScheduledActionProps } from '../../../entities/scheduled-action'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../common-types.js'
+import type { ScheduledActionProps } from '../../../entities/scheduled-action.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 export const get: RestEndpoint<'ScheduledAction', 'get'> = (
   http: AxiosInstance,

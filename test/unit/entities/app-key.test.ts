@@ -1,13 +1,13 @@
 import { describe, test } from 'vitest'
-import { wrapAppKey, wrapAppKeyCollection } from '../../../lib/entities/app-key'
-import { appKeyMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { wrapAppKey, wrapAppKeyCollection } from '../../../lib/entities/app-key.js'
+import { appKeyMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
   entityWrappedTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {
