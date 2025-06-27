@@ -39,6 +39,7 @@ import * as OAuthApplication from './oauth-application'
 import * as PersonalAccessToken from './personal-access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
+import * as ReleaseEntry from './release-entry'
 import * as ReleaseAction from './release-action'
 import * as Resource from './resource'
 import * as ResourceProvider from './resource-provider'
@@ -107,6 +108,7 @@ export default {
   AccessToken,
   PreviewApiKey,
   Release,
+  ReleaseEntry,
   ReleaseAction,
   Resource,
   ResourceProvider,
