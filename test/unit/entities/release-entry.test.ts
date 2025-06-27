@@ -30,7 +30,7 @@ describe('Entity ReleaseEntry', () => {
   })
 })
 
-describe('release-entry endpoint', () => {
+describe('release.entry.get endpoint', () => {
   it('calls raw.get with correct URL and params', async () => {
     const mockReleaseEntry = cloneMock('releaseEntry')
     const rawGetSpy = vi.spyOn(raw, 'get').mockResolvedValue(mockReleaseEntry)
@@ -54,38 +54,37 @@ describe('release-entry endpoint', () => {
     rawGetSpy.mockRestore()
   })
 
-  it('constructs the correct URL for different parameters', async () => {
-    const mockReleaseEntry = cloneMock('releaseEntry')
-    const rawGetSpy = vi.spyOn(raw, 'get').mockResolvedValue(mockReleaseEntry)
-    const httpMock = {} as any
-
-    const testCases = [
-      {
-        params: {
-          spaceId: 'space-1',
-          environmentId: 'master',
-          releaseId: 'release-123',
-          entryId: 'entry-456',
-        },
-        expectedUrl: '/spaces/space-1/environments/master/releases/release-123/entries/entry-456',
+  it.each([
+    {
+      params: {
+        spaceId: 'space-1',
+        environmentId: 'master',
+        releaseId: 'release-123',
+        entryId: 'entry-456',
       },
-      {
-        params: {
-          spaceId: 'another-space',
-          environmentId: 'staging',
-          releaseId: 'rel-abc',
-          entryId: 'entry-xyz',
-        },
-        expectedUrl:
-          '/spaces/another-space/environments/staging/releases/rel-abc/entries/entry-xyz',
+      expectedUrl: '/spaces/space-1/environments/master/releases/release-123/entries/entry-456',
+    },
+    {
+      params: {
+        spaceId: 'another-space',
+        environmentId: 'staging',
+        releaseId: 'rel-abc',
+        entryId: 'entry-xyz',
       },
-    ]
+      expectedUrl:
+        '/spaces/another-space/environments/staging/releases/rel-abc/entries/entry-xyz',
+    },
+  ])(
+    'constructs correct URL for spaceId: $params.spaceId, environmentId: $params.environmentId',
+    async ({ params, expectedUrl }) => {
+      const mockReleaseEntry = cloneMock('releaseEntry')
+      const rawGetSpy = vi.spyOn(raw, 'get').mockResolvedValue(mockReleaseEntry)
+      const httpMock = {} as any
 
-    for (const { params, expectedUrl } of testCases) {
       await get(httpMock, params)
       expect(rawGetSpy).toHaveBeenCalledWith(httpMock, expectedUrl)
-    }
 
-    rawGetSpy.mockRestore()
-  })
+      rawGetSpy.mockRestore()
+    }
+  )
 })
