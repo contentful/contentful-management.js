@@ -5,6 +5,7 @@ export type DefaultParams = {
   environmentId?: string
   organizationId?: string
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
+  releaseId?: string
 }
 /**
  * @private
