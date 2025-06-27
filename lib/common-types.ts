@@ -1851,6 +1851,10 @@ export type MRActions = {
       params: GetReleaseEntryParams
       return: EntryProps<any, any>
     }
+    getMany: {
+      params: GetManyReleaseEntryParams
+      return: CollectionProp<EntryProps<any, any>>
+    }
   }
   ReleaseAction: {
     get: {
@@ -2335,6 +2339,11 @@ export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
 }
+
+export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+
 export type GetReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
 }
