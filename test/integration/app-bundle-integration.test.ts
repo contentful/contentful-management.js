@@ -1,7 +1,7 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
 import { getTestOrganization, getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers.js'
-import type { Organization, AppDefinition, AppUpload, Space, Environment } from '../../lib.js'
+import type { Organization, AppDefinition, AppUpload, Space, Environment } from '../../lib/index.js'
 
 describe('AppBundle api', { sequential: true }, () => {
   let organization: Organization

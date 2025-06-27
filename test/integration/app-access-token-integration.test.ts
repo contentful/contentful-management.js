@@ -14,7 +14,7 @@ import type {
   Environment,
   PlainClientAPI,
   AppKeyProps,
-} from '../../lib.js'
+} from '../../lib/index.js'
 
 describe('AppAccessToken api', { sequential: true }, () => {
   let organization: Organization

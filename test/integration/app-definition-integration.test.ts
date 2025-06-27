@@ -7,7 +7,7 @@ import {
   getDefaultSpace,
   timeoutToCalmRateLimiting,
 } from '../helpers.js'
-import type { Organization, Space, Environment, AppInstallation } from '../../lib.js'
+import type { Organization, Space, Environment, AppInstallation } from '../../lib/index.js'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization

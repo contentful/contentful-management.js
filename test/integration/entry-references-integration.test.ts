@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import type { PlainClientAPI } from '../../lib.js'
+import type { PlainClientAPI } from '../../lib/index.js'
 import type { Environment } from '../../lib/entities/environment.js'
 import type { Space } from '../../lib/entities/space.js'
 import { TestDefaults } from '../defaults.js'
