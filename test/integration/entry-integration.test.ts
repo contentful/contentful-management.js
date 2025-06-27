@@ -32,7 +32,7 @@ describe('Entry Api', () => {
     })
 
     test('Gets entry', async () => {
-      return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((response) => {
+      return environment.getEntry(TestDefaults.entry.testEntryId).then((response) => {
         expect(response.sys, 'sys').to.be.ok
         expect(response.fields, 'fields').to.be.ok
       })
@@ -45,7 +45,7 @@ describe('Entry Api', () => {
       })
     })
     test('Gets Entry snapshots', async () => {
-      return environment.getEntry('5ETMRzkl9KM4omyMwKAOki').then((entry) => {
+      return environment.getEntry(TestDefaults.entry.testEntryId).then((entry) => {
         return entry.getSnapshots().then((response) => {
           expect(response, 'entry snapshots').ok
           expect(response.items, 'entry snapshots items').ok
@@ -300,6 +300,7 @@ describe('Entry Api', () => {
               'dog',
               'human',
               'kangaroo',
+              'test-content-type33324244',
               'testEntryReferences',
             ],
             'orders'

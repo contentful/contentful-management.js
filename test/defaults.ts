@@ -6,13 +6,13 @@ export const TestDefaults = {
     withCrossSpaceReferenceId: 'test-content-type33324244',
   },
   entry: {
-    testEntryId: '5ETMRzkl9KM4omyMwKAOki',
+    testEntryId: '3Z76Riu91MIwPWIMG93LNb',
     /** Used in the entry references specs */
     testEntryReferenceId: '3ZgkmNQJxGjO9TUcnDgNQC',
     /** Used in Release specs */
-    testEntryReleasesId: '11NZX9PeFBvuQPc6LyCRpP',
+    testEntryReleasesId: '7pw3xjgbpE41JJrenBessW',
     /** Used in BulkAction specs */
-    testEntryBulkActionId: '375PMdQrwWOsifPJYP5Bb9',
+    testEntryBulkActionId: '6THqkC8vpDqAFtomRQazPu',
   },
   userId: '0DdCYLZI33Oe1uZ0FLpCzw',
   userEmail: 'for_tests_contentful-management.js@contentful.com',
