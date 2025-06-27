@@ -344,6 +344,7 @@ export const createPlainClient = (
     release: {
       entry: {
         get: wrap(wrapParams, 'ReleaseEntry', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseEntry', 'getMany'),
       },
       archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
