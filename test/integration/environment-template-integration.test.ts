@@ -238,6 +238,7 @@ describe.skip('Environment template API', () => {
         contentTypeTemplates: [],
         editorInterfaceTemplates: [],
       },
+      forTemplatedSpaces: false,
     }
   }
 })

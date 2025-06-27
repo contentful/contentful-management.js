@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib.js'
+import { createClient } from '../../../lib/index.js'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
 import { resourceTypeMock } from '../mocks/entities.js'
 

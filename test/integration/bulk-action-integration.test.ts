@@ -5,8 +5,8 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../../lib.js'
-import type { Environment, Space } from '../../lib.js'
+} from '../../lib/index.js'
+import type { Environment, Space } from '../../lib/index.js'
 import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action.js'
 import { TestDefaults } from '../defaults.js'
 import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'

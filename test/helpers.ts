@@ -1,6 +1,6 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import { createClient } from '../lib.js'
-import type { Environment, Organization, Space } from '../lib.js'
+import { createClient } from '../lib/index.js'
+import type { Environment, Organization, Space } from '../lib/index.js'
 import { TestDefaults } from './defaults.js'
 
 import * as testUtils from '@contentful/integration-test-utils'
