@@ -41,6 +41,7 @@ export type EnvironmentTemplateProps = {
     contentTypeTemplates: Array<ContentTypeTemplateProps>
     editorInterfaceTemplates: Array<EditorInterfaceTemplateProps>
   }
+  forTemplatedSpaces?: boolean
 }
 
 export type CreateEnvironmentTemplateProps = Omit<EnvironmentTemplateProps, 'sys'>
