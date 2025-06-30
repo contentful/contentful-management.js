@@ -57,9 +57,14 @@ export const create: RestEndpoint<'Release', 'create'> = (
 export const update: RestEndpoint<'Release', 'update'> = (
   http: AxiosInstance,
   params: GetReleaseParams & { version: number },
-  payload: ReleasePayload,
+  payload: ReleasePayload | ReleasePayloadV2,
   headers?: RawAxiosRequestHeaders
 ) => {
+  const releaseSchemaVersion = payload.sys?.schemaVersion ?? params.releaseSchemaVersion
+
+  if (releaseSchemaVersion === 'Release.v2') {
+    payload.sys = { ...payload.sys, type: 'Release', schemaVersion: 'Release.v2' }
+  }
   return raw.put(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}`,
