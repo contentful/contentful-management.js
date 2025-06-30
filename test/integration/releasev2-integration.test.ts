@@ -139,7 +139,7 @@ describe('Release Api v2', () => {
     })
   })
 
-  describe('and releaseSchemaVersion is not provided as a default', () => {
+  describe('releaseSchemaVersion is not provided as a default', () => {
     let clientWithoutSchemaDefault: PlainClientAPI
     beforeEach(() => {
       const defaultParams = {
@@ -206,6 +206,7 @@ describe('Release Api v2', () => {
     )
     expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
     })
+    
     it('release.query works', async () => {
       const releases = await clientWithoutSchemaDefault.release.query({
         query: {
