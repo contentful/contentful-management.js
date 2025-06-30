@@ -2330,7 +2330,7 @@ export type GetManyFunctionLogParams = CursorBasedParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
-export type GetReleaseParams = GetReleaseEnvironmentParams & { releaseId: string }
+export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
 export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
