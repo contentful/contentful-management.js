@@ -5,6 +5,7 @@ import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
+  GetReleaseEntryParams,
   GetSpaceEnvironmentParams,
   KeyValueMap,
   QueryParams,
@@ -16,10 +17,18 @@ import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
+  params: GetReleaseEntryParams & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  // Note: User can pass in release[lte] in QueryParams also, to achieve the same effect as releaseId
+
+  const releaseId = params.query?.releaseId ?? params.releaseId ?? undefined
+
+  if (releaseId !== undefined) {
+    params.query = { ...params.query, 'release[lte]': releaseId }
+  }
+
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
