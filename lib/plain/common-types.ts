@@ -452,7 +452,7 @@ export type PlainClientAPI = {
     ): Promise<ReleaseProps>
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
-      data: ReleasePayload
+      data: ReleasePayload | ReleasePayloadV2
     ): Promise<ReleaseProps>
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
     publish(

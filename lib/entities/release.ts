@@ -120,6 +120,7 @@ export interface ReleasePayloadV2 extends MakeRequestPayload {
   }
   title: string
   entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
+  startDate?: ISO8601Timestamp
 }
 
 export interface ReleaseValidatePayload {
@@ -145,7 +146,7 @@ export interface ReleaseApiMethods {
    * */
   unarchive(): Promise<Release>
   /** Updates a Release and returns the updated Release object */
-  update(payload: ReleasePayload): Promise<Release>
+  update(payload: ReleasePayload | ReleasePayloadV2): Promise<Release>
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
   /** Publishes a Release and waits until the asynchronous action is completed */
@@ -196,7 +197,7 @@ function createReleaseApi(makeRequest: MakeRequest): ReleaseApiMethods {
         params,
       }).then((release) => wrapRelease(makeRequest, release))
     },
-    async update(payload: ReleasePayload) {
+    async update(payload: ReleasePayload | ReleasePayloadV2) {
       const params = getParams(this)
 
       return makeRequest({
