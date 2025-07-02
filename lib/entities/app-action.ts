@@ -66,6 +66,11 @@ type BaseAppActionProps = AppActionCategory & {
    * Human readable description of the action
    */
   description?: string
+  /**
+   * JSON Schema defining the expected response format from the action
+   * Used for validating and structuring app action call results
+   */
+  resultSchema?: Record<string, any>
 }
 
 type CreateEndpointAppActionProps = {
@@ -130,6 +135,11 @@ type LegacyFunctionAppActionProps = Record<string, unknown> & {
 export type CreateAppActionProps = AppActionCategory & {
   name: string
   description?: string
+  /**
+   * JSON Schema defining the expected response format from the action
+   * Used for validating and structuring app action call results
+   */
+  resultSchema?: Record<string, any>
 } & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
 
 export type AppActionProps = BaseAppActionProps &

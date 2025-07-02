@@ -11,6 +11,7 @@ import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
+  AppActionCallStructuredResult,
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
 import type {
@@ -361,7 +362,7 @@ interface CursorPaginationBase {
   limit?: number
 }
 
-// Interfaces for each “exclusive” shape
+// Interfaces for each "exclusive" shape
 interface CursorPaginationPageNext extends CursorPaginationBase {
   pageNext: string
   pagePrev?: never
@@ -443,6 +444,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
     'AppActionCall',
     'createWithResponse'
+  >
+  (opts: MROpts<'AppActionCall', 'createWithResult', UA>): MRReturn<
+    'AppActionCall',
+    'createWithResult'
   >
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
 
@@ -1013,15 +1018,24 @@ export type MRActions = {
     create: {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
+      headers?: RawAxiosRequestHeaders
       return: AppActionCallProps
+    }
+    createWithResponse: {
+      params: CreateWithResponseParams
+      payload: CreateAppActionCallProps
+      headers?: RawAxiosRequestHeaders
+      return: AppActionCallResponse
+    }
+    createWithResult: {
+      params: CreateWithResponseParams
+      payload: CreateAppActionCallProps
+      headers?: RawAxiosRequestHeaders
+      return: AppActionCallStructuredResult
     }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
-      return: AppActionCallResponse
-    }
-    createWithResponse: {
-      params: GetAppActionCallParams
-      payload: CreateAppActionCallProps
+      headers?: RawAxiosRequestHeaders
       return: AppActionCallResponse
     }
   }

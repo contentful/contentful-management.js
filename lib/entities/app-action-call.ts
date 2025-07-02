@@ -35,13 +35,61 @@ export type CreateAppActionCallProps = {
 type AppActionCallApi = {
   createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
+  createWithResult(): Promise<AppActionCallStructuredResult>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
 
+// Structured AppActionCall result format that matches the solution document
+export type AppActionCallStructuredResult = {
+  sys: {
+    type: 'AppActionCall'
+    id: string
+    status: 'processing' | 'succeeded' | 'failed'
+    action: {
+      sys: {
+        type: 'Link'
+        linkType: 'AppAction'
+        id: string
+      }
+    }
+    space: {
+      sys: {
+        type: 'Link'
+        linkType: 'Space'
+        id: string
+      }
+    }
+    environment?: {
+      sys: {
+        type: 'Link'
+        linkType: 'Environment'
+        id: string
+      }
+    }
+    createdAt: string
+    updatedAt: string
+  }
+  result?: any
+  error?: {
+    name?: string
+    message: string
+    details?: any
+    sys?: {
+      type: 'Error'
+      id: string
+    }
+  }
+}
+
 export interface AppActionCallResponseData
   extends AppActionCallResponse,
     DefaultElements<AppActionCallResponse>,
+    AppActionCallApi {}
+
+export interface AppActionCallStructuredData
+  extends AppActionCallStructuredResult,
+    DefaultElements<AppActionCallStructuredResult>,
     AppActionCallApi {}
 
 export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}
@@ -74,6 +122,28 @@ export default function createAppActionCallApi(
         },
         payload: payload,
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
+    },
+
+    createWithResult: function () {
+      const payload: CreateAppActionCallProps = {
+        parameters: {
+          recipient: 'Alice <alice@my-company.com>',
+          message_body: 'Hello from Bob!',
+        },
+      }
+
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'createWithResult',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+          ...retryOptions,
+        },
+        payload: payload,
+      }).then((data) => wrapAppActionCallStructuredResult(makeRequest, data))
     },
 
     getCallDetails: function getCallDetails() {
@@ -126,4 +196,22 @@ export function wrapAppActionCallResponse(
     createAppActionCallApi(makeRequest, retryOptions)
   )
   return appActionCallResponseWithMethods
+}
+
+/**
+ * @private
+ * @param http - HTTP client instance
+ * @param data - Raw AppActionCall data
+ * @return Wrapped AppActionCall data
+ */
+export function wrapAppActionCallStructuredResult(
+  makeRequest: MakeRequest,
+  data: AppActionCallStructuredResult
+): AppActionCallStructuredData {
+  const appActionCallStructuredResult = toPlainObject(copy(data))
+  const appActionCallStructuredResultWithMethods = enhanceWithMethods(
+    appActionCallStructuredResult,
+    createAppActionCallApi(makeRequest)
+  )
+  return appActionCallStructuredResultWithMethods
 }

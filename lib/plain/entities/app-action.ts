@@ -84,7 +84,6 @@ export type AppActionPlainClientAPI = {
    *   {
    *     organizationId: "<org_id>",
    *     appDefinitionId: "<app_definition_id>",
-   *     appActionId: "<app_action_id>",
    *   },
    *   {
    *     category: "Notification.v1.0",
@@ -94,12 +93,44 @@ export type AppActionPlainClientAPI = {
    *   }
    * );
    *
+   * // app action with resultSchema for structured responses
+   * const appActionWithSchema = await client.appAction.create(
+   *   {
+   *     organizationId: "<org_id>",
+   *     appDefinitionId: "<app_definition_id>",
+   *   },
+   *   {
+   *     category: "Custom",
+   *     parameters: [
+   *       { id: "userId", name: "User ID", type: "Symbol" }
+   *     ],
+   *     url: "https://api.example.com/user-profile",
+   *     description: "Fetches user profile data",
+   *     name: "Get User Profile",
+   *     resultSchema: {
+   *       type: "object",
+   *       properties: {
+   *         profile: {
+   *           type: "object",
+   *           properties: {
+   *             name: { type: "string" },
+   *             email: { type: "string" },
+   *             preferences: { type: "object" }
+   *           },
+   *           required: ["name", "email"]
+   *         },
+   *         success: { type: "boolean" }
+   *       },
+   *       required: ["profile", "success"]
+   *     }
+   *   }
+   * );
+   *
    * // app action that invokes a Contentful Function
    * const functionAppAction = await client.appAction.create(
    *  {
    *    organizationId: '<org_id>',
    *    appDefinitionId: '<app_definition_id>',
-   *    appActionId: '<app_action_id>',
    *  },
    *  {
    *   type: "function-invocation",
@@ -141,6 +172,40 @@ export type AppActionPlainClientAPI = {
    *     url: "https://www.somewhere-else.com/action",
    *     description: "sends a notification",
    *     name: "My Notification",
+   *   }
+   * );
+   *
+   * // app action with resultSchema for structured responses  
+   * const appActionWithSchema = await client.appAction.update(
+   *   {
+   *     organizationId: "<org_id>",
+   *     appDefinitionId: "<app_definition_id>",
+   *     appActionId: "<app_action_id>",
+   *   },
+   *   {
+   *     category: "Custom",
+   *     parameters: [
+   *       { id: "userId", name: "User ID", type: "Symbol" }
+   *     ],
+   *     url: "https://api.example.com/user-profile",
+   *     description: "Fetches user profile data", 
+   *     name: "Get User Profile",
+   *     resultSchema: {
+   *       type: "object",
+   *       properties: {
+   *         profile: {
+   *           type: "object",
+   *           properties: {
+   *             name: { type: "string" },
+   *             email: { type: "string" },
+   *             preferences: { type: "object" }
+   *           },
+   *           required: ["name", "email"]
+   *         },
+   *         success: { type: "boolean" }
+   *       },
+   *       required: ["profile", "success"]
+   *     }
    *   }
    * );
    *

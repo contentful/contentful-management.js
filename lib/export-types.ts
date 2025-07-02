@@ -24,6 +24,7 @@ export type {
 export type {
   AppActionCall,
   AppActionCallProps,
+  AppActionCallStructuredResult,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 export type {
