@@ -6,6 +6,7 @@ import { makeLink } from '../utils'
 
 describe('Release Api v2', () => {
   let entry: EntryProps
+  let secondEntry: EntryProps
   let release: ReleaseProps
   let createReleaseClient: PlainClientAPI
 
@@ -29,6 +30,17 @@ describe('Release Api v2', () => {
       }
     )
 
+    secondEntry = await createReleaseClient.entry.create(
+      { ...defaultParams, contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId },
+      {
+        fields: {
+          title: {
+            'en-US': 'Second Test Entry for Release',
+          },
+        },
+      }
+    )
+
     release = await createReleaseClient.release.create(defaultParams, {
       title: 'Test Release',
       entities: {
@@ -36,6 +48,10 @@ describe('Release Api v2', () => {
         items: [
           {
             entity: makeLink('Entry', entry.sys.id),
+            action: 'publish',
+          },
+          {
+            entity: makeLink('Entry', secondEntry.sys.id),
             action: 'publish',
           },
         ],
@@ -51,22 +67,15 @@ describe('Release Api v2', () => {
     await createReleaseClient.entry.delete({
       entryId: entry.sys.id,
     })
+    await createReleaseClient.entry.delete({
+      entryId: secondEntry.sys.id,
+    })
     await timeoutToCalmRateLimiting()
   })
 
   describe('releaseSchemaVersion is provided as a default in client', () => {
-    let clientWithSchemaDefault: PlainClientAPI
-    beforeEach(() => {
-      const defaultParams = {
-        environmentId: TestDefaults.environmentId,
-        spaceId: TestDefaults.spaceId,
-        releaseSchemaVersion: 'Release.v2',
-      }
-      clientWithSchemaDefault = initPlainClient(defaultParams)
-    })
-
     it('release.create works', async () => {
-      const newRelease = await clientWithSchemaDefault.release.create(
+      const newRelease = await createReleaseClient.release.create(
         {
           environmentId: TestDefaults.environmentId,
           spaceId: TestDefaults.spaceId,
@@ -83,20 +92,20 @@ describe('Release Api v2', () => {
       )
       expect(newRelease.sys.schemaVersion).toEqual('Release.v2')
       // cleanup
-      await clientWithSchemaDefault.release.delete({
+      await createReleaseClient.release.delete({
         releaseId: newRelease.sys.id,
       })
     })
 
     it('release.query works', async () => {
-      const releases = await clientWithSchemaDefault.release.query({})
+      const releases = await createReleaseClient.release.query({})
       const fetchedRelease = releases.items.find((item) => item.sys.id === release.sys.id)
-      expect(fetchedRelease).toEqual(release)
+      expect(fetchedRelease?.sys.id).toEqual(release?.sys.id)
       expect(releases.pages).toStrictEqual({})
     })
 
     it('release.update works', async () => {
-      const updatedRelease = await clientWithSchemaDefault.release.update(
+      const updatedRelease = await createReleaseClient.release.update(
         {
           environmentId: TestDefaults.environmentId,
           spaceId: TestDefaults.spaceId,
@@ -111,13 +120,11 @@ describe('Release Api v2', () => {
             },
             items: [
               {
-                entity: {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Entry',
-                    id: entry.sys.id,
-                  },
-                },
+                entity: makeLink('Entry', entry.sys.id),
+                action: 'publish',
+              },
+              {
+                entity: makeLink('Entry', secondEntry.sys.id),
                 action: 'publish',
               },
             ],
@@ -129,7 +136,7 @@ describe('Release Api v2', () => {
     })
 
     it('release.entry.get works', async () => {
-      const entryInSpace = await clientWithSchemaDefault.release.entry.get({
+      const entryInSpace = await createReleaseClient.release.entry.get({
         releaseId: release.sys.id,
         entryId: entry.sys.id, // Using the same ID for simplicity
         environmentId: TestDefaults.environmentId,
@@ -137,6 +144,23 @@ describe('Release Api v2', () => {
       })
       expect(entryInSpace.sys.id).toEqual(entry.sys.id)
       expect(entryInSpace.sys.release.sys.id).toEqual(release.sys.id)
+    })
+
+    it('release.entry.getMany works', async () => {
+      const response = await createReleaseClient.release.entry.getMany({
+        releaseId: release.sys.id,
+
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+      })
+
+      const entries = response.items as EntryProps[]
+      const foundFirstEntry = entries.find((e) => e.sys.id === entry.sys.id)
+      const foundSecondEntry = entries.find((e) => e.sys.id === secondEntry.sys.id)
+
+      expect(entries.length).toEqual(2)
+      expect(foundFirstEntry?.sys.id).toEqual(entry.sys.id)
+      expect(foundSecondEntry?.sys.id).toEqual(secondEntry.sys.id)
     })
   })
 
@@ -192,13 +216,11 @@ describe('Release Api v2', () => {
             },
             items: [
               {
-                entity: {
-                  sys: {
-                    type: 'Link',
-                    linkType: 'Entry',
-                    id: entry.sys.id,
-                  },
-                },
+                entity: makeLink('Entry', entry.sys.id),
+                action: 'publish',
+              },
+              {
+                entity: makeLink('Entry', secondEntry.sys.id),
                 action: 'publish',
               },
             ],

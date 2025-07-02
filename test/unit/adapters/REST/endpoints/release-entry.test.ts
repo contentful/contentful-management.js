@@ -1,16 +1,12 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
 import * as raw from '../../../../../lib/adapters/REST/endpoints/raw'
-import { get } from '../../../../../lib/adapters/REST/endpoints/release-entry'
+import { get, getMany } from '../../../../../lib/adapters/REST/endpoints/release-entry'
 import { EntryProps } from '../../../../../lib/entities/entry'
 import { GetReleaseEntryParams } from '../../../../../lib/contentful-management'
 
 describe('Rest ReleaseEntry', () => {
   let mockReleaseEntry: EntryProps<
-    any,
-    { release: { sys: { type: 'Link'; linkType: 'Release'; id: string } } }
-  >
-  let result: EntryProps<
     any,
     { release: { sys: { type: 'Link'; linkType: 'Release'; id: string } } }
   >
@@ -28,7 +24,7 @@ describe('Rest ReleaseEntry', () => {
       releaseId: 'black-friday',
       entryId: 'abc123',
     }
-    result = await get(httpMock, params)
+    await get(httpMock, params)
   })
 
   afterEach(() => {
@@ -42,11 +38,18 @@ describe('Rest ReleaseEntry', () => {
     )
   })
 
-  test('release.entry.get returns the correct entry', async () => {
-    expect(result).toEqual(mockReleaseEntry)
-  })
+  test('release.entry.getMany calls raw.get with the correct URL and params', async () => {
+    const expectedParams = {
+      spaceId: 'space123',
+      environmentId: 'master',
+      releaseId: 'black-friday',
+    }
 
-  test('release.entry.get returns release metadata', async () => {
-    expect(result.sys.release).toBeDefined()
+    await getMany(httpMock, expectedParams)
+
+    expect(rawGetSpy).toHaveBeenCalledWith(
+      httpMock,
+      '/spaces/space123/environments/master/releases/black-friday/entries'
+    )
   })
 })

@@ -8,6 +8,7 @@ import type {
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
+  GetManyReleaseEntryParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   GetReleaseEntryParams,
@@ -451,6 +452,24 @@ export type PlainClientAPI = {
               }
             }
           }
+        >
+      >
+      getMany<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetManyReleaseEntryParams>
+      ): Promise<
+        CollectionProp<
+          EntryProps<
+            T,
+            {
+              release: {
+                sys: {
+                  type: 'Link'
+                  linkType: 'Entry' | 'Asset'
+                  id: string
+                }
+              }
+            }
+          >
         >
       >
     }
