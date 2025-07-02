@@ -1,11 +1,5 @@
 import { describe, it, beforeAll, afterAll, expect, beforeEach } from 'vitest'
-import type {
-  EntryProps,
-  GetReleaseEntryParams,
-  GetReleaseParams,
-  PlainClientAPI,
-  ReleaseProps,
-} from '../../lib/export-types'
+import type { EntryProps, PlainClientAPI, ReleaseProps } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { makeLink } from '../utils'
