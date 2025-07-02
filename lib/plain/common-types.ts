@@ -281,7 +281,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetReleaseEntryParams & QueryParams>,
+      params: OptionalDefaults<GetReleaseEntryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
     ): Promise<
