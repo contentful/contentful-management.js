@@ -1602,7 +1602,7 @@ export type MRActions = {
     }
     get: {
       params: GetReleaseEntryParams & QueryParams
-      return: EntryProps<any>
+      return: EntryProps<any, any>
     }
     patch: {
       params: GetSpaceEnvironmentParams & { entryId: string; version: number }

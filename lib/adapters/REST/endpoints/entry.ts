@@ -21,9 +21,8 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  // Note: User can pass in release[lte] in QueryParams also, to achieve the same effect as releaseId
-
-  const releaseId = params.query?.releaseId ?? params.releaseId ?? undefined
+  // Note: User can pass in release[lte] in QueryParams also, to achieve the same effect as releaseId. Is this okay?
+  const releaseId = params.releaseId ?? undefined
 
   if (releaseId !== undefined) {
     params.query = { ...params.query, 'release[lte]': releaseId }
