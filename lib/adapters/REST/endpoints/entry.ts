@@ -50,10 +50,18 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams,
+  params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+ const releaseId = params.query?.['sys.release'] ?? params.releaseId ?? undefined
+ if(releaseId !== undefined){
+  params.query = {
+    ...params.query,
+    'release[lte]': releaseId,
+  }
+ }
+
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
