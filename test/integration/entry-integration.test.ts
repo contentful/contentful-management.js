@@ -791,7 +791,7 @@ describe('Entry Api', () => {
         const response = await createEntryClient.entry.getMany({
           query: {
             'release[lte]': release.sys.id,
-            'order': '-sys.createdAt',
+            order: '-sys.createdAt',
           },
         })
         expect(response.items[0].sys.id).toEqual(entry2.sys.id)
@@ -822,8 +822,8 @@ describe('Entry Api', () => {
       test('entry.getMany works', async () => {
         const response = await createEntryClient.entry.getMany({
           query: {
-            'order': '-sys.createdAt',
-          }
+            order: '-sys.createdAt',
+          },
         })
         expect(response.items[0].sys.id).toEqual(entry2.sys.id)
         expect(response.items[1].sys.id).toEqual(entry.sys.id)
