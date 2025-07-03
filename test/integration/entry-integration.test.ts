@@ -717,8 +717,10 @@ describe('Entry Api', () => {
     })
   })
 
+  //test releasev2 entry logic
   describe('read plainClientApi with releaseId', () => {
     let entry: EntryProps
+    let entry2: EntryProps
     let release: ReleaseProps
     let createEntryClient: PlainClientAPI
 
@@ -742,6 +744,17 @@ describe('Entry Api', () => {
         }
       )
 
+      entry2 = await createEntryClient.entry.create(
+        { ...defaultParams, contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId },
+        {
+          fields: {
+            title: {
+              'en-US': 'Test Entry for Release',
+            },
+          },
+        }
+      )
+
       release = await createEntryClient.release.create(defaultParams, {
         title: 'Test Release',
         entities: {
@@ -751,8 +764,13 @@ describe('Entry Api', () => {
               entity: makeLink('Entry', entry.sys.id),
               action: 'publish',
             },
+            {
+              entity: makeLink('Entry', entry2.sys.id),
+              action: 'publish',
+            },
           ],
         },
+        startDate: '2025-08-28T10:00:000Z',
       })
     })
 
@@ -768,6 +786,20 @@ describe('Entry Api', () => {
     })
 
     describe('releaseId is provided in params, but not in default params', () => {
+      //the entry.getMany API endpoint currently does not return release metadata
+      test('entry.getMany works', async () => {
+        const response = await createEntryClient.entry.getMany({
+          query: {
+            'release[lte]': release.sys.id,
+            order: '-sys.createdAt',
+          },
+        })
+        expect(response.items[0].sys.id).toEqual(entry2.sys.id)
+        expect(response.items[1].sys.id).toEqual(entry.sys.id)
+        //expect(response.items[0].sys.release.sys.id).toEqual(release.sys.id)
+        //expect(response.items[1].sys.release.sys.id).toEqual(release.sys.id)
+      })
+
       test('entry.get works', async () => {
         const fetchedEntry = await createEntryClient.entry.get({
           entryId: entry.sys.id,
@@ -785,6 +817,18 @@ describe('Entry Api', () => {
           spaceId: TestDefaults.spaceId,
           releaseId: release.sys.id,
         })
+      })
+
+      test('entry.getMany works', async () => {
+        const response = await createEntryClient.entry.getMany({
+          query: {
+            order: '-sys.createdAt',
+          },
+        })
+        expect(response.items[0].sys.id).toEqual(entry2.sys.id)
+        expect(response.items[1].sys.id).toEqual(entry.sys.id)
+        //expect(response.items[0].sys.release.sys.id).toEqual(release.sys.id)
+        //expect(response.items[1].sys.release.sys.id).toEqual(release.sys.id)
       })
 
       test('entry.get works', async () => {

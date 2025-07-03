@@ -45,7 +45,7 @@
     "test:types": "npx vitest --project types --run",
     "test:unit-watch": "npx vitest --project unit",
     "test:integration": "npx vitest --project integration --run --no-file-parallelism",
-    "test:integration-watch": "npx vitest --project integration --no-file-parallelism",
+    "test:integration-watch": "npx vitest --project integration --no-file-parallelism entry-integration",
     "test:browser": "npx playwright install && npx vitest --project browser-unit --run && npx vitest --project browser-integration --run",
     "test:version": "grep -r \"0.0.0-determined-by-semantic-release\" ./dist > /dev/null && echo \"version 0.0.0-determined-by-semantic-release found in output\" && exit 1 || exit 0",
     "test:size": "size-limit",
