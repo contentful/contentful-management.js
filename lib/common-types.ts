@@ -1601,8 +1601,8 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any, any>>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
-      return: EntryProps<any>
+      params: GetReleaseEntryParams & QueryParams
+      return: EntryProps<any, any>
     }
     patch: {
       params: GetSpaceEnvironmentParams & { entryId: string; version: number }

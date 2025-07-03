@@ -798,6 +798,15 @@ describe('Entry Api', () => {
         //expect(response.items[0].sys.release.sys.id).toEqual(release.sys.id)
         //expect(response.items[1].sys.release.sys.id).toEqual(release.sys.id)
       })
+      
+      test('entry.get works', async () => {
+        const fetchedEntry = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+        expect(fetchedEntry.sys.id).toEqual(entry.sys.id)
+        expect(fetchedEntry.sys.release.sys.id).toEqual(release.sys.id)
+      })
     })
 
     describe('releaseId is provided in default params, but not in params', () => {
@@ -815,6 +824,14 @@ describe('Entry Api', () => {
         expect(response.items[1].sys.id).toEqual(entry.sys.id)
         //expect(response.items[0].sys.release.sys.id).toEqual(release.sys.id)
         //expect(response.items[1].sys.release.sys.id).toEqual(release.sys.id)
+      })
+
+      test('entry.get works', async () => {
+        const fetchedEntry = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+        expect(fetchedEntry.sys.id).toEqual(entry.sys.id)
+        expect(fetchedEntry.sys.release.sys.id).toEqual(release.sys.id)
       })
     })
   })
