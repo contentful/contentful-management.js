@@ -798,7 +798,7 @@ describe('Entry Api', () => {
         //expect(response.items[0].sys.release.sys.id).toEqual(release.sys.id)
         //expect(response.items[1].sys.release.sys.id).toEqual(release.sys.id)
       })
-      
+
       test('entry.get works', async () => {
         const fetchedEntry = await createEntryClient.entry.get({
           entryId: entry.sys.id,
