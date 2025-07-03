@@ -3,11 +3,11 @@ name: "CodeQL Scan for GitHub Actions Workflows"
 
 on:
   push:
-    branches: [main]
-    paths: ['.github/workflows/**']
+    branches: [main, master]
+    paths: [".github/workflows/**"]
   pull_request:
-    branches: [main]
-    paths: ['.github/workflows/**']
+    branches: [main, master]
+    paths: [".github/workflows/**"]
 
 jobs:
   analyze:
