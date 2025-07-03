@@ -13,11 +13,14 @@ import {
 import type {
   ConceptProps,
   ContentType,
+  EntryProps,
   Environment,
   PlainClientAPI,
+  ReleaseProps,
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
+import { makeLink } from '../utils'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())
@@ -711,6 +714,78 @@ describe('Entry Api', () => {
       expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
       expect(response.items[0].sys.publishedVersion).to.not.be.undefined
       expect(response.items[0].sys.publishedAt).to.not.be.undefined
+    })
+  })
+
+  //test releasev2 entry logic
+  describe('read plainClientApi with releaseId', () => {
+    let entry: EntryProps
+    let release: ReleaseProps
+    let createEntryClient: PlainClientAPI
+
+    beforeAll(async () => {
+      // create a v2 release w/ entry to reuse in tests
+      const defaultParams = {
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+        releaseSchemaVersion: 'Release.v2' as const,
+      }
+      createEntryClient = initPlainClient(defaultParams)
+
+      entry = await createEntryClient.entry.create(
+        { ...defaultParams, contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId },
+        {
+          fields: {
+            title: {
+              'en-US': 'Test Entry for Release',
+            },
+          },
+        }
+      )
+
+      release = await createEntryClient.release.create(defaultParams, {
+        title: 'Test Release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [
+            {
+              entity: makeLink('Entry', entry.sys.id),
+              action: 'publish',
+            },
+          ],
+        },
+      })
+    })
+
+    afterAll(async () => {
+      // cleanup test release
+      await createEntryClient.release.delete({
+        releaseId: release.sys.id,
+      })
+      await createEntryClient.entry.delete({
+        entryId: entry.sys.id,
+      })
+      await timeoutToCalmRateLimiting()
+    })
+
+    describe('releaseId is provided in params, but not in default params', () => {
+      test('entry.get works', async () => {
+        
+      })
+    })
+
+    describe('releaseId is provided in default params, but not in params', () => {
+      beforeEach(() => {
+        createEntryClient = initPlainClient({
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+      })
+
+      test('entry.get works', async () => {
+        
+      })
     })
   })
 
