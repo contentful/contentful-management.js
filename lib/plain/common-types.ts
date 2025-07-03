@@ -279,15 +279,22 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
-    ): Promise<CollectionProp<EntryProps<T, {
-      release: {
-        sys: {
-          type: 'Link'
-          linkType: 'Entry' | 'Asset'
-          id: string
-        }
-      }
-    }>>>
+    ): Promise<
+      CollectionProp<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
+        >
+      >
+    >
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData?: unknown,
