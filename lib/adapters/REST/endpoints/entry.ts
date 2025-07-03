@@ -21,10 +21,8 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  const releaseId = params.releaseId ?? undefined
-
-  if (releaseId !== undefined) {
-    params.query = { ...params.query, 'release[lte]': releaseId }
+  if (params.releaseId) {
+    params.query = { ...params.query, 'release[lte]': params.releaseId }
   }
 
   return raw.get<EntryProps<T>>(
