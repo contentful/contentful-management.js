@@ -1597,8 +1597,8 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
-      return: CollectionProp<EntryProps<any>>
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
+      return: CollectionProp<EntryProps<any, any>>
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
@@ -2332,7 +2332,7 @@ export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
 export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
-  releaseId: string
+  releaseId?: string
   entryId: string
 }
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }

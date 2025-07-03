@@ -54,7 +54,7 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
- const releaseId = params.query?.['sys.release'] ?? params.releaseId ?? undefined
+ const releaseId = params.query?.['release[lte]'] ?? params.releaseId ?? undefined
  if(releaseId !== undefined){
   params.query = {
     ...params.query,
