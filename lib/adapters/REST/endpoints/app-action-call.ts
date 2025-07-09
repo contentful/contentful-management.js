@@ -3,6 +3,7 @@ import type {
   AppActionCallProps,
   AppActionCallResponse,
   CreateAppActionCallProps,
+  AppActionCallStructuredResult,
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
 import type { RestEndpoint } from '../types'
@@ -108,4 +109,76 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
   const callId = createResponse.sys.id
 
   return callAppActionResult(http, params, { callId })
+}
+
+export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
+  http: AxiosInstance,
+  params: CreateWithResponseParams,
+  data: CreateAppActionCallProps
+) => {
+  const createResponse = await raw.post<AppActionCallProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
+    data
+  )
+
+  const callId = createResponse.sys.id
+
+  return callAppActionStructuredResult(http, params, { callId })
+}
+
+async function callAppActionStructuredResult(
+  http: AxiosInstance,
+  params: CreateWithResponseParams,
+  {
+    callId,
+  }: {
+    callId: string
+  }
+): Promise<AppActionCallStructuredResult> {
+  let checkCount = 1
+  const retryInterval = params.retryInterval || APP_ACTION_CALL_RETRY_INTERVAL
+  const retries = params.retries || APP_ACTION_CALL_RETRIES
+
+  return new Promise((resolve, reject) => {
+    const poll = async () => {
+      try {
+        // Use format=structured to get AppActionCall format instead of raw webhook logs
+        const result = await raw.get<AppActionCallStructuredResult>(
+          http,
+          `/spaces/${params.spaceId}/environments/${params.environmentId}/actions/${params.appActionId}/calls/${callId}?format=structured`
+        )
+        
+        // Check if the app action call is completed
+        if (result.sys.status === 'succeeded' || result.sys.status === 'failed') {
+          resolve(result)
+        }
+        // The call is still processing, continue polling
+        else if (result.sys.status === 'processing' && checkCount < retries) {
+          checkCount++
+          await waitFor(retryInterval)
+          poll()
+        }
+        // Timeout - the processing is taking too long
+        else {
+          const error = new Error(
+            'The app action response is taking longer than expected to process.'
+          )
+          reject(error)
+        }
+      } catch (error) {
+        checkCount++
+
+        if (checkCount > retries) {
+          reject(new Error('The app action response is taking longer than expected to process.'))
+          return
+        }
+        // If the call throws, we re-poll as it might mean that the result is not available yet
+        await waitFor(retryInterval)
+        poll()
+      }
+    }
+
+    poll()
+  })
 }
