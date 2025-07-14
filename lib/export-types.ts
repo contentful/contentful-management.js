@@ -189,7 +189,7 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps } from './entities/role'
+export type { CreateRoleProps, Role, RoleProps, RoleActionType } from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
