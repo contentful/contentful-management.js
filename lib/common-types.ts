@@ -1855,6 +1855,23 @@ export type MRActions = {
       params: GetManyReleaseEntryParams
       return: CollectionProp<EntryProps<any, any>>
     }
+    update: {
+      params: UpdateReleaseEntryParams & { entryId: string }
+      payload: EntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<
+        any,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    }
   }
   ReleaseAction: {
     get: {
@@ -2341,6 +2358,10 @@ export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
 }
 
 export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+
+export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
 }
 

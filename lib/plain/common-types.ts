@@ -20,6 +20,7 @@ import type {
   KeyValueMap,
   QueryParams,
   ReleaseEnvironmentParams,
+  UpdateReleaseEntryParams,
 } from '../common-types'
 import type {
   AccessTokenProps,
@@ -485,6 +486,24 @@ export type PlainClientAPI = {
               }
             }
           >
+        >
+      >
+      update<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<UpdateReleaseEntryParams & { entryId: string }>,
+        rawData: EntryProps<T>,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
         >
       >
     }
