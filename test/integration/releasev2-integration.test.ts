@@ -274,6 +274,31 @@ describe('Release Api v2', () => {
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
       })
+
+      it('release.entry.patch works', async () => {
+        const entryInSpace = await clientWithReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+
+        const updatedEntry = await clientWithReleaseIdDefault.release.entry.patch(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+            version: entryInSpace.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Patched Test Entry for Release',
+            },
+          ]
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
+      })
     })
 
     describe('when releaseId is NOT provided as a default in client', () => {
@@ -337,6 +362,33 @@ describe('Release Api v2', () => {
           }
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
+      })
+
+      it('release.entry.patch works', async () => {
+        const entryInSpace = await clientWithoutReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+
+        const updatedEntry = await clientWithoutReleaseIdDefault.release.entry.patch(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+            releaseId: release.sys.id,
+            version: entryInSpace.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Patched Test Entry for Release',
+            },
+          ]
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
       })
     })
   })
