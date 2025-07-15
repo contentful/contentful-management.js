@@ -18,8 +18,10 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   KeyValueMap,
+  PatchReleaseEntryParams,
   QueryParams,
   ReleaseEnvironmentParams,
+  UpdateReleaseEntryParams,
 } from '../common-types'
 import type {
   AccessTokenProps,
@@ -485,6 +487,42 @@ export type PlainClientAPI = {
               }
             }
           >
+        >
+      >
+      update<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<UpdateReleaseEntryParams & { entryId: string }>,
+        rawData: EntryProps<T>,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
+        >
+      >
+      patch<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<PatchReleaseEntryParams & { entryId: string; version: number }>,
+        rawData: OpPatch[],
+        headers?: RawAxiosRequestHeaders
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
         >
       >
     }

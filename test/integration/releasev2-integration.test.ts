@@ -134,34 +134,6 @@ describe('Release Api v2', () => {
       )
       expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
     })
-
-    it('release.entry.get works', async () => {
-      const entryInSpace = await createReleaseClient.release.entry.get({
-        releaseId: release.sys.id,
-        entryId: entry.sys.id, // Using the same ID for simplicity
-        environmentId: TestDefaults.environmentId,
-        spaceId: TestDefaults.spaceId,
-      })
-      expect(entryInSpace.sys.id).toEqual(entry.sys.id)
-      expect(entryInSpace.sys.release.sys.id).toEqual(release.sys.id)
-    })
-
-    it('release.entry.getMany works', async () => {
-      const response = await createReleaseClient.release.entry.getMany({
-        releaseId: release.sys.id,
-
-        environmentId: TestDefaults.environmentId,
-        spaceId: TestDefaults.spaceId,
-      })
-
-      const entries = response.items as EntryProps[]
-      const foundFirstEntry = entries.find((e) => e.sys.id === entry.sys.id)
-      const foundSecondEntry = entries.find((e) => e.sys.id === secondEntry.sys.id)
-
-      expect(entries.length).toEqual(2)
-      expect(foundFirstEntry?.sys.id).toEqual(entry.sys.id)
-      expect(foundSecondEntry?.sys.id).toEqual(secondEntry.sys.id)
-    })
   })
 
   describe('releaseSchemaVersion is not provided as a default', () => {
@@ -239,6 +211,185 @@ describe('Release Api v2', () => {
       })
       const fetchedRelease = releases.items.find((item) => item.sys.id === release.sys.id)
       expect(fetchedRelease?.sys.schemaVersion).toEqual('Release.v2')
+    })
+  })
+
+  describe('release.entry.* methods', () => {
+    describe('when releaseId is provided as a default in client', () => {
+      let clientWithReleaseIdDefault: PlainClientAPI
+      beforeEach(() => {
+        const defaultParams = {
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        }
+        clientWithReleaseIdDefault = initPlainClient(defaultParams)
+      })
+
+      it('release.entry.get works', async () => {
+        const entryInSpace = await clientWithReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+        expect(entryInSpace.sys.id).toEqual(entry.sys.id)
+        expect(entryInSpace.sys.release.sys.id).toEqual(release.sys.id)
+      })
+
+      it('release.entry.getMany works', async () => {
+        const response = await clientWithReleaseIdDefault.release.entry.getMany({
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+
+        const entries = response.items as EntryProps[]
+        const foundFirstEntry = entries.find((e) => e.sys.id === entry.sys.id)
+        const foundSecondEntry = entries.find((e) => e.sys.id === secondEntry.sys.id)
+
+        expect(entries.length).toEqual(2)
+        expect(foundFirstEntry?.sys.id).toEqual(entry.sys.id)
+        expect(foundSecondEntry?.sys.id).toEqual(secondEntry.sys.id)
+      })
+
+      it('release.entry.update works', async () => {
+        const entryInSpace = await clientWithReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+        const updatedEntry = await clientWithReleaseIdDefault.release.entry.update(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+          },
+          {
+            sys: entryInSpace.sys,
+            fields: {
+              title: {
+                'en-US': 'Updated Test Entry for Release',
+              },
+            },
+          }
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
+      })
+
+      it('release.entry.patch works', async () => {
+        const entryInSpace = await clientWithReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+
+        const updatedEntry = await clientWithReleaseIdDefault.release.entry.patch(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+            version: entryInSpace.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Patched Test Entry for Release',
+            },
+          ]
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
+      })
+    })
+
+    describe('when releaseId is NOT provided as a default in client', () => {
+      let clientWithoutReleaseIdDefault: PlainClientAPI
+      beforeEach(() => {
+        const defaultParams = {
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        }
+        clientWithoutReleaseIdDefault = initPlainClient(defaultParams)
+      })
+
+      it('release.entry.get works', async () => {
+        const entryInSpace = await clientWithoutReleaseIdDefault.release.entry.get({
+          releaseId: release.sys.id,
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+        expect(entryInSpace.sys.id).toEqual(entry.sys.id)
+        expect(entryInSpace.sys.release.sys.id).toEqual(release.sys.id)
+      })
+
+      it('release.entry.getMany works', async () => {
+        const response = await clientWithoutReleaseIdDefault.release.entry.getMany({
+          releaseId: release.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+        })
+
+        const entries = response.items as EntryProps[]
+        const foundFirstEntry = entries.find((e) => e.sys.id === entry.sys.id)
+        const foundSecondEntry = entries.find((e) => e.sys.id === secondEntry.sys.id)
+
+        expect(entries.length).toEqual(2)
+        expect(foundFirstEntry?.sys.id).toEqual(entry.sys.id)
+        expect(foundSecondEntry?.sys.id).toEqual(secondEntry.sys.id)
+      })
+
+      it('release.entry.update works', async () => {
+        const entryInSpace = await clientWithoutReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+        const updatedEntry = await clientWithoutReleaseIdDefault.release.entry.update(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+            releaseId: release.sys.id,
+          },
+          {
+            sys: entryInSpace.sys,
+            fields: {
+              title: {
+                'en-US': 'Updated Test Entry for Release',
+              },
+            },
+          }
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
+      })
+
+      it('release.entry.patch works', async () => {
+        const entryInSpace = await clientWithoutReleaseIdDefault.release.entry.get({
+          entryId: entry.sys.id,
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+
+        const updatedEntry = await clientWithoutReleaseIdDefault.release.entry.patch(
+          {
+            entryId: entryInSpace.sys.id,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+            releaseId: release.sys.id,
+            version: entryInSpace.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Patched Test Entry for Release',
+            },
+          ]
+        )
+        expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
+      })
     })
   })
 })
