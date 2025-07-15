@@ -3,6 +3,7 @@ import type {
   GetReleaseEntryParams,
   GetSpaceEnvironmentParams,
   KeyValueMap,
+  PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
 } from '../../../common-types'
@@ -12,6 +13,7 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { SetOptional } from 'type-fest'
+import type { OpPatch } from 'json-patch'
 
 export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
   http: AxiosInstance,
@@ -65,6 +67,30 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
     {
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
+        ...headers,
+      },
+    }
+  )
+}
+
+export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
+  http: AxiosInstance,
+  params: PatchReleaseEntryParams & {
+    entryId: string
+    version: number
+  } & QueryParams,
+  data: OpPatch[],
+  headers?: RawAxiosRequestHeaders
+) => {
+  params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
+  return raw.patch<EntryProps<T, any>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+        'Content-Type': 'application/json-patch+json',
         ...headers,
       },
     }

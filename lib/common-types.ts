@@ -1872,6 +1872,26 @@ export type MRActions = {
         }
       >
     }
+    patch: {
+      params: PatchReleaseEntryParams & {
+        entryId: string
+        version: number
+      }
+      payload: OpPatch[]
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<
+        any,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    }
   }
   ReleaseAction: {
     get: {
@@ -2362,6 +2382,10 @@ export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & {
 }
 
 export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+
+export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
 }
 
