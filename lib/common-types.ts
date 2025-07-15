@@ -948,7 +948,7 @@ export type MRActions = {
   AiAction: {
     get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
     getMany: {
-      params: GetSpaceParams & AiActionQueryOptions
+      params: GetSpaceParams & { query: AiActionQueryOptions }
       return: CollectionProp<AiActionProps>
     }
     create: {
