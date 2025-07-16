@@ -180,7 +180,7 @@ import type {
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
-import type { AiActionProps, CreateAiActionProps } from './entities/ai-action'
+import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,
@@ -948,7 +948,7 @@ export type MRActions = {
   AiAction: {
     get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
     getMany: {
-      params: GetSpaceParams & QueryParams
+      params: GetSpaceParams & { query: AiActionQueryOptions }
       return: CollectionProp<AiActionProps>
     }
     create: {

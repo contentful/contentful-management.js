@@ -1,6 +1,6 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
+import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import {
@@ -9,27 +9,17 @@ import {
   type AiActionInvocation,
 } from './ai-action-invocation'
 
-export enum StatusFilter {
-  ALL = 'all',
-  PUBLISHED = 'published',
-}
-
-export enum VariableType {
-  RESOURCE_LINK = 'ResourceLink',
-  TEXT = 'Text',
-  STANDARD_INPUT = 'StandardInput',
-  LOCALE = 'Locale',
-  MEDIA_REFERENCE = 'MediaReference',
-  REFERENCE = 'Reference',
-  SMART_CONTEXT = 'SmartContext',
-}
-
-export enum EntityTypeEntry {
-  ENTRY = 'Entry',
-}
+export type VariableType =
+  | 'ResourceLink'
+  | 'Text'
+  | 'StandardInput'
+  | 'Locale'
+  | 'MediaReference'
+  | 'Reference'
+  | 'SmartContext'
 
 export type ReferenceVariableConfiguration = {
-  allowedEntities: Array<EntityTypeEntry>
+  allowedEntities: Array<'Entry'>
 }
 
 export type VariableConfiguration =
@@ -71,27 +61,19 @@ export type AiActionTestCase =
       }
     }
 
-export type SysLinkUserOrApp = {
-  sys: {
-    id: string
-    linkType: 'User' | 'App'
-    type: 'Link'
-  }
-}
-
 export interface AiActionQueryOptions {
   limit?: number
   skip?: number
-  status?: StatusFilter
+  status?: 'all' | 'published'
 }
 
 export type AiActionProps = {
   sys: MetaSysProps & {
     type: 'AiAction'
     space: { sys: { id: string } }
-    publishedBy?: SysLinkUserOrApp
-    updatedBy: SysLinkUserOrApp
-    createdBy: SysLinkUserOrApp
+    publishedBy?: Link<'User'> | Link<'AppDefinition'>
+    updatedBy: Link<'User'> | Link<'AppDefinition'>
+    createdBy: Link<'User'> | Link<'AppDefinition'>
     publishedVersion?: number
     version: number
     publishedAt?: string
