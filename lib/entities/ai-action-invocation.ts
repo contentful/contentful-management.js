@@ -12,10 +12,11 @@ export const AiActionOutputFormat = {
   RichText: 'RichText',
   Markdown: 'Markdown',
   PlainText: 'PlainText',
+  Suggestion: 'Suggestion',
 } as const
 
 export type AiActionOutputFormatType =
-  (typeof AiActionOutputFormat)[keyof typeof AiActionOutputFormat]
+  typeof AiActionOutputFormat[keyof typeof AiActionOutputFormat]
 
 export type AiActionInvocationMetadata = {
   invocationResult?: {
@@ -30,8 +31,25 @@ export type AiActionInvocationMetadata = {
   }[]
 }
 
+export type AiActionMarkdownBlock = {
+  type: 'MarkdownBlock'
+  text: string
+}
+
+export type AiActionSuggestionBlock = {
+  type: 'SuggestionBlock'
+  format: 'Text'
+  fieldId: string
+  original: string
+  suggested: string
+  reason?: string
+  confidence: number
+}
+
+export type AiActionSuggestionContentBlock = AiActionMarkdownBlock | AiActionSuggestionBlock
+
 export interface InvocationResult {
-  content: string | RichTextDocument
+  content: string | RichTextDocument | AiActionSuggestionContentBlock[]
   type: InvocationResultType
   metadata: AiActionInvocationMetadata
 }
@@ -50,7 +68,7 @@ export type AiActionInvocationProps = {
 }
 
 export type AiActionInvocationType = {
-  outputFormat: 'RichText' | 'Markdown' | 'PlainText'
+  outputFormat: AiActionOutputFormatType
   variables?: Array<
     | {
         value: string
