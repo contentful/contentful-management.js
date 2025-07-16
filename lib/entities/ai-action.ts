@@ -37,6 +37,18 @@ export type Variable = {
   id: string
 }
 
+export const AiActionScope = {
+  Entry: 'Entry',
+  EntryField: 'EntryField',
+} as const
+export type AiActionScopeType = typeof AiActionScope[keyof typeof AiActionScope]
+
+export const AiActionOutputType = {
+  Generation: 'Generation',
+  Suggestion: 'Suggestion',
+} as const
+export type AiActionOutputTypeType = typeof AiActionOutputType[keyof typeof AiActionOutputType]
+
 export type Instruction = {
   variables: Array<Variable>
   template: string
@@ -45,6 +57,8 @@ export type Instruction = {
 export type Configuration = {
   modelType: string
   modelTemperature: number
+  scope?: AiActionScopeType
+  outputType?: AiActionOutputTypeType
 }
 
 export type AiActionTestCase =
