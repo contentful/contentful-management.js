@@ -782,6 +782,9 @@ describe('Entry Api', () => {
       await createEntryClient.entry.delete({
         entryId: entry.sys.id,
       })
+      await createEntryClient.entry.delete({
+        entryId: entry2.sys.id,
+      })
       await timeoutToCalmRateLimiting()
     })
 
