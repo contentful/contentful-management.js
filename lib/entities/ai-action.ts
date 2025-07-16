@@ -41,13 +41,13 @@ export const AiActionScope = {
   Entry: 'Entry',
   EntryField: 'EntryField',
 } as const
-export type AiActionScopeType = typeof AiActionScope[keyof typeof AiActionScope]
+export type AiActionScopeType = (typeof AiActionScope)[keyof typeof AiActionScope]
 
 export const AiActionOutputType = {
   Generation: 'Generation',
   Suggestion: 'Suggestion',
 } as const
-export type AiActionOutputTypeType = typeof AiActionOutputType[keyof typeof AiActionOutputType]
+export type AiActionOutputTypeType = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
 
 export type AiActionInstruction = {
   variables: Array<AiActionVariable>

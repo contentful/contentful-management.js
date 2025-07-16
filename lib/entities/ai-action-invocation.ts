@@ -16,7 +16,7 @@ export const AiActionOutputFormat = {
 } as const
 
 export type AiActionOutputFormatType =
-  typeof AiActionOutputFormat[keyof typeof AiActionOutputFormat]
+  (typeof AiActionOutputFormat)[keyof typeof AiActionOutputFormat]
 
 export type AiActionInvocationMetadata = {
   invocationResult?: {
