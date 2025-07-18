@@ -8,7 +8,7 @@
 
 <h1 align='center'>Content Management API</h1>
 
-<h3 align="center">JavaScript</h3>
+<h3 align="center">JavaScript test</h3>
 
 <p align="center">
   <a href="README.md">Readme</a> · 
