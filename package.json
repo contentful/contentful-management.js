@@ -144,8 +144,7 @@
         "prerelease": true
       },
       {
-        "name": "release/releasesv2",
-        "channel": "canary",
+        "name": "canary",
         "prerelease": true
       }
     ],
