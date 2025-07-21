@@ -156,11 +156,11 @@ function cursorBasedCollection(
     organizationId: string
     query?: Record<string, string | number> & { pageUrl?: string }
   }
-): { url: string; queryParams: Record<string, string | number> } {
+): { url: string; queryParams?: Record<string, string | number> } {
   return params.query?.pageUrl
-    ? { url: params.query?.pageUrl, queryParams: {} }
+    ? { url: params.query?.pageUrl }
     : {
         url: `${basePath(params.organizationId)}${path}`,
-        queryParams: params.query || {},
+        queryParams: params.query,
       }
 }
