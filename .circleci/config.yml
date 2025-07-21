@@ -148,4 +148,4 @@ workflows:
               only:
                 - master
                 - beta
-                - release/releasesv2
+                - canary
