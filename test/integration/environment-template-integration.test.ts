@@ -215,7 +215,7 @@ describe.skip('Environment template API', () => {
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
-    it.skip('disconnects environment template', async () => {
+    it('disconnects environment template', async () => {
       const installation = await installTemplate()
       const template = await client.getEnvironmentTemplate({
         organizationId: orgId,
