@@ -44,7 +44,7 @@ export const AiActionScope = {
 export type AiActionScopeType = (typeof AiActionScope)[keyof typeof AiActionScope]
 
 export const AiActionOutputType = {
-  Generation: 'Generation',
+  Transform: 'Transform',
   Suggestion: 'Suggestion',
 } as const
 export type AiActionOutputTypeType = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
