@@ -563,7 +563,6 @@ describe('Taxonomy Integration', () => {
     )
 
     const { items } = await client.conceptScheme.getMany({})
-    console.log('items', items);
     expect(items.length).toBe(4)
   })
 
