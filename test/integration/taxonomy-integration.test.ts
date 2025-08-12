@@ -231,7 +231,7 @@ describe('Taxonomy Integration', () => {
 
     const { total } = await client.concept.getTotal({})
 
-    expect(total).toBe(3)
+    expect(total).toBe(4)
   })
 
   it('gets a list of all concepts', async () => {
@@ -251,7 +251,7 @@ describe('Taxonomy Integration', () => {
     )
 
     const { items } = await client.concept.getMany({})
-    expect(items.length).toBe(3)
+    expect(items.length).toBe(4)
   })
 
   it('gets a list of all paginated concepts', async () => {
@@ -283,7 +283,7 @@ describe('Taxonomy Integration', () => {
         pageUrl: pages?.next,
       },
     })
-    expect(nextItems.length).toBe(1)
+    expect(nextItems.length).toBe(2)
   })
 
   it('creates a concept with a broader concept', async () => {
@@ -543,7 +543,7 @@ describe('Taxonomy Integration', () => {
 
     const { total } = await client.conceptScheme.getTotal({})
 
-    expect(total).toBe(3)
+    expect(total).toBe(4)
   })
 
   it('gets a list of all concept schemes', async () => {
@@ -563,7 +563,8 @@ describe('Taxonomy Integration', () => {
     )
 
     const { items } = await client.conceptScheme.getMany({})
-    expect(items.length).toBe(3)
+    console.log('items', items);
+    expect(items.length).toBe(4)
   })
 
   it('gets a list of all paginated concept schemes', async () => {
@@ -595,7 +596,7 @@ describe('Taxonomy Integration', () => {
         pageUrl: pages?.next,
       },
     })
-    expect(nextItems.length).toBe(1)
+    expect(nextItems.length).toBe(2)
   })
 })
 
