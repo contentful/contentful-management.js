@@ -19,7 +19,7 @@ import type {
 
 type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
 
-describe.skip('Environment template API', () => {
+describe('Environment template API', () => {
   const client = defaultClient
   const orgId = getTestOrganizationId()
   const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
