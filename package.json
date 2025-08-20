@@ -7,8 +7,11 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "node": "./dist/contentful-management.node.cjs",
+      "browser": "./dist/contentful-management.browser.cjs",
+      "react-native": "./dist/contentful-management.react-native.cjs",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
     },
     "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs",
     "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js",
@@ -34,8 +37,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:esm && npm run build:rollup && rm -rf dist/esm-raw",
-    "build:esm": "tsc",
+    "build": "npm run clean && npm run build:rollup",
     "build:rollup": "NODE_ENV=production rollup -c",
     "build:docs": "typedoc",
     "postbuild": "npm run check && npm run test:demo-projects",
@@ -99,6 +101,7 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@semantic-release/changelog": "^6.0.0",
     "@size-limit/file": "^11.1.6",
     "@types/json-patch": "^0.0.33",
@@ -119,10 +122,12 @@
     "lodash": "^4.17.20",
     "nodemon": "^3.1.2",
     "playwright": "^1.49.1",
-    "prettier": "^2.6.0",
+    "prettier": "^3.6.2",
     "process": "^0.11.10",
     "rimraf": "^5.0.0",
     "rollup": "^4.28.1",
+    "rollup-plugin-dts": "^6.2.3",
+    "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-visualizer": "^5.12.0",
     "semantic-release": "^22.0.12",
     "size-limit": "^11.1.6",
