@@ -3,4 +3,3 @@ dist
 coverage
 out
 typings
-rollup.config.js
