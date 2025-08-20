@@ -17,7 +17,7 @@
   "main": "./dist/cjs/index.cjs",
   "types": "dist/types/index.d.ts",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
@@ -40,10 +40,10 @@
     "build:docs": "typedoc",
     "postbuild": "npm run check && npm run test:demo-projects",
     "check": "npm run check:cjs && npm run check:esm && npm run check:browser && npm run check:browser-min",
-    "check:browser": "es-check es2018 ./dist/contentful-management.browser.js",
-    "check:browser-min": "es-check es2018 ./dist/contentful-management.browser.min.js",
-    "check:cjs": "es-check es2017 './dist/**/*.cjs'",
-    "check:esm": "es-check es2017 --module './dist/esm/*.js'",
+    "check:browser": "es-check es2021 ./dist/contentful-management.browser.js",
+    "check:browser-min": "es-check es2021 ./dist/contentful-management.browser.min.js",
+    "check:cjs": "es-check es2018 './dist/**/*.cjs'",
+    "check:esm": "es-check es2018 --module './dist/esm/*.js'",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
