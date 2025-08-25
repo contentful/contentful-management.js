@@ -525,6 +525,30 @@ export type PlainClientAPI = {
           }
         >
       >
+      createWithId<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<
+          GetSpaceEnvironmentParams & {
+            releaseId: string
+            entryId: string
+            contentTypeId: string
+          }
+        >,
+        rawData: CreateEntryProps<T>,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
+        >
+      >
     }
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>

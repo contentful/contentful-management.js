@@ -299,6 +299,35 @@ describe('Release Api v2', () => {
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
       })
+
+      it('release.entry.createWithId works', async () => {
+        const entryId = 'test-release-entry-with-id-default-' + Date.now()
+        const createdEntry = await clientWithReleaseIdDefault.release.entry.createWithId(
+          {
+            releaseId: release.sys.id,
+            entryId: entryId,
+            contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+          },
+          {
+            fields: {
+              title: {
+                'en-US': 'New Entry Created With ID in Release',
+              },
+            },
+          }
+        )
+
+        expect(createdEntry.sys.id).toEqual(entryId)
+        expect(createdEntry.fields.title['en-US']).toEqual('New Entry Created With ID in Release')
+        expect(createdEntry.sys.release.sys.id).toEqual(release.sys.id)
+
+        // cleanup
+        await clientWithReleaseIdDefault.entry.delete({
+          entryId: createdEntry.sys.id,
+        })
+      })
     })
 
     describe('when releaseId is NOT provided as a default in client', () => {
@@ -389,6 +418,35 @@ describe('Release Api v2', () => {
           ]
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
+      })
+
+      it('release.entry.createWithId works', async () => {
+        const entryId = 'test-release-entry-with-id-no-default-' + Date.now()
+        const createdEntry = await clientWithoutReleaseIdDefault.release.entry.createWithId(
+          {
+            releaseId: release.sys.id,
+            entryId: entryId,
+            contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId,
+            environmentId: TestDefaults.environmentId,
+            spaceId: TestDefaults.spaceId,
+          },
+          {
+            fields: {
+              title: {
+                'en-US': 'New Entry Created With ID in Release',
+              },
+            },
+          }
+        )
+
+        expect(createdEntry.sys.id).toEqual(entryId)
+        expect(createdEntry.fields.title['en-US']).toEqual('New Entry Created With ID in Release')
+        expect(createdEntry.sys.release.sys.id).toEqual(release.sys.id)
+
+        // cleanup
+        await clientWithoutReleaseIdDefault.entry.delete({
+          entryId: createdEntry.sys.id,
+        })
       })
     })
   })

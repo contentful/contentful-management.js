@@ -7,7 +7,7 @@ import type {
   QueryParams,
   UpdateReleaseEntryParams,
 } from '../../../common-types'
-import type { EntryProps } from '../../../entities/entry'
+import type { CreateEntryProps, EntryProps } from '../../../entities/entry'
 import copy from 'fast-copy'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -91,6 +91,47 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
       headers: {
         'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
+    }
+  )
+}
+
+export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & {
+    releaseId: string
+    entryId: string
+    contentTypeId: string
+  } & QueryParams,
+  rawData: CreateEntryProps<T>,
+  headers?: RawAxiosRequestHeaders
+) => {
+  params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
+  const data = copy(rawData)
+
+  return raw.put<
+    EntryProps<
+      T,
+      {
+        release: {
+          sys: {
+            type: 'Link'
+            linkType: 'Entry' | 'Asset'
+            id: string
+          }
+        }
+      }
+    >
+  >(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Content-Type': params.contentTypeId,
         ...headers,
       },
     }

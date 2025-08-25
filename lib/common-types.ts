@@ -714,6 +714,13 @@ type MRInternal<UA extends boolean> = {
     'ReleaseAction',
     'queryForRelease'
   >
+
+  (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
+  (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
+  (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
+  (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
+
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -1878,6 +1885,27 @@ export type MRActions = {
         version: number
       }
       payload: OpPatch[]
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<
+        any,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    }
+    createWithId: {
+      params: GetSpaceEnvironmentParams & {
+        releaseId: string
+        entryId: string
+        contentTypeId: string
+      }
+      payload: CreateEntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<
         any,
