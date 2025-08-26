@@ -2,6 +2,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   AppActionCallProps,
   AppActionCallResponse,
+  AppActionCallRawResponseProps,
   CreateAppActionCallProps,
 } from '../../../entities/app-action-call'
 import * as raw from './raw'
@@ -10,6 +11,7 @@ import type {
   CreateWithResponseParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,
+  GetAppActionCallParamsWithId,
 } from '../../../common-types'
 import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
 
@@ -108,4 +110,87 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
   const callId = createResponse.sys.id
 
   return callAppActionResult(http, params, { callId })
+}
+
+// New: Get structured AppActionCall (status/result/error) via new route that includes app installation context
+export const get: RestEndpoint<'AppActionCall', 'get'> = (
+  http: AxiosInstance,
+  params: GetAppActionCallParamsWithId
+) => {
+  return raw.get<AppActionCallProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}`
+  )
+}
+
+// New: Get raw AppActionCall response (headers/body) for a completed call
+export const getResponse: RestEndpoint<'AppActionCall', 'getResponse'> = (
+  http: AxiosInstance,
+  params: GetAppActionCallParamsWithId
+) => {
+  return raw.get<AppActionCallRawResponseProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}/response`
+  )
+}
+
+async function pollStructuredAppActionCall(
+  http: AxiosInstance,
+  params: CreateWithResponseParams,
+  { callId }: { callId: string }
+): Promise<AppActionCallProps> {
+  let checkCount = 1
+  const retryInterval = params.retryInterval || APP_ACTION_CALL_RETRY_INTERVAL
+  const retries = params.retries || APP_ACTION_CALL_RETRIES
+
+  return new Promise((resolve, reject) => {
+    const poll = async () => {
+      try {
+        const result = await get(http, { ...params, callId })
+
+        // If backend has not yet written the record, keep polling up to retries
+        // Otherwise, resolve when status is terminal
+        if (result?.status === 'succeeded' || result?.status === 'failed') {
+          resolve(result)
+        } else if (result?.status === 'processing' && checkCount < retries) {
+          checkCount++
+          await waitFor(retryInterval)
+          poll()
+        } else {
+          // Status not terminal and no more retries
+          reject(new Error('The app action result is taking longer than expected to process.'))
+        }
+      } catch (error: any) {
+        checkCount++
+
+        if (checkCount > retries) {
+          reject(new Error('The app action result is taking longer than expected to process.'))
+          return
+        }
+
+        // Similar to legacy behavior: transient errors (e.g., 404 during propagation) → re-poll
+        await waitFor(retryInterval)
+        poll()
+      }
+    }
+
+    poll()
+  })
+}
+
+// New: Create and poll the structured AppActionCall until completion (succeeded/failed)
+export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
+  http: AxiosInstance,
+  params: CreateWithResponseParams,
+  data: CreateAppActionCallProps
+) => {
+  const createResponse = await raw.post<AppActionCallProps>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
+    data
+  )
+
+  const callId = createResponse.sys.id
+
+  return pollStructuredAppActionCall(http, params, { callId })
 }
