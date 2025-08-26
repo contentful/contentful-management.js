@@ -91,5 +91,3 @@ describe('AppActionCall structured endpoints', function () {
     expect(raw.sys.type).toBe('AppActionCallResponse')
   })
 })
-
-
