@@ -1,5 +1,9 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import type { PlainClientAPI, AppActionCallProps } from '../../lib/contentful-management'
+import type {
+  PlainClientAPI,
+  AppActionCallProps,
+  AppActionProps,
+} from '../../lib/contentful-management'
 import {
   initPlainClient,
   getTestOrganization,
@@ -13,6 +17,7 @@ describe('AppActionCall structured endpoints', function () {
   let organization
   let space
   let appDefinition
+  let appAction: AppActionProps | undefined
 
   beforeAll(async () => {
     organization = await getTestOrganization()
@@ -29,11 +34,29 @@ describe('AppActionCall structured endpoints', function () {
     })
 
     await createAppInstallation(appDefinition.sys.id)
+
+    // Create an App Action to target in this suite
+    appAction = await client.appAction.create(
+      { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
+      {
+        category: 'Custom',
+        name: 'structured test action',
+        url: 'https://www.somewhere.com',
+        parameters: [],
+      }
+    )
   })
 
   afterAll(async () => {
     if (appDefinition) {
       await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
+      if (appAction) {
+        await client.appAction.delete({
+          organizationId: organization.sys.id,
+          appDefinitionId: appDefinition.sys.id,
+          appActionId: appAction.sys.id,
+        })
+      }
       await appDefinition.delete()
     }
   })
@@ -41,8 +64,8 @@ describe('AppActionCall structured endpoints', function () {
   afterAll(timeoutToCalmRateLimiting)
 
   test('createWithResult returns a completed structured AppActionCall', async () => {
-    // This assumes an existing action configured to return quickly in the test env
-    const appActionId = 'test-action'
+    // Use the action created in beforeAll
+    const appActionId = appAction!.sys.id
 
     const call: AppActionCallProps = await client.appActionCall.createWithResult(
       {
@@ -58,7 +81,7 @@ describe('AppActionCall structured endpoints', function () {
   })
 
   test('get and getResponse endpoints are reachable for a known call id', async () => {
-    const appActionId = 'test-action'
+    const appActionId = appAction!.sys.id
 
     const created = await client.appActionCall.create(
       {
