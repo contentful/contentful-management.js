@@ -51,6 +51,8 @@ export type CreateAppActionCallProps = {
 type AppActionCallApi = {
   createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
+  get(): Promise<AppActionCallProps>
+  createWithResult(): Promise<AppActionCallProps>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
@@ -120,6 +122,42 @@ export default function createAppActionCallApi(
           appActionId: 'app-action-id',
         },
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
+    },
+
+    get: function get() {
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'get',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+          callId: 'call-id',
+        },
+      }).then((data) => wrapAppActionCall(makeRequest, data))
+    },
+
+    createWithResult: function () {
+      const payload: CreateAppActionCallProps = {
+        parameters: {
+          recipient: 'Alice <alice@my-company.com>',
+          message_body: 'Hello from Bob!',
+        },
+      }
+
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'createWithResult',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+          ...retryOptions,
+        },
+        payload: payload,
+      }).then((data) => wrapAppActionCall(makeRequest, data))
     },
   }
 }
