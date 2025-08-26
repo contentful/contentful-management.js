@@ -112,7 +112,7 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
   return callAppActionResult(http, params, { callId })
 }
 
-// New: Get structured AppActionCall (status/result/error) via new route that includes app installation context
+// Get structured AppActionCall (status/result/error) via new route that includes app installation context
 export const get: RestEndpoint<'AppActionCall', 'get'> = (
   http: AxiosInstance,
   params: GetAppActionCallParamsWithId
@@ -123,7 +123,7 @@ export const get: RestEndpoint<'AppActionCall', 'get'> = (
   )
 }
 
-// New: Get raw AppActionCall response (headers/body) for a completed call
+// Get raw AppActionCall response (headers/body) for a completed call
 export const getResponse: RestEndpoint<'AppActionCall', 'getResponse'> = (
   http: AxiosInstance,
   params: GetAppActionCallParamsWithId
@@ -178,7 +178,7 @@ async function pollStructuredAppActionCall(
   })
 }
 
-// New: Create and poll the structured AppActionCall until completion (succeeded/failed)
+// Create and poll the structured AppActionCall until completion (succeeded/failed)
 export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
   http: AxiosInstance,
   params: CreateWithResponseParams,

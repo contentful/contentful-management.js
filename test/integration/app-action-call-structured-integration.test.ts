@@ -35,6 +35,12 @@ describe('AppActionCall structured endpoints', function () {
 
     await createAppInstallation(appDefinition.sys.id)
 
+    // Ensure the App Signing Secret exists to allow invoking App Action Calls
+    await client.appSigningSecret.upsert(
+      { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
+    )
+
     // Create an App Action to target in this suite
     appAction = await client.appAction.create(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
@@ -49,6 +55,11 @@ describe('AppActionCall structured endpoints', function () {
 
   afterAll(async () => {
     if (appDefinition) {
+      // Clean up signing secret and installation
+      await client.appSigningSecret.delete({
+        organizationId: organization.sys.id,
+        appDefinitionId: appDefinition.sys.id,
+      })
       await client.appInstallation.delete({ appDefinitionId: appDefinition.sys.id })
       if (appAction) {
         await client.appAction.delete({
