@@ -3,6 +3,7 @@ import type { OpPatch } from 'json-patch'
 import type {
   BasicCursorPaginationOptions,
   CollectionProp,
+  CreateWithIdReleaseEntryParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
@@ -456,7 +457,7 @@ export type PlainClientAPI = {
   release: {
     entry: {
       get<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<GetReleaseEntryParams>
+        params: OptionalDefaults<GetReleaseEntryParams & QueryParams>
       ): Promise<
         EntryProps<
           T,
@@ -472,7 +473,7 @@ export type PlainClientAPI = {
         >
       >
       getMany<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<GetManyReleaseEntryParams>
+        params: OptionalDefaults<GetManyReleaseEntryParams & QueryParams>
       ): Promise<
         CollectionProp<
           EntryProps<
@@ -490,7 +491,7 @@ export type PlainClientAPI = {
         >
       >
       update<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<UpdateReleaseEntryParams & { entryId: string }>,
+        params: OptionalDefaults<UpdateReleaseEntryParams & QueryParams>,
         rawData: EntryProps<T>,
         headers?: RawAxiosRequestHeaders
       ): Promise<
@@ -508,7 +509,7 @@ export type PlainClientAPI = {
         >
       >
       patch<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<PatchReleaseEntryParams & { entryId: string; version: number }>,
+        params: OptionalDefaults<PatchReleaseEntryParams & QueryParams>,
         rawData: OpPatch[],
         headers?: RawAxiosRequestHeaders
       ): Promise<
@@ -526,13 +527,7 @@ export type PlainClientAPI = {
         >
       >
       createWithId<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<
-          GetSpaceEnvironmentParams & {
-            releaseId: string
-            entryId: string
-            contentTypeId: string
-          }
-        >,
+        params: OptionalDefaults<CreateWithIdReleaseEntryParams & QueryParams>,
         rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders
       ): Promise<

@@ -1,11 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   GetReleaseEntryParams,
-  GetSpaceEnvironmentParams,
+  GetManyReleaseEntryParams,
   KeyValueMap,
   PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
+  CreateWithIdReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps } from '../../../entities/entry'
 import copy from 'fast-copy'
@@ -28,7 +29,7 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
 
 export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams & { releaseId: string }
+  params: GetManyReleaseEntryParams & QueryParams
 ) => {
   params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
 
@@ -40,7 +41,7 @@ export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = (
 
 export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: UpdateReleaseEntryParams & { entryId: string } & QueryParams & { releaseId: string },
+  params: UpdateReleaseEntryParams & QueryParams,
   rawData: EntryProps<T>,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -75,10 +76,7 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
 
 export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: PatchReleaseEntryParams & {
-    entryId: string
-    version: number
-  } & QueryParams,
+  params: PatchReleaseEntryParams & QueryParams,
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -101,11 +99,7 @@ export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
   T extends KeyValueMap = KeyValueMap
 >(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & {
-    releaseId: string
-    entryId: string
-    contentTypeId: string
-  } & QueryParams,
+  params: CreateWithIdReleaseEntryParams & QueryParams,
   rawData: CreateEntryProps<T>,
   headers?: RawAxiosRequestHeaders
 ) => {
