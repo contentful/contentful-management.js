@@ -193,7 +193,7 @@ describe('Environment template API', () => {
       expect(validations.items).toHaveLength(0)
     })
 
-    it.skip('gets installations on an environment for a given environment template', async () => {
+    it('gets installations on an environment for a given environment template', async () => {
       const installation = await installTemplate()
       const { items: installations } = await environment.getEnvironmentTemplateInstallations(
         installation.sys.template.sys.id
@@ -203,7 +203,7 @@ describe('Environment template API', () => {
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
-    it.skip('gets all installations of an environment template for an environment', async () => {
+    it('gets all installations of an environment template for an environment', async () => {
       const installation = await installTemplate()
       const template = await client.getEnvironmentTemplate({
         organizationId: orgId,
@@ -215,7 +215,7 @@ describe('Environment template API', () => {
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
-    it.skip('disconnects environment template', async () => {
+    it('disconnects environment template', async () => {
       const installation = await installTemplate()
       const template = await client.getEnvironmentTemplate({
         organizationId: orgId,
