@@ -5,19 +5,22 @@ import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
-  GetReleaseEntryParams,
+  GetEntryParams,
+  GetManyEntryParams,
   GetSpaceEnvironmentParams,
   KeyValueMap,
+  PatchEntryParams,
   QueryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
+import * as releaseEntry from './release-entry'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetReleaseEntryParams & QueryParams,
+  params: GetEntryParams & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -55,7 +58,7 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string },
+  params: GetManyEntryParams & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -75,10 +78,14 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
 
 export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; version: number },
+  params: PatchEntryParams & { version: number } & QueryParams,
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, { ...headers })
+  }
+
   return raw.patch<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,

@@ -8,7 +8,9 @@ import type {
   EnvironmentTemplateParams,
   GetBulkActionParams,
   GetContentTypeParams,
+  GetEntryParams,
   GetEnvironmentTemplateParams,
+  GetManyEntryParams,
   GetManyReleaseEntryParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
@@ -19,6 +21,7 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   KeyValueMap,
+  PatchEntryParams,
   PatchReleaseEntryParams,
   QueryParams,
   ReleaseEnvironmentParams,
@@ -279,7 +282,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
+      params: OptionalDefaults<GetManyEntryParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
     ): Promise<
@@ -299,7 +302,7 @@ export type PlainClientAPI = {
       >
     >
     get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetReleaseEntryParams>,
+      params: OptionalDefaults<GetEntryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
     ): Promise<
@@ -322,7 +325,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
+      params: OptionalDefaults<PatchEntryParams & { version?: number }>,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
