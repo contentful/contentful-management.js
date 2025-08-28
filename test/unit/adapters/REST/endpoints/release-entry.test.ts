@@ -1,55 +1,138 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { cloneMock } from '../../../mocks/entities'
-import * as raw from '../../../../../lib/adapters/REST/endpoints/raw'
-import { get, getMany } from '../../../../../lib/adapters/REST/endpoints/release-entry'
-import { EntryProps } from '../../../../../lib/entities/entry'
-import { GetReleaseEntryParams } from '../../../../../lib/contentful-management'
+import setupRestAdapter from '../helpers/setupRestAdapter'
+
+function setup(promise, params = {}) {
+  return {
+    ...setupRestAdapter(promise, params),
+    entityMock: cloneMock('releaseEntry'),
+  }
+}
 
 describe('Rest ReleaseEntry', () => {
-  let mockReleaseEntry: EntryProps<
-    any,
-    { release: { sys: { type: 'Link'; linkType: 'Release'; id: string } } }
-  >
-  let rawGetSpy: any
-  let params: GetReleaseEntryParams
-  let httpMock: any
+  test('get', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-  beforeEach(async () => {
-    mockReleaseEntry = cloneMock('releaseEntry')
-    rawGetSpy = vi.spyOn(raw, 'get').mockResolvedValue(mockReleaseEntry)
-    httpMock = {}
-    params = {
-      spaceId: 'space123',
-      environmentId: 'master',
-      releaseId: 'black-friday',
-      entryId: 'abc123',
-    }
-    await get(httpMock, params)
+    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'get',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+          entryId: 'abc123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+        )
+      })
   })
 
-  afterEach(() => {
-    rawGetSpy.mockRestore()
+  test('getMany', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'getMany',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries'
+        )
+      })
   })
 
-  test('release.entry.get calls raw.get with correct URL and params', async () => {
-    expect(rawGetSpy).toHaveBeenCalledWith(
-      httpMock,
-      '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
-    )
+  test('update', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+          entryId: 'abc123',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+        )
+      })
   })
 
-  test('release.entry.getMany calls raw.get with the correct URL and params', async () => {
-    const expectedParams = {
-      spaceId: 'space123',
-      environmentId: 'master',
-      releaseId: 'black-friday',
-    }
+  test('patch', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
-    await getMany(httpMock, expectedParams)
+    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
 
-    expect(rawGetSpy).toHaveBeenCalledWith(
-      httpMock,
-      '/spaces/space123/environments/master/releases/black-friday/entries'
-    )
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'patch',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+          entryId: 'abc123',
+        },
+        userAgent: 'mocked',
+      })
+      .then(() => {
+        expect(httpMock.patch.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+        )
+      })
+  })
+
+  test('createWithId', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'createWithId',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+          entryId: 'abc123',
+          contentTypeId: 'contentType123',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+        )
+      })
   })
 })

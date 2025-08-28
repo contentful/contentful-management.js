@@ -1,13 +1,14 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   GetReleaseEntryParams,
-  GetSpaceEnvironmentParams,
+  GetManyReleaseEntryParams,
   KeyValueMap,
   PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
+  CreateWithIdReleaseEntryParams,
 } from '../../../common-types'
-import type { EntryProps } from '../../../entities/entry'
+import type { CreateEntryProps, EntryProps } from '../../../entities/entry'
 import copy from 'fast-copy'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -28,7 +29,7 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
 
 export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams & { releaseId: string }
+  params: GetManyReleaseEntryParams & QueryParams
 ) => {
   params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
 
@@ -40,7 +41,7 @@ export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = (
 
 export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: UpdateReleaseEntryParams & { entryId: string } & QueryParams & { releaseId: string },
+  params: UpdateReleaseEntryParams & QueryParams,
   rawData: EntryProps<T>,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -75,10 +76,7 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
 
 export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: PatchReleaseEntryParams & {
-    entryId: string
-    version: number
-  } & QueryParams,
+  params: PatchReleaseEntryParams & QueryParams,
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -91,6 +89,43 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
       headers: {
         'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
+    }
+  )
+}
+
+export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
+  http: AxiosInstance,
+  params: CreateWithIdReleaseEntryParams & QueryParams,
+  rawData: CreateEntryProps<T>,
+  headers?: RawAxiosRequestHeaders
+) => {
+  params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
+  const data = copy(rawData)
+
+  return raw.put<
+    EntryProps<
+      T,
+      {
+        release: {
+          sys: {
+            type: 'Link'
+            linkType: 'Entry' | 'Asset'
+            id: string
+          }
+        }
+      }
+    >
+  >(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Content-Type': params.contentTypeId,
         ...headers,
       },
     }

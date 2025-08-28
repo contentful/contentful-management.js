@@ -714,6 +714,13 @@ type MRInternal<UA extends boolean> = {
     'ReleaseAction',
     'queryForRelease'
   >
+
+  (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
+  (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
+  (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
+  (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
+
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -1892,6 +1899,27 @@ export type MRActions = {
         }
       >
     }
+    createWithId: {
+      params: GetSpaceEnvironmentParams & {
+        releaseId: string
+        entryId: string
+        contentTypeId: string
+      }
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<
+        any,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    }
   }
   ReleaseAction: {
     get: {
@@ -2376,19 +2404,21 @@ export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId?: string
   entryId: string
 }
-
-export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & {
-  releaseId: string
-}
-
+export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
+  entryId: string
 }
-
 export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
+  entryId: string
+  version: number
 }
-
+export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  contentTypeId: string
+}
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
