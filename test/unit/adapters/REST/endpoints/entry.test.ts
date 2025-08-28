@@ -122,7 +122,7 @@ describe('Rest Entry', () => {
         )
         // Should have release query parameter
         expect(httpMock.get.mock.calls[0][1].params).toMatchObject({
-          'release[lte]': 'release456'
+          'release[lte]': 'release456',
         })
       })
   })
@@ -144,9 +144,7 @@ describe('Rest Entry', () => {
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries'
-        )
+        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/entries')
         expect(httpMock.get.mock.calls[0][1].params).toBeUndefined
       })
   })
@@ -169,12 +167,10 @@ describe('Rest Entry', () => {
       })
       .then((r) => {
         expect(r).to.eql(entityMock)
-        expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries'
-        )
+        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/entries')
         // Should have release query parameter
         expect(httpMock.get.mock.calls[0][1].params).toMatchObject({
-          'release[lte]': 'release456'
+          'release[lte]': 'release456',
         })
       })
   })
@@ -206,7 +202,9 @@ describe('Rest Entry', () => {
         )
         expect(httpMock.patch.mock.calls[0][1]).to.eql(patchOps)
         expect(httpMock.patch.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
-        expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql('application/json-patch+json')
+        expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql(
+          'application/json-patch+json'
+        )
       })
   })
 
@@ -240,7 +238,9 @@ describe('Rest Entry', () => {
         )
         expect(httpMock.patch.mock.calls[0][1]).to.eql(patchOps)
         expect(httpMock.patch.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
-        expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql('application/json-patch+json')
+        expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql(
+          'application/json-patch+json'
+        )
         // Should have schema version for release API
         expect(httpMock.patch.mock.calls[0][1]).toMatchObject(patchOps)
       })

@@ -1604,7 +1604,7 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetManyEntryParams & QueryParams,
+      params: GetManyEntryParams & QueryParams
       return: CollectionProp<EntryProps<any, any>>
     }
     get: {
