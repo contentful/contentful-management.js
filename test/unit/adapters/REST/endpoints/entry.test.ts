@@ -243,4 +243,83 @@ describe('Rest Entry', () => {
         )
       })
   })
+
+  test('update without releaseId', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    const updateData = {
+      ...entityMock,
+      fields: {
+        title: { 'en-US': 'Updated Title' },
+      },
+    }
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          entryId: 'entry123',
+        },
+        payload: updateData,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/entries/entry123'
+        )
+        // Check that sys is removed from the payload
+        expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
+        expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql('Updated Title')
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(
+          updateData.sys.version
+        )
+      })
+  })
+
+  test('update with releaseId delegates to release entry', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    // Mock the release entry endpoint
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    const updateData = {
+      ...entityMock,
+      fields: {
+        title: { 'en-US': 'Updated Title in Release' },
+      },
+    }
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          entryId: 'entry123',
+          releaseId: 'release456',
+        },
+        payload: updateData,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        // When releaseId is provided, it should call the release entry endpoint
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/release456/entries/entry123'
+        )
+        // Check that sys is removed from the payload
+        expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
+        expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql('Updated Title in Release')
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(
+          updateData.sys.version
+        )
+      })
+  })
 })
