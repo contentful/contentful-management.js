@@ -20,7 +20,6 @@ import type {
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
-import { makeLink } from '../utils'
 import {
   createEmptyRelease,
   createTestEntry,
