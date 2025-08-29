@@ -12,7 +12,7 @@ export async function createEmptyRelease(
     releaseSchemaVersion: 'Release.v2'
   }
 ): Promise<ReleaseProps> {
-  return await client.release.create(defaultParams, {
+  return client.release.create(defaultParams, {
     title: 'Test Release',
     entities: {
       sys: { type: 'Array' },
@@ -34,7 +34,7 @@ export async function createTestEntry(
   },
   contentTypeId: string
 ): Promise<EntryProps> {
-  return await client.entry.create(
+  return client.entry.create(
     { ...defaultParams, contentTypeId },
     {
       fields: {
@@ -56,7 +56,7 @@ export async function updateReleaseWithEntries(
 ): Promise<ReleaseProps> {
   const { sys, ...releaseData } = release
 
-  return await client.release.update(
+  return client.release.update(
     {
       spaceId: sys.space.sys.id,
       environmentId: sys.environment.sys.id,
@@ -95,7 +95,7 @@ export async function updateReleaseEntryTitle(
   })
 
   // update the release entry with new title
-  return await client.release.entry.update(
+  return client.release.entry.update(
     {
       entryId: releaseEntryToUpdate.sys.id,
       environmentId: release.sys.environment.sys.id,
