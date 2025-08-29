@@ -1612,7 +1612,7 @@ export type MRActions = {
       return: EntryProps<any, any>
     }
     patch: {
-      params: PatchEntryParams & { entryId: string; version: number }
+      params: PatchEntryParams & { version: number }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
