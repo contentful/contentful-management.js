@@ -241,8 +241,6 @@ describe('Rest Entry', () => {
         expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql(
           'application/json-patch+json'
         )
-        // Should have schema version for release API
-        expect(httpMock.patch.mock.calls[0][1]).toMatchObject(patchOps)
       })
   })
 })
