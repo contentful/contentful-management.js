@@ -83,7 +83,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
   headers?: RawAxiosRequestHeaders
 ) => {
   if (params.releaseId) {
-    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, headers)
+    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, headers ?? {})
   }
 
   return raw.patch<EntryProps<T>>(
