@@ -371,7 +371,6 @@ describe('Entry Api', () => {
       return environment
         .createEntry(contentType.sys.id, { fields: { title: { 'en-US': 'this is the title' } } })
         .then((entry) => {
-          console.log('entry', entry)
           expect(entry.isDraft(), 'entry is in draft').ok
           expect(entry.fields.title['en-US']).equals('this is the title', 'original title')
           return entry.publish().then((publishedEntry) => {

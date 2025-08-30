@@ -302,7 +302,7 @@ export type PlainClientAPI = {
       >
     >
     get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetEntryParams>,
+      params: OptionalDefaults<GetEntryParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
     ): Promise<
@@ -325,7 +325,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<PatchEntryParams & { version?: number }>,
+      params: OptionalDefaults<PatchEntryParams & QueryParams>,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>

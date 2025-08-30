@@ -78,14 +78,12 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
 
 export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: PatchEntryParams & { version: number } & QueryParams,
+  params: PatchEntryParams & QueryParams,
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
   if (params.releaseId) {
-    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, {
-      ...headers,
-    })
+    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, headers)
   }
 
   return raw.patch<EntryProps<T>>(

@@ -1612,7 +1612,7 @@ export type MRActions = {
       return: EntryProps<any, any>
     }
     patch: {
-      params: PatchEntryParams & { version: number }
+      params: PatchEntryParams & QueryParams
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -2387,7 +2387,11 @@ export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: 
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
 export type GetManyEntryParams = GetSpaceEnvironmentParams & { releaseId?: string }
-export type PatchEntryParams = GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
+export type PatchEntryParams = GetSpaceEnvironmentParams & {
+  entryId: string
+  version: number
+  releaseId?: string
+}
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
