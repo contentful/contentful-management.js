@@ -7,6 +7,7 @@ import type {
   CollectionProp,
   GetEntryParams,
   GetManyEntryParams,
+  CreateWithIdReleaseEntryParams,
   GetSpaceEnvironmentParams,
   KeyValueMap,
   PatchEntryParams,
@@ -18,6 +19,7 @@ import type {
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
+import { createWithId as createWithIdReleaseEntry } from './release-entry'
 import { normalizeSelect } from './utils'
 import * as releaseEntry from './release-entry'
 
@@ -225,21 +227,29 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
   T extends KeyValueMap = KeyValueMap
 >(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
+  params: GetSpaceEnvironmentParams & {
+    entryId: string
+    contentTypeId: string
+    releaseId?: string
+  },
   rawData: CreateEntryProps<T>
 ) => {
-  const data = copy(rawData)
+  if (params.releaseId) {
+    return createWithIdReleaseEntry(http, params as CreateWithIdReleaseEntryParams, rawData, {})
+  } else {
+    const data = copy(rawData)
 
-  return raw.put<EntryProps<T>>(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Content-Type': params.contentTypeId,
-      },
-    }
-  )
+    return raw.put<EntryProps<T>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+      data,
+      {
+        headers: {
+          'X-Contentful-Content-Type': params.contentTypeId,
+        },
+      }
+    )
+  }
 }
 
 export const references: RestEndpoint<'Entry', 'references'> = (

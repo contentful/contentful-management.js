@@ -351,10 +351,23 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string; releaseId?: string }
       >,
       rawData: CreateEntryProps<T>
-    ): Promise<EntryProps<T>>
+    ): Promise<
+      EntryProps<
+        T,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    >
     references(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & {
