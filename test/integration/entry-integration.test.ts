@@ -20,7 +20,12 @@ import type {
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
-import { makeLink } from '../utils'
+import {
+  createEmptyRelease,
+  createTestEntry,
+  updateReleaseWithEntries,
+  updateReleaseEntryTitle,
+} from './utils/release-entry.utils'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())
@@ -718,7 +723,7 @@ describe('Entry Api', () => {
   })
 
   //test releasev2 entry logic
-  describe('read plainClientApi with releaseId', () => {
+  describe('plainClientApi with releaseId', () => {
     let entry: EntryProps
     let entry2: EntryProps
     let release: ReleaseProps
@@ -733,45 +738,25 @@ describe('Entry Api', () => {
       }
       createEntryClient = initPlainClient(defaultParams)
 
-      entry = await createEntryClient.entry.create(
-        { ...defaultParams, contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId },
-        {
-          fields: {
-            title: {
-              'en-US': 'Test Entry for Release',
-            },
-          },
-        }
-      )
+      // create release
+      release = await createEmptyRelease(createEntryClient, defaultParams)
 
-      entry2 = await createEntryClient.entry.create(
-        { ...defaultParams, contentTypeId: TestDefaults.contentType.withCrossSpaceReferenceId },
-        {
-          fields: {
-            title: {
-              'en-US': 'Test Entry for Release',
-            },
-          },
-        }
+      // create entries to add to release
+      entry = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId
       )
+      entry2 = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId
+      )
+      // add entries to release
+      release = await updateReleaseWithEntries(createEntryClient, release, [entry, entry2])
 
-      release = await createEntryClient.release.create(defaultParams, {
-        title: 'Test Release',
-        entities: {
-          sys: { type: 'Array' },
-          items: [
-            {
-              entity: makeLink('Entry', entry.sys.id),
-              action: 'publish',
-            },
-            {
-              entity: makeLink('Entry', entry2.sys.id),
-              action: 'publish',
-            },
-          ],
-        },
-        startDate: '2025-08-28T10:00:000Z',
-      })
+      // update release entry with title
+      await updateReleaseEntryTitle(createEntryClient, release, entry)
     })
 
     afterAll(async () => {
@@ -811,6 +796,33 @@ describe('Entry Api', () => {
         expect(fetchedEntry.sys.id).toEqual(entry.sys.id)
         expect(fetchedEntry.sys.release.sys.id).toEqual(release.sys.id)
       })
+
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            releaseId: release.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace' as const,
+              path: '/fields/title/en-US',
+              value: 'Entry patched via release',
+            },
+          ]
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
+      })
     })
 
     describe('releaseId is provided in default params, but not in params', () => {
@@ -840,6 +852,31 @@ describe('Entry Api', () => {
         })
         expect(fetchedEntry.sys.id).toEqual(entry.sys.id)
         expect(fetchedEntry.sys.release.sys.id).toEqual(release.sys.id)
+      })
+
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Entry patched via default release',
+            },
+          ]
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via default release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
       })
     })
   })
