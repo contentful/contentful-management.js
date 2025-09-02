@@ -1618,7 +1618,7 @@ export type MRActions = {
       return: EntryProps<any>
     }
     update: {
-      params: UpdateEntryParams
+      params: UpdateEntryParams & QueryParams
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>

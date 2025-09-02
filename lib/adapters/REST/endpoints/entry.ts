@@ -107,7 +107,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
 
 export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: UpdateEntryParams,
+  params: UpdateEntryParams & QueryParams,
   rawData: EntryProps<T>,
   headers?: RawAxiosRequestHeaders
 ) => {

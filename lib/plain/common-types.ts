@@ -321,7 +321,7 @@ export type PlainClientAPI = {
       >
     >
     update<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<UpdateEntryParams>,
+      params: OptionalDefaults<UpdateEntryParams & QueryParams>,
       rawData: EntryProps<T>,
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>
