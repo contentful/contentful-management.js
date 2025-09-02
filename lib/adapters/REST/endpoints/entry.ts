@@ -10,6 +10,7 @@ import type {
   GetSpaceEnvironmentParams,
   KeyValueMap,
   PatchEntryParams,
+  PatchReleaseEntryParams,
   QueryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
@@ -83,7 +84,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
   headers?: RawAxiosRequestHeaders
 ) => {
   if (params.releaseId) {
-    return releaseEntry.patch(http, { ...params, releaseId: params.releaseId }, data, headers ?? {})
+    return releaseEntry.patch(http, params as PatchReleaseEntryParams, data, headers ?? {})
   }
 
   return raw.patch<EntryProps<T>>(
