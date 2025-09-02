@@ -13,6 +13,7 @@ import type {
   PatchReleaseEntryParams,
   QueryParams,
   UpdateEntryParams,
+  UpdateReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
@@ -109,9 +110,7 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
   headers?: RawAxiosRequestHeaders
 ) => {
   if (params.releaseId) {
-    return releaseEntry.update(http, { ...params, releaseId: params.releaseId }, rawData, {
-      ...headers,
-    })
+    return releaseEntry.update(http, params as UpdateReleaseEntryParams, rawData, headers ?? {})
   }
 
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
