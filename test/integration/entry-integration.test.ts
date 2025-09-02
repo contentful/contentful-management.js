@@ -823,6 +823,32 @@ describe('Entry Api', () => {
         expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
         expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
       })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+            releaseId: release.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via release' },
+            },
+          }
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(entryToUpdate.sys.release.sys.id)
+      })
     })
 
     describe('releaseId is provided in default params, but not in params', () => {
@@ -877,6 +903,30 @@ describe('Entry Api', () => {
         expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via default release')
         expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
         expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
+      })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via default release' },
+            },
+          }
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via default release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(entryToUpdate.sys.release.sys.id)
       })
     })
   })

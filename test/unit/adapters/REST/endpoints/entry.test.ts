@@ -316,7 +316,9 @@ describe('Rest Entry', () => {
         )
         // Check that sys is removed from the payload
         expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
-        expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql('Updated Title in Release')
+        expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql(
+          'Updated Title in Release'
+        )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(
           updateData.sys.version
         )
