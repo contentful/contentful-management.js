@@ -41,7 +41,7 @@ describe('Rest Entry', () => {
     })
   })
 
-  test('API call createEntryWithId', async () => {
+  test('API call createEntryWithId without releaseId', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
     httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
@@ -64,6 +64,39 @@ describe('Rest Entry', () => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/id/environments/id/entries/entryId',
           'entry id is sent'
+        )
+        expect(httpMock.put.mock.calls[0][1]).to.eql(entityMock, 'data is sent')
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
+          'contentTypeId',
+          'content type is specified'
+        )
+      })
+  })
+
+  test('API call createEntryWithId with releaseId', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'createWithId',
+        userAgent: 'mocked',
+        params: {
+          environmentId: 'id',
+          spaceId: 'id',
+          contentTypeId: 'contentTypeId',
+          entryId: 'entryId',
+          releaseId: 'releaseId',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/id/environments/id/releases/releaseId/entries/entryId',
+          'release entry endpoint is used when releaseId is provided'
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql(entityMock, 'data is sent')
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(

@@ -1647,9 +1647,13 @@ export type MRActions = {
       return: EntryProps<any>
     }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        entryId: string
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
-      return: EntryProps<any>
+      return: EntryProps<any, any>
     }
     references: {
       params: GetSpaceEnvironmentParams & {
