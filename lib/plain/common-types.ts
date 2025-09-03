@@ -25,6 +25,7 @@ import type {
   PatchReleaseEntryParams,
   QueryParams,
   ReleaseEnvironmentParams,
+  UpdateEntryParams,
   UpdateReleaseEntryParams,
 } from '../common-types'
 import type {
@@ -320,7 +321,7 @@ export type PlainClientAPI = {
       >
     >
     update<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<UpdateEntryParams & QueryParams>,
       rawData: EntryProps<T>,
       headers?: RawAxiosRequestHeaders
     ): Promise<EntryProps<T>>

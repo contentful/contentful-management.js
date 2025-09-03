@@ -1618,7 +1618,7 @@ export type MRActions = {
       return: EntryProps<any>
     }
     update: {
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: UpdateEntryParams & QueryParams
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -2396,6 +2396,7 @@ export type PatchEntryParams = GetSpaceEnvironmentParams & {
   version: number
   releaseId?: string
 }
+export type UpdateEntryParams = GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
