@@ -12,17 +12,27 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types.js'
-import entities from './entities/index.js'
-import type { Organization, OrganizationProps } from './entities/organization.js'
-import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token.js'
-import type { Space, SpaceProps } from './entities/space.js'
-import type { AppDefinition } from './entities/app-definition.js'
-import type { UsageQuery } from './entities/usage.js'
-import type { UserProps } from './entities/user.js'
-import type {
-  CreateEnvironmentTemplateProps,
-  EnvironmentTemplate,
-  EnvironmentTemplateProps,
+import {
+  wrapOrganization,
+  wrapOrganizationCollection,
+  type Organization,
+  type OrganizationProps,
+} from './entities/organization.js'
+import {
+  wrapPersonalAccessToken,
+  wrapPersonalAccessTokenCollection,
+  type CreatePersonalAccessTokenProps,
+} from './entities/personal-access-token.js'
+import { wrapSpace, wrapSpaceCollection, type Space, type SpaceProps } from './entities/space.js'
+import { wrapAppDefinition, type AppDefinition } from './entities/app-definition.js'
+import { wrapUsageCollection, type UsageQuery } from './entities/usage.js'
+import { wrapUser, type UserProps } from './entities/user.js'
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+  type CreateEnvironmentTemplateProps,
+  type EnvironmentTemplate,
+  type EnvironmentTemplateProps,
 } from './entities/environment-template.js'
 import type { RawAxiosRequestConfig } from 'axios'
 import type {
@@ -30,6 +40,11 @@ import type {
   OAuthApplication,
   OAuthApplicationProps,
 } from './export-types.js'
+import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token.js'
+import {
+  wrapOAuthApplication,
+  wrapOAuthApplicationCollection,
+} from './entities/oauth-application.js'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -38,18 +53,6 @@ type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
  * @private
  */
 export default function createClientApi(makeRequest: MakeRequest) {
-  const { wrapSpace, wrapSpaceCollection } = entities.space
-  const { wrapUser } = entities.user
-  const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
-    entities.personalAccessToken
-  const { wrapAccessToken, wrapAccessTokenCollection } = entities.accessToken
-  const { wrapOrganization, wrapOrganizationCollection } = entities.organization
-  const { wrapUsageCollection } = entities.usage
-  const { wrapAppDefinition } = entities.appDefinition
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-  const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
-
   return {
     version: __VERSION__,
     /**
@@ -70,7 +73,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
-      query: BasicCursorPaginationOptions & { select?: string } = {}
+      query: BasicCursorPaginationOptions & { select?: string } = {},
     ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -139,7 +142,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createEnvironmentTemplate: function createEnvironmentTemplate(
       organizationId: string,
-      environmentTemplateData: CreateEnvironmentTemplateProps
+      environmentTemplateData: CreateEnvironmentTemplateProps,
     ): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -164,7 +167,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ): Promise<Collection<Space, SpaceProps>> {
       return makeRequest({
         entityType: 'Space',
@@ -218,7 +221,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createSpace: function createSpace(
       spaceData: CreateSpaceProps,
-      organizationId: string
+      organizationId: string,
     ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
@@ -268,7 +271,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizations: function getOrganizations(
-      query: PaginationQueryParams['query'] = {}
+      query: PaginationQueryParams['query'] = {},
     ): Promise<Collection<Organization, OrganizationProps>> {
       return makeRequest({
         entityType: 'Organization',
@@ -318,7 +321,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplication: function getOAuthApplication(
-      params: GetOAuthApplicationParams
+      params: GetOAuthApplicationParams,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -344,7 +347,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplications: function getOAuthApplications(
-      params: GetUserParams & QueryParams
+      params: GetUserParams & QueryParams,
     ): Promise<CursorPaginatedCollection<OAuthApplication, OAuthApplicationProps>> {
       const { userId } = params
       return makeRequest({
@@ -376,7 +379,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createOAuthApplication: function createOAuthApplication(
       params: GetUserParams,
-      rawData: CreateOAuthApplicationProps
+      rawData: CreateOAuthApplicationProps,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -405,7 +408,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
 
     getAppDefinition: function getAppDefinition(
-      params: GetAppDefinitionParams
+      params: GetAppDefinitionParams,
     ): Promise<AppDefinition> {
       return makeRequest({
         entityType: 'AppDefinition',
@@ -438,7 +441,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     createPersonalAccessToken: function createPersonalAccessToken(
-      data: CreatePersonalAccessTokenProps
+      data: CreatePersonalAccessTokenProps,
     ) {
       return makeRequest({
         /**
@@ -568,7 +571,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationAccessTokens: function getOrganizationAccessTokens(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'AccessToken',
@@ -603,7 +606,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationUsage: function getOrganizationUsage(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'Usage',

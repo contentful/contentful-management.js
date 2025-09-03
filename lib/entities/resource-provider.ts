@@ -8,8 +8,11 @@ import type {
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods.js'
-import type { ResourceType, UpsertResourceTypeProps } from './resource-type.js'
-import entities from './index.js'
+import {
+  wrapResourceType,
+  type ResourceType,
+  type UpsertResourceTypeProps,
+} from './resource-type.js'
 
 export type ResourceProviderProps = {
   /**
@@ -47,8 +50,6 @@ export interface ResourceProvider
  * @private
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
-  const { wrapResourceType } = entities.resourceType
-
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
@@ -173,12 +174,12 @@ const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderPro
  */
 export function wrapResourceProvider(
   makeRequest: MakeRequest,
-  data: ResourceProviderProps
+  data: ResourceProviderProps,
 ): ResourceProvider {
   const resourceProvider = toPlainObject(copy(data))
   const ResourceProviderWithMethods = enhanceWithMethods(
     resourceProvider,
-    createResourceProviderApi(makeRequest)
+    createResourceProviderApi(makeRequest),
   )
   return freezeSys(ResourceProviderWithMethods)
 }
