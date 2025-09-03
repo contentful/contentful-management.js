@@ -21,21 +21,21 @@ const getFunctionsEnvURL = (params: GetFunctionForEnvParams) => {
 
 export const get: RestEndpoint<'Function', 'get'> = (
   http: AxiosInstance,
-  params: GetFunctionParams
+  params: GetFunctionParams,
 ) => {
   return raw.get<FunctionProps>(http, getFunctionUrl(params))
 }
 
 export const getMany: RestEndpoint<'Function', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyFunctionParams
+  params: GetManyFunctionParams,
 ) => {
   return raw.get<CollectionProp<FunctionProps>>(http, getManyUrl(params), { params: params.query })
 }
 
 export const getManyForEnvironment: RestEndpoint<'Function', 'getManyForEnvironment'> = (
   http: AxiosInstance,
-  params: GetFunctionForEnvParams
+  params: GetFunctionForEnvParams,
 ) => {
   return raw.get<CollectionProp<FunctionProps>>(http, getFunctionsEnvURL(params), {
     params: params.query,

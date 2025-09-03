@@ -48,7 +48,7 @@ export type WebhookPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<WebhookProps>>
   /**
    * Creates a Webhook
@@ -73,7 +73,7 @@ export type WebhookPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams>,
     rawData: CreateWebhooksProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WebhookProps>
   /**
    * Creates the Webhook
@@ -97,7 +97,7 @@ export type WebhookPlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetWebhookParams>,
-    rawData: CreateWebhooksProps
+    rawData: CreateWebhooksProps,
   ): Promise<WebhookProps>
   /**
    * Deletes the Webhook
@@ -143,7 +143,7 @@ export type WebhookPlainClientAPI = {
    * ```
    */
   getCallDetails(
-    params: OptionalDefaults<GetWebhookCallDetailsUrl>
+    params: OptionalDefaults<GetWebhookCallDetailsUrl>,
   ): Promise<WebhookCallDetailsProps>
   /**
    * Fetches the details the most recent calls for a given Webhook
@@ -159,7 +159,7 @@ export type WebhookPlainClientAPI = {
    * ```
    */
   getManyCallDetails(
-    params: OptionalDefaults<GetWebhookParams & QueryParams>
+    params: OptionalDefaults<GetWebhookParams & QueryParams>,
   ): Promise<CollectionProp<WebhookCallOverviewProps>>
 
   // Webhook Retry Policies
@@ -172,7 +172,7 @@ export type WebhookPlainClientAPI = {
    */
   upsertRetryPolicy(
     params: OptionalDefaults<GetSpaceParams>,
-    rawData: WebhookRetryPolicyPayload
+    rawData: WebhookRetryPolicyPayload,
   ): Promise<WebhookRetryPolicyProps>
   /**
    * @deprecated The EAP for this feature has ended. This method will be removed in the next major version.
@@ -212,7 +212,7 @@ export type WebhookPlainClientAPI = {
    */
   upsertSigningSecret(
     params: OptionalDefaults<GetSpaceParams>,
-    rawData: UpsertWebhookSigningSecretPayload
+    rawData: UpsertWebhookSigningSecretPayload,
   ): Promise<WebhookSigningSecretProps>
   /**
    * Removes the webhook signing secret for a given Space

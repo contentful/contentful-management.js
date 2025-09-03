@@ -104,7 +104,7 @@ describe('ContentType Api', () => {
 
       const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
       expect(
-        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
+        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete'),
       ).toHaveLength(0)
 
       expect(deletedFieldContentType.getEditorInterface).toBeTruthy()

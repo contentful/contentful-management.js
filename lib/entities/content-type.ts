@@ -336,7 +336,7 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
     omitAndDeleteField: function (fieldId: string) {
       const { raw, params } = getParams(this)
       return omitAndDeleteField(makeRequest, { ...params, fieldId }, raw).then((data) =>
-        wrapContentType(makeRequest, data)
+        wrapContentType(makeRequest, data),
       )
     },
   }

@@ -65,7 +65,7 @@ describe('Entity Workflow', () => {
         wrapperMethod: wrapWorkflow,
         actionMethod: 'complete',
       },
-      false
+      false,
     )
   })
 

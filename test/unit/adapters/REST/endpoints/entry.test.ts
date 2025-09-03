@@ -27,11 +27,11 @@ describe('Rest Entry', () => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.mock.calls[0][1].metadata.tags[0].sys.id).equals(
         'changed-link-target',
-        'metadata is sent'
+        'metadata is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,
@@ -62,12 +62,12 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/id/environments/id/entries/entryId',
-          'entry id is sent'
+          'entry id is sent',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql(entityMock, 'data is sent')
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
           'contentTypeId',
-          'content type is specified'
+          'content type is specified',
         )
       })
   })

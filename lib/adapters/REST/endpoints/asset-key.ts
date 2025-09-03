@@ -24,19 +24,19 @@ const validateTimestamp = (name: string, timestamp: number, options: ValidateTim
   if (typeof timestamp !== 'number') {
     throw new ValidationError(
       name,
-      `only numeric values are allowed for timestamps, provided type was "${typeof timestamp}"`
+      `only numeric values are allowed for timestamps, provided type was "${typeof timestamp}"`,
     )
   }
   if (options.maximum && timestamp > options.maximum) {
     throw new ValidationError(
       name,
-      `value (${timestamp}) cannot be further in the future than expected maximum (${options.maximum})`
+      `value (${timestamp}) cannot be further in the future than expected maximum (${options.maximum})`,
     )
   }
   if (options.now && timestamp < options.now) {
     throw new ValidationError(
       name,
-      `value (${timestamp}) cannot be in the past, current time was ${options.now}`
+      `value (${timestamp}) cannot be in the past, current time was ${options.now}`,
     )
   }
 }
@@ -44,7 +44,7 @@ const validateTimestamp = (name: string, timestamp: number, options: ValidateTim
 export const create: RestEndpoint<'AssetKey', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  data: CreateAssetKeyProps
+  data: CreateAssetKeyProps,
 ) => {
   const expiresAt = data.expiresAt
   const now = Math.floor(Date.now() / 1000)
@@ -56,6 +56,6 @@ export const create: RestEndpoint<'AssetKey', 'create'> = (
   return raw.post<AssetKeyProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/asset_keys`,
-    postParams
+    postParams,
   )
 }

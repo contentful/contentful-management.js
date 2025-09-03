@@ -10,42 +10,42 @@ import type {
 
 export const get: RestEndpoint<'AppKey', 'get'> = (
   http: AxiosInstance,
-  params: GetAppKeyParams
+  params: GetAppKeyParams,
 ) => {
   return raw.get<AppKeyProps>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys/${params.fingerprint}`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys/${params.fingerprint}`,
   )
 }
 
 export const getMany: RestEndpoint<'AppKey', 'getMany'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.get<CollectionProp<AppKeyProps>>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys`,
   )
 }
 
 export const create: RestEndpoint<'AppKey', 'create'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  data: CreateAppKeyProps
+  data: CreateAppKeyProps,
 ) => {
   return raw.post<AppKeyProps>(
     http,
     `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys`,
-    data
+    data,
   )
 }
 
 export const del: RestEndpoint<'AppKey', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppKeyParams
+  params: GetAppKeyParams,
 ) => {
   return raw.del(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys/${params.fingerprint}`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/keys/${params.fingerprint}`,
   )
 }

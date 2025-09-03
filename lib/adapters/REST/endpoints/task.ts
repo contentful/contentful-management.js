@@ -28,7 +28,7 @@ export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: Ge
 
 export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams & PaginationQueryOptions
+  params: GetEntryParams & QueryParams & PaginationQueryOptions,
 ) =>
   raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -42,7 +42,7 @@ export const getAll: RestEndpoint<'Task', 'getAll'> = getMany
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
   params: CreateTaskParams,
-  rawData: CreateTaskProps
+  rawData: CreateTaskProps,
 ) => {
   const data = copy(rawData)
   return raw.post<TaskProps>(http, getBaseUrl(params), data)
@@ -52,7 +52,7 @@ export const update: RestEndpoint<'Task', 'update'> = (
   http: AxiosInstance,
   params: GetTaskParams,
   rawData: UpdateTaskProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -67,7 +67,7 @@ export const update: RestEndpoint<'Task', 'update'> = (
 
 export const del: RestEndpoint<'Task', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: DeleteTaskParams
+  { version, ...params }: DeleteTaskParams,
 ) => {
   return raw.del(http, getTaskUrl(params), { headers: { 'X-Contentful-Version': version } })
 }

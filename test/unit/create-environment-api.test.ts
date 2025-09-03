@@ -633,7 +633,7 @@ describe('A createEnvironmentApi', () => {
   test('API call getEnvironmentTemplateInstallations', async () => {
     const environmentTemplateId = 'mockEnvironmentTemplateId'
     const { api, makeRequest } = setup(
-      Promise.resolve({ items: [environmentTemplateInstallationMock] })
+      Promise.resolve({ items: [environmentTemplateInstallationMock] }),
     )
     const installations = (await api.getEnvironmentTemplateInstallations(environmentTemplateId))
       .items

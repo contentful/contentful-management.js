@@ -242,7 +242,7 @@ describe('A createSpaceApi', () => {
   test('API call createTeamSpaceMembership', async () => {
     const { api, entitiesMock } = setup(Promise.resolve(teamSpaceMembershipMock))
     entitiesMock.teamSpaceMembership.wrapTeamSpaceMembership.mockReturnValue(
-      teamSpaceMembershipMock
+      teamSpaceMembershipMock,
     )
 
     const result = await api.createTeamSpaceMembership('team-id', { admin: true, roles: [] })

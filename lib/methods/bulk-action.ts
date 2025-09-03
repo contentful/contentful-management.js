@@ -15,7 +15,7 @@ type PlainOptions = {
  * Used by the Plain client */
 export async function waitForBulkActionProcessing<T extends BulkActionPayload = any>(
   { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<BulkActionProps<T>> {
   return pollAsyncActionStatus<BulkActionProps>(
     async () =>
@@ -24,6 +24,6 @@ export async function waitForBulkActionProcessing<T extends BulkActionPayload = 
         spaceId,
         environmentId,
       }),
-    options
+    options,
   )
 }

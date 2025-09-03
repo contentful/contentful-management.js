@@ -40,7 +40,7 @@ export type TeamPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<TeamProps>>
   /**
    * Fetch all teams for a given space
@@ -58,7 +58,7 @@ export type TeamPlainClientAPI = {
    * ```
    */
   getManyForSpace(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<TeamProps>>
   /**
    * Create a new team
@@ -79,7 +79,7 @@ export type TeamPlainClientAPI = {
   create(
     params: OptionalDefaults<GetOrganizationParams>,
     rawData: CreateTeamProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<any>
   /**
    * Update a team
@@ -106,7 +106,7 @@ export type TeamPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTeamParams>,
     rawData: TeamProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TeamProps>
   /**
    * Delete a team

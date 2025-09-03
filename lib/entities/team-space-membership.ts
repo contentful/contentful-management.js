@@ -125,12 +125,12 @@ function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapTeamSpaceMembership(
   makeRequest: MakeRequest,
-  data: TeamSpaceMembershipProps
+  data: TeamSpaceMembershipProps,
 ): TeamSpaceMembership {
   const teamSpaceMembership = toPlainObject(copy(data))
   const teamSpaceMembershipWithMethods = enhanceWithMethods(
     teamSpaceMembership,
-    createTeamSpaceMembershipApi(makeRequest)
+    createTeamSpaceMembershipApi(makeRequest),
   )
   return freezeSys(teamSpaceMembershipWithMethods)
 }

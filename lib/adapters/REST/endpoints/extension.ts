@@ -21,7 +21,7 @@ export const getExtensionUrl = (params: GetExtensionParams) =>
 
 export const get: RestEndpoint<'Extension', 'get'> = (
   http: AxiosInstance,
-  params: GetExtensionParams & QueryParams
+  params: GetExtensionParams & QueryParams,
 ) => {
   return raw.get<ExtensionProps>(http, getExtensionUrl(params), {
     params: normalizeSelect(params.query),
@@ -30,7 +30,7 @@ export const get: RestEndpoint<'Extension', 'get'> = (
 
 export const getMany: RestEndpoint<'Extension', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<ExtensionProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -41,7 +41,7 @@ export const create: RestEndpoint<'Extension', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: CreateExtensionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<ExtensionProps>(http, getBaseUrl(params), rawData, { headers })
 }
@@ -50,7 +50,7 @@ export const createWithId: RestEndpoint<'Extension', 'createWithId'> = (
   http: AxiosInstance,
   params: GetExtensionParams,
   rawData: CreateExtensionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -61,7 +61,7 @@ export const update: RestEndpoint<'Extension', 'update'> = async (
   http: AxiosInstance,
   params: GetExtensionParams,
   rawData: ExtensionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 
@@ -77,7 +77,7 @@ export const update: RestEndpoint<'Extension', 'update'> = async (
 
 export const del: RestEndpoint<'Extension', 'delete'> = (
   http: AxiosInstance,
-  params: GetExtensionParams
+  params: GetExtensionParams,
 ) => {
   return raw.del(http, getExtensionUrl(params))
 }

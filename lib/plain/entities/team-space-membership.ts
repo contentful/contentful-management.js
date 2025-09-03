@@ -43,7 +43,7 @@ export type TeamSpaceMembershipPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<TeamSpaceMembershipProps>>
   /**
    * Fetch a team space membership for a given organization
@@ -59,7 +59,7 @@ export type TeamSpaceMembershipPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>
+    params: OptionalDefaults<GetOrganizationParams & { teamSpaceMembershipId: string }>,
   ): Promise<TeamSpaceMembershipProps>
   /**
    * Fetch all team space memberships for a given organization
@@ -78,7 +78,7 @@ export type TeamSpaceMembershipPlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams & { teamId?: string }>,
   ): Promise<CollectionProp<TeamSpaceMembershipProps>>
   /**
    * Create a new team space membership
@@ -100,7 +100,7 @@ export type TeamSpaceMembershipPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams & { teamId: string }>,
     rawData: CreateTeamSpaceMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TeamSpaceMembershipProps>
   /**
    * Update a team space membership
@@ -127,7 +127,7 @@ export type TeamSpaceMembershipPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTeamSpaceMembershipParams>,
     rawData: TeamSpaceMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TeamSpaceMembershipProps>
   /**
    * Delete a team space membership

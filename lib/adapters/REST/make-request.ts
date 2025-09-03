@@ -23,7 +23,7 @@ export const makeRequest = async <R>({
     http: AxiosInstance,
     params?: Record<string, unknown>,
     payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ) => Promise<R> =
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

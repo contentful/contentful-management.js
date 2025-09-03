@@ -20,18 +20,18 @@ describe('Rest Workflow Definition', () => {
     entityMock.sys.version = 2
     const entity = wrapWorkflowDefinition(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
     entity.description = 'new description'
     return entity.update().then((response) => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.mock.calls[0][0]).equals(
         `/spaces/${entityMock.sys.space.sys.id}/environments/${entityMock.sys.environment.sys.id}/workflow_definitions/${entityMock.sys.id}`,
-        'url is correct'
+        'url is correct',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,
@@ -46,16 +46,16 @@ describe('Rest Workflow Definition', () => {
     entityMock.sys.version = 2
     const entity = wrapWorkflowDefinition(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
     return entity.delete().then(() => {
       expect(httpMock.delete.mock.calls[0][0]).equals(
         `/spaces/${entityMock.sys.space.sys.id}/environments/${entityMock.sys.environment.sys.id}/workflow_definitions/${entityMock.sys.id}`,
-        'url is correct'
+        'url is correct',
       )
       expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,

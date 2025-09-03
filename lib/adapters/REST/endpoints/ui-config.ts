@@ -11,7 +11,7 @@ const getUrl = (params: GetUIConfigParams) =>
 
 export const get: RestEndpoint<'UIConfig', 'get'> = (
   http: AxiosInstance,
-  params: GetUIConfigParams
+  params: GetUIConfigParams,
 ) => {
   return raw.get<UIConfigProps>(http, getUrl(params))
 }
@@ -19,7 +19,7 @@ export const get: RestEndpoint<'UIConfig', 'get'> = (
 export const update: RestEndpoint<'UIConfig', 'update'> = (
   http: AxiosInstance,
   params: GetUIConfigParams,
-  rawData: UIConfigProps
+  rawData: UIConfigProps,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

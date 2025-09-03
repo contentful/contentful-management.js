@@ -734,7 +734,7 @@ const teamMembershipMock: TeamMembershipProps = {
     organization: makeLink('Organization', 'mock-organization-id'),
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
   }),
   admin: false,
@@ -748,7 +748,7 @@ const organizationInvitationMock: OrganizationInvitationProps = {
     type: 'organizationInvitation',
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
     user: makeLink('User', 'mock-user-id'),
     invitationUrl: 'https://example.com/mocked/invitation/url',

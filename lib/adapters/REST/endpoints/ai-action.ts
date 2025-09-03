@@ -15,7 +15,7 @@ import type { AiActionInvocationType } from '../../../entities/ai-action-invocat
 export const get: RestEndpoint<'AiAction', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<AiActionProps>(http, `/spaces/${params.spaceId}/ai/actions/${params.aiActionId}`, {
     headers,
@@ -25,7 +25,7 @@ export const get: RestEndpoint<'AiAction', 'get'> = (
 export const getMany: RestEndpoint<'AiAction', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceParams & QueryParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<AiActionProps>>(http, `/spaces/${params.spaceId}/ai/actions`, {
     params: params.query,
@@ -37,7 +37,7 @@ export const create: RestEndpoint<'AiAction', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateAiActionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<AiActionProps>(http, `/spaces/${params.spaceId}/ai/actions`, data, { headers })
 }
@@ -46,7 +46,7 @@ export const update: RestEndpoint<'AiAction', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string },
   rawData: AiActionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   const { sys, ...payload } = data
@@ -59,14 +59,14 @@ export const update: RestEndpoint<'AiAction', 'update'> = (
         'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'AiAction', 'delete'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.del(http, `/spaces/${params.spaceId}/ai/actions/${params.aiActionId}`, { headers })
 }
@@ -75,7 +75,7 @@ export const publish: RestEndpoint<'AiAction', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string; version: number },
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.put<AiActionProps>(
     http,
@@ -86,14 +86,14 @@ export const publish: RestEndpoint<'AiAction', 'publish'> = (
         'X-Contentful-Version': params.version,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const unpublish: RestEndpoint<'AiAction', 'unpublish'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { aiActionId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.del(http, `/spaces/${params.spaceId}/ai/actions/${params.aiActionId}/published`, {
     headers,
@@ -104,12 +104,12 @@ export const invoke: RestEndpoint<'AiAction', 'invoke'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { aiActionId: string },
   data: AiActionInvocationType,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/actions/${params.aiActionId}/invoke`,
     data,
-    { headers }
+    { headers },
   )
 }

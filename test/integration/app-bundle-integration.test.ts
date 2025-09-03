@@ -84,7 +84,7 @@ describe('AppBundle api', { sequential: true }, () => {
     await appBundle.delete()
 
     await expect(appDefinition.getAppBundle(appBundle.sys.id)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 })

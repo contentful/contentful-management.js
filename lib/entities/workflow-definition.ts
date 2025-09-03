@@ -151,7 +151,7 @@ export type WorkflowDefinitionQueryOptions = Omit<PaginationQueryOptions, 'order
  * @private
  */
 export default function createWorkflowDefinitionApi(
-  makeRequest: MakeRequest
+  makeRequest: MakeRequest,
 ): WorkflowDefinitionApi {
   const getParams = (workflowDefinition: WorkflowDefinitionProps): GetWorkflowDefinitionParams => ({
     spaceId: workflowDefinition.sys.space.sys.id,
@@ -193,12 +193,12 @@ export default function createWorkflowDefinitionApi(
  */
 export function wrapWorkflowDefinition(
   makeRequest: MakeRequest,
-  data: WorkflowDefinitionProps
+  data: WorkflowDefinitionProps,
 ): WorkflowDefinition {
   const workflowDefinition = toPlainObject(copy(data))
   const workflowDefinitionWithMethods = enhanceWithMethods(
     workflowDefinition,
-    createWorkflowDefinitionApi(makeRequest)
+    createWorkflowDefinitionApi(makeRequest),
   )
   return freezeSys(workflowDefinitionWithMethods)
 }

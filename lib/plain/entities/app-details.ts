@@ -28,7 +28,7 @@ export type AppDetailsPlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppDetailsProps
+    payload: CreateAppDetailsProps,
   ): Promise<AppDetailsProps>
   /**
    * Fetches the App Detail

@@ -50,7 +50,7 @@ export type CommentPlainClientAPI = {
    * ```
    * */
   get(
-    params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat
+    params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat,
   ): Promise<RichTextCommentProps>
   /** Fetches all plain text comments on an entry
    *
@@ -71,7 +71,7 @@ export type CommentPlainClientAPI = {
    * ```
    * */
   getMany(
-    params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>
+    params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>,
   ): Promise<CollectionProp<CommentProps>>
   /** Fetches all rich text comments on an entry
    *
@@ -92,7 +92,7 @@ export type CommentPlainClientAPI = {
    * ```
    * */
   getMany(
-    params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>
+    params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>,
   ): Promise<CollectionProp<RichTextCommentProps>>
   /** Creates a plain text comment
    *
@@ -118,7 +118,7 @@ export type CommentPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateCommentParams>,
     rawData: CreateCommentProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<CommentProps>
   /** Creates a rich text comment
    *
@@ -144,7 +144,7 @@ export type CommentPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateCommentParams>,
     rawData: RichTextCommentBodyPayload,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<RichTextCommentProps>
   /** Updates a plain text comment
    *
@@ -178,7 +178,7 @@ export type CommentPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateCommentParams>,
     rawData: UpdateCommentProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<CommentProps>
   /** Updates a plain text comment
    *
@@ -212,7 +212,7 @@ export type CommentPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateCommentParams>,
     rawData: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<RichTextCommentProps>
   /** Deletes a comment
    *

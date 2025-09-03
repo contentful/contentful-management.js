@@ -74,7 +74,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
  */
 export function wrapAppSigningSecret(
   makeRequest: MakeRequest,
-  data: AppSigningSecretProps
+  data: AppSigningSecretProps,
 ): AppSigningSecret {
   const signingSecret = toPlainObject(copy(data))
   return enhanceWithMethods(signingSecret, createSigningSecretApi(makeRequest))

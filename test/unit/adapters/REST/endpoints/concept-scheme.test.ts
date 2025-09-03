@@ -28,7 +28,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -48,7 +48,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/total'
+          '/organizations/organization-id/taxonomy/concept-schemes/total',
         )
       })
   })
@@ -69,7 +69,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes'
+          '/organizations/organization-id/taxonomy/concept-schemes',
         )
       })
   })
@@ -92,7 +92,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -113,7 +113,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -135,7 +135,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -157,7 +157,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
         expect(httpMock.delete.mock.calls[0][1].headers).to.eql({ 'X-Contentful-Version': 1 })
       })

@@ -28,7 +28,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -98,7 +98,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/total'
+          '/organizations/organization-id/taxonomy/concepts/total',
         )
       })
   })
@@ -120,7 +120,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts'
+          '/organizations/organization-id/taxonomy/concepts',
         )
       })
   })
@@ -143,7 +143,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -164,7 +164,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -186,7 +186,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -207,7 +207,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -228,7 +228,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants',
         )
       })
   })
@@ -250,7 +250,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors',
         )
       })
   })

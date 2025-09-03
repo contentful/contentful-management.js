@@ -21,13 +21,13 @@ describe('ResourceType', () => {
     expect(response.sys.id).toBe('id')
 
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
+      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`,
     )
   })
 
   test('getMany', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { items: [resourceTypeMock] } })
+      Promise.resolve({ data: { items: [resourceTypeMock] } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.resourceType.getMany({
@@ -39,13 +39,13 @@ describe('ResourceType', () => {
     expect(response.items[0].sys.id).toBe('id')
 
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types`
+      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types`,
     )
   })
 
   test('getForEnvironment', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { items: [resourceTypeMock] } })
+      Promise.resolve({ data: { items: [resourceTypeMock] } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.resourceType.getForEnvironment({
@@ -69,14 +69,14 @@ describe('ResourceType', () => {
         defaultFieldMapping: {
           title: 'title',
         },
-      }
+      },
     )
 
     expect(response).toBeInstanceOf(Object)
     expect(response.sys.id).toBe('id')
 
     expect(httpMock.put.mock.calls[0][0]).toBe(
-      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
+      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`,
     )
   })
 
@@ -86,7 +86,7 @@ describe('ResourceType', () => {
     await plainClient.resourceType.delete({ organizationId, appDefinitionId, resourceTypeId })
 
     expect(httpMock.delete.mock.calls[0][0]).toBe(
-      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`
+      `/organizations/organizationId/app_definitions/appDefinitionId/resource_provider/resource_types/resourceTypeId`,
     )
   })
 })

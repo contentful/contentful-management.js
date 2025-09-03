@@ -106,7 +106,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequest) {
  */
 export function wrapEnvironmentAlias(
   makeRequest: MakeRequest,
-  data: EnvironmentAliasProps
+  data: EnvironmentAliasProps,
 ): EnvironmentAlias {
   const alias = toPlainObject(copy(data))
   const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(makeRequest))

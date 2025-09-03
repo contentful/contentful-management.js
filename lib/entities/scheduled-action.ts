@@ -247,12 +247,12 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
  */
 export function wrapScheduledAction(
   makeRequest: MakeRequest,
-  data: ScheduledActionProps
+  data: ScheduledActionProps,
 ): ScheduledAction {
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    getInstanceMethods(makeRequest)
+    getInstanceMethods(makeRequest),
   )
   return freezeSys(scheduledActionWithMethods)
 }

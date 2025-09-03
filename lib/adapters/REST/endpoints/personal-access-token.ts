@@ -13,7 +13,7 @@ import * as raw from './raw.js'
  */
 export const get: RestEndpoint<'PersonalAccessToken', 'get'> = (
   http: AxiosInstance,
-  params: { tokenId: string }
+  params: { tokenId: string },
 ) => {
   return raw.get<PersonalAccessTokenProps>(http, `/users/me/access_tokens/${params.tokenId}`)
 }
@@ -23,7 +23,7 @@ export const get: RestEndpoint<'PersonalAccessToken', 'get'> = (
  */
 export const getMany: RestEndpoint<'PersonalAccessToken', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams
+  params: QueryParams,
 ) => {
   return raw.get<CollectionProp<PersonalAccessTokenProps>>(http, '/users/me/access_tokens', {
     params: params.query,
@@ -37,7 +37,7 @@ export const create: RestEndpoint<'PersonalAccessToken', 'create'> = (
   http: AxiosInstance,
   _params: {},
   rawData: CreatePersonalAccessTokenProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<PersonalAccessTokenProps>(http, '/users/me/access_tokens', rawData, {
     headers,
@@ -49,11 +49,11 @@ export const create: RestEndpoint<'PersonalAccessToken', 'create'> = (
  */
 export const revoke: RestEndpoint<'PersonalAccessToken', 'revoke'> = (
   http: AxiosInstance,
-  params: { tokenId: string }
+  params: { tokenId: string },
 ) => {
   return raw.put<PersonalAccessTokenProps>(
     http,
     `/users/me/access_tokens/${params.tokenId}/revoked`,
-    null
+    null,
   )
 }
