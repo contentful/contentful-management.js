@@ -13,7 +13,6 @@ import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { babel } from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
-import dts from 'rollup-plugin-dts'
 import sourcemaps from 'rollup-plugin-sourcemaps'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -90,6 +89,7 @@ const cjsConfig = {
 
 const cjsBundleConfig = {
   ...baseConfig,
+  external: [],
   output: {
     file: 'dist/contentful-management.node.cjs',
     format: 'cjs',
@@ -125,6 +125,7 @@ const cjsBundleConfig = {
 
 const browserConfig = {
   ...baseConfig,
+  external: [],
   output: {
     file: 'dist/contentful-management.browser.js',
     format: 'iife',
@@ -235,8 +236,12 @@ const typesConfig = {
     preserveModules: true,
   },
   plugins: [
-    dts({
-      respectExternal: true,
+    typescript({
+      tsconfig: './tsconfig.json',
+      outDir: 'dist/types',
+      declaration: true,
+      noEmitOnError: true,
+      emitDeclarationOnly: true,
     }),
   ],
   external: baseConfig.external,
