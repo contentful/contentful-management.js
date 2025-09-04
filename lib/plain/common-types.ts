@@ -3,6 +3,7 @@ import type { OpPatch } from 'json-patch'
 import type {
   BasicCursorPaginationOptions,
   CollectionProp,
+  CreateReleaseEntryParams,
   CreateWithIdReleaseEntryParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
@@ -528,6 +529,24 @@ export type PlainClientAPI = {
       patch<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<PatchReleaseEntryParams & QueryParams>,
         rawData: OpPatch[],
+        headers?: RawAxiosRequestHeaders
+      ): Promise<
+        EntryProps<
+          T,
+          {
+            release: {
+              sys: {
+                type: 'Link'
+                linkType: 'Entry' | 'Asset'
+                id: string
+              }
+            }
+          }
+        >
+      >
+      create<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<CreateReleaseEntryParams & QueryParams>,
+        rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders
       ): Promise<
         EntryProps<
