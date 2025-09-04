@@ -11,7 +11,10 @@ import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
-import type { CreateAppActionCallProps } from './entities/app-action-call'
+import type {
+  CreateAppActionCallProps,
+  AppActionCallRawResponseProps,
+} from './entities/app-action-call'
 import type {
   AssetFileProp,
   AssetProps,
@@ -1596,6 +1599,46 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((payload) => wrapAppActionCall(makeRequest, payload))
+    },
+
+    /**
+     * Gets the raw response (headers/body) for a completed App Action Call
+     * @param appDefinitionId - AppDefinition ID
+     * @param appActionId - App Action ID
+     * @param callId - App Action Call ID
+     * @return Promise for the raw response object including `response.body` and optional `response.headers`
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client
+     *   .getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAppActionCallResponse('<app_definition_id>', '<app_action_id>', '<call_id>'))
+     *   .then((raw) => console.log(raw.response.body))
+     *   .catch(console.error)
+     * ```
+     */
+    getAppActionCallResponse(
+      appDefinitionId: string,
+      appActionId: string,
+      callId: string
+    ): Promise<AppActionCallRawResponseProps> {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'getResponse',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+          appActionId,
+          callId,
+        },
+      })
     },
     /**
      * Creates an app signed request
