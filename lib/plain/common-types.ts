@@ -347,7 +347,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string }
+      >,
       rawData: CreateEntryProps<T>
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(

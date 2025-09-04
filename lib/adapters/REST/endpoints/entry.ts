@@ -15,6 +15,7 @@ import type {
   QueryParams,
   UpdateEntryParams,
   UpdateReleaseEntryParams,
+  CreateReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
@@ -206,9 +207,13 @@ export const unarchive: RestEndpoint<'Entry', 'unarchive'> = <T extends KeyValue
 
 export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { contentTypeId: string },
+  params: GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string } & QueryParams,
   rawData: CreateEntryProps<T>
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.create(http, params as CreateReleaseEntryParams, rawData, {})
+  }
+
   const data = copy(rawData)
 
   return raw.post<EntryProps<T>>(
