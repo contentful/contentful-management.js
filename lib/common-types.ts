@@ -719,6 +719,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
   (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
   (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'create', UA>): MRReturn<'ReleaseEntry', 'create'>
   (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
 
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
@@ -1903,6 +1904,23 @@ export type MRActions = {
         }
       >
     }
+    create: {
+      params: CreateReleaseEntryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<
+        any,
+        {
+          release: {
+            sys: {
+              type: 'Link'
+              linkType: 'Entry' | 'Asset'
+              id: string
+            }
+          }
+        }
+      >
+    }
     createWithId: {
       params: GetSpaceEnvironmentParams & {
         releaseId: string
@@ -2424,6 +2442,10 @@ export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
   version: number
+}
+export type CreateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  contentTypeId: string
 }
 export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string

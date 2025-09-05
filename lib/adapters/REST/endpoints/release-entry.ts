@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
+  CreateReleaseEntryParams,
   GetReleaseEntryParams,
   GetManyReleaseEntryParams,
   KeyValueMap,
@@ -89,6 +90,41 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
       headers: {
         'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
+        ...headers,
+      },
+    }
+  )
+}
+
+export const create: RestEndpoint<'ReleaseEntry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
+  http: AxiosInstance,
+  params: CreateReleaseEntryParams & QueryParams,
+  rawData: CreateEntryProps<T>,
+  headers?: RawAxiosRequestHeaders
+) => {
+  params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
+  const data = copy(rawData)
+
+  return raw.post<
+    EntryProps<
+      T,
+      {
+        release: {
+          sys: {
+            type: 'Link'
+            linkType: 'Entry' | 'Asset'
+            id: string
+          }
+        }
+      }
+    >
+  >(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Content-Type': params.contentTypeId,
         ...headers,
       },
     }

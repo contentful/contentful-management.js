@@ -109,6 +109,34 @@ describe('Rest ReleaseEntry', () => {
       })
   })
 
+  test('create', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.post.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ReleaseEntry',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          releaseId: 'black-friday',
+          entryId: 'abc123',
+          contentTypeId: 'contentType123',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries'
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
+      })
+  })
+
   test('createWithId', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
