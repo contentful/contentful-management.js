@@ -5,28 +5,58 @@
 
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types.js'
-import entities from './entities/index.js'
-import type { CreateApiKeyProps } from './entities/api-key.js'
-import type { CreateEnvironmentProps } from './entities/environment.js'
-import type { CreateEnvironmentAliasProps } from './entities/environment-alias.js'
-import type { CreateRoleProps, RoleProps } from './entities/role.js'
-import type {
-  ScheduledActionProps,
-  ScheduledActionQueryOptions,
+import { wrapApiKey, wrapApiKeyCollection, type CreateApiKeyProps } from './entities/api-key.js'
+import {
+  wrapEnvironment,
+  wrapEnvironmentCollection,
+  type CreateEnvironmentProps,
+} from './entities/environment.js'
+import {
+  wrapEnvironmentAlias,
+  wrapEnvironmentAliasCollection,
+  type CreateEnvironmentAliasProps,
+} from './entities/environment-alias.js'
+import {
+  wrapRole,
+  wrapRoleCollection,
+  type CreateRoleProps,
+  type RoleProps,
+} from './entities/role.js'
+import {
+  wrapScheduledAction,
+  wrapScheduledActionCollection,
+  type ScheduledActionProps,
+  type ScheduledActionQueryOptions,
 } from './entities/scheduled-action.js'
-import type { SpaceProps } from './entities/space.js'
-import type { CreateSpaceMembershipProps } from './entities/space-membership.js'
-import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership.js'
-import type {
-  CreateWebhooksProps,
-  UpsertWebhookSigningSecretPayload,
-  WebhookRetryPolicyPayload,
+import { wrapSpace, type SpaceProps } from './entities/space.js'
+import {
+  wrapSpaceMembership,
+  wrapSpaceMembershipCollection,
+  type CreateSpaceMembershipProps,
+} from './entities/space-membership.js'
+import {
+  wrapTeamSpaceMembership,
+  wrapTeamSpaceMembershipCollection,
+  type CreateTeamSpaceMembershipProps,
+} from './entities/team-space-membership.js'
+import {
+  wrapWebhook,
+  wrapWebhookCollection,
+  type CreateWebhooksProps,
+  type UpsertWebhookSigningSecretPayload,
+  type WebhookRetryPolicyPayload,
 } from './entities/webhook.js'
-import type {
-  AiActionProps,
-  AiActionQueryOptions,
-  CreateAiActionProps,
+import {
+  wrapAiAction,
+  wrapAiActionCollection,
+  type AiActionProps,
+  type AiActionQueryOptions,
+  type CreateAiActionProps,
 } from './entities/ai-action.js'
+import { wrapPreviewApiKeyCollection, wrapPreviewApiKey } from './entities/preview-api-key.js'
+import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member.js'
+import { wrapTeamCollection } from './entities/team.js'
+import { wrapUser, wrapUserCollection } from './entities/user.js'
 
 /**
  * @private
@@ -40,23 +70,6 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * @private
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
-  const { wrapSpace } = entities.space
-  const { wrapEnvironment, wrapEnvironmentCollection } = entities.environment
-  const { wrapWebhook, wrapWebhookCollection } = entities.webhook
-  const { wrapRole, wrapRoleCollection } = entities.role
-  const { wrapUser, wrapUserCollection } = entities.user
-  const { wrapSpaceMember, wrapSpaceMemberCollection } = entities.spaceMember
-  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
-    entities.teamSpaceMembership
-  const { wrapTeamCollection } = entities.team
-  const { wrapApiKey, wrapApiKeyCollection } = entities.apiKey
-  const { wrapEnvironmentAlias, wrapEnvironmentAliasCollection } = entities.environmentAlias
-  const { wrapPreviewApiKey, wrapPreviewApiKeyCollection } = entities.previewApiKey
-  const { wrapScheduledAction, wrapScheduledActionCollection } = entities.scheduledAction
-  const { wrapAiAction, wrapAiActionCollection } = entities.aiAction
-  const { wrapAiActionInvocation, wrapAiActionInvocationCollection } = entities.aiActionInvocation
-
   return {
     /**
      * Deletes the space
@@ -214,7 +227,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     createEnvironmentWithId(
       id: string,
       data: CreateEnvironmentProps,
-      sourceEnvironmentId?: string
+      sourceEnvironmentId?: string,
     ) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({

@@ -65,7 +65,7 @@ function createClient(
   opts: {
     type: 'plain'
     defaults?: DefaultParams
-  }
+  },
 ): PlainClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
 /**
@@ -77,14 +77,14 @@ function createClient(
     type?: 'plain'
     alphaFeatures: string[]
     defaults?: DefaultParams
-  }
+  },
 ): ClientAPI | PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
     defaults?: DefaultParams
-  } = {}
+  } = {},
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
     opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
@@ -92,7 +92,7 @@ function createClient(
     `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
-    params.feature
+    params.feature,
   )
 
   const adapter = createAdapter({ ...params, userAgent })

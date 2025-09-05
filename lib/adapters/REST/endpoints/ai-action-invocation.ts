@@ -7,11 +7,11 @@ import * as raw from './raw.js'
 export const get: RestEndpoint<'AiActionInvocation', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/actions/${params.aiActionId}/invocations/${params.invocationId}`,
-    { headers }
+    { headers },
   )
 }

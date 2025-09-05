@@ -22,7 +22,7 @@ export type OrganizationPlainClientAPI = {
    * ```
    */
   getAll(
-    params?: OptionalDefaults<PaginationQueryParams>
+    params?: OptionalDefaults<PaginationQueryParams>,
   ): Promise<CollectionProp<OrganizationProps>>
   /**
    * Fetch a single organization by its ID

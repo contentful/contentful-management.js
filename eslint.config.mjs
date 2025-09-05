@@ -1,14 +1,15 @@
 // @ts-check
 
 import eslint from '@eslint/js'
+import { globalIgnores } from 'eslint/config'
 import tseslint from 'typescript-eslint'
 import globals from 'globals'
 
 export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
+  globalIgnores(['test/output-integration/**/*'], 'Ignore public directory with our copied bundle'),
   {
-    ignores: ['test/output-integration/**/*'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -54,5 +55,5 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/ban-ts-comment': 'warn',
     },
-  }
+  },
 )

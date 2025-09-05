@@ -30,7 +30,7 @@ export type AppActionCallPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppActionCallParams>,
-    payload: CreateAppActionCallProps
+    payload: CreateAppActionCallProps,
   ): Promise<AppActionCallProps>
   /**
    * Fetches the details of an App Action Call
@@ -48,7 +48,7 @@ export type AppActionCallPlainClientAPI = {
    * ```
    */
   getCallDetails(
-    params: OptionalDefaults<GetAppActionCallDetailsParams>
+    params: OptionalDefaults<GetAppActionCallDetailsParams>,
   ): Promise<AppActionCallResponse>
   /**
    * Calls (triggers) an App Action
@@ -73,6 +73,6 @@ export type AppActionCallPlainClientAPI = {
    */
   createWithResponse(
     params: OptionalDefaults<GetAppActionCallParams>,
-    payload: CreateAppActionCallProps
+    payload: CreateAppActionCallProps,
   ): Promise<AppActionCallResponse>
 }

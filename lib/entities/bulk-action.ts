@@ -121,7 +121,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
       }).then((bulkAction) => wrapBulkAction(makeRequest, bulkAction))
     },
     async waitProcessing<TPayload extends BulkActionPayload = any>(
-      options?: AsyncActionProcessingOptions
+      options?: AsyncActionProcessingOptions,
     ): Promise<BulkActionProps<TPayload>> {
       return pollAsyncActionStatus<BulkActionProps<TPayload>>(async () => this.get(), options)
     },
@@ -141,12 +141,12 @@ export interface BulkAction<T extends BulkActionPayload = any>
  */
 export function wrapBulkAction<TPayload extends BulkActionPayload = any>(
   makeRequest: MakeRequest,
-  data: BulkActionProps<BulkActionPayload>
+  data: BulkActionProps<BulkActionPayload>,
 ): BulkAction<TPayload> {
   const bulkAction = toPlainObject(copy(data))
   const bulkActionWithApiMethods = enhanceWithMethods(
     bulkAction as any,
-    createBulkActionApi(makeRequest)
+    createBulkActionApi(makeRequest),
   )
   return freezeSys(bulkActionWithApiMethods) as BulkAction<TPayload>
 }

@@ -24,7 +24,7 @@ export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<AssetProps>(
     http,
@@ -32,7 +32,7 @@ export const get: RestEndpoint<'Asset', 'get'> = (
     {
       params: normalizeSelect(params.query),
       headers: headers ? { ...headers } : undefined,
-    }
+    },
   )
 }
 
@@ -40,7 +40,7 @@ export const getPublished: RestEndpoint<'Asset', 'getPublished'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
@@ -48,7 +48,7 @@ export const getPublished: RestEndpoint<'Asset', 'getPublished'> = (
     {
       params: normalizeSelect(params.query),
       headers: headers ? { ...headers } : undefined,
-    }
+    },
   )
 }
 
@@ -56,7 +56,7 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<AssetProps>>(
     http,
@@ -64,7 +64,7 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
     {
       params: normalizeSelect(params.query),
       headers: headers ? { ...headers } : undefined,
-    }
+    },
   )
 }
 
@@ -72,7 +72,7 @@ export const update: RestEndpoint<'Asset', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
   rawData: AssetProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -85,24 +85,24 @@ export const update: RestEndpoint<'Asset', 'update'> = (
         'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'Asset', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string },
 ) => {
   return raw.del(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
   )
 }
 
 export const publish: RestEndpoint<'Asset', 'publish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string; locales?: string[] },
-  rawData: AssetProps
+  rawData: AssetProps,
 ) => {
   const payload = params.locales?.length ? { add: { fields: { '*': params.locales } } } : null
 
@@ -114,14 +114,14 @@ export const publish: RestEndpoint<'Asset', 'publish'> = (
       headers: {
         'X-Contentful-Version': rawData.sys.version ?? 0,
       },
-    }
+    },
   )
 }
 
 export const unpublish: RestEndpoint<'Asset', 'unpublish'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string; locales?: string[] },
-  rawData?: AssetProps
+  rawData?: AssetProps,
 ) => {
   if (params.locales?.length) {
     const payload = { remove: { fields: { '*': params.locales } } }
@@ -133,68 +133,68 @@ export const unpublish: RestEndpoint<'Asset', 'unpublish'> = (
         headers: {
           'X-Contentful-Version': rawData?.sys.version,
         },
-      }
+      },
     )
   } else {
     return raw.del<AssetProps>(
       http,
-      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/published`,
     )
   }
 }
 
 export const archive: RestEndpoint<'Asset', 'archive'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string },
 ) => {
   return raw.put<AssetProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/archived`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/archived`,
   )
 }
 
 export const unarchive: RestEndpoint<'Asset', 'unarchive'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string }
+  params: GetSpaceEnvironmentParams & { assetId: string },
 ) => {
   return raw.del<AssetProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/archived`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}/archived`,
   )
 }
 
 export const create: RestEndpoint<'Asset', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  rawData: CreateAssetProps
+  rawData: CreateAssetProps,
 ) => {
   const data = copy(rawData)
 
   return raw.post<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
-    data
+    data,
   )
 }
 
 export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { assetId: string },
-  rawData: CreateAssetProps
+  rawData: CreateAssetProps,
 ) => {
   const data = copy(rawData)
 
   return raw.put<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
-    data
+    data,
   )
 }
 
 export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = async (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { uploadTimeout?: number },
-  data: AssetFileProp
+  data: AssetFileProp,
 ) => {
   const httpUpload = getUploadHttpClient(http, { uploadTimeout: params.uploadTimeout })
 
@@ -218,7 +218,7 @@ export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = async (
           },
         }
       })
-    })
+    }),
   )
     .then((uploads) => {
       const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
@@ -256,7 +256,7 @@ async function checkIfAssetHasUrl(
     reject: (err: Error) => unknown
     locale: string
     checkCount?: number
-  } & AssetProcessingForLocale
+  } & AssetProcessingForLocale,
 ) {
   return get(http, params).then((asset) => {
     if (asset.fields.file[locale].url) {
@@ -278,7 +278,7 @@ async function checkIfAssetHasUrl(
             processingCheckWait,
             processingCheckRetries,
           }),
-        processingCheckWait
+        processingCheckWait,
       )
     }
   })
@@ -295,7 +295,7 @@ export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = async
     asset: AssetProps
     locale: string
     options?: AssetProcessingForLocale
-  }
+  },
 ) => {
   return raw
     .put<AssetProps>(
@@ -306,7 +306,7 @@ export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = async
         headers: {
           'X-Contentful-Version': asset.sys.version,
         },
-      }
+      },
     )
     .then(() => {
       return new Promise<AssetProps>((resolve, reject) =>
@@ -323,8 +323,8 @@ export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = async
             locale,
             processingCheckWait,
             processingCheckRetries,
-          }
-        )
+          },
+        ),
       )
     })
 }
@@ -335,7 +335,7 @@ export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'>
     asset,
     options = {},
     ...params
-  }: GetSpaceEnvironmentParams & { asset: AssetProps; options?: AssetProcessingForLocale }
+  }: GetSpaceEnvironmentParams & { asset: AssetProps; options?: AssetProcessingForLocale },
 ) => {
   const locales = Object.keys(asset.fields.file || {})
 
@@ -351,7 +351,7 @@ export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'>
       // The last one to call this will be the last one that finished
       // and thus the most up to date
       mostUpToDateAssetVersion = result
-    })
+    }),
   )
 
   return Promise.all(allProcessingLocales).then(() => mostUpToDateAssetVersion)

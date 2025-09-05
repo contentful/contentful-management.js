@@ -43,7 +43,7 @@ export type UploadPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
-    data: { file: string | ArrayBuffer | Stream }
+    data: { file: string | ArrayBuffer | Stream },
   ): Promise<any>
   /** Deletes the Space Environment Upload
    *

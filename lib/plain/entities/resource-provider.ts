@@ -49,7 +49,7 @@ export type ResourceProviderPlainClientAPI = {
   upsert(
     params: OptionalDefaults<GetResourceProviderParams>,
     rawData: UpsertResourceProviderProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ResourceProviderProps>
 
   /**

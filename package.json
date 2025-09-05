@@ -7,8 +7,11 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "node": "./dist/contentful-management.node.cjs",
+      "browser": "./dist/contentful-management.browser.cjs",
+      "react-native": "./dist/contentful-management.react-native.cjs",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/esm/index.js"
     },
     "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs",
     "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js",
@@ -17,7 +20,7 @@
   "main": "./dist/cjs/index.cjs",
   "types": "dist/types/index.d.ts",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
@@ -34,16 +37,15 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:esm && npm run build:rollup && rm -rf dist/esm-raw",
-    "build:esm": "tsc",
+    "build": "npm run clean && npm run build:rollup",
     "build:rollup": "NODE_ENV=production rollup -c",
     "build:docs": "typedoc",
     "postbuild": "npm run check && npm run test:demo-projects",
     "check": "npm run check:cjs && npm run check:esm && npm run check:browser && npm run check:browser-min",
-    "check:browser": "es-check es2018 ./dist/contentful-management.browser.js",
-    "check:browser-min": "es-check es2018 ./dist/contentful-management.browser.min.js",
-    "check:cjs": "es-check es2017 './dist/**/*.cjs'",
-    "check:esm": "es-check es2017 --module './dist/esm/*.js'",
+    "check:browser": "es-check es2021 ./dist/contentful-management.browser.js",
+    "check:browser-min": "es-check es2021 ./dist/contentful-management.browser.min.js",
+    "check:cjs": "es-check es2020 './dist/**/*.cjs'",
+    "check:esm": "es-check es2020 --module './dist/esm/*.js'",
     "docs:dev": "npm run build && npm run build:docs",
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
@@ -99,6 +101,7 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
     "@semantic-release/changelog": "^6.0.0",
     "@size-limit/file": "^11.1.6",
     "@types/json-patch": "^0.0.33",
@@ -119,10 +122,11 @@
     "lodash": "^4.17.20",
     "nodemon": "^3.1.2",
     "playwright": "^1.49.1",
-    "prettier": "^2.6.0",
+    "prettier": "^3.6.2",
     "process": "^0.11.10",
     "rimraf": "^5.0.0",
     "rollup": "^4.28.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
     "rollup-plugin-visualizer": "^5.12.0",
     "semantic-release": "^22.0.12",
     "size-limit": "^11.1.6",

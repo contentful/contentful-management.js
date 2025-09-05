@@ -26,7 +26,7 @@ describe('Entry References', () => {
         TestDefaults.entry.testEntryReferenceId,
         {
           include: 2,
-        }
+        },
       )
     })
 
@@ -38,7 +38,7 @@ describe('Entry References', () => {
 
     it('Should return the correct cities', () => {
       const cities = entryWithReferences.includes.Entry.map(
-        (entry: any) => entry.fields.name['en-US']
+        (entry: any) => entry.fields.name['en-US'],
       )
       expect(cities).toEqual(expect.arrayContaining(['Berlin', 'London', 'San Francisco', 'Paris']))
     })
@@ -81,7 +81,7 @@ describe('Entry References', () => {
 
     it('Should return the correct cities', () => {
       const cities = entryWithReferences.includes.Entry.map(
-        (entry: any) => entry.fields.name['en-US']
+        (entry: any) => entry.fields.name['en-US'],
       )
       expect(cities).toEqual(expect.arrayContaining(['Berlin', 'London', 'San Francisco', 'Paris']))
     })

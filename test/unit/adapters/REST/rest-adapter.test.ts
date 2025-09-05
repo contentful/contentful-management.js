@@ -19,7 +19,7 @@ describe('Rest Adapter', () => {
         entityType: 'nothing',
         action: 'nothing',
         userAgent: 'test-runner',
-      })
+      }),
     ).rejects.toThrowError('Unknown endpoint')
   })
 })

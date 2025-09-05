@@ -23,12 +23,12 @@ const getEntityUrl = (params: GetTeamSpaceMembershipParams) =>
 
 export const get: RestEndpoint<'TeamSpaceMembership', 'get'> = (
   http: AxiosInstance,
-  params: GetTeamSpaceMembershipParams
+  params: GetTeamSpaceMembershipParams,
 ) => raw.get<TeamSpaceMembershipProps>(http, getEntityUrl(params))
 
 export const getMany: RestEndpoint<'TeamSpaceMembership', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) =>
   raw.get<CollectionProp<TeamSpaceMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
@@ -36,11 +36,11 @@ export const getMany: RestEndpoint<'TeamSpaceMembership', 'getMany'> = (
 
 export const getForOrganization: RestEndpoint<'TeamSpaceMembership', 'getForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & { teamSpaceMembershipId: string }
+  params: GetOrganizationParams & { teamSpaceMembershipId: string },
 ) => {
   return raw.get<TeamSpaceMembershipProps>(
     http,
-    `/organizations/${params.organizationId}/team_space_memberships/${params.teamSpaceMembershipId}`
+    `/organizations/${params.organizationId}/team_space_memberships/${params.teamSpaceMembershipId}`,
   )
 }
 
@@ -57,7 +57,7 @@ export const getManyForOrganization: RestEndpoint<
     `/organizations/${params.organizationId}/team_space_memberships`,
     {
       params: params.query,
-    }
+    },
   )
 }
 
@@ -65,7 +65,7 @@ export const create: RestEndpoint<'TeamSpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { teamId: string },
   rawData: CreateTeamSpaceMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<TeamSpaceMembershipProps>(http, getBaseUrl(params), rawData, {
     headers: {
@@ -79,7 +79,7 @@ export const update: RestEndpoint<'TeamSpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetTeamSpaceMembershipParams,
   rawData: TeamSpaceMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -95,7 +95,7 @@ export const update: RestEndpoint<'TeamSpaceMembership', 'update'> = (
 
 export const del: RestEndpoint<'TeamSpaceMembership', 'delete'> = (
   http: AxiosInstance,
-  params: GetTeamSpaceMembershipParams
+  params: GetTeamSpaceMembershipParams,
 ) => {
   return raw.del(http, getEntityUrl(params))
 }

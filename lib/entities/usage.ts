@@ -15,7 +15,7 @@ export interface UsageQuery extends QueryOptions {
 export type UsageProps<
   TType extends 'SpacePeriodicUsage' | 'OrganizationPeriodicUsage' =
     | 'SpacePeriodicUsage'
-    | 'OrganizationPeriodicUsage'
+    | 'OrganizationPeriodicUsage',
 > = {
   /**
    * System metadata

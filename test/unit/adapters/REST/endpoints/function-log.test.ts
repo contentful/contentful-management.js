@@ -31,7 +31,7 @@ describe('FunctionLog', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions/function-id/logs/log-id'
+          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions/function-id/logs/log-id',
         )
       })
   })
@@ -56,7 +56,7 @@ describe('FunctionLog', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions/function-id/logs'
+          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions/function-id/logs',
         )
       })
   })

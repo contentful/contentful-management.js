@@ -35,7 +35,7 @@ describe('BulkActions Api', () => {
       })
 
       const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
-        createdBulkAction.sys.id
+        createdBulkAction.sys.id,
       )
       expect(bulkActionInProgress.sys.id).toBe(createdBulkAction.sys.id)
     })
@@ -222,7 +222,7 @@ describe('BulkActions Api', () => {
         })
       } catch (error: any) {
         expect(error.message).toBe(
-          "BulkAction didn't finish processing within the expected timeframe."
+          "BulkAction didn't finish processing within the expected timeframe.",
         )
         expect(error.action.sys.id).toBe(createdBulkAction.sys.id)
       }

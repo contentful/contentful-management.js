@@ -251,7 +251,7 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   const release = toPlainObject(copy(data))
   const releaseWithApiMethods = enhanceWithMethods(
     release as any,
-    createReleaseApi(makeRequest) as any
+    createReleaseApi(makeRequest) as any,
   )
   return freezeSys(releaseWithApiMethods)
 }
@@ -261,5 +261,5 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
  */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ReleaseProps>
+  data: CursorPaginatedCollectionProp<ReleaseProps>,
 ) => CursorPaginatedCollection<Release, ReleaseProps> = wrapCursorPaginatedCollection(wrapRelease)

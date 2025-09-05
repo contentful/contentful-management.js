@@ -14,7 +14,7 @@ const getAppUploadUrl = (params: GetAppUploadParams) =>
 
 export const get: RestEndpoint<'AppUpload', 'get'> = (
   http: AxiosInstance,
-  params: GetAppUploadParams
+  params: GetAppUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
@@ -23,7 +23,7 @@ export const get: RestEndpoint<'AppUpload', 'get'> = (
 
 export const del: RestEndpoint<'AppUpload', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppUploadParams
+  params: GetAppUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
@@ -33,7 +33,7 @@ export const del: RestEndpoint<'AppUpload', 'delete'> = (
 export const create: RestEndpoint<'AppUpload', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
-  payload: { file: string | ArrayBuffer | Stream }
+  payload: { file: string | ArrayBuffer | Stream },
 ) => {
   const httpUpload = getUploadHttpClient(http)
 

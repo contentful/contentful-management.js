@@ -1,7 +1,7 @@
-import { resolve, dirname } from 'path';
+import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
-import pkg from "./package.json" with { type: 'json' }
+import pkg from './package.json' with { type: 'json' }
 
 import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -12,12 +12,22 @@ import replace from '@rollup/plugin-replace'
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { babel } from '@rollup/plugin-babel'
+import typescript from '@rollup/plugin-typescript'
+import sourcemaps from 'rollup-plugin-sourcemaps'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+const tsPlugin = typescript({
+  tsconfig: './tsconfig.json',
+  declaration: false,
+  noEmitOnError: true,
+})
+
 const baseConfig = {
-  input: 'dist/esm-raw/index.js',
+  input: 'lib/index.ts',
   plugins: [
+    tsPlugin,
+    sourcemaps(),
     optimizeLodashImports(),
     replace({
       preventAssignment: true,
@@ -33,46 +43,57 @@ const baseConfig = {
     }),
     json(),
   ],
+  external: ['axios', 'contentful-sdk-core', 'fast-copy'],
 }
 
 const esmConfig = {
-  input: 'dist/esm-raw/index.js',
+  input: 'lib/index.ts',
   output: {
     dir: 'dist/esm',
     format: 'esm',
     preserveModules: true,
+    sourcemap: true,
   },
   plugins: [
+    tsPlugin,
+    sourcemaps(),
     replace({
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VERSION__: JSON.stringify(pkg.version),
     }),
   ],
+  external: baseConfig.external,
 }
 
 const cjsConfig = {
-  input: 'dist/esm-raw/index.js',
+  input: 'lib/index.ts',
   output: {
     dir: 'dist/cjs',
     format: 'cjs',
     preserveModules: true,
     entryFileNames: '[name].cjs',
+    sourcemap: true,
   },
   plugins: [
+    tsPlugin,
+    sourcemaps(),
     replace({
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VERSION__: JSON.stringify(pkg.version),
-    })
+    }),
   ],
+  external: baseConfig.external,
 }
 
 const cjsBundleConfig = {
   ...baseConfig,
+  external: [],
   output: {
     file: 'dist/contentful-management.node.cjs',
     format: 'cjs',
+    sourcemap: true,
   },
   plugins: [
     ...baseConfig.plugins,
@@ -104,16 +125,20 @@ const cjsBundleConfig = {
 
 const browserConfig = {
   ...baseConfig,
+  external: [],
   output: {
     file: 'dist/contentful-management.browser.js',
     format: 'iife',
     name: 'contentfulManagement',
+    sourcemap: true,
   },
   plugins: [
     nodeResolve({
       preferBuiltins: false,
       browser: true,
     }),
+    tsPlugin,
+    sourcemaps(),
     alias({
       entries: [
         {
@@ -202,4 +227,32 @@ const reactNativeConfig = {
   },
 }
 
-export default [esmConfig, cjsConfig, cjsBundleConfig, browserConfig, browserMinConfig, reactNativeConfig]
+// Types build in Rollup
+const typesConfig = {
+  input: 'lib/index.ts',
+  output: {
+    dir: 'dist/types',
+    format: 'esm',
+    preserveModules: true,
+  },
+  plugins: [
+    typescript({
+      tsconfig: './tsconfig.json',
+      outDir: 'dist/types',
+      declaration: true,
+      noEmitOnError: true,
+      emitDeclarationOnly: true,
+    }),
+  ],
+  external: baseConfig.external,
+}
+
+export default [
+  esmConfig,
+  cjsConfig,
+  cjsBundleConfig,
+  browserConfig,
+  browserMinConfig,
+  reactNativeConfig,
+  typesConfig,
+]

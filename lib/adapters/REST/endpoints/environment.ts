@@ -14,17 +14,17 @@ import * as raw from './raw.js'
 
 export const get: RestEndpoint<'Environment', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams
+  params: GetSpaceEnvironmentParams,
 ) => {
   return raw.get<EnvironmentProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}`,
   )
 }
 
 export const getMany: RestEndpoint<'Environment', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & PaginationQueryParams
+  params: GetSpaceParams & PaginationQueryParams,
 ) => {
   return raw.get<CollectionProp<EnvironmentProps>>(http, `/spaces/${params.spaceId}/environments`, {
     params: params.query,
@@ -35,7 +35,7 @@ export const update: RestEndpoint<'Environment', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: EnvironmentProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -49,13 +49,13 @@ export const update: RestEndpoint<'Environment', 'update'> = (
         ...headers,
         'X-Contentful-Version': rawData.sys.version ?? 0,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'Environment', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams
+  params: GetSpaceEnvironmentParams,
 ) => {
   return raw.del(http, `/spaces/${params.spaceId}/environments/${params.environmentId}`)
 }
@@ -64,7 +64,7 @@ export const create: RestEndpoint<'Environment', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: CreateEnvironmentProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.post<EnvironmentProps>(http, `/spaces/${params.spaceId}/environments`, data, {
@@ -76,7 +76,7 @@ export const createWithId: RestEndpoint<'Environment', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { sourceEnvironmentId?: string },
   rawData: CreateEnvironmentProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.put<EnvironmentProps>(
@@ -92,6 +92,6 @@ export const createWithId: RestEndpoint<'Environment', 'createWithId'> = (
             }
           : {}),
       },
-    }
+    },
   )
 }

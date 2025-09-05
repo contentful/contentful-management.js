@@ -103,12 +103,12 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 export function wrapOAuthApplication(
   makeRequest: MakeRequest,
   data: OAuthApplicationProps,
-  userId: string
+  userId: string,
 ): OAuthApplication {
   const oauthApplication = toPlainObject(copy(data))
   const oauthApplicationWithMethods = enhanceWithMethods(
     oauthApplication,
-    createOAuthApplicationApi(makeRequest, userId)
+    createOAuthApplicationApi(makeRequest, userId),
   )
   return freezeSys(oauthApplicationWithMethods)
 }

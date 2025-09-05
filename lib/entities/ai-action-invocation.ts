@@ -100,7 +100,7 @@ export interface AiActionInvocation
  */
 export function wrapAiActionInvocation(
   makeRequest: MakeRequest,
-  data: AiActionInvocationProps
+  data: AiActionInvocationProps,
 ): AiActionInvocation {
   const invocation = toPlainObject(copy(data))
   return freezeSys(invocation)

@@ -24,7 +24,7 @@ describe('ContentType Api', () => {
     writeSpace = await createTestSpace(defaultClient, 'ContentType')
     writeEnvironment = (await createTestEnvironment(
       writeSpace,
-      'Testing Environment'
+      'Testing Environment',
     )) as unknown as Environment
   })
 
@@ -117,7 +117,7 @@ describe('ContentType Api', () => {
 
       const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
       expect(
-        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
+        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete'),
       ).toHaveLength(0)
 
       expect(deletedFieldContentType.getEditorInterface).toBeTruthy()

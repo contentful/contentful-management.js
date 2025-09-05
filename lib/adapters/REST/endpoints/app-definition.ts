@@ -29,7 +29,7 @@ const getBaseUrlForOrgInstallations = (params: GetAppInstallationsForOrgParams) 
 
 export const get: RestEndpoint<'AppDefinition', 'get'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams & QueryParams
+  params: GetAppDefinitionParams & QueryParams,
 ) => {
   return raw.get(http, getAppDefinitionUrl(params), {
     params: normalizeSelect(params.query),
@@ -38,7 +38,7 @@ export const get: RestEndpoint<'AppDefinition', 'get'> = (
 
 export const getMany: RestEndpoint<'AppDefinition', 'getMany'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) => {
   return raw.get(http, getBaseUrl(params), {
     params: params.query,
@@ -48,7 +48,7 @@ export const getMany: RestEndpoint<'AppDefinition', 'getMany'> = (
 export const create: RestEndpoint<'AppDefinition', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
-  rawData: CreateAppDefinitionProps
+  rawData: CreateAppDefinitionProps,
 ) => {
   const data = copy(rawData)
 
@@ -59,7 +59,7 @@ export const update: RestEndpoint<'AppDefinition', 'update'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
   rawData: AppDefinitionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 
@@ -75,14 +75,14 @@ export const update: RestEndpoint<'AppDefinition', 'update'> = (
 
 export const del: RestEndpoint<'AppDefinition', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.del(http, getAppDefinitionUrl(params))
 }
 
 export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallationsForOrg'> = (
   http: AxiosInstance,
-  params: GetAppInstallationsForOrgParams & PaginationQueryParams
+  params: GetAppInstallationsForOrgParams & PaginationQueryParams,
 ) => {
   return raw.get<AppInstallationsForOrganizationProps>(
     http,
@@ -92,6 +92,6 @@ export const getInstallationsForOrg: RestEndpoint<'AppDefinition', 'getInstallat
         ...normalizeSpaceId(normalizeSelect(params.query)),
         'sys.organization.sys.id[in]': params.organizationId,
       },
-    }
+    },
   )
 }

@@ -110,12 +110,12 @@ function createTeamMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapTeamMembership(
   makeRequest: MakeRequest,
-  data: TeamMembershipProps
+  data: TeamMembershipProps,
 ): TeamMembership {
   const teamMembership = toPlainObject(copy(data))
   const teamMembershipWithMethods = enhanceWithMethods(
     teamMembership,
-    createTeamMembershipApi(makeRequest)
+    createTeamMembershipApi(makeRequest),
   )
   return freezeSys(teamMembershipWithMethods)
 }

@@ -9,32 +9,32 @@ import type { GetAppDefinitionParams } from '../../../common-types.js'
 
 export const get: RestEndpoint<'AppEventSubscription', 'get'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.get<AppEventSubscriptionProps>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/event_subscription`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/event_subscription`,
   )
 }
 
 export const upsert: RestEndpoint<'AppEventSubscription', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  data: CreateAppEventSubscriptionProps
+  data: CreateAppEventSubscriptionProps,
 ) => {
   return raw.put<AppEventSubscriptionProps>(
     http,
     `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/event_subscription`,
-    data
+    data,
   )
 }
 
 export const del: RestEndpoint<'AppEventSubscription', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.del(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/event_subscription`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/event_subscription`,
   )
 }

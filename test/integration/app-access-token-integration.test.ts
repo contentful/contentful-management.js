@@ -77,7 +77,7 @@ describe('AppAccessToken api', { sequential: true }, () => {
       },
       {
         jwt,
-      }
+      },
     )
 
     // Token length not deterministic, but should be within a certain range

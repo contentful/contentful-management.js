@@ -1,6 +1,5 @@
 import type { MakeRequest } from './common-types.js'
-import entities from './entities/index.js'
-import type { UserUIConfig } from './entities/user-ui-config.js'
+import { wrapUserUIConfig, type UserUIConfig } from './entities/user-ui-config.js'
 
 /**
  * @private
@@ -11,8 +10,6 @@ export type ContentfulUIConfigApi = ReturnType<typeof createUserUIConfigApi>
  * @private
  */
 export default function createUserUIConfigApi(makeRequest: MakeRequest) {
-  const { wrapUserUIConfig } = entities.userUIConfig
-
   const getParams = (self: UserUIConfig) => {
     const userUIConfig = self.toPlainObject()
 

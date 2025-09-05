@@ -51,7 +51,7 @@ export interface AppSignedRequest
  */
 export function wrapAppSignedRequest(
   _makeRequest: MakeRequest,
-  data: AppSignedRequestProps
+  data: AppSignedRequestProps,
 ): AppSignedRequest {
   const signedRequest = toPlainObject(copy(data))
   return signedRequest

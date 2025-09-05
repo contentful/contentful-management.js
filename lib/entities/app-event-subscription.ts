@@ -79,7 +79,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
  */
 export function wrapAppEventSubscription(
   makeRequest: MakeRequest,
-  data: AppEventSubscriptionProps
+  data: AppEventSubscriptionProps,
 ): AppEventSubscription {
   const eventSubscription = toPlainObject(copy(data))
   return enhanceWithMethods(eventSubscription, createEventSubscriptionApi(makeRequest))

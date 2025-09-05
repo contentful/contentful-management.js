@@ -1,13 +1,13 @@
 version: 2.1
 orbs:
   vault: contentful/vault@1
-  node: circleci/node@5.2.0
-  browser-tools: circleci/browser-tools@1.4.8
+  node: circleci/node@7.1.1
+  browser-tools: circleci/browser-tools@2.3.1
 
 executors:
   docker-with-node:
     docker:
-      - image: 'cimg/node:18.20.1-browsers'
+      - image: 'cimg/node:20.19.4-browsers'
     working_directory: ~/build-and-test
 
 commands:

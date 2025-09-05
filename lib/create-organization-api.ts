@@ -1,24 +1,57 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import entities from './entities/index.js'
 import type { Stream } from 'stream'
-import type { CreateTeamMembershipProps } from './entities/team-membership.js'
-import type { CreateTeamProps } from './entities/team.js'
-import type { CreateOrganizationInvitationProps } from './entities/organization-invitation.js'
+import {
+  wrapTeamMembership,
+  wrapTeamMembershipCollection,
+  type CreateTeamMembershipProps,
+} from './entities/team-membership.js'
+import { wrapTeam, wrapTeamCollection, type CreateTeamProps } from './entities/team.js'
+import {
+  wrapOrganizationInvitation,
+  type CreateOrganizationInvitationProps,
+} from './entities/organization-invitation.js'
 import type {
   AcceptsQueryOptions,
-  AcceptsQueryParams,
   BasicQueryOptions,
   MakeRequest,
   QueryOptions,
   QueryParams,
 } from './common-types.js'
-import type { CreateAppDefinitionProps } from './entities/app-definition.js'
-import type { CreateAppActionProps } from './entities/app-action.js'
-import type { CreateAppSigningSecretProps } from './entities/app-signing-secret.js'
-import type { CreateAppEventSubscriptionProps } from './entities/app-event-subscription.js'
-import type { CreateAppKeyProps } from './entities/app-key.js'
-import type { CreateAppDetailsProps } from './entities/app-details.js'
+import {
+  wrapAppDefinition,
+  wrapAppDefinitionCollection,
+  type CreateAppDefinitionProps,
+} from './entities/app-definition.js'
+import {
+  wrapAppAction,
+  wrapAppActionCollection,
+  type CreateAppActionProps,
+} from './entities/app-action.js'
+import {
+  wrapAppSigningSecret,
+  type CreateAppSigningSecretProps,
+} from './entities/app-signing-secret.js'
+import {
+  wrapAppEventSubscription,
+  type CreateAppEventSubscriptionProps,
+} from './entities/app-event-subscription.js'
+import { wrapAppKey, wrapAppKeyCollection, type CreateAppKeyProps } from './entities/app-key.js'
+import { wrapAppDetails, type CreateAppDetailsProps } from './entities/app-details.js'
 import type { OrganizationProps } from './entities/organization.js'
+import { wrapAppUpload } from './entities/app-upload.js'
+import { wrapFunction, wrapFunctionCollection } from './entities/function.js'
+import {
+  wrapOrganizationMembership,
+  wrapOrganizationMembershipCollection,
+} from './entities/organization-membership.js'
+import { wrapRoleCollection } from './entities/role.js'
+import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership.js'
+import { wrapSpaceCollection } from './entities/space.js'
+import {
+  wrapTeamSpaceMembershipCollection,
+  wrapTeamSpaceMembership,
+} from './entities/team-space-membership.js'
+import { wrapUser, wrapUserCollection } from './entities/user.js'
 
 /**
  * @private
@@ -32,26 +65,6 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
  * @private
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
-  const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
-  const { wrapUser, wrapUserCollection } = entities.user
-  const { wrapOrganizationMembership, wrapOrganizationMembershipCollection } =
-    entities.organizationMembership
-  const { wrapTeamMembership, wrapTeamMembershipCollection } = entities.teamMembership
-  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
-    entities.teamSpaceMembership
-  const { wrapTeam, wrapTeamCollection } = entities.team
-  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const { wrapOrganizationInvitation } = entities.organizationInvitation
-  const { wrapAppUpload } = entities.appUpload
-  const { wrapAppSigningSecret } = entities.appSigningSecret
-  const { wrapAppEventSubscription } = entities.appEventSubscription
-  const { wrapAppKey, wrapAppKeyCollection } = entities.appKey
-  const { wrapAppDetails } = entities.appDetails
-  const { wrapAppAction, wrapAppActionCollection } = entities.appAction
-  const { wrapFunction, wrapFunctionCollection } = entities.func
-  const { wrapRoleCollection } = entities.role
-  const { wrapSpaceCollection } = entities.space
-
   return {
     /**
      * Gets a collection of spaces in the organization

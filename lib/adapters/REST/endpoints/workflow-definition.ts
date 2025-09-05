@@ -25,7 +25,7 @@ const getWorkflowDefinitionUrl = (params: GetWorkflowDefinitionParams) =>
 export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
   http: AxiosInstance,
   params: GetWorkflowDefinitionParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get<WorkflowDefinitionProps>(http, getWorkflowDefinitionUrl(params), {
     headers,
@@ -34,7 +34,7 @@ export const get: RestEndpoint<'WorkflowDefinition', 'get'> = (
 export const getMany: RestEndpoint<'WorkflowDefinition', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get<CollectionProp<WorkflowDefinitionProps>>(http, getBaseUrl(params), {
     headers,
@@ -45,7 +45,7 @@ export const create: RestEndpoint<'WorkflowDefinition', 'create'> = (
   http: AxiosInstance,
   params: CreateWorkflowDefinitionParams,
   rawData: CreateWorkflowDefinitionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.post<WorkflowDefinitionProps>(http, getBaseUrl(params), data, {
@@ -57,7 +57,7 @@ export const update: RestEndpoint<'WorkflowDefinition', 'update'> = (
   http: AxiosInstance,
   params: GetWorkflowDefinitionParams,
   rawData: UpdateWorkflowDefinitionProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -73,7 +73,7 @@ export const update: RestEndpoint<'WorkflowDefinition', 'update'> = (
 export const del: RestEndpoint<'WorkflowDefinition', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteWorkflowDefinitionParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.del(http, getWorkflowDefinitionUrl(params), {
     headers: { 'X-Contentful-Version': version, ...headers },
