@@ -34,6 +34,7 @@ import { wrapAsset } from '../../lib/entities/asset'
 import { wrapTagCollection } from '../../lib/entities/tag'
 import setupMakeRequest from './mocks/makeRequest'
 import createEnvironmentApi from '../../lib/create-environment-api'
+import { AppActionCallRawResponseProps } from '../../lib/entities/app-action-call'
 
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()
@@ -537,6 +538,38 @@ describe('A createEnvironmentApi', () => {
   test('API call createAppActionCall fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'createAppActionCall',
+    })
+  })
+
+  test('API call getAppActionCallResponse', async () => {
+    const rawResponse: AppActionCallRawResponseProps = {
+      sys: {
+        id: 'call-1',
+        type: 'AppActionCallResponse',
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'spaceId' } },
+        environment: { sys: { type: 'Link', linkType: 'Environment', id: 'envId' } },
+        appInstallation: { sys: { type: 'Link', linkType: 'AppInstallation', id: 'appDef' } },
+        appAction: { sys: { type: 'Link', linkType: 'AppAction', id: 'actionId' } },
+        createdAt: new Date().toISOString(),
+      },
+      response: { body: '{"ok":true}' },
+    }
+
+    const { api, makeRequest } = setup(Promise.resolve(rawResponse))
+
+    const result = await api.getAppActionCallResponse('appDef', 'actionId', 'call-1')
+
+    expect(result).to.eql(rawResponse)
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'AppActionCall',
+      action: 'getResponse',
+      params: {
+        spaceId: environmentMock.sys.space.sys.id,
+        environmentId: environmentMock.sys.id,
+        appDefinitionId: 'appDef',
+        appActionId: 'actionId',
+        callId: 'call-1',
+      },
     })
   })
 
