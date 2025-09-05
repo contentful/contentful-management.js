@@ -357,4 +357,63 @@ describe('Rest Entry', () => {
         )
       })
   })
+
+  test('create without releaseId', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.post.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          contentTypeId: 'contentType123',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/entries'
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
+        expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
+          'contentType123'
+        )
+      })
+  })
+
+  test('create with releaseId delegates to release entry', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.post.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          contentTypeId: 'contentType123',
+          releaseId: 'black-friday',
+        },
+        payload: entityMock,
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/releases/black-friday/entries'
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
+        expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
+          'contentType123'
+        )
+      })
+  })
 })
