@@ -69,11 +69,11 @@ type BaseAppActionProps = AppActionCategory & {
   /**
    * Optional JSON Schema describing the request payload shape
    */
-  parametersSchema?: object
+  parametersSchema?: Record<string, unknown>
   /**
    * Optional JSON Schema describing the result shape
    */
-  resultSchema?: object
+  resultSchema?: Record<string, unknown>
 }
 
 type CreateEndpointAppActionProps = {
@@ -141,11 +141,11 @@ export type CreateAppActionProps = AppActionCategory & {
   /**
    * Optional JSON Schema describing the request payload shape
    */
-  parametersSchema?: object
+  parametersSchema?: Record<string, unknown>
   /**
    * Optional JSON Schema describing the result shape
    */
-  resultSchema?: object
+  resultSchema?: Record<string, unknown>
 } & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
 
 export type AppActionProps = BaseAppActionProps &
