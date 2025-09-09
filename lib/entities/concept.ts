@@ -2,6 +2,7 @@ import type { Link } from '../common-types'
 import type { LocalizedEntity } from './utils'
 
 export type TaxonomyConceptLink = Link<'TaxonomyConcept'>
+export type TaxonomyConceptSchemeLink = Link<'TaxonomyConceptScheme'>
 
 type Concept = {
   uri: string | null
@@ -15,6 +16,7 @@ type Concept = {
   note: string | null
   scopeNote: string | null
   notations: string[]
+  conceptSchemes: TaxonomyConceptSchemeLink[]
   broader: TaxonomyConceptLink[]
   related: TaxonomyConceptLink[]
   sys: {
@@ -29,7 +31,7 @@ type Concept = {
 }
 
 export type ConceptProps<Locales extends string = string> = LocalizedEntity<
-  Omit<Concept, 'conceptSchemes'>,
+  Concept,
   | 'prefLabel'
   | 'altLabels'
   | 'hiddenLabels'
