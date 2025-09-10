@@ -10,6 +10,7 @@ import type { AppActionProps, CreateAppActionProps } from './entities/app-action
 import type {
   AppActionCallProps,
   AppActionCallResponse,
+  AppActionCallRawResponseProps,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
@@ -445,6 +446,12 @@ type MRInternal<UA extends boolean> = {
     'createWithResponse'
   >
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
+  (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
+  (opts: MROpts<'AppActionCall', 'createWithResult', UA>): MRReturn<
+    'AppActionCall',
+    'createWithResult'
+  >
+  (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -1015,6 +1022,10 @@ export type MRActions = {
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
+    get: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallProps
+    }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
       return: AppActionCallResponse
@@ -1023,6 +1034,15 @@ export type MRActions = {
       params: GetAppActionCallParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
+    }
+    createWithResult: {
+      params: CreateWithResponseParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallProps
+    }
+    getResponse: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallRawResponseProps
     }
   }
   AppBundle: {
@@ -2297,6 +2317,9 @@ export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
+
+// New route params for fetching structured call or raw response
+export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {

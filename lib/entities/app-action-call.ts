@@ -16,28 +16,63 @@ type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   space: SysLink
   environment: SysLink
   action: SysLink
+  appActionCallResponse?: SysLink
 }
 
 type RetryOptions = Pick<CreateWithResponseParams, 'retries' | 'retryInterval'>
+
+export type AppActionCallStatus = 'processing' | 'succeeded' | 'failed'
+
+export interface AppActionCallErrorProps {
+  sys: { type: 'Error'; id: string }
+  message: string
+  details?: Record<string, unknown>
+  statusCode?: number
+}
 
 export type AppActionCallProps = {
   /**
    * System metadata
    */
   sys: AppActionCallSys
+  /** The execution status of the app action call, if available */
+  status?: AppActionCallStatus
+  /** Structured result when execution succeeded */
+  result?: unknown
+  /** Structured error when execution failed */
+  error?: AppActionCallErrorProps
 }
 
 export type CreateAppActionCallProps = {
   /** The body for the call */
-  parameters: { [key: string]: any }
+  parameters: { [key: string]: unknown }
 }
 
 type AppActionCallApi = {
   createWithResponse(): Promise<AppActionCallResponse>
   getCallDetails(): Promise<AppActionCallResponse>
+  get(): Promise<AppActionCallProps>
+  createWithResult(): Promise<AppActionCallProps>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
+
+// Raw App Action call response (new endpoint). Not yet wired to runtime behavior.
+export interface AppActionCallRawResponseProps {
+  sys: {
+    id: string
+    type: 'AppActionCallResponse'
+    space: SysLink
+    environment: SysLink
+    appInstallation: SysLink
+    appAction: SysLink
+    createdAt: string
+  }
+  response: {
+    headers?: { contentType?: string }
+    body: string
+  }
+}
 
 export interface AppActionCallResponseData
   extends AppActionCallResponse,
@@ -87,6 +122,42 @@ export default function createAppActionCallApi(
           appActionId: 'app-action-id',
         },
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
+    },
+
+    get: function get() {
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'get',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+          callId: 'call-id',
+        },
+      }).then((data) => wrapAppActionCall(makeRequest, data))
+    },
+
+    createWithResult: function () {
+      const payload: CreateAppActionCallProps = {
+        parameters: {
+          recipient: 'Alice <alice@my-company.com>',
+          message_body: 'Hello from Bob!',
+        },
+      }
+
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'createWithResult',
+        params: {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+          ...retryOptions,
+        },
+        payload: payload,
+      }).then((data) => wrapAppActionCall(makeRequest, data))
     },
   }
 }
