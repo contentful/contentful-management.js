@@ -18,7 +18,6 @@ export async function createEmptyRelease(
       sys: { type: 'Array' },
       items: [],
     },
-    startDate: '2025-08-28T10:00:000Z',
   })
 }
 

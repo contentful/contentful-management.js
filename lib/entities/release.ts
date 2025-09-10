@@ -120,7 +120,6 @@ export interface ReleasePayloadV2 extends MakeRequestPayload {
   }
   title: string
   entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
-  startDate?: ISO8601Timestamp
 }
 
 export interface ReleaseValidatePayload {
