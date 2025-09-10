@@ -66,6 +66,14 @@ type BaseAppActionProps = AppActionCategory & {
    * Human readable description of the action
    */
   description?: string
+  /**
+   * Optional JSON Schema describing the request payload shape
+   */
+  parametersSchema?: Record<string, unknown>
+  /**
+   * Optional JSON Schema describing the result shape
+   */
+  resultSchema?: Record<string, unknown>
 }
 
 type CreateEndpointAppActionProps = {
@@ -130,6 +138,14 @@ type LegacyFunctionAppActionProps = Record<string, unknown> & {
 export type CreateAppActionProps = AppActionCategory & {
   name: string
   description?: string
+  /**
+   * Optional JSON Schema describing the request payload shape
+   */
+  parametersSchema?: Record<string, unknown>
+  /**
+   * Optional JSON Schema describing the result shape
+   */
+  resultSchema?: Record<string, unknown>
 } & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
 
 export type AppActionProps = BaseAppActionProps &
