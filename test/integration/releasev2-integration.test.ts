@@ -129,7 +129,6 @@ describe('Release Api v2', () => {
               },
             ],
           },
-          startDate: '2025-08-28T10:00:000Z',
         }
       )
       expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
@@ -197,7 +196,6 @@ describe('Release Api v2', () => {
               },
             ],
           },
-          startDate: '2025-08-28T10:00:000Z',
         }
       )
       expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
