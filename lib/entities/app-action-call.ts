@@ -3,7 +3,7 @@ import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type {
   BasicMetaSysProps,
-  CreateWithResponseParams,
+  AppActionCallRetryOptions,
   DefaultElements,
   MakeRequest,
   SysLink,
@@ -19,7 +19,7 @@ type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appActionCallResponse?: SysLink
 }
 
-type RetryOptions = Pick<CreateWithResponseParams, 'retries' | 'retryInterval'>
+type RetryOptions = AppActionCallRetryOptions
 
 export type AppActionCallStatus = 'processing' | 'succeeded' | 'failed'
 
