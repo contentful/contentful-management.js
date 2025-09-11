@@ -13,7 +13,7 @@ export type UIConfigProps = {
   assetListViews: ViewFolder[]
   entryListViews: ViewFolder[]
   homeViews: HomeView[]
-  previewMode?: { previewMode: 'livePreview' | 'legacyPreview' }
+  livePreview?: { previewMode: 'livePreview' | 'legacyPreview' }
   publish?: { publishMode: 'entryPublishing' | 'localePublishing' }
 }
 
