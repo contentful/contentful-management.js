@@ -2,7 +2,8 @@ import type {
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,
   GetAppActionCallParamsWithId,
-  AppActionCallRetryOptions,
+  CreateWithResponseParams,
+  CreateWithResultParams,
 } from '../../common-types'
 import type {
   AppActionCallProps,
@@ -78,7 +79,7 @@ export type AppActionCallPlainClientAPI = {
    * ```
    */
   createWithResponse(
-    params: OptionalDefaults<GetAppActionCallParams & AppActionCallRetryOptions>,
+    params: OptionalDefaults<CreateWithResponseParams>,
     payload: CreateAppActionCallProps
   ): Promise<AppActionCallResponse>
 
@@ -143,7 +144,7 @@ export type AppActionCallPlainClientAPI = {
    * ```
    */
   createWithResult(
-    params: OptionalDefaults<GetAppActionCallParams & AppActionCallRetryOptions>,
+    params: OptionalDefaults<CreateWithResultParams>,
     payload: CreateAppActionCallProps
   ): Promise<AppActionCallProps>
 

@@ -1031,12 +1031,12 @@ export type MRActions = {
       return: AppActionCallResponse
     }
     createWithResponse: {
-      params: GetAppActionCallParams & AppActionCallRetryOptions
+      params: CreateWithResponseParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
     }
     createWithResult: {
-      params: GetAppActionCallParams & AppActionCallRetryOptions
+      params: CreateWithResultParams
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
@@ -2316,9 +2316,9 @@ export type AppActionCallRetryOptions = {
   retryInterval?: number
 }
 
-// Back-compat alias; prefer AppActionCallRetryOptions instead.
-// @deprecated Use GetAppActionCallParams & AppActionCallRetryOptions
 export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
+
+export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string

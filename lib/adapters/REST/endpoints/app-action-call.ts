@@ -8,7 +8,8 @@ import type {
 import * as raw from './raw'
 import type { RestEndpoint } from '../types'
 import type {
-  AppActionCallRetryOptions,
+  CreateWithResponseParams,
+  CreateWithResultParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,
   GetAppActionCallParamsWithId,
@@ -42,7 +43,7 @@ const APP_ACTION_CALL_RETRIES = 15
 
 async function callAppActionResult(
   http: AxiosInstance,
-  params: GetAppActionCallParams & AppActionCallRetryOptions,
+  params: CreateWithResponseParams,
   {
     callId,
   }: {
@@ -98,7 +99,7 @@ async function callAppActionResult(
 
 export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
   http: AxiosInstance,
-  params: GetAppActionCallParams & AppActionCallRetryOptions,
+  params: CreateWithResponseParams,
   data: CreateAppActionCallProps
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
@@ -136,7 +137,7 @@ export const getResponse: RestEndpoint<'AppActionCall', 'getResponse'> = (
 
 async function pollStructuredAppActionCall(
   http: AxiosInstance,
-  params: GetAppActionCallParams & AppActionCallRetryOptions,
+  params: CreateWithResultParams,
   { callId }: { callId: string }
 ): Promise<AppActionCallProps> {
   let checkCount = 1
@@ -181,7 +182,7 @@ async function pollStructuredAppActionCall(
 // Create and poll the structured AppActionCall until completion (succeeded/failed)
 export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
   http: AxiosInstance,
-  params: GetAppActionCallParams & AppActionCallRetryOptions,
+  params: CreateWithResultParams,
   data: CreateAppActionCallProps
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
