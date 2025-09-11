@@ -9,6 +9,7 @@ import * as raw from './raw'
 import type { RestEndpoint } from '../types'
 import type {
   CreateWithResponseParams,
+  CreateWithResultParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,
   GetAppActionCallParamsWithId,
@@ -136,7 +137,7 @@ export const getResponse: RestEndpoint<'AppActionCall', 'getResponse'> = (
 
 async function pollStructuredAppActionCall(
   http: AxiosInstance,
-  params: CreateWithResponseParams,
+  params: CreateWithResultParams,
   { callId }: { callId: string }
 ): Promise<AppActionCallProps> {
   let checkCount = 1
@@ -181,7 +182,7 @@ async function pollStructuredAppActionCall(
 // Create and poll the structured AppActionCall until completion (succeeded/failed)
 export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
   http: AxiosInstance,
-  params: CreateWithResponseParams,
+  params: CreateWithResultParams,
   data: CreateAppActionCallProps
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(

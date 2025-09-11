@@ -1031,12 +1031,12 @@ export type MRActions = {
       return: AppActionCallResponse
     }
     createWithResponse: {
-      params: GetAppActionCallParams
+      params: CreateWithResponseParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
     }
     createWithResult: {
-      params: CreateWithResponseParams
+      params: CreateWithResultParams
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
@@ -2309,10 +2309,16 @@ export type EnvironmentTemplateParams = {
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
-export type CreateWithResponseParams = GetAppActionCallParams & {
+
+// Retry options used by createWithResponse and createWithResult. Kept separate for clarity.
+export type AppActionCallRetryOptions = {
   retries?: number
   retryInterval?: number
 }
+
+export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
+
+export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
