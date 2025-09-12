@@ -81,11 +81,9 @@
     "@contentful/rich-text-types": "^16.6.1",
     "axios": "^1.8.4",
     "contentful-sdk-core": "10.0.0-beta.1",
-    "es-check": "^7.2.1",
     "fast-copy": "^3.0.0",
     "globals": "^15.15.0",
     "json-patch": "^0.7.0",
-    "puppeteer": "^24.4.0",
     "type-fest": "^4.18.3"
   },
   "devDependencies": {
@@ -114,6 +112,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "contentful-sdk-jsdoc": "3.1.0",
     "cz-conventional-changelog": "^3.3.0",
+    "es-check": "^7.2.1",
     "eslint": "^9.15.0",
     "husky": "^9.1.7",
     "in-publish": "^2.0.1",
@@ -124,6 +123,7 @@
     "playwright": "^1.49.1",
     "prettier": "^3.6.2",
     "process": "^0.11.10",
+    "puppeteer": "^24.4.0",
     "rimraf": "^5.0.0",
     "rollup": "^4.28.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
