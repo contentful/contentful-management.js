@@ -126,7 +126,7 @@
     "puppeteer": "^24.4.0",
     "rimraf": "^5.0.0",
     "rollup": "^4.28.1",
-    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-sourcemaps2": "^0.5.4",
     "rollup-plugin-visualizer": "^5.12.0",
     "semantic-release": "^22.0.12",
     "size-limit": "^11.1.6",

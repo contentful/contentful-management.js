@@ -13,7 +13,7 @@ import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { babel } from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
-import sourcemaps from 'rollup-plugin-sourcemaps'
+import sourcemaps from 'rollup-plugin-sourcemaps2'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
