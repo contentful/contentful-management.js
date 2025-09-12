@@ -320,11 +320,11 @@ Your CMA access token.
 
 #### host (default: `'api.contentful.com'`)
 
-Set the host used to build the request URI's.
+Set the host used to build the request URIs.
 
 #### hostUpload (default: `'upload.contentful.com'`)
 
-Set the host used to build the upload related request uri's.
+Set the host used to build the upload related request URIs. Learn more about the Upload API [here](https://www.contentful.com/developers/docs/references/content-management-api/#/reference/uploads).
 
 #### basePath (default: ``)
 
