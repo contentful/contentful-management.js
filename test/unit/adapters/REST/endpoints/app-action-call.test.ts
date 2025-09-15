@@ -218,7 +218,15 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       },
     }
 
-    const response = await entity.createWithResponse()
+    const response = await entity.createWithResponse(
+      {
+        spaceId: 'space-id',
+        environmentId: 'environment-id',
+        appDefinitionId: 'app-definiton-id',
+        appActionId: 'app-action-id',
+      },
+      payload
+    )
 
     expect(response).to.be.an('object')
     expect(response).to.deep.equal(entityMock)
@@ -249,9 +257,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       { retryInterval: 100 }
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'The app action response is taking longer than expected to process.'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -283,7 +299,15 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       { retryInterval: 100 }
     )
 
-    const result = await entity.createWithResponse()
+    const result = await entity.createWithResponse(
+      {
+        spaceId: 'space-id',
+        environmentId: 'environment-id',
+        appDefinitionId: 'app-definiton-id',
+        appActionId: 'app-action-id',
+      },
+      { parameters: {} }
+    )
 
     expect(result).to.deep.equal(responseMock)
 
@@ -311,9 +335,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       { retryInterval: 100 }
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'The app action response is taking longer than expected to process.'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -339,9 +371,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       { retryInterval: 100 }
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'The app action response is taking longer than expected to process.'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -373,9 +413,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       entityMock
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'App action not found or lambda fails'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('App action not found or lambda fails')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -402,9 +450,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       { retries: numRetries, retryInterval: 250 }
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'The app action response is taking longer than expected to process.'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -436,9 +492,17 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       entityMock
     )
 
-    await expect(entity.createWithResponse()).rejects.toThrow(
-      'App action not found or lambda fails'
-    )
+    await expect(
+      entity.createWithResponse(
+        {
+          spaceId: 'space-id',
+          environmentId: 'environment-id',
+          appDefinitionId: 'app-definiton-id',
+          appActionId: 'app-action-id',
+        },
+        { parameters: {} }
+      )
+    ).rejects.toThrow('App action not found or lambda fails')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
@@ -461,7 +525,12 @@ describe('Rest App Action Call', { concurrent: true }, () => {
       entityMock
     )
 
-    const response = await entity.getCallDetails()
+    const response = await entity.getCallDetails({
+      spaceId: 'space-id',
+      environmentId: 'environment-id',
+      appActionId: 'app-action-id',
+      callId: 'call-id',
+    })
 
     expect(response).to.be.an('object')
     expect(response).to.deep.equal(entityMock)
