@@ -30,10 +30,6 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  if (params.releaseId) {
-    params.query = { ...params.query, 'release[lte]': params.releaseId }
-  }
-
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
@@ -68,10 +64,6 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  if (params.releaseId) {
-    params.query = { ...params.query, 'release[lte]': params.releaseId }
-  }
-
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
