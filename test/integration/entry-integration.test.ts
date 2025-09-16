@@ -13,19 +13,11 @@ import {
 import type {
   ConceptProps,
   ContentType,
-  EntryProps,
   Environment,
   PlainClientAPI,
-  ReleaseProps,
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
-import {
-  createEmptyRelease,
-  createTestEntry,
-  updateReleaseWithEntries,
-  updateReleaseEntryTitle,
-} from './utils/release-entry.utils'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())

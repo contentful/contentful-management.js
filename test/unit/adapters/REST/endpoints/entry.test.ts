@@ -131,35 +131,6 @@ describe('Rest Entry', () => {
       })
   })
 
-  test('get with releaseId', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-
-    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Entry',
-        action: 'get',
-        userAgent: 'mocked',
-        params: {
-          spaceId: 'space123',
-          environmentId: 'master',
-          entryId: 'entry123',
-          releaseId: 'release456',
-        },
-      })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
-        expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries/entry123'
-        )
-        // Should have release query parameter
-        expect(httpMock.get.mock.calls[0][1].params).toMatchObject({
-          'release[lte]': 'release456',
-        })
-      })
-  })
-
   test('getMany', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
@@ -179,32 +150,6 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/entries')
         expect(httpMock.get.mock.calls[0][1].params).toBeUndefined
-      })
-  })
-
-  test('getMany with releaseId', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-
-    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Entry',
-        action: 'getMany',
-        userAgent: 'mocked',
-        params: {
-          spaceId: 'space123',
-          environmentId: 'master',
-          releaseId: 'release456',
-        },
-      })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
-        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/entries')
-        // Should have release query parameter
-        expect(httpMock.get.mock.calls[0][1].params).toMatchObject({
-          'release[lte]': 'release456',
-        })
       })
   })
 

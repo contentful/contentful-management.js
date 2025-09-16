@@ -287,40 +287,12 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetManyEntryParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
-    ): Promise<
-      CollectionProp<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
-    >
+    ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetEntryParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders
-    ): Promise<
-      EntryProps<
-        T,
-        {
-          release: {
-            sys: {
-              type: 'Link'
-              linkType: 'Entry' | 'Asset'
-              id: string
-            }
-          }
-        }
-      >
-    >
+    ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<UpdateEntryParams & QueryParams>,
       rawData: EntryProps<T>,
