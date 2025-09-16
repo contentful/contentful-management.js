@@ -2439,8 +2439,8 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
-export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
-export type GetManyEntryParams = GetSpaceEnvironmentParams & { releaseId?: string }
+export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+export type GetManyEntryParams = GetSpaceEnvironmentParams
 export type PatchEntryParams = GetSpaceEnvironmentParams & {
   entryId: string
   version: number
