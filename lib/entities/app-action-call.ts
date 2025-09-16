@@ -78,6 +78,7 @@ export interface AppActionCallRawResponseProps {
   }
   response: {
     headers?: { contentType?: string }
+    statusCode?: number
     body: string
   }
 }
