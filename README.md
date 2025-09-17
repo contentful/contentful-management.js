@@ -156,8 +156,8 @@ You can use the es6 import with the library as follows
 
 ```js
 // import createClient directly
-import contentful from 'contentful-management'
-const client = contentful.createClient(
+import { createClient } from 'contentful-management'
+const client = createClient(
   {
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
