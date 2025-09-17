@@ -3,7 +3,17 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import { errorHandler } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
-import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
+import type {
+  CollectionProp,
+  CreateReleaseAssetParams,
+  CreateWithFilesReleaseAssetParams,
+  CreateWithIdReleaseAssetParams,
+  GetReleaseAssetParams,
+  GetSpaceEnvironmentParams,
+  Link,
+  QueryParams,
+  UpdateReleaseAssetParams,
+} from '../../../common-types'
 import type {
   AssetFileProp,
   AssetProcessingForLocale,
@@ -15,13 +25,18 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { create as createUpload } from './upload'
 import { normalizeSelect } from './utils'
+import * as releaseAsset from './release-asset'
 
 export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams,
+  params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.get(http, params as GetReleaseAssetParams)
+  }
+
   return raw.get<AssetProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets/${params.assetId}`,
@@ -50,10 +65,14 @@ export const getPublished: RestEndpoint<'Asset', 'getPublished'> = (
 
 export const getMany: RestEndpoint<'Asset', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams,
+  params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.getMany(http, params as GetReleaseAssetParams)
+  }
+
   return raw.get<CollectionProp<AssetProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
@@ -66,10 +85,14 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
 
 export const update: RestEndpoint<'Asset', 'update'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string },
   rawData: AssetProps,
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.update(http, params as UpdateReleaseAssetParams, rawData, headers ?? {})
+  }
+
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<AssetProps>(
@@ -161,9 +184,13 @@ export const unarchive: RestEndpoint<'Asset', 'unarchive'> = (
 
 export const create: RestEndpoint<'Asset', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
+  params: GetSpaceEnvironmentParams & { releaseId?: string },
   rawData: CreateAssetProps
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.create(http, params as CreateReleaseAssetParams, rawData, {})
+  }
+
   const data = copy(rawData)
 
   return raw.post<AssetProps>(
@@ -175,9 +202,13 @@ export const create: RestEndpoint<'Asset', 'create'> = (
 
 export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { assetId: string },
+  params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string },
   rawData: CreateAssetProps
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.createWithId(http, params as CreateWithIdReleaseAssetParams, rawData, {})
+  }
+
   const data = copy(rawData)
 
   return raw.put<AssetProps>(
@@ -189,9 +220,13 @@ export const createWithId: RestEndpoint<'Asset', 'createWithId'> = (
 
 export const createFromFiles: RestEndpoint<'Asset', 'createFromFiles'> = async (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { uploadTimeout?: number },
+  params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string },
   data: Omit<AssetFileProp, 'sys'>
 ) => {
+  if (params.releaseId) {
+    return releaseAsset.createFromFiles(http, params as CreateWithFilesReleaseAssetParams, data, {})
+  }
+
   const httpUpload = getUploadHttpClient(http, { uploadTimeout: params.uploadTimeout })
 
   const { file } = data.fields
@@ -293,6 +328,15 @@ export const processForLocale: RestEndpoint<'Asset', 'processForLocale'> = async
     options?: AssetProcessingForLocale
   }
 ) => {
+  if (asset.sys.release) {
+    return releaseAsset.processForLocale(http, {
+      asset: asset as AssetProps<{ release: Link<'Release'> }>,
+      locale,
+      options: { processingCheckRetries, processingCheckWait },
+      ...params,
+    })
+  }
+
   return raw
     .put<AssetProps>(
       http,
@@ -333,6 +377,14 @@ export const processForAllLocales: RestEndpoint<'Asset', 'processForAllLocales'>
     ...params
   }: GetSpaceEnvironmentParams & { asset: AssetProps; options?: AssetProcessingForLocale }
 ) => {
+  if (asset.sys.release) {
+    return releaseAsset.processForAllLocales(http, {
+      asset: asset as AssetProps<{ release: Link<'Release'> }>,
+      options,
+      ...params,
+    })
+  }
+
   const locales = Object.keys(asset.fields.file || {})
 
   let mostUpToDateAssetVersion: AssetProps = asset

@@ -16,6 +16,8 @@ import type {
   UpdateEntryParams,
   UpdateReleaseEntryParams,
   CreateReleaseEntryParams,
+  GetManyReleaseEntryParams,
+  GetReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
@@ -26,10 +28,14 @@ import * as releaseEntry from './release-entry'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams,
+  params: GetEntryParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.get(http, params as GetReleaseEntryParams)
+  }
+
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
@@ -60,10 +66,14 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetManyEntryParams & QueryParams,
+  params: GetManyEntryParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.getMany(http, params as GetManyReleaseEntryParams)
+  }
+
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,

@@ -814,10 +814,21 @@ const releaseActionUnpublishMock: ReleaseActionProps = {
   action: 'unpublish',
 }
 
-const releaseEntryMock: EntryProps<
-  any,
-  { release: { sys: { type: 'Link'; linkType: 'Release'; id: string } } }
-> = {
+const releaseAssetMock: AssetProps<{ release: Link<'Release'> }> = {
+  ...assetMock,
+  sys: {
+    ...assetMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
+const releaseEntryMock: EntryProps<any, { release: Link<'Release'> }> = {
   ...entryMock,
   sys: {
     ...entryMock.sys,
@@ -1426,6 +1437,7 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  releaseAsset: releaseAssetMock,
   releaseEntry: releaseEntryMock,
   resource: resourceMock,
   resourceProvider: resourceProviderMock,

@@ -3,7 +3,10 @@ import type { OpPatch } from 'json-patch'
 import type {
   BasicCursorPaginationOptions,
   CollectionProp,
+  CreateReleaseAssetParams,
   CreateReleaseEntryParams,
+  CreateWithFilesReleaseAssetParams,
+  CreateWithIdReleaseAssetParams,
   CreateWithIdReleaseEntryParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
@@ -12,9 +15,11 @@ import type {
   GetEntryParams,
   GetEnvironmentTemplateParams,
   GetManyEntryParams,
+  GetManyReleaseAssetParams,
   GetManyReleaseEntryParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseAssetParams,
   GetReleaseEntryParams,
   GetReleaseParams,
   GetSnapshotForContentTypeParams,
@@ -22,11 +27,15 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   KeyValueMap,
+  Link,
   PatchEntryParams,
   PatchReleaseEntryParams,
+  ProcessForAllLocalesReleaseAssetParams,
+  ProcessForLocaleReleaseAssetParams,
   QueryParams,
   ReleaseEnvironmentParams,
   UpdateEntryParams,
+  UpdateReleaseAssetParams,
   UpdateReleaseEntryParams,
 } from '../common-types'
 import type {
@@ -447,113 +456,80 @@ export type PlainClientAPI = {
   }
   usage: UsagePlainClientAPI
   release: {
+    asset: {
+      get(
+        params: OptionalDefaults<GetReleaseAssetParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      getMany(
+        params: OptionalDefaults<GetManyReleaseAssetParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<CollectionProp<AssetProps<{ release: Link<'Release'> }>>>
+      update(
+        params: OptionalDefaults<UpdateReleaseAssetParams & QueryParams>,
+        rawData: AssetProps,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      create(
+        params: OptionalDefaults<CreateReleaseAssetParams & QueryParams>,
+        rawData: CreateAssetProps,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      createWithId(
+        params: OptionalDefaults<CreateWithIdReleaseAssetParams & QueryParams>,
+        rawData: CreateAssetProps,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      createFromFiles(
+        params: OptionalDefaults<CreateWithFilesReleaseAssetParams & QueryParams>,
+        data: Omit<AssetFileProp, 'sys'>,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      processForLocale(
+        params: OptionalDefaults<ProcessForLocaleReleaseAssetParams>,
+        asset: AssetProps<{ release: Link<'Release'> }>,
+        locale: string,
+        processingOptions?: AssetProcessingForLocale
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      processForAllLocales(
+        params: OptionalDefaults<ProcessForAllLocalesReleaseAssetParams>,
+        asset: AssetProps<{ release: Link<'Release'> }>,
+        processingOptions?: AssetProcessingForLocale
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+    }
     entry: {
       get<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<GetReleaseEntryParams & QueryParams>
-      ): Promise<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
+        params: OptionalDefaults<GetReleaseEntryParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
       getMany<T extends KeyValueMap = KeyValueMap>(
-        params: OptionalDefaults<GetManyReleaseEntryParams & QueryParams>
-      ): Promise<
-        CollectionProp<
-          EntryProps<
-            T,
-            {
-              release: {
-                sys: {
-                  type: 'Link'
-                  linkType: 'Entry' | 'Asset'
-                  id: string
-                }
-              }
-            }
-          >
-        >
-      >
+        params: OptionalDefaults<GetManyReleaseEntryParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders
+      ): Promise<CollectionProp<EntryProps<T, { release: Link<'Release'> }>>>
       update<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<UpdateReleaseEntryParams & QueryParams>,
         rawData: EntryProps<T>,
         headers?: RawAxiosRequestHeaders
-      ): Promise<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
       patch<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<PatchReleaseEntryParams & QueryParams>,
         rawData: OpPatch[],
         headers?: RawAxiosRequestHeaders
-      ): Promise<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
       create<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<CreateReleaseEntryParams & QueryParams>,
         rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders
-      ): Promise<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
       createWithId<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<CreateWithIdReleaseEntryParams & QueryParams>,
         rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders
-      ): Promise<
-        EntryProps<
-          T,
-          {
-            release: {
-              sys: {
-                type: 'Link'
-                linkType: 'Entry' | 'Asset'
-                id: string
-              }
-            }
-          }
-        >
-      >
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
     }
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
