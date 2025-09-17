@@ -50,13 +50,13 @@ export type EnvironmentTemplate = EnvironmentTemplateProps &
 export function wrapEnvironmentTemplate(
   makeRequest: MakeRequest,
   data: EnvironmentTemplateProps,
-  organizationId: string
+  organizationId: string,
 ): EnvironmentTemplate {
   const environmentTemplate = toPlainObject(copy(data))
   const environmentTemplateApi = createEnvironmentTemplateApi(makeRequest, organizationId)
   const enhancedEnvironmentTemplate = enhanceWithMethods(
     environmentTemplate,
-    environmentTemplateApi
+    environmentTemplateApi,
   )
   return freezeSys(enhancedEnvironmentTemplate)
 }

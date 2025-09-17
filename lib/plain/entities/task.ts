@@ -45,7 +45,7 @@ export type TaskPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetEntryParams & QueryParams>
+    params: OptionalDefaults<GetEntryParams & QueryParams>,
   ): Promise<CollectionProp<TaskProps>>
   /** Creates a task
    *
@@ -78,7 +78,7 @@ export type TaskPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateTaskParams>,
     rawData: CreateTaskProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TaskProps>
   /** Updates a task
    *
@@ -112,7 +112,7 @@ export type TaskPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateTaskParams>,
     rawData: UpdateTaskProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TaskProps>
   /** Deletes a task
    *

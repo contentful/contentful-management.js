@@ -19,22 +19,22 @@ import { isSuccessful, shouldRePoll, waitFor } from '../../../common-utils'
 export const create: RestEndpoint<'AppActionCall', 'create'> = (
   http: AxiosInstance,
   params: GetAppActionCallParams,
-  data: CreateAppActionCallProps
+  data: CreateAppActionCallProps,
 ) => {
   return raw.post<AppActionCallProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
-    data
+    data,
   )
 }
 
 export const getCallDetails: RestEndpoint<'AppActionCall', 'getCallDetails'> = (
   http: AxiosInstance,
-  params: GetAppActionCallDetailsParams
+  params: GetAppActionCallDetailsParams,
 ) => {
   return raw.get<AppActionCallResponse>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/actions/${params.appActionId}/calls/${params.callId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/actions/${params.appActionId}/calls/${params.callId}`,
   )
 }
 
@@ -48,7 +48,7 @@ async function callAppActionResult(
     callId,
   }: {
     callId: string
-  }
+  },
 ): Promise<AppActionCallResponse> {
   let checkCount = 1
   const retryInterval = params.retryInterval || APP_ACTION_CALL_RETRY_INTERVAL
@@ -76,7 +76,7 @@ async function callAppActionResult(
         // If the response status code is not successful and is not a status code that should be repolled, reject with an error immediately
         else {
           const error = new Error(
-            'The app action response is taking longer than expected to process.'
+            'The app action response is taking longer than expected to process.',
           )
           reject(error)
         }
@@ -100,12 +100,12 @@ async function callAppActionResult(
 export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithResponse'> = async (
   http: AxiosInstance,
   params: CreateWithResponseParams,
-  data: CreateAppActionCallProps
+  data: CreateAppActionCallProps,
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
-    data
+    data,
   )
 
   const callId = createResponse.sys.id
@@ -116,29 +116,29 @@ export const createWithResponse: RestEndpoint<'AppActionCall', 'createWithRespon
 // Get structured AppActionCall (status/result/error) via new route that includes app installation context
 export const get: RestEndpoint<'AppActionCall', 'get'> = (
   http: AxiosInstance,
-  params: GetAppActionCallParamsWithId
+  params: GetAppActionCallParamsWithId,
 ) => {
   return raw.get<AppActionCallProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}`,
   )
 }
 
 // Get raw AppActionCall response (headers/body) for a completed call
 export const getResponse: RestEndpoint<'AppActionCall', 'getResponse'> = (
   http: AxiosInstance,
-  params: GetAppActionCallParamsWithId
+  params: GetAppActionCallParamsWithId,
 ) => {
   return raw.get<AppActionCallRawResponseProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}/response`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls/${params.callId}/response`,
   )
 }
 
 async function pollStructuredAppActionCall(
   http: AxiosInstance,
   params: CreateWithResultParams,
-  { callId }: { callId: string }
+  { callId }: { callId: string },
 ): Promise<AppActionCallProps> {
   let checkCount = 1
   const retryInterval = params.retryInterval || APP_ACTION_CALL_RETRY_INTERVAL
@@ -183,12 +183,12 @@ async function pollStructuredAppActionCall(
 export const createWithResult: RestEndpoint<'AppActionCall', 'createWithResult'> = async (
   http: AxiosInstance,
   params: CreateWithResultParams,
-  data: CreateAppActionCallProps
+  data: CreateAppActionCallProps,
 ) => {
   const createResponse = await raw.post<AppActionCallProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/actions/${params.appActionId}/calls`,
-    data
+    data,
   )
 
   const callId = createResponse.sys.id

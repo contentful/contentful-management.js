@@ -20,25 +20,25 @@ const getEntryUrl = (params: GetSnapshotForEntryParams & { snapshotId: string })
   getBaseEntryUrl(params) + `/${params.snapshotId}`
 
 export const getManyForEntry: RestEndpoint<'Snapshot', 'getManyForEntry'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
-  params: GetSnapshotForEntryParams & QueryParams
+  params: GetSnapshotForEntryParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>(
     http,
     getBaseEntryUrl(params),
     {
       params: normalizeSelect(params.query),
-    }
+    },
   )
 }
 
 export const getForEntry: RestEndpoint<'Snapshot', 'getForEntry'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
-  params: GetSnapshotForEntryParams & { snapshotId: string }
+  params: GetSnapshotForEntryParams & { snapshotId: string },
 ) => {
   return raw.get<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>(http, getEntryUrl(params))
 }
@@ -51,20 +51,20 @@ const getContentTypeUrl = (params: GetSnapshotForContentTypeParams & { snapshotI
 
 export const getManyForContentType: RestEndpoint<'Snapshot', 'getManyForContentType'> = (
   http: AxiosInstance,
-  params: GetSnapshotForContentTypeParams & QueryParams
+  params: GetSnapshotForContentTypeParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<SnapshotProps<ContentTypeProps>>>(
     http,
     getBaseContentTypeUrl(params),
     {
       params: normalizeSelect(params.query),
-    }
+    },
   )
 }
 
 export const getForContentType: RestEndpoint<'Snapshot', 'getForContentType'> = (
   http: AxiosInstance,
-  params: GetSnapshotForContentTypeParams & { snapshotId: string }
+  params: GetSnapshotForContentTypeParams & { snapshotId: string },
 ) => {
   return raw.get<SnapshotProps<ContentTypeProps>>(http, getContentTypeUrl(params))
 }

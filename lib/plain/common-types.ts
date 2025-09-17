@@ -154,47 +154,47 @@ export type PlainClientAPI = {
         version?: number
         query?: { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     getMany(
       params: GetOrganizationParams & {
         query?: BasicCursorPaginationOptions & { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     create(
       params: GetOrganizationParams,
       rawData: CreateEnvironmentTemplateProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     versionUpdate(
       params: GetEnvironmentTemplateParams & { version: number },
       rawData: { versionName?: string; versionDescription?: string },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     update(
       params: GetEnvironmentTemplateParams,
       rawData: EnvironmentTemplateProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     delete(params: GetEnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
     versions(
       params: GetEnvironmentTemplateParams & {
         query?: BasicCursorPaginationOptions & { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     validate(
       params: EnvironmentTemplateParams & {
         version?: number
       },
       rawData: ValidateEnvironmentTemplateInstallationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateValidationProps>
     install(
       params: EnvironmentTemplateParams,
       rawData: CreateEnvironmentTemplateInstallationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateInstallationProps>
     disconnect(params: EnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
   }
@@ -206,29 +206,29 @@ export type PlainClientAPI = {
         organizationId: string
         spaceId?: string
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
     getForEnvironment(
       params: BasicCursorPaginationOptions &
         EnvironmentTemplateParams & {
           installationId?: string
         },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
   bulkAction: {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPublishPayload
+      payload: BulkActionPublishPayload,
     ): Promise<BulkActionProps<BulkActionPublishPayload>>
     unpublish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionUnpublishPayload
+      payload: BulkActionUnpublishPayload,
     ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
     validate(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionValidatePayload
+      payload: BulkActionValidatePayload,
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: CommentPlainClientAPI
@@ -237,31 +237,31 @@ export type PlainClientAPI = {
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ContentTypeProps>
     delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
     publish(
       params: OptionalDefaults<GetContentTypeParams>,
-      rawData: ContentTypeProps
+      rawData: ContentTypeProps,
     ): Promise<ContentTypeProps>
     unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateContentTypeProps
+      rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: CreateContentTypeProps
+      rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
-      fieldId: string
+      fieldId: string,
     ): Promise<ContentTypeProps>
   }
   user: UserPlainClientAPI
@@ -269,52 +269,52 @@ export type PlainClientAPI = {
     getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
       rawData: OpPatch[],
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData: EntryProps<T>
+      rawData: EntryProps<T>,
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData?: EntryProps<T>
+      rawData?: EntryProps<T>,
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
     unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: CreateEntryProps<T>
+      rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
       >,
-      rawData: CreateEntryProps<T>
+      rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
     references(
       params: OptionalDefaults<
@@ -322,74 +322,74 @@ export type PlainClientAPI = {
           entryId: string
           include?: number
         }
-      >
+      >,
     ): Promise<EntryReferenceProps>
   }
   asset: {
     getPublished(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: AssetProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData: AssetProps
+      rawData: AssetProps,
     ): Promise<AssetProps>
     unpublish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData?: AssetProps
+      rawData?: AssetProps,
     ): Promise<AssetProps>
     archive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
     unarchive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateAssetProps
+      rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
-      rawData: CreateAssetProps
+      rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: Omit<AssetFileProp, 'sys'>
+      data: Omit<AssetFileProp, 'sys'>,
     ): Promise<AssetProps>
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
-      processingOptions?: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
     processForLocale(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       locale: string,
-      processingOptions?: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
   }
   appUpload: AppUploadPlainClientAPI
   assetKey: {
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: CreateAssetKeyProps
+      data: CreateAssetKeyProps,
     ): Promise<AssetKeyProps>
   }
   upload: UploadPlainClientAPI
@@ -398,11 +398,11 @@ export type PlainClientAPI = {
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
     getMany(
-      params: OptionalDefaults<QueryParams>
+      params: OptionalDefaults<QueryParams>,
     ): Promise<CollectionProp<PersonalAccessTokenProps>>
     create(
       rawData: CreatePersonalAccessTokenProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<PersonalAccessTokenProps>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
@@ -411,11 +411,11 @@ export type PlainClientAPI = {
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProps>>
     createPersonalAccessToken(
       rawData: CreatePATProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AccessTokenProps>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
     getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<AccessTokenProps>>
   }
   usage: UsagePlainClientAPI
@@ -423,40 +423,40 @@ export type PlainClientAPI = {
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions },
     ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: ReleasePayload
+      data: ReleasePayload,
     ): Promise<ReleaseProps>
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
-      data: ReleasePayload
+      data: ReleasePayload,
     ): Promise<ReleaseProps>
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
     publish(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'publish'>>
     unarchive(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseProps>
     unpublish(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'unpublish'>>
     validate(
       params: OptionalDefaults<GetReleaseParams>,
-      data?: ReleaseValidatePayload
+      data?: ReleaseValidatePayload,
     ): Promise<ReleaseActionProps<'validate'>>
   }
   releaseAction: {
     get(
-      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string },
     ): Promise<ReleaseActionProps>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
     queryForRelease(
-      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
   resource: ResourcePlainAPI
@@ -468,50 +468,50 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceParams> & {
         scheduledActionId: string
         environmentId: string
-      }
+      },
     ): Promise<ScheduledActionProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
-      data: CreateUpdateScheduledActionProps
+      data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
     delete(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>,
     ): Promise<ScheduledActionProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string; version: number }>,
-      data: CreateUpdateScheduledActionProps
+      data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
     get(
-      params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>
+      params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>,
     ): Promise<PreviewApiKeyProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<PreviewApiKeyProps>>
   }
   apiKey: {
     get(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<ApiKeyProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<ApiKeyProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     createWithId(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       data: CreateApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       rawData: ApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
@@ -521,16 +521,16 @@ export type PlainClientAPI = {
   webhook: WebhookPlainClientAPI
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
+      params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>
     getForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>
+      params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>
     getManyForContentType(
-      params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>
     getForContentType(
-      params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
   tag: TagPlainClientAPI
@@ -538,25 +538,25 @@ export type PlainClientAPI = {
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
     create(
       params: OptionalDefaults<{ organizationId: string }>,
       data: CreateOrganizationInvitationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
   }
   organizationMembership: {
     get(
-      params: OptionalDefaults<GetOrganizationMembershipParams>
+      params: OptionalDefaults<GetOrganizationMembershipParams>,
     ): Promise<OrganizationMembershipProps>
     getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<OrganizationMembershipProps>>
     update(
       params: OptionalDefaults<GetOrganizationMembershipParams>,
       rawData: OrganizationMembershipProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }

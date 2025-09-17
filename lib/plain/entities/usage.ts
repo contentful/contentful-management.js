@@ -23,7 +23,7 @@ export type UsagePlainClientAPI = {
    * ```
    */
   getManyForSpace(
-    params: OptionalDefaults<{ organizationId: string } & QueryParams>
+    params: OptionalDefaults<{ organizationId: string } & QueryParams>,
   ): Promise<CollectionProp<UsageProps>>
   /** Fetches all an organization's usage data by organization
    *
@@ -45,6 +45,6 @@ export type UsagePlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<{ organizationId: string } & QueryParams>
+    params: OptionalDefaults<{ organizationId: string } & QueryParams>,
   ): Promise<CollectionProp<UsageProps>>
 }

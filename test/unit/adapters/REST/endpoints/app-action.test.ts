@@ -15,7 +15,7 @@ describe('AppAction schema fields', () => {
 
     const { httpMock } = setupRestAdapter(
       Promise.resolve({ data: { sys: { id: 'id' }, ...payload } }),
-      {}
+      {},
     )
 
     await rest.create(
@@ -24,7 +24,7 @@ describe('AppAction schema fields', () => {
         organizationId: 'org',
         appDefinitionId: 'appDef',
       } as unknown as import('../../../../../lib/common-types').GetAppDefinitionParams,
-      payload as unknown as never
+      payload as unknown as never,
     )
 
     expect(httpMock.post.mock.calls[0][1]).toStrictEqual(payload)
@@ -41,7 +41,7 @@ describe('AppAction schema fields', () => {
 
     const { httpMock } = setupRestAdapter(
       Promise.resolve({ data: { sys: { id: 'id' }, ...payload } }),
-      {}
+      {},
     )
 
     await rest.update(
@@ -51,7 +51,7 @@ describe('AppAction schema fields', () => {
         appDefinitionId: 'appDef',
         appActionId: 'id',
       } as unknown as import('../../../../../lib/common-types').GetAppActionParams,
-      payload as unknown as never
+      payload as unknown as never,
     )
 
     expect(httpMock.put.mock.calls[0][1]).toStrictEqual(payload)

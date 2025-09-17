@@ -9,7 +9,7 @@ export function makeLink<T extends string>(type: T, id: string): Link<T> {
 export function makeVersionedLink<T extends string>(
   type: T,
   id: string,
-  version: number
+  version: number,
 ): VersionedLink<T> {
   return {
     sys: { id, linkType: type, type: 'Link', version },

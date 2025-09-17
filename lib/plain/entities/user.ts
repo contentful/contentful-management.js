@@ -24,7 +24,7 @@ export type UserPlainClientAPI = {
    * ```
    */
   getManyForSpace(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<UserProps>>
   /**
    * Fetches a user in a space
@@ -65,7 +65,7 @@ export type UserPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & { userId: string }>
+    params: OptionalDefaults<GetOrganizationParams & { userId: string }>,
   ): Promise<UserProps>
   /**
    * Fetches all users in an organization
@@ -83,6 +83,6 @@ export type UserPlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<UserProps>>
 }

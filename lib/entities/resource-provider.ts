@@ -173,12 +173,12 @@ const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderPro
  */
 export function wrapResourceProvider(
   makeRequest: MakeRequest,
-  data: ResourceProviderProps
+  data: ResourceProviderProps,
 ): ResourceProvider {
   const resourceProvider = toPlainObject(copy(data))
   const ResourceProviderWithMethods = enhanceWithMethods(
     resourceProvider,
-    createResourceProviderApi(makeRequest)
+    createResourceProviderApi(makeRequest),
   )
   return freezeSys(ResourceProviderWithMethods)
 }
