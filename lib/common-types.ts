@@ -291,6 +291,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  release?: Link<'Release'>
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
