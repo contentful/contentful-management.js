@@ -7,7 +7,7 @@ export type UploadProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps<'User' | 'AppDefinition'> & {
+  sys: MetaSysProps & {
     space: Link<'Space'>
     environment?: Link<'Environment'>
   }

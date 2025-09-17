@@ -4,7 +4,7 @@ import enhanceWithMethods from '../enhance-with-methods.js'
 import copy from 'fast-copy'
 import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
-type OAuthApplicationSysProps = BasicMetaSysProps<'Application', 'User'> & {
+type OAuthApplicationSysProps = BasicMetaSysProps & {
   lastUsedAt: string | null
 }
 

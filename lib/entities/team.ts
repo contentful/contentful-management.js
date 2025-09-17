@@ -8,7 +8,7 @@ export type TeamProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps<'User'> & { memberCount: number; organization: Link<'Organization'> }
+  sys: MetaSysProps & { memberCount: number; organization: Link<'Organization'> }
 
   /**
    * Name of the team

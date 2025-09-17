@@ -14,7 +14,7 @@ export type OrganizationProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps<'User'>
+  sys: MetaSysProps
   /**
    * Name
    */

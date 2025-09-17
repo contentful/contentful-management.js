@@ -7,7 +7,7 @@ export type UploadCredentialProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps<'User'> & { space: Link<'Space'>; environment?: Link<'Environment'> }
+  sys: MetaSysProps & { space: Link<'Space'>; environment?: Link<'Environment'> }
 }
 
 export interface UploadCredential

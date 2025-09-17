@@ -38,14 +38,16 @@ describe('Concept', () => {
       {
         name: 'without query params',
         params: {},
-        expected: { url: '/organizations/organization-id/taxonomy/concepts', params: {} },
+        // IMPORTANT: if we pass {} instead of undefined for params, axios adds ? which breaks the pre-appended url params
+        expected: { url: '/organizations/organization-id/taxonomy/concepts', params: undefined },
       },
       {
         name: 'with pageUrl query params',
         params: {
           query: { pageUrl: 'page-url' },
         },
-        expected: { url: 'page-url', params: {} },
+        // IMPORTANT: if we pass {} instead of undefined for params, axios adds ? which breaks the pre-appended url params
+        expected: { url: 'page-url', params: undefined },
       },
       {
         name: 'with conceptScheme query params',

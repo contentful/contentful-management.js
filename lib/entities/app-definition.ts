@@ -38,7 +38,7 @@ export type AppDefinitionProps = {
   /**
    * System metadata
    */
-  sys: BasicMetaSysProps<'AppDefinition', 'User'> & {
+  sys: BasicMetaSysProps & {
     organization: Link<'Organization'>
     shared: boolean
   }

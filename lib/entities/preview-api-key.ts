@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils.js'
 import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type PreviewApiKeyProps = {
-  sys: MetaSysProps<'User'>
+  sys: MetaSysProps
   name: string
   description: string
   accessToken: string

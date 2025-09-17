@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils.js'
 import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
 import enhanceWithMethods from '../enhance-with-methods.js'
 
-type AppBundleSys = Except<BasicMetaSysProps<'AppBundle', 'User'>, 'version'> & {
+type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: Link<'AppDefinition'>
   organization: Link<'Organization'>
 }

@@ -14,7 +14,7 @@ import enhanceWithMethods from '../enhance-with-methods.js'
 export type TaskStatus = 'active' | 'resolved'
 
 export type TaskSysProps = Pick<
-  BasicMetaSysProps<'Task', 'User' | 'AppDefinition'>,
+  BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Task'

@@ -13,11 +13,11 @@ export type UIConfigProps = {
   assetListViews: ViewFolder[]
   entryListViews: ViewFolder[]
   homeViews: HomeView[]
-  previewMode?: { previewMode: 'livePreview' | 'legacyPreview' }
+  livePreview?: { previewMode: 'livePreview' | 'legacyPreview' }
   publish?: { publishMode: 'entryPublishing' | 'localePublishing' }
 }
 
-export interface UIConfigSysProps extends BasicMetaSysProps<'UIConfig', 'User' | 'AppDefinition'> {
+export interface UIConfigSysProps extends BasicMetaSysProps {
   space: Link<'Space'>
   environment: Link<'Environment'>
 }

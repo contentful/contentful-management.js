@@ -4,7 +4,7 @@ import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common
 import { wrapCollection } from '../common-utils.js'
 
 export type SpaceMemberProps = {
-  sys: MetaSysProps<'User'>
+  sys: MetaSysProps
   /**
    * User is an admin
    */

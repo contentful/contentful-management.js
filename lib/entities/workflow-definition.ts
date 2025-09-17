@@ -96,7 +96,7 @@ export type CreateWorkflowStepProps = Omit<WorkflowStepProps, 'id'>
 /* Workflow Definition */
 
 export type WorkflowDefinitionSysProps = Pick<
-  BasicMetaSysProps<'WorkflowDefinition', 'User'>,
+  BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'WorkflowDefinition'

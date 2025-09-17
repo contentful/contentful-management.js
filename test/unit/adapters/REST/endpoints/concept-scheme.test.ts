@@ -178,7 +178,8 @@ describe('ConceptScheme', () => {
         params: {
           query: { pageUrl: 'page-url', params: {} },
         },
-        expected: { url: 'page-url', params: {} },
+        // IMPORTANT: if we pass {} instead of undefined for params, axios adds ? which breaks the pre-appended url params
+        expected: { url: 'page-url', params: undefined },
       },
     ]
 

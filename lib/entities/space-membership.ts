@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils.js'
 import type { MetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types.js'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps<'User'> & { space: Link<'Space'>; user: Link<'User'> }
+  sys: MetaSysProps & { space: Link<'Space'>; user: Link<'User'> }
   user: Link<'User'>
   admin: boolean
   roles: Link<'Role'>[]

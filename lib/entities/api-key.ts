@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils.js'
 import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type ApiKeyProps = {
-  sys: MetaSysProps<'User'>
+  sys: MetaSysProps
   name: string
   accessToken: string
   environments: Link<'Environment'>[]

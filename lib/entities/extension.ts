@@ -11,7 +11,7 @@ import { wrapCollection } from '../common-utils.js'
 import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
 import type { SetRequired, RequireExactlyOne } from 'type-fest'
 
-type ExtensionSysProps = BasicMetaSysProps<'Extension', 'User'> & {
+type ExtensionSysProps = BasicMetaSysProps & {
   space: Link<'Space'>
   environment: Link<'Environment'>
   srcdocSha256?: string

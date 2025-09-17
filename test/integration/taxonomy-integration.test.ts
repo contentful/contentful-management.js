@@ -224,6 +224,38 @@ describe('Taxonomy Integration', () => {
     expect(items.length).toBe(3)
   })
 
+  it('gets a list of all paginated concepts', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const concept: CreateConceptProps = {
+            prefLabel: {
+              'en-US': `Test Concept ${i}`,
+            },
+          }
+
+          const result = await client.concept.create({}, concept)
+          conceptsToDelete.push(result)
+        }),
+    )
+
+    const { items, pages } = await client.concept.getMany({
+      query: {
+        limit: 2,
+      },
+    })
+    expect(items.length).toBe(2)
+
+    const { items: nextItems } = await client.concept.getMany({
+      query: {
+        limit: 2,
+        pageUrl: pages?.next,
+      },
+    })
+    expect(nextItems.length).toBe(1)
+  })
+
   it('creates a concept with a broader concept', async () => {
     const first = await client.concept.create(
       {},
@@ -472,6 +504,38 @@ describe('Taxonomy Integration', () => {
 
     const { items } = await client.conceptScheme.getMany({})
     expect(items.length).toBe(3)
+  })
+
+  it('gets a list of all paginated concept schemes', async () => {
+    await Promise.all(
+      Array(3)
+        .fill(null)
+        .map(async (i) => {
+          const conceptScheme: CreateConceptSchemeProps = {
+            prefLabel: {
+              'en-US': `Test ConceptScheme ${i}`,
+            },
+          }
+
+          const result = await client.conceptScheme.create({}, conceptScheme)
+          conceptSchemesToDelete.push(result)
+        }),
+    )
+
+    const { items, pages } = await client.conceptScheme.getMany({
+      query: {
+        limit: 2,
+      },
+    })
+    expect(items.length).toBe(2)
+
+    const { items: nextItems } = await client.conceptScheme.getMany({
+      query: {
+        limit: 2,
+        pageUrl: pages?.next,
+      },
+    })
+    expect(nextItems.length).toBe(1)
   })
 })
 

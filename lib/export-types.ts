@@ -27,7 +27,9 @@ export type {
 export type {
   AppActionCall,
   AppActionCallProps,
-  AppActionCallResponse,
+  AppActionCallErrorProps,
+  AppActionCallRawResponseProps,
+  AppActionCallStatus,
   CreateAppActionCallProps,
 } from './entities/app-action-call.js'
 export type {

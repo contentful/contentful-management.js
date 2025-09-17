@@ -7,7 +7,7 @@ import type { Except } from 'type-fest'
 import type { FreeFormParameters } from './widget-parameters.js'
 
 export type AppInstallationProps = {
-  sys: Omit<BasicMetaSysProps<'AppInstallation', 'User'>, 'id'> & {
+  sys: Omit<BasicMetaSysProps, 'id'> & {
     appDefinition: Link<'AppDefinition'>
     environment: Link<'Environment'>
     space: Link<'Space'>

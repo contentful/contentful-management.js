@@ -6,7 +6,7 @@ import { wrapCollection } from '../common-utils.js'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types.js'
 
 export type LocaleProps = {
-  sys: BasicMetaSysProps<'Locale', 'User' | 'AppDefinition'> & {
+  sys: BasicMetaSysProps & {
     space: Link<'Space'>
     environment: Link<'Environment'>
   }

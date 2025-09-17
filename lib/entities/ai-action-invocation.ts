@@ -4,17 +4,9 @@ import type { DefaultElements, Link, MakeRequest } from '../common-types.js'
 import { wrapCollection } from '../common-utils.js'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'
 
-export enum InvocationStatus {
-  Scheduled = 'SCHEDULED',
-  InProgress = 'IN_PROGRESS',
-  Failed = 'FAILED',
-  Completed = 'COMPLETED',
-  Cancelled = 'CANCELLED',
-}
+export type InvocationStatus = 'SCHEDULED' | 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'CANCELLED'
 
-export enum InvocationResultType {
-  Text = 'text',
-}
+export type InvocationResultType = 'text'
 
 export const AiActionOutputFormat = {
   RichText: 'RichText',

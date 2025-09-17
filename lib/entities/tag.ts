@@ -13,7 +13,7 @@ import enhanceWithMethods from '../enhance-with-methods.js'
 export type TagVisibility = 'private' | 'public'
 
 export type TagSysProps = Pick<
-  MetaSysProps<'User'>,
+  MetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Tag'

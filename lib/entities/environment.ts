@@ -6,7 +6,7 @@ import createEnvironmentApi from '../create-environment-api.js'
 import { wrapCollection } from '../common-utils.js'
 import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
 
-type EnvironmentMetaSys = BasicMetaSysProps<'EnvironmentMeta', 'User'> & {
+type EnvironmentMetaSys = BasicMetaSysProps & {
   status: Link<'Status'>
   space: Link<'Space'>
   aliases?: Array<Link<'EnvironmentAlias'>>

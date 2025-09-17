@@ -9,27 +9,17 @@ import {
   type AiActionInvocation,
 } from './ai-action-invocation.js'
 
-export enum StatusFilter {
-  ALL = 'all',
-  PUBLISHED = 'published',
-}
-
-export enum VariableType {
-  RESOURCE_LINK = 'ResourceLink',
-  TEXT = 'Text',
-  STANDARD_INPUT = 'StandardInput',
-  LOCALE = 'Locale',
-  MEDIA_REFERENCE = 'MediaReference',
-  REFERENCE = 'Reference',
-  SMART_CONTEXT = 'SmartContext',
-}
-
-export enum EntityTypeEntry {
-  ENTRY = 'Entry',
-}
+export type VariableType =
+  | 'ResourceLink'
+  | 'Text'
+  | 'StandardInput'
+  | 'Locale'
+  | 'MediaReference'
+  | 'Reference'
+  | 'SmartContext'
 
 export type ReferenceVariableConfiguration = {
-  allowedEntities: Array<EntityTypeEntry>
+  allowedEntities: Array<'Entry'>
 }
 
 export type VariableConfiguration =
@@ -74,14 +64,17 @@ export type AiActionTestCase =
 export interface AiActionQueryOptions {
   limit?: number
   skip?: number
-  status?: StatusFilter
+  status?: 'all' | 'published'
 }
 
 export type AiActionProps = {
-  sys: MetaSysProps<'AiAction', 'User' | 'AppDefinition'> & {
+  sys: MetaSysProps & {
     type: 'AiAction'
-    space: Link<'Space'>
+    space: { sys: { id: string } }
     publishedBy?: Link<'User'> | Link<'AppDefinition'>
+    updatedBy: Link<'User'> | Link<'AppDefinition'>
+    createdBy: Link<'User'> | Link<'AppDefinition'>
+    publishedVersion?: number
     version: number
     publishedAt?: string
   }

@@ -7,7 +7,7 @@ import createSpaceApi from '../create-space-api.js'
 import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type SpaceProps = {
-  sys: BasicMetaSysProps<'Space', 'User'> & {
+  sys: BasicMetaSysProps & {
     organization: { sys: { id: string } }
     archivedAt?: string
   }

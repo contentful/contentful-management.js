@@ -19,7 +19,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps<'User'> & { team: Link<'Team'>; space: Link<'Space'> }
+  sys: MetaSysProps & { team: Link<'Team'>; space: Link<'Space'> }
 
   /**
    * Is admin

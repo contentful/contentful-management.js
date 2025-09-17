@@ -10,6 +10,7 @@ import type { AppActionProps, CreateAppActionProps } from './entities/app-action
 import type {
   AppActionCallProps,
   AppActionCallResponse,
+  AppActionCallRawResponseProps,
   CreateAppActionCallProps,
 } from './entities/app-action-call.js'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle.js'
@@ -186,7 +187,11 @@ import type {
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application.js'
 import type { FunctionLogProps } from './entities/function-log.js'
-import type { AiActionProps, CreateAiActionProps } from './entities/ai-action.js'
+import type {
+  AiActionProps,
+  AiActionQueryOptions,
+  CreateAiActionProps,
+} from './entities/ai-action.js'
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,
@@ -254,41 +259,41 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
-export interface BasicMetaSysProps<TType extends string, TSubject extends string = string> {
-  type: TType
+export interface BasicMetaSysProps {
+  type: string
   id: string
   version: number
-  createdBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
+  createdBy?: SysLink
   createdAt: string
-  updatedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
+  updatedBy?: SysLink
   updatedAt: string
 }
 
-export interface MetaSysProps<TType extends string, TSubject extends string = string>
-  extends BasicMetaSysProps<TType, TSubject> {
-  space?: Link<'Space'>
+export interface MetaSysProps extends BasicMetaSysProps {
+  space?: SysLink
   /**
    * @deprecated `status` only exists on entities. Please refactor to use a
    * type guard to get the correct `EntityMetaSysProps` type with this property.
    */
-  status?: Link<'Status'>
+  status?: SysLink
   publishedVersion?: number
   archivedVersion?: number
-  archivedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
+  archivedBy?: SysLink
   archivedAt?: string
   deletedVersion?: number
-  deletedBy?: { [Subject in TSubject]: Link<Subject> }[TSubject]
+  deletedBy?: SysLink
   deletedAt?: string
 }
 
-export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition'> {
+export interface EntityMetaSysProps extends MetaSysProps {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
    * type guard to get the correct `EntryMetaSysProps` type with this property.
    */
-  contentType: Link<'ContentType'>
-  space: Link<'Space'>
-  environment: Link<'Environment'>
+  contentType: SysLink
+  space: SysLink
+  status?: SysLink
+  environment: SysLink
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   publishedAt?: string
   firstPublishedAt?: string
@@ -297,9 +302,24 @@ export interface EntityMetaSysProps extends MetaSysProps<'User' | 'AppDefinition
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
 }
 
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: SysLink
+  automationTags: Link<'Tag'>[]
+}
+
+export interface MetaLinkProps {
+  type: string
+  linkType: string
+  id: string
+}
+
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
+}
+
+export interface SysLink {
+  sys: MetaLinkProps
 }
 
 export interface CollectionProp<TObj> {
@@ -435,6 +455,11 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'AppActionCall', 'createWithResponse', UA>,
   ): MRReturn<'AppActionCall', 'createWithResponse'>
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
+  (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
+  (
+    opts: MROpts<'AppActionCall', 'createWithResult', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResult'>
+  (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -527,6 +552,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
+  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -536,6 +562,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
+  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
@@ -788,9 +815,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
 
-  (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Entry', 'get'>
-  (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
-  (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
+  (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Upload', 'get'>
+  (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Upload', 'create'>
+  (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Upload', 'delete'>
 
   (opts: MROpts<'UploadCredential', 'create', UA>): MRReturn<'UploadCredential', 'create'>
 
@@ -912,7 +939,7 @@ export type MRActions = {
   AiAction: {
     get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
     getMany: {
-      params: GetSpaceParams & QueryParams
+      params: GetSpaceParams & { query: AiActionQueryOptions }
       return: CollectionProp<AiActionProps>
     }
     create: {
@@ -979,14 +1006,27 @@ export type MRActions = {
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
+    get: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallProps
+    }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
       return: AppActionCallResponse
     }
     createWithResponse: {
-      params: GetAppActionCallParams
+      params: CreateWithResponseParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
+    }
+    createWithResult: {
+      params: CreateWithResultParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallProps
+    }
+    getResponse: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallRawResponseProps
     }
   }
   AppBundle: {
@@ -1201,7 +1241,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
-      payload: AssetFileProp
+      payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
     processForAllLocales: {
@@ -1317,6 +1357,11 @@ export type MRActions = {
       payload: CreateConceptProps
       return: ConceptProps
     }
+    updatePut: {
+      params: UpdateConceptParams
+      payload: CreateConceptProps
+      return: ConceptProps
+    }
     delete: {
       params: DeleteConceptParams
       return: void
@@ -1359,6 +1404,11 @@ export type MRActions = {
       return: ConceptSchemeProps
     }
     update: {
+      params: UpdateConceptSchemeParams
+      payload: ConceptSchemeProps
+      return: ConceptSchemeProps
+    }
+    updatePut: {
       params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps
@@ -2243,14 +2293,23 @@ export type EnvironmentTemplateParams = {
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
-export type CreateWithResponseParams = GetAppActionCallParams & {
+
+// Retry options used by createWithResponse and createWithResult. Kept separate for clarity.
+export type AppActionCallRetryOptions = {
   retries?: number
   retryInterval?: number
 }
+
+export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
+
+export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
+
+// New route params for fetching structured call or raw response
+export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {

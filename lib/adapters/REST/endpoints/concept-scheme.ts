@@ -44,7 +44,7 @@ export const getMany: RestEndpoint<'ConceptScheme', 'getMany'> = (
 ) => {
   const url = params.query?.pageUrl ?? basePath(params.organizationId)
   return raw.get<CursorPaginatedCollectionProp<ConceptSchemeProps>>(http, url, {
-    params: params.query?.pageUrl ? {} : params.query,
+    params: params.query?.pageUrl ? undefined : params.query,
   })
 }
 
