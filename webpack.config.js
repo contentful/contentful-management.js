@@ -1,7 +1,8 @@
-import path from 'path'
-import webpack from 'webpack'
-import clone from 'lodash/cloneDeep'
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin'
+/* eslint-disable @typescript-eslint/no-require-imports */
+const path = require('path')
+const webpack = require('webpack')
+const clone = require('lodash/cloneDeep')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 const PROD = process.env.NODE_ENV === 'production'
 
