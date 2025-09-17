@@ -6,8 +6,8 @@ import type {
   GetManyConceptParams,
   GetOrganizationParams,
   UpdateConceptParams,
-} from '../../common-types'
-import type { ConceptProps, CreateConceptProps } from '../../entities/concept'
+} from '../../common-types.js'
+import type { ConceptProps, CreateConceptProps } from '../../entities/concept.js'
 import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 
@@ -26,7 +26,7 @@ export type ConceptPlainClientAPI = {
    */
   create(
     params: SetOptional<GetOrganizationParams, 'organizationId'>,
-    payload: CreateConceptProps
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
@@ -44,27 +44,7 @@ export type ConceptPlainClientAPI = {
    */
   createWithId(
     params: SetOptional<GetConceptParams, 'organizationId'>,
-    payload: CreateConceptProps
-  ): Promise<ConceptProps>
-
-  /**
-   * Update Concept
-   * @returns the updated Concept
-   * @throws if the request fails
-   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
-   * @deprecated The behavior of this method as a PATCH is being deprecated, and will be replaced with a PUT in the next major version. Use the `patch` method instead.
-   * @example
-   * ```javascript
-   * const updatedConcept = await client.concept.update({
-   *   organizationId: '<organization_id>',
-   *   conceptId: '<concept_id>',
-   *   version: 1,
-   * }, patch);
-   * ```
-   */
-  update(
-    params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
@@ -72,23 +52,22 @@ export type ConceptPlainClientAPI = {
    * @returns the updated Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
-   * @deprecated In the next major version, this method will be replaced with the standard `update` method which will be updated to use PUT instead of PATCH.
    * @example
    * ```javascript
-   * const updatedConcept = await client.concept.updatePut({
+   * const updatedConcept = await client.concept.update({
    *   organizationId: '<organization_id>',
    *   conceptId: '<concept_id>',
    *   version: 1,
-   * }, patch);
+   * }, conceptProps);
    * ```
    */
-  updatePut(
+  update(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: CreateConceptProps
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
-   * Update Concept
+   * Update Concept with PATCH
    * @returns the updated Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
@@ -103,7 +82,7 @@ export type ConceptPlainClientAPI = {
    */
   patch(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptProps>
 
   /**
@@ -149,7 +128,7 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getMany(
-    params: SetOptional<GetManyConceptParams, 'organizationId'>
+    params: SetOptional<GetManyConceptParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
@@ -180,7 +159,7 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getDescendants(
-    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
@@ -197,6 +176,6 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getAncestors(
-    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 }

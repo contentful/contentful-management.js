@@ -4,9 +4,9 @@ import type {
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
-import type { SpaceProps } from '../../entities/space'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { SpaceProps } from '../../entities/space.js'
 
 export type SpacePlainClientAPI = {
   /**
@@ -50,7 +50,7 @@ export type SpacePlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<SpaceProps>>
   /**
    * Creates a space
@@ -72,7 +72,7 @@ export type SpacePlainClientAPI = {
   create(
     params: OptionalDefaults<{ organizationId?: string }>,
     payload: Omit<SpaceProps, 'sys'>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<any>
   /**
    * Updates a space
@@ -99,7 +99,7 @@ export type SpacePlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceParams>,
     payload: SpaceProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<SpaceProps>
   /**
    * Deletes a space

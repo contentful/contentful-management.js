@@ -7,7 +7,7 @@ import {
   getTestOrganization,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import { readFileSync } from 'fs'
 import type {
   Space,
@@ -19,7 +19,7 @@ import type {
   AppInstallation,
   ResourceProvider,
   ResourceType,
-} from '../../lib/export-types'
+} from '../../lib/export-types.js'
 
 describe('Environment Api', () => {
   let space: Space
@@ -95,7 +95,7 @@ describe('Environment Api', () => {
       })
 
       appUpload = await organization.createAppUpload(
-        readFileSync(`${__dirname}/fixtures/build.zip`)
+        readFileSync(`${__dirname}/fixtures/build.zip`),
       )
       appBundle = await appDefinition.createAppBundle({
         appUploadId: appUpload.sys.id,
@@ -130,7 +130,7 @@ describe('Environment Api', () => {
             tmdbAccessToken: 'test',
           },
         },
-        { acceptAllTerms: true }
+        { acceptAllTerms: true },
       )
     })
 

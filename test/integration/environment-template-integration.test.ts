@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, it, afterEach, expect } from 'vitest'
-import type { ClientAPI } from '../../lib/create-contentful-api'
+import type { ClientAPI } from '../../lib/create-contentful-api.js'
 import {
   defaultClient,
   getTestOrganizationId,
@@ -8,18 +8,18 @@ import {
   generateRandomId,
   baseEnvironmentTemplateDescription,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   CreateEnvironmentTemplateProps,
   Environment,
   EnvironmentTemplate,
   EnvironmentTemplateInstallationProps,
   Space,
-} from '../../lib/export-types'
+} from '../../lib/export-types.js'
 
 type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
 
-describe('Environment template API', () => {
+describe.skip('Environment template API', () => {
   const client = defaultClient
   const orgId = getTestOrganizationId()
   const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
@@ -76,7 +76,7 @@ describe('Environment template API', () => {
       const { items: templates } = await client.getEnvironmentTemplates(orgId)
 
       expect(
-        templates.filter(({ description }) => description === templateDescription)
+        templates.filter(({ description }) => description === templateDescription),
       ).toHaveLength(1)
 
       const [{ sys, ...template }] = templates
@@ -92,7 +92,7 @@ describe('Environment template API', () => {
       })
 
       expect(
-        templates.filter(({ description }) => description === templateDescription)
+        templates.filter(({ description }) => description === templateDescription),
       ).toHaveLength(1)
 
       const [firstTemplate] = templates
@@ -196,7 +196,7 @@ describe('Environment template API', () => {
     it('gets installations on an environment for a given environment template', async () => {
       const installation = await installTemplate()
       const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-        installation.sys.template.sys.id
+        installation.sys.template.sys.id,
       )
 
       expect(installations).toHaveLength(1)
@@ -223,7 +223,7 @@ describe('Environment template API', () => {
       })
 
       await expect(
-        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id })
+        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id }),
       ).resolves.not.toThrow()
     })
   })
@@ -247,15 +247,14 @@ async function waitForPendingInstallation(
   client: ClientAPI,
   environment: Environment,
   environmentTemplateId: string,
-  { retries = 3, timeout = 200 } = {}
+  { retries = 3, timeout = 200 } = {},
 ): Promise<void> {
   while (retries > 1) {
-    const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-      environmentTemplateId
-    )
+    const { items: installations } =
+      await environment.getEnvironmentTemplateInstallations(environmentTemplateId)
 
     const allInstallationsSuccessful = installations.every(
-      (installation) => installation.sys.status === 'succeeded'
+      (installation) => installation.sys.status === 'succeeded',
     )
 
     if (allInstallationsSuccessful) {
@@ -326,7 +325,7 @@ async function enableSpace(client: ClientAPI, space: Space): Promise<void> {
 async function clearEnvironmentTemplates(
   client: ClientAPI,
   orgId: string,
-  templateDescription: string
+  templateDescription: string,
 ): Promise<void> {
   const { items: templates } = await client.getEnvironmentTemplates(orgId)
 

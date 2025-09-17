@@ -1,6 +1,6 @@
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { wrapContentType, wrapContentTypeCollection } from '../../../lib/entities/content-type'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapContentType, wrapContentTypeCollection } from '../../../lib/entities/content-type.js'
 import {
   entityActionTest,
   entityCollectionActionTest,
@@ -16,7 +16,7 @@ import {
   isPublishedTest,
   isUpdatedTest,
   omitAndDeleteFieldTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 import { describe, test } from 'vitest'
 
 function setup(promise) {

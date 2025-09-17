@@ -3,10 +3,10 @@ import type { Stream } from 'stream'
 import type {
   GetSpaceEnvironmentParams,
   GetSpaceEnvironmentUploadParams,
-} from '../../../common-types'
-import { getUploadHttpClient } from '../../../upload-http-client'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import { getUploadHttpClient } from '../../../upload-http-client.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUploadUrl = (params: GetSpaceEnvironmentParams) => {
   const spacePath = `/spaces/${params.spaceId}/uploads`
@@ -23,7 +23,7 @@ const getEntityUploadUrl = (params: GetSpaceEnvironmentUploadParams) => {
 export const create: RestEndpoint<'Upload', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  data: { file: string | ArrayBuffer | Stream }
+  data: { file: string | ArrayBuffer | Stream },
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
@@ -41,7 +41,7 @@ export const create: RestEndpoint<'Upload', 'create'> = (
 
 export const del: RestEndpoint<'Upload', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentUploadParams
+  params: GetSpaceEnvironmentUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
   const path = getEntityUploadUrl(params)
@@ -50,7 +50,7 @@ export const del: RestEndpoint<'Upload', 'delete'> = (
 
 export const get: RestEndpoint<'Upload', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentUploadParams
+  params: GetSpaceEnvironmentUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
   const path = getEntityUploadUrl(params)

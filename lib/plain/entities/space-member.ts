@@ -1,6 +1,6 @@
-import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types'
-import type { SpaceMemberProps } from '../../entities/space-member'
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types.js'
+import type { SpaceMemberProps } from '../../entities/space-member.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type SpaceMemberPlainClientAPI = {
   /**
@@ -16,7 +16,7 @@ export type SpaceMemberPlainClientAPI = {
    * ```
    */
   get(
-    params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>
+    params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>,
   ): Promise<SpaceMemberProps>
   /**
    * Fetches all the space members for a given space
@@ -30,6 +30,6 @@ export type SpaceMemberPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<SpaceMemberProps>>
 }

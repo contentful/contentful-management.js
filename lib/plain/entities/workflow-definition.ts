@@ -3,8 +3,8 @@ import type {
   GetWorkflowDefinitionParams,
   GetSpaceEnvironmentParams,
   CollectionProp,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 import type {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
@@ -13,7 +13,7 @@ import type {
   UpdateWorkflowDefinitionProps,
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
-} from '../../entities/workflow-definition'
+} from '../../entities/workflow-definition.js'
 
 export type WorkflowDefinitionPlainClientAPI = {
   /**
@@ -32,7 +32,7 @@ export type WorkflowDefinitionPlainClientAPI = {
    */
   get(
     params: OptionalDefaults<GetWorkflowDefinitionParams>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowDefinitionProps>
   /**
    * Query Workflow Definitions with certain filters
@@ -54,7 +54,7 @@ export type WorkflowDefinitionPlainClientAPI = {
     params: OptionalDefaults<
       GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }
     >,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<CollectionProp<WorkflowDefinitionProps>>
   /**
    * Create a new Workflow Definition
@@ -72,7 +72,7 @@ export type WorkflowDefinitionPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateWorkflowDefinitionParams>,
     rawData: CreateWorkflowDefinitionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowDefinitionProps>
   /**
    * Update a Workflow Definition
@@ -97,7 +97,7 @@ export type WorkflowDefinitionPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateWorkflowDefinitionParams>,
     rawData: UpdateWorkflowDefinitionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowDefinitionProps>
   /**
    * Delete a Workflow Definition
@@ -115,6 +115,6 @@ export type WorkflowDefinitionPlainClientAPI = {
    */
   delete(
     params: OptionalDefaults<DeleteWorkflowDefinitionParams>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<any>
 }

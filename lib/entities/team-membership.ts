@@ -1,17 +1,17 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import type { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
+import type { DefaultElements, MetaSysProps, MakeRequest, Link } from '../common-types.js'
 
 export type TeamMembershipProps = {
   /**
    * System metadata
    */
   sys: MetaSysProps & {
-    team: { sys: MetaLinkProps }
-    organization: { sys: MetaLinkProps }
-    organizationMembership: { sys: MetaLinkProps }
+    team: Link<'Team'>
+    organization: Link<'Organization'>
+    organizationMembership: Link<'OrganizationMembership'>
   }
 
   /**
@@ -110,12 +110,12 @@ function createTeamMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapTeamMembership(
   makeRequest: MakeRequest,
-  data: TeamMembershipProps
+  data: TeamMembershipProps,
 ): TeamMembership {
   const teamMembership = toPlainObject(copy(data))
   const teamMembershipWithMethods = enhanceWithMethods(
     teamMembership,
-    createTeamMembershipApi(makeRequest)
+    createTeamMembershipApi(makeRequest),
   )
   return freezeSys(teamMembershipWithMethods)
 }

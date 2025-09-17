@@ -1,7 +1,7 @@
 import { describe, test } from 'vitest'
-import { wrapWorkflow, wrapWorkflowCollection } from '../../../lib/entities/workflow'
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { wrapWorkflow, wrapWorkflowCollection } from '../../../lib/entities/workflow.js'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityActionTest,
   entityCollectionWrappedTest,
@@ -10,7 +10,7 @@ import {
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {
@@ -65,7 +65,7 @@ describe('Entity Workflow', () => {
         wrapperMethod: wrapWorkflow,
         actionMethod: 'complete',
       },
-      false
+      false,
     )
   })
 

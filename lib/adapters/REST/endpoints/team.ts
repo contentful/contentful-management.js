@@ -8,11 +8,11 @@ import type {
   GetSpaceParams,
   GetTeamParams,
   QueryParams,
-} from '../../../common-types'
-import type { CreateTeamProps, TeamProps } from '../../../entities/team'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../common-types.js'
+import type { CreateTeamProps, TeamProps } from '../../../entities/team.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/teams`
@@ -24,7 +24,7 @@ export const get: RestEndpoint<'Team', 'get'> = (http: AxiosInstance, params: Ge
 
 export const getMany: RestEndpoint<'Team', 'getMany'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) =>
   raw.get<CollectionProp<TeamProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -32,7 +32,7 @@ export const getMany: RestEndpoint<'Team', 'getMany'> = (
 
 export const getManyForSpace: RestEndpoint<'Team', 'getManyForSpace'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<TeamProps>>(http, `/spaces/${params.spaceId}/teams`, {
     params: normalizeSelect(params.query),
@@ -43,7 +43,7 @@ export const create: RestEndpoint<'Team', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
   rawData: CreateTeamProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post(http, getBaseUrl(params), rawData, { headers })
 }
@@ -52,7 +52,7 @@ export const update: RestEndpoint<'Team', 'update'> = (
   http: AxiosInstance,
   params: GetTeamParams,
   rawData: TeamProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

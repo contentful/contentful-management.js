@@ -1,5 +1,5 @@
 import { vi, expect, describe, test } from 'vitest'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 vi.mock('contentful-sdk-core')
 

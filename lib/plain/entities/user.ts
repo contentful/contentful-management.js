@@ -3,9 +3,9 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../common-types'
-import type { UserProps } from '../../export-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { UserProps } from '../../export-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type UserPlainClientAPI = {
   /** Fetches all users in a space
@@ -24,7 +24,7 @@ export type UserPlainClientAPI = {
    * ```
    */
   getManyForSpace(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<UserProps>>
   /**
    * Fetches a user in a space
@@ -65,7 +65,7 @@ export type UserPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & { userId: string }>
+    params: OptionalDefaults<GetOrganizationParams & { userId: string }>,
   ): Promise<UserProps>
   /**
    * Fetches all users in an organization
@@ -83,6 +83,6 @@ export type UserPlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<UserProps>>
 }

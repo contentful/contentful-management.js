@@ -7,7 +7,7 @@ import type {
   GetCommentParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateCommentParams,
   CreateCommentProps,
@@ -18,10 +18,10 @@ import type {
   PlainTextBodyFormat,
   RichTextBodyFormat,
   RichTextCommentBodyPayload,
-} from '../../../entities/comment'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../entities/comment.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 const VERSION_HEADER = 'X-Contentful-Version'
 const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'
@@ -70,7 +70,7 @@ const getEntityBaseUrl = (paramsOrg: GetEntryParams | GetManyCommentsParams) => 
 
 export const get: RestEndpoint<'Comment', 'get'> = (
   http: AxiosInstance,
-  params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat)
+  params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat),
 ) =>
   raw.get<CommentProps>(http, getEntityCommentUrl(params), {
     headers:
@@ -83,7 +83,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
 
 export const getMany: RestEndpoint<'Comment', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyCommentsParams & QueryParams & (PlainTextBodyFormat | RichTextBodyFormat)
+  params: GetManyCommentsParams & QueryParams & (PlainTextBodyFormat | RichTextBodyFormat),
 ) =>
   raw.get<CollectionProp<CommentProps>>(http, getEntityBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -98,7 +98,7 @@ export const getMany: RestEndpoint<'Comment', 'getMany'> = (
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
   params: CreateCommentParams,
-  rawData: CreateCommentProps | RichTextCommentBodyPayload
+  rawData: CreateCommentProps | RichTextCommentBodyPayload,
 ) => {
   const data = copy(rawData)
   return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
@@ -116,7 +116,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   http: AxiosInstance,
   params: GetCommentParams,
   rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload),
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -132,7 +132,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
 
 export const del: RestEndpoint<'Comment', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: DeleteCommentParams
+  { version, ...params }: DeleteCommentParams,
 ) => {
   return raw.del(http, getEntityCommentUrl(params), {
     headers: { [VERSION_HEADER]: version },

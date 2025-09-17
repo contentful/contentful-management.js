@@ -4,12 +4,12 @@ import type {
   GetSpaceEnvAliasParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../common-types'
+} from '../../common-types.js'
 import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
-} from '../../entities/environment-alias'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/environment-alias.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type EnvironmentAliasPlainClientAPI = {
   /**
@@ -39,7 +39,7 @@ export type EnvironmentAliasPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
+    params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>,
   ): Promise<CollectionProp<EnvironmentAliasProps>>
   /**
    * Create an environment alias
@@ -70,7 +70,7 @@ export type EnvironmentAliasPlainClientAPI = {
   createWithId(
     params: OptionalDefaults<GetSpaceEnvAliasParams>,
     rawData: CreateEnvironmentAliasProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EnvironmentAliasProps>
   /**
    * Update an environment alias
@@ -99,7 +99,7 @@ export type EnvironmentAliasPlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceEnvAliasParams>,
     rawData: EnvironmentAliasProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EnvironmentAliasProps>
   /**
    * Delete an environment alias

@@ -1,12 +1,12 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
-import { wrapCursorPaginatedCollection } from '../common-utils'
-import type { ContentfulEnvironmentTemplateApi } from '../create-environment-template-api'
-import { createEnvironmentTemplateApi } from '../create-environment-template-api'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { ContentTypeProps } from './content-type'
-import type { EditorInterfaceProps } from './editor-interface'
+import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
+import type { ContentfulEnvironmentTemplateApi } from '../create-environment-template-api.js'
+import { createEnvironmentTemplateApi } from '../create-environment-template-api.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import type { ContentTypeProps } from './content-type.js'
+import type { EditorInterfaceProps } from './editor-interface.js'
 
 export type Hint = {
   operation: 'renameFieldId'
@@ -29,7 +29,10 @@ export interface ContentTypeTemplateProps extends Omit<ContentTypeProps, 'sys'> 
 }
 
 export type EnvironmentTemplateProps = {
-  sys: BasicMetaSysProps & { version: number; organization: Link<'Organization'> }
+  sys: BasicMetaSysProps & {
+    version: number
+    organization: Link<'Organization'>
+  }
   name: string
   description?: string
   versionName: string
@@ -50,13 +53,13 @@ export type EnvironmentTemplate = EnvironmentTemplateProps &
 export function wrapEnvironmentTemplate(
   makeRequest: MakeRequest,
   data: EnvironmentTemplateProps,
-  organizationId: string
+  organizationId: string,
 ): EnvironmentTemplate {
   const environmentTemplate = toPlainObject(copy(data))
   const environmentTemplateApi = createEnvironmentTemplateApi(makeRequest, organizationId)
   const enhancedEnvironmentTemplate = enhanceWithMethods(
     environmentTemplate,
-    environmentTemplateApi
+    environmentTemplateApi,
   )
   return freezeSys(enhancedEnvironmentTemplate)
 }

@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
-import createSpaceApi from '../../lib/create-space-api'
+import createSpaceApi from '../../lib/create-space-api.js'
 import {
   apiKeyMock,
   cloneMock,
@@ -16,15 +16,15 @@ import {
   teamSpaceMembershipMock,
   userMock,
   webhookMock,
-} from './mocks/entities'
+} from './mocks/entities.js'
 import {
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
   makeEntityMethodFailingTest,
   makeGetCollectionTest,
   makeGetEntityTest,
-} from './test-creators/static-entity-methods'
-import setupMakeRequest from './mocks/makeRequest'
+} from './test-creators/static-entity-methods.js'
+import setupMakeRequest from './mocks/makeRequest.js'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock()
@@ -242,7 +242,7 @@ describe('A createSpaceApi', () => {
   test('API call createTeamSpaceMembership', async () => {
     const { api, entitiesMock } = setup(Promise.resolve(teamSpaceMembershipMock))
     entitiesMock.teamSpaceMembership.wrapTeamSpaceMembership.mockReturnValue(
-      teamSpaceMembershipMock
+      teamSpaceMembershipMock,
     )
 
     const result = await api.createTeamSpaceMembership('team-id', { admin: true, roles: [] })

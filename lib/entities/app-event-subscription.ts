@@ -1,18 +1,12 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type {
-  BasicMetaSysProps,
-  DefaultElements,
-  Link,
-  MakeRequest,
-  SysLink,
-} from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 type AppEventSubscriptionSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
-  appDefinition: SysLink
-  organization: SysLink
+  appDefinition: Link<'AppDefinition'>
+  organization: Link<'Organization'>
 }
 
 export type AppEventSubscriptionProps = {
@@ -82,7 +76,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
  */
 export function wrapAppEventSubscription(
   makeRequest: MakeRequest,
-  data: AppEventSubscriptionProps
+  data: AppEventSubscriptionProps,
 ): AppEventSubscription {
   const eventSubscription = toPlainObject(copy(data))
   return enhanceWithMethods(eventSubscription, createEventSubscriptionApi(makeRequest))

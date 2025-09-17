@@ -5,12 +5,12 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../../lib/contentful-management'
-import type { Environment, Space } from '../../lib/contentful-management'
-import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action'
-import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
-import { makeLink, makeVersionedLink } from '../utils'
+} from '../../lib/index.js'
+import type { Environment, Space } from '../../lib/index.js'
+import { waitForBulkActionProcessing } from '../../lib/methods/bulk-action.js'
+import { TestDefaults } from '../defaults.js'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
+import { makeLink, makeVersionedLink } from '../utils.js'
 
 describe('BulkActions Api', () => {
   let testSpace: Space
@@ -35,7 +35,7 @@ describe('BulkActions Api', () => {
       })
 
       const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
-        createdBulkAction.sys.id
+        createdBulkAction.sys.id,
       )
       expect(bulkActionInProgress.sys.id).toBe(createdBulkAction.sys.id)
     })
@@ -222,7 +222,7 @@ describe('BulkActions Api', () => {
         })
       } catch (error: any) {
         expect(error.message).toBe(
-          "BulkAction didn't finish processing within the expected timeframe."
+          "BulkAction didn't finish processing within the expected timeframe.",
         )
         expect(error.action.sys.id).toBe(createdBulkAction.sys.id)
       }

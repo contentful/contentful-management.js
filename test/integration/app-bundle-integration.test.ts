@@ -1,13 +1,7 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
-import type {
-  Organization,
-  AppDefinition,
-  AppUpload,
-  Space,
-  Environment,
-} from '../../lib/contentful-management'
+import { getTestOrganization, getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization, AppDefinition, AppUpload, Space, Environment } from '../../lib/index.js'
 
 describe('AppBundle api', { sequential: true }, () => {
   let organization: Organization
@@ -90,7 +84,7 @@ describe('AppBundle api', { sequential: true }, () => {
     await appBundle.delete()
 
     await expect(appDefinition.getAppBundle(appBundle.sys.id)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 })

@@ -1,6 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
+import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/index.js'
 
 describe('AppSigningSecret api', { sequential: true }, () => {
   let appDefinition: AppDefinition
@@ -27,7 +27,7 @@ describe('AppSigningSecret api', { sequential: true }, () => {
   test('createAppSigningSecret', async () => {
     const signingSecret = await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' },
     )
 
     expect(signingSecret.redactedValue).toBe('wI74')
@@ -41,7 +41,7 @@ describe('AppSigningSecret api', { sequential: true }, () => {
   test('getAppSigningSecret', async () => {
     await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI75' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI75' },
     )
     const signingSecret = await client.appSigningSecret.get({
       organizationId: organization.sys.id,
@@ -58,14 +58,14 @@ describe('AppSigningSecret api', { sequential: true }, () => {
   test('updateAppSigningSecret', async () => {
     const signingSecret = await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' },
     )
 
     expect(signingSecret.redactedValue).toBe('wI74')
 
     const updatedSigningSecret = await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI76' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI76' },
     )
 
     expect(updatedSigningSecret.redactedValue).toBe('wI76')
@@ -79,7 +79,7 @@ describe('AppSigningSecret api', { sequential: true }, () => {
   test('deleteAppSigningSecret', async () => {
     await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' },
     )
 
     await client.appSigningSecret.delete({
@@ -91,7 +91,7 @@ describe('AppSigningSecret api', { sequential: true }, () => {
       client.appSigningSecret.get({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-      })
+      }),
     ).rejects.toThrow('The resource could not be found')
   })
 })

@@ -1,12 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
+import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types.js'
 import type {
   CreatePersonalAccessTokenProps,
   AccessTokenProps,
-} from '../../../entities/access-token'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/access-token.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 /**
  * Retrieves an access token by its unique token ID for the currently authenticated user.
@@ -31,7 +31,7 @@ import * as raw from './raw'
  */
 export const get: RestEndpoint<'AccessToken', 'get'> = (
   http: AxiosInstance,
-  params: { tokenId: string }
+  params: { tokenId: string },
 ) => {
   return raw.get<AccessTokenProps>(http, `/users/me/access_tokens/${params.tokenId}`)
 }
@@ -58,7 +58,7 @@ export const get: RestEndpoint<'AccessToken', 'get'> = (
  */
 export const getMany: RestEndpoint<'AccessToken', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams
+  params: QueryParams,
 ) => {
   return raw.get<CollectionProp<AccessTokenProps>>(http, '/users/me/access_tokens', {
     params: params.query,
@@ -91,7 +91,7 @@ export const createPersonalAccessToken: RestEndpoint<'AccessToken', 'createPerso
   http: AxiosInstance,
   _params: {},
   rawData: CreatePersonalAccessTokenProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<AccessTokenProps>(http, '/users/me/access_tokens', rawData, {
     headers,
@@ -121,7 +121,7 @@ export const createPersonalAccessToken: RestEndpoint<'AccessToken', 'createPerso
  */
 export const revoke: RestEndpoint<'AccessToken', 'revoke'> = (
   http: AxiosInstance,
-  params: { tokenId: string }
+  params: { tokenId: string },
 ) => {
   return raw.put<AccessTokenProps>(http, `/users/me/access_tokens/${params.tokenId}/revoked`, null)
 }
@@ -149,13 +149,13 @@ export const revoke: RestEndpoint<'AccessToken', 'revoke'> = (
  */
 export const getManyForOrganization: RestEndpoint<'AccessToken', 'getManyForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<AccessTokenProps>>(
     http,
     `/organizations/${params.organizationId}/access_tokens`,
     {
       params: params.query,
-    }
+    },
   )
 }

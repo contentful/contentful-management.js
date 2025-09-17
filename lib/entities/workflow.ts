@@ -8,21 +8,20 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-  SysLink,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type WorkflowSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Workflow'
-  space: SysLink
-  environment: SysLink
-  completedBy?: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
+  completedBy?: Link<'User'> | Link<'AppDefinition'>
   completedAt?: string
-  deletedBy?: SysLink
+  deletedBy?: Link<'User'> | Link<'AppDefinition'>
   deletedAt?: string
   entity: Link<'Entry'>
   workflowDefinition: Link<'WorkflowDefinition'>

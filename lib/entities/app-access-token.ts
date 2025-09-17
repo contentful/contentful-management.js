@@ -1,12 +1,12 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
 
 type AppAccessTokenSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
-  space: SysLink
-  environment: SysLink
-  appDefinition: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
+  appDefinition: Link<'AppDefinition'>
   expiresAt: string
 }
 
@@ -38,7 +38,7 @@ export interface AppAccessToken extends AppAccessTokenProps, DefaultElements<App
  */
 export function wrapAppAccessToken(
   _makeRequest: MakeRequest,
-  data: AppAccessTokenProps
+  data: AppAccessTokenProps,
 ): AppAccessToken {
   const appAccessToken = toPlainObject(copy(data))
   return freezeSys(appAccessToken)

@@ -5,11 +5,10 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-  SysLink,
   VersionedLink,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /** Find workflows changelog entries filtered by the Entity type (Entry) */
@@ -25,7 +24,7 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
 
 export type WorkflowsChangelogEntryProps = {
   event: string
-  eventBy: SysLink
+  eventBy: Link<'User'> | Link<'AppDefinition'>
   eventAt: string
   workflow: VersionedLink<'Workflow'>
   workflowDefinition: Link<'WorkflowDefinition'>
@@ -51,12 +50,12 @@ function createWorkflowsChangelogEntryApi() {
  */
 export function wrapWorkflowsChangelogEntry(
   _makeRequest: MakeRequest,
-  data: WorkflowsChangelogEntryProps
+  data: WorkflowsChangelogEntryProps,
 ): WorkflowsChangelogEntry {
   const workflowsChangelogEntry = toPlainObject(copy(data))
   const workflowsChangelogEntryWithMethods = enhanceWithMethods(
     workflowsChangelogEntry,
-    createWorkflowsChangelogEntryApi()
+    createWorkflowsChangelogEntryApi(),
   )
   return freezeSys(workflowsChangelogEntryWithMethods)
 }

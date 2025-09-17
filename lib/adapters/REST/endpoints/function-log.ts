@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
+import * as raw from './raw.js'
 import type {
   CollectionProp,
   GetFunctionLogParams,
   GetManyFunctionLogParams,
-} from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import type { FunctionLogProps } from '../../../entities/function-log'
+} from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import type { FunctionLogProps } from '../../../entities/function-log.js'
 
 const FunctionLogAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'function-logs',
@@ -20,7 +20,7 @@ const getURL = (params: GetFunctionLogParams) =>
 
 export const get: RestEndpoint<'FunctionLog', 'get'> = (
   http: AxiosInstance,
-  params: GetFunctionLogParams
+  params: GetFunctionLogParams,
 ) => {
   return raw.get<FunctionLogProps>(http, getURL(params), {
     headers: {
@@ -31,7 +31,7 @@ export const get: RestEndpoint<'FunctionLog', 'get'> = (
 
 export const getMany: RestEndpoint<'FunctionLog', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyFunctionLogParams
+  params: GetManyFunctionLogParams,
 ) => {
   return raw.get<CollectionProp<FunctionLogProps>>(http, baseURL(params), {
     params: params.query,

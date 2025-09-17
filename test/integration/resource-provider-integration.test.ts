@@ -1,11 +1,11 @@
 import { describe, it, beforeEach, afterEach, expect, beforeAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/entities/organization'
-import type { AppDefinition } from '../../lib/entities/app-definition'
-import type { AppUpload } from '../../lib/entities/app-upload'
-import type { AppBundle } from '../../lib/entities/app-bundle'
-import type { PlainClientAPI } from '../../lib/export-types'
+import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization } from '../../lib/entities/organization.js'
+import type { AppDefinition } from '../../lib/entities/app-definition.js'
+import type { AppUpload } from '../../lib/entities/app-upload.js'
+import type { AppBundle } from '../../lib/entities/app-bundle.js'
+import type { PlainClientAPI } from '../../lib/export-types.js'
 
 describe('ResourceProvider API', () => {
   const functionManifest = {
@@ -122,7 +122,7 @@ describe('ResourceProvider API', () => {
     await resourceProvider.delete()
 
     await expect(appDefinition.getResourceProvider()).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 
@@ -176,7 +176,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       expect(resourceProvider.sys.id).toBe('test')
@@ -191,7 +191,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       const updateFunctionManifest = { ...functionManifest, id: 'testMock' }
@@ -201,7 +201,7 @@ describe('ResourceProvider API', () => {
           appUploadId: appUpload.sys.id,
           comment: 'Testing ResourceProviderCreation',
           functions: [updateFunctionManifest],
-        }
+        },
       )
 
       await plainClient.appDefinition.update(
@@ -212,7 +212,7 @@ describe('ResourceProvider API', () => {
           locations: [{ location: 'entry-sidebar' }],
           src: undefined,
           bundle: { sys: { id: newAppBundle.sys.id, type: 'Link', linkType: 'AppBundle' } },
-        }
+        },
       )
       const updatedResourceProvider = await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
@@ -220,7 +220,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: updateFunctionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       expect(updatedResourceProvider.sys.id).toBe('test')
@@ -235,7 +235,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       const resourceProvider = await plainClient.resourceProvider.get({
@@ -255,7 +255,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       await plainClient.resourceProvider.delete({
@@ -267,7 +267,7 @@ describe('ResourceProvider API', () => {
         plainClient.resourceProvider.get({
           organizationId: organization.sys.id,
           appDefinitionId: appDefinition.sys.id,
-        })
+        }),
       ).rejects.toThrow('The resource could not be found')
     })
   })

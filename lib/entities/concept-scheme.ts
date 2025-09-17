@@ -1,6 +1,6 @@
-import type { Link } from '../common-types'
-import type { TaxonomyConceptLink } from './concept'
-import type { LocalizedEntity } from './utils'
+import type { Link } from '../common-types.js'
+import type { TaxonomyConceptLink } from './concept.js'
+import type { LocalizedEntity } from './utils.js'
 
 export type ConceptScheme = {
   uri: string | null

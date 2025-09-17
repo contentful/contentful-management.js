@@ -7,28 +7,28 @@ import type {
   GetEditorInterfaceParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../../common-types'
-import type { EditorInterfaceProps } from '../../../entities/editor-interface'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { EditorInterfaceProps } from '../../../entities/editor-interface.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`
 
 export const get: RestEndpoint<'EditorInterface', 'get'> = (
   http: AxiosInstance,
-  params: GetEditorInterfaceParams
+  params: GetEditorInterfaceParams,
 ) => {
   return raw.get<EditorInterfaceProps>(http, getBaseUrl(params))
 }
 
 export const getMany: RestEndpoint<'EditorInterface', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<EditorInterfaceProps>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/editor_interfaces`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/editor_interfaces`,
   )
 }
 
@@ -36,7 +36,7 @@ export const update: RestEndpoint<'EditorInterface', 'update'> = (
   http: AxiosInstance,
   params: GetEditorInterfaceParams,
   rawData: EditorInterfaceProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

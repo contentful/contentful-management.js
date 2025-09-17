@@ -1,21 +1,15 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import type {
-  DefaultElements,
-  MetaLinkProps,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequest,
-} from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
 
 export type EnvironmentAliasProps = {
   /**
    * System meta data
    */
-  sys: BasicMetaSysProps & { space: SysLink }
-  environment: { sys: MetaLinkProps }
+  sys: BasicMetaSysProps & { space: Link<'Space'> }
+  environment: Link<'Environment'>
 }
 
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
@@ -112,7 +106,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequest) {
  */
 export function wrapEnvironmentAlias(
   makeRequest: MakeRequest,
-  data: EnvironmentAliasProps
+  data: EnvironmentAliasProps,
 ): EnvironmentAlias {
   const alias = toPlainObject(copy(data))
   const enhancedAlias = enhanceWithMethods(alias, createEnvironmentAliasApi(makeRequest))

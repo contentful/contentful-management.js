@@ -1,15 +1,15 @@
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   wrapOrganizationMembership,
   wrapOrganizationMembershipCollection,
-} from '../../../lib/entities/organization-membership'
+} from '../../../lib/entities/organization-membership.js'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
   entityUpdateTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 import { describe, test } from 'vitest'
 
 function setup(promise) {

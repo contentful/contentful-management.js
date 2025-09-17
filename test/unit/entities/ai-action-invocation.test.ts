@@ -1,7 +1,7 @@
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { wrapAiActionInvocation } from '../../../lib/entities/ai-action-invocation'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapAiActionInvocation } from '../../../lib/entities/ai-action-invocation.js'
+import { entityWrappedTest } from '../test-creators/instance-entity-methods.js'
 import { describe, test } from 'vitest'
 
 function setup(promise) {

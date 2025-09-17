@@ -18,7 +18,7 @@ import {
   extensionMock,
   functionCollectionMock,
   functionLogMock,
-} from './mocks/entities'
+} from './mocks/entities.js'
 import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
 import {
@@ -28,14 +28,13 @@ import {
   makeGetCollectionTest,
   makeGetEntityTest,
   testGettingEntrySDKObject,
-} from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
-import { wrapTagCollection } from '../../lib/entities/tag'
-import setupMakeRequest from './mocks/makeRequest'
-import createEnvironmentApi from '../../lib/create-environment-api'
-import { AppActionCallRawResponseProps } from '../../lib/entities/app-action-call'
-
+} from './test-creators/static-entity-methods.js'
+import { wrapEntry } from '../../lib/entities/entry.js'
+import { wrapAsset } from '../../lib/entities/asset.js'
+import { wrapTagCollection } from '../../lib/entities/tag.js'
+import setupMakeRequest from './mocks/makeRequest.js'
+import createEnvironmentApi from '../../lib/create-environment-api.js'
+import { AppActionCallRawResponseProps } from '../../lib/entities/app-action-call.js'
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()
   const makeRequest = setupMakeRequest(promise)
@@ -666,7 +665,7 @@ describe('A createEnvironmentApi', () => {
   test('API call getEnvironmentTemplateInstallations', async () => {
     const environmentTemplateId = 'mockEnvironmentTemplateId'
     const { api, makeRequest } = setup(
-      Promise.resolve({ items: [environmentTemplateInstallationMock] })
+      Promise.resolve({ items: [environmentTemplateInstallationMock] }),
     )
     const installations = (await api.getEnvironmentTemplateInstallations(environmentTemplateId))
       .items

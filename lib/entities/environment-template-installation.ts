@@ -7,8 +7,8 @@ import type {
   Link,
   MakeRequest,
   VersionedLink,
-} from '../common-types'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+} from '../common-types.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 type JsonObject = { [Key in string]?: JsonValue }
 type JsonArray = Array<JsonValue>
@@ -76,12 +76,12 @@ export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationPro
 
 export function wrapEnvironmentTemplateInstallation(
   makeRequest: MakeRequest,
-  data: EnvironmentTemplateInstallationProps
+  data: EnvironmentTemplateInstallationProps,
 ): EnvironmentTemplateInstallation {
   const environmentTemplate = toPlainObject(copy(data))
   return freezeSys(environmentTemplate)
 }
 
 export const wrapEnvironmentTemplateInstallationCollection = wrapCursorPaginatedCollection(
-  wrapEnvironmentTemplateInstallation
+  wrapEnvironmentTemplateInstallation,
 )

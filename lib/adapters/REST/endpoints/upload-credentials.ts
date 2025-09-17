@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { GetSpaceEnvironmentParams } from '../../../common-types'
-import { getUploadHttpClient } from '../../../upload-http-client'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+import type { GetSpaceEnvironmentParams } from '../../../common-types.js'
+import { getUploadHttpClient } from '../../../upload-http-client.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) => {
   return `/spaces/${params.spaceId}/environments/${
@@ -12,7 +12,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) => {
 
 export const create: RestEndpoint<'UploadCredential', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams
+  params: GetSpaceEnvironmentParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 

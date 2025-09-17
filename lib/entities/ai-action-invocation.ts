@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import type { DefaultElements, Link, MakeRequest } from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'
 
 export type InvocationStatus = 'SCHEDULED' | 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'CANCELLED'
@@ -40,9 +40,9 @@ export type AiActionInvocationProps = {
   sys: {
     id: string
     type: 'AiActionInvocation'
-    space: SysLink
-    environment: SysLink
-    aiAction: SysLink
+    space: Link<'Space'>
+    environment: Link<'Environment'>
+    aiAction: Link<'AiAction'>
     status: InvocationStatus
     errorCode?: string
   }
@@ -92,7 +92,7 @@ export interface AiActionInvocation
  */
 export function wrapAiActionInvocation(
   makeRequest: MakeRequest,
-  data: AiActionInvocationProps
+  data: AiActionInvocationProps,
 ): AiActionInvocation {
   const invocation = toPlainObject(copy(data))
   return freezeSys(invocation)

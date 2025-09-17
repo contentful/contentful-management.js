@@ -5,8 +5,14 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
+} from '../helpers.js'
+import type {
+  ContentType,
+  Entry,
+  Environment,
+  PlainClientAPI,
+  Space,
+} from '../../lib/export-types.js'
 
 describe('Comment Api', () => {
   let plainClient: PlainClientAPI
@@ -22,7 +28,7 @@ describe('Comment Api', () => {
     space = (await createTestSpace(defaultClient, 'Comment')) as Space
     environment = (await createTestEnvironment(
       space,
-      'Comment Testing Environment'
+      'Comment Testing Environment',
     )) as unknown as Environment
     contentType = await environment.createContentType({
       name: 'Content Type',
@@ -113,13 +119,13 @@ describe('Comment Api', () => {
 
       const replyComment = await plainClient.comment.create(
         { ...params, parentCommentId: parentComment.sys.id },
-        { body: commentBodyReply }
+        { body: commentBodyReply },
       )
 
       const response = await plainClient.comment.getMany(params)
       expect(response.items).toBeInstanceOf(Array)
       expect(response.items.find((item) => item.sys.id === replyComment.sys.id)?.body).toBe(
-        commentBodyReply
+        commentBodyReply,
       )
 
       await plainClient.comment.delete({
@@ -151,7 +157,7 @@ describe('Comment Api', () => {
       expect(response.items).toBeInstanceOf(Array)
       expect(response.items.map((item) => item.sys.id)).toContain(id)
       expect(
-        response.items.map((item) => (item.sys.parentEntity.sys as { ref: string }).ref)
+        response.items.map((item) => (item.sys.parentEntity.sys as { ref: string }).ref),
       ).toContain('fields.firstField')
 
       await plainClient.comment.delete({

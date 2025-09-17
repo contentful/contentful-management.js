@@ -3,16 +3,22 @@ import copy from 'fast-copy'
 import type {
   CollectionProp,
   DefaultElements,
-  EntryMetaSysProps,
+  EntityMetaSysProps,
   KeyValueMap,
+  Link,
   MakeRequest,
   MetadataProps,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import type { ContentfulEntryApi } from '../create-entry-api'
-import createEntryApi from '../create-entry-api'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { AssetProps } from './asset'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import type { ContentfulEntryApi } from '../create-entry-api.js'
+import createEntryApi from '../create-entry-api.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import type { AssetProps } from './asset.js'
+
+export interface EntryMetaSysProps extends EntityMetaSysProps {
+  contentType: Link<'ContentType'>
+  automationTags: Link<'Tag'>[]
+}
 
 export type EntryProps<T = KeyValueMap> = {
   sys: EntryMetaSysProps

@@ -17,111 +17,112 @@ import type {
   GetSpaceParams,
   KeyValueMap,
   QueryParams,
-} from '../common-types'
+} from '../common-types.js'
 import type {
   AccessTokenProps,
   CreatePersonalAccessTokenProps as CreatePATProps,
-} from '../entities/access-token'
-import type { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key'
+} from '../entities/access-token.js'
+import type { ApiKeyProps, CreateApiKeyProps } from '../entities/api-key.js'
 import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
-} from '../entities/asset'
-import type { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key'
+} from '../entities/asset.js'
+import type { AssetKeyProps, CreateAssetKeyProps } from '../entities/asset-key.js'
 import type {
   BulkActionPayload,
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../entities/bulk-action'
-import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
+} from '../entities/bulk-action.js'
+import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type.js'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry.js'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
-} from '../entities/environment-template'
+} from '../entities/environment-template.js'
 import type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
-} from '../entities/environment-template-installation'
+} from '../entities/environment-template-installation.js'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
-} from '../entities/organization-invitation'
-import type { OrganizationMembershipProps } from '../entities/organization-membership'
+} from '../entities/organization-invitation.js'
+import type { OrganizationMembershipProps } from '../entities/organization-membership.js'
 import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProps,
-} from '../entities/personal-access-token'
-import type { PreviewApiKeyProps } from '../entities/preview-api-key'
+} from '../entities/personal-access-token.js'
+import type { PreviewApiKeyProps } from '../entities/preview-api-key.js'
 import type {
   ReleasePayload,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-} from '../entities/release'
-import type { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action'
+} from '../entities/release.js'
+import type { ReleaseActionProps, ReleaseActionQueryOptions } from '../entities/release-action.js'
 import type {
   CreateUpdateScheduledActionProps,
   ScheduledActionProps,
-} from '../entities/scheduled-action'
-import type { SnapshotProps } from '../entities/snapshot'
-import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
-import type { AppActionPlainClientAPI } from './entities/app-action'
-import type { AppActionCallPlainClientAPI } from './entities/app-action-call'
-import type { AppBundlePlainClientAPI } from './entities/app-bundle'
-import type { AppDefinitionPlainClientAPI } from './entities/app-definition'
-import type { AppDetailsPlainClientAPI } from './entities/app-details'
-import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
-import type { AppInstallationPlainClientAPI } from './entities/app-installation'
-import type { AppKeyPlainClientAPI } from './entities/app-key'
-import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
-import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
-import type { AppUploadPlainClientAPI } from './entities/app-upload'
-import type { CommentPlainClientAPI } from './entities/comment'
-import type { ConceptPlainClientAPI } from './entities/concept'
-import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
-import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
-import type { EnvironmentPlainClientAPI } from './entities/environment'
-import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
-import type { ExtensionPlainClientAPI } from './entities/extension'
-import type { FunctionPlainClientAPI } from './entities/function'
-import type { LocalePlainClientAPI } from './entities/locale'
-import type { OrganizationPlainClientAPI } from './entities/organization'
-import type { ResourcePlainAPI } from './entities/resource'
-import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
-import type { ResourceTypePlainClientAPI } from './entities/resource-type'
-import type { RolePlainClientAPI } from './entities/role'
-import type { SpacePlainClientAPI } from './entities/space'
-import type { SpaceMemberPlainClientAPI } from './entities/space-member'
-import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
-import type { TagPlainClientAPI } from './entities/tag'
-import type { TaskPlainClientAPI } from './entities/task'
-import type { TeamPlainClientAPI } from './entities/team'
-import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
-import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
-import type { UIConfigPlainClientAPI } from './entities/ui-config'
-import type { UploadPlainClientAPI } from './entities/upload'
-import type { UploadCredentialAPI } from './entities/upload-credential'
-import type { UsagePlainClientAPI } from './entities/usage'
-import type { UserPlainClientAPI } from './entities/user'
-import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
-import type { WebhookPlainClientAPI } from './entities/webhook'
-import type { WorkflowPlainClientAPI } from './entities/workflow'
-import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
-import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
-import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
-import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
-import type { FunctionLogPlainClientAPI } from './entities/function-log'
-import type { AiActionPlainClientAPI } from './entities/ai-action'
-import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
+} from '../entities/scheduled-action.js'
+import type { SnapshotProps } from '../entities/snapshot.js'
+import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token.js'
+import type { AppActionPlainClientAPI } from './entities/app-action.js'
+import type { AppActionCallPlainClientAPI } from './entities/app-action-call.js'
+import type { AppBundlePlainClientAPI } from './entities/app-bundle.js'
+import type { AppDefinitionPlainClientAPI } from './entities/app-definition.js'
+import type { AppDetailsPlainClientAPI } from './entities/app-details.js'
+import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription.js'
+import type { AppInstallationPlainClientAPI } from './entities/app-installation.js'
+import type { AppKeyPlainClientAPI } from './entities/app-key.js'
+import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request.js'
+import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret.js'
+import type { AppUploadPlainClientAPI } from './entities/app-upload.js'
+import type { CommentPlainClientAPI } from './entities/comment.js'
+import type { ConceptPlainClientAPI } from './entities/concept.js'
+import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme.js'
+import type { EditorInterfacePlainClientAPI } from './entities/editor-interface.js'
+import type { EnvironmentPlainClientAPI } from './entities/environment.js'
+import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias.js'
+import type { ExtensionPlainClientAPI } from './entities/extension.js'
+import type { FunctionPlainClientAPI } from './entities/function.js'
+import type { LocalePlainClientAPI } from './entities/locale.js'
+import type { OrganizationPlainClientAPI } from './entities/organization.js'
+import type { ResourcePlainAPI } from './entities/resource.js'
+import type { ResourceProviderPlainClientAPI } from './entities/resource-provider.js'
+import type { ResourceTypePlainClientAPI } from './entities/resource-type.js'
+import type { RolePlainClientAPI } from './entities/role.js'
+import type { SpacePlainClientAPI } from './entities/space.js'
+import type { SpaceMemberPlainClientAPI } from './entities/space-member.js'
+import type { SpaceMembershipPlainClientAPI } from './entities/space-membership.js'
+import type { TagPlainClientAPI } from './entities/tag.js'
+import type { TaskPlainClientAPI } from './entities/task.js'
+import type { TeamPlainClientAPI } from './entities/team.js'
+import type { TeamMembershipPlainClientAPI } from './entities/team-membership.js'
+import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership.js'
+import type { UIConfigPlainClientAPI } from './entities/ui-config.js'
+import type { UploadPlainClientAPI } from './entities/upload.js'
+import type { UploadCredentialAPI } from './entities/upload-credential.js'
+import type { UsagePlainClientAPI } from './entities/usage.js'
+import type { UserPlainClientAPI } from './entities/user.js'
+import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config.js'
+import type { WebhookPlainClientAPI } from './entities/webhook.js'
+import type { WorkflowPlainClientAPI } from './entities/workflow.js'
+import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition.js'
+import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog.js'
+import type { DefaultParams, OptionalDefaults } from './wrappers/wrap.js'
+import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application.js'
+import type { FunctionLogPlainClientAPI } from './entities/function-log.js'
+import type { AiActionPlainClientAPI } from './entities/ai-action.js'
+import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation.js'
 
 export type PlainClientAPI = {
+  version: string
   raw: {
     getDefaultParams(): DefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
@@ -154,47 +155,47 @@ export type PlainClientAPI = {
         version?: number
         query?: { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     getMany(
       params: GetOrganizationParams & {
         query?: BasicCursorPaginationOptions & { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     create(
       params: GetOrganizationParams,
       rawData: CreateEnvironmentTemplateProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     versionUpdate(
       params: GetEnvironmentTemplateParams & { version: number },
       rawData: { versionName?: string; versionDescription?: string },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     update(
       params: GetEnvironmentTemplateParams,
       rawData: EnvironmentTemplateProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
     delete(params: GetEnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
     versions(
       params: GetEnvironmentTemplateParams & {
         query?: BasicCursorPaginationOptions & { select?: string }
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
     validate(
       params: EnvironmentTemplateParams & {
         version?: number
       },
       rawData: ValidateEnvironmentTemplateInstallationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateValidationProps>
     install(
       params: EnvironmentTemplateParams,
       rawData: CreateEnvironmentTemplateInstallationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateInstallationProps>
     disconnect(params: EnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
   }
@@ -206,29 +207,29 @@ export type PlainClientAPI = {
         organizationId: string
         spaceId?: string
       },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
     getForEnvironment(
       params: BasicCursorPaginationOptions &
         EnvironmentTemplateParams & {
           installationId?: string
         },
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
   bulkAction: {
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
     publish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionPublishPayload
+      payload: BulkActionPublishPayload,
     ): Promise<BulkActionProps<BulkActionPublishPayload>>
     unpublish(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionUnpublishPayload
+      payload: BulkActionUnpublishPayload,
     ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
     validate(
       params: GetSpaceEnvironmentParams,
-      payload: BulkActionValidatePayload
+      payload: BulkActionValidatePayload,
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
   }
   comment: CommentPlainClientAPI
@@ -237,31 +238,31 @@ export type PlainClientAPI = {
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ContentTypeProps>
     delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
     publish(
       params: OptionalDefaults<GetContentTypeParams>,
-      rawData: ContentTypeProps
+      rawData: ContentTypeProps,
     ): Promise<ContentTypeProps>
     unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateContentTypeProps
+      rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: CreateContentTypeProps
+      rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
-      fieldId: string
+      fieldId: string,
     ): Promise<ContentTypeProps>
   }
   user: UserPlainClientAPI
@@ -269,52 +270,52 @@ export type PlainClientAPI = {
     getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
       rawData: EntryProps<T>,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version?: number }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version: number }>,
       rawData: OpPatch[],
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
     publish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData: EntryProps<T>
+      rawData: EntryProps<T>,
     ): Promise<EntryProps<T>>
     unpublish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData?: EntryProps<T>
+      rawData?: EntryProps<T>,
     ): Promise<EntryProps<T>>
     archive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
     unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: CreateEntryProps<T>
+      rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
       >,
-      rawData: CreateEntryProps<T>
+      rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
     references(
       params: OptionalDefaults<
@@ -322,74 +323,74 @@ export type PlainClientAPI = {
           entryId: string
           include?: number
         }
-      >
+      >,
     ): Promise<EntryReferenceProps>
   }
   asset: {
     getPublished(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
       rawData?: unknown,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
       rawData: AssetProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
     publish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData: AssetProps
+      rawData: AssetProps,
     ): Promise<AssetProps>
     unpublish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData?: AssetProps
+      rawData?: AssetProps,
     ): Promise<AssetProps>
     archive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
     unarchive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateAssetProps
+      rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
-      rawData: CreateAssetProps
+      rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: Omit<AssetFileProp, 'sys'>
+      data: AssetFileProp,
     ): Promise<AssetProps>
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
-      processingOptions?: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
     processForLocale(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       asset: AssetProps,
       locale: string,
-      processingOptions?: AssetProcessingForLocale
+      processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
   }
   appUpload: AppUploadPlainClientAPI
   assetKey: {
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: CreateAssetKeyProps
+      data: CreateAssetKeyProps,
     ): Promise<AssetKeyProps>
   }
   upload: UploadPlainClientAPI
@@ -398,11 +399,11 @@ export type PlainClientAPI = {
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
     getMany(
-      params: OptionalDefaults<QueryParams>
+      params: OptionalDefaults<QueryParams>,
     ): Promise<CollectionProp<PersonalAccessTokenProps>>
     create(
       rawData: CreatePersonalAccessTokenProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<PersonalAccessTokenProps>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
@@ -411,11 +412,11 @@ export type PlainClientAPI = {
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProps>>
     createPersonalAccessToken(
       rawData: CreatePATProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<AccessTokenProps>
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
     getManyForOrganization(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<AccessTokenProps>>
   }
   usage: UsagePlainClientAPI
@@ -423,40 +424,40 @@ export type PlainClientAPI = {
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions }
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions },
     ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: ReleasePayload
+      data: ReleasePayload,
     ): Promise<ReleaseProps>
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
-      data: ReleasePayload
+      data: ReleasePayload,
     ): Promise<ReleaseProps>
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
     publish(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'publish'>>
     unarchive(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseProps>
     unpublish(
-      params: OptionalDefaults<GetReleaseParams & { version: number }>
+      params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'unpublish'>>
     validate(
       params: OptionalDefaults<GetReleaseParams>,
-      data?: ReleaseValidatePayload
+      data?: ReleaseValidatePayload,
     ): Promise<ReleaseActionProps<'validate'>>
   }
   releaseAction: {
     get(
-      params: OptionalDefaults<GetReleaseParams> & { actionId: string }
+      params: OptionalDefaults<GetReleaseParams> & { actionId: string },
     ): Promise<ReleaseActionProps>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
     queryForRelease(
-      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions }
+      params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
   resource: ResourcePlainAPI
@@ -468,50 +469,50 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceParams> & {
         scheduledActionId: string
         environmentId: string
-      }
+      },
     ): Promise<ScheduledActionProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
-      data: CreateUpdateScheduledActionProps
+      data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
     delete(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>,
     ): Promise<ScheduledActionProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string; version: number }>,
-      data: CreateUpdateScheduledActionProps
+      data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
   }
   previewApiKey: {
     get(
-      params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>
+      params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>,
     ): Promise<PreviewApiKeyProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<PreviewApiKeyProps>>
   }
   apiKey: {
     get(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<ApiKeyProps>
     getMany(
-      params: OptionalDefaults<GetSpaceParams & QueryParams>
+      params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<ApiKeyProps>>
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     createWithId(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       data: CreateApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     update(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       rawData: ApiKeyProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
@@ -521,16 +522,16 @@ export type PlainClientAPI = {
   webhook: WebhookPlainClientAPI
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>
+      params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>
     getForEntry<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>
+      params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>
     getManyForContentType(
-      params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>
     getForContentType(
-      params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>
+      params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
   tag: TagPlainClientAPI
@@ -538,25 +539,25 @@ export type PlainClientAPI = {
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
     create(
       params: OptionalDefaults<{ organizationId: string }>,
       data: CreateOrganizationInvitationProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
   }
   organizationMembership: {
     get(
-      params: OptionalDefaults<GetOrganizationMembershipParams>
+      params: OptionalDefaults<GetOrganizationMembershipParams>,
     ): Promise<OrganizationMembershipProps>
     getMany(
-      params: OptionalDefaults<GetOrganizationParams & QueryParams>
+      params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<OrganizationMembershipProps>>
     update(
       params: OptionalDefaults<GetOrganizationMembershipParams>,
       rawData: OrganizationMembershipProps,
-      headers?: RawAxiosRequestHeaders
+      headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }

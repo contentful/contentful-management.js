@@ -6,13 +6,13 @@ import type {
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
   SpaceQueryParams,
-} from '../../common-types'
-import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
+} from '../../common-types.js'
+import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition.js'
 import type {
   AppInstallationProps,
   CreateAppInstallationProps,
-} from '../../entities/app-installation'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-installation.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppInstallationPlainClientAPI = {
   /**
@@ -44,7 +44,7 @@ export type AppInstallationPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>,
   ): Promise<CollectionProp<AppInstallationProps>>
   /**
    * Fetches all App Installations for the given Organization
@@ -60,7 +60,7 @@ export type AppInstallationPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetAppDefinitionParams & SpaceQueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams & SpaceQueryParams>,
   ): Promise<AppInstallationsForOrganizationProps>
   /**
    * Creates or updates an App Installation
@@ -87,7 +87,7 @@ export type AppInstallationPlainClientAPI = {
   upsert(
     params: OptionalDefaults<GetAppInstallationParams>,
     rawData: CreateAppInstallationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<AppInstallationProps>
   /**
    * Uninstalls the App

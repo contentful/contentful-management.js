@@ -1,5 +1,5 @@
 import { describe, expectTypeOf, it } from 'vitest'
-import type { OptionalDefaults } from './wrap'
+import type { OptionalDefaults } from './wrap.js'
 
 describe('OptionalDefaults', () => {
   it('does not add props', () => {

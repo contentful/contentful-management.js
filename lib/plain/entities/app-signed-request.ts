@@ -1,9 +1,9 @@
-import type { GetAppInstallationParams } from '../../common-types'
+import type { GetAppInstallationParams } from '../../common-types.js'
 import type {
   AppSignedRequestProps,
   CreateAppSignedRequestProps,
-} from '../../entities/app-signed-request'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-signed-request.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppSignedRequestPlainClientAPI = {
   /**
@@ -36,6 +36,6 @@ export type AppSignedRequestPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppInstallationParams>,
-    payload: CreateAppSignedRequestProps
+    payload: CreateAppSignedRequestProps,
   ): Promise<AppSignedRequestProps>
 }

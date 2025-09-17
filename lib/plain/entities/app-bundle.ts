@@ -3,9 +3,9 @@ import type {
   GetAppBundleParams,
   GetAppDefinitionParams,
   QueryParams,
-} from '../../common-types'
-import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppBundlePlainClientAPI = {
   /**
@@ -36,7 +36,7 @@ export type AppBundlePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>,
   ): Promise<CollectionProp<AppBundleProps>>
   /**
    * Deletes the App Bundle
@@ -73,6 +73,6 @@ export type AppBundlePlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppBundleProps
+    payload: CreateAppBundleProps,
   ): Promise<AppBundleProps>
 }

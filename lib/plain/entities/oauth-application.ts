@@ -4,13 +4,13 @@ import type {
   QueryParams,
   CursorPaginatedCollectionProp,
   GetUserParams,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplicationProps,
   UpdateOAuthApplicationProps,
-} from '../../entities/oauth-application'
+} from '../../entities/oauth-application.js'
 
 export type OAuthApplicationPlainClientAPI = {
   /**
@@ -29,7 +29,7 @@ export type OAuthApplicationPlainClientAPI = {
    * ```
    */
   getManyForUser(
-    params: OptionalDefaults<GetUserParams & QueryParams>
+    params: OptionalDefaults<GetUserParams & QueryParams>,
   ): Promise<CursorPaginatedCollectionProp<OAuthApplicationProps>>
 
   /**
@@ -70,7 +70,7 @@ export type OAuthApplicationPlainClientAPI = {
   create(
     params: OptionalDefaults<GetUserParams>,
     rawData: CreateOAuthApplicationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<OAuthApplicationProps>
 
   /**
@@ -95,7 +95,7 @@ export type OAuthApplicationPlainClientAPI = {
   update(
     params: OptionalDefaults<GetOAuthApplicationParams>,
     rawData: UpdateOAuthApplicationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<OAuthApplicationProps>
 
   /**

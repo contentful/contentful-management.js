@@ -1,10 +1,10 @@
 import type {
   BasicCursorPaginationOptions,
   CursorPaginatedCollectionProp,
+  Link,
   MakeRequest,
-  SysLink,
-} from '../common-types'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+} from '../common-types.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 
 export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions
@@ -23,9 +23,9 @@ export type ResourceProps = {
   sys: {
     type: 'Resource'
     urn: string
-    resourceType: SysLink
-    resourceProvider: SysLink
-    appDefinition: SysLink
+    resourceType: Link<'ResourceType'>
+    resourceProvider: Link<'ResourceProvider'>
+    appDefinition: Link<'AppDefinition'>
   }
   fields: {
     title: string
@@ -48,5 +48,5 @@ export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
 }
 export const wrapResourceCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ResourceProps>
+  data: CursorPaginatedCollectionProp<ResourceProps>,
 ) => CursorPaginatedCollectionProp<ResourceProps> = wrapCursorPaginatedCollection(wrapResource)

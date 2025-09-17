@@ -1,9 +1,9 @@
-import type { GetAppDefinitionParams } from '../../common-types'
+import type { GetAppDefinitionParams } from '../../common-types.js'
 import type {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
-} from '../../entities/app-event-subscription'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-event-subscription.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppEventSubscriptionPlainClientAPI = {
   /**
@@ -50,7 +50,7 @@ export type AppEventSubscriptionPlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppEventSubscriptionProps
+    payload: CreateAppEventSubscriptionProps,
   ): Promise<AppEventSubscriptionProps>
   /**
    * Fetches the current App Event Subscription for the given App

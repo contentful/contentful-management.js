@@ -1,8 +1,8 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
 
 export type ActionType =
   | 'read'
@@ -20,7 +20,7 @@ export type ConstraintType = {
 }
 
 export type RoleProps = {
-  sys: BasicMetaSysProps & { space: SysLink }
+  sys: BasicMetaSysProps & { space: Link<'Space'> }
   name: string
   description?: string
   /**

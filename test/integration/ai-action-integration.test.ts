@@ -4,7 +4,7 @@ import {
   createTestSpace,
   generateRandomId,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 
 describe('AiAction api', { sequential: true }, () => {
   let space
@@ -174,7 +174,7 @@ describe('AiAction api', { sequential: true }, () => {
                   value: 'Hello world',
                 },
               ],
-            })
+            }),
           )
           .then((invocation) => {
             expect(invocation.sys.type).equals('AiActionInvocation')

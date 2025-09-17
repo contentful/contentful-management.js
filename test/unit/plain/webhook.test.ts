@@ -1,13 +1,13 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
-import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
+import { createClient } from '../../../lib/index.js'
+import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
 
 describe('Webhook', () => {
   const spaceId = 'space-id'
 
   test('getSigningSecret', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { redactedValue: 'abcd' } })
+      Promise.resolve({ data: { redactedValue: 'abcd' } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.webhook.getSigningSecret({ spaceId })
@@ -22,7 +22,7 @@ describe('Webhook', () => {
 
   test('upsertSigningSecret', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { redactedValue: 'abcd' } })
+      Promise.resolve({ data: { redactedValue: 'abcd' } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
@@ -37,7 +37,7 @@ describe('Webhook', () => {
       payload,
       {
         baseURL: 'https://api.contentful.com',
-      }
+      },
     )
   })
 
@@ -50,13 +50,13 @@ describe('Webhook', () => {
       `/spaces/space-id/webhook_settings/signing_secret`,
       {
         baseURL: 'https://api.contentful.com',
-      }
+      },
     )
   })
 
   test('getRetryPolicy', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { maxRetries: 15 } })
+      Promise.resolve({ data: { maxRetries: 15 } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
     const response = await plainClient.webhook.getRetryPolicy({ spaceId })
@@ -71,7 +71,7 @@ describe('Webhook', () => {
 
   test('upsertRetryPolicy', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
-      Promise.resolve({ data: { maxRetries: 15 } })
+      Promise.resolve({ data: { maxRetries: 15 } }),
     )
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
@@ -86,7 +86,7 @@ describe('Webhook', () => {
       payload,
       {
         baseURL: 'https://api.contentful.com',
-      }
+      },
     )
   })
 

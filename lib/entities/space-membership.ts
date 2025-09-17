@@ -1,14 +1,14 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import type { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
+import type { MetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types.js'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps & { space: SysLink; user: SysLink }
-  user: SysLink
+  sys: MetaSysProps & { space: Link<'Space'>; user: Link<'User'> }
+  user: Link<'User'>
   admin: boolean
-  roles: SysLink[]
+  roles: Link<'Role'>[]
 }
 
 export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'user'> & {
@@ -96,12 +96,12 @@ function createSpaceMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapSpaceMembership(
   makeRequest: MakeRequest,
-  data: SpaceMembershipProps
+  data: SpaceMembershipProps,
 ): SpaceMembership {
   const spaceMembership = toPlainObject(copy(data))
   const spaceMembershipWithMethods = enhanceWithMethods(
     spaceMembership,
-    createSpaceMembershipApi(makeRequest)
+    createSpaceMembershipApi(makeRequest),
   )
   return freezeSys(spaceMembershipWithMethods)
 }

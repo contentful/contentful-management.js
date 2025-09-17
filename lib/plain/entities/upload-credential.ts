@@ -1,5 +1,5 @@
-import type { GetSpaceEnvironmentParams, MetaSysProps } from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { GetSpaceEnvironmentParams, MetaSysProps } from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type UploadCredential = {
   /**

@@ -4,9 +4,9 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../common-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
-import type { CreateRoleProps, RoleProps } from '../../entities/role'
+} from '../../common-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { CreateRoleProps, RoleProps } from '../../entities/role.js'
 
 export type RolePlainClientAPI = {
   /** Fetches a Role
@@ -39,7 +39,7 @@ export type RolePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<RoleProps>>
   /** Fetches all Roles for the given Organization
    *
@@ -57,7 +57,7 @@ export type RolePlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<RoleProps>>
   /** Creates a Role
    *
@@ -114,7 +114,7 @@ export type RolePlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams>,
     data: CreateRoleProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<RoleProps>
   /** Creates a Role with a given ID
    *
@@ -172,7 +172,7 @@ export type RolePlainClientAPI = {
   createWithId(
     params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
     data: CreateRoleProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<RoleProps>
   /** Updates a Role
    *
@@ -202,7 +202,7 @@ export type RolePlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceParams & { roleId: string }>,
     rawData: RoleProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<RoleProps>
   /** Deletes a Role
    *

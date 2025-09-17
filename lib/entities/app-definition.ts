@@ -1,21 +1,15 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type {
-  DefaultElements,
-  BasicMetaSysProps,
-  SysLink,
-  MakeRequest,
-  Link,
-} from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
-import type { ContentfulAppDefinitionAPI } from '../create-app-definition-api'
-import createAppDefinitionApi from '../create-app-definition-api'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
+import type { ContentfulAppDefinitionAPI } from '../create-app-definition-api.js'
+import createAppDefinitionApi from '../create-app-definition-api.js'
 import type { SetOptional, Except } from 'type-fest'
-import type { FieldType } from './field-type'
-import type { InstallationParameterType, ParameterDefinition } from './widget-parameters'
-import type { AppInstallationProps } from './app-installation'
-import type { EnvironmentProps } from './environment'
+import type { FieldType } from './field-type.js'
+import type { InstallationParameterType, ParameterDefinition } from './widget-parameters.js'
+import type { AppInstallationProps } from './app-installation.js'
+import type { EnvironmentProps } from './environment.js'
 
 export interface NavigationItem {
   name: string
@@ -45,7 +39,7 @@ export type AppDefinitionProps = {
    * System metadata
    */
   sys: BasicMetaSysProps & {
-    organization: SysLink
+    organization: Link<'Organization'>
     shared: boolean
   }
   /**
@@ -100,12 +94,12 @@ export type AppInstallationsForOrganizationProps = {
  */
 export function wrapAppDefinition(
   makeRequest: MakeRequest,
-  data: AppDefinitionProps
+  data: AppDefinitionProps,
 ): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
   const appDefinitionWithMethods = enhanceWithMethods(
     appDefinition,
-    createAppDefinitionApi(makeRequest)
+    createAppDefinitionApi(makeRequest),
   )
   return freezeSys(appDefinitionWithMethods)
 }

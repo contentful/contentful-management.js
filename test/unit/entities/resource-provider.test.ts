@@ -1,15 +1,15 @@
-import type { ResourceProviderProps } from '../../../lib/entities/resource-provider'
-import { cloneMock, resourceTypeMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { wrapResourceProvider } from '../../../lib/entities/resource-provider'
+import type { ResourceProviderProps } from '../../../lib/entities/resource-provider.js'
+import { cloneMock, resourceTypeMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapResourceProvider } from '../../../lib/entities/resource-provider.js'
 import {
   entityActionTest,
   entityWrappedTest,
   entityDeleteTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 import { describe, it, expect } from 'vitest'
-import type { ResourceTypeProps } from '../../../lib/entities/resource-type'
-import type { CollectionProp } from '../../../lib/common-types'
+import type { ResourceTypeProps } from '../../../lib/entities/resource-type.js'
+import type { CollectionProp } from '../../../lib/common-types.js'
 
 function setup(promise: Promise<ResourceProviderProps>) {
   return {
@@ -19,7 +19,7 @@ function setup(promise: Promise<ResourceProviderProps>) {
 }
 
 function setupResourceType(
-  promise: Promise<ResourceTypeProps | CollectionProp<ResourceTypeProps>>
+  promise: Promise<ResourceTypeProps | CollectionProp<ResourceTypeProps>>,
 ) {
   return {
     makeRequest: setupMakeRequest(promise),
@@ -51,7 +51,7 @@ describe('Entity ResourceProvider', () => {
 
     const response = await entity['upsertResourceType'](
       'resourceProvider:resourceTypeId',
-      resourceTypeMock
+      resourceTypeMock,
     )
     expect(response).toEqual(resourceTypeMock)
     expect(response.toPlainObject).toBeTruthy()
@@ -74,7 +74,7 @@ describe('Entity ResourceProvider', () => {
         skip: 0,
         limit: 100,
         sys: { type: 'Array' },
-      })
+      }),
     )
     const entity = wrapResourceProvider(makeRequest, entityMock)
     const response = await entity['getResourceTypes']()

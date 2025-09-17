@@ -1,6 +1,6 @@
 import { expect, describe, test } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 function setup(promise, params = {}, type = 'concept') {
   return {
@@ -28,7 +28,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -100,7 +100,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/total'
+          '/organizations/organization-id/taxonomy/concepts/total',
         )
       })
   })
@@ -122,7 +122,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts'
+          '/organizations/organization-id/taxonomy/concepts',
         )
       })
   })
@@ -145,7 +145,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -166,32 +166,11 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
   test('update', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-
-    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Concept',
-        action: 'update',
-        userAgent: 'mocked',
-        params: {
-          organizationId: 'organization-id',
-          conceptId: 'concept-id',
-        },
-      })
-      .then(() => {
-        expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
-        )
-      })
-  })
-  test('updatePut', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
     httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
@@ -199,7 +178,7 @@ describe('Concept', () => {
     return adapterMock
       .makeRequest({
         entityType: 'Concept',
-        action: 'updatePut',
+        action: 'update',
         params: {
           organizationId: 'organization-id',
           conceptId: 'concept-id',
@@ -209,7 +188,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -230,7 +209,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -251,7 +230,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants',
         )
       })
   })
@@ -273,7 +252,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors',
         )
       })
   })

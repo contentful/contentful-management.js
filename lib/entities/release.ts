@@ -10,13 +10,13 @@ import type {
   Link,
   MakeRequest,
   MakeRequestPayload,
-} from '../common-types'
-import { ScheduledActionReferenceFilters } from '../common-types'
-import { wrapCursorPaginatedCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { AsyncActionProcessingOptions } from '../methods/action'
-import type { ReleaseAction } from './release-action'
-import { wrapReleaseAction } from './release-action'
+} from '../common-types.js'
+import { ScheduledActionReferenceFilters } from '../common-types.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import type { AsyncActionProcessingOptions } from '../methods/action.js'
+import type { ReleaseAction } from './release-action.js'
+import { wrapReleaseAction } from './release-action.js'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'
@@ -251,7 +251,7 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   const release = toPlainObject(copy(data))
   const releaseWithApiMethods = enhanceWithMethods(
     release as any,
-    createReleaseApi(makeRequest) as any
+    createReleaseApi(makeRequest) as any,
   )
   return freezeSys(releaseWithApiMethods)
 }
@@ -261,5 +261,5 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
  */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ReleaseProps>
+  data: CursorPaginatedCollectionProp<ReleaseProps>,
 ) => CursorPaginatedCollection<Release, ReleaseProps> = wrapCursorPaginatedCollection(wrapRelease)

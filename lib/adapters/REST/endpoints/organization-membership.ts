@@ -7,10 +7,10 @@ import type {
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   QueryParams,
-} from '../../../common-types'
-import type { OrganizationMembershipProps } from '../../../entities/organization-membership'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { OrganizationMembershipProps } from '../../../entities/organization-membership.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/organization_memberships`
@@ -20,14 +20,14 @@ const getEntityUrl = (params: GetOrganizationMembershipParams) =>
 
 export const get: RestEndpoint<'OrganizationMembership', 'get'> = (
   http: AxiosInstance,
-  params: GetOrganizationMembershipParams
+  params: GetOrganizationMembershipParams,
 ) => {
   return raw.get<OrganizationMembershipProps>(http, getEntityUrl(params))
 }
 
 export const getMany: RestEndpoint<'OrganizationMembership', 'getMany'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<OrganizationMembershipProps>>(http, getBaseUrl(params), {
     params: params.query,
@@ -38,7 +38,7 @@ export const update: RestEndpoint<'OrganizationMembership', 'update'> = (
   http: AxiosInstance,
   params: GetOrganizationMembershipParams,
   rawData: OrganizationMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -53,13 +53,13 @@ export const update: RestEndpoint<'OrganizationMembership', 'update'> = (
         ...headers,
         'X-Contentful-Version': rawData.sys.version ?? 0,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'OrganizationMembership', 'delete'> = (
   http: AxiosInstance,
-  params: GetOrganizationMembershipParams
+  params: GetOrganizationMembershipParams,
 ) => {
   return raw.del(http, getEntityUrl(params))
 }

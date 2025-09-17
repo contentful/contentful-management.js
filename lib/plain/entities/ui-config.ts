@@ -1,6 +1,6 @@
-import type { GetUIConfigParams } from '../../common-types'
-import type { UIConfigProps } from '../../entities/ui-config'
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { GetUIConfigParams } from '../../common-types.js'
+import type { UIConfigProps } from '../../entities/ui-config.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type UIConfigPlainClientAPI = {
   /**
@@ -43,6 +43,6 @@ export type UIConfigPlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetUIConfigParams>,
-    rawData: UIConfigProps
+    rawData: UIConfigProps,
   ): Promise<UIConfigProps>
 }

@@ -4,9 +4,9 @@ import type {
   GetAppActionsForEnvParams,
   GetAppDefinitionParams,
   QueryParams,
-} from '../../common-types'
-import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppActionPlainClientAPI = {
   /**
@@ -38,7 +38,7 @@ export type AppActionPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>,
   ): Promise<CollectionProp<AppActionProps>>
   /**
    * Fetches all App Actions for the given environment
@@ -54,7 +54,7 @@ export type AppActionPlainClientAPI = {
    * ```
    */
   getManyForEnvironment(
-    params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>
+    params: OptionalDefaults<GetAppActionsForEnvParams & QueryParams>,
   ): Promise<CollectionProp<AppActionProps>>
   /**
    * Deletes the App Action
@@ -119,7 +119,7 @@ export type AppActionPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppActionProps
+    payload: CreateAppActionProps,
   ): Promise<AppActionProps>
   /**
    * Updates an App Action
@@ -169,6 +169,6 @@ export type AppActionPlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetAppActionParams>,
-    payload: CreateAppActionProps
+    payload: CreateAppActionProps,
   ): Promise<AppActionProps>
 }

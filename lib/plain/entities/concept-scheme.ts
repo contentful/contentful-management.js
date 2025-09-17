@@ -5,8 +5,8 @@ import type {
   GetManyConceptSchemeParams,
   GetOrganizationParams,
   UpdateConceptSchemeParams,
-} from '../../common-types'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
+} from '../../common-types.js'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme.js'
 import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 
@@ -25,7 +25,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   create(
     params: SetOptional<GetOrganizationParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -43,27 +43,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   createWithId(
     params: SetOptional<GetConceptSchemeParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
-  ): Promise<ConceptSchemeProps>
-
-  /**
-   * Update Concept Scheme
-   * @returns the updated Concept Scheme
-   * @throws if the request fails
-   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
-   * @deprecated The behavior of this method as a PATCH is being deprecated, and will be replaced with a PUT in the next major version. Use the `patch` method instead.
-   * @example
-   * ```javascript
-   * const updatedConcept = await client.conceptScheme.update({
-   *   organizationId: '<organization_id>',
-   *   conceptSchemeId: '<concept_scheme_id>',
-   *   version: 1,
-   * }, conceptSchemePatch);
-   * ```
-   */
-  update(
-    params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -71,23 +51,22 @@ export type ConceptSchemePlainClientAPI = {
    * @returns the updated Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
-   * @deprecated In the next major version, this method will be replaced with the standard `update` method which will be updated to use PUT instead of PATCH.
    * @example
    * ```javascript
    * const updatedConcept = await client.conceptScheme.update({
    *   organizationId: '<organization_id>',
    *   conceptSchemeId: '<concept_scheme_id>',
    *   version: 1,
-   * }, CreateConceptSchemeProps);
+   * }, conceptSchemeProps);
    * ```
    */
-  updatePut(
+  update(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
-   * Update Concept Scheme
+   * Update Concept Scheme with PATCH
    * @returns the updated Concept Scheme
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
@@ -102,7 +81,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   patch(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -133,7 +112,7 @@ export type ConceptSchemePlainClientAPI = {
    * ```
    */
   getMany(
-    params: SetOptional<GetManyConceptSchemeParams, 'organizationId'>
+    params: SetOptional<GetManyConceptSchemeParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptSchemeProps>>
 
   /**

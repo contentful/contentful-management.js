@@ -1,5 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { GetTaskParams, GetEntryParams, QueryParams, CollectionProp } from '../../common-types'
+import type {
+  GetTaskParams,
+  GetEntryParams,
+  QueryParams,
+  CollectionProp,
+} from '../../common-types.js'
 import type {
   CreateTaskParams,
   UpdateTaskParams,
@@ -7,8 +12,8 @@ import type {
   TaskProps,
   CreateTaskProps,
   UpdateTaskProps,
-} from '../../entities/task'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/task.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type TaskPlainClientAPI = {
   /** Fetches a task
@@ -45,7 +50,7 @@ export type TaskPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetEntryParams & QueryParams>
+    params: OptionalDefaults<GetEntryParams & QueryParams>,
   ): Promise<CollectionProp<TaskProps>>
   /** Creates a task
    *
@@ -78,7 +83,7 @@ export type TaskPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateTaskParams>,
     rawData: CreateTaskProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TaskProps>
   /** Updates a task
    *
@@ -112,7 +117,7 @@ export type TaskPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateTaskParams>,
     rawData: UpdateTaskProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TaskProps>
   /** Deletes a task
    *

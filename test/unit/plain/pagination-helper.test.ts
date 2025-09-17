@@ -4,10 +4,13 @@ import type {
   CursorBasedParams,
   FetchFn,
   OffsetBasedParams,
-} from '../../../lib/plain/pagination-helper'
-import { fetchAll } from '../../../lib/plain/pagination-helper'
-import type { BasicCursorPaginationOptions } from '../../../lib/common-types'
-import { type CollectionProp, type CursorPaginatedCollectionProp } from '../../../lib/common-types'
+} from '../../../lib/plain/pagination-helper.js'
+import { fetchAll } from '../../../lib/plain/pagination-helper.js'
+import type { BasicCursorPaginationOptions } from '../../../lib/common-types.js'
+import {
+  type CollectionProp,
+  type CursorPaginatedCollectionProp,
+} from '../../../lib/common-types.js'
 
 const defaultLimit = 2
 
@@ -74,7 +77,7 @@ describe('pagination helpers', () => {
   describe('cursor based pagination', () => {
     function createCursorBasedEndpoint<
       P extends CursorBasedParams = CursorBasedParams,
-      T = unknown
+      T = unknown,
     >(items: T[]): FetchFn<P, T> {
       return async (params): Promise<CursorPaginatedCollectionProp<T>> => {
         const {

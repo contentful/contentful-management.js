@@ -1,18 +1,18 @@
 import { describe, it, beforeAll, beforeEach, afterEach, afterAll, expect } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/entities/organization'
-import type { AppDefinition } from '../../lib/entities/app-definition'
-import type { AppUpload } from '../../lib/entities/app-upload'
-import type { AppBundle } from '../../lib/entities/app-bundle'
+import { getTestOrganization, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization } from '../../lib/entities/organization.js'
+import type { AppDefinition } from '../../lib/entities/app-definition.js'
+import type { AppUpload } from '../../lib/entities/app-upload.js'
+import type { AppBundle } from '../../lib/entities/app-bundle.js'
 import type {
   AppInstallationProps,
   PlainClientAPI,
   ResourceProvider,
   ResourceType,
   ResourceTypeProps,
-} from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
+} from '../../lib/export-types.js'
+import { TestDefaults } from '../defaults.js'
 
 describe('ResourceType API', () => {
   const functionManifest = {
@@ -178,13 +178,13 @@ describe('ResourceType API', () => {
         defaultFieldMapping: {
           title: 'title',
         },
-      }
+      },
     )
 
     await resourceType.delete()
 
     await expect(
-      resourceProvider.getResourceType('resourceProvider:resourceTypeId')
+      resourceProvider.getResourceType('resourceProvider:resourceTypeId'),
     ).rejects.toThrow('The resource could not be found')
   })
 
@@ -201,7 +201,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       expect(resourceTypePlain?.sys.id).toBe('resourceProvider:resourceTypeId')
@@ -221,8 +221,8 @@ describe('ResourceType API', () => {
             defaultFieldMapping: {
               title: 'title',
             },
-          }
-        )
+          },
+        ),
       ).rejects.toThrow('The resource could not be found')
     })
 
@@ -238,7 +238,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const updatedResourceType = await plainClient.resourceType.upsert(
@@ -252,7 +252,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       expect(updatedResourceType.sys.id).toBe('resourceProvider:resourceTypeId')
@@ -271,7 +271,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       resourceTypePlain = await plainClient.resourceType.get({
@@ -296,7 +296,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const response = await plainClient.resourceType.getMany({
@@ -322,14 +322,14 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const { spaceId, environmentId } = TestDefaults
       appInstallationPlain = await plainClient.appInstallation.upsert(
         { spaceId, environmentId, appDefinitionId: appDefinition.sys.id },
         { parameters: { tmdbAccessToken: 'testing' } },
-        { acceptAllTerms: true }
+        { acceptAllTerms: true },
       )
 
       const resourceTypesPlain = await plainClient.resourceType.getForEnvironment({
@@ -364,7 +364,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       await plainClient.resourceType.delete({
@@ -378,7 +378,7 @@ describe('ResourceType API', () => {
           organizationId: organization.sys.id,
           appDefinitionId: appDefinition.sys.id,
           resourceTypeId: 'resourceProvider:resourceTypeId',
-        })
+        }),
       ).rejects.toThrow('The resource could not be found')
     })
   })

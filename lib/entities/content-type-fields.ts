@@ -1,4 +1,4 @@
-import type { KeyValueMap } from '../common-types'
+import type { KeyValueMap } from '../common-types.js'
 import type { INLINES, BLOCKS } from '@contentful/rich-text-types'
 
 interface NumRange {

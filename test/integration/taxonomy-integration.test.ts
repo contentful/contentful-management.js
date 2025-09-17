@@ -1,7 +1,7 @@
 import { describe, it, beforeEach, afterEach, expect, afterAll } from 'vitest'
-import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
-import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
+import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept.js'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types.js'
+import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
 
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []
@@ -60,7 +60,7 @@ describe('Taxonomy Integration', () => {
     await expect(
       client.concept.get({
         conceptId: result.sys.id,
-      })
+      }),
     ).rejects.toThrow('The resource could not be found')
   })
 
@@ -126,36 +126,6 @@ describe('Taxonomy Integration', () => {
     expect(result.scopeNote['en-US']).toEqual('Scope Note')
   })
 
-  it('creates and updates a concept', async () => {
-    const concept: CreateConceptProps = {
-      prefLabel: {
-        'en-US': 'Test Concept',
-      },
-    }
-    const result = await client.concept.create({}, concept)
-    isConceptProps(result)
-    expect(result.prefLabel['en-US']).toBe('Test Concept')
-    expect(result.uri).toBeNull()
-    conceptsToDelete.push(result)
-
-    const updatedConcept = await client.concept.update(
-      {
-        version: result.sys.version,
-        conceptId: result.sys.id,
-      },
-      [
-        {
-          path: '/uri',
-          op: 'replace',
-          value: 'https://example.com/concept',
-        },
-      ]
-    )
-
-    isConceptProps(updatedConcept)
-    expect(updatedConcept.uri).toBe('https://example.com/concept')
-  })
-
   it('create and update a concept - patch', async () => {
     const concept: CreateConceptProps = {
       prefLabel: {
@@ -179,7 +149,7 @@ describe('Taxonomy Integration', () => {
           op: 'replace',
           value: 'https://example.com/concept',
         },
-      ]
+      ],
     )
 
     isConceptProps(updatedConcept)
@@ -198,7 +168,7 @@ describe('Taxonomy Integration', () => {
     expect(result.uri).to.null
     conceptsToDelete.push(result)
 
-    const updatedConcept = await client.concept.updatePut(
+    const updatedConcept = await client.concept.update(
       {
         version: result.sys.version,
         conceptId: result.sys.id,
@@ -206,7 +176,7 @@ describe('Taxonomy Integration', () => {
       {
         ...concept,
         uri: 'https://example.com/concept',
-      }
+      },
     )
 
     isConceptProps(updatedConcept)
@@ -226,7 +196,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.concept.create({}, concept)
           conceptsToDelete.push(result)
-        })
+        }),
     )
 
     const { total } = await client.concept.getTotal({})
@@ -247,7 +217,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.concept.create({}, concept)
           conceptsToDelete.push(result)
-        })
+        }),
     )
 
     const { items } = await client.concept.getMany({})
@@ -267,7 +237,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.concept.create({}, concept)
           conceptsToDelete.push(result)
-        })
+        }),
     )
 
     const { items, pages } = await client.concept.getMany({
@@ -293,7 +263,7 @@ describe('Taxonomy Integration', () => {
         prefLabel: {
           'en-US': 'Test Concept',
         },
-      }
+      },
     )
 
     const second = await client.concept.create(
@@ -311,7 +281,7 @@ describe('Taxonomy Integration', () => {
             },
           },
         ],
-      }
+      },
     )
 
     conceptsToDelete.push(second, first)
@@ -330,7 +300,7 @@ describe('Taxonomy Integration', () => {
         prefLabel: {
           'en-US': 'Test Concept 1',
         },
-      }
+      },
     )
 
     const second = await client.concept.create(
@@ -348,7 +318,7 @@ describe('Taxonomy Integration', () => {
             },
           },
         ],
-      }
+      },
     )
 
     conceptsToDelete.push(second, first)
@@ -384,7 +354,7 @@ describe('Taxonomy Integration', () => {
     await expect(
       client.conceptScheme.get({
         conceptSchemeId: result.sys.id,
-      })
+      }),
     ).rejects.toThrow('The resource could not be found')
   })
 
@@ -411,7 +381,7 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.conceptScheme.createWithId(
       { conceptSchemeId: 'test-concept-scheme-id' },
-      conceptScheme
+      conceptScheme,
     )
 
     conceptSchemesToDelete.push(result)
@@ -438,36 +408,6 @@ describe('Taxonomy Integration', () => {
     expect(result.definition['en-US']).toBe('Definition')
   })
 
-  it('creates and updates a concept scheme', async () => {
-    const conceptScheme: CreateConceptSchemeProps = {
-      prefLabel: {
-        'en-US': 'Test ConceptScheme',
-      },
-    }
-    const result = await client.conceptScheme.create({}, conceptScheme)
-    isConceptSchemeProps(result)
-    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
-    expect(result.uri).toBeNull()
-    conceptSchemesToDelete.push(result)
-
-    const updatedConceptScheme = await client.conceptScheme.update(
-      {
-        version: result.sys.version,
-        conceptSchemeId: result.sys.id,
-      },
-      [
-        {
-          path: '/uri',
-          op: 'replace',
-          value: 'https://example.com/updatedConceptScheme',
-        },
-      ]
-    )
-
-    isConceptSchemeProps(updatedConceptScheme)
-    expect(updatedConceptScheme.uri).toBe('https://example.com/updatedConceptScheme')
-  })
-
   it('create and update a conceptScheme - patch', async () => {
     const conceptScheme: CreateConceptSchemeProps = {
       prefLabel: {
@@ -491,7 +431,7 @@ describe('Taxonomy Integration', () => {
           op: 'replace',
           value: 'https://example.com/updatedConceptScheme',
         },
-      ]
+      ],
     )
 
     isConceptSchemeProps(updatedConceptScheme)
@@ -510,7 +450,7 @@ describe('Taxonomy Integration', () => {
     expect(result.uri).to.null
     conceptSchemesToDelete.push(result)
 
-    const updatedConceptScheme = await client.conceptScheme.updatePut(
+    const updatedConceptScheme = await client.conceptScheme.update(
       {
         version: result.sys.version,
         conceptSchemeId: result.sys.id,
@@ -518,7 +458,7 @@ describe('Taxonomy Integration', () => {
       {
         ...conceptScheme,
         uri: 'https://example.com/updatedConceptScheme',
-      }
+      },
     )
 
     isConceptSchemeProps(updatedConceptScheme)
@@ -538,7 +478,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.conceptScheme.create({}, conceptScheme)
           conceptSchemesToDelete.push(result)
-        })
+        }),
     )
 
     const { total } = await client.conceptScheme.getTotal({})
@@ -559,7 +499,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.conceptScheme.create({}, conceptScheme)
           conceptSchemesToDelete.push(result)
-        })
+        }),
     )
 
     const { items } = await client.conceptScheme.getMany({})
@@ -579,7 +519,7 @@ describe('Taxonomy Integration', () => {
 
           const result = await client.conceptScheme.create({}, conceptScheme)
           conceptSchemesToDelete.push(result)
-        })
+        }),
     )
 
     const { items, pages } = await client.conceptScheme.getMany({
@@ -619,13 +559,13 @@ function isConceptProps(concept: any) {
       'scopeNote',
       'sys',
       'uri',
-    ].sort()
+    ].sort(),
   )
 }
 
 function isConceptSchemeProps(conceptScheme: any) {
   expect(conceptScheme.sys?.type).toBe('TaxonomyConceptScheme')
   expect(Object.keys(conceptScheme).sort()).toEqual(
-    ['definition', 'prefLabel', 'topConcepts', 'concepts', 'totalConcepts', 'sys', 'uri'].sort()
+    ['definition', 'prefLabel', 'topConcepts', 'concepts', 'totalConcepts', 'sys', 'uri'].sort(),
   )
 }

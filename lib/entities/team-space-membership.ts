@@ -1,14 +1,14 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils.js'
 import type {
   DefaultElements,
+  Link,
   MakeRequest,
-  MetaLinkProps,
   MetaSysProps,
   QueryOptions,
-} from '../common-types'
+} from '../common-types.js'
 
 export interface Options {
   teamId?: string
@@ -19,7 +19,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * System metadata
    */
-  sys: MetaSysProps & { team: { sys: MetaLinkProps }; space: { sys: MetaLinkProps } }
+  sys: MetaSysProps & { team: Link<'Team'>; space: Link<'Space'> }
 
   /**
    * Is admin
@@ -29,7 +29,7 @@ export type TeamSpaceMembershipProps = {
   /**
    * Roles
    */
-  roles: { sys: MetaLinkProps }[]
+  roles: Link<'Role'>[]
 }
 
 export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>
@@ -125,12 +125,12 @@ function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapTeamSpaceMembership(
   makeRequest: MakeRequest,
-  data: TeamSpaceMembershipProps
+  data: TeamSpaceMembershipProps,
 ): TeamSpaceMembership {
   const teamSpaceMembership = toPlainObject(copy(data))
   const teamSpaceMembershipWithMethods = enhanceWithMethods(
     teamSpaceMembership,
-    createTeamSpaceMembershipApi(makeRequest)
+    createTeamSpaceMembershipApi(makeRequest),
   )
   return freezeSys(teamSpaceMembershipWithMethods)
 }

@@ -3,9 +3,9 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
-} from '../../../entities/organization-invitation'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/organization-invitation.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const OrganizationUserManagementAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'organization-user-management-api',
@@ -19,7 +19,7 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
   http: AxiosInstance,
   params: { organizationId: string },
   data: CreateOrganizationInvitationProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<OrganizationInvitationProps>(
     http,
@@ -30,14 +30,14 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
         ...InvitationAlphaHeaders,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
   http: AxiosInstance,
   params: { organizationId: string; invitationId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<OrganizationInvitationProps>(
     http,
@@ -47,6 +47,6 @@ export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
         ...OrganizationUserManagementAlphaHeaders,
         ...headers,
       },
-    }
+    },
   )
 }

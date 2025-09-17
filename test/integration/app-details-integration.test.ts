@@ -1,11 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type {
-  AppIcon,
-  PlainClientAPI,
-  Organization,
-  AppDefinition,
-} from '../../lib/contentful-management'
+import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { AppIcon, PlainClientAPI, Organization, AppDefinition } from '../../lib/index.js'
 
 describe('AppDetails api', { sequential: true }, () => {
   let appDefinition: AppDefinition
@@ -43,7 +38,7 @@ describe('AppDetails api', { sequential: true }, () => {
   test('createAppDetails', async () => {
     const details = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { icon: imageOne }
+      { icon: imageOne },
     )
 
     expect(details.icon).toEqual(imageOne)
@@ -57,7 +52,7 @@ describe('AppDetails api', { sequential: true }, () => {
   test('getAppDetails', async () => {
     await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { icon: imageOne }
+      { icon: imageOne },
     )
     const details = await client.appDetails.get({
       organizationId: organization.sys.id,
@@ -74,14 +69,14 @@ describe('AppDetails api', { sequential: true }, () => {
   test('updateAppDetails', async () => {
     const details = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { icon: imageOne }
+      { icon: imageOne },
     )
 
     expect(details.icon).toEqual(imageOne)
 
     const updatedDetails = await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { icon: imageTwo }
+      { icon: imageTwo },
     )
 
     expect(updatedDetails.icon).toEqual(imageTwo)
@@ -95,7 +90,7 @@ describe('AppDetails api', { sequential: true }, () => {
   test('deleteAppDetails', async () => {
     await client.appDetails.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { icon: imageOne }
+      { icon: imageOne },
     )
 
     await client.appDetails.delete({
@@ -107,7 +102,7 @@ describe('AppDetails api', { sequential: true }, () => {
       client.appDetails.get({
         organizationId: organization.sys.id,
         appDefinitionId: appDefinition.sys.id,
-      })
+      }),
     ).rejects.toThrow('The resource could not be found')
   })
 })

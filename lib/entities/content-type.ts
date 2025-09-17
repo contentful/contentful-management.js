@@ -8,17 +8,16 @@ import type {
   Link,
   MakeRequest,
   QueryOptions,
-  SysLink,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
-import { isDraft, isPublished, isUpdated } from '../plain/checks'
-import type { ContentFields } from './content-type-fields'
-import type { EditorInterface } from './editor-interface'
-import { wrapEditorInterface } from './editor-interface'
-import type { Snapshot, SnapshotProps } from './snapshot'
-import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
-import { omitAndDeleteField } from '../methods/content-type'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { isDraft, isPublished, isUpdated } from '../plain/checks.js'
+import type { ContentFields } from './content-type-fields.js'
+import type { EditorInterface } from './editor-interface.js'
+import { wrapEditorInterface } from './editor-interface.js'
+import type { Snapshot, SnapshotProps } from './snapshot.js'
+import { wrapSnapshot, wrapSnapshotCollection } from './snapshot.js'
+import { omitAndDeleteField } from '../methods/content-type.js'
 
 type TaxonomyConceptValidationLink = Link<'TaxonomyConcept'> & { required?: boolean }
 type TaxonomyConceptSchemeValidationLink = Link<'TaxonomyConceptScheme'> & { required?: boolean }
@@ -40,8 +39,8 @@ export type AnnotationAssignment = Link<'Annotation'> & {
 
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
-    space: SysLink
-    environment: SysLink
+    space: Link<'Space'>
+    environment: Link<'Environment'>
     firstPublishedAt?: string
     publishedCounter?: number
     publishedVersion?: number
@@ -337,7 +336,7 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
     omitAndDeleteField: function (fieldId: string) {
       const { raw, params } = getParams(this)
       return omitAndDeleteField(makeRequest, { ...params, fieldId }, raw).then((data) =>
-        wrapContentType(makeRequest, data)
+        wrapContentType(makeRequest, data),
       )
     },
   }

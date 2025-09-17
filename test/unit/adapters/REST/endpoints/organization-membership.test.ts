@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
-import { wrapOrganizationMembership } from '../../../../../lib/entities/organization-membership'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import { wrapOrganizationMembership } from '../../../../../lib/entities/organization-membership.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 function setup(promise, params = {}) {
   return {
@@ -17,12 +17,12 @@ describe('Rest Organization Membership', () => {
     const entity = wrapOrganizationMembership(
       (...args) => adapterMock.makeRequest(...args),
       entityMock,
-      'org-id'
+      'org-id',
     )
     return entity.delete().then((response) => {
       expect(httpMock.delete.mock.calls[0][0]).equals(
         `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-        'url is correct'
+        'url is correct',
       )
       return {
         httpMock,

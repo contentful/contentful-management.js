@@ -1,7 +1,7 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import { getDefaultSpace, getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers'
+import { getDefaultSpace, getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers.js'
 
-import { ValidationError } from '../../lib/adapters/REST/endpoints/asset-key'
+import { ValidationError } from '../../lib/adapters/REST/endpoints/asset-key.js'
 
 export const now = () => Math.floor(Date.now() / 1000)
 export const withExpiryIn1Hour = () => now() + 1 * 60 * 60
@@ -48,7 +48,7 @@ describe('AssetKey API (createAssetKey)', () => {
 
     it('when expiry is too far in the future (> 48 hours)', async () => {
       await expect(requestWith({ expiresAt: now() + 72 * 60 * 60 })).rejects.toThrow(
-        ValidationError
+        ValidationError,
       )
     })
 

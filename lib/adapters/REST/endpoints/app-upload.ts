@@ -1,10 +1,10 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
-import * as raw from './raw'
-import type { GetAppUploadParams, GetOrganizationParams } from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import type { AppUploadProps } from '../../../entities/app-upload'
-import { getUploadHttpClient } from '../../../upload-http-client'
+import * as raw from './raw.js'
+import type { GetAppUploadParams, GetOrganizationParams } from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import type { AppUploadProps } from '../../../entities/app-upload.js'
+import { getUploadHttpClient } from '../../../upload-http-client.js'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/app_uploads`
@@ -14,7 +14,7 @@ const getAppUploadUrl = (params: GetAppUploadParams) =>
 
 export const get: RestEndpoint<'AppUpload', 'get'> = (
   http: AxiosInstance,
-  params: GetAppUploadParams
+  params: GetAppUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
@@ -23,7 +23,7 @@ export const get: RestEndpoint<'AppUpload', 'get'> = (
 
 export const del: RestEndpoint<'AppUpload', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppUploadParams
+  params: GetAppUploadParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 
@@ -33,7 +33,7 @@ export const del: RestEndpoint<'AppUpload', 'delete'> = (
 export const create: RestEndpoint<'AppUpload', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
-  payload: { file: string | ArrayBuffer | Stream }
+  payload: { file: string | ArrayBuffer | Stream },
 ) => {
   const httpUpload = getUploadHttpClient(http)
 

@@ -1,7 +1,7 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import { createClient } from '../lib/contentful-management'
-import type { Environment, Organization, Space } from '../lib/contentful-management'
-import { TestDefaults } from './defaults'
+import { createClient } from '../lib/index.js'
+import type { Environment, Organization, Space } from '../lib/index.js'
+import { TestDefaults } from './defaults.js'
 
 import * as testUtils from '@contentful/integration-test-utils'
 
@@ -39,7 +39,7 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
 export const defaultClient = initClient({ ...params })
 
 /**
- * @returns {import('../lib/contentful-management').PlainClientAPI}
+ * @returns {import('../lib').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {
   return createClient(
@@ -50,7 +50,7 @@ export const initPlainClient = (defaults = {}) => {
     {
       type: 'plain',
       defaults,
-    }
+    },
   )
 }
 
@@ -165,7 +165,7 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
   const { items: concepts } = await client.concept.getMany({})
 
   const conceptsToBeDeleted = concepts.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
   )
 
   if (conceptsToBeDeleted.length > 0) {
@@ -177,12 +177,12 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.concept.delete({
         conceptId: item.sys.id,
         version: item.sys.version,
-      })
-    )
+      }),
+    ),
   )
   const { items: conceptSchemes } = await client.conceptScheme.getMany({})
   const conceptSchemesToBeDeleted = conceptSchemes.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
   )
 
   if (conceptSchemesToBeDeleted.length > 0) {
@@ -194,8 +194,8 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.conceptScheme.delete({
         conceptSchemeId: item.sys.id,
         version: item.sys.version,
-      })
-    )
+      }),
+    ),
   )
 }
 

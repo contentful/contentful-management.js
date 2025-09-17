@@ -4,45 +4,48 @@ import type { Stream } from 'stream'
 import type {
   AccessTokenProps,
   CreatePersonalAccessTokenProps as CreatePATProps,
-} from './entities/access-token'
-import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
-import type { AppActionProps, CreateAppActionProps } from './entities/app-action'
+} from './entities/access-token.js'
+import type { ApiKeyProps, CreateApiKeyProps } from './entities/api-key.js'
+import type { AppActionProps, CreateAppActionProps } from './entities/app-action.js'
 import type {
   AppActionCallProps,
   AppActionCallResponse,
   AppActionCallRawResponseProps,
   CreateAppActionCallProps,
-} from './entities/app-action-call'
-import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
+} from './entities/app-action-call.js'
+import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle.js'
 import type {
   AppDefinitionProps,
   AppInstallationsForOrganizationProps,
   CreateAppDefinitionProps,
-} from './entities/app-definition'
-import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
-import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
+} from './entities/app-definition.js'
+import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details.js'
+import type {
+  AppInstallationProps,
+  CreateAppInstallationProps,
+} from './entities/app-installation.js'
 import type {
   AppSignedRequestProps,
   CreateAppSignedRequestProps,
-} from './entities/app-signed-request'
+} from './entities/app-signed-request.js'
 import type {
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
-} from './entities/app-signing-secret'
-import type { AppUploadProps } from './entities/app-upload'
+} from './entities/app-signing-secret.js'
+import type { AppUploadProps } from './entities/app-upload.js'
 import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
-} from './entities/asset'
-import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+} from './entities/asset.js'
+import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key.js'
 import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from './entities/bulk-action'
+} from './entities/bulk-action.js'
 import type {
   CommentProps,
   CreateCommentParams,
@@ -56,54 +59,57 @@ import type {
   RichTextCommentProps,
   UpdateCommentParams,
   UpdateCommentProps,
-} from './entities/comment'
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type { EditorInterfaceProps } from './entities/editor-interface'
-import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
-import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
+} from './entities/comment.js'
+import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type.js'
+import type { EditorInterfaceProps } from './entities/editor-interface.js'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry.js'
+import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment.js'
 import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
-} from './entities/environment-alias'
-import type { CreateExtensionProps, ExtensionProps } from './entities/extension'
-import type { CreateLocaleProps, LocaleProps } from './entities/locale'
-import type { OrganizationProps } from './entities/organization'
+} from './entities/environment-alias.js'
+import type { CreateExtensionProps, ExtensionProps } from './entities/extension.js'
+import type { CreateLocaleProps, LocaleProps } from './entities/locale.js'
+import type { OrganizationProps } from './entities/organization.js'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
-} from './entities/organization-invitation'
-import type { OrganizationMembershipProps } from './entities/organization-membership'
+} from './entities/organization-invitation.js'
+import type { OrganizationMembershipProps } from './entities/organization-membership.js'
 import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProps,
-} from './entities/personal-access-token'
-import type { PreviewApiKeyProps } from './entities/preview-api-key'
+} from './entities/personal-access-token.js'
+import type { PreviewApiKeyProps } from './entities/preview-api-key.js'
 import type {
   ReleasePayload,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-} from './entities/release'
+} from './entities/release.js'
 import type {
   ReleaseAction,
   ReleaseActionProps,
   ReleaseActionQueryOptions,
-} from './entities/release-action'
-import type { CreateRoleProps, RoleProps } from './entities/role'
-import type { ScheduledActionProps } from './entities/scheduled-action'
-import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps } from './entities/space'
-import type { SpaceMemberProps } from './entities/space-member'
-import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
-import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
-import type { CreateTeamProps, TeamProps } from './entities/team'
-import type { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
+} from './entities/release-action.js'
+import type { CreateRoleProps, RoleProps } from './entities/role.js'
+import type { ScheduledActionProps } from './entities/scheduled-action.js'
+import type { SnapshotProps } from './entities/snapshot.js'
+import type { SpaceProps } from './entities/space.js'
+import type { SpaceMemberProps } from './entities/space-member.js'
+import type {
+  CreateSpaceMembershipProps,
+  SpaceMembershipProps,
+} from './entities/space-membership.js'
+import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag.js'
+import type { CreateTeamProps, TeamProps } from './entities/team.js'
+import type { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership.js'
 import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
-} from './entities/team-space-membership'
-import type { UsageProps } from './entities/usage'
-import type { UserProps } from './entities/user'
+} from './entities/team-space-membership.js'
+import type { UsageProps } from './entities/usage.js'
+import type { UserProps } from './entities/user.js'
 import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
@@ -114,7 +120,7 @@ import type {
   WebhookRetryPolicyPayload,
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
-} from './entities/webhook'
+} from './entities/webhook.js'
 
 import type {
   CreateTaskParams,
@@ -123,39 +129,39 @@ import type {
   TaskProps,
   UpdateTaskParams,
   UpdateTaskProps,
-} from './entities/task'
+} from './entities/task.js'
 
-import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token'
+import type { AppAccessTokenProps, CreateAppAccessTokenProps } from './entities/app-access-token.js'
 import type {
   AppEventSubscriptionProps,
   CreateAppEventSubscriptionProps,
-} from './entities/app-event-subscription'
-import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
-import type { ConceptProps, CreateConceptProps } from './entities/concept'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+} from './entities/app-event-subscription.js'
+import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key.js'
+import type { ConceptProps, CreateConceptProps } from './entities/concept.js'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme.js'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
-} from './entities/environment-template'
+} from './entities/environment-template.js'
 import type {
   CreateEnvironmentTemplateInstallationProps,
   EnvironmentTemplateInstallationProps,
   EnvironmentTemplateValidationProps,
   ValidateEnvironmentTemplateInstallationProps,
-} from './entities/environment-template-installation'
-import type { FunctionProps } from './entities/function'
-import type { ResourceProps, ResourceQueryOptions } from './entities/resource'
+} from './entities/environment-template-installation.js'
+import type { FunctionProps } from './entities/function.js'
+import type { ResourceProps, ResourceQueryOptions } from './entities/resource.js'
 import type {
   ResourceProviderProps,
   UpsertResourceProviderProps,
-} from './entities/resource-provider'
+} from './entities/resource-provider.js'
 import type {
   ResourceTypeProps,
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
-} from './entities/resource-type'
-import type { UIConfigProps } from './entities/ui-config'
-import type { UserUIConfigProps } from './entities/user-ui-config'
+} from './entities/resource-type.js'
+import type { UIConfigProps } from './entities/ui-config.js'
+import type { UserUIConfigProps } from './entities/user-ui-config.js'
 import type {
   CompleteWorkflowParams,
   CreateWorkflowParams,
@@ -163,29 +169,33 @@ import type {
   DeleteWorkflowParams,
   WorkflowProps,
   WorkflowQueryOptions,
-} from './entities/workflow'
+} from './entities/workflow.js'
 import type {
   CreateWorkflowDefinitionParams,
   CreateWorkflowDefinitionProps,
   DeleteWorkflowDefinitionParams,
   WorkflowDefinitionProps,
   WorkflowDefinitionQueryOptions,
-} from './entities/workflow-definition'
+} from './entities/workflow-definition.js'
 import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
-} from './entities/workflows-changelog-entry'
+} from './entities/workflows-changelog-entry.js'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplicationProps,
   UpdateOAuthApplicationProps,
-} from './entities/oauth-application'
-import type { FunctionLogProps } from './entities/function-log'
-import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
+} from './entities/oauth-application.js'
+import type { FunctionLogProps } from './entities/function-log.js'
+import type {
+  AiActionProps,
+  AiActionQueryOptions,
+  CreateAiActionProps,
+} from './entities/ai-action.js'
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,
-} from './entities/ai-action-invocation'
+} from './entities/ai-action-invocation.js'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -441,16 +451,14 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
-  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResponse'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResponse', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResponse'>
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
   (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
-  (opts: MROpts<'AppActionCall', 'createWithResult', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResult'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResult', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResult'>
   (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
@@ -470,19 +478,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
-  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
-    'AppDefinition',
-    'getInstallationsForOrg'
-  >
+  (
+    opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>,
+  ): MRReturn<'AppDefinition', 'getInstallationsForOrg'>
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
-  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
-    'AppInstallation',
-    'getForOrganization'
-  >
+  (
+    opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
+  ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
@@ -581,10 +587,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'EnvironmentAlias', 'get', UA>): MRReturn<'EnvironmentAlias', 'get'>
   (opts: MROpts<'EnvironmentAlias', 'getMany', UA>): MRReturn<'EnvironmentAlias', 'getMany'>
-  (opts: MROpts<'EnvironmentAlias', 'createWithId', UA>): MRReturn<
-    'EnvironmentAlias',
-    'createWithId'
-  >
+  (
+    opts: MROpts<'EnvironmentAlias', 'createWithId', UA>,
+  ): MRReturn<'EnvironmentAlias', 'createWithId'>
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
@@ -594,25 +599,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
   (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
   (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
-  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'versionUpdate'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'versionUpdate'>
   (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
   (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
-  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'disconnect'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'disconnect'>
 
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getMany'
-  >
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getMany'>
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
@@ -637,10 +638,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
   (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
-  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
-    'Function',
-    'getManyForEnvironment'
-  >
+  (
+    opts: MROpts<'Function', 'getManyForEnvironment', UA>,
+  ): MRReturn<'Function', 'getManyForEnvironment'>
 
   (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
   (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
@@ -655,24 +655,20 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Organization', 'get', UA>): MRReturn<'Organization', 'get'>
 
   (opts: MROpts<'OrganizationInvitation', 'get', UA>): MRReturn<'OrganizationInvitation', 'get'>
-  (opts: MROpts<'OrganizationInvitation', 'create', UA>): MRReturn<
-    'OrganizationInvitation',
-    'create'
-  >
+  (
+    opts: MROpts<'OrganizationInvitation', 'create', UA>,
+  ): MRReturn<'OrganizationInvitation', 'create'>
 
   (opts: MROpts<'OrganizationMembership', 'get', UA>): MRReturn<'OrganizationMembership', 'get'>
-  (opts: MROpts<'OrganizationMembership', 'getMany', UA>): MRReturn<
-    'OrganizationMembership',
-    'getMany'
-  >
-  (opts: MROpts<'OrganizationMembership', 'update', UA>): MRReturn<
-    'OrganizationMembership',
-    'update'
-  >
-  (opts: MROpts<'OrganizationMembership', 'delete', UA>): MRReturn<
-    'OrganizationMembership',
-    'delete'
-  >
+  (
+    opts: MROpts<'OrganizationMembership', 'getMany', UA>,
+  ): MRReturn<'OrganizationMembership', 'getMany'>
+  (
+    opts: MROpts<'OrganizationMembership', 'update', UA>,
+  ): MRReturn<'OrganizationMembership', 'update'>
+  (
+    opts: MROpts<'OrganizationMembership', 'delete', UA>,
+  ): MRReturn<'OrganizationMembership', 'delete'>
 
   (opts: MROpts<'PersonalAccessToken', 'get', UA>): MRReturn<'PersonalAccessToken', 'get'>
   (opts: MROpts<'PersonalAccessToken', 'getMany', UA>): MRReturn<'PersonalAccessToken', 'getMany'>
@@ -681,21 +677,18 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AccessToken', 'get', UA>): MRReturn<'AccessToken', 'get'>
   (opts: MROpts<'AccessToken', 'getMany', UA>): MRReturn<'AccessToken', 'getMany'>
-  (opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>): MRReturn<
-    'AccessToken',
-    'createPersonalAccessToken'
-  >
+  (
+    opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>,
+  ): MRReturn<'AccessToken', 'createPersonalAccessToken'>
   (opts: MROpts<'AccessToken', 'revoke', UA>): MRReturn<'AccessToken', 'revoke'>
-  (opts: MROpts<'AccessToken', 'getManyForOrganization', UA>): MRReturn<
-    'AccessToken',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'AccessToken', 'getManyForOrganization', UA>,
+  ): MRReturn<'AccessToken', 'getManyForOrganization'>
 
   (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
-  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
-    'OAuthApplication',
-    'getManyForUser'
-  >
+  (
+    opts: MROpts<'OAuthApplication', 'getManyForUser', UA>,
+  ): MRReturn<'OAuthApplication', 'getManyForUser'>
   (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
   (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
   (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
@@ -716,10 +709,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
   (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
-  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
-    'ReleaseAction',
-    'queryForRelease'
-  >
+  (
+    opts: MROpts<'ReleaseAction', 'queryForRelease', UA>,
+  ): MRReturn<'ReleaseAction', 'queryForRelease'>
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -728,10 +720,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
-  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
-    'ResourceType',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'ResourceType', 'getForEnvironment', UA>,
+  ): MRReturn<'ResourceType', 'getForEnvironment'>
   (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
@@ -750,10 +741,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
   (opts: MROpts<'Snapshot', 'getForEntry', UA>): MRReturn<'Snapshot', 'getForEntry'>
-  (opts: MROpts<'Snapshot', 'getManyForContentType', UA>): MRReturn<
-    'Snapshot',
-    'getManyForContentType'
-  >
+  (
+    opts: MROpts<'Snapshot', 'getManyForContentType', UA>,
+  ): MRReturn<'Snapshot', 'getManyForContentType'>
   (opts: MROpts<'Snapshot', 'getForContentType', UA>): MRReturn<'Snapshot', 'getForContentType'>
 
   (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
@@ -768,14 +758,12 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'SpaceMembership', 'get', UA>): MRReturn<'SpaceMembership', 'get'>
   (opts: MROpts<'SpaceMembership', 'getMany', UA>): MRReturn<'SpaceMembership', 'getMany'>
-  (opts: MROpts<'SpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'SpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'SpaceMembership', 'create', UA>): MRReturn<'SpaceMembership', 'create'>
   (opts: MROpts<'SpaceMembership', 'createWithId', UA>): MRReturn<'SpaceMembership', 'createWithId'>
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
@@ -802,28 +790,24 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
 
   (opts: MROpts<'TeamMembership', 'get', UA>): MRReturn<'TeamMembership', 'get'>
-  (opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForOrganization'
-  >
-  (opts: MROpts<'TeamMembership', 'getManyForTeam', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForTeam'
-  >
+  (
+    opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForOrganization'>
+  (
+    opts: MROpts<'TeamMembership', 'getManyForTeam', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForTeam'>
   (opts: MROpts<'TeamMembership', 'create', UA>): MRReturn<'TeamMembership', 'create'>
   (opts: MROpts<'TeamMembership', 'update', UA>): MRReturn<'TeamMembership', 'update'>
   (opts: MROpts<'TeamMembership', 'delete', UA>): MRReturn<'TeamMembership', 'delete'>
 
   (opts: MROpts<'TeamSpaceMembership', 'get', UA>): MRReturn<'TeamSpaceMembership', 'get'>
   (opts: MROpts<'TeamSpaceMembership', 'getMany', UA>): MRReturn<'TeamSpaceMembership', 'getMany'>
-  (opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
@@ -831,9 +815,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
 
-  (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Entry', 'get'>
-  (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Entry', 'create'>
-  (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Entry', 'delete'>
+  (opts: MROpts<'Upload', 'get', UA>): MRReturn<'Upload', 'get'>
+  (opts: MROpts<'Upload', 'create', UA>): MRReturn<'Upload', 'create'>
+  (opts: MROpts<'Upload', 'delete', UA>): MRReturn<'Upload', 'delete'>
 
   (opts: MROpts<'UploadCredential', 'create', UA>): MRReturn<'UploadCredential', 'create'>
 
@@ -1370,7 +1354,7 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: OpPatch[]
+      payload: CreateConceptProps
       return: ConceptProps
     }
     updatePut: {
@@ -1421,7 +1405,7 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptSchemeParams
-      payload: OpPatch[]
+      payload: ConceptSchemeProps
       return: ConceptSchemeProps
     }
     updatePut: {
@@ -2258,7 +2242,7 @@ export type MRActions = {
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  UA extends boolean = false
+  UA extends boolean = false,
 > = {
   entityType: ET
   action: Action
@@ -2284,7 +2268,7 @@ export type MROpts<
  */
 export type MRReturn<
   ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
+  Action extends keyof MRActions[ET],
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */

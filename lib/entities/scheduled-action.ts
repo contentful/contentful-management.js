@@ -3,16 +3,14 @@ import copy from 'fast-copy'
 import type {
   DefaultElements,
   ISO8601Timestamp,
-  MetaLinkProps,
   Link,
   MakeRequest,
-  SysLink,
   ScheduledActionReferenceFilters,
   BasicCursorPaginationOptions,
   CollectionProp,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 /**
  * Represents that state of the scheduled action
@@ -52,7 +50,7 @@ export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
   version: number
-  space: SysLink
+  space: Link<'Space'>
   status: ScheduledActionStatus
   createdAt: ISO8601Timestamp
   createdBy: Link<'User'> | Link<'AppDefinition'>
@@ -72,7 +70,7 @@ export type ScheduledActionProps = {
   sys: ScheduledActionSysProps
   action: SchedulableActionType
   entity: Link<SchedulableEntityType>
-  environment?: { sys: MetaLinkProps }
+  environment?: Link<'Environment'>
   scheduledFor: {
     datetime: ISO8601Timestamp
     /**
@@ -249,12 +247,12 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
  */
 export function wrapScheduledAction(
   makeRequest: MakeRequest,
-  data: ScheduledActionProps
+  data: ScheduledActionProps,
 ): ScheduledAction {
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    getInstanceMethods(makeRequest)
+    getInstanceMethods(makeRequest),
   )
   return freezeSys(scheduledActionWithMethods)
 }

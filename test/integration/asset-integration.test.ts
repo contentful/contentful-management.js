@@ -9,8 +9,8 @@ import {
   timeoutToCalmRateLimiting,
   initPlainClient,
   getTestOrganizationId,
-} from '../helpers'
-import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
+} from '../helpers.js'
+import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types.js'
 
 describe('Asset API - Read', () => {
   let space: Space
@@ -198,8 +198,8 @@ describe('Asset API - Write', { concurrent: true }, () => {
         },
         {
           uploadTimeout: 1,
-        }
-      )
+        },
+      ),
     ).rejects.toThrow(Error)
   })
 
@@ -230,7 +230,7 @@ describe('Asset API - Write', { concurrent: true }, () => {
           prefLabel: {
             'en-US': 'Concept to be assigned',
           },
-        }
+        },
       )
       conceptsToCleanUp.push(newConcept)
 
@@ -275,7 +275,7 @@ describe('Asset API - Write', { concurrent: true }, () => {
           prefLabel: {
             'en-US': 'Concept to be assigned',
           },
-        }
+        },
       )
       conceptsToCleanUp.push(newConcept)
 
@@ -324,7 +324,7 @@ describe('Asset API - Write', { concurrent: true }, () => {
           prefLabel: {
             'en-US': 'Concept to be assigned',
           },
-        }
+        },
       )
       conceptsToCleanUp.push(newConcept)
       const assetToDeleteConceptFrom = await environment.createAsset({

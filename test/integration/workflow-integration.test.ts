@@ -5,7 +5,7 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   ContentType,
   Entry,
@@ -13,8 +13,8 @@ import type {
   PlainClientAPI,
   Space,
   WorkflowDefinitionProps,
-} from '../../lib/export-types'
-import { makeLink } from '../utils'
+} from '../../lib/export-types.js'
+import { makeLink } from '../utils.js'
 
 describe('Workflow Api', () => {
   let plainClient: PlainClientAPI
@@ -61,7 +61,7 @@ describe('Workflow Api', () => {
             validations: [{ linkContentType: [contentType.sys.id] }],
           },
         ],
-      }
+      },
     )
   })
 
@@ -78,7 +78,7 @@ describe('Workflow Api', () => {
       {
         entity: makeLink(entry.sys.type as 'Entry', entry.sys.id),
         workflowDefinition: makeLink('WorkflowDefinition', workflowDefinition.sys.id),
-      }
+      },
     )
     expect(workflow.sys).toBeDefined()
     const fetchedWorkflow = await plainClient.workflow.get({
@@ -91,7 +91,7 @@ describe('Workflow Api', () => {
 
     const updatedWorkflow = await plainClient.workflow.update(
       { environmentId, spaceId, workflowId: workflow.sys.id },
-      { stepId: workflowDefinition.steps[1].id, sys: { version: workflow.sys.version } }
+      { stepId: workflowDefinition.steps[1].id, sys: { version: workflow.sys.version } },
     )
 
     expect(updatedWorkflow.stepId).toBe(workflowDefinition.steps[1].id)
@@ -108,7 +108,7 @@ describe('Workflow Api', () => {
         environmentId,
         spaceId,
         workflowId: updatedWorkflow.sys.id,
-      })
+      }),
     ).rejects.toThrow()
   })
 })

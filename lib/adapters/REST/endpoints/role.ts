@@ -7,22 +7,22 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types'
-import type { CreateRoleProps, RoleProps } from '../../../entities/role'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../common-types.js'
+import type { CreateRoleProps, RoleProps } from '../../../entities/role.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 export const get: RestEndpoint<'Role', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { roleId: string }
+  params: GetSpaceParams & { roleId: string },
 ) => {
   return raw.get<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`)
 }
 
 export const getMany: RestEndpoint<'Role', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<RoleProps>>(http, `/spaces/${params.spaceId}/roles`, {
     params: normalizeSelect(params.query),
@@ -31,7 +31,7 @@ export const getMany: RestEndpoint<'Role', 'getMany'> = (
 
 export const getManyForOrganization: RestEndpoint<'Role', 'getManyForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<RoleProps>>(http, `/organizations/${params.organizationId}/roles`, {
     params: normalizeSelect(params.query),
@@ -42,7 +42,7 @@ export const create: RestEndpoint<'Role', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateRoleProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<RoleProps>(http, `/spaces/${params.spaceId}/roles`, data, {
     headers,
@@ -53,7 +53,7 @@ export const createWithId: RestEndpoint<'Role', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { roleId: string },
   data: CreateRoleProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.put<RoleProps>(http, `/spaces/${params.spaceId}/roles/${params.roleId}`, data, {
     headers,
@@ -64,7 +64,7 @@ export const update: RestEndpoint<'Role', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { roleId: string },
   rawData: RoleProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

@@ -1,6 +1,6 @@
 import { beforeAll, describe, test, expect, afterAll } from 'vitest'
-import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization } from '../../lib/export-types'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { Organization } from '../../lib/export-types.js'
 
 describe('OrganizationMembership Invitation API', () => {
   let organization: Organization
@@ -28,7 +28,7 @@ describe('OrganizationMembership Invitation API', () => {
     expect(invitation.sys.organizationMembership.sys.linkType).toBe('OrganizationMembership')
 
     const membership = await organization.getOrganizationMembership(
-      invitation.sys.organizationMembership.sys.id
+      invitation.sys.organizationMembership.sys.id,
     )
 
     // Delete membership, which also deletes the invitation for this user

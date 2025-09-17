@@ -1,16 +1,16 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { ContentfulEnvironmentAPI } from '../create-environment-api'
-import createEnvironmentApi from '../create-environment-api'
-import { wrapCollection } from '../common-utils'
-import type { DefaultElements, SysLink, BasicMetaSysProps, MakeRequest } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import type { ContentfulEnvironmentAPI } from '../create-environment-api.js'
+import createEnvironmentApi from '../create-environment-api.js'
+import { wrapCollection } from '../common-utils.js'
+import type { DefaultElements, BasicMetaSysProps, MakeRequest, Link } from '../common-types.js'
 
 type EnvironmentMetaSys = BasicMetaSysProps & {
-  status: SysLink
-  space: SysLink
-  aliases?: Array<SysLink>
-  aliasedEnvironment?: SysLink
+  status: Link<'Status'>
+  space: Link<'Space'>
+  aliases?: Array<Link<'EnvironmentAlias'>>
+  aliasedEnvironment?: Link<'Environment'>
 }
 
 export type EnvironmentProps = {

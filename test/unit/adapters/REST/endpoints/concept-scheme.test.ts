@@ -1,7 +1,7 @@
 import { expect, describe, test } from 'vitest'
 
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 function setup<T>(promise: Promise<T>, params = {}, type = 'conceptScheme') {
   return {
@@ -28,7 +28,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -48,7 +48,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/total'
+          '/organizations/organization-id/taxonomy/concept-schemes/total',
         )
       })
   })
@@ -69,7 +69,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes'
+          '/organizations/organization-id/taxonomy/concept-schemes',
         )
       })
   })
@@ -92,7 +92,7 @@ describe('ConceptScheme', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -113,40 +113,19 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
 
   test('update', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'ConceptScheme',
-        action: 'update',
-        userAgent: 'mocked',
-        params: {
-          organizationId: 'organization-id',
-          conceptSchemeId: 'concept-scheme-id',
-        },
-      })
-      .then(() => {
-        expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
-        )
-      })
-  })
-
-  test('updatePut', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
     httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
 
     return adapterMock
       .makeRequest({
         entityType: 'ConceptScheme',
-        action: 'updatePut',
+        action: 'update',
         params: {
           organizationId: 'organization-id',
           conceptSchemeId: 'concept-scheme-id',
@@ -156,7 +135,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })
   })
@@ -178,7 +157,7 @@ describe('ConceptScheme', () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id'
+          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
         expect(httpMock.delete.mock.calls[0][1].headers).to.eql({ 'X-Contentful-Version': 1 })
       })

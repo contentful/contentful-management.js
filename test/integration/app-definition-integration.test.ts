@@ -6,13 +6,8 @@ import {
   createAppInstallation,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type {
-  Organization,
-  Space,
-  Environment,
-  AppInstallation,
-} from '../../lib/contentful-management'
+} from '../helpers.js'
+import type { Organization, Space, Environment, AppInstallation } from '../../lib/index.js'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization
@@ -77,7 +72,7 @@ describe('AppDefinition api', { sequential: true }, () => {
     expect(appDefinition.name).toBe('Test App')
     if (!appDefinition.parameters || !appDefinition.parameters.installation) {
       throw new Error(
-        `appDefinition.parameters or appDefinition.parameters.installation is not defined`
+        `appDefinition.parameters or appDefinition.parameters.installation is not defined`,
       )
     }
     expect(appDefinition.parameters.installation[0].id).toBe('secret')
@@ -120,7 +115,7 @@ describe('AppDefinition api', { sequential: true }, () => {
     await appDefinition.delete()
 
     await expect(organization.getAppDefinition(appDefinition.sys.id)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 

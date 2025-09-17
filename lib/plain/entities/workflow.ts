@@ -3,7 +3,7 @@ import type {
   GetSpaceEnvironmentParams,
   CollectionProp,
   GetWorkflowParams,
-} from '../../common-types'
+} from '../../common-types.js'
 import type {
   CreateWorkflowParams,
   UpdateWorkflowParams,
@@ -13,8 +13,8 @@ import type {
   CreateWorkflowProps,
   UpdateWorkflowProps,
   DeleteWorkflowParams,
-} from '../../entities/workflow'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/workflow.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type WorkflowPlainClientAPI = {
   /**
@@ -33,7 +33,7 @@ export type WorkflowPlainClientAPI = {
    */
   get(
     params: OptionalDefaults<GetWorkflowParams>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowProps>
 
   /**
@@ -54,7 +54,7 @@ export type WorkflowPlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions }>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<CollectionProp<WorkflowProps>>
   /**
    * Start a Workflow
@@ -88,7 +88,7 @@ export type WorkflowPlainClientAPI = {
   create(
     params: OptionalDefaults<CreateWorkflowParams>,
     rawData: CreateWorkflowProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowProps>
   /**
    * Update a Workflow (i.e. move to another step)
@@ -112,7 +112,7 @@ export type WorkflowPlainClientAPI = {
   update(
     params: OptionalDefaults<UpdateWorkflowParams>,
     rawData: UpdateWorkflowProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<WorkflowProps>
   /**
    * Delete a Workflow
@@ -129,7 +129,7 @@ export type WorkflowPlainClientAPI = {
    */
   delete(
     params: OptionalDefaults<DeleteWorkflowParams>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<void>
   /**
    * Complete a Workflow, allowing a new one to be created for the same entry
@@ -146,6 +146,6 @@ export type WorkflowPlainClientAPI = {
    */
   complete(
     params: OptionalDefaults<CompleteWorkflowParams>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<void>
 }

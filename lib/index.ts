@@ -5,29 +5,29 @@
  */
 
 import { getUserAgentHeader } from 'contentful-sdk-core'
-import type { RestAdapterParams } from './adapters/REST/rest-adapter'
-import type { MakeRequest, XOR } from './common-types'
-import type { AdapterParams } from './create-adapter'
-import { createAdapter } from './create-adapter'
-import type { ClientAPI } from './create-contentful-api'
-import createContentfulApi from './create-contentful-api'
-import type { PlainClientAPI } from './plain/common-types'
-import type { DefaultParams } from './plain/plain-client'
-import { createPlainClient } from './plain/plain-client'
-import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
+import type { RestAdapterParams } from './adapters/REST/rest-adapter.js'
+import type { MakeRequest, XOR } from './common-types.js'
+import type { AdapterParams } from './create-adapter.js'
+import { createAdapter } from './create-adapter.js'
+import type { ClientAPI } from './create-contentful-api.js'
+import createContentfulApi from './create-contentful-api.js'
+import type { PlainClientAPI } from './plain/common-types.js'
+import type { DefaultParams } from './plain/plain-client.js'
+import { createPlainClient } from './plain/plain-client.js'
+import * as editorInterfaceDefaults from './constants/editor-interface-defaults/index.js'
 
-export type { ClientAPI } from './create-contentful-api'
-export { asIterator } from './plain/as-iterator'
-export { fetchAll } from './plain/pagination-helper'
-export { isDraft, isPublished, isUpdated } from './plain/checks'
-export type { PlainClientAPI } from './plain/common-types'
+export type { ClientAPI } from './create-contentful-api.js'
+export { asIterator } from './plain/as-iterator.js'
+export { fetchAll } from './plain/pagination-helper.js'
+export { isDraft, isPublished, isUpdated } from './plain/checks.js'
+export type { PlainClientAPI } from './plain/common-types.js'
 export { createClient }
-export { RestAdapter } from './adapters/REST/rest-adapter'
-export type { RestAdapterParams } from './adapters/REST/rest-adapter'
-export { makeRequest } from './adapters/REST/make-request'
+export { RestAdapter } from './adapters/REST/rest-adapter.js'
+export type { RestAdapterParams } from './adapters/REST/rest-adapter.js'
+export { makeRequest } from './adapters/REST/make-request.js'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
-export * from './export-types'
+export * from './export-types.js'
 
 interface UserAgentParams {
   /**
@@ -65,7 +65,7 @@ function createClient(
   opts: {
     type: 'plain'
     defaults?: DefaultParams
-  }
+  },
 ): PlainClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
 /**
@@ -77,23 +77,22 @@ function createClient(
     type?: 'plain'
     alphaFeatures: string[]
     defaults?: DefaultParams
-  }
+  },
 ): ClientAPI | PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
     defaults?: DefaultParams
-  } = {}
+  } = {},
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
     opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
-    params.feature
+    params.feature,
   )
 
   const adapter = createAdapter({ ...params, userAgent })

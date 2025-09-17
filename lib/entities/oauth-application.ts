@@ -1,8 +1,8 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 import copy from 'fast-copy'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 type OAuthApplicationSysProps = BasicMetaSysProps & {
   lastUsedAt: string | null
@@ -103,12 +103,12 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 export function wrapOAuthApplication(
   makeRequest: MakeRequest,
   data: OAuthApplicationProps,
-  userId: string
+  userId: string,
 ): OAuthApplication {
   const oauthApplication = toPlainObject(copy(data))
   const oauthApplicationWithMethods = enhanceWithMethods(
     oauthApplication,
-    createOAuthApplicationApi(makeRequest, userId)
+    createOAuthApplicationApi(makeRequest, userId),
   )
   return freezeSys(oauthApplicationWithMethods)
 }

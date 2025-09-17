@@ -4,10 +4,10 @@ import type {
   GetSpaceEnvironmentParams,
   QueryParams,
   CollectionProp,
-} from '../../common-types'
-import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
-import type { TagProps, CreateTagProps } from '../../export-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag.js'
+import type { TagProps, CreateTagProps } from '../../export-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type TagPlainClientAPI = {
   /**
@@ -42,7 +42,7 @@ export type TagPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<TagProps>>
   /**
    * Create a new tag
@@ -95,7 +95,7 @@ export type TagPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTagParams>,
     rawData: UpdateTagProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TagProps>
   /**
    * Delete a single tag by ID and version

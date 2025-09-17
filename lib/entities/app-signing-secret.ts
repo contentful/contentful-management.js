@@ -1,12 +1,12 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 type AppSigningSecretSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
-  appDefinition: SysLink
-  organization: SysLink
+  appDefinition: Link<'AppDefinition'>
+  organization: Link<'Organization'>
 }
 
 export type AppSigningSecretProps = {
@@ -71,7 +71,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
  */
 export function wrapAppSigningSecret(
   makeRequest: MakeRequest,
-  data: AppSigningSecretProps
+  data: AppSigningSecretProps,
 ): AppSigningSecret {
   const signingSecret = toPlainObject(copy(data))
   return enhanceWithMethods(signingSecret, createSigningSecretApi(makeRequest))

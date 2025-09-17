@@ -1,6 +1,6 @@
-import type { GetAppDefinitionParams } from '../../common-types'
-import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
-import type { OptionalDefaults } from '../wrappers/wrap'
+import type { GetAppDefinitionParams } from '../../common-types.js'
+import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppDetailsPlainClientAPI = {
   /**
@@ -28,7 +28,7 @@ export type AppDetailsPlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppDetailsProps
+    payload: CreateAppDetailsProps,
   ): Promise<AppDetailsProps>
   /**
    * Fetches the App Detail

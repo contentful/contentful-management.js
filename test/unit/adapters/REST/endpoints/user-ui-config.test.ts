@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { wrapUIConfig } from '../../../../../lib/entities/ui-config'
-import { cloneMock } from '../../../mocks/entities'
-import setupRestAdapter from '../helpers/setupRestAdapter'
+import { wrapUIConfig } from '../../../../../lib/entities/ui-config.js'
+import { cloneMock } from '../../../mocks/entities.js'
+import setupRestAdapter from '../helpers/setupRestAdapter.js'
 
 function setup(promise, params = {}) {
   return {
@@ -23,7 +23,7 @@ describe('Rest UserUIConfig', () => {
       expect(httpMock.put.mock.calls[0][1].entryListViews[0].id).equals('view', 'metadata is sent')
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,
