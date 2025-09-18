@@ -1,29 +1,29 @@
+import type { RawAxiosRequestHeaders } from 'axios'
 import { errorHandler, type AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
+import type { SetOptional } from 'type-fest'
 import type {
+  CollectionProp,
   CreateReleaseAssetParams,
-  GetReleaseAssetParams,
+  CreateWithFilesReleaseAssetParams,
+  CreateWithIdReleaseAssetParams,
   GetManyReleaseAssetParams,
+  GetReleaseAssetParams,
+  Link,
+  ProcessForAllLocalesReleaseAssetParams,
+  ProcessForLocaleReleaseAssetParams,
   QueryParams,
   UpdateReleaseAssetParams,
-  Link,
-  CollectionProp,
-  CreateWithIdReleaseAssetParams,
-  CreateWithFilesReleaseAssetParams,
-  ProcessForLocaleReleaseAssetParams,
-  ProcessForAllLocalesReleaseAssetParams,
 } from '../../../common-types'
 import type {
-  CreateAssetProps,
-  AssetProps,
   AssetFileProp,
   AssetProcessingForLocale,
+  AssetProps,
+  CreateAssetProps,
 } from '../../../entities/asset'
-import copy from 'fast-copy'
+import { getUploadHttpClient } from '../../../upload-http-client'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import type { RawAxiosRequestHeaders } from 'axios'
-import type { SetOptional } from 'type-fest'
-import { getUploadHttpClient } from '../../../upload-http-client'
 import { create as createUpload } from './upload'
 import { normalizeSelect } from './utils'
 

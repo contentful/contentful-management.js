@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { ReleaseEnvironmentParams, GetReleaseParams } from '../../../common-types'
+import type { GetReleaseParams, ReleaseEnvironmentParams } from '../../../common-types'
 import type {
   ReleasePayload,
   ReleasePayloadV2,

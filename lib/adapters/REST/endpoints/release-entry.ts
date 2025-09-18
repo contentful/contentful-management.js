@@ -1,34 +1,34 @@
+import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
+import type { OpPatch } from 'json-patch'
+import type { SetOptional } from 'type-fest'
 import type {
+  CollectionProp,
   CreateReleaseEntryParams,
-  GetReleaseEntryParams,
+  CreateWithIdReleaseEntryParams,
   GetManyReleaseEntryParams,
+  GetReleaseEntryParams,
   KeyValueMap,
+  Link,
   PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
-  CreateWithIdReleaseEntryParams,
-  Link,
-  CollectionProp,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps } from '../../../entities/entry'
-import copy from 'fast-copy'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import type { RawAxiosRequestHeaders } from 'axios'
-import type { SetOptional } from 'type-fest'
-import type { OpPatch } from 'json-patch'
 import { normalizeSelect } from './utils'
 
-type ReleaseEntryProps = EntryProps<unknown, { release: Link<'Release'> }>
+type ReleaseEntryProps<T> = EntryProps<T, { release: Link<'Release'> }>
 
-export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
+export const get: RestEndpoint<'ReleaseEntry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetReleaseEntryParams & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  return raw.get<ReleaseEntryProps>(
+  return raw.get<ReleaseEntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
     {
@@ -38,13 +38,15 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = (
   )
 }
 
-export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = (
+export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = <
+  T extends KeyValueMap = KeyValueMap
+>(
   http: AxiosInstance,
   params: GetManyReleaseEntryParams & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
-  return raw.get<CollectionProp<ReleaseEntryProps>>(
+  return raw.get<CollectionProp<ReleaseEntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries`,
     {
@@ -62,7 +64,7 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
-  return raw.put<ReleaseEntryProps>(
+  return raw.put<ReleaseEntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
     data,
@@ -81,7 +83,7 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
-  return raw.patch<ReleaseEntryProps>(
+  return raw.patch<ReleaseEntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
     data,
@@ -103,7 +105,7 @@ export const create: RestEndpoint<'ReleaseEntry', 'create'> = <T extends KeyValu
 ) => {
   const data = copy(rawData)
 
-  return raw.post<ReleaseEntryProps>(
+  return raw.post<ReleaseEntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries`,
     data,
@@ -126,7 +128,7 @@ export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
 ) => {
   const data = copy(rawData)
 
-  return raw.put<ReleaseEntryProps>(
+  return raw.put<ReleaseEntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/entries/${params.entryId}`,
     data,
