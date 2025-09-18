@@ -179,6 +179,7 @@ export type {
   Release,
   ReleaseMetadata,
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseReferenceFilters,
