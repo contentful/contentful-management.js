@@ -180,7 +180,7 @@ export default function getDefaultControlOfField(field: ContentFields): DefaultW
   }
 
   const hasInValidation = (field.validations || []).find(
-    (v: ContentTypeFieldValidation) => 'in' in v
+    (v: ContentTypeFieldValidation) => 'in' in v,
   )
 
   if (hasInValidation && DROPDOWN_TYPES.includes(fieldType)) {

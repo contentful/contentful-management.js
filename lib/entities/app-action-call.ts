@@ -55,13 +55,13 @@ export type CreateAppActionCallProps = {
 type AppActionCallApi = {
   createWithResponse(
     params: CreateWithResponseParams,
-    payload: CreateAppActionCallProps
+    payload: CreateAppActionCallProps,
   ): Promise<AppActionCallResponse>
   getCallDetails(params: GetAppActionCallDetailsParams): Promise<AppActionCallResponse>
   get(params: GetAppActionCallParamsWithId): Promise<AppActionCallProps>
   createWithResult(
     params: CreateWithResultParams,
-    payload: CreateAppActionCallProps
+    payload: CreateAppActionCallProps,
   ): Promise<AppActionCallProps>
 }
 
@@ -95,12 +95,12 @@ export interface AppActionCall extends AppActionCallProps, DefaultElements<AppAc
  */
 export default function createAppActionCallApi(
   makeRequest: MakeRequest,
-  retryOptions?: RetryOptions
+  retryOptions?: RetryOptions,
 ): AppActionCallApi {
   return {
     createWithResponse: function (
       params: CreateWithResponseParams,
-      payload: CreateAppActionCallProps
+      payload: CreateAppActionCallProps,
     ) {
       return makeRequest({
         entityType: 'AppActionCall',
@@ -145,12 +145,12 @@ export default function createAppActionCallApi(
  */
 export function wrapAppActionCall(
   makeRequest: MakeRequest,
-  data: AppActionCallProps
+  data: AppActionCallProps,
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
   const signedRequestWithMethods = enhanceWithMethods(
     signedRequest,
-    createAppActionCallApi(makeRequest)
+    createAppActionCallApi(makeRequest),
   )
   return signedRequestWithMethods
 }
@@ -164,12 +164,12 @@ export function wrapAppActionCall(
 export function wrapAppActionCallResponse(
   makeRequest: MakeRequest,
   data: AppActionCallResponse,
-  retryOptions?: RetryOptions
+  retryOptions?: RetryOptions,
 ): AppActionCallResponseData {
   const appActionCallResponse = toPlainObject(copy(data))
   const appActionCallResponseWithMethods = enhanceWithMethods(
     appActionCallResponse,
-    createAppActionCallApi(makeRequest, retryOptions)
+    createAppActionCallApi(makeRequest, retryOptions),
   )
   return appActionCallResponseWithMethods
 }

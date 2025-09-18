@@ -179,7 +179,7 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
  */
 export function wrapComment(
   makeRequest: MakeRequest,
-  data: CommentProps | RichTextCommentProps
+  data: CommentProps | RichTextCommentProps,
 ): Comment | RichTextComment {
   const comment = toPlainObject(copy(data))
   const commentWithMethods = enhanceWithMethods(comment, createCommentApi(makeRequest))

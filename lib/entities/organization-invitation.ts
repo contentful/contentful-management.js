@@ -29,7 +29,7 @@ export interface OrganizationInvitation
  */
 export function wrapOrganizationInvitation(
   _makeRequest: MakeRequest,
-  data: OrganizationInvitationProps
+  data: OrganizationInvitationProps,
 ): OrganizationInvitation {
   const invitation = toPlainObject(copy(data))
   return freezeSys(invitation)

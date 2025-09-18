@@ -39,14 +39,14 @@ export type WrapFn<
   Headers = 'headers' extends keyof MRActions[ET][Action]
     ? MRActions[ET][Action]['headers']
     : undefined,
-  Return = MRReturn<ET, Action>
+  Return = MRReturn<ET, Action>,
 > = Params extends undefined
   ? () => Return
   : Payload extends undefined
-  ? (params: Params) => Return
-  : Headers extends undefined
-  ? (params: Params, payload: Payload) => Return
-  : (params: Params, payload: Payload, headers: Headers) => Return
+    ? (params: Params) => Return
+    : Headers extends undefined
+      ? (params: Params, payload: Payload) => Return
+      : (params: Params, payload: Payload, headers: Headers) => Return
 
 /**
  * @private
@@ -54,7 +54,7 @@ export type WrapFn<
 export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
   { makeRequest, defaults }: WrapParams,
   entityType: ET,
-  action: Action
+  action: Action,
 ): WrapFn<ET, Action> => {
   type Params = 'params' extends keyof MRActions[ET][Action]
     ? MRActions[ET][Action]['params']

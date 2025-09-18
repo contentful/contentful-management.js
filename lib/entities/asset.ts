@@ -287,7 +287,7 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
   return {
     processForLocale: function processForLocale(
       locale: string,
-      options?: AssetProcessingForLocale
+      options?: AssetProcessingForLocale,
     ) {
       const raw = this.toPlainObject() as AssetProps
       return makeRequest({

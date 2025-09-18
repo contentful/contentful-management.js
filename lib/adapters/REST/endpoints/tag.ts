@@ -27,7 +27,7 @@ export const get: RestEndpoint<'Tag', 'get'> = (http: AxiosInstance, params: Get
 
 export const getMany: RestEndpoint<'Tag', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
 ) =>
   raw.get<CollectionProp<TagProps>>(http, getBaseUrl(params), {
     params: params.query,
@@ -36,7 +36,7 @@ export const getMany: RestEndpoint<'Tag', 'getMany'> = (
 export const createWithId: RestEndpoint<'Tag', 'createWithId'> = (
   http: AxiosInstance,
   params: GetTagParams,
-  rawData: CreateTagProps
+  rawData: CreateTagProps,
 ) => {
   const data = copy(rawData)
   return raw.put<TagProps>(http, getTagUrl(params), data, {
@@ -48,7 +48,7 @@ export const update: RestEndpoint<'Tag', 'update'> = (
   http: AxiosInstance,
   params: GetTagParams,
   rawData: UpdateTagProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -63,7 +63,7 @@ export const update: RestEndpoint<'Tag', 'update'> = (
 
 export const del: RestEndpoint<'Tag', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: DeleteTagParams
+  { version, ...params }: DeleteTagParams,
 ) => {
   return raw.del(http, getTagUrl(params), { headers: { 'X-Contentful-Version': version } })
 }

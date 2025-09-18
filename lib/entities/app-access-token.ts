@@ -38,7 +38,7 @@ export interface AppAccessToken extends AppAccessTokenProps, DefaultElements<App
  */
 export function wrapAppAccessToken(
   _makeRequest: MakeRequest,
-  data: AppAccessTokenProps
+  data: AppAccessTokenProps,
 ): AppAccessToken {
   const appAccessToken = toPlainObject(copy(data))
   return freezeSys(appAccessToken)

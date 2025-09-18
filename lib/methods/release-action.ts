@@ -16,7 +16,7 @@ type PlainOptions = {
  * Used by the Plain client */
 export async function waitForReleaseActionProcessing<T extends ReleaseActionTypes = any>(
   { plainClient, spaceId, environmentId, releaseId, actionId }: PlainOptions,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<ReleaseActionProps<T>> {
   return pollAsyncActionStatus<ReleaseActionProps>(
     async () =>
@@ -26,6 +26,6 @@ export async function waitForReleaseActionProcessing<T extends ReleaseActionType
         environmentId,
         actionId,
       }),
-    options
+    options,
   )
 }
