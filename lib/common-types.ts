@@ -723,6 +723,21 @@ type MRInternal<UA extends boolean> = {
     'queryForRelease'
   >
 
+  (opts: MROpts<'ReleaseAsset', 'get', UA>): MRReturn<'ReleaseAsset', 'get'>
+  (opts: MROpts<'ReleaseAsset', 'getMany', UA>): MRReturn<'ReleaseAsset', 'getMany'>
+  (opts: MROpts<'ReleaseAsset', 'update', UA>): MRReturn<'ReleaseAsset', 'update'>
+  (opts: MROpts<'ReleaseAsset', 'create', UA>): MRReturn<'ReleaseAsset', 'create'>
+  (opts: MROpts<'ReleaseAsset', 'createWithId', UA>): MRReturn<'ReleaseAsset', 'createWithId'>
+  (opts: MROpts<'ReleaseAsset', 'createFromFiles', UA>): MRReturn<'ReleaseAsset', 'createFromFiles'>
+  (opts: MROpts<'ReleaseAsset', 'processForAllLocales', UA>): MRReturn<
+    'ReleaseAsset',
+    'processForAllLocales'
+  >
+  (opts: MROpts<'ReleaseAsset', 'processForLocale', UA>): MRReturn<
+    'ReleaseAsset',
+    'processForLocale'
+  >
+
   (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
   (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
   (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
@@ -1235,17 +1250,17 @@ export type MRActions = {
       return: CollectionProp<AssetProps>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
       headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     update: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: AssetProps
       headers?: RawAxiosRequestHeaders
       return: AssetProps
@@ -1259,14 +1274,18 @@ export type MRActions = {
     unpublish: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     archive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     unarchive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
-    create: { params: GetSpaceEnvironmentParams; payload: CreateAssetProps; return: AssetProps }
+    create: {
+      params: GetSpaceEnvironmentParams & { releaseId?: string }
+      payload: CreateAssetProps
+      return: AssetProps
+    }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: CreateAssetProps
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -1626,21 +1645,21 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetManyEntryParams & QueryParams
+      params: GetManyEntryParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any, any>>
     }
     get: {
-      params: GetEntryParams & QueryParams
+      params: GetEntryParams & QueryParams & { releaseId?: string }
       return: EntryProps<any, any>
     }
     patch: {
-      params: PatchEntryParams & QueryParams
+      params: PatchEntryParams & QueryParams & { releaseId?: string }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
-      params: UpdateEntryParams & QueryParams
+      params: UpdateEntryParams & QueryParams & { releaseId?: string }
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -1882,89 +1901,86 @@ export type MRActions = {
       return: ReleaseActionProps<'validate'>
     }
   }
+  ReleaseAsset: {
+    get: {
+      params: GetReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AssetProps<{ release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseAssetParams & QueryParams
+      payload: AssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateWithIdReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createFromFiles: {
+      params: CreateWithFilesReleaseAssetParams & QueryParams
+      payload: Omit<AssetFileProp, 'sys'>
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForAllLocales: {
+      params: ProcessForAllLocalesReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForLocale: {
+      params: ProcessForLocaleReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+  }
   ReleaseEntry: {
     get: {
-      params: GetReleaseEntryParams
+      params: GetReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
       return: EntryProps<any, any>
     }
     getMany: {
-      params: GetManyReleaseEntryParams
+      params: GetManyReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
       return: CollectionProp<EntryProps<any, any>>
     }
     update: {
-      params: UpdateReleaseEntryParams & { entryId: string }
+      params: UpdateReleaseEntryParams & QueryParams
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
-      return: EntryProps<
-        any,
-        {
-          release: {
-            sys: {
-              type: 'Link'
-              linkType: 'Entry' | 'Asset'
-              id: string
-            }
-          }
-        }
-      >
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
     patch: {
-      params: PatchReleaseEntryParams & {
-        entryId: string
-        version: number
-      }
+      params: PatchReleaseEntryParams & QueryParams
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
-      return: EntryProps<
-        any,
-        {
-          release: {
-            sys: {
-              type: 'Link'
-              linkType: 'Entry' | 'Asset'
-              id: string
-            }
-          }
-        }
-      >
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
     create: {
-      params: CreateReleaseEntryParams
+      params: CreateReleaseEntryParams & QueryParams
       payload: CreateEntryProps<any>
       headers?: RawAxiosRequestHeaders
-      return: EntryProps<
-        any,
-        {
-          release: {
-            sys: {
-              type: 'Link'
-              linkType: 'Entry' | 'Asset'
-              id: string
-            }
-          }
-        }
-      >
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
     createWithId: {
-      params: GetSpaceEnvironmentParams & {
-        releaseId: string
+      params: CreateReleaseEntryParams & {
         entryId: string
-        contentTypeId: string
-      }
+      } & QueryParams
       payload: CreateEntryProps<any>
       headers?: RawAxiosRequestHeaders
-      return: EntryProps<
-        any,
-        {
-          release: {
-            sys: {
-              type: 'Link'
-              linkType: 'Entry' | 'Asset'
-              id: string
-            }
-          }
-        }
-      >
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
   }
   ReleaseAction: {
@@ -2462,9 +2478,38 @@ export type GetManyFunctionLogParams = CursorBasedParams &
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type GetManyReleaseAssetParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
-  releaseId?: string
+  releaseId: string
   entryId: string
+}
+export type CreateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+export type CreateWithIdReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type CreateWithFilesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  uploadTimeout?: number
+}
+export type UpdateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type ProcessForLocaleReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  locale: string
+  options?: AssetProcessingForLocale
+}
+export type ProcessForAllLocalesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  options?: AssetProcessingForLocale
 }
 export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
 export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
