@@ -26,7 +26,7 @@ export type ConceptPlainClientAPI = {
    */
   create(
     params: SetOptional<GetOrganizationParams, 'organizationId'>,
-    payload: CreateConceptProps
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
@@ -44,7 +44,7 @@ export type ConceptPlainClientAPI = {
    */
   createWithId(
     params: SetOptional<GetConceptParams, 'organizationId'>,
-    payload: CreateConceptProps
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
@@ -64,7 +64,7 @@ export type ConceptPlainClientAPI = {
    */
   update(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptProps>
 
   /**
@@ -84,7 +84,7 @@ export type ConceptPlainClientAPI = {
    */
   updatePut(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: CreateConceptProps
+    payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
@@ -103,7 +103,7 @@ export type ConceptPlainClientAPI = {
    */
   patch(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptProps>
 
   /**
@@ -149,7 +149,7 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getMany(
-    params: SetOptional<GetManyConceptParams, 'organizationId'>
+    params: SetOptional<GetManyConceptParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
@@ -180,7 +180,7 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getDescendants(
-    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 
   /**
@@ -197,6 +197,6 @@ export type ConceptPlainClientAPI = {
    * ```
    */
   getAncestors(
-    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>
+    params: SetOptional<GetConceptDescendantsParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
 }

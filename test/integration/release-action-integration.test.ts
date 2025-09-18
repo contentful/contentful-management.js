@@ -45,7 +45,7 @@ describe('ReleaseAction Api', () => {
         fields: {
           title: { 'en-US': 'Non-localized value' },
         },
-      }
+      },
     )
 
     const releasePayload: ReleasePayload = {

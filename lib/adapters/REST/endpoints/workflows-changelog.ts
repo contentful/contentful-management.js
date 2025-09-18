@@ -13,7 +13,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 export const getMany: RestEndpoint<'WorkflowsChangelog', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get<CollectionProp<WorkflowsChangelogEntryProps>>(http, getBaseUrl(params), {
     headers,

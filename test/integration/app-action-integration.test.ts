@@ -48,7 +48,7 @@ describe('AppAction api', function () {
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
 
     expect(appAction.sys.type).equals('AppAction', 'type')
@@ -70,7 +70,7 @@ describe('AppAction api', function () {
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
 
     await createAppInstallation(appDefinition.sys.id)
@@ -98,7 +98,7 @@ describe('AppAction api', function () {
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
 
     const updated = await client.appAction.update(
@@ -112,7 +112,7 @@ describe('AppAction api', function () {
         name: 'my updated action',
         url: 'https://www.elsewhere.com',
         parameters: [],
-      }
+      },
     )
 
     expect(updated.sys.type).equals('AppAction', 'type')
@@ -134,7 +134,7 @@ describe('AppAction api', function () {
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
 
     const gotAppAction = await client.appAction.get({
@@ -162,7 +162,7 @@ describe('AppAction api', function () {
         name: 'my test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
 
     const gotAppActions = await client.appAction.getMany({

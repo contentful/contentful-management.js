@@ -25,24 +25,24 @@ const getEntityUrl = (params: GetTeamMembershipParams) =>
 
 export const get: RestEndpoint<'TeamMembership', 'get'> = (
   http: AxiosInstance,
-  params: GetTeamMembershipParams
+  params: GetTeamMembershipParams,
 ) => raw.get<TeamMembershipProps>(http, getEntityUrl(params))
 
 export const getManyForOrganization = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) =>
   raw.get<CollectionProp<TeamMembershipProps>>(
     http,
     `/organizations/${params.organizationId}/team_memberships`,
     {
       params: normalizeSelect(params.query),
-    }
+    },
   )
 
 export const getManyForTeam: RestEndpoint<'TeamMembership', 'getManyForTeam'> = (
   http: AxiosInstance,
-  params: GetTeamParams & QueryParams
+  params: GetTeamParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<TeamMembershipProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -53,7 +53,7 @@ export const create: RestEndpoint<'TeamMembership', 'create'> = (
   http: AxiosInstance,
   params: GetTeamParams,
   rawData: CreateTeamMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<TeamMembershipProps>(http, getBaseUrl(params), rawData, { headers })
 }
@@ -62,7 +62,7 @@ export const update: RestEndpoint<'TeamMembership', 'update'> = (
   http: AxiosInstance,
   params: GetTeamMembershipParams,
   rawData: TeamMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -77,5 +77,5 @@ export const update: RestEndpoint<'TeamMembership', 'update'> = (
 
 export const del: RestEndpoint<'TeamMembership', 'delete'> = (
   http: AxiosInstance,
-  params: GetTeamMembershipParams
+  params: GetTeamMembershipParams,
 ) => raw.del(http, getEntityUrl(params))

@@ -47,14 +47,14 @@ const getWebhookRetryPolicyUrl = (params: GetSpaceParams) =>
 
 export const get: RestEndpoint<'Webhook', 'get'> = (
   http: AxiosInstance,
-  params: GetWebhookParams
+  params: GetWebhookParams,
 ) => {
   return raw.get(http, getWebhookUrl(params))
 }
 
 export const getManyCallDetails: RestEndpoint<'Webhook', 'getManyCallDetails'> = (
   http: AxiosInstance,
-  params: GetWebhookParams & QueryParams
+  params: GetWebhookParams & QueryParams,
 ) => {
   return raw.get(http, getWebhookCallUrl(params), {
     params: normalizeSelect(params.query),
@@ -63,21 +63,21 @@ export const getManyCallDetails: RestEndpoint<'Webhook', 'getManyCallDetails'> =
 
 export const getCallDetails: RestEndpoint<'Webhook', 'getCallDetails'> = (
   http: AxiosInstance,
-  params: GetWebhookCallDetailsUrl
+  params: GetWebhookCallDetailsUrl,
 ) => {
   return raw.get(http, getWebhookCallDetailsUrl(params))
 }
 
 export const getHealthStatus: RestEndpoint<'Webhook', 'getHealthStatus'> = (
   http: AxiosInstance,
-  params: GetWebhookParams
+  params: GetWebhookParams,
 ) => {
   return raw.get(http, getWebhookHealthUrl(params))
 }
 
 export const getMany: RestEndpoint<'Webhook', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   return raw.get(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -86,7 +86,7 @@ export const getMany: RestEndpoint<'Webhook', 'getMany'> = (
 
 export const getSigningSecret: RestEndpoint<'Webhook', 'getSigningSecret'> = (
   http: AxiosInstance,
-  params: GetSpaceParams
+  params: GetSpaceParams,
 ) => {
   return raw.get(http, getWebhookSigningSecretUrl(params))
 }
@@ -96,7 +96,7 @@ export const getSigningSecret: RestEndpoint<'Webhook', 'getSigningSecret'> = (
  */
 export const getRetryPolicy: RestEndpoint<'Webhook', 'getRetryPolicy'> = (
   http: AxiosInstance,
-  params: GetSpaceParams
+  params: GetSpaceParams,
 ) => {
   return raw.get(http, getWebhookRetryPolicyUrl(params))
 }
@@ -105,7 +105,7 @@ export const create: RestEndpoint<'Webhook', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: CreateWebhooksProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -116,7 +116,7 @@ export const createWithId = (
   http: AxiosInstance,
   params: GetWebhookParams,
   rawData: CreateWebhooksProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -127,7 +127,7 @@ export const update: RestEndpoint<'Webhook', 'update'> = async (
   http: AxiosInstance,
   params: GetWebhookParams,
   rawData: WebhookProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
 
@@ -144,7 +144,7 @@ export const update: RestEndpoint<'Webhook', 'update'> = async (
 export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'> = async (
   http: AxiosInstance,
   params: GetSpaceParams,
-  rawData: UpsertWebhookSigningSecretPayload
+  rawData: UpsertWebhookSigningSecretPayload,
 ) => {
   const data = copy(rawData)
 
@@ -157,7 +157,7 @@ export const upsertSigningSecret: RestEndpoint<'Webhook', 'upsertSigningSecret'>
 export const upsertRetryPolicy: RestEndpoint<'Webhook', 'upsertRetryPolicy'> = async (
   http: AxiosInstance,
   params: GetSpaceParams,
-  rawData: WebhookRetryPolicyPayload
+  rawData: WebhookRetryPolicyPayload,
 ) => {
   const data = copy(rawData)
 
@@ -166,14 +166,14 @@ export const upsertRetryPolicy: RestEndpoint<'Webhook', 'upsertRetryPolicy'> = a
 
 export const del: RestEndpoint<'Webhook', 'delete'> = (
   http: AxiosInstance,
-  params: GetWebhookParams
+  params: GetWebhookParams,
 ) => {
   return raw.del(http, getWebhookUrl(params))
 }
 
 export const deleteSigningSecret: RestEndpoint<'Webhook', 'deleteSigningSecret'> = async (
   http: AxiosInstance,
-  params: GetSpaceParams
+  params: GetSpaceParams,
 ) => {
   return raw.del<void>(http, getWebhookSigningSecretUrl(params))
 }
@@ -183,7 +183,7 @@ export const deleteSigningSecret: RestEndpoint<'Webhook', 'deleteSigningSecret'>
  */
 export const deleteRetryPolicy: RestEndpoint<'Webhook', 'deleteRetryPolicy'> = async (
   http: AxiosInstance,
-  params: GetSpaceParams
+  params: GetSpaceParams,
 ) => {
   return raw.del<void>(http, getWebhookRetryPolicyUrl(params))
 }

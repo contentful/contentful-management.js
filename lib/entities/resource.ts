@@ -48,5 +48,5 @@ export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
 }
 export const wrapResourceCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ResourceProps>
+  data: CursorPaginatedCollectionProp<ResourceProps>,
 ) => CursorPaginatedCollectionProp<ResourceProps> = wrapCursorPaginatedCollection(wrapResource)

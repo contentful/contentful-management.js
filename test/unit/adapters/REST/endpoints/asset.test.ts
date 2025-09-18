@@ -52,27 +52,27 @@ describe('Rest Asset', { concurrent: true }, async () => {
     return entity.processForAllLocales().then(() => {
       expect(httpMock.put.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id/files/en-US/process',
-        'en-US locale is sent'
+        'en-US locale is sent',
       )
       expect(httpMock.put.mock.calls[1][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id/files/de-DE/process',
-        'de-DE locale is sent'
+        'de-DE locale is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent for first locale'
+        'version header is sent for first locale',
       )
       expect(httpMock.put.mock.calls[1][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent for second locale'
+        'version header is sent for second locale',
       )
       expect(httpMock.get.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id',
-        'asset was checked after processing for first locale'
+        'asset was checked after processing for first locale',
       )
       expect(httpMock.get.mock.calls[1][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id',
-        'asset was checked after processing for second locale'
+        'asset was checked after processing for second locale',
       )
     })
   })
@@ -93,15 +93,15 @@ describe('Rest Asset', { concurrent: true }, async () => {
     return entity.processForLocale('en-US').then(() => {
       expect(httpMock.put.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id/files/en-US/process',
-        'correct locale is sent'
+        'correct locale is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       expect(httpMock.get.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id',
-        'asset was checked after processing'
+        'asset was checked after processing',
       )
     })
   })
@@ -154,27 +154,27 @@ describe('Rest Asset', { concurrent: true }, async () => {
     return entity.processForAllLocales().then(() => {
       expect(httpMock.put.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id/files/en-US/process',
-        'en-US locale is sent'
+        'en-US locale is sent',
       )
       expect(httpMock.put.mock.calls[1][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id/files/de-DE/process',
-        'de-DE locale is sent'
+        'de-DE locale is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent for first locale'
+        'version header is sent for first locale',
       )
       expect(httpMock.put.mock.calls[1][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent for second locale'
+        'version header is sent for second locale',
       )
       expect(httpMock.get.mock.calls[0][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id',
-        'asset was checked after processing for first locale'
+        'asset was checked after processing for first locale',
       )
       expect(httpMock.get.mock.calls[1][0]).equals(
         '/spaces/mock-space-id/environments/mock-environment-id/assets/id',
-        'asset was checked after processing for second locale'
+        'asset was checked after processing for second locale',
       )
     })
   })
@@ -209,7 +209,7 @@ describe('Rest Asset', { concurrent: true }, async () => {
         expect(httpMock.get.mock.calls.length, 'asset is checked multiple times').toBeGreaterThan(1)
         expect(error.name).equals('AssetProcessingTimeout', 'timeout is thrown')
       })
-    }
+    },
   )
 
   test('Asset update with tags works', async () => {
@@ -225,11 +225,11 @@ describe('Rest Asset', { concurrent: true }, async () => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.mock.calls[0][1].metadata.tags[0].name).equals(
         'newname',
-        'metadata is sent'
+        'metadata is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,
@@ -249,7 +249,7 @@ describe('Rest Asset', { concurrent: true }, async () => {
             id: 'some_random_id',
           },
         },
-      })
+      }),
     )
 
     httpMock.post.mockReturnValueOnce(
@@ -259,13 +259,13 @@ describe('Rest Asset', { concurrent: true }, async () => {
             id: 'some_random_id',
           },
         },
-      })
+      }),
     )
 
     httpMock.post.mockReturnValueOnce(
       Promise.resolve({
         data: assetWithFilesMock,
-      })
+      }),
     )
 
     return adapterMock
@@ -293,11 +293,11 @@ describe('Rest Asset', { concurrent: true }, async () => {
       .then(() => {
         expect(httpMock.post.mock.calls[0][1]).equals(
           '<svg xmlns="http://www.w3.org/2000/svg"><path fill="red" d="M50 50h150v50H50z"/></svg>',
-          'uploads file #1 to upload endpoint'
+          'uploads file #1 to upload endpoint',
         )
         expect(httpMock.post.mock.calls[1][1]).equals(
           '<svg xmlns="http://www.w3.org/2000/svg"><path fill="blue" d="M50 50h150v50H50z"/></svg>',
-          'uploads file #2 to upload endpoint'
+          'uploads file #2 to upload endpoint',
         )
       })
   })

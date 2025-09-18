@@ -6,7 +6,7 @@ type ParamsType<T extends IterableFn> = T extends (params: infer P) => any ? P :
 
 export const asIterator = <P extends QueryParams, T, F extends IterableFn<P, T>>(
   fn: F,
-  params: ParamsType<F>
+  params: ParamsType<F>,
 ): AsyncIterable<T> => {
   return {
     [Symbol.asyncIterator]() {

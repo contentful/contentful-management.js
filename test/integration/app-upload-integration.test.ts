@@ -14,7 +14,7 @@ describe('AppUpload api', { sequential: true }, () => {
 
   test('createAppUpload', async () => {
     const appUpload = await organization.createAppUpload(
-      readFileSync(`${__dirname}/fixtures/build.zip`)
+      readFileSync(`${__dirname}/fixtures/build.zip`),
     )
 
     expect(appUpload.sys.type).toBe('AppUpload')
@@ -24,7 +24,7 @@ describe('AppUpload api', { sequential: true }, () => {
 
   test('getAppUpload', async () => {
     const appUpload = await organization.createAppUpload(
-      readFileSync(`${__dirname}/fixtures/build.zip`)
+      readFileSync(`${__dirname}/fixtures/build.zip`),
     )
 
     const fetchedAppUpload = await organization.getAppUpload(appUpload.sys.id)
@@ -36,13 +36,13 @@ describe('AppUpload api', { sequential: true }, () => {
 
   test('delete', async () => {
     const appUpload = await organization.createAppUpload(
-      readFileSync(`${__dirname}/fixtures/build.zip`)
+      readFileSync(`${__dirname}/fixtures/build.zip`),
     )
 
     await appUpload.delete()
 
     await expect(organization.getAppUpload(appUpload.sys.id)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 })

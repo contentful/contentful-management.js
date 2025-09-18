@@ -38,7 +38,7 @@ describe('AppActionCall structured endpoints', function () {
     // Ensure the App Signing Secret exists to allow invoking App Action Calls
     await client.appSigningSecret.upsert(
       { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
-      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' }
+      { value: 'q_Oly53ipVRUxyoBmkG0MITMR9oca9wPsXOpsQ-bWdndmWwc_xT3AIJrJ_yWwI74' },
     )
 
     // Create an App Action to target in this suite
@@ -49,7 +49,7 @@ describe('AppActionCall structured endpoints', function () {
         name: 'structured test action',
         url: 'https://www.somewhere.com',
         parameters: [],
-      }
+      },
     )
   })
 
@@ -85,7 +85,7 @@ describe('AppActionCall structured endpoints', function () {
         appDefinitionId: appDefinition.sys.id,
         appActionId,
       },
-      { parameters: {} }
+      { parameters: {} },
     )
 
     expect(['succeeded', 'failed', 'processing']).toContain(call.status)
@@ -101,7 +101,7 @@ describe('AppActionCall structured endpoints', function () {
         appDefinitionId: appDefinition.sys.id,
         appActionId,
       },
-      { parameters: {} }
+      { parameters: {} },
     )
 
     const call = await client.appActionCall.get({

@@ -72,7 +72,7 @@ describe('AppEventSubscription api', { sequential: true }, () => {
     await client.appEventSubscription.delete(entityId)
 
     await expect(client.appEventSubscription.get(entityId)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 })

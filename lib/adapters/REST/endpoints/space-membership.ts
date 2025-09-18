@@ -18,7 +18,7 @@ import * as raw from './raw'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(
-    'The user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user)'
+    'The user attribute in the space membership root is deprecated. The attribute has been moved inside the sys  object (i.e. sys.user)',
   )
 }
 
@@ -28,7 +28,7 @@ const getEntityUrl = (params: GetSpaceMembershipProps) =>
 
 export const get: RestEndpoint<'SpaceMembership', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceMembershipProps
+  params: GetSpaceMembershipProps,
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.get<SpaceMembershipProps>(http, getEntityUrl(params))
@@ -36,7 +36,7 @@ export const get: RestEndpoint<'SpaceMembership', 'get'> = (
 
 export const getMany: RestEndpoint<'SpaceMembership', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.get<CollectionProp<SpaceMembershipProps>>(http, getBaseUrl(params), {
@@ -46,24 +46,24 @@ export const getMany: RestEndpoint<'SpaceMembership', 'getMany'> = (
 
 export const getForOrganization: RestEndpoint<'SpaceMembership', 'getForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & { spaceMembershipId: string }
+  params: GetOrganizationParams & { spaceMembershipId: string },
 ) => {
   return raw.get<SpaceMembershipProps>(
     http,
-    `/organizations/${params.organizationId}/space_memberships/${params.spaceMembershipId}`
+    `/organizations/${params.organizationId}/space_memberships/${params.spaceMembershipId}`,
   )
 }
 
 export const getManyForOrganization: RestEndpoint<'SpaceMembership', 'getManyForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<SpaceMembershipProps>>(
     http,
     `/organizations/${params.organizationId}/space_memberships`,
     {
       params: params.query,
-    }
+    },
   )
 }
 
@@ -71,7 +71,7 @@ export const create: RestEndpoint<'SpaceMembership', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   data: CreateSpaceMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.post<SpaceMembershipProps>(http, getBaseUrl(params), data, {
@@ -83,7 +83,7 @@ export const createWithId: RestEndpoint<'SpaceMembership', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   data: CreateSpaceMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   spaceMembershipDeprecationWarning()
   return raw.put<SpaceMembershipProps>(http, getEntityUrl(params), data, {
@@ -95,7 +95,7 @@ export const update: RestEndpoint<'SpaceMembership', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceMembershipProps,
   rawData: SpaceMembershipProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -109,7 +109,7 @@ export const update: RestEndpoint<'SpaceMembership', 'update'> = (
 
 export const del: RestEndpoint<'SpaceMembership', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceMembershipProps
+  params: GetSpaceMembershipProps,
 ) => {
   return raw.del(http, getEntityUrl(params))
 }

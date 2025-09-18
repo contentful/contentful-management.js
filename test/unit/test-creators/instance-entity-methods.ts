@@ -39,7 +39,7 @@ export async function entityCollectionActionTest(setup, { wrapperMethod, actionM
 export async function entityActionTest(
   setup,
   { wrapperMethod, actionMethod },
-  checkResponse = true
+  checkResponse = true,
 ) {
   const { makeRequest, entityMock } = setup(Promise.resolve({}))
   const entity = wrapperMethod(makeRequest, entityMock)
@@ -142,7 +142,7 @@ export async function omitAndDeleteFieldTest(setup: OmitAndDeleteSetup, { wrappe
   const setupData = setup(
     Promise.resolve({
       fields: [titleField],
-    })
+    }),
   )
   setupData.entityMock.fields = [titleField]
   /* Since this method calls update() 2x, first call needs to return a properly wrapped entity. */
@@ -153,10 +153,10 @@ export async function omitAndDeleteFieldTest(setup: OmitAndDeleteSetup, { wrappe
     expect(response.toPlainObject, 'response is wrapped').to.be.ok
     // @todo type is not correct, it complains that payload does not exist (but it does)
     expect(
-      makeRequestSpy.mock.calls[0][0].payload.fields.find((field) => field.id === 'title').omitted
+      makeRequestSpy.mock.calls[0][0].payload.fields.find((field) => field.id === 'title').omitted,
     ).equals(true, 'omitted was se  t to true in the first update')
     expect(
-      makeRequestSpy.mock.calls[1][0].payload.fields.find((field) => field.id === 'title').deleted
+      makeRequestSpy.mock.calls[1][0].payload.fields.find((field) => field.id === 'title').deleted,
     ).equals(true, 'deleted was set to true in the first update')
   })
 }

@@ -30,14 +30,14 @@ const getEnvironmentAliasUrl = (params: GetSpaceEnvAliasParams) =>
 
 export const get: RestEndpoint<'EnvironmentAlias', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvAliasParams
+  params: GetSpaceEnvAliasParams,
 ) => {
   return raw.get<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params))
 }
 
 export const getMany: RestEndpoint<'EnvironmentAlias', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & PaginationQueryParams
+  params: GetSpaceParams & PaginationQueryParams,
 ) => {
   return raw.get<CollectionProp<EnvironmentAliasProps>>(http, getBaseUrl(params), {
     params: params.query,
@@ -48,7 +48,7 @@ export const createWithId: RestEndpoint<'EnvironmentAlias', 'createWithId'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: CreateEnvironmentAliasProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.put<EnvironmentAliasProps>(http, getEnvironmentAliasUrl(params), data, {
@@ -60,7 +60,7 @@ export const update: RestEndpoint<'EnvironmentAlias', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvAliasParams,
   rawData: EnvironmentAliasProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -74,7 +74,7 @@ export const update: RestEndpoint<'EnvironmentAlias', 'update'> = (
 
 export const del: RestEndpoint<'EnvironmentAlias', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvAliasParams
+  params: GetSpaceEnvAliasParams,
 ) => {
   return raw.del(http, getEnvironmentAliasUrl(params))
 }

@@ -56,7 +56,7 @@ function createFunctionApi(makeRequest: MakeRequest) {
     getManyFunctionsForEnvironment(
       spaceId: string,
       environmentId: string,
-      appInstallationId: string
+      appInstallationId: string,
     ) {
       return makeRequest({
         entityType: 'Function',

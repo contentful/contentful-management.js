@@ -66,12 +66,12 @@ function createUploadCredentialsApi(makeRequest: MakeRequest) {
  */
 export function wrapUploadCredential(
   makeRequest: MakeRequest,
-  data: UploadCredentialProps
+  data: UploadCredentialProps,
 ): UploadCredential {
   const uploadCredential = toPlainObject(copy(data))
   const uploadCredentialWithMethods = enhanceWithMethods(
     uploadCredential,
-    createUploadCredentialsApi(makeRequest)
+    createUploadCredentialsApi(makeRequest),
   )
   return freezeSys(uploadCredentialWithMethods)
 }

@@ -11,15 +11,18 @@
  */
 export default function enhanceWithMethods<
   B extends Record<string, unknown>,
-  M extends Record<string, Function>
+  M extends Record<string, Function>,
 >(baseObject: B, methodsObject: M): M & B {
-  return Object.keys(methodsObject).reduce((enhancedObject, methodName) => {
-    Object.defineProperty(enhancedObject, methodName, {
-      enumerable: false,
-      configurable: true,
-      writable: false,
-      value: methodsObject[methodName],
-    })
-    return enhancedObject
-  }, baseObject as M & B)
+  return Object.keys(methodsObject).reduce(
+    (enhancedObject, methodName) => {
+      Object.defineProperty(enhancedObject, methodName, {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: methodsObject[methodName],
+      })
+      return enhancedObject
+    },
+    baseObject as M & B,
+  )
 }

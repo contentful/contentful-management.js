@@ -10,7 +10,7 @@ export async function pollForCompletedAiActionInvocationResult(
   environment,
   aiActionId: string,
   invocationId: string,
-  pollingTimeoutSeconds = 15
+  pollingTimeoutSeconds = 15,
 ) {
   const pollIntervalMs = 1000 // 1 second between polls
   const pollingTimeoutMs = pollingTimeoutSeconds * 1000
@@ -100,7 +100,7 @@ describe('AiActionInvocation api', { sequential: true }, () => {
       environment,
       aiAction.sys.id,
       invocation.sys.id,
-      15
+      15,
     )
 
     expect(fetchedInvocation.sys.type).equals('AiActionInvocation')
@@ -122,7 +122,7 @@ describe('AiActionInvocation api', { sequential: true }, () => {
     } catch (error) {
       expect(error.name).equals(
         'ValidationFailed',
-        'API should return validation error for invalid invocation ID'
+        'API should return validation error for invalid invocation ID',
       )
     }
   })
@@ -155,7 +155,7 @@ describe('AiActionInvocation api', { sequential: true }, () => {
     } catch (error) {
       expect(error.name).equals(
         'Error',
-        'API should return error when accessing invocation with wrong AI Action ID'
+        'API should return error when accessing invocation with wrong AI Action ID',
       )
     } finally {
       await otherAiAction.delete()

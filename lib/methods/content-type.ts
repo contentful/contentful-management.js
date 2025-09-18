@@ -12,14 +12,14 @@ type OmitOrDelete = 'omitted' | 'deleted'
 const findAndUpdateField = function (
   contentType: ContentTypeProps,
   fieldId: string,
-  omitOrDelete: OmitOrDelete
+  omitOrDelete: OmitOrDelete,
 ) {
   const field = contentType.fields.find((field) => field.id === fieldId)
   if (!field) {
     return Promise.reject(
       new Error(
-        `Tried to omitAndDeleteField on a nonexistent field, ${fieldId}, on the content type ${contentType.name}.`
-      )
+        `Tried to omitAndDeleteField on a nonexistent field, ${fieldId}, on the content type ${contentType.name}.`,
+      ),
     )
   }
 
@@ -36,7 +36,7 @@ export const omitAndDeleteField = (
   }: {
     fieldId: string
   } & GetContentTypeParams,
-  contentType: ContentTypeProps
+  contentType: ContentTypeProps,
 ) => {
   return findAndUpdateField(contentType, fieldId, 'omitted')
     .then((newContentType) => {

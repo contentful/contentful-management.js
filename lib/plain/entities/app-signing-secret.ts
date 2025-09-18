@@ -24,7 +24,7 @@ export type AppSigningSecretPlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppSigningSecretProps
+    payload: CreateAppSigningSecretProps,
   ): Promise<AppSigningSecretProps>
   /**
    * Fetches the current App Signing Secret for the given App

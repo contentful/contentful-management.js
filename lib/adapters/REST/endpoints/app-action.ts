@@ -26,14 +26,14 @@ const getAppActionsEnvUrl = (params: GetAppActionsForEnvParams) => {
 
 export const get: RestEndpoint<'AppAction', 'get'> = (
   http: AxiosInstance,
-  params: GetAppActionParams
+  params: GetAppActionParams,
 ) => {
   return raw.get<AppActionProps>(http, getAppActionUrl(params))
 }
 
 export const getMany: RestEndpoint<'AppAction', 'getMany'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams & QueryParams
+  params: GetAppDefinitionParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<AppActionProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -42,7 +42,7 @@ export const getMany: RestEndpoint<'AppAction', 'getMany'> = (
 
 export const getManyForEnvironment: RestEndpoint<'AppAction', 'getManyForEnvironment'> = (
   http: AxiosInstance,
-  params: GetAppActionsForEnvParams & QueryParams
+  params: GetAppActionsForEnvParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<AppActionProps>>(http, getAppActionsEnvUrl(params), {
     params: normalizeSelect(params.query),
@@ -51,7 +51,7 @@ export const getManyForEnvironment: RestEndpoint<'AppAction', 'getManyForEnviron
 
 export const del: RestEndpoint<'AppAction', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppActionParams
+  params: GetAppActionParams,
 ) => {
   return raw.del<void>(http, getAppActionUrl(params))
 }
@@ -59,7 +59,7 @@ export const del: RestEndpoint<'AppAction', 'delete'> = (
 export const create: RestEndpoint<'AppAction', 'create'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  data: CreateAppActionProps
+  data: CreateAppActionProps,
 ) => {
   return raw.post<AppActionProps>(http, getBaseUrl(params), data)
 }
@@ -67,7 +67,7 @@ export const create: RestEndpoint<'AppAction', 'create'> = (
 export const update: RestEndpoint<'AppAction', 'update'> = (
   http: AxiosInstance,
   params: GetAppActionParams,
-  data: CreateAppActionProps
+  data: CreateAppActionProps,
 ) => {
   return raw.put<AppActionProps>(http, getAppActionUrl(params), data)
 }

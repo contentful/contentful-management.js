@@ -19,7 +19,7 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
   http: AxiosInstance,
   params: { organizationId: string },
   data: CreateOrganizationInvitationProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<OrganizationInvitationProps>(
     http,
@@ -30,14 +30,14 @@ export const create: RestEndpoint<'OrganizationInvitation', 'create'> = (
         ...InvitationAlphaHeaders,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
   http: AxiosInstance,
   params: { organizationId: string; invitationId: string },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<OrganizationInvitationProps>(
     http,
@@ -47,6 +47,6 @@ export const get: RestEndpoint<'OrganizationInvitation', 'get'> = (
         ...OrganizationUserManagementAlphaHeaders,
         ...headers,
       },
-    }
+    },
   )
 }

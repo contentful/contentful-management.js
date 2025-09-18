@@ -29,7 +29,7 @@ const completeWorkflowUrl = (params: GetWorkflowParams) => `${getWorkflowUrl(par
 export const getMany: RestEndpoint<'Workflow', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query?: WorkflowQueryOptions },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get<CollectionProp<WorkflowProps>>(http, getBaseUrl(params), {
     headers,
@@ -39,7 +39,7 @@ export const getMany: RestEndpoint<'Workflow', 'getMany'> = (
 export const get: RestEndpoint<'Workflow', 'get'> = (
   http: AxiosInstance,
   params: GetWorkflowParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get<WorkflowProps>(http, getWorkflowUrl(params), {
     headers,
@@ -49,7 +49,7 @@ export const create: RestEndpoint<'Workflow', 'create'> = (
   http: AxiosInstance,
   params: CreateWorkflowParams,
   rawData: CreateWorkflowProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.post<WorkflowProps>(http, getBaseUrl(params), data, {
@@ -61,7 +61,7 @@ export const update: RestEndpoint<'Workflow', 'update'> = (
   http: AxiosInstance,
   params: UpdateWorkflowParams,
   rawData: UpdateWorkflowProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -77,7 +77,7 @@ export const update: RestEndpoint<'Workflow', 'update'> = (
 export const del: RestEndpoint<'Workflow', 'delete'> = (
   http: AxiosInstance,
   { version, ...params }: DeleteWorkflowParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.del(http, getWorkflowUrl(params), {
     headers: { 'X-Contentful-Version': version, ...headers },
@@ -87,7 +87,7 @@ export const del: RestEndpoint<'Workflow', 'delete'> = (
 export const complete: RestEndpoint<'Workflow', 'complete'> = (
   http: AxiosInstance,
   { version, ...params }: CompleteWorkflowParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.put(http, completeWorkflowUrl(params), null, {
     headers: { 'X-Contentful-Version': version, ...headers },

@@ -104,12 +104,12 @@ function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationI
 export function wrapOrganizationMembership(
   makeRequest: MakeRequest,
   data: OrganizationMembershipProps,
-  organizationId: string
+  organizationId: string,
 ): OrganizationMembership {
   const organizationMembership = toPlainObject(copy(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
-    createOrganizationMembershipApi(makeRequest, organizationId)
+    createOrganizationMembershipApi(makeRequest, organizationId),
   )
   return freezeSys(organizationMembershipWithMethods)
 }

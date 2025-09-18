@@ -62,7 +62,7 @@ export type ResourceTypePlainClientAPI = {
   upsert(
     params: OptionalDefaults<GetResourceTypeParams>,
     rawData: UpsertResourceTypeProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ResourceTypeProps>
 
   /*
@@ -95,7 +95,7 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getForEnvironment(
-    params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: BasicCursorPaginationOptions }
+    params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: BasicCursorPaginationOptions },
   ): Promise<CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>>
 
   /*
@@ -112,6 +112,6 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>
+    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>,
   ): Promise<CollectionProp<ResourceTypeProps>>
 }

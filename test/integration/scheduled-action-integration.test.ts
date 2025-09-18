@@ -368,7 +368,7 @@ describe('Scheduled Actions API', () => {
           scheduledFor: {
             datetime,
           },
-        }
+        },
       )
 
       const scheduledAction = await plainClient.scheduledActions.get({
@@ -387,7 +387,7 @@ describe('Scheduled Actions API', () => {
             ...payload.scheduledFor,
             timezone: 'Europe/Berlin',
           },
-        }
+        },
       )
 
       expect(updatedAction.scheduledFor.timezone).toBe('Europe/Berlin')
@@ -437,7 +437,7 @@ describe('Scheduled Actions API', () => {
               datetime,
             },
             payload: aggregateRootPayload,
-          }
+          },
         )
 
         const scheduledAction = await plainClient.scheduledActions.get({

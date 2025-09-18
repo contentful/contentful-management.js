@@ -27,7 +27,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the entities are not found.
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<AiActionProps>>
   /**
    * Deletes the AI Action.
@@ -47,7 +47,7 @@ export type AiActionPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams>,
     payload: CreateAiActionProps,
-    headers?: Partial<RawAxiosRequestHeaders>
+    headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionProps>
   /**
    * Updates an AI Action.
@@ -60,7 +60,7 @@ export type AiActionPlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>,
     payload: AiActionProps,
-    headers?: Partial<RawAxiosRequestHeaders>
+    headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionProps>
   /**
    * Publishes the AI Action.
@@ -72,7 +72,7 @@ export type AiActionPlainClientAPI = {
   publish(
     params: OptionalDefaults<GetSpaceParams & { aiActionId: string; version: number }>,
     payload?: unknown,
-    headers?: Partial<RawAxiosRequestHeaders>
+    headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionProps>
   /**
    * Unpublishes the AI Action.
@@ -81,7 +81,7 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the AI Action is not found.
    */
   unpublish(
-    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>
+    params: OptionalDefaults<GetSpaceParams & { aiActionId: string }>,
   ): Promise<AiActionProps>
   /**
    * Invokes an AI Action.
@@ -95,6 +95,6 @@ export type AiActionPlainClientAPI = {
   invoke(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>,
     payload: AiActionInvocationType,
-    headers?: Partial<RawAxiosRequestHeaders>
+    headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionInvocationProps>
 }

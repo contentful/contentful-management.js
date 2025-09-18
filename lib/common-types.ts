@@ -441,16 +441,14 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
-  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResponse'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResponse', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResponse'>
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
   (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
-  (opts: MROpts<'AppActionCall', 'createWithResult', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResult'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResult', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResult'>
   (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
@@ -470,19 +468,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
-  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
-    'AppDefinition',
-    'getInstallationsForOrg'
-  >
+  (
+    opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>,
+  ): MRReturn<'AppDefinition', 'getInstallationsForOrg'>
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
-  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
-    'AppInstallation',
-    'getForOrganization'
-  >
+  (
+    opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
+  ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
@@ -581,10 +577,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'EnvironmentAlias', 'get', UA>): MRReturn<'EnvironmentAlias', 'get'>
   (opts: MROpts<'EnvironmentAlias', 'getMany', UA>): MRReturn<'EnvironmentAlias', 'getMany'>
-  (opts: MROpts<'EnvironmentAlias', 'createWithId', UA>): MRReturn<
-    'EnvironmentAlias',
-    'createWithId'
-  >
+  (
+    opts: MROpts<'EnvironmentAlias', 'createWithId', UA>,
+  ): MRReturn<'EnvironmentAlias', 'createWithId'>
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
@@ -594,25 +589,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
   (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
   (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
-  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'versionUpdate'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'versionUpdate'>
   (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
   (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
-  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'disconnect'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'disconnect'>
 
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getMany'
-  >
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getMany'>
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
@@ -637,10 +628,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
   (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
-  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
-    'Function',
-    'getManyForEnvironment'
-  >
+  (
+    opts: MROpts<'Function', 'getManyForEnvironment', UA>,
+  ): MRReturn<'Function', 'getManyForEnvironment'>
 
   (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
   (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
@@ -655,24 +645,20 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Organization', 'get', UA>): MRReturn<'Organization', 'get'>
 
   (opts: MROpts<'OrganizationInvitation', 'get', UA>): MRReturn<'OrganizationInvitation', 'get'>
-  (opts: MROpts<'OrganizationInvitation', 'create', UA>): MRReturn<
-    'OrganizationInvitation',
-    'create'
-  >
+  (
+    opts: MROpts<'OrganizationInvitation', 'create', UA>,
+  ): MRReturn<'OrganizationInvitation', 'create'>
 
   (opts: MROpts<'OrganizationMembership', 'get', UA>): MRReturn<'OrganizationMembership', 'get'>
-  (opts: MROpts<'OrganizationMembership', 'getMany', UA>): MRReturn<
-    'OrganizationMembership',
-    'getMany'
-  >
-  (opts: MROpts<'OrganizationMembership', 'update', UA>): MRReturn<
-    'OrganizationMembership',
-    'update'
-  >
-  (opts: MROpts<'OrganizationMembership', 'delete', UA>): MRReturn<
-    'OrganizationMembership',
-    'delete'
-  >
+  (
+    opts: MROpts<'OrganizationMembership', 'getMany', UA>,
+  ): MRReturn<'OrganizationMembership', 'getMany'>
+  (
+    opts: MROpts<'OrganizationMembership', 'update', UA>,
+  ): MRReturn<'OrganizationMembership', 'update'>
+  (
+    opts: MROpts<'OrganizationMembership', 'delete', UA>,
+  ): MRReturn<'OrganizationMembership', 'delete'>
 
   (opts: MROpts<'PersonalAccessToken', 'get', UA>): MRReturn<'PersonalAccessToken', 'get'>
   (opts: MROpts<'PersonalAccessToken', 'getMany', UA>): MRReturn<'PersonalAccessToken', 'getMany'>
@@ -681,21 +667,18 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AccessToken', 'get', UA>): MRReturn<'AccessToken', 'get'>
   (opts: MROpts<'AccessToken', 'getMany', UA>): MRReturn<'AccessToken', 'getMany'>
-  (opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>): MRReturn<
-    'AccessToken',
-    'createPersonalAccessToken'
-  >
+  (
+    opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>,
+  ): MRReturn<'AccessToken', 'createPersonalAccessToken'>
   (opts: MROpts<'AccessToken', 'revoke', UA>): MRReturn<'AccessToken', 'revoke'>
-  (opts: MROpts<'AccessToken', 'getManyForOrganization', UA>): MRReturn<
-    'AccessToken',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'AccessToken', 'getManyForOrganization', UA>,
+  ): MRReturn<'AccessToken', 'getManyForOrganization'>
 
   (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
-  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
-    'OAuthApplication',
-    'getManyForUser'
-  >
+  (
+    opts: MROpts<'OAuthApplication', 'getManyForUser', UA>,
+  ): MRReturn<'OAuthApplication', 'getManyForUser'>
   (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
   (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
   (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
@@ -716,10 +699,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
   (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
-  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
-    'ReleaseAction',
-    'queryForRelease'
-  >
+  (
+    opts: MROpts<'ReleaseAction', 'queryForRelease', UA>,
+  ): MRReturn<'ReleaseAction', 'queryForRelease'>
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -728,10 +710,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
-  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
-    'ResourceType',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'ResourceType', 'getForEnvironment', UA>,
+  ): MRReturn<'ResourceType', 'getForEnvironment'>
   (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
@@ -750,10 +731,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
   (opts: MROpts<'Snapshot', 'getForEntry', UA>): MRReturn<'Snapshot', 'getForEntry'>
-  (opts: MROpts<'Snapshot', 'getManyForContentType', UA>): MRReturn<
-    'Snapshot',
-    'getManyForContentType'
-  >
+  (
+    opts: MROpts<'Snapshot', 'getManyForContentType', UA>,
+  ): MRReturn<'Snapshot', 'getManyForContentType'>
   (opts: MROpts<'Snapshot', 'getForContentType', UA>): MRReturn<'Snapshot', 'getForContentType'>
 
   (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
@@ -768,14 +748,12 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'SpaceMembership', 'get', UA>): MRReturn<'SpaceMembership', 'get'>
   (opts: MROpts<'SpaceMembership', 'getMany', UA>): MRReturn<'SpaceMembership', 'getMany'>
-  (opts: MROpts<'SpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'SpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'SpaceMembership', 'create', UA>): MRReturn<'SpaceMembership', 'create'>
   (opts: MROpts<'SpaceMembership', 'createWithId', UA>): MRReturn<'SpaceMembership', 'createWithId'>
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
@@ -802,28 +780,24 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
 
   (opts: MROpts<'TeamMembership', 'get', UA>): MRReturn<'TeamMembership', 'get'>
-  (opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForOrganization'
-  >
-  (opts: MROpts<'TeamMembership', 'getManyForTeam', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForTeam'
-  >
+  (
+    opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForOrganization'>
+  (
+    opts: MROpts<'TeamMembership', 'getManyForTeam', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForTeam'>
   (opts: MROpts<'TeamMembership', 'create', UA>): MRReturn<'TeamMembership', 'create'>
   (opts: MROpts<'TeamMembership', 'update', UA>): MRReturn<'TeamMembership', 'update'>
   (opts: MROpts<'TeamMembership', 'delete', UA>): MRReturn<'TeamMembership', 'delete'>
 
   (opts: MROpts<'TeamSpaceMembership', 'get', UA>): MRReturn<'TeamSpaceMembership', 'get'>
   (opts: MROpts<'TeamSpaceMembership', 'getMany', UA>): MRReturn<'TeamSpaceMembership', 'getMany'>
-  (opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
@@ -2258,7 +2232,7 @@ export type MRActions = {
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  UA extends boolean = false
+  UA extends boolean = false,
 > = {
   entityType: ET
   action: Action
@@ -2284,7 +2258,7 @@ export type MROpts<
  */
 export type MRReturn<
   ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
+  Action extends keyof MRActions[ET],
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */

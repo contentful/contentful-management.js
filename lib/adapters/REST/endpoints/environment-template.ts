@@ -11,7 +11,7 @@ const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =
 export const get: RestEndpoint<'EnvironmentTemplate', 'get'> = (
   http,
   { organizationId, environmentTemplateId, version, query = {} },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   version
     ? raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions', version), {
@@ -26,21 +26,21 @@ export const get: RestEndpoint<'EnvironmentTemplate', 'get'> = (
 export const getMany: RestEndpoint<'EnvironmentTemplate', 'getMany'> = (
   http,
   { organizationId, query = {} },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => raw.get(http, apiPath(organizationId), { params: query, headers })
 
 export const create: RestEndpoint<'EnvironmentTemplate', 'create'> = (
   http,
   { organizationId },
   payload,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => raw.post(http, apiPath(organizationId), payload, { headers })
 
 export const update: RestEndpoint<'EnvironmentTemplate', 'update'> = (
   http,
   { organizationId, environmentTemplateId },
   payload,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<EnvironmentTemplateProps, 'sys'> = copy(payload)
   delete data.sys
@@ -57,7 +57,7 @@ export const versionUpdate: RestEndpoint<'EnvironmentTemplate', 'versionUpdate'>
   http,
   { organizationId, version, environmentTemplateId },
   payload,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.patch(http, apiPath(organizationId, environmentTemplateId, 'versions', version), payload, {
     headers,
@@ -66,13 +66,13 @@ export const versionUpdate: RestEndpoint<'EnvironmentTemplate', 'versionUpdate'>
 export const del: RestEndpoint<'EnvironmentTemplate', 'delete'> = (
   http,
   { organizationId, environmentTemplateId },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => raw.del(http, apiPath(organizationId, environmentTemplateId), { headers })
 
 export const versions: RestEndpoint<'EnvironmentTemplate', 'versions'> = (
   http,
   { organizationId, environmentTemplateId, query = {} },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get(http, apiPath(organizationId, environmentTemplateId, 'versions'), {
     params: query,
@@ -83,7 +83,7 @@ export const validate: RestEndpoint<'EnvironmentTemplate', 'validate'> = (
   http,
   { spaceId, environmentId, environmentTemplateId, version },
   payload,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.put(
     http,
@@ -91,29 +91,29 @@ export const validate: RestEndpoint<'EnvironmentTemplate', 'validate'> = (
       ? `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}/versions/${version}/validated`
       : `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}/validated`,
     payload,
-    { headers }
+    { headers },
   )
 
 export const install: RestEndpoint<'EnvironmentTemplate', 'install'> = (
   http,
   { spaceId, environmentId, environmentTemplateId },
   payload,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.post(
     http,
     `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}/versions`,
     payload,
-    { headers }
+    { headers },
   )
 
 export const disconnect: RestEndpoint<'EnvironmentTemplate', 'disconnect'> = (
   http,
   { spaceId, environmentId, environmentTemplateId },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.del(
     http,
     `/spaces/${spaceId}/environments/${environmentId}/template_installations/${environmentTemplateId}`,
-    { headers }
+    { headers },
   )

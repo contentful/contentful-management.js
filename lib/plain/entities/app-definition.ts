@@ -27,7 +27,7 @@ export type AppDefinitionPlainClientAPI = {
    * ```
    */
   get(
-    params: OptionalDefaults<GetOrganizationParams & { appDefinitionId: string } & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & { appDefinitionId: string } & QueryParams>,
   ): Promise<AppDefinitionProps>
   /**
    * Fetch all App Definitions for the given Organization
@@ -42,7 +42,7 @@ export type AppDefinitionPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<AppDefinitionProps>>
   /**
    * Create an App Definition
@@ -71,7 +71,7 @@ export type AppDefinitionPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetOrganizationParams>,
-    rawData: CreateAppDefinitionProps
+    rawData: CreateAppDefinitionProps,
   ): Promise<AppDefinitionProps>
   /**
    * Update an App Definition
@@ -96,7 +96,7 @@ export type AppDefinitionPlainClientAPI = {
   update(
     params: OptionalDefaults<GetAppDefinitionParams>,
     rawData: AppDefinitionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<AppDefinitionProps>
   /**
    * Delete an App Definition
@@ -116,6 +116,6 @@ export type AppDefinitionPlainClientAPI = {
    * Please use please use appInstallations.getForOrganization instead
    */
   getInstallationsForOrg(
-    params: OptionalDefaults<GetAppDefinitionParams>
+    params: OptionalDefaults<GetAppDefinitionParams>,
   ): Promise<AppInstallationsForOrganizationProps>
 }

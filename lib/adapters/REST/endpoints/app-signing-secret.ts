@@ -9,32 +9,32 @@ import type { GetAppDefinitionParams } from '../../../common-types'
 
 export const get: RestEndpoint<'AppSigningSecret', 'get'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.get<AppSigningSecretProps>(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
   )
 }
 
 export const upsert: RestEndpoint<'AppSigningSecret', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  data: CreateAppSigningSecretProps
+  data: CreateAppSigningSecretProps,
 ) => {
   return raw.put<AppSigningSecretProps>(
     http,
     `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
-    data
+    data,
   )
 }
 
 export const del: RestEndpoint<'AppSigningSecret', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams
+  params: GetAppDefinitionParams,
 ) => {
   return raw.del(
     http,
-    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`
+    `/organizations/${params.organizationId}/app_definitions/${params.appDefinitionId}/signing_secret`,
   )
 }

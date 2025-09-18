@@ -31,6 +31,6 @@ export type AppAccessTokenPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppInstallationParams>,
-    payload: CreateAppAccessTokenProps
+    payload: CreateAppAccessTokenProps,
   ): Promise<AppAccessTokenProps>
 }

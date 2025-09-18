@@ -203,12 +203,12 @@ function createEditorInterfaceApi(makeRequest: MakeRequest) {
  */
 export function wrapEditorInterface(
   makeRequest: MakeRequest,
-  data: EditorInterfaceProps
+  data: EditorInterfaceProps,
 ): EditorInterface {
   const editorInterface = toPlainObject(copy(data))
   const editorInterfaceWithMethods = enhanceWithMethods(
     editorInterface,
-    createEditorInterfaceApi(makeRequest)
+    createEditorInterfaceApi(makeRequest),
   )
   return freezeSys(editorInterfaceWithMethods)
 }

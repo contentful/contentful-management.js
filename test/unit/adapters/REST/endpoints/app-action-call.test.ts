@@ -34,7 +34,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     expect(result).to.deep.equal(structuredCall)
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`
+      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`,
     )
   })
 
@@ -56,7 +56,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     expect(result).to.deep.equal(rawResponse)
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id/response`
+      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id/response`,
     )
   })
 
@@ -86,21 +86,21 @@ describe('Rest App Action Call', { concurrent: true }, () => {
         retryInterval: 10,
         retries: 5,
       },
-      { parameters: {} }
+      { parameters: {} },
     )
 
     expect(result).to.deep.equal(succeeded)
 
     expect(httpMock.post.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls`
+      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls`,
     )
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(2)
   })
 
@@ -126,16 +126,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           retryInterval: 5,
           retries: numRetries,
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action result is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(numRetries)
   })
 
@@ -160,7 +160,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
         retryInterval: 5,
         retries: 3,
       },
-      { parameters: {} }
+      { parameters: {} },
     )
 
     expect(result).to.deep.equal(failed)
@@ -185,16 +185,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           retryInterval: 5,
           retries: numRetries,
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action result is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(numRetries)
   })
 
@@ -203,12 +203,12 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
 
     const payload: CreateAppActionCallProps = {
@@ -225,20 +225,20 @@ describe('Rest App Action Call', { concurrent: true }, () => {
         appDefinitionId: 'app-definiton-id',
         appActionId: 'app-action-id',
       },
-      payload
+      payload,
     )
 
     expect(response).to.be.an('object')
     expect(response).to.deep.equal(entityMock)
 
     expect(httpMock.post.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls`
+      `/spaces/space-id/environments/environment-id/app_installations/app-definiton-id/actions/app-action-id/calls`,
     )
 
     expect(httpMock.post.mock.calls[0][1]).toStrictEqual(payload)
 
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
     )
   })
 
@@ -246,7 +246,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     const responseMock = cloneMock('appActionCallResponse')
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     httpMock.get.mockRejectedValue(Error('getCallDetails error'))
@@ -254,7 +254,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retryInterval: 100 }
+      { retryInterval: 100 },
     )
 
     await expect(
@@ -265,16 +265,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(15)
   })
 
@@ -285,7 +285,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: errorResponseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     httpMock.get
@@ -296,7 +296,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retryInterval: 100 }
+      { retryInterval: 100 },
     )
 
     const result = await entity.createWithResponse(
@@ -306,7 +306,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
         appDefinitionId: 'app-definiton-id',
         appActionId: 'app-action-id',
       },
-      { parameters: {} }
+      { parameters: {} },
     )
 
     expect(result).to.deep.equal(responseMock)
@@ -314,9 +314,9 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(3)
   })
 
@@ -326,13 +326,13 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retryInterval: 100 }
+      { retryInterval: 100 },
     )
 
     await expect(
@@ -343,16 +343,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(15)
   })
 
@@ -362,13 +362,13 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retryInterval: 100 }
+      { retryInterval: 100 },
     )
 
     await expect(
@@ -379,16 +379,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(15)
   })
 
@@ -405,12 +405,12 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
 
     await expect(
@@ -421,16 +421,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('App action not found or lambda fails')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(1)
   })
 
@@ -441,13 +441,13 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
       entityMock,
-      { retries: numRetries, retryInterval: 250 }
+      { retries: numRetries, retryInterval: 250 },
     )
 
     await expect(
@@ -458,16 +458,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('The app action response is taking longer than expected to process.')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(numRetries)
   })
 
@@ -484,12 +484,12 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
 
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
 
     await expect(
@@ -500,16 +500,16 @@ describe('Rest App Action Call', { concurrent: true }, () => {
           appDefinitionId: 'app-definiton-id',
           appActionId: 'app-action-id',
         },
-        { parameters: {} }
-      )
+        { parameters: {} },
+      ),
     ).rejects.toThrow('App action not found or lambda fails')
 
     expect(
       httpMock.get.mock.calls.filter((call) =>
         call.includes(
-          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
-        )
-      )
+          `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
+        ),
+      ),
     ).toHaveLength(1)
   })
 
@@ -518,11 +518,11 @@ describe('Rest App Action Call', { concurrent: true }, () => {
 
     const { httpMock, adapterMock, entityMock } = setup(
       Promise.resolve({ data: responseMock }),
-      'appActionCallResponse'
+      'appActionCallResponse',
     )
     const entity = wrapAppActionCallResponse(
       ((...args: [MakeRequestOptions]) => adapterMock.makeRequest(...args)) as MakeRequest,
-      entityMock
+      entityMock,
     )
 
     const response = await entity.getCallDetails({
@@ -536,7 +536,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     expect(response).to.deep.equal(entityMock)
 
     expect(httpMock.get.mock.calls[0][0]).toBe(
-      `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`
+      `/spaces/space-id/environments/environment-id/actions/app-action-id/calls/call-id`,
     )
   })
 })

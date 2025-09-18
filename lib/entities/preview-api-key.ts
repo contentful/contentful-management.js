@@ -28,7 +28,7 @@ function createPreviewApiKeyApi() {
  */
 export function wrapPreviewApiKey(
   _makeRequest: MakeRequest,
-  data: PreviewApiKeyProps
+  data: PreviewApiKeyProps,
 ): PreviewApiKey {
   const previewApiKey = toPlainObject(copy(data))
   const previewApiKeyWithMethods = enhanceWithMethods(previewApiKey, createPreviewApiKeyApi())

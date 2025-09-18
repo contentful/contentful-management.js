@@ -28,7 +28,7 @@ describe('OrganizationMembership Invitation API', () => {
     expect(invitation.sys.organizationMembership.sys.linkType).toBe('OrganizationMembership')
 
     const membership = await organization.getOrganizationMembership(
-      invitation.sys.organizationMembership.sys.id
+      invitation.sys.organizationMembership.sys.id,
     )
 
     // Delete membership, which also deletes the invitation for this user

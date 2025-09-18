@@ -29,7 +29,7 @@ export const getAppInstallationUrl = (params: GetAppInstallationParams) =>
 
 export const get: RestEndpoint<'AppInstallation', 'get'> = (
   http: AxiosInstance,
-  params: GetAppInstallationParams & PaginationQueryParams
+  params: GetAppInstallationParams & PaginationQueryParams,
 ) => {
   return raw.get<AppInstallationProps>(http, getAppInstallationUrl(params), {
     params: normalizeSelect(params.query),
@@ -38,7 +38,7 @@ export const get: RestEndpoint<'AppInstallation', 'get'> = (
 
 export const getMany: RestEndpoint<'AppInstallation', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & PaginationQueryParams
+  params: GetSpaceEnvironmentParams & PaginationQueryParams,
 ) => {
   return raw.get<CollectionProp<AppInstallationProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -49,7 +49,7 @@ export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams & { acceptAllTerms?: boolean },
   rawData: CreateAppInstallationProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -66,14 +66,14 @@ export const upsert: RestEndpoint<'AppInstallation', 'upsert'> = (
 
 export const del: RestEndpoint<'AppInstallation', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppInstallationParams
+  params: GetAppInstallationParams,
 ) => {
   return raw.del(http, getAppInstallationUrl(params))
 }
 
 export const getForOrganization: RestEndpoint<'AppInstallation', 'getForOrganization'> = (
   http: AxiosInstance,
-  params: GetAppInstallationsForOrgParams & SpaceQueryParams
+  params: GetAppInstallationsForOrgParams & SpaceQueryParams,
 ) => {
   return raw.get<AppInstallationsForOrganizationProps>(
     http,
@@ -83,6 +83,6 @@ export const getForOrganization: RestEndpoint<'AppInstallation', 'getForOrganiza
         ...normalizeSpaceId(normalizeSelect(params.query)),
         'sys.organization.sys.id[in]': params.organizationId,
       },
-    }
+    },
   )
 }

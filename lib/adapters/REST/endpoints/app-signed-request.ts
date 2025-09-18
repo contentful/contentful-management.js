@@ -10,11 +10,11 @@ import type { GetAppInstallationParams } from '../../../common-types'
 export const create: RestEndpoint<'AppSignedRequest', 'create'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams,
-  data: CreateAppSignedRequestProps
+  data: CreateAppSignedRequestProps,
 ) => {
   return raw.post<AppSignedRequestProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/signed_requests`,
-    data
+    data,
   )
 }

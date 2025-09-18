@@ -271,7 +271,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (r) => {
         expect(r).equals(error)
-      }
+      },
     )
   })
 
@@ -282,7 +282,7 @@ describe('A createOrganizationApi', () => {
         skip: 0,
         limit: 10,
         items: [teamMembershipMock],
-      })
+      }),
     )
     return api['getTeamMemberships']({ teamId: 'teamid' }).then((r) => {
       expect(r).eql({
@@ -302,7 +302,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (r) => {
         expect(r).equals(error)
-      }
+      },
     )
   })
 
@@ -313,7 +313,7 @@ describe('A createOrganizationApi', () => {
         skip: 0,
         limit: 10,
         items: [teamMembershipMock],
-      })
+      }),
     )
     return api['getTeamMemberships']().then((r) => {
       expect(r).eql({
@@ -328,7 +328,7 @@ describe('A createOrganizationApi', () => {
   test('API call getTeamSpaceMembership', async () => {
     const { api, entitiesMock } = setup(Promise.resolve(teamSpaceMembershipMock))
     entitiesMock['teamSpaceMembership'][`wrapTeamSpaceMembership`].mockReturnValue(
-      teamSpaceMembershipMock
+      teamSpaceMembershipMock,
     )
     return api['getTeamSpaceMembership']('eid').then((r) => {
       expect(r).eql(teamSpaceMembershipMock)
@@ -343,7 +343,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (r) => {
         expect(r).equals(error)
-      }
+      },
     )
   })
 
@@ -354,7 +354,7 @@ describe('A createOrganizationApi', () => {
         skip: 0,
         limit: 10,
         items: [teamSpaceMembershipMock],
-      })
+      }),
     )
     return api['getTeamSpaceMemberships']({ teamId: 'teamid' }).then((r) => {
       expect(r).eql({
@@ -374,7 +374,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (r) => {
         expect(r).eql(error)
-      }
+      },
     )
   })
 
@@ -385,7 +385,7 @@ describe('A createOrganizationApi', () => {
         skip: 0,
         limit: 10,
         items: [teamSpaceMembershipMock],
-      })
+      }),
     )
     return api['getTeamSpaceMemberships']().then((r) => {
       expect(r).eql({
@@ -413,7 +413,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -433,7 +433,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -461,7 +461,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -489,7 +489,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -509,7 +509,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -520,7 +520,7 @@ describe('A createOrganizationApi', () => {
         skip: 0,
         limit: 10,
         items: [appActionMock],
-      })
+      }),
     )
     return api['getAppActions']('app-def-id').then((result) => {
       expect(result).eql({
@@ -540,7 +540,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -560,7 +560,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -570,7 +570,7 @@ describe('A createOrganizationApi', () => {
     return api['upsertAppSigningSecret']('app-def-id', { value: 'mocked-new-secret-id' }).then(
       (result) => {
         expect(result).eql(appSigningSecretMock)
-      }
+      },
     )
   })
 
@@ -582,7 +582,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -602,7 +602,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -622,14 +622,14 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
   test('API call createEventSubscription', async () => {
     const { api, entitiesMock } = setup(Promise.resolve(appEventSubscriptionMock))
     entitiesMock['appEventSubscription']['wrapAppEventSubscription'].mockReturnValue(
-      appEventSubscriptionMock
+      appEventSubscriptionMock,
     )
     return api['upsertAppEventSubscription']('app-def-id', {
       targetUrl: 'https://contentful.fake/event-processor',
@@ -650,14 +650,14 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
   test('API call getAppEventSubscription', async () => {
     const { api, entitiesMock } = setup(Promise.resolve(appEventSubscriptionMock))
     entitiesMock['appEventSubscription']['wrapAppEventSubscription'].mockReturnValue(
-      appEventSubscriptionMock
+      appEventSubscriptionMock,
     )
     return api['getAppEventSubscription']('app-def-id').then((result) => {
       expect(result).eql(appEventSubscriptionMock)
@@ -672,7 +672,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -692,7 +692,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -712,7 +712,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -732,7 +732,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -752,7 +752,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -772,7 +772,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -792,7 +792,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -812,7 +812,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -832,7 +832,7 @@ describe('A createOrganizationApi', () => {
       () => {},
       (errorResponse) => {
         expect(errorResponse).eql(error)
-      }
+      },
     )
   })
 
@@ -862,7 +862,7 @@ describe('A createOrganizationApi', () => {
     const error = new Error('Failed to get functions')
     const { api } = setup(Promise.reject(error))
     await expect(
-      api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' })
+      api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' }),
     ).rejects.toThrow(error)
   })
 })

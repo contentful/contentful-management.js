@@ -100,12 +100,12 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,
-  data: ReleaseActionProps
+  data: ReleaseActionProps,
 ): ReleaseAction {
   const releaseAction = toPlainObject(copy(data))
   const releaseActionWithApiMethods = enhanceWithMethods(
     releaseAction as any,
-    createReleaseActionApi(makeRequest)
+    createReleaseActionApi(makeRequest),
   )
   return freezeSys(releaseActionWithApiMethods)
 }

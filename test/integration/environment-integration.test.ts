@@ -95,7 +95,7 @@ describe('Environment Api', () => {
       })
 
       appUpload = await organization.createAppUpload(
-        readFileSync(`${__dirname}/fixtures/build.zip`)
+        readFileSync(`${__dirname}/fixtures/build.zip`),
       )
       appBundle = await appDefinition.createAppBundle({
         appUploadId: appUpload.sys.id,
@@ -130,7 +130,7 @@ describe('Environment Api', () => {
             tmdbAccessToken: 'test',
           },
         },
-        { acceptAllTerms: true }
+        { acceptAllTerms: true },
       )
     })
 

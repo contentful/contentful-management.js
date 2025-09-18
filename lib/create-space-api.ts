@@ -207,7 +207,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     createEnvironmentWithId(
       id: string,
       data: CreateEnvironmentProps,
-      sourceEnvironmentId?: string
+      sourceEnvironmentId?: string,
     ) {
       const raw = this.toPlainObject() as SpaceProps
       return makeRequest({

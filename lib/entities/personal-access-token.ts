@@ -52,7 +52,7 @@ export interface PersonalAccessToken
  */
 export function wrapPersonalAccessToken(
   makeRequest: MakeRequest,
-  data: PersonalAccessTokenProps
+  data: PersonalAccessTokenProps,
 ): PersonalAccessToken {
   const personalAccessToken = toPlainObject(copy(data))
   const personalAccessTokenWithMethods = enhanceWithMethods(personalAccessToken, {

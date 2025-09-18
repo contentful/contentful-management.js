@@ -38,7 +38,7 @@ describe('Release Api', () => {
           fields: {
             title: { 'en-US': 'Non-localized value' },
           },
-        }
+        },
       )
     } catch (err) {
       console.error('Error running <before> setup: ', err)

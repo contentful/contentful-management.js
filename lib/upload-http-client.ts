@@ -9,7 +9,7 @@ type UploadHttpClientOpts = {
  */
 export function getUploadHttpClient(
   http: AxiosInstance,
-  options?: UploadHttpClientOpts
+  options?: UploadHttpClientOpts,
 ): AxiosInstance {
   const { hostUpload, defaultHostnameUpload, timeout } = http.httpClientParams as Record<
     string,

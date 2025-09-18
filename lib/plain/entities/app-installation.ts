@@ -44,7 +44,7 @@ export type AppInstallationPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & PaginationQueryParams>,
   ): Promise<CollectionProp<AppInstallationProps>>
   /**
    * Fetches all App Installations for the given Organization
@@ -60,7 +60,7 @@ export type AppInstallationPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetAppDefinitionParams & SpaceQueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams & SpaceQueryParams>,
   ): Promise<AppInstallationsForOrganizationProps>
   /**
    * Creates or updates an App Installation
@@ -87,7 +87,7 @@ export type AppInstallationPlainClientAPI = {
   upsert(
     params: OptionalDefaults<GetAppInstallationParams>,
     rawData: CreateAppInstallationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<AppInstallationProps>
   /**
    * Uninstalls the App

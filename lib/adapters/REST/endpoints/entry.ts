@@ -18,7 +18,7 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<EntryProps<T>>(
     http,
@@ -26,17 +26,17 @@ export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyVal
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },
-    }
+    },
   )
 }
 
 export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
@@ -44,7 +44,7 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },
-    }
+    },
   )
 }
 
@@ -52,7 +52,7 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
@@ -60,7 +60,7 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },
-    }
+    },
   )
 }
 
@@ -68,7 +68,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; version: number },
   data: OpPatch[],
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.patch<EntryProps<T>>(
     http,
@@ -80,7 +80,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -88,7 +88,7 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string },
   rawData: EntryProps<T>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -101,24 +101,24 @@ export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = 
         'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'Entry', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string },
 ) => {
   return raw.del(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
   )
 }
 
 export const publish: RestEndpoint<'Entry', 'publish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; locales?: string[] },
-  rawData: EntryProps<T>
+  rawData: EntryProps<T>,
 ) => {
   const payload = params.locales?.length ? { add: { fields: { '*': params.locales } } } : null
 
@@ -130,14 +130,14 @@ export const publish: RestEndpoint<'Entry', 'publish'> = <T extends KeyValueMap 
       headers: {
         'X-Contentful-Version': rawData.sys.version,
       },
-    }
+    },
   )
 }
 
 export const unpublish: RestEndpoint<'Entry', 'unpublish'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; locales?: string[] },
-  rawData?: EntryProps<T>
+  rawData?: EntryProps<T>,
 ) => {
   if (params.locales?.length) {
     const payload = { remove: { fields: { '*': params.locales } } }
@@ -149,40 +149,40 @@ export const unpublish: RestEndpoint<'Entry', 'unpublish'> = <T extends KeyValue
         headers: {
           'X-Contentful-Version': rawData?.sys.version,
         },
-      }
+      },
     )
   } else {
     return raw.del<EntryProps<T>>(
       http,
-      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/published`,
     )
   }
 }
 
 export const archive: RestEndpoint<'Entry', 'archive'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string },
 ) => {
   return raw.put<EntryProps<T>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`,
   )
 }
 
 export const unarchive: RestEndpoint<'Entry', 'unarchive'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string }
+  params: GetSpaceEnvironmentParams & { entryId: string },
 ) => {
   return raw.del<EntryProps<T>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/archived`,
   )
 }
 
 export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { contentTypeId: string },
-  rawData: CreateEntryProps<T>
+  rawData: CreateEntryProps<T>,
 ) => {
   const data = copy(rawData)
 
@@ -194,16 +194,16 @@ export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = 
       headers: {
         'X-Contentful-Content-Type': params.contentTypeId,
       },
-    }
+    },
   )
 }
 
 export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
-  rawData: CreateEntryProps<T>
+  rawData: CreateEntryProps<T>,
 ) => {
   const data = copy(rawData)
 
@@ -215,7 +215,7 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
       headers: {
         'X-Contentful-Content-Type': params.contentTypeId,
       },
-    }
+    },
   )
 }
 
@@ -224,7 +224,7 @@ export const references: RestEndpoint<'Entry', 'references'> = (
   params: GetSpaceEnvironmentParams & {
     entryId: string
     include?: number
-  }
+  },
 ): Promise<EntryReferenceProps> => {
   const { spaceId, environmentId, entryId, include } = params
 
@@ -232,6 +232,6 @@ export const references: RestEndpoint<'Entry', 'references'> = (
 
   return raw.get<EntryReferenceProps>(
     http,
-    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${level}`
+    `/spaces/${spaceId}/environments/${environmentId}/entries/${entryId}/references?include=${level}`,
   )
 }

@@ -38,7 +38,7 @@ export type ExtensionPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<ExtensionProps>>
   /**
    * Creates a new Extension with an auto-generated ID
@@ -72,7 +72,7 @@ export type ExtensionPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     rawData: CreateExtensionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ExtensionProps>
   /**
    * Creates a new Extension with a given ID
@@ -107,7 +107,7 @@ export type ExtensionPlainClientAPI = {
   createWithId(
     params: OptionalDefaults<GetExtensionParams>,
     rawData: CreateExtensionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ExtensionProps>
   /**
    * Updates an Extension
@@ -158,7 +158,7 @@ export type ExtensionPlainClientAPI = {
   update(
     params: OptionalDefaults<GetExtensionParams>,
     rawData: ExtensionProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ExtensionProps>
   /**
    * Deletes the Extension

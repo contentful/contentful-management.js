@@ -1480,7 +1480,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppInstallation(
       appDefinitionId: string,
       data: CreateAppInstallationProps,
-      { acceptAllTerms }: { acceptAllTerms?: boolean } = {}
+      { acceptAllTerms }: { acceptAllTerms?: boolean } = {},
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1585,7 +1585,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppActionCall(
       appDefinitionId: string,
       appActionId: string,
-      data: CreateAppActionCallProps
+      data: CreateAppActionCallProps,
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1625,7 +1625,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     getAppActionCallResponse(
       appDefinitionId: string,
       appActionId: string,
-      callId: string
+      callId: string,
     ): Promise<AppActionCallRawResponseProps> {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1793,7 +1793,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     getFunctionLogs(
       appInstallationId: string,
       functionId: string,
-      query?: CursorBasedParams & CreatedAtIntervalParams
+      query?: CursorBasedParams & CreatedAtIntervalParams,
     ) {
       const raw: EnvironmentProps = this.toPlainObject()
 
@@ -2452,7 +2452,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     async getEnvironmentTemplateInstallations(
       environmentTemplateId: string,
-      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {}
+      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {},
     ) {
       const raw: EnvironmentProps = this.toPlainObject()
 

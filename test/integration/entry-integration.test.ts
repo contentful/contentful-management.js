@@ -145,10 +145,10 @@ describe('Entry Api', () => {
         .then((response) => {
           expect(response.total > 0).ok
           expect(
-            response.items[0].fields.likes['en-US'].filter((i) => i === 'lasagna').length
+            response.items[0].fields.likes['en-US'].filter((i) => i === 'lasagna').length,
           ).equal(0)
           expect(
-            response.items[0].fields.likes['en-US'].filter((i) => i === 'rainbows').length
+            response.items[0].fields.likes['en-US'].filter((i) => i === 'rainbows').length,
           ).equal(0)
         })
     })
@@ -184,7 +184,7 @@ describe('Entry Api', () => {
         .then((response) => {
           expect(response.items[0].sys.id).equal(
             'nyancat',
-            'returned entry has link to specified linked entry'
+            'returned entry has link to specified linked entry',
           )
         })
     })
@@ -303,11 +303,11 @@ describe('Entry Api', () => {
               'test-content-type33324244',
               'testEntryReferences',
             ],
-            'orders'
+            'orders',
           )
           expect(
             response.items[0].sys.id < response.items[1].sys.id,
-            'id of entry with index 1 is higher than the one of index 0 since they share content type'
+            'id of entry with index 1 is higher than the one of index 0 since they share content type',
           ).ok
         })
     })
@@ -348,7 +348,7 @@ describe('Entry Api', () => {
               localized: false,
             },
           ],
-        }
+        },
       )
       await contentType.publish()
     })
@@ -372,7 +372,7 @@ describe('Entry Api', () => {
               expect(updatedEntry.isUpdated(), 'entry is updated').ok
               expect(updatedEntry.fields.title['en-US']).equals(
                 'title has changed',
-                'updated title'
+                'updated title',
               )
               const patchOp = {
                 op: 'replace',
@@ -382,7 +382,7 @@ describe('Entry Api', () => {
               return updatedEntry.patch([patchOp]).then((patchedEntry) => {
                 expect(patchedEntry.fields.title['en-US']).equals(
                   'title was patched',
-                  'updated title'
+                  'updated title',
                 )
                 return patchedEntry.unpublish().then((unpublishedEntry) => {
                   expect(unpublishedEntry.isDraft(), 'entry is back in draft').ok
@@ -441,7 +441,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -458,7 +458,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -486,7 +486,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -508,7 +508,7 @@ describe('Entry Api', () => {
               ],
               tags: [],
             },
-          }
+          },
         )
         if (!createdEntry.metadata?.concepts) {
           throw new Error('created entry is missing metadata concepts')
@@ -525,7 +525,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -542,7 +542,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -570,7 +570,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -581,7 +581,7 @@ describe('Entry Api', () => {
               title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
             },
             // metadata intentionally omitted
-          }
+          },
         )
         if (!entryToUpdate.metadata?.concepts) {
           throw new Error('entry to update is missing metadata concepts')
@@ -616,7 +616,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -633,7 +633,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -661,7 +661,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -683,7 +683,7 @@ describe('Entry Api', () => {
               ],
               tags: [],
             },
-          }
+          },
         )
         if (!entryToDeleteConceptFrom.metadata?.concepts) {
           throw new Error('entry to delete concept from is missing metadata concepts')
@@ -778,11 +778,11 @@ describe('Entry Api', () => {
         xSpaceEnabledSpace = await getDefaultSpace()
         xSpaceEnabledEnvironment = await createTestEnvironment(
           xSpaceEnabledSpace,
-          'Test Cross Space'
+          'Test Cross Space',
         )
         await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
         xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
-          TestDefaults.contentType.withCrossSpaceReferenceId
+          TestDefaults.contentType.withCrossSpaceReferenceId,
         )
       })
 
@@ -824,7 +824,7 @@ describe('Entry Api', () => {
       beforeEach(async () => {
         xSpaceDisabledContentType = await xSpaceDisabledEnvironment.createContentTypeWithId(
           generateRandomId('test-content-type'),
-          contentTypeData
+          contentTypeData,
         )
         await xSpaceDisabledContentType.publish()
       })
@@ -853,7 +853,7 @@ describe('Entry Api', () => {
             expect(errorMessage.status).equals(403, '403 forbidden status')
             expect(errorMessage.details.reasons).equals(
               'Cross space links feature is not enabled for this space',
-              'reason explained'
+              'reason explained',
             )
           })
       })

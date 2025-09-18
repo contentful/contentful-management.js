@@ -17,7 +17,7 @@ export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: G
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams
+  params: QueryParams,
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
     params: params.query,
@@ -25,7 +25,7 @@ export const getMany: RestEndpoint<'Space', 'getMany'> = (
 
 export const getManyForOrganization: RestEndpoint<'Space', 'getManyForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/organizations/${params.organizationId}/spaces`, {
     params: params.query,
@@ -35,7 +35,7 @@ export const create: RestEndpoint<'Space', 'create'> = (
   http: AxiosInstance,
   params: { organizationId?: string },
   payload: Omit<SpaceProps, 'sys'>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post(http, `/spaces`, payload, {
     headers: params.organizationId
@@ -48,7 +48,7 @@ export const update: RestEndpoint<'Space', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: SpaceProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
