@@ -1515,7 +1515,7 @@ export type MRActions = {
     }
     getMany: {
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
