@@ -7,6 +7,10 @@ import type {
   DefaultElements,
   MakeRequest,
   SysLink,
+  CreateWithResponseParams,
+  CreateWithResultParams,
+  GetAppActionCallDetailsParams,
+  GetAppActionCallParamsWithId,
 } from '../common-types'
 import type { WebhookCallDetailsProps } from './webhook'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -49,15 +53,19 @@ export type CreateAppActionCallProps = {
 }
 
 type AppActionCallApi = {
-  createWithResponse(): Promise<AppActionCallResponse>
-  getCallDetails(): Promise<AppActionCallResponse>
-  get(): Promise<AppActionCallProps>
-  createWithResult(): Promise<AppActionCallProps>
+  createWithResponse(
+    params: CreateWithResponseParams,
+    payload: CreateAppActionCallProps,
+  ): Promise<AppActionCallResponse>
+  getCallDetails(params: GetAppActionCallDetailsParams): Promise<AppActionCallResponse>
+  get(params: GetAppActionCallParamsWithId): Promise<AppActionCallProps>
+  createWithResult(
+    params: CreateWithResultParams,
+    payload: CreateAppActionCallProps,
+  ): Promise<AppActionCallProps>
 }
 
 export type AppActionCallResponse = WebhookCallDetailsProps
-
-// Raw App Action call response (new endpoint). Not yet wired to runtime behavior.
 export interface AppActionCallRawResponseProps {
   sys: {
     id: string
@@ -70,6 +78,7 @@ export interface AppActionCallRawResponseProps {
   }
   response: {
     headers?: { contentType?: string }
+    statusCode?: number
     body: string
   }
 }
@@ -86,76 +95,42 @@ export interface AppActionCall extends AppActionCallProps, DefaultElements<AppAc
  */
 export default function createAppActionCallApi(
   makeRequest: MakeRequest,
-  retryOptions?: RetryOptions
+  retryOptions?: RetryOptions,
 ): AppActionCallApi {
   return {
-    createWithResponse: function () {
-      const payload: CreateAppActionCallProps = {
-        parameters: {
-          recipient: 'Alice <alice@my-company.com>',
-          message_body: 'Hello from Bob!',
-        },
-      }
-
+    createWithResponse: function (
+      params: CreateWithResponseParams,
+      payload: CreateAppActionCallProps,
+    ) {
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'createWithResponse',
-        params: {
-          spaceId: 'space-id',
-          environmentId: 'environment-id',
-          appDefinitionId: 'app-definiton-id',
-          appActionId: 'app-action-id',
-          ...retryOptions,
-        },
+        params: { ...params, ...retryOptions },
         payload: payload,
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
 
-    getCallDetails: function getCallDetails() {
+    getCallDetails: function getCallDetails(params: GetAppActionCallDetailsParams) {
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'getCallDetails',
-        params: {
-          spaceId: 'space-id',
-          environmentId: 'environment-id',
-          callId: 'call-id',
-          appActionId: 'app-action-id',
-        },
+        params,
       }).then((data) => wrapAppActionCallResponse(makeRequest, data))
     },
 
-    get: function get() {
+    get: function get(params: GetAppActionCallParamsWithId) {
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'get',
-        params: {
-          spaceId: 'space-id',
-          environmentId: 'environment-id',
-          appDefinitionId: 'app-definiton-id',
-          appActionId: 'app-action-id',
-          callId: 'call-id',
-        },
+        params,
       }).then((data) => wrapAppActionCall(makeRequest, data))
     },
 
-    createWithResult: function () {
-      const payload: CreateAppActionCallProps = {
-        parameters: {
-          recipient: 'Alice <alice@my-company.com>',
-          message_body: 'Hello from Bob!',
-        },
-      }
-
+    createWithResult: function (params: CreateWithResultParams, payload: CreateAppActionCallProps) {
       return makeRequest({
         entityType: 'AppActionCall',
         action: 'createWithResult',
-        params: {
-          spaceId: 'space-id',
-          environmentId: 'environment-id',
-          appDefinitionId: 'app-definiton-id',
-          appActionId: 'app-action-id',
-          ...retryOptions,
-        },
+        params: { ...params, ...retryOptions },
         payload: payload,
       }).then((data) => wrapAppActionCall(makeRequest, data))
     },
@@ -170,12 +145,12 @@ export default function createAppActionCallApi(
  */
 export function wrapAppActionCall(
   makeRequest: MakeRequest,
-  data: AppActionCallProps
+  data: AppActionCallProps,
 ): AppActionCall {
   const signedRequest = toPlainObject(copy(data))
   const signedRequestWithMethods = enhanceWithMethods(
     signedRequest,
-    createAppActionCallApi(makeRequest)
+    createAppActionCallApi(makeRequest),
   )
   return signedRequestWithMethods
 }
@@ -189,12 +164,12 @@ export function wrapAppActionCall(
 export function wrapAppActionCallResponse(
   makeRequest: MakeRequest,
   data: AppActionCallResponse,
-  retryOptions?: RetryOptions
+  retryOptions?: RetryOptions,
 ): AppActionCallResponseData {
   const appActionCallResponse = toPlainObject(copy(data))
   const appActionCallResponseWithMethods = enhanceWithMethods(
     appActionCallResponse,
-    createAppActionCallApi(makeRequest, retryOptions)
+    createAppActionCallApi(makeRequest, retryOptions),
   )
   return appActionCallResponseWithMethods
 }

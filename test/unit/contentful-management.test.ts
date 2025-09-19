@@ -45,7 +45,7 @@ describe('Contentful Management', () => {
   it('creates a plain client with releaseSchema defaults', () => {
     createClient(
       { accessToken: 'token' },
-      { type: 'plain', defaults: { releaseSchemaVersion: 'Release.v2' } }
+      { type: 'plain', defaults: { releaseSchemaVersion: 'Release.v2' } },
     )
 
     expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {
@@ -57,7 +57,7 @@ describe('Contentful Management', () => {
   it('generates the correct releaseId', () => {
     createClient(
       { accessToken: 'token' },
-      { type: 'plain', defaults: { releaseId: 'my-release-id' } }
+      { type: 'plain', defaults: { releaseId: 'my-release-id' } },
     )
 
     expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {

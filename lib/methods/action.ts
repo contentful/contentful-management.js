@@ -55,7 +55,7 @@ export type AsyncActionProcessingOptions = {
  */
 export async function pollAsyncActionStatus<T extends Action = any>(
   actionFunction: () => Promise<T>,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<T> {
   let retryCount = 0
   let done = false
@@ -89,6 +89,6 @@ export async function pollAsyncActionStatus<T extends Action = any>(
 
   throw new AsyncActionProcessingError(
     `${action?.sys.type} didn't finish processing within the expected timeframe.`,
-    action
+    action,
   )
 }

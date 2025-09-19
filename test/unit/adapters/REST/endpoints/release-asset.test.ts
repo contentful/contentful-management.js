@@ -30,7 +30,7 @@ describe('Rest ReleaseAsset', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123'
+          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123',
         )
       })
   })
@@ -54,7 +54,7 @@ describe('Rest ReleaseAsset', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/mock-release-id/assets'
+          '/spaces/space123/environments/master/releases/mock-release-id/assets',
         )
       })
   })
@@ -80,7 +80,7 @@ describe('Rest ReleaseAsset', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123'
+          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123',
         )
       })
   })
@@ -105,7 +105,7 @@ describe('Rest ReleaseAsset', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/mock-release-id/assets'
+          '/spaces/space123/environments/master/releases/mock-release-id/assets',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
       })
@@ -132,7 +132,7 @@ describe('Rest ReleaseAsset', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123'
+          '/spaces/space123/environments/master/releases/mock-release-id/assets/abc123',
         )
       })
   })
@@ -180,27 +180,27 @@ describe('Rest ReleaseAsset', () => {
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id/files/en-US/process',
-          'en-US locale is sent'
+          'en-US locale is sent',
         )
         expect(httpMock.put.mock.calls[1][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id/files/de-DE/process',
-          'de-DE locale is sent'
+          'de-DE locale is sent',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
           2,
-          'version header is sent for first locale'
+          'version header is sent for first locale',
         )
         expect(httpMock.put.mock.calls[1][2].headers['X-Contentful-Version']).equals(
           2,
-          'version header is sent for second locale'
+          'version header is sent for second locale',
         )
         expect(httpMock.get.mock.calls[0][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id',
-          'asset was checked after processing for first locale'
+          'asset was checked after processing for first locale',
         )
         expect(httpMock.get.mock.calls[1][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id',
-          'asset was checked after processing for second locale'
+          'asset was checked after processing for second locale',
         )
       })
   })
@@ -233,15 +233,15 @@ describe('Rest ReleaseAsset', () => {
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id/files/en-US/process',
-          'correct locale is sent'
+          'correct locale is sent',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
           2,
-          'version header is sent'
+          'version header is sent',
         )
         expect(httpMock.get.mock.calls[0][0]).equals(
           '/spaces/space123/environments/master/releases/mock-release-id/assets/id',
-          'asset was checked after processing'
+          'asset was checked after processing',
         )
       })
   })

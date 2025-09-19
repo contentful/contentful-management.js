@@ -100,12 +100,12 @@ export type AppInstallationsForOrganizationProps = {
  */
 export function wrapAppDefinition(
   makeRequest: MakeRequest,
-  data: AppDefinitionProps
+  data: AppDefinitionProps,
 ): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
   const appDefinitionWithMethods = enhanceWithMethods(
     appDefinition,
-    createAppDefinitionApi(makeRequest)
+    createAppDefinitionApi(makeRequest),
   )
   return freezeSys(appDefinitionWithMethods)
 }

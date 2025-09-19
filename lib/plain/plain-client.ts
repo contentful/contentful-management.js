@@ -11,7 +11,7 @@ export type { DefaultParams } from './wrappers/wrap'
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined
+  defaults: DefaultParams | undefined,
 ): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
@@ -223,7 +223,7 @@ export const createPlainClient = (
         omitAndDeleteField(
           makeRequest,
           { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
-          contentType
+          contentType,
         ),
     },
     user: {

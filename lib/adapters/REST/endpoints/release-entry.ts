@@ -26,7 +26,7 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = <T extends KeyValueMap =
   http: AxiosInstance,
   params: GetReleaseEntryParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<ReleaseEntryProps<T>>(
     http,
@@ -34,17 +34,17 @@ export const get: RestEndpoint<'ReleaseEntry', 'get'> = <T extends KeyValueMap =
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },
-    }
+    },
   )
 }
 
 export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
   params: GetManyReleaseEntryParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<ReleaseEntryProps<T>>>(
     http,
@@ -52,7 +52,7 @@ export const getMany: RestEndpoint<'ReleaseEntry', 'getMany'> = <
     {
       params: normalizeSelect(params.query),
       headers: { ...headers },
-    }
+    },
   )
 }
 
@@ -60,7 +60,7 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
   http: AxiosInstance,
   params: UpdateReleaseEntryParams,
   rawData: EntryProps<T>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -73,7 +73,7 @@ export const update: RestEndpoint<'ReleaseEntry', 'update'> = <T extends KeyValu
         'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -81,7 +81,7 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
   http: AxiosInstance,
   params: PatchReleaseEntryParams,
   data: OpPatch[],
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.patch<ReleaseEntryProps<T>>(
     http,
@@ -93,7 +93,7 @@ export const patch: RestEndpoint<'ReleaseEntry', 'patch'> = <T extends KeyValueM
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -101,7 +101,7 @@ export const create: RestEndpoint<'ReleaseEntry', 'create'> = <T extends KeyValu
   http: AxiosInstance,
   params: CreateReleaseEntryParams,
   rawData: CreateEntryProps<T>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -114,17 +114,17 @@ export const create: RestEndpoint<'ReleaseEntry', 'create'> = <T extends KeyValu
         'X-Contentful-Content-Type': params.contentTypeId,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
-  T extends KeyValueMap = KeyValueMap
+  T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
   params: CreateWithIdReleaseEntryParams,
   rawData: CreateEntryProps<T>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -137,6 +137,6 @@ export const createWithId: RestEndpoint<'ReleaseEntry', 'createWithId'> = <
         'X-Contentful-Content-Type': params.contentTypeId,
         ...headers,
       },
-    }
+    },
   )
 }

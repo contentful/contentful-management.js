@@ -18,14 +18,14 @@ const getAppBundleUrl = (params: GetAppBundleParams) =>
 
 export const get: RestEndpoint<'AppBundle', 'get'> = (
   http: AxiosInstance,
-  params: GetAppBundleParams
+  params: GetAppBundleParams,
 ) => {
   return raw.get<AppBundleProps>(http, getAppBundleUrl(params))
 }
 
 export const getMany: RestEndpoint<'AppBundle', 'getMany'> = (
   http: AxiosInstance,
-  params: GetAppDefinitionParams & QueryParams
+  params: GetAppDefinitionParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<AppBundleProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -34,7 +34,7 @@ export const getMany: RestEndpoint<'AppBundle', 'getMany'> = (
 
 export const del: RestEndpoint<'AppBundle', 'delete'> = (
   http: AxiosInstance,
-  params: GetAppBundleParams
+  params: GetAppBundleParams,
 ) => {
   return raw.del<void>(http, getAppBundleUrl(params))
 }
@@ -42,7 +42,7 @@ export const del: RestEndpoint<'AppBundle', 'delete'> = (
 export const create: RestEndpoint<'AppBundle', 'create'> = (
   http: AxiosInstance,
   params: GetAppDefinitionParams,
-  payload: CreateAppBundleProps
+  payload: CreateAppBundleProps,
 ) => {
   const { appUploadId, comment, actions, functions } = payload
 

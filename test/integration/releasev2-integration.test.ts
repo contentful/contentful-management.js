@@ -27,7 +27,7 @@ describe('Release Api v2', () => {
             'en-US': 'Test Entry for Release',
           },
         },
-      }
+      },
     )
 
     secondEntry = await createReleaseClient.entry.create(
@@ -38,7 +38,7 @@ describe('Release Api v2', () => {
             'en-US': 'Second Test Entry for Release',
           },
         },
-      }
+      },
     )
 
     release = await createReleaseClient.release.create(defaultParams, {
@@ -88,7 +88,7 @@ describe('Release Api v2', () => {
             },
             items: [],
           },
-        }
+        },
       )
       expect(newRelease.sys.schemaVersion).toEqual('Release.v2')
       // cleanup
@@ -129,7 +129,7 @@ describe('Release Api v2', () => {
               },
             ],
           },
-        }
+        },
       )
       expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
     })
@@ -160,7 +160,7 @@ describe('Release Api v2', () => {
             },
             items: [],
           },
-        }
+        },
       )
       expect(newRelease.sys.schemaVersion).toEqual('Release.v2')
       // cleanup
@@ -196,7 +196,7 @@ describe('Release Api v2', () => {
               },
             ],
           },
-        }
+        },
       )
       expect(updatedRelease.sys.schemaVersion).toEqual('Release.v2')
     })
@@ -268,7 +268,7 @@ describe('Release Api v2', () => {
                 'en-US': 'Updated Test Entry for Release',
               },
             },
-          }
+          },
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
       })
@@ -293,7 +293,7 @@ describe('Release Api v2', () => {
               path: '/fields/title/en-US',
               value: 'Patched Test Entry for Release',
             },
-          ]
+          ],
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
       })
@@ -357,7 +357,7 @@ describe('Release Api v2', () => {
                 'en-US': 'Updated Test Entry for Release',
               },
             },
-          }
+          },
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Updated Test Entry for Release')
       })
@@ -384,7 +384,7 @@ describe('Release Api v2', () => {
               path: '/fields/title/en-US',
               value: 'Patched Test Entry for Release',
             },
-          ]
+          ],
         )
         expect(updatedEntry.fields.title['en-US']).toEqual('Patched Test Entry for Release')
       })

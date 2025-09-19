@@ -42,7 +42,7 @@ export type TagPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<TagProps>>
   /**
    * Create a new tag
@@ -95,7 +95,7 @@ export type TagPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTagParams>,
     rawData: UpdateTagProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TagProps>
   /**
    * Delete a single tag by ID and version

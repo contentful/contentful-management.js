@@ -16,6 +16,6 @@ export type AiActionInvocationPlainClientAPI = {
     params: OptionalDefaults<
       GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
     >,
-    headers?: Partial<RawAxiosRequestHeaders>
+    headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionInvocationProps>
 }

@@ -27,11 +27,11 @@ describe('Rest Entry', () => {
       expect(response.toPlainObject, 'response is wrapped').to.be.ok
       expect(httpMock.put.mock.calls[0][1].metadata.tags[0].sys.id).equals(
         'changed-link-target',
-        'metadata is sent'
+        'metadata is sent',
       )
       expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).equals(
         2,
-        'version header is sent'
+        'version header is sent',
       )
       return {
         httpMock,
@@ -63,12 +63,12 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/id/environments/id/entries/entryId',
-          'entry id is sent'
+          'entry id is sent',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql(entityMock, 'data is sent')
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
           'contentTypeId',
-          'content type is specified'
+          'content type is specified',
         )
       })
   })
@@ -96,12 +96,12 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/id/environments/id/releases/releaseId/entries/entryId',
-          'release entry endpoint is used when releaseId is provided'
+          'release entry endpoint is used when releaseId is provided',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql(entityMock, 'data is sent')
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
           'contentTypeId',
-          'content type is specified'
+          'content type is specified',
         )
       })
   })
@@ -125,7 +125,7 @@ describe('Rest Entry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries/entry123'
+          '/spaces/space123/environments/master/entries/entry123',
         )
         expect(httpMock.get.mock.calls[0][1].params).toBeUndefined
       })
@@ -176,12 +176,12 @@ describe('Rest Entry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries/entry123'
+          '/spaces/space123/environments/master/entries/entry123',
         )
         expect(httpMock.patch.mock.calls[0][1]).to.eql(patchOps)
         expect(httpMock.patch.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
         expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql(
-          'application/json-patch+json'
+          'application/json-patch+json',
         )
       })
   })
@@ -212,12 +212,12 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         // When releaseId is provided, it should call the release entry endpoint
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/release456/entries/entry123'
+          '/spaces/space123/environments/master/releases/release456/entries/entry123',
         )
         expect(httpMock.patch.mock.calls[0][1]).to.eql(patchOps)
         expect(httpMock.patch.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
         expect(httpMock.patch.mock.calls[0][2].headers['Content-Type']).to.eql(
-          'application/json-patch+json'
+          'application/json-patch+json',
         )
       })
   })
@@ -249,13 +249,13 @@ describe('Rest Entry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries/entry123'
+          '/spaces/space123/environments/master/entries/entry123',
         )
         // Check that sys is removed from the payload
         expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
         expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql('Updated Title')
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(
-          updateData.sys.version
+          updateData.sys.version,
         )
       })
   })
@@ -290,15 +290,15 @@ describe('Rest Entry', () => {
         expect(r).to.eql(entityMock)
         // When releaseId is provided, it should call the release entry endpoint
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/release456/entries/entry123'
+          '/spaces/space123/environments/master/releases/release456/entries/entry123',
         )
         // Check that sys is removed from the payload
         expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
         expect(httpMock.put.mock.calls[0][1].fields.title['en-US']).to.eql(
-          'Updated Title in Release'
+          'Updated Title in Release',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(
-          updateData.sys.version
+          updateData.sys.version,
         )
       })
   })
@@ -323,11 +323,11 @@ describe('Rest Entry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/entries'
+          '/spaces/space123/environments/master/entries',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
-          'contentType123'
+          'contentType123',
         )
       })
   })
@@ -353,11 +353,11 @@ describe('Rest Entry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries'
+          '/spaces/space123/environments/master/releases/black-friday/entries',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][2].headers['X-Contentful-Content-Type']).to.eql(
-          'contentType123'
+          'contentType123',
         )
       })
   })

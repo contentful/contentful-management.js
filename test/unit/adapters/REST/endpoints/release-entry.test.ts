@@ -30,7 +30,7 @@ describe('Rest ReleaseEntry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123',
         )
       })
   })
@@ -54,7 +54,7 @@ describe('Rest ReleaseEntry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries'
+          '/spaces/space123/environments/master/releases/black-friday/entries',
         )
       })
   })
@@ -80,7 +80,7 @@ describe('Rest ReleaseEntry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123',
         )
       })
   })
@@ -104,7 +104,7 @@ describe('Rest ReleaseEntry', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123',
         )
       })
   })
@@ -131,7 +131,7 @@ describe('Rest ReleaseEntry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries'
+          '/spaces/space123/environments/master/releases/black-friday/entries',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql(entityMock)
       })
@@ -159,7 +159,7 @@ describe('Rest ReleaseEntry', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/releases/black-friday/entries/abc123'
+          '/spaces/space123/environments/master/releases/black-friday/entries/abc123',
         )
       })
   })

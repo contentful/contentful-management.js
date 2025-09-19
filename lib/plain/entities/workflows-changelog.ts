@@ -26,6 +26,6 @@ export type WorkflowsChangelogPlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: WorkflowsChangelogQueryOptions }>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<CollectionProp<WorkflowsChangelogEntryProps>>
 }

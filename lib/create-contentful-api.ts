@@ -69,7 +69,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
-      query: BasicCursorPaginationOptions & { select?: string } = {}
+      query: BasicCursorPaginationOptions & { select?: string } = {},
     ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -138,7 +138,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createEnvironmentTemplate: function createEnvironmentTemplate(
       organizationId: string,
-      environmentTemplateData: CreateEnvironmentTemplateProps
+      environmentTemplateData: CreateEnvironmentTemplateProps,
     ): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -163,7 +163,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ): Promise<Collection<Space, SpaceProps>> {
       return makeRequest({
         entityType: 'Space',
@@ -217,7 +217,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createSpace: function createSpace(
       spaceData: CreateSpaceProps,
-      organizationId: string
+      organizationId: string,
     ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
@@ -267,7 +267,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizations: function getOrganizations(
-      query: PaginationQueryParams['query'] = {}
+      query: PaginationQueryParams['query'] = {},
     ): Promise<Collection<Organization, OrganizationProps>> {
       return makeRequest({
         entityType: 'Organization',
@@ -317,7 +317,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplication: function getOAuthApplication(
-      params: GetOAuthApplicationParams
+      params: GetOAuthApplicationParams,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -343,7 +343,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplications: function getOAuthApplications(
-      params: GetUserParams & QueryParams
+      params: GetUserParams & QueryParams,
     ): Promise<CursorPaginatedCollection<OAuthApplication, OAuthApplicationProps>> {
       const { userId } = params
       return makeRequest({
@@ -375,7 +375,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createOAuthApplication: function createOAuthApplication(
       params: GetUserParams,
-      rawData: CreateOAuthApplicationProps
+      rawData: CreateOAuthApplicationProps,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -404,7 +404,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
 
     getAppDefinition: function getAppDefinition(
-      params: GetAppDefinitionParams
+      params: GetAppDefinitionParams,
     ): Promise<AppDefinition> {
       return makeRequest({
         entityType: 'AppDefinition',
@@ -437,7 +437,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     createPersonalAccessToken: function createPersonalAccessToken(
-      data: CreatePersonalAccessTokenProps
+      data: CreatePersonalAccessTokenProps,
     ) {
       return makeRequest({
         /**
@@ -567,7 +567,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationAccessTokens: function getOrganizationAccessTokens(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'AccessToken',
@@ -602,7 +602,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationUsage: function getOrganizationUsage(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'Usage',

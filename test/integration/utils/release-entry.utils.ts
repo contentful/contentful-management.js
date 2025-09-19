@@ -10,7 +10,7 @@ export async function createEmptyRelease(
     environmentId: string
     spaceId: string
     releaseSchemaVersion: 'Release.v2'
-  }
+  },
 ): Promise<ReleaseProps> {
   return client.release.create(defaultParams, {
     title: 'Test Release',
@@ -31,7 +31,7 @@ export async function createTestEntry(
     spaceId: string
     releaseSchemaVersion: 'Release.v2'
   },
-  contentTypeId: string
+  contentTypeId: string,
 ): Promise<EntryProps> {
   return client.entry.create(
     { ...defaultParams, contentTypeId },
@@ -41,7 +41,7 @@ export async function createTestEntry(
           'en-US': 'Test Entry for Release',
         },
       },
-    }
+    },
   )
 }
 
@@ -51,7 +51,7 @@ export async function createTestEntry(
 export async function updateReleaseWithEntries(
   client: PlainClientAPI,
   release: ReleaseProps,
-  entries: EntryProps[]
+  entries: EntryProps[],
 ): Promise<ReleaseProps> {
   const { sys, ...releaseData } = release
 
@@ -72,7 +72,7 @@ export async function updateReleaseWithEntries(
           action: 'publish' as const,
         })),
       },
-    }
+    },
   )
 }
 
@@ -83,7 +83,7 @@ export async function updateReleaseEntryTitle(
   client: PlainClientAPI,
   release: ReleaseProps,
   entry: EntryProps,
-  newTitle: string = 'Updated Test Entry for Release'
+  newTitle: string = 'Updated Test Entry for Release',
 ): Promise<EntryProps> {
   // get the release entry
   const releaseEntryToUpdate = await client.release.entry.get({
@@ -108,6 +108,6 @@ export async function updateReleaseEntryTitle(
           'en-US': newTitle,
         },
       },
-    }
+    },
   )
 }

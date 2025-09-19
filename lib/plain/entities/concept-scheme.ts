@@ -25,7 +25,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   create(
     params: SetOptional<GetOrganizationParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -43,7 +43,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   createWithId(
     params: SetOptional<GetConceptSchemeParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -63,7 +63,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   update(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -83,7 +83,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   updatePut(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: CreateConceptSchemeProps
+    payload: CreateConceptSchemeProps,
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -102,7 +102,7 @@ export type ConceptSchemePlainClientAPI = {
    */
   patch(
     params: SetOptional<UpdateConceptSchemeParams, 'organizationId'>,
-    payload: OpPatch[]
+    payload: OpPatch[],
   ): Promise<ConceptSchemeProps>
 
   /**
@@ -133,7 +133,7 @@ export type ConceptSchemePlainClientAPI = {
    * ```
    */
   getMany(
-    params: SetOptional<GetManyConceptSchemeParams, 'organizationId'>
+    params: SetOptional<GetManyConceptSchemeParams, 'organizationId'>,
   ): Promise<CursorPaginatedCollectionProp<ConceptSchemeProps>>
 
   /**

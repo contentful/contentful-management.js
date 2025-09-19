@@ -33,7 +33,7 @@ export const get: RestEndpoint<'ReleaseAsset', 'get'> = (
   http: AxiosInstance,
   params: GetReleaseAssetParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<ReleaseAssetProps>(
     http,
@@ -41,7 +41,7 @@ export const get: RestEndpoint<'ReleaseAsset', 'get'> = (
     {
       params: normalizeSelect(params.query),
       headers: headers ? { ...headers } : undefined,
-    }
+    },
   )
 }
 
@@ -49,7 +49,7 @@ export const getMany: RestEndpoint<'ReleaseAsset', 'getMany'> = (
   http: AxiosInstance,
   params: GetManyReleaseAssetParams & QueryParams,
   rawData?: unknown,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
 
@@ -59,7 +59,7 @@ export const getMany: RestEndpoint<'ReleaseAsset', 'getMany'> = (
     {
       params: normalizeSelect(params.query),
       headers: headers ? { ...headers } : undefined,
-    }
+    },
   )
 }
 
@@ -67,7 +67,7 @@ export const update: RestEndpoint<'ReleaseAsset', 'update'> = (
   http: AxiosInstance,
   params: UpdateReleaseAssetParams & QueryParams,
   rawData: AssetProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -80,7 +80,7 @@ export const update: RestEndpoint<'ReleaseAsset', 'update'> = (
         'X-Contentful-Version': rawData.sys.version ?? 0,
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -88,7 +88,7 @@ export const create: RestEndpoint<'ReleaseAsset', 'create'> = (
   http: AxiosInstance,
   params: CreateReleaseAssetParams,
   rawData: CreateAssetProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -98,7 +98,7 @@ export const create: RestEndpoint<'ReleaseAsset', 'create'> = (
     data,
     {
       headers,
-    }
+    },
   )
 }
 
@@ -106,7 +106,7 @@ export const createWithId: RestEndpoint<'ReleaseAsset', 'createWithId'> = (
   http: AxiosInstance,
   params: CreateWithIdReleaseAssetParams,
   rawData: CreateAssetProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
 
@@ -116,14 +116,14 @@ export const createWithId: RestEndpoint<'ReleaseAsset', 'createWithId'> = (
     data,
     {
       headers,
-    }
+    },
   )
 }
 
 export const createFromFiles: RestEndpoint<'ReleaseAsset', 'createFromFiles'> = async (
   http: AxiosInstance,
   params: CreateWithFilesReleaseAssetParams,
-  data: Omit<AssetFileProp, 'sys'>
+  data: Omit<AssetFileProp, 'sys'>,
 ) => {
   const httpUpload = getUploadHttpClient(http, { uploadTimeout: params.uploadTimeout })
 
@@ -147,7 +147,7 @@ export const createFromFiles: RestEndpoint<'ReleaseAsset', 'createFromFiles'> = 
           },
         }
       })
-    })
+    }),
   )
     .then((uploads) => {
       const file = uploads.reduce((fieldsData, upload) => ({ ...fieldsData, ...upload }), {})
@@ -185,7 +185,7 @@ async function checkIfAssetHasUrl(
     reject: (err: Error) => unknown
     locale: string
     checkCount?: number
-  } & AssetProcessingForLocale
+  } & AssetProcessingForLocale,
 ) {
   return get(http, params).then((asset) => {
     if (asset.fields.file[locale].url) {
@@ -207,7 +207,7 @@ async function checkIfAssetHasUrl(
             processingCheckWait,
             processingCheckRetries,
           }),
-        processingCheckWait
+        processingCheckWait,
       )
     }
   })
@@ -220,7 +220,7 @@ export const processForLocale: RestEndpoint<'ReleaseAsset', 'processForLocale'> 
     locale,
     options: { processingCheckRetries, processingCheckWait } = {},
     ...params
-  }: ProcessForLocaleReleaseAssetParams
+  }: ProcessForLocaleReleaseAssetParams,
 ) => {
   return raw
     .put<ReleaseAssetProps>(
@@ -231,7 +231,7 @@ export const processForLocale: RestEndpoint<'ReleaseAsset', 'processForLocale'> 
         headers: {
           'X-Contentful-Version': asset.sys.version,
         },
-      }
+      },
     )
     .then(() => {
       return new Promise<ReleaseAssetProps>((resolve, reject) =>
@@ -249,15 +249,15 @@ export const processForLocale: RestEndpoint<'ReleaseAsset', 'processForLocale'> 
             locale,
             processingCheckWait,
             processingCheckRetries,
-          }
-        )
+          },
+        ),
       )
     })
 }
 
 export const processForAllLocales: RestEndpoint<'ReleaseAsset', 'processForAllLocales'> = async (
   http: AxiosInstance,
-  { asset, options = {}, ...params }: ProcessForAllLocalesReleaseAssetParams
+  { asset, options = {}, ...params }: ProcessForAllLocalesReleaseAssetParams,
 ) => {
   const locales = Object.keys(asset.fields.file || {})
 
@@ -273,7 +273,7 @@ export const processForAllLocales: RestEndpoint<'ReleaseAsset', 'processForAllLo
       // The last one to call this will be the last one that finished
       // and thus the most up to date
       mostUpToDateAssetVersion = result
-    })
+    }),
   )
 
   return Promise.all(allProcessingLocales).then(() => mostUpToDateAssetVersion)
