@@ -123,7 +123,7 @@ export interface ReleasePayloadV2 extends MakeRequestPayload {
 }
 
 export interface ReleaseValidatePayload {
-  action?: 'publish'
+  action?: 'publish' | 'unpublish'
 }
 
 export interface ReleaseValidateOptions {
@@ -145,7 +145,7 @@ export interface ReleaseApiMethods {
    * */
   unarchive(): Promise<Release>
   /** Updates a Release and returns the updated Release object */
-  update(payload: ReleasePayload | ReleasePayloadV2): Promise<Release>
+  update(payload: ReleasePayload): Promise<Release>
   /** Deletes a Release and all ReleaseActions linked to it (non-reversible) */
   delete(): Promise<void>
   /** Publishes a Release and waits until the asynchronous action is completed */
@@ -196,7 +196,7 @@ function createReleaseApi(makeRequest: MakeRequest): ReleaseApiMethods {
         params,
       }).then((release) => wrapRelease(makeRequest, release))
     },
-    async update(payload: ReleasePayload | ReleasePayloadV2) {
+    async update(payload: ReleasePayload) {
       const params = getParams(this)
 
       return makeRequest({

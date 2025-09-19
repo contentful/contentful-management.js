@@ -5,30 +5,25 @@ import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
-  GetEntryParams,
-  GetManyEntryParams,
-  CreateWithIdReleaseEntryParams,
-  GetSpaceEnvironmentParams,
-  KeyValueMap,
-  PatchEntryParams,
-  PatchReleaseEntryParams,
-  QueryParams,
-  UpdateEntryParams,
-  UpdateReleaseEntryParams,
   CreateReleaseEntryParams,
+  CreateWithIdReleaseEntryParams,
   GetManyReleaseEntryParams,
   GetReleaseEntryParams,
+  GetSpaceEnvironmentParams,
+  KeyValueMap,
+  PatchReleaseEntryParams,
+  QueryParams,
+  UpdateReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import { createWithId as createWithIdReleaseEntry } from './release-entry'
-import { normalizeSelect } from './utils'
 import * as releaseEntry from './release-entry'
+import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams & { releaseId?: string },
+  params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -66,7 +61,7 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetManyEntryParams & QueryParams & { releaseId?: string },
+  params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -86,7 +81,7 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
 
 export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: PatchEntryParams & QueryParams,
+  params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string },
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -110,7 +105,7 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
 
 export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: UpdateEntryParams & QueryParams,
+  params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string },
   rawData: EntryProps<T>,
   headers?: RawAxiosRequestHeaders
 ) => {
@@ -209,7 +204,7 @@ export const unarchive: RestEndpoint<'Entry', 'unarchive'> = <T extends KeyValue
 
 export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string } & QueryParams,
+  params: GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string },
   rawData: CreateEntryProps<T>
 ) => {
   if (params.releaseId) {
@@ -242,21 +237,20 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
   rawData: CreateEntryProps<T>
 ) => {
   if (params.releaseId) {
-    return createWithIdReleaseEntry(http, params as CreateWithIdReleaseEntryParams, rawData, {})
-  } else {
-    const data = copy(rawData)
-
-    return raw.put<EntryProps<T>>(
-      http,
-      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
-      data,
-      {
-        headers: {
-          'X-Contentful-Content-Type': params.contentTypeId,
-        },
-      }
-    )
+    return releaseEntry.createWithId(http, params as CreateWithIdReleaseEntryParams, rawData, {})
   }
+  const data = copy(rawData)
+
+  return raw.put<EntryProps<T>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
+    data,
+    {
+      headers: {
+        'X-Contentful-Content-Type': params.contentTypeId,
+      },
+    }
+  )
 }
 
 export const references: RestEndpoint<'Entry', 'references'> = (

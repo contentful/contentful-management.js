@@ -1645,21 +1645,21 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetManyEntryParams & QueryParams & { releaseId?: string }
-      return: CollectionProp<EntryProps<any, any>>
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
+      return: CollectionProp<EntryProps<any>>
     }
     get: {
-      params: GetEntryParams & QueryParams & { releaseId?: string }
-      return: EntryProps<any, any>
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
+      return: EntryProps<any>
     }
     patch: {
-      params: PatchEntryParams & QueryParams & { releaseId?: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
-      params: UpdateEntryParams & QueryParams & { releaseId?: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -1686,7 +1686,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & {
         contentTypeId: string
         releaseId?: string
-      } & QueryParams
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
@@ -1697,7 +1697,7 @@ export type MRActions = {
         releaseId?: string
       }
       payload: CreateEntryProps<any>
-      return: EntryProps<any, any>
+      return: EntryProps<any>
     }
     references: {
       params: GetSpaceEnvironmentParams & {
@@ -1866,11 +1866,11 @@ export type MRActions = {
       return: ReleaseProps
     }
     query: {
-      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      params: ReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
       return: CollectionProp<ReleaseProps>
     }
     create: {
-      params: GetSpaceEnvironmentParams
+      params: ReleaseEnvironmentParams
       payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
@@ -1949,12 +1949,12 @@ export type MRActions = {
     get: {
       params: GetReleaseEntryParams & QueryParams
       headers?: RawAxiosRequestHeaders
-      return: EntryProps<any, any>
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
     getMany: {
       params: GetManyReleaseEntryParams & QueryParams
       headers?: RawAxiosRequestHeaders
-      return: CollectionProp<EntryProps<any, any>>
+      return: CollectionProp<EntryProps<any, { release: Link<'Release'> }>>
     }
     update: {
       params: UpdateReleaseEntryParams & QueryParams
@@ -2457,13 +2457,6 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
-export type GetManyEntryParams = GetSpaceEnvironmentParams
-export type PatchEntryParams = GetSpaceEnvironmentParams & {
-  entryId: string
-  version: number
-  releaseId?: string
-}
-export type UpdateEntryParams = GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }

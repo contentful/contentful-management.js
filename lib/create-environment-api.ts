@@ -37,7 +37,6 @@ import type {
   ReleasePayload,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-  ReleasePayloadV2,
 } from './entities/release'
 import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
@@ -398,7 +397,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Using Thenables
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.createUnpublishBulkAction(payload))
      * .then((bulkAction) => console.log(bulkAction.waitProcessing()))
      * .catch(console.error)
@@ -406,7 +405,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * // Using async/await
      * try {
      *  const space = await clientgetSpace('<space_id>')
-     *  const environment = await space.getEnvironment('<environment-id>')
+     *  const environment = await space.getEnvironment('<environment_id>')
      *  const bulkActionInProgress = await environment.createUnpublishBulkAction(payload)
      *
      *  // You can wait for a recently created BulkAction to be processed by using `bulkAction.waitProcessing()`
@@ -867,7 +866,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * // Get entry references
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.getEntryReferences('<entry_id>', {include: number}))
      * .then((entry) => console.log(entry.includes))
      * // or
@@ -2109,7 +2108,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       version,
     }: {
       releaseId: string
-      payload: ReleasePayload | ReleasePayloadV2
+      payload: ReleasePayload
       version: number
     }) {
       const raw: EnvironmentProps = this.toPlainObject()
@@ -2482,7 +2481,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getSpace('<space_id>')
-     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((space) => space.getEnvironment('<environment_id>'))
      * .then((environment) => environment.getResourceTypes({limit: 10}))
      * .then((installations) => console.log(installations.items))
      * .catch(console.error)
