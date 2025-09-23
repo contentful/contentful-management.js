@@ -1,6 +1,6 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
-import type { Except } from 'type-fest'
+import type { Except, JsonValue } from 'type-fest'
 import type {
   BasicMetaSysProps,
   AppActionCallRetryOptions,
@@ -21,7 +21,7 @@ type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   environment: SysLink
   action: SysLink
   appActionCallResponse?: SysLink
-}
+} & (AppActionCallSucceeded | AppActionCallProcessing | AppActionCallFailed)
 
 type RetryOptions = AppActionCallRetryOptions
 
@@ -34,16 +34,27 @@ export interface AppActionCallErrorProps {
   statusCode?: number
 }
 
+export type AppActionCallSucceeded = {
+  status: 'succeeded'
+  result: JsonValue
+}
+
+export type AppActionCallProcessing = {
+  status: 'processing'
+}
+
+export type AppActionCallFailed = {
+  status: 'failed'
+  error: AppActionCallErrorProps
+}
+
 export type AppActionCallProps = {
   /**
    * System metadata
    */
   sys: AppActionCallSys
-  /** The execution status of the app action call, if available */
-  status?: AppActionCallStatus
-  /** Structured result when execution succeeded */
-  result?: unknown
-  /** Structured error when execution failed */
+  status: AppActionCallStatus
+  result?: JsonValue
   error?: AppActionCallErrorProps
 }
 
@@ -88,7 +99,7 @@ export interface AppActionCallResponseData
     DefaultElements<AppActionCallResponse>,
     AppActionCallApi {}
 
-export interface AppActionCall extends AppActionCallProps, DefaultElements<AppActionCallProps> {}
+export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallProps>
 
 /**
  * @private
