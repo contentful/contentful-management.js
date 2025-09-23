@@ -99,6 +99,16 @@ describe('Environment template API', () => {
       expect(firstTemplate).toEqual({ description: templateDescription })
     })
 
+    it('gets a collection of environment templates with forTemplatedSpaces filter applied', async () => {
+      const draftTemplate = createDraftTemplate()
+      await client.createEnvironmentTemplate(orgId, draftTemplate)
+      const { items: templates } = await client.getEnvironmentTemplates(orgId, {
+        forTemplatedSpaces: true,
+      })
+
+      expect(templates).toHaveLength(0)
+    })
+
     it('updates an environment template', async () => {
       const draftTemplate = createDraftTemplate()
       const template = await client.createEnvironmentTemplate(orgId, draftTemplate)

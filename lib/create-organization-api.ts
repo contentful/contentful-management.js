@@ -6,7 +6,6 @@ import type { CreateTeamProps } from './entities/team'
 import type { CreateOrganizationInvitationProps } from './entities/organization-invitation'
 import type {
   AcceptsQueryOptions,
-  AcceptsQueryParams,
   BasicQueryOptions,
   MakeRequest,
   QueryOptions,
