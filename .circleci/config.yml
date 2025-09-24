@@ -148,3 +148,4 @@ workflows:
               only:
                 - master
                 - beta
+                - canary

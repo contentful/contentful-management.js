@@ -5,21 +5,32 @@ import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
+  CreateReleaseEntryParams,
+  CreateWithIdReleaseEntryParams,
+  GetManyReleaseEntryParams,
+  GetReleaseEntryParams,
   GetSpaceEnvironmentParams,
   KeyValueMap,
+  PatchReleaseEntryParams,
   QueryParams,
+  UpdateReleaseEntryParams,
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
+import * as releaseEntry from './release-entry'
 import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams,
+  params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams,
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.get(http, params as GetReleaseEntryParams)
+  }
+
   return raw.get<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
@@ -50,10 +61,14 @@ export const getPublished: RestEndpoint<'Entry', 'getPublished'> = <
 
 export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams,
+  params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.getMany(http, params as GetManyReleaseEntryParams)
+  }
+
   return raw.get<CollectionProp<EntryProps<T>>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
@@ -66,10 +81,14 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
 
 export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; version: number },
+  params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string },
   data: OpPatch[],
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.patch(http, params as PatchReleaseEntryParams, data, headers ?? {})
+  }
+
   return raw.patch<EntryProps<T>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}`,
@@ -86,10 +105,14 @@ export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = Ke
 
 export const update: RestEndpoint<'Entry', 'update'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string },
+  params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string },
   rawData: EntryProps<T>,
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.update(http, params as UpdateReleaseEntryParams, rawData, headers ?? {})
+  }
+
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
   return raw.put<EntryProps<T>>(
@@ -181,9 +204,13 @@ export const unarchive: RestEndpoint<'Entry', 'unarchive'> = <T extends KeyValue
 
 export const create: RestEndpoint<'Entry', 'create'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { contentTypeId: string },
+  params: GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string },
   rawData: CreateEntryProps<T>,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.create(http, params as CreateReleaseEntryParams, rawData, {})
+  }
+
   const data = copy(rawData)
 
   return raw.post<EntryProps<T>>(
@@ -202,9 +229,16 @@ export const createWithId: RestEndpoint<'Entry', 'createWithId'> = <
   T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string },
+  params: GetSpaceEnvironmentParams & {
+    entryId: string
+    contentTypeId: string
+    releaseId?: string
+  },
   rawData: CreateEntryProps<T>,
 ) => {
+  if (params.releaseId) {
+    return releaseEntry.createWithId(http, params as CreateWithIdReleaseEntryParams, rawData, {})
+  }
   const data = copy(rawData)
 
   return raw.put<EntryProps<T>>(

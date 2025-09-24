@@ -814,6 +814,34 @@ const releaseActionUnpublishMock: ReleaseActionProps = {
   action: 'unpublish',
 }
 
+const releaseAssetMock: AssetProps<{ release: Link<'Release'> }> = {
+  ...assetMock,
+  sys: {
+    ...assetMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
+const releaseEntryMock: EntryProps<any, { release: Link<'Release'> }> = {
+  ...entryMock,
+  sys: {
+    ...entryMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
 const aiActionMock: AiActionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'AiAction' as const,
@@ -1409,6 +1437,8 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  releaseAsset: releaseAssetMock,
+  releaseEntry: releaseEntryMock,
   resource: resourceMock,
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,

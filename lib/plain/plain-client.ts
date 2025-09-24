@@ -345,6 +345,43 @@ export const createPlainClient = (
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
     release: {
+      asset: {
+        get: wrap(wrapParams, 'ReleaseAsset', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseAsset', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseAsset', 'update'),
+        create: wrap(wrapParams, 'ReleaseAsset', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseAsset', 'createWithId'),
+        createFromFiles: wrap(wrapParams, 'ReleaseAsset', 'createFromFiles'),
+        processForAllLocales: (params, asset, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForAllLocales',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              options,
+              asset,
+            },
+          }),
+        processForLocale: (params, asset, locale, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForLocale',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              locale,
+              asset,
+              options,
+            },
+          }),
+      },
+      entry: {
+        get: wrap(wrapParams, 'ReleaseEntry', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseEntry', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseEntry', 'update'),
+        patch: wrap(wrapParams, 'ReleaseEntry', 'patch'),
+        create: wrap(wrapParams, 'ReleaseEntry', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseEntry', 'createWithId'),
+      },
       archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),

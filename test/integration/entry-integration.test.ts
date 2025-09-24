@@ -13,11 +13,19 @@ import {
 import type {
   ConceptProps,
   ContentType,
+  EntryProps,
   Environment,
   PlainClientAPI,
+  ReleaseProps,
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
+import {
+  createEmptyRelease,
+  createTestEntry,
+  updateReleaseWithEntries,
+  updateReleaseEntryTitle,
+} from './utils/release-entry.utils'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())
@@ -711,6 +719,176 @@ describe('Entry Api', () => {
       expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
       expect(response.items[0].sys.publishedVersion).to.not.be.undefined
       expect(response.items[0].sys.publishedAt).to.not.be.undefined
+    })
+  })
+
+  //test releasev2 entry logic
+  describe('plainClientApi with releaseId', () => {
+    let entry: EntryProps
+    let entry2: EntryProps
+    let release: ReleaseProps
+    let createEntryClient: PlainClientAPI
+
+    beforeAll(async () => {
+      // create a v2 release w/ entry to reuse in tests
+      const defaultParams = {
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+        releaseSchemaVersion: 'Release.v2' as const,
+      }
+      createEntryClient = initPlainClient(defaultParams)
+
+      // create release
+      release = await createEmptyRelease(createEntryClient, defaultParams)
+
+      // create entries to add to release
+      entry = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId,
+      )
+      entry2 = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId,
+      )
+      // add entries to release
+      release = await updateReleaseWithEntries(createEntryClient, release, [entry, entry2])
+
+      // update release entry with title
+      await updateReleaseEntryTitle(createEntryClient, release, entry)
+    })
+
+    afterAll(async () => {
+      // cleanup test release
+      await createEntryClient.release.delete({
+        releaseId: release.sys.id,
+      })
+      await createEntryClient.entry.delete({
+        entryId: entry.sys.id,
+      })
+      await createEntryClient.entry.delete({
+        entryId: entry2.sys.id,
+      })
+      await timeoutToCalmRateLimiting()
+    })
+
+    describe('releaseId is provided in params, but not in default params', () => {
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            releaseId: release.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace' as const,
+              path: '/fields/title/en-US',
+              value: 'Entry patched via release',
+            },
+          ],
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(
+          (entryToPatch as any).sys.release.sys.id,
+        )
+      })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+            releaseId: release.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via release' },
+            },
+          },
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(
+          (entryToUpdate as any).sys.release.sys.id,
+        )
+      })
+    })
+
+    describe('releaseId is provided in default params, but not in params', () => {
+      beforeEach(() => {
+        createEntryClient = initPlainClient({
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+      })
+
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Entry patched via default release',
+            },
+          ],
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via default release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
+      })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via default release' },
+            },
+          },
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via default release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(entryToUpdate.sys.release.sys.id)
+      })
     })
   })
 
