@@ -427,9 +427,7 @@ npm install contentful-management@canary
 
 ### Current experimental features
 
-#### Timeline Preview / Releases v2
-
-This feature allows you to schedule content changes in the future and preview them before they go live. 
+Currently there are no features in experimental status.
 
 ## Reach out to us
 
