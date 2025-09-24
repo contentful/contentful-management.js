@@ -158,7 +158,7 @@ export type PlainClientAPI = {
     ): Promise<EnvironmentTemplateProps>
     getMany(
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>

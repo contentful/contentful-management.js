@@ -69,7 +69,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
-      query: BasicCursorPaginationOptions & { select?: string } = {},
+      query: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean } = {},
     ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
