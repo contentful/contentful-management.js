@@ -151,9 +151,9 @@ async function pollStructuredAppActionCall(
 
         // If backend has not yet written the record, keep polling up to retries
         // Otherwise, resolve when status is terminal
-        if (result?.status === 'succeeded' || result?.status === 'failed') {
+        if (result?.sys.status === 'succeeded' || result?.sys.status === 'failed') {
           resolve(result)
-        } else if (result?.status === 'processing' && checkCount < retries) {
+        } else if (result?.sys.status === 'processing' && checkCount < retries) {
           checkCount++
           await waitFor(retryInterval)
           poll()
