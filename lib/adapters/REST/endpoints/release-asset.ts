@@ -51,8 +51,6 @@ export const getMany: RestEndpoint<'ReleaseAsset', 'getMany'> = (
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  params.query = { ...params.query, 'sys.schemaVersion': 'Release.V2' }
-
   return raw.get<CollectionProp<ReleaseAssetProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/releases/${params.releaseId}/assets`,
