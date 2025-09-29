@@ -16,10 +16,9 @@ function setup(promise, mockName, params = {}) {
 }
 
 describe('Rest App Action Call', { concurrent: true }, () => {
-  it('should get structured App Action Call via new route', async () => {
+  it('should get structured App Action Call', async () => {
     const structuredCall: any = {
-      sys: { id: 'call-id', type: 'AppActionCall' },
-      status: 'processing',
+      sys: { id: 'call-id', type: 'AppActionCall', status: 'processing' },
     }
 
     const { httpMock } = setup(Promise.resolve({ data: structuredCall }), 'appActionCallResponse')
@@ -38,7 +37,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
     )
   })
 
-  it('should get raw response via new route', async () => {
+  it('should get raw response', async () => {
     const rawResponse: any = {
       sys: { id: 'call-id', type: 'AppActionCallResponse' },
       response: { body: 'OK', headers: { contentType: 'application/json' } },
@@ -61,16 +60,13 @@ describe('Rest App Action Call', { concurrent: true }, () => {
   })
 
   it('should create with result and poll until completion', async () => {
-    // First POST returns the created call with sys.id; then GET returns processing, then succeeded
-    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall' } }
-    const processing: any = { sys: { id: 'call-id', type: 'AppActionCall' }, status: 'processing' }
+    // First POST and next GET returns processing call with sys.id; , then succeeded
+    const processing: any = { sys: { id: 'call-id', type: 'AppActionCall', status: 'processing' } }
     const succeeded: any = {
-      sys: { id: 'call-id', type: 'AppActionCall' },
-      status: 'succeeded',
-      result: { ok: true },
+      sys: { id: 'call-id', type: 'AppActionCall', status: 'succeeded', result: { ok: true } },
     }
 
-    const { httpMock } = setup(Promise.resolve({ data: createdCall }), 'appActionCallResponse')
+    const { httpMock } = setup(Promise.resolve({ data: processing }), 'appActionCallResponse')
 
     httpMock.get
       .mockImplementationOnce(() => Promise.resolve({ data: processing }))
@@ -105,10 +101,9 @@ describe('Rest App Action Call', { concurrent: true }, () => {
   })
 
   it('createWithResult times out when status stays processing', async () => {
-    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall' } }
-    const processing: any = { sys: { id: 'call-id', type: 'AppActionCall' }, status: 'processing' }
+    const processing: any = { sys: { id: 'call-id', type: 'AppActionCall', status: 'processing' } }
 
-    const { httpMock } = setup(Promise.resolve({ data: createdCall }), 'appActionCallResponse')
+    const { httpMock } = setup(Promise.resolve({ data: processing }), 'appActionCallResponse')
 
     // Always return processing to trigger timeout
     httpMock.get.mockImplementation(() => Promise.resolve({ data: processing }))
@@ -140,11 +135,14 @@ describe('Rest App Action Call', { concurrent: true }, () => {
   })
 
   it('createWithResult resolves with failed status and error intact', async () => {
-    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall' } }
+    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall', status: 'processing' } }
     const failed: any = {
-      sys: { id: 'call-id', type: 'AppActionCall' },
-      status: 'failed',
-      error: { sys: { type: 'Error', id: 'ValidationError' }, message: 'invalid' },
+      sys: {
+        id: 'call-id',
+        type: 'AppActionCall',
+        status: 'failed',
+        error: { sys: { type: 'Error', id: 'ValidationError' }, message: 'invalid' },
+      },
     }
 
     const { httpMock } = setup(Promise.resolve({ data: createdCall }), 'appActionCallResponse')
@@ -167,7 +165,7 @@ describe('Rest App Action Call', { concurrent: true }, () => {
   })
 
   it('createWithResult retries on thrown GET errors then times out', async () => {
-    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall' } }
+    const createdCall: any = { sys: { id: 'call-id', type: 'AppActionCall', status: 'processing' } }
     const { httpMock } = setup(Promise.resolve({ data: createdCall }), 'appActionCallResponse')
 
     httpMock.get.mockRejectedValue(new Error('not ready'))
