@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect, describe, it, beforeAll, vi, afterAll } from 'vitest'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
