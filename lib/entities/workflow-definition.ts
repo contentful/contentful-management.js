@@ -107,21 +107,21 @@ export type WorkflowDefinitionSysProps = Pick<
 }
 
 export type WorkflowVariablePresetValue = {
-  variable: Link<'WorkflowVariable'>;
-  value: string | Link<'User'> | Link<'Team'>;
-};
+  variable: Link<'WorkflowVariable'>
+  value: string | Link<'User'> | Link<'Team'>
+}
 
 export type WorkflowVariablePreset = {
-  id?: string;
-  name: string;
-  variableValues: WorkflowVariablePresetValue[];
-};
+  id?: string
+  name: string
+  variableValues: WorkflowVariablePresetValue[]
+}
 
 export type WorkflowVariable = {
-  id: string;
-  name: string;
-  type: 'subject' | 'locale';
-};
+  id: string
+  name: string
+  type: 'subject' | 'locale'
+}
 
 export type WorkflowDefinitionValidationLink = {
   type: 'Link'
@@ -129,8 +129,8 @@ export type WorkflowDefinitionValidationLink = {
     linkContentType: string[]
   }>
   linkType: 'Entry'
-  variables?: WorkflowVariable[];
-  variableValuePresets?: WorkflowVariablePreset[];
+  variables?: WorkflowVariable[]
+  variableValuePresets?: WorkflowVariablePreset[]
 }
 
 export type WorkflowDefinitionProps = {
