@@ -53,9 +53,6 @@ export type AppActionCallProps = {
    * System metadata
    */
   sys: AppActionCallSys
-  status: AppActionCallStatus
-  result?: JsonValue
-  error?: AppActionCallErrorProps
 }
 
 export type CreateAppActionCallProps = {
@@ -86,6 +83,7 @@ export interface AppActionCallRawResponseProps {
     appInstallation: SysLink
     appAction: SysLink
     createdAt: string
+    createdBy: SysLink
   }
   response: {
     headers?: { contentType?: string }
