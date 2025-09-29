@@ -452,6 +452,18 @@ This means that new versions are released automatically as fixes, features or br
 
 You can check the changelog on the [releases](https://github.com/contentful/contentful-management.js/releases) page.
 
+## Experimental features
+
+To download a build that has features that are not yet released, you can use the `canary` channel. This is a pre-release version of the library that contains features that are still in development and may not be stable. To install a canary version, you can use the following command:
+
+```bash
+npm install contentful-management@canary
+```
+
+### Current experimental features
+
+Currently there are no features in experimental status.
+
 ## Reach out to us
 
 ### You have questions about how to use this library?

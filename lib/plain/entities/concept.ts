@@ -48,6 +48,26 @@ export type ConceptPlainClientAPI = {
   ): Promise<ConceptProps>
 
   /**
+   * Update Concept
+   * @returns the updated Concept
+   * @throws if the request fails
+   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
+   * @deprecated The behavior of this method as a PATCH is being deprecated, and will be replaced with a PUT in the next major version. Use the `patch` method instead.
+   * @example
+   * ```javascript
+   * const updatedConcept = await client.concept.update({
+   *   organizationId: '<organization_id>',
+   *   conceptId: '<concept_id>',
+   *   version: 1,
+   * }, patch);
+   * ```
+   */
+  update(
+    params: SetOptional<UpdateConceptParams, 'organizationId'>,
+    payload: OpPatch[],
+  ): Promise<ConceptProps>
+
+  /**
    * Update Concept with PUT
    * @returns the updated Concept
    * @throws if the request fails

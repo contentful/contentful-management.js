@@ -83,6 +83,7 @@ import type {
 import type { PreviewApiKeyProps } from './entities/preview-api-key.js'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
@@ -300,6 +301,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  release?: Link<'Release'>
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -712,6 +714,27 @@ type MRInternal<UA extends boolean> = {
   (
     opts: MROpts<'ReleaseAction', 'queryForRelease', UA>,
   ): MRReturn<'ReleaseAction', 'queryForRelease'>
+
+  (opts: MROpts<'ReleaseAsset', 'get', UA>): MRReturn<'ReleaseAsset', 'get'>
+  (opts: MROpts<'ReleaseAsset', 'getMany', UA>): MRReturn<'ReleaseAsset', 'getMany'>
+  (opts: MROpts<'ReleaseAsset', 'update', UA>): MRReturn<'ReleaseAsset', 'update'>
+  (opts: MROpts<'ReleaseAsset', 'create', UA>): MRReturn<'ReleaseAsset', 'create'>
+  (opts: MROpts<'ReleaseAsset', 'createWithId', UA>): MRReturn<'ReleaseAsset', 'createWithId'>
+  (opts: MROpts<'ReleaseAsset', 'createFromFiles', UA>): MRReturn<'ReleaseAsset', 'createFromFiles'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForAllLocales', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForAllLocales'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForLocale', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForLocale'>
+
+  (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
+  (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
+  (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
+  (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'create', UA>): MRReturn<'ReleaseEntry', 'create'>
+  (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
+
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -1209,17 +1232,17 @@ export type MRActions = {
       return: CollectionProp<AssetProps>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
       headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     update: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: AssetProps
       headers?: RawAxiosRequestHeaders
       return: AssetProps
@@ -1233,14 +1256,18 @@ export type MRActions = {
     unpublish: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     archive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     unarchive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
-    create: { params: GetSpaceEnvironmentParams; payload: CreateAssetProps; return: AssetProps }
+    create: {
+      params: GetSpaceEnvironmentParams & { releaseId?: string }
+      payload: CreateAssetProps
+      return: AssetProps
+    }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: CreateAssetProps
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -1525,7 +1552,7 @@ export type MRActions = {
     }
     getMany: {
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1600,21 +1627,21 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any>>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
       return: EntryProps<any>
     }
     patch: {
-      params: GetSpaceEnvironmentParams & { entryId: string; version: number }
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -1638,12 +1665,19 @@ export type MRActions = {
       return: EntryProps<any>
     }
     create: {
-      params: GetSpaceEnvironmentParams & { contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        entryId: string
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
@@ -1814,17 +1848,17 @@ export type MRActions = {
       return: ReleaseProps
     }
     query: {
-      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      params: ReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
       return: CollectionProp<ReleaseProps>
     }
     create: {
-      params: GetSpaceEnvironmentParams
-      payload: ReleasePayload
+      params: ReleaseEnvironmentParams
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     update: {
       params: GetReleaseParams & { version: number }
-      payload: ReleasePayload
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     delete: {
@@ -1847,6 +1881,88 @@ export type MRActions = {
       params: GetReleaseParams
       payload?: ReleaseValidatePayload
       return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAsset: {
+    get: {
+      params: GetReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AssetProps<{ release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseAssetParams & QueryParams
+      payload: AssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateWithIdReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createFromFiles: {
+      params: CreateWithFilesReleaseAssetParams & QueryParams
+      payload: Omit<AssetFileProp, 'sys'>
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForAllLocales: {
+      params: ProcessForAllLocalesReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForLocale: {
+      params: ProcessForLocaleReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+  }
+  ReleaseEntry: {
+    get: {
+      params: GetReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<EntryProps<any, { release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseEntryParams & QueryParams
+      payload: EntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    patch: {
+      params: PatchReleaseEntryParams & QueryParams
+      payload: OpPatch[]
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseEntryParams & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateReleaseEntryParams & {
+        entryId: string
+      } & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
   }
   ReleaseAction: {
@@ -2336,7 +2452,59 @@ export type GetManyFunctionLogParams = CursorBasedParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
-export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type GetManyReleaseAssetParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+export type CreateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+export type CreateWithIdReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type CreateWithFilesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  uploadTimeout?: number
+}
+export type UpdateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type ProcessForLocaleReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  locale: string
+  options?: AssetProcessingForLocale
+}
+export type ProcessForAllLocalesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  options?: AssetProcessingForLocale
+}
+export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  version: number
+}
+export type CreateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  contentTypeId: string
+}
+export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  contentTypeId: string
+}
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
@@ -2416,4 +2584,8 @@ export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
+}
+
+export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
+  releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
 }

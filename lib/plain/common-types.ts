@@ -3,20 +3,36 @@ import type { OpPatch } from 'json-patch'
 import type {
   BasicCursorPaginationOptions,
   CollectionProp,
+  CreateReleaseAssetParams,
+  CreateReleaseEntryParams,
+  CreateWithFilesReleaseAssetParams,
+  CreateWithIdReleaseAssetParams,
+  CreateWithIdReleaseEntryParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
+  GetManyReleaseAssetParams,
+  GetManyReleaseEntryParams,
   GetOrganizationMembershipParams,
   GetOrganizationParams,
+  GetReleaseAssetParams,
+  GetReleaseEntryParams,
   GetReleaseParams,
   GetSnapshotForContentTypeParams,
   GetSnapshotForEntryParams,
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   KeyValueMap,
+  Link,
+  PatchReleaseEntryParams,
+  ProcessForAllLocalesReleaseAssetParams,
+  ProcessForLocaleReleaseAssetParams,
   QueryParams,
+  ReleaseEnvironmentParams,
+  UpdateReleaseAssetParams,
+  UpdateReleaseEntryParams,
 } from '../common-types.js'
 import type {
   AccessTokenProps,
@@ -61,6 +77,7 @@ import type {
 import type { PreviewApiKeyProps } from '../entities/preview-api-key.js'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
@@ -159,7 +176,7 @@ export type PlainClientAPI = {
     ): Promise<EnvironmentTemplateProps>
     getMany(
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
@@ -273,22 +290,24 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     update<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData: EntryProps<T>,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; version: number }>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { entryId: string; version?: number; releaseId?: string }
+      >,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
@@ -308,12 +327,14 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
     create<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string }
+      >,
       rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
     createWithId<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string; releaseId?: string }
       >,
       rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
@@ -333,17 +354,19 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     get(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string } & QueryParams>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
+      >,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
     update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
       rawData: AssetProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
@@ -363,24 +386,24 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
     create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
       rawData: CreateAssetProps,
     ): Promise<AssetProps>
     createFromFiles(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: AssetFileProp,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
+      data: Omit<AssetFileProp, 'sys'>,
     ): Promise<AssetProps>
     processForAllLocales(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       asset: AssetProps,
       processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
     processForLocale(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       asset: AssetProps,
       locale: string,
       processingOptions?: AssetProcessingForLocale,
@@ -421,18 +444,93 @@ export type PlainClientAPI = {
   }
   usage: UsagePlainClientAPI
   release: {
+    asset: {
+      get(
+        params: OptionalDefaults<GetReleaseAssetParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      getMany(
+        params: OptionalDefaults<GetManyReleaseAssetParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<CollectionProp<AssetProps<{ release: Link<'Release'> }>>>
+      update(
+        params: OptionalDefaults<UpdateReleaseAssetParams & QueryParams>,
+        rawData: AssetProps,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      create(
+        params: OptionalDefaults<CreateReleaseAssetParams & QueryParams>,
+        rawData: CreateAssetProps,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      createWithId(
+        params: OptionalDefaults<CreateWithIdReleaseAssetParams & QueryParams>,
+        rawData: CreateAssetProps,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      createFromFiles(
+        params: OptionalDefaults<CreateWithFilesReleaseAssetParams & QueryParams>,
+        data: Omit<AssetFileProp, 'sys'>,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      processForLocale(
+        params: OptionalDefaults<ProcessForLocaleReleaseAssetParams>,
+        asset: AssetProps<{ release: Link<'Release'> }>,
+        locale: string,
+        processingOptions?: AssetProcessingForLocale,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      processForAllLocales(
+        params: OptionalDefaults<ProcessForAllLocalesReleaseAssetParams>,
+        asset: AssetProps<{ release: Link<'Release'> }>,
+        processingOptions?: AssetProcessingForLocale,
+      ): Promise<AssetProps<{ release: Link<'Release'> }>>
+    }
+    entry: {
+      get<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetReleaseEntryParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      getMany<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<GetManyReleaseEntryParams & QueryParams>,
+        rawData?: unknown,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<CollectionProp<EntryProps<T, { release: Link<'Release'> }>>>
+      update<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<UpdateReleaseEntryParams & QueryParams>,
+        rawData: EntryProps<T>,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      patch<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<PatchReleaseEntryParams & QueryParams>,
+        rawData: OpPatch[],
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      create<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<CreateReleaseEntryParams & QueryParams>,
+        rawData: CreateEntryProps<T>,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      createWithId<T extends KeyValueMap = KeyValueMap>(
+        params: OptionalDefaults<CreateWithIdReleaseEntryParams & QueryParams>,
+        rawData: CreateEntryProps<T>,
+        headers?: RawAxiosRequestHeaders,
+      ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+    }
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
     query(
-      params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseQueryOptions },
+      params: OptionalDefaults<ReleaseEnvironmentParams> & { query?: ReleaseQueryOptions },
     ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
     create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      data: ReleasePayload,
+      params: OptionalDefaults<ReleaseEnvironmentParams>,
+      data: ReleasePayload | ReleasePayloadV2,
     ): Promise<ReleaseProps>
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
-      data: ReleasePayload,
+      data: ReleasePayload | ReleasePayloadV2,
     ): Promise<ReleaseProps>
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
     publish(

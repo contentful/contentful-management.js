@@ -40,6 +40,8 @@ import * as PersonalAccessToken from './personal-access-token.js'
 import * as PreviewApiKey from './preview-api-key.js'
 import * as Release from './release.js'
 import * as ReleaseAction from './release-action.js'
+import * as ReleaseAsset from './release-asset.js'
+import * as ReleaseEntry from './release-entry.js'
 import * as Resource from './resource.js'
 import * as ResourceProvider from './resource-provider.js'
 import * as ResourceType from './resource-type.js'
@@ -107,6 +109,8 @@ export default {
   AccessToken,
   PreviewApiKey,
   Release,
+  ReleaseAsset,
+  ReleaseEntry,
   ReleaseAction,
   Resource,
   ResourceProvider,

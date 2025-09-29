@@ -157,6 +157,10 @@
         "name": "beta",
         "channel": "beta",
         "prerelease": true
+      },
+      {
+        "name": "canary",
+        "prerelease": true
       }
     ],
     "plugins": [

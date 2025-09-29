@@ -20,8 +20,8 @@ export interface EntryMetaSysProps extends EntityMetaSysProps {
   automationTags: Link<'Tag'>[]
 }
 
-export type EntryProps<T = KeyValueMap> = {
-  sys: EntryMetaSysProps
+export type EntryProps<T = KeyValueMap, S = unknown> = {
+  sys: EntryMetaSysProps & S
   metadata?: MetadataProps
   fields: T
 }

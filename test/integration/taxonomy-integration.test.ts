@@ -126,6 +126,36 @@ describe('Taxonomy Integration', () => {
     expect(result.scopeNote['en-US']).toEqual('Scope Note')
   })
 
+  it('creates and updates a concept', async () => {
+    const concept: CreateConceptProps = {
+      prefLabel: {
+        'en-US': 'Test Concept',
+      },
+    }
+    const result = await client.concept.create({}, concept)
+    isConceptProps(result)
+    expect(result.prefLabel['en-US']).toBe('Test Concept')
+    expect(result.uri).toBeNull()
+    conceptsToDelete.push(result)
+
+    const updatedConcept = await client.concept.update(
+      {
+        version: result.sys.version,
+        conceptId: result.sys.id,
+      },
+      [
+        {
+          path: '/uri',
+          op: 'replace',
+          value: 'https://example.com/concept',
+        },
+      ],
+    )
+
+    isConceptProps(updatedConcept)
+    expect(updatedConcept.uri).toBe('https://example.com/concept')
+  })
+
   it('create and update a concept - patch', async () => {
     const concept: CreateConceptProps = {
       prefLabel: {
@@ -406,6 +436,36 @@ describe('Taxonomy Integration', () => {
     expect(result.uri).toBe('https://example.com/conceptScheme')
     expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
     expect(result.definition['en-US']).toBe('Definition')
+  })
+
+  it('creates and updates a concept scheme', async () => {
+    const conceptScheme: CreateConceptSchemeProps = {
+      prefLabel: {
+        'en-US': 'Test ConceptScheme',
+      },
+    }
+    const result = await client.conceptScheme.create({}, conceptScheme)
+    isConceptSchemeProps(result)
+    expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
+    expect(result.uri).toBeNull()
+    conceptSchemesToDelete.push(result)
+
+    const updatedConceptScheme = await client.conceptScheme.update(
+      {
+        version: result.sys.version,
+        conceptSchemeId: result.sys.id,
+      },
+      [
+        {
+          path: '/uri',
+          op: 'replace',
+          value: 'https://example.com/updatedConceptScheme',
+        },
+      ],
+    )
+
+    isConceptSchemeProps(updatedConceptScheme)
+    expect(updatedConceptScheme.uri).toBe('https://example.com/updatedConceptScheme')
   })
 
   it('create and update a conceptScheme - patch', async () => {

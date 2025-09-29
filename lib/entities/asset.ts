@@ -12,8 +12,8 @@ import type {
 import { wrapCollection } from '../common-utils.js'
 import * as checks from '../plain/checks.js'
 
-export type AssetProps = {
-  sys: EntityMetaSysProps
+export type AssetProps<S = {}> = {
+  sys: EntityMetaSysProps & S
   fields: {
     /** Title for this asset */
     title: { [key: string]: string }
