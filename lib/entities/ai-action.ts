@@ -9,7 +9,7 @@ import {
   type AiActionInvocation,
 } from './ai-action-invocation'
 
-export type VariableType =
+export type AiActionVariableType =
   | 'ResourceLink'
   | 'Text'
   | 'StandardInput'
@@ -18,33 +18,47 @@ export type VariableType =
   | 'Reference'
   | 'SmartContext'
 
-export type ReferenceVariableConfiguration = {
+export type AiActionReferenceVariableConfiguration = {
   allowedEntities: Array<'Entry'>
 }
 
-export type VariableConfiguration =
+export type AiActionVariableConfiguration =
   | {
       strict: boolean
       in: Array<string>
     }
-  | ReferenceVariableConfiguration
+  | AiActionReferenceVariableConfiguration
 
-export type Variable = {
-  configuration?: VariableConfiguration
+export type AiActionVariable = {
+  configuration?: AiActionVariableConfiguration
   description?: string
   name?: string
-  type: VariableType
+  type: AiActionVariableType
   id: string
 }
 
-export type Instruction = {
-  variables: Array<Variable>
+export const AiActionScope = {
+  Entry: 'Entry',
+  EntryField: 'EntryField',
+} as const
+export type AiActionScopeType = (typeof AiActionScope)[keyof typeof AiActionScope]
+
+export const AiActionOutputType = {
+  Transform: 'Transform',
+  Suggestion: 'Suggestion',
+} as const
+export type AiActionOutputTypeType = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
+
+export type AiActionInstruction = {
+  variables: Array<AiActionVariable>
   template: string
 }
 
-export type Configuration = {
+export type AiActionConfiguration = {
   modelType: string
   modelTemperature: number
+  scope?: AiActionScopeType
+  outputType?: AiActionOutputTypeType
 }
 
 export type AiActionTestCase =
@@ -83,8 +97,8 @@ export type AiActionProps = {
   }
   name: string
   description: string
-  configuration: Configuration
-  instruction: Instruction
+  configuration: AiActionConfiguration
+  instruction: AiActionInstruction
   testCases?: Array<AiActionTestCase>
 }
 
