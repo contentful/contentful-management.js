@@ -75,25 +75,6 @@ export const update: RestEndpoint<'Concept', 'update'> = (
   )
 }
 
-export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
-  http: AxiosInstance,
-  params: UpdateConceptParams,
-  data: CreateConceptProps,
-  headers?: RawAxiosRequestHeaders,
-) => {
-  return raw.put<ConceptProps>(
-    http,
-    `${basePath(params.organizationId)}/${params.conceptId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        ...headers,
-      },
-    },
-  )
-}
-
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
   params: GetConceptParams,

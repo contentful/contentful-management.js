@@ -126,27 +126,6 @@ describe('ConceptScheme', () => {
       .makeRequest({
         entityType: 'ConceptScheme',
         action: 'update',
-        userAgent: 'mocked',
-        params: {
-          organizationId: 'organization-id',
-          conceptSchemeId: 'concept-scheme-id',
-        },
-      })
-      .then(() => {
-        expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
-        )
-      })
-  })
-
-  test('updatePut', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-    httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'ConceptScheme',
-        action: 'update',
         params: {
           organizationId: 'organization-id',
           conceptSchemeId: 'concept-scheme-id',
@@ -155,7 +134,7 @@ describe('ConceptScheme', () => {
         userAgent: 'mocked',
       })
       .then(() => {
-        expect(httpMock.put.mock.calls[0][0]).to.eql(
+        expect(httpMock.patch.mock.calls[0][0]).to.eql(
           '/organizations/organization-id/taxonomy/concept-schemes/concept-scheme-id',
         )
       })

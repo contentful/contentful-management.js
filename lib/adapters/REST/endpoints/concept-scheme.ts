@@ -112,22 +112,3 @@ export const update: RestEndpoint<'ConceptScheme', 'update'> = (
     },
   )
 }
-
-export const updatePut: RestEndpoint<'ConceptScheme', 'updatePut'> = (
-  http: AxiosInstance,
-  params: UpdateConceptSchemeParams,
-  data: CreateConceptSchemeProps,
-  headers?: RawAxiosRequestHeaders,
-) => {
-  return raw.put<ConceptSchemeProps>(
-    http,
-    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        ...headers,
-      },
-    },
-  )
-}
