@@ -67,7 +67,7 @@
   ],
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
-    "axios": "^1.11.0",
+    "axios": "^1.12.2",
     "contentful-sdk-core": "^9.0.1",
     "fast-copy": "^3.0.0",
     "globals": "^15.15.0"
