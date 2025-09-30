@@ -9,7 +9,6 @@ import json from '@rollup/plugin-json'
 import alias from '@rollup/plugin-alias'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
-import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { babel } from '@rollup/plugin-babel'
 import typescript from '@rollup/plugin-typescript'
@@ -28,7 +27,6 @@ const baseConfig = {
   plugins: [
     tsPlugin,
     sourcemaps(),
-    optimizeLodashImports(),
     replace({
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
