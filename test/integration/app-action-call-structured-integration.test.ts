@@ -88,7 +88,7 @@ describe('AppActionCall structured endpoints', function () {
       { parameters: {} },
     )
 
-    expect(['succeeded', 'failed', 'processing']).toContain(call.status)
+    expect(['succeeded', 'failed', 'processing']).toContain(call.sys.status)
   })
 
   test('get and getResponse endpoints are reachable for a known call id', async () => {
