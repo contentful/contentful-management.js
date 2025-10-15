@@ -8,7 +8,6 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "node": "./dist/contentful-management.node.cjs",
-      "browser": "./dist/contentful-management.browser.cjs",
       "react-native": "./dist/contentful-management.react-native.cjs",
       "require": "./dist/cjs/index.cjs",
       "default": "./dist/esm/index.js"
