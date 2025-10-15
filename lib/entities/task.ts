@@ -48,7 +48,7 @@ export interface Task extends TaskProps, DefaultElements<TaskProps>, TaskApi {}
 /**
  * @private
  */
-export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
+function createTaskApi(makeRequest: MakeRequest): TaskApi {
   const getParams = (task: TaskProps): GetTaskParams => ({
     spaceId: task.sys.space.sys.id,
     environmentId: task.sys.environment.sys.id,

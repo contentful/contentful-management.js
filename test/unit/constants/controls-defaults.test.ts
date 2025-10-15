@@ -1,8 +1,9 @@
 import { it, describe, test, expect } from 'vitest'
-import getDefaultControlOfField, {
+import {
   DEFAULTS_WIDGET,
   FIELD_TYPES,
   toApiFieldType,
+  getDefaultControlOfField,
 } from '../../../lib/constants/editor-interface-defaults/controls-defaults.js'
 
 const baseField = { id: 'mockedId', name: 'mockedName', required: false, localized: false }

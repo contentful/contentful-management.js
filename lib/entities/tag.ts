@@ -55,7 +55,7 @@ export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 /**
  * @private
  */
-export default function createTagApi(makeRequest: MakeRequest): TagApi {
+function createTagApi(makeRequest: MakeRequest): TagApi {
   const getParams = (tag: TagProps) => ({
     spaceId: tag.sys.space.sys.id,
     environmentId: tag.sys.environment.sys.id,

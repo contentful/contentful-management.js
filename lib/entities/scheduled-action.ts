@@ -126,7 +126,7 @@ export interface ScheduledAction
     DefaultElements<ScheduledActionProps>,
     ScheduledActionApi {}
 
-export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledActionApi {
+export function getInstanceMethods(makeRequest: MakeRequest): ScheduledActionApi {
   const getParams = (self: ScheduledAction) => {
     const scheduledAction = self.toPlainObject()
     return {

@@ -137,7 +137,7 @@ export interface RichTextComment
 /**
  * @private
  */
-export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
+function createCommentApi(makeRequest: MakeRequest): CommentApi {
   const getParams = (comment: CommentProps): GetCommentParams => ({
     spaceId: comment.sys.space.sys.id,
     environmentId: comment.sys.environment.sys.id,

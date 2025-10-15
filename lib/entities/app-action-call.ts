@@ -102,7 +102,7 @@ export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallPr
 /**
  * @private
  */
-export default function createAppActionCallApi(
+function createAppActionCallApi(
   makeRequest: MakeRequest,
   retryOptions?: RetryOptions,
 ): AppActionCallApi {
