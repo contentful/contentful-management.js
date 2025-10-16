@@ -76,12 +76,12 @@ export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationPro
 
 export function wrapEnvironmentTemplateInstallation(
   makeRequest: MakeRequest,
-  data: EnvironmentTemplateInstallationProps
+  data: EnvironmentTemplateInstallationProps,
 ): EnvironmentTemplateInstallation {
   const environmentTemplate = toPlainObject(copy(data))
   return freezeSys(environmentTemplate)
 }
 
 export const wrapEnvironmentTemplateInstallationCollection = wrapCursorPaginatedCollection(
-  wrapEnvironmentTemplateInstallation
+  wrapEnvironmentTemplateInstallation,
 )

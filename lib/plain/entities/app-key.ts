@@ -30,7 +30,7 @@ export type AppKeyPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppKeyProps
+    payload: CreateAppKeyProps,
   ): Promise<AppKeyProps>
   /**
    * Fetches the App Key with the given fingerprint
@@ -47,7 +47,7 @@ export type AppKeyPlainClientAPI = {
    * ```
    */
   get(
-    params: OptionalDefaults<GetAppDefinitionParams> & { fingerprint: string }
+    params: OptionalDefaults<GetAppDefinitionParams> & { fingerprint: string },
   ): Promise<AppKeyProps>
   /**
    * Fetches all Keys for the given App
@@ -76,7 +76,7 @@ export type AppKeyPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAppDefinitionParams> & QueryParams
+    params: OptionalDefaults<GetAppDefinitionParams> & QueryParams,
   ): Promise<CollectionProp<AppKeyProps>>
   /**
    * Removes the App Key with the given fingerprint

@@ -154,14 +154,14 @@ export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypePro
   const resourceType = toPlainObject(copy(data))
   const ResourceTypeWithMethods = enhanceWithMethods(
     resourceType,
-    createResourceTypeApi(makeRequest)
+    createResourceTypeApi(makeRequest),
   )
   return freezeSys(ResourceTypeWithMethods)
 }
 
 export function wrapResourceTypeforEnvironment(
   makeRequest: MakeRequest,
-  data: SpaceEnvResourceTypeProps
+  data: SpaceEnvResourceTypeProps,
 ): SpaceEnvResourceTypeProps {
   const resourceType = toPlainObject(data)
   return freezeSys(resourceType)
@@ -169,7 +169,7 @@ export function wrapResourceTypeforEnvironment(
 
 export const wrapResourceTypesForEnvironmentCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
+  data: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>,
 ) => CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps> = wrapCursorPaginatedCollection(
-  wrapResourceTypeforEnvironment
+  wrapResourceTypeforEnvironment,
 )

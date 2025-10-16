@@ -1,3 +1,5 @@
+import * as aiAction from './ai-action'
+import * as aiActionInvocation from './ai-action-invocation'
 import * as apiKey from './api-key'
 import * as appAction from './app-action'
 import * as appActionCall from './app-action-call'
@@ -60,6 +62,8 @@ import * as resourceType from './resource-type'
 import * as resource from './resource'
 
 export default {
+  aiAction,
+  aiActionInvocation,
   accessToken,
   appAction,
   appActionCall,

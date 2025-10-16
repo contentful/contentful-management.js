@@ -11,7 +11,7 @@ export type { DefaultParams } from './wrappers/wrap'
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined
+  defaults: DefaultParams | undefined,
 ): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
@@ -58,6 +58,19 @@ export const createPlainClient = (
           params: { url, config },
         }),
     },
+    aiAction: {
+      get: wrap(wrapParams, 'AiAction', 'get'),
+      getMany: wrap(wrapParams, 'AiAction', 'getMany'),
+      create: wrap(wrapParams, 'AiAction', 'create'),
+      update: wrap(wrapParams, 'AiAction', 'update'),
+      delete: wrap(wrapParams, 'AiAction', 'delete'),
+      publish: wrap(wrapParams, 'AiAction', 'publish'),
+      unpublish: wrap(wrapParams, 'AiAction', 'unpublish'),
+      invoke: wrap(wrapParams, 'AiAction', 'invoke'),
+    },
+    aiActionInvocation: {
+      get: wrap(wrapParams, 'AiActionInvocation', 'get'),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
@@ -70,6 +83,9 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppActionCall', 'create'),
       getCallDetails: wrap(wrapParams, 'AppActionCall', 'getCallDetails'),
       createWithResponse: wrap(wrapParams, 'AppActionCall', 'createWithResponse'),
+      get: wrap(wrapParams, 'AppActionCall', 'get'),
+      createWithResult: wrap(wrapParams, 'AppActionCall', 'createWithResult'),
+      getResponse: wrap(wrapParams, 'AppActionCall', 'getResponse'),
     },
     appBundle: {
       get: wrap(wrapParams, 'AppBundle', 'get'),
@@ -211,7 +227,7 @@ export const createPlainClient = (
         omitAndDeleteField(
           makeRequest,
           { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
-          contentType
+          contentType,
         ),
     },
     user: {
@@ -333,6 +349,43 @@ export const createPlainClient = (
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
     },
     release: {
+      asset: {
+        get: wrap(wrapParams, 'ReleaseAsset', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseAsset', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseAsset', 'update'),
+        create: wrap(wrapParams, 'ReleaseAsset', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseAsset', 'createWithId'),
+        createFromFiles: wrap(wrapParams, 'ReleaseAsset', 'createFromFiles'),
+        processForAllLocales: (params, asset, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForAllLocales',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              options,
+              asset,
+            },
+          }),
+        processForLocale: (params, asset, locale, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForLocale',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              locale,
+              asset,
+              options,
+            },
+          }),
+      },
+      entry: {
+        get: wrap(wrapParams, 'ReleaseEntry', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseEntry', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseEntry', 'update'),
+        patch: wrap(wrapParams, 'ReleaseEntry', 'patch'),
+        create: wrap(wrapParams, 'ReleaseEntry', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseEntry', 'createWithId'),
+      },
       archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),

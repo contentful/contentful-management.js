@@ -10,24 +10,24 @@ import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Locale', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { localeId: string }
+  params: GetSpaceEnvironmentParams & { localeId: string },
 ) => {
   return raw.get<LocaleProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`,
   )
 }
 
 export const getMany: RestEndpoint<'Locale', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams
+  params: GetSpaceEnvironmentParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<LocaleProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales`,
     {
       params: normalizeSelect(params.query),
-    }
+    },
   )
 }
 
@@ -35,7 +35,7 @@ export const create: RestEndpoint<'Locale', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   data: CreateLocaleProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<LocaleProps>(
     http,
@@ -43,7 +43,7 @@ export const create: RestEndpoint<'Locale', 'create'> = (
     data,
     {
       headers,
-    }
+    },
   )
 }
 
@@ -51,7 +51,7 @@ export const update: RestEndpoint<'Locale', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string },
   rawData: LocaleProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'default' | 'sys'> = copy(rawData)
   delete data.sys
@@ -65,16 +65,16 @@ export const update: RestEndpoint<'Locale', 'update'> = (
         ...headers,
         'X-Contentful-Version': rawData.sys.version ?? 0,
       },
-    }
+    },
   )
 }
 
 export const del: RestEndpoint<'Locale', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { localeId: string }
+  params: GetSpaceEnvironmentParams & { localeId: string },
 ) => {
   return raw.del(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`,
   )
 }

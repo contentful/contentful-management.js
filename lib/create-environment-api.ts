@@ -3,6 +3,7 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
   BasicCursorPaginationOptions,
+  CreatedAtIntervalParams,
   CursorBasedParams,
   QueryOptions,
 } from './common-types'
@@ -10,7 +11,10 @@ import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
-import type { CreateAppActionCallProps } from './entities/app-action-call'
+import type {
+  CreateAppActionCallProps,
+  AppActionCallRawResponseProps,
+} from './entities/app-action-call'
 import type {
   AssetFileProp,
   AssetProps,
@@ -55,6 +59,8 @@ import { wrapFunctionCollection } from './entities/function'
 import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
+import type { AiActionInvocationType } from './entities/ai-action-invocation'
+import { wrapAiActionInvocation } from './entities/ai-action-invocation'
 
 /**
  * @private
@@ -1474,7 +1480,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppInstallation(
       appDefinitionId: string,
       data: CreateAppInstallationProps,
-      { acceptAllTerms }: { acceptAllTerms?: boolean } = {}
+      { acceptAllTerms }: { acceptAllTerms?: boolean } = {},
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1579,7 +1585,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     createAppActionCall(
       appDefinitionId: string,
       appActionId: string,
-      data: CreateAppActionCallProps
+      data: CreateAppActionCallProps,
     ) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
@@ -1593,6 +1599,46 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload: data,
       }).then((payload) => wrapAppActionCall(makeRequest, payload))
+    },
+
+    /**
+     * Gets the raw response (headers/body) for a completed App Action Call
+     * @param appDefinitionId - AppDefinition ID
+     * @param appActionId - App Action ID
+     * @param callId - App Action Call ID
+     * @return Promise for the raw response object including `response.body` and optional `response.headers`
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client
+     *   .getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAppActionCallResponse('<app_definition_id>', '<app_action_id>', '<call_id>'))
+     *   .then((raw) => console.log(raw.response.body))
+     *   .catch(console.error)
+     * ```
+     */
+    getAppActionCallResponse(
+      appDefinitionId: string,
+      appActionId: string,
+      callId: string,
+    ): Promise<AppActionCallRawResponseProps> {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AppActionCall',
+        action: 'getResponse',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          appDefinitionId,
+          appActionId,
+          callId,
+        },
+      })
     },
     /**
      * Creates an app signed request
@@ -1727,14 +1773,28 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *       environment.getFunctionLogs(
      *          '<app-installation-id>',
      *          '<function-id>',
-     *          { limit: 10 },
+     *          {
+     *            query: {
+     *              // optional limit
+     *              limit: 10,
+     *              // optional interval query
+     *              'sys.createdAt[gte]': start,
+     *              'sys.createdAt[lt]': end,
+     *              // optional cursor based pagination parameters
+     *              pagePrev: '<page_prev>',
+     *            },
+     *          },
      *       )
      *     )
      *     .then((functionLogs) => console.log(functionLog.items))
      *     .catch(console.error)
      * ```
      */
-    getFunctionLogs(appInstallationId: string, functionId: string, query?: CursorBasedParams) {
+    getFunctionLogs(
+      appInstallationId: string,
+      functionId: string,
+      query?: CursorBasedParams & CreatedAtIntervalParams,
+    ) {
       const raw: EnvironmentProps = this.toPlainObject()
 
       return makeRequest({
@@ -2392,7 +2452,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     async getEnvironmentTemplateInstallations(
       environmentTemplateId: string,
-      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {}
+      { installationId, ...query }: BasicCursorPaginationOptions & { installationId?: string } = {},
     ) {
       const raw: EnvironmentProps = this.toPlainObject()
 
@@ -2483,6 +2543,66 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           resourceTypeId,
         },
       }).then((data) => wrapResourceCollection(makeRequest, data))
+    },
+    /**
+     * Invokes an AI Action.
+     * @param aiActionId - The ID of the AI Action to invoke.
+     * @param payload - The invocation payload.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.invokeAiAction('<ai_action_id>', {
+     *     variables: [  ...  ],
+     *     outputFormat: 'RichText'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    invokeAiAction(aiActionId: string, payload: AiActionInvocationType) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiAction',
+        action: 'invoke',
+        params: { spaceId: raw.sys.space.sys.id, environmentId: raw.sys.id, aiActionId },
+        payload,
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    /**
+     * Retrieves an AI Action Invocation.
+     * @param params - Object containing the AI Action ID and the Invocation ID.
+     * @returns Promise for an AI Action Invocation.
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getAiActionInvocation({
+     *      aiActionId: '<ai_action_id>',
+     *      invocationId: '<invocation_id>'
+     *   }))
+     *   .then(invocation => console.log(invocation))
+     *   .catch(console.error)
+     * ```
+     */
+    getAiActionInvocation({
+      aiActionId,
+      invocationId,
+    }: {
+      aiActionId: string
+      invocationId: string
+    }) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AiActionInvocation',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          aiActionId,
+          invocationId,
+        },
+      }).then((data) => wrapAiActionInvocation(makeRequest, data))
     },
   }
 }

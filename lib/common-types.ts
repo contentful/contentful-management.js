@@ -10,6 +10,7 @@ import type { AppActionProps, CreateAppActionProps } from './entities/app-action
 import type {
   AppActionCallProps,
   AppActionCallResponse,
+  AppActionCallRawResponseProps,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
@@ -83,6 +84,7 @@ import type {
 import type { PreviewApiKeyProps } from './entities/preview-api-key'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
@@ -184,6 +186,11 @@ import type {
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
+import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
+import type {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from './entities/ai-action-invocation'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -288,6 +295,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  release?: Link<'Release'>
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -376,6 +384,34 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+type StartOperator = 'gt' | 'gte'
+type EndOperator = 'lt' | 'lte'
+type ComparisonOperator = StartOperator | EndOperator
+
+// Helper type for creating property paths with comparison operators
+// For example "sys.createdAt[gte]", P = sys.createdAt, O = gte
+type WithComparisonOperator<P extends string, O extends ComparisonOperator> = `${P}[${O}]`
+
+// Helper types to ensure only one start operator can be used and only one end operator can be used
+type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C> = {
+  [K in WithComparisonOperator<P, O>]: string | Date
+} & {
+  [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
+}
+type WithStartOperator<P extends string> =
+  | WithOneOperator<P, StartOperator, 'gt'>
+  | WithOneOperator<P, StartOperator, 'gte'>
+type WithEndOperator<P extends string> =
+  | WithOneOperator<P, EndOperator, 'lt'>
+  | WithOneOperator<P, EndOperator, 'lte'>
+
+// Type for valid date range combinations - only start, only end, or both
+type IntervalQuery<P extends string> =
+  | Partial<WithStartOperator<P>>
+  | Partial<WithEndOperator<P>>
+  | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
+
+export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -393,6 +429,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'delete', UA>): MRReturn<'Http', 'delete'>
   (opts: MROpts<'Http', 'request', UA>): MRReturn<'Http', 'request'>
 
+  (opts: MROpts<'AiAction', 'get', UA>): MRReturn<'AiAction', 'get'>
+  (opts: MROpts<'AiAction', 'getMany', UA>): MRReturn<'AiAction', 'getMany'>
+  (opts: MROpts<'AiAction', 'create', UA>): MRReturn<'AiAction', 'create'>
+  (opts: MROpts<'AiAction', 'update', UA>): MRReturn<'AiAction', 'update'>
+  (opts: MROpts<'AiAction', 'delete', UA>): MRReturn<'AiAction', 'delete'>
+  (opts: MROpts<'AiAction', 'publish', UA>): MRReturn<'AiAction', 'publish'>
+  (opts: MROpts<'AiAction', 'unpublish', UA>): MRReturn<'AiAction', 'unpublish'>
+  (opts: MROpts<'AiAction', 'invoke', UA>): MRReturn<'AiAction', 'invoke'>
+
+  (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
+
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
   (opts: MROpts<'AppAction', 'delete', UA>): MRReturn<'AppAction', 'delete'>
@@ -400,11 +447,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
-  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResponse'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResponse', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResponse'>
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
+  (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
+  (
+    opts: MROpts<'AppActionCall', 'createWithResult', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResult'>
+  (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -423,19 +474,17 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
-  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
-    'AppDefinition',
-    'getInstallationsForOrg'
-  >
+  (
+    opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>,
+  ): MRReturn<'AppDefinition', 'getInstallationsForOrg'>
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
-  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
-    'AppInstallation',
-    'getForOrganization'
-  >
+  (
+    opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
+  ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
@@ -538,10 +587,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'EnvironmentAlias', 'get', UA>): MRReturn<'EnvironmentAlias', 'get'>
   (opts: MROpts<'EnvironmentAlias', 'getMany', UA>): MRReturn<'EnvironmentAlias', 'getMany'>
-  (opts: MROpts<'EnvironmentAlias', 'createWithId', UA>): MRReturn<
-    'EnvironmentAlias',
-    'createWithId'
-  >
+  (
+    opts: MROpts<'EnvironmentAlias', 'createWithId', UA>,
+  ): MRReturn<'EnvironmentAlias', 'createWithId'>
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
@@ -551,25 +599,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
   (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
   (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
-  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'versionUpdate'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'versionUpdate'>
   (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
   (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
-  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'disconnect'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'disconnect'>
 
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getMany'
-  >
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getMany'>
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
@@ -594,10 +638,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
   (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
-  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
-    'Function',
-    'getManyForEnvironment'
-  >
+  (
+    opts: MROpts<'Function', 'getManyForEnvironment', UA>,
+  ): MRReturn<'Function', 'getManyForEnvironment'>
 
   (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
   (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
@@ -612,24 +655,20 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Organization', 'get', UA>): MRReturn<'Organization', 'get'>
 
   (opts: MROpts<'OrganizationInvitation', 'get', UA>): MRReturn<'OrganizationInvitation', 'get'>
-  (opts: MROpts<'OrganizationInvitation', 'create', UA>): MRReturn<
-    'OrganizationInvitation',
-    'create'
-  >
+  (
+    opts: MROpts<'OrganizationInvitation', 'create', UA>,
+  ): MRReturn<'OrganizationInvitation', 'create'>
 
   (opts: MROpts<'OrganizationMembership', 'get', UA>): MRReturn<'OrganizationMembership', 'get'>
-  (opts: MROpts<'OrganizationMembership', 'getMany', UA>): MRReturn<
-    'OrganizationMembership',
-    'getMany'
-  >
-  (opts: MROpts<'OrganizationMembership', 'update', UA>): MRReturn<
-    'OrganizationMembership',
-    'update'
-  >
-  (opts: MROpts<'OrganizationMembership', 'delete', UA>): MRReturn<
-    'OrganizationMembership',
-    'delete'
-  >
+  (
+    opts: MROpts<'OrganizationMembership', 'getMany', UA>,
+  ): MRReturn<'OrganizationMembership', 'getMany'>
+  (
+    opts: MROpts<'OrganizationMembership', 'update', UA>,
+  ): MRReturn<'OrganizationMembership', 'update'>
+  (
+    opts: MROpts<'OrganizationMembership', 'delete', UA>,
+  ): MRReturn<'OrganizationMembership', 'delete'>
 
   (opts: MROpts<'PersonalAccessToken', 'get', UA>): MRReturn<'PersonalAccessToken', 'get'>
   (opts: MROpts<'PersonalAccessToken', 'getMany', UA>): MRReturn<'PersonalAccessToken', 'getMany'>
@@ -638,21 +677,18 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AccessToken', 'get', UA>): MRReturn<'AccessToken', 'get'>
   (opts: MROpts<'AccessToken', 'getMany', UA>): MRReturn<'AccessToken', 'getMany'>
-  (opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>): MRReturn<
-    'AccessToken',
-    'createPersonalAccessToken'
-  >
+  (
+    opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>,
+  ): MRReturn<'AccessToken', 'createPersonalAccessToken'>
   (opts: MROpts<'AccessToken', 'revoke', UA>): MRReturn<'AccessToken', 'revoke'>
-  (opts: MROpts<'AccessToken', 'getManyForOrganization', UA>): MRReturn<
-    'AccessToken',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'AccessToken', 'getManyForOrganization', UA>,
+  ): MRReturn<'AccessToken', 'getManyForOrganization'>
 
   (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
-  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
-    'OAuthApplication',
-    'getManyForUser'
-  >
+  (
+    opts: MROpts<'OAuthApplication', 'getManyForUser', UA>,
+  ): MRReturn<'OAuthApplication', 'getManyForUser'>
   (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
   (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
   (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
@@ -673,10 +709,30 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
   (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
-  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
-    'ReleaseAction',
-    'queryForRelease'
-  >
+  (
+    opts: MROpts<'ReleaseAction', 'queryForRelease', UA>,
+  ): MRReturn<'ReleaseAction', 'queryForRelease'>
+
+  (opts: MROpts<'ReleaseAsset', 'get', UA>): MRReturn<'ReleaseAsset', 'get'>
+  (opts: MROpts<'ReleaseAsset', 'getMany', UA>): MRReturn<'ReleaseAsset', 'getMany'>
+  (opts: MROpts<'ReleaseAsset', 'update', UA>): MRReturn<'ReleaseAsset', 'update'>
+  (opts: MROpts<'ReleaseAsset', 'create', UA>): MRReturn<'ReleaseAsset', 'create'>
+  (opts: MROpts<'ReleaseAsset', 'createWithId', UA>): MRReturn<'ReleaseAsset', 'createWithId'>
+  (opts: MROpts<'ReleaseAsset', 'createFromFiles', UA>): MRReturn<'ReleaseAsset', 'createFromFiles'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForAllLocales', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForAllLocales'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForLocale', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForLocale'>
+
+  (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
+  (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
+  (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
+  (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'create', UA>): MRReturn<'ReleaseEntry', 'create'>
+  (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
+
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -685,10 +741,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
-  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
-    'ResourceType',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'ResourceType', 'getForEnvironment', UA>,
+  ): MRReturn<'ResourceType', 'getForEnvironment'>
   (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
@@ -707,10 +762,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
   (opts: MROpts<'Snapshot', 'getForEntry', UA>): MRReturn<'Snapshot', 'getForEntry'>
-  (opts: MROpts<'Snapshot', 'getManyForContentType', UA>): MRReturn<
-    'Snapshot',
-    'getManyForContentType'
-  >
+  (
+    opts: MROpts<'Snapshot', 'getManyForContentType', UA>,
+  ): MRReturn<'Snapshot', 'getManyForContentType'>
   (opts: MROpts<'Snapshot', 'getForContentType', UA>): MRReturn<'Snapshot', 'getForContentType'>
 
   (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
@@ -725,14 +779,12 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'SpaceMembership', 'get', UA>): MRReturn<'SpaceMembership', 'get'>
   (opts: MROpts<'SpaceMembership', 'getMany', UA>): MRReturn<'SpaceMembership', 'getMany'>
-  (opts: MROpts<'SpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'SpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'SpaceMembership', 'create', UA>): MRReturn<'SpaceMembership', 'create'>
   (opts: MROpts<'SpaceMembership', 'createWithId', UA>): MRReturn<'SpaceMembership', 'createWithId'>
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
@@ -759,28 +811,24 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
 
   (opts: MROpts<'TeamMembership', 'get', UA>): MRReturn<'TeamMembership', 'get'>
-  (opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForOrganization'
-  >
-  (opts: MROpts<'TeamMembership', 'getManyForTeam', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForTeam'
-  >
+  (
+    opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForOrganization'>
+  (
+    opts: MROpts<'TeamMembership', 'getManyForTeam', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForTeam'>
   (opts: MROpts<'TeamMembership', 'create', UA>): MRReturn<'TeamMembership', 'create'>
   (opts: MROpts<'TeamMembership', 'update', UA>): MRReturn<'TeamMembership', 'update'>
   (opts: MROpts<'TeamMembership', 'delete', UA>): MRReturn<'TeamMembership', 'delete'>
 
   (opts: MROpts<'TeamSpaceMembership', 'get', UA>): MRReturn<'TeamSpaceMembership', 'get'>
   (opts: MROpts<'TeamSpaceMembership', 'getMany', UA>): MRReturn<'TeamSpaceMembership', 'getMany'>
-  (opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
@@ -909,6 +957,48 @@ export type MRActions = {
     delete: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
     request: { params: { url: string; config?: RawAxiosRequestConfig }; return: any }
   }
+  AiAction: {
+    get: { params: GetSpaceParams & { aiActionId: string }; return: AiActionProps }
+    getMany: {
+      params: GetSpaceParams & { query: AiActionQueryOptions }
+      return: CollectionProp<AiActionProps>
+    }
+    create: {
+      params: GetSpaceParams
+      payload: CreateAiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    update: {
+      params: GetSpaceParams & { aiActionId: string }
+      payload: AiActionProps
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    delete: { params: GetSpaceParams & { aiActionId: string }; return: any }
+    publish: {
+      params: GetSpaceParams & { aiActionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    unpublish: {
+      params: GetSpaceParams & { aiActionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AiActionProps
+    }
+    invoke: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      payload: AiActionInvocationType
+      headers?: RawAxiosRequestHeaders
+      return: AiActionInvocationProps
+    }
+  }
+  AiActionInvocation: {
+    get: {
+      params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
+      return: AiActionInvocationProps
+    }
+  }
   AppAction: {
     get: { params: GetAppActionParams; return: AppActionProps }
     getMany: {
@@ -937,14 +1027,27 @@ export type MRActions = {
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
+    get: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallProps
+    }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
       return: AppActionCallResponse
     }
     createWithResponse: {
-      params: GetAppActionCallParams
+      params: CreateWithResponseParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
+    }
+    createWithResult: {
+      params: CreateWithResultParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallProps
+    }
+    getResponse: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallRawResponseProps
     }
   }
   AppBundle: {
@@ -1127,17 +1230,17 @@ export type MRActions = {
       return: CollectionProp<AssetProps>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
       headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     update: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: AssetProps
       headers?: RawAxiosRequestHeaders
       return: AssetProps
@@ -1151,14 +1254,18 @@ export type MRActions = {
     unpublish: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     archive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     unarchive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
-    create: { params: GetSpaceEnvironmentParams; payload: CreateAssetProps; return: AssetProps }
+    create: {
+      params: GetSpaceEnvironmentParams & { releaseId?: string }
+      payload: CreateAssetProps
+      return: AssetProps
+    }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: CreateAssetProps
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -1464,7 +1571,7 @@ export type MRActions = {
     }
     getMany: {
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1539,21 +1646,21 @@ export type MRActions = {
       return: CollectionProp<EntryProps<any>>
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any>>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
       return: EntryProps<any>
     }
     patch: {
-      params: GetSpaceEnvironmentParams & { entryId: string; version: number }
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -1577,12 +1684,19 @@ export type MRActions = {
       return: EntryProps<any>
     }
     create: {
-      params: GetSpaceEnvironmentParams & { contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        entryId: string
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
@@ -1753,17 +1867,17 @@ export type MRActions = {
       return: ReleaseProps
     }
     query: {
-      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      params: ReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
       return: CollectionProp<ReleaseProps>
     }
     create: {
-      params: GetSpaceEnvironmentParams
-      payload: ReleasePayload
+      params: ReleaseEnvironmentParams
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     update: {
       params: GetReleaseParams & { version: number }
-      payload: ReleasePayload
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     delete: {
@@ -1786,6 +1900,88 @@ export type MRActions = {
       params: GetReleaseParams
       payload?: ReleaseValidatePayload
       return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAsset: {
+    get: {
+      params: GetReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AssetProps<{ release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseAssetParams & QueryParams
+      payload: AssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateWithIdReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createFromFiles: {
+      params: CreateWithFilesReleaseAssetParams & QueryParams
+      payload: Omit<AssetFileProp, 'sys'>
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForAllLocales: {
+      params: ProcessForAllLocalesReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForLocale: {
+      params: ProcessForLocaleReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+  }
+  ReleaseEntry: {
+    get: {
+      params: GetReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<EntryProps<any, { release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseEntryParams & QueryParams
+      payload: EntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    patch: {
+      params: PatchReleaseEntryParams & QueryParams
+      payload: OpPatch[]
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseEntryParams & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateReleaseEntryParams & {
+        entryId: string
+      } & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
   }
   ReleaseAction: {
@@ -2181,7 +2377,7 @@ export type MRActions = {
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  UA extends boolean = false
+  UA extends boolean = false,
 > = {
   entityType: ET
   action: Action
@@ -2207,7 +2403,7 @@ export type MROpts<
  */
 export type MRReturn<
   ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
+  Action extends keyof MRActions[ET],
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
@@ -2232,14 +2428,23 @@ export type EnvironmentTemplateParams = {
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
-export type CreateWithResponseParams = GetAppActionCallParams & {
+
+// Retry options used by createWithResponse and createWithResult. Kept separate for clarity.
+export type AppActionCallRetryOptions = {
   retries?: number
   retryInterval?: number
 }
+
+export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
+
+export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
+
+// New route params for fetching structured call or raw response
+export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
@@ -2262,10 +2467,63 @@ export type GetFunctionForEnvParams = AcceptsQueryParams &
     appInstallationId: string
   }
 export type GetManyFunctionLogParams = CursorBasedParams &
+  CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
-export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type GetManyReleaseAssetParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+export type CreateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+export type CreateWithIdReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type CreateWithFilesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  uploadTimeout?: number
+}
+export type UpdateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+export type ProcessForLocaleReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  locale: string
+  options?: AssetProcessingForLocale
+}
+export type ProcessForAllLocalesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  options?: AssetProcessingForLocale
+}
+export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
+export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  version: number
+}
+export type CreateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  contentTypeId: string
+}
+export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  contentTypeId: string
+}
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
@@ -2337,6 +2595,7 @@ export type CursorPaginationXORParams = {
   }
 }
 export type CursorBasedParams = CursorPaginationXORParams
+export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
@@ -2344,4 +2603,8 @@ export type GetUserParams = { userId: string }
 
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
+}
+
+export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
+  releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
 }

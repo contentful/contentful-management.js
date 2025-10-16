@@ -320,11 +320,11 @@ Your CMA access token.
 
 #### host (default: `'api.contentful.com'`)
 
-Set the host used to build the request URI's.
+Set the host used to build the request URIs.
 
 #### hostUpload (default: `'upload.contentful.com'`)
 
-Set the host used to build the upload related request uri's.
+Set the host used to build the upload related request URIs. Learn more about the Upload API [here](https://www.contentful.com/developers/docs/references/content-management-api/#/reference/uploads).
 
 #### basePath (default: ``)
 
@@ -416,6 +416,18 @@ This project strictly follows [Semantic Versioning](http://semver.org/) by use o
 This means that new versions are released automatically as fixes, features or breaking changes are released.
 
 You can check the changelog on the [releases](https://github.com/contentful/contentful-management.js/releases) page.
+
+## Experimental features
+
+To download a build that has features that are not yet released, you can use the `canary` channel. This is a pre-release version of the library that contains features that are still in development and may not be stable. To install a canary version, you can use the following command:
+
+```bash
+npm install contentful-management@canary
+```
+
+### Current experimental features
+
+Currently there are no features in experimental status.
 
 ## Reach out to us
 

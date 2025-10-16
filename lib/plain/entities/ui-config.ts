@@ -43,6 +43,6 @@ export type UIConfigPlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetUIConfigParams>,
-    rawData: UIConfigProps
+    rawData: UIConfigProps,
   ): Promise<UIConfigProps>
 }

@@ -14,8 +14,8 @@ import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
 
-export type EntryProps<T = KeyValueMap> = {
-  sys: EntryMetaSysProps
+export type EntryProps<T = KeyValueMap, S = unknown> = {
+  sys: EntryMetaSysProps & S
   metadata?: MetadataProps
   fields: T
 }

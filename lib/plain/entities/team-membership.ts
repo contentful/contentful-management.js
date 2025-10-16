@@ -40,7 +40,7 @@ export type TeamMembershipPlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<TeamMembershipProps>>
   /**
    * Fetch all team memberships for a given team
@@ -59,7 +59,7 @@ export type TeamMembershipPlainClientAPI = {
    * ```
    */
   getManyForTeam(
-    params: OptionalDefaults<GetTeamParams & QueryParams>
+    params: OptionalDefaults<GetTeamParams & QueryParams>,
   ): Promise<CollectionProp<TeamMembershipProps>>
   /**
    * Create a new team membership
@@ -81,7 +81,7 @@ export type TeamMembershipPlainClientAPI = {
   create(
     params: OptionalDefaults<GetTeamParams>,
     rawData: CreateTeamMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TeamMembershipProps>
   /**
    * Update a team membership
@@ -110,7 +110,7 @@ export type TeamMembershipPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTeamMembershipParams>,
     rawData: TeamMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TeamMembershipProps>
   /**
    * Delete a team membership

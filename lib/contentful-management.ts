@@ -23,6 +23,8 @@ export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/common-types'
 export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
+export type { RestAdapterParams } from './adapters/REST/rest-adapter'
+export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
@@ -44,7 +46,8 @@ interface UserAgentParams {
  * @deprecated
  */
 export type ClientParams = RestAdapterParams & UserAgentParams
-type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
+
+export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
 
 /**
  * Create a client instance
@@ -62,7 +65,7 @@ function createClient(
   opts: {
     type: 'plain'
     defaults?: DefaultParams
-  }
+  },
 ): PlainClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
 /**
@@ -74,14 +77,14 @@ function createClient(
     type?: 'plain'
     alphaFeatures: string[]
     defaults?: DefaultParams
-  }
+  },
 ): ClientAPI | PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
     type?: 'plain'
     defaults?: DefaultParams
-  } = {}
+  } = {},
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
     opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
@@ -90,7 +93,7 @@ function createClient(
     `${sdkMain}/${__VERSION__}`,
     params.application,
     params.integration,
-    params.feature
+    params.feature,
   )
 
   const adapter = createAdapter({ ...params, userAgent })

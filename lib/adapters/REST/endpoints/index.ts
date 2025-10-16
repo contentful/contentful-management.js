@@ -1,3 +1,5 @@
+import * as AiAction from './ai-action'
+import * as AiActionInvocation from './ai-action-invocation'
 import * as AccessToken from './access-token'
 import * as ApiKey from './api-key'
 import * as AppAccessToken from './app-access-token'
@@ -37,6 +39,8 @@ import * as OAuthApplication from './oauth-application'
 import * as PersonalAccessToken from './personal-access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
+import * as ReleaseAsset from './release-asset'
+import * as ReleaseEntry from './release-entry'
 import * as ReleaseAction from './release-action'
 import * as Resource from './resource'
 import * as ResourceProvider from './resource-provider'
@@ -64,6 +68,8 @@ import * as WorkflowDefinition from './workflow-definition'
 import * as WorkflowsChangelog from './workflows-changelog'
 
 export default {
+  AiAction,
+  AiActionInvocation,
   ApiKey,
   AppAction,
   AppActionCall,
@@ -103,6 +109,8 @@ export default {
   AccessToken,
   PreviewApiKey,
   Release,
+  ReleaseAsset,
+  ReleaseEntry,
   ReleaseAction,
   Resource,
   ResourceProvider,

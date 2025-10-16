@@ -74,7 +74,7 @@ describe('pagination helpers', () => {
   describe('cursor based pagination', () => {
     function createCursorBasedEndpoint<
       P extends CursorBasedParams = CursorBasedParams,
-      T = unknown
+      T = unknown,
     >(items: T[]): FetchFn<P, T> {
       return async (params): Promise<CursorPaginatedCollectionProp<T>> => {
         const {

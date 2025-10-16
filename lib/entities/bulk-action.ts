@@ -189,7 +189,7 @@ export function wrapBulkAction<TPayload extends BulkActionPayload | BulkActionV2
   const bulkAction = toPlainObject(copy(data))
   const bulkActionWithApiMethods = enhanceWithMethods(
     bulkAction as any,
-    createBulkActionApi(makeRequest)
+    createBulkActionApi(makeRequest),
   )
   return freezeSys(bulkActionWithApiMethods) as BulkAction<TPayload>
 }

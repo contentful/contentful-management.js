@@ -6,23 +6,23 @@ import * as raw from './raw'
 
 export const get: RestEndpoint<'PreviewApiKey', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { previewApiKeyId: string }
+  params: GetSpaceParams & { previewApiKeyId: string },
 ) => {
   return raw.get<PreviewApiKeyProps>(
     http,
-    `/spaces/${params.spaceId}/preview_api_keys/${params.previewApiKeyId}`
+    `/spaces/${params.spaceId}/preview_api_keys/${params.previewApiKeyId}`,
   )
 }
 
 export const getMany: RestEndpoint<'PreviewApiKey', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<PreviewApiKeyProps>>(
     http,
     `/spaces/${params.spaceId}/preview_api_keys`,
     {
       params: params.query,
-    }
+    },
   )
 }

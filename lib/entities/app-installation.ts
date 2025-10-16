@@ -108,12 +108,12 @@ function createAppInstallationApi(makeRequest: MakeRequest) {
  */
 export function wrapAppInstallation(
   makeRequest: MakeRequest,
-  data: AppInstallationProps
+  data: AppInstallationProps,
 ): AppInstallation {
   const appInstallation = toPlainObject(copy(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
-    createAppInstallationApi(makeRequest)
+    createAppInstallationApi(makeRequest),
   )
   return freezeSys(appInstallationWithMethods)
 }

@@ -43,6 +43,6 @@ export type UserUIConfigPlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetUserUIConfigParams>,
-    rawData: UserUIConfigProps
+    rawData: UserUIConfigProps,
   ): Promise<UserUIConfigProps>
 }

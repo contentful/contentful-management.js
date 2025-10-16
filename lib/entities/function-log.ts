@@ -44,7 +44,7 @@ export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionL
  */
 export function wrapFunctionLog(
   makeRequest: MakeRequest,
-  data: FunctionLogProps
+  data: FunctionLogProps,
 ): FunctionLogProps {
   const functionLog = toPlainObject(copy(data))
   return freezeSys(functionLog)
