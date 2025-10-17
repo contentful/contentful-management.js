@@ -27,8 +27,6 @@ import type {
   KeyValueMap,
   Link,
   PatchReleaseEntryParams,
-  ProcessForAllLocalesReleaseAssetParams,
-  ProcessForLocaleReleaseAssetParams,
   QueryParams,
   ReleaseEnvironmentParams,
   UpdateReleaseAssetParams,
@@ -476,13 +474,13 @@ export type PlainClientAPI = {
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
       processForLocale(
-        params: OptionalDefaults<ProcessForLocaleReleaseAssetParams>,
+        params: OptionalDefaults<GetSpaceEnvironmentParams>,
         asset: AssetProps<{ release: Link<'Release'> }>,
         locale: string,
         processingOptions?: AssetProcessingForLocale,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
       processForAllLocales(
-        params: OptionalDefaults<ProcessForAllLocalesReleaseAssetParams>,
+        params: OptionalDefaults<GetSpaceEnvironmentParams>,
         asset: AssetProps<{ release: Link<'Release'> }>,
         processingOptions?: AssetProcessingForLocale,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
