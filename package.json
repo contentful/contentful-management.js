@@ -7,16 +7,13 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "node": "./dist/contentful-management.node.cjs",
-      "react-native": "./dist/contentful-management.react-native.cjs",
       "require": "./dist/cjs/index.cjs",
       "default": "./dist/esm/index.js"
     },
     "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs",
-    "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js",
-    "./dist/contentful-management.react-native.js": "./dist/contentful-management.react-native.js"
+    "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js"
   },
-  "main": "./dist/cjs/index.cjs",
+  "main": "./dist/esm/index.js",
   "types": "dist/types/index.d.ts",
   "engines": {
     "node": ">=20"

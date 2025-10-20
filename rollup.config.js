@@ -216,15 +216,6 @@ const browserMinConfig = {
   ],
 }
 
-const reactNativeConfig = {
-  ...browserConfig,
-  output: {
-    ...browserConfig.output,
-    file: 'dist/contentful-management.react-native.js',
-    format: 'cjs',
-  },
-}
-
 // Types build in Rollup
 const typesConfig = {
   input: 'lib/index.ts',
@@ -245,12 +236,4 @@ const typesConfig = {
   external: baseConfig.external,
 }
 
-export default [
-  esmConfig,
-  cjsConfig,
-  cjsBundleConfig,
-  browserConfig,
-  browserMinConfig,
-  reactNativeConfig,
-  typesConfig,
-]
+export default [esmConfig, cjsConfig, cjsBundleConfig, browserConfig, browserMinConfig, typesConfig]
