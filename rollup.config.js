@@ -33,7 +33,7 @@ const baseConfig = {
       __VERSION__: JSON.stringify(pkg.version),
     }),
     commonjs({
-      sourceMap: false,
+      sourceMap: true,
       transformMixedEsModules: true,
       ignoreGlobal: true,
       ignoreDynamicRequires: true,
@@ -64,32 +64,11 @@ const esmConfig = {
   external: baseConfig.external,
 }
 
-const cjsConfig = {
-  input: 'lib/index.ts',
-  output: {
-    dir: 'dist/cjs',
-    format: 'cjs',
-    preserveModules: true,
-    entryFileNames: '[name].cjs',
-    sourcemap: true,
-  },
-  plugins: [
-    tsPlugin,
-    sourcemaps(),
-    replace({
-      preventAssignment: true,
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      __VERSION__: JSON.stringify(pkg.version),
-    }),
-  ],
-  external: baseConfig.external,
-}
-
 const cjsBundleConfig = {
   ...baseConfig,
   external: [],
   output: {
-    file: 'dist/contentful-management.node.cjs',
+    file: 'dist/contentful-management.bundle.node.cjs',
     format: 'cjs',
     sourcemap: true,
   },
@@ -125,7 +104,7 @@ const browserConfig = {
   ...baseConfig,
   external: [],
   output: {
-    file: 'dist/contentful-management.browser.js',
+    file: 'dist/contentful-management.bundle.browser.js',
     format: 'iife',
     name: 'contentfulManagement',
     sourcemap: true,
@@ -178,7 +157,7 @@ const browserMinConfig = {
   ...browserConfig,
   output: {
     ...browserConfig.output,
-    file: 'dist/contentful-management.browser.min.js',
+    file: 'dist/contentful-management.bundle.browser.min.js',
   },
   plugins: [
     ...browserConfig.plugins,
@@ -223,6 +202,7 @@ const typesConfig = {
     dir: 'dist/types',
     format: 'esm',
     preserveModules: true,
+    sourcemap: true,
   },
   plugins: [
     typescript({
@@ -236,4 +216,4 @@ const typesConfig = {
   external: baseConfig.external,
 }
 
-export default [esmConfig, cjsConfig, cjsBundleConfig, browserConfig, browserMinConfig, typesConfig]
+export default [esmConfig, cjsBundleConfig, browserConfig, browserMinConfig, typesConfig]

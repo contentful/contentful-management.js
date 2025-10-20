@@ -7,11 +7,11 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "require": "./dist/cjs/index.cjs",
+      "require": "./dist/contentful-management.bundle.node.cjs",
       "default": "./dist/esm/index.js"
     },
-    "./dist/contentful-management.node.cjs": "./dist/contentful-management.node.cjs",
-    "./dist/contentful-management.browser.js": "./dist/contentful-management.browser.js"
+    "./dist/contentful-management.bundle.node.cjs": "./dist/contentful-management.bundle.node.cjs",
+    "./dist/contentful-management.bundle.browser.js": "./dist/contentful-management.bundle.browser.js"
   },
   "main": "./dist/esm/index.js",
   "types": "dist/types/index.d.ts",
