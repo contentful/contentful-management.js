@@ -178,11 +178,11 @@
   },
   "size-limit": [
     {
-      "path": "./dist/contentful-management.browser.js",
+      "path": "./dist/contentful-management.bundle.browser.js",
       "limit": "110 kB"
     },
     {
-      "path": "./dist/contentful-management.browser.min.js",
+      "path": "./dist/contentful-management.bundle.browser.min.js",
       "limit": "55 kB"
     }
   ]

@@ -32,7 +32,7 @@
 [![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![npm downloads](https://img.shields.io/npm/dm/contentful-management.svg)](http://npm-stat.com/charts.html?package=contentful-management)
-[![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js)
+[![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.bundle.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.bundle.browser.min.js)
 
 **What is Contentful?**
 
@@ -74,6 +74,8 @@
     - [Contentful JavaScript resources](#contentful-javascript-resources)
     - [REST API reference](#rest-api-reference)
   - [Versioning](#versioning)
+  - [Experimental features](#experimental-features)
+    - [Current experimental features](#current-experimental-features)
   - [Reach out to us](#reach-out-to-us)
     - [You have questions about how to use this library?](#you-have-questions-about-how-to-use-this-library)
     - [You found a bug or want to propose a feature?](#you-found-a-bug-or-want-to-propose-a-feature)
@@ -175,7 +177,7 @@ For browsers, we recommend to download the library via npm or yarn to ensure 100
 If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.bundle.browser.min.js"></script>
 ```
 
 **It's not recommended to use the above URL for production.**
@@ -184,7 +186,7 @@ Using `contentful-management@latest` will always get you the latest version, but
 
 ```html
 <!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@12.0.0/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@12.0.0/dist/contentful-management.bundle.browser.min.js"></script>
 ```
 
 The Contentful Management library will be accessible via the `contentfulManagement` global variable.
