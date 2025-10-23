@@ -195,7 +195,7 @@ export type PlainClientAPI = {
     delete(params: GetEnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
     versions(
       params: GetEnvironmentTemplateParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; installable?: boolean }
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
