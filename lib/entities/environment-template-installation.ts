@@ -49,6 +49,7 @@ export type CreateEnvironmentTemplateInstallationProps = {
     items: Link<'ContentType'>[]
   }
   changeSet?: Link<'ChangeSet'>
+  deleteDeletedFields?: boolean
 }
 
 export type ValidateEnvironmentTemplateInstallationProps = Omit<
