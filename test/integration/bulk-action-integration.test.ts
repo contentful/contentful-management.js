@@ -8,12 +8,8 @@ import type {
   UnpublishBulkActionV2Payload,
 } from '../../lib/contentful-management'
 import type { Environment, Space } from '../../lib/contentful-management'
-import {
-  waitForBulkActionProcessing,
-  waitForBulkActionV2Processing,
-} from '../../lib/methods/bulk-action'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting, waitForBulkActionProcessing, waitForBulkActionV2Processing } from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 import {
   PublishBulkActionV2Payload,
