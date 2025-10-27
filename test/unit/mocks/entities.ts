@@ -79,6 +79,11 @@ import type { UserUIConfigProps } from '../../../lib/entities/user-ui-config'
 import type { OAuthApplicationProps } from '../../../lib/entities/oauth-application'
 import { ScopeValues } from '../../../lib/entities/oauth-application'
 import type { FunctionLogProps } from '../../../lib/entities/function-log'
+import { AiActionProps } from '../../../lib/entities/ai-action'
+import {
+  AiActionInvocationProps,
+  AiActionInvocationType,
+} from '../../../lib/entities/ai-action-invocation'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -724,7 +729,7 @@ const teamMembershipMock: TeamMembershipProps = {
     organization: makeLink('Organization', 'mock-organization-id'),
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
   }),
   admin: false,
@@ -738,7 +743,7 @@ const organizationInvitationMock: OrganizationInvitationProps = {
     type: 'organizationInvitation',
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
     user: makeLink('User', 'mock-user-id'),
     invitationUrl: 'https://example.com/mocked/invitation/url',
@@ -807,6 +812,121 @@ const releaseActionValidateMock: ReleaseActionProps = {
 const releaseActionUnpublishMock: ReleaseActionProps = {
   ...releaseActionMock,
   action: 'unpublish',
+}
+
+const releaseAssetMock: AssetProps<{ release: Link<'Release'> }> = {
+  ...assetMock,
+  sys: {
+    ...assetMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
+const releaseEntryMock: EntryProps<any, { release: Link<'Release'> }> = {
+  ...entryMock,
+  sys: {
+    ...entryMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
+const aiActionMock: AiActionProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'AiAction' as const,
+    id: 'mocked-ai-action-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+  }),
+  name: 'Mocked AI Action',
+  description: 'This is a mocked AI Action for testing purposes.',
+  configuration: {
+    modelType: 'mock-model-type',
+    modelTemperature: 0.5,
+  },
+  instruction: {
+    template: 'Process input: {{var.input}} and {{var.standard}}',
+    variables: [
+      {
+        id: 'input',
+        name: 'Input',
+        type: 'Text',
+        configuration: {
+          in: ['Option 1', 'Option 2'],
+          strict: true,
+        },
+      },
+      {
+        id: 'standard',
+        name: 'Standard Input',
+        type: 'StandardInput',
+      },
+    ],
+    conditions: [],
+  },
+  testCases: [],
+}
+
+const aiActionInvocationPayloadMock: AiActionInvocationType = {
+  outputFormat: 'RichText',
+  variables: [
+    {
+      id: 'input',
+      value: 'Test input content',
+    },
+    {
+      id: 'entry',
+      value: {
+        entityType: 'Entry',
+        entityId: 'entry123',
+        entityPath: 'fields.content',
+      },
+    },
+  ],
+}
+
+const aiActionInvocationMock: AiActionInvocationProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AiActionInvocation' as const,
+    id: 'mocked-ai-action-invocation-id',
+    status: 'COMPLETED' as const,
+    space: { sys: { id: 'mocked-space-id', type: 'Link', linkType: 'Space' } },
+    environment: { sys: { id: 'mocked-environment-id', type: 'Link', linkType: 'Environment' } },
+    aiAction: { sys: { id: 'mocked-ai-action-id', type: 'Link', linkType: 'AiAction' } },
+    version: 1,
+  },
+  result: {
+    content: 'Mocked invocation result content',
+    type: 'text',
+    metadata: {
+      statusChangedDates: [
+        {
+          status: 'SCHEDULED' as const,
+          date: '2025-03-21T15:35:31.165Z',
+        },
+        {
+          status: 'IN_PROGRESS' as const,
+          date: '2025-03-21T15:35:37.736Z',
+        },
+        {
+          status: 'COMPLETED' as const,
+          date: '2025-03-21T15:35:42.754Z',
+        },
+      ],
+    },
+  },
 }
 
 const apiKeyMock: ApiKeyProps = {
@@ -1263,6 +1383,9 @@ const functionLogCollectionMock = {
 }
 
 const mocks = {
+  aiAction: aiActionMock,
+  aiActionInvocation: aiActionInvocationMock,
+  aiActionInvocationPayload: aiActionInvocationPayloadMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1314,6 +1437,8 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  releaseAsset: releaseAssetMock,
+  releaseEntry: releaseEntryMock,
   resource: resourceMock,
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
@@ -1358,6 +1483,13 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
 
 function setupEntitiesMock() {
   const entitiesMock = {
+    aiAction: {
+      wrapAiAction: vi.fn(),
+      wrapAiActionCollection: vi.fn(),
+    },
+    aiActionInvocation: {
+      wrapAiActionInvocation: vi.fn(),
+    },
     appAction: {
       wrapAppAction: vi.fn(),
       wrapAppActionCollection: vi.fn(),

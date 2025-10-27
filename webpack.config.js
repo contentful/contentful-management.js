@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const path = require('path')
 const webpack = require('webpack')
 const clone = require('lodash/cloneDeep')
@@ -34,7 +35,7 @@ if (PROD) {
           }
         })
       }
-    })()
+    })(),
   )
 }
 

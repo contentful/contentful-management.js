@@ -40,6 +40,9 @@ export interface ReleaseQueryOptions {
   /** Comma-separated filter (inclusion) by Release status (active, archived) */
   'sys.status[in]'?: ReleaseStatus
 
+  /** Determines the Release API version to use. 'Release.v1' refers to Launch, 'Release.v2' refers to Releases. */
+  'sys.schemaVersion'?: 'Release.v1' | 'Release.v2'
+
   /** Comma-separated filter (exclusion) by Release status (active, archived) */
   'sys.status[nin]'?: ReleaseStatus
 
@@ -81,6 +84,7 @@ export type ReleaseSysProps = {
   createdAt: ISO8601Timestamp
   updatedAt: ISO8601Timestamp
   lastAction?: Link<'ReleaseAction'>
+  schemaVersion?: 'Release.v2'
 }
 export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
 export const ReleaseReferenceFilters = ScheduledActionReferenceFilters
@@ -101,12 +105,25 @@ export interface ReleaseProps {
 }
 
 export interface ReleasePayload extends MakeRequestPayload {
+  sys?: {
+    type: 'Release'
+    schemaVersion?: 'Release.v1' | undefined
+  }
   title: string
   entities: BaseCollection<Link<Entity>>
 }
 
+export interface ReleasePayloadV2 extends MakeRequestPayload {
+  sys?: {
+    type: 'Release'
+    schemaVersion: 'Release.v2'
+  }
+  title: string
+  entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
+}
+
 export interface ReleaseValidatePayload {
-  action?: 'publish'
+  action?: 'publish' | 'unpublish'
 }
 
 export interface ReleaseValidateOptions {
@@ -251,7 +268,7 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
   const release = toPlainObject(copy(data))
   const releaseWithApiMethods = enhanceWithMethods(
     release as any,
-    createReleaseApi(makeRequest) as any
+    createReleaseApi(makeRequest) as any,
   )
   return freezeSys(releaseWithApiMethods)
 }
@@ -261,5 +278,5 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
  */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ReleaseProps>
+  data: CursorPaginatedCollectionProp<ReleaseProps>,
 ) => CursorPaginatedCollection<Release, ReleaseProps> = wrapCursorPaginatedCollection(wrapRelease)

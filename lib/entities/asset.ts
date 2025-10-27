@@ -12,8 +12,8 @@ import type {
 import { wrapCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
-export type AssetProps = {
-  sys: EntityMetaSysProps
+export type AssetProps<S = {}> = {
+  sys: EntityMetaSysProps & S
   fields: {
     /** Title for this asset */
     title: { [key: string]: string }
@@ -287,7 +287,7 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
   return {
     processForLocale: function processForLocale(
       locale: string,
-      options?: AssetProcessingForLocale
+      options?: AssetProcessingForLocale,
     ) {
       const raw = this.toPlainObject() as AssetProps
       return makeRequest({

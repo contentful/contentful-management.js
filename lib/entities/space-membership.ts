@@ -96,12 +96,12 @@ function createSpaceMembershipApi(makeRequest: MakeRequest) {
  */
 export function wrapSpaceMembership(
   makeRequest: MakeRequest,
-  data: SpaceMembershipProps
+  data: SpaceMembershipProps,
 ): SpaceMembership {
   const spaceMembership = toPlainObject(copy(data))
   const spaceMembershipWithMethods = enhanceWithMethods(
     spaceMembership,
-    createSpaceMembershipApi(makeRequest)
+    createSpaceMembershipApi(makeRequest),
   )
   return freezeSys(spaceMembershipWithMethods)
 }

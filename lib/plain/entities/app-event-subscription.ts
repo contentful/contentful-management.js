@@ -14,6 +14,7 @@ export type AppEventSubscriptionPlainClientAPI = {
    * @throws if the request fails, the App or Event Subscription is not found, or the payload is malformed
    * @example
    * ```javascript
+   * // app event subscription that targets an endpoint url
    * const eventSubscription = await client.appEventSubscription.upsert({
    *   organizationId: '<organization_id>',
    *   appDefinitionId: '<app_definition_id>',
@@ -21,11 +22,35 @@ export type AppEventSubscriptionPlainClientAPI = {
    *   targetUrl: `<target_url>`,
    *   topics: ['<Topic>'],
    * })
+   *
+   * // app event subscription that targets a function and have a filter function
+   * const eventSubscription = await client.appEventSubscription.upsert({
+   *   organizationId: '<organization_id>',
+   *   appDefinitionId: '<app_definition_id>',
+   * }, {
+   *   functions: {
+   *     handler: {
+   *       sys: {
+   *         type: 'Link',
+   *         linkType: 'Function',
+   *         id: '<function_id>',
+   *       },
+   *     },
+   *     filter: {
+   *       sys: {
+   *         type: 'Link',
+   *         linkType: 'Function',
+   *         id: '<function_id>',
+   *       },
+   *     },
+   *   },
+   *   topics: ['<Topic>'],
+   * })
    * ```
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppEventSubscriptionProps
+    payload: CreateAppEventSubscriptionProps,
   ): Promise<AppEventSubscriptionProps>
   /**
    * Fetches the current App Event Subscription for the given App

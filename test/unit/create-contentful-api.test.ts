@@ -177,7 +177,7 @@ describe('createEntryApi', () => {
         makeRequest: setupMakeRequest(promise),
         entityMock: cloneMock('entryReferencesCollection'),
       }),
-      { wrapperMethod: wrapEntryCollection }
+      { wrapperMethod: wrapEntryCollection },
     )
   })
 

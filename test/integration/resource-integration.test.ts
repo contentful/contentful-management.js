@@ -91,7 +91,7 @@ describe('Resource API', () => {
           tmdbAccessToken: 'test',
         },
       },
-      { acceptAllTerms: true }
+      { acceptAllTerms: true },
     )
   })
 

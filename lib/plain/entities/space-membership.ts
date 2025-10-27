@@ -39,7 +39,7 @@ export type SpaceMembershipPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<SpaceMembershipProps>>
   /**
    * Fetches the space membership within a given organization
@@ -54,7 +54,7 @@ export type SpaceMembershipPlainClientAPI = {
    * ```
    */
   getForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & { spaceMembershipId: string }>
+    params: OptionalDefaults<GetOrganizationParams & { spaceMembershipId: string }>,
   ): Promise<SpaceMembershipProps>
   /**
    * Fetches all of the space memberships within a given organization
@@ -69,7 +69,7 @@ export type SpaceMembershipPlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<SpaceMembershipProps>>
   /**
    * Creates a space membership
@@ -101,7 +101,7 @@ export type SpaceMembershipPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams>,
     data: CreateSpaceMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<SpaceMembershipProps>
   /**
    * Creates a space membership with a specific ID
@@ -134,7 +134,7 @@ export type SpaceMembershipPlainClientAPI = {
   createWithId(
     params: OptionalDefaults<GetSpaceMembershipProps>,
     data: CreateSpaceMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<SpaceMembershipProps>
   /**
    * Updates a space membership
@@ -163,7 +163,7 @@ export type SpaceMembershipPlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceMembershipProps>,
     rawData: SpaceMembershipProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<SpaceMembershipProps>
   /**
    * Deletes a space membership

@@ -10,6 +10,8 @@ export type {
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
+export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
+export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
 export type {
   AppAction,
   AppActionCategoryProps,
@@ -22,6 +24,9 @@ export type {
 export type {
   AppActionCall,
   AppActionCallProps,
+  AppActionCallErrorProps,
+  AppActionCallRawResponseProps,
+  AppActionCallStatus,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 export type {
@@ -178,6 +183,7 @@ export type {
   Release,
   ReleaseMetadata,
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseReferenceFilters,

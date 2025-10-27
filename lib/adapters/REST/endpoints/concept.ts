@@ -9,6 +9,7 @@ import type {
   GetManyConceptParams,
   GetOrganizationParams,
   UpdateConceptParams,
+  Link,
 } from '../../../common-types'
 import type { ConceptProps, CreateConceptProps } from '../../../entities/concept'
 import type { RestEndpoint } from '../types'
@@ -21,7 +22,7 @@ function basePath(organizationId: string) {
 export const create: RestEndpoint<'Concept', 'create'> = (
   http: AxiosInstance,
   params: GetOrganizationParams,
-  data: CreateConceptProps
+  data: CreateConceptProps,
 ) => {
   return raw.post<ConceptProps>(http, basePath(params.organizationId), data)
 }
@@ -29,7 +30,7 @@ export const create: RestEndpoint<'Concept', 'create'> = (
 export const createWithId: RestEndpoint<'Concept', 'createWithId'> = (
   http: AxiosInstance,
   params: GetConceptParams,
-  data: CreateConceptProps
+  data: CreateConceptProps,
 ) => {
   return raw.put<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`, data)
 }
@@ -38,7 +39,7 @@ export const patch: RestEndpoint<'Concept', 'patch'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
   data: OpPatch[],
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.patch<ConceptProps>(
     http,
@@ -50,7 +51,7 @@ export const patch: RestEndpoint<'Concept', 'patch'> = (
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -58,7 +59,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
   data: OpPatch[],
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.patch<ConceptProps>(
     http,
@@ -70,7 +71,7 @@ export const update: RestEndpoint<'Concept', 'update'> = (
         'Content-Type': 'application/json-patch+json',
         ...headers,
       },
-    }
+    },
   )
 }
 
@@ -78,7 +79,7 @@ export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
   data: CreateConceptProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.put<ConceptProps>(
     http,
@@ -89,19 +90,23 @@ export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
         'X-Contentful-Version': params.version,
         ...headers,
       },
-    }
+    },
   )
 }
 
 export const get: RestEndpoint<'Concept', 'get'> = (
   http: AxiosInstance,
-  params: GetConceptParams
-) => raw.get<ConceptProps>(http, `${basePath(params.organizationId)}/${params.conceptId}`)
+  params: GetConceptParams,
+) =>
+  raw.get<ConceptProps & { conceptSchemes?: Link<'TaxonomyConceptScheme'>[] }>(
+    http,
+    `${basePath(params.organizationId)}/${params.conceptId}`,
+  )
 
 export const del: RestEndpoint<'Concept', 'delete'> = (
   http: AxiosInstance,
   params: DeleteConceptParams,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.del<void>(http, `${basePath(params.organizationId)}/${params.conceptId}`, {
     headers: {
@@ -112,17 +117,21 @@ export const del: RestEndpoint<'Concept', 'delete'> = (
 
 export const getMany: RestEndpoint<'Concept', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyConceptParams
+  params: GetManyConceptParams,
 ) => {
   const { url, queryParams } = cursorBasedCollection('', params)
-  return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, {
+  return raw.get<
+    CursorPaginatedCollectionProp<
+      ConceptProps & { conceptSchemes?: Link<'TaxonomyConceptScheme'>[] }
+    >
+  >(http, url, {
     params: queryParams,
   })
 }
 
 export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
   http: AxiosInstance,
-  params: GetConceptDescendantsParams
+  params: GetConceptDescendantsParams,
 ) => {
   const { url, queryParams } = cursorBasedCollection(`/${params.conceptId}/descendants`, params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, { params: queryParams })
@@ -130,7 +139,7 @@ export const getDescendants: RestEndpoint<'Concept', 'getDescendants'> = (
 
 export const getAncestors: RestEndpoint<'Concept', 'getAncestors'> = (
   http: AxiosInstance,
-  params: GetConceptDescendantsParams
+  params: GetConceptDescendantsParams,
 ) => {
   const { url, queryParams } = cursorBasedCollection(`/${params.conceptId}/ancestors`, params)
   return raw.get<CursorPaginatedCollectionProp<ConceptProps>>(http, url, { params: queryParams })
@@ -138,7 +147,7 @@ export const getAncestors: RestEndpoint<'Concept', 'getAncestors'> = (
 
 export const getTotal: RestEndpoint<'Concept', 'getTotal'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams
+  params: GetOrganizationParams,
 ) => raw.get<{ total: number }>(http, `${basePath(params.organizationId)}/total`)
 
 function cursorBasedCollection(
@@ -146,12 +155,12 @@ function cursorBasedCollection(
   params: {
     organizationId: string
     query?: Record<string, string | number> & { pageUrl?: string }
-  }
-): { url: string; queryParams: Record<string, string | number> } {
+  },
+): { url: string; queryParams?: Record<string, string | number> } {
   return params.query?.pageUrl
-    ? { url: params.query?.pageUrl, queryParams: {} }
+    ? { url: params.query?.pageUrl }
     : {
         url: `${basePath(params.organizationId)}${path}`,
-        queryParams: params.query || {},
+        queryParams: params.query,
       }
 }

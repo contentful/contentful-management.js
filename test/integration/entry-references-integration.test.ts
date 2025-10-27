@@ -5,7 +5,6 @@ import type { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'
 import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 
-const ENTRY_WITH_REFERENCES_ID = TestDefaults.entry.testEntryReferenceId
 const WRONG_ENTRY_ID = '123123XD'
 
 describe('Entry References', () => {
@@ -23,20 +22,23 @@ describe('Entry References', () => {
     let entryWithReferences: any
 
     beforeAll(async () => {
-      entryWithReferences = await testEnvironment.getEntryReferences(ENTRY_WITH_REFERENCES_ID, {
-        include: 2,
-      })
+      entryWithReferences = await testEnvironment.getEntryReferences(
+        TestDefaults.entry.testEntryReferenceId,
+        {
+          include: 2,
+        },
+      )
     })
 
     it('Get the correct entry with references', () => {
-      expect(entryWithReferences.items[0].sys.id).toBe(ENTRY_WITH_REFERENCES_ID)
+      expect(entryWithReferences.items[0].sys.id).toBe(TestDefaults.entry.testEntryReferenceId)
       expect(entryWithReferences.includes).not.toBeUndefined()
       expect(entryWithReferences.includes.Entry.length).toBeGreaterThan(0)
     })
 
     it('Should return the correct cities', () => {
       const cities = entryWithReferences.includes.Entry.map(
-        (entry: any) => entry.fields.name['en-US']
+        (entry: any) => entry.fields.name['en-US'],
       )
       expect(cities).toEqual(expect.arrayContaining(['Berlin', 'London', 'San Francisco', 'Paris']))
     })
@@ -62,7 +64,7 @@ describe('Entry References', () => {
       plainClient = initPlainClient(defaultParams)
 
       entry = await plainClient.entry.get({
-        entryId: ENTRY_WITH_REFERENCES_ID,
+        entryId: TestDefaults.entry.testEntryReferenceId,
       })
 
       entryWithReferences = await plainClient.entry.references({
@@ -72,14 +74,14 @@ describe('Entry References', () => {
     })
 
     it('Get the correct entry with references', () => {
-      expect(entryWithReferences.items[0].sys.id).toBe(ENTRY_WITH_REFERENCES_ID)
+      expect(entryWithReferences.items[0].sys.id).toBe(TestDefaults.entry.testEntryReferenceId)
       expect(entryWithReferences.includes).not.toBeUndefined()
       expect(entryWithReferences.includes.Entry.length).toBeGreaterThan(0)
     })
 
     it('Should return the correct cities', () => {
       const cities = entryWithReferences.includes.Entry.map(
-        (entry: any) => entry.fields.name['en-US']
+        (entry: any) => entry.fields.name['en-US'],
       )
       expect(cities).toEqual(expect.arrayContaining(['Berlin', 'London', 'San Francisco', 'Paris']))
     })

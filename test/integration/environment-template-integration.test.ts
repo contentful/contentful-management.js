@@ -76,7 +76,7 @@ describe('Environment template API', () => {
       const { items: templates } = await client.getEnvironmentTemplates(orgId)
 
       expect(
-        templates.filter(({ description }) => description === templateDescription)
+        templates.filter(({ description }) => description === templateDescription),
       ).toHaveLength(1)
 
       const [{ sys, ...template }] = templates
@@ -92,11 +92,21 @@ describe('Environment template API', () => {
       })
 
       expect(
-        templates.filter(({ description }) => description === templateDescription)
+        templates.filter(({ description }) => description === templateDescription),
       ).toHaveLength(1)
 
       const [firstTemplate] = templates
       expect(firstTemplate).toEqual({ description: templateDescription })
+    })
+
+    it('gets a collection of environment templates with forTemplatedSpaces filter applied', async () => {
+      const draftTemplate = createDraftTemplate()
+      await client.createEnvironmentTemplate(orgId, draftTemplate)
+      const { items: templates } = await client.getEnvironmentTemplates(orgId, {
+        forTemplatedSpaces: true,
+      })
+
+      expect(templates).toHaveLength(0)
     })
 
     it('updates an environment template', async () => {
@@ -196,7 +206,7 @@ describe('Environment template API', () => {
     it('gets installations on an environment for a given environment template', async () => {
       const installation = await installTemplate()
       const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-        installation.sys.template.sys.id
+        installation.sys.template.sys.id,
       )
 
       expect(installations).toHaveLength(1)
@@ -223,7 +233,7 @@ describe('Environment template API', () => {
       })
 
       await expect(
-        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id })
+        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id }),
       ).resolves.not.toThrow()
     })
   })
@@ -238,6 +248,7 @@ describe('Environment template API', () => {
         contentTypeTemplates: [],
         editorInterfaceTemplates: [],
       },
+      forTemplatedSpaces: false,
     }
   }
 })
@@ -246,15 +257,14 @@ async function waitForPendingInstallation(
   client: ClientAPI,
   environment: Environment,
   environmentTemplateId: string,
-  { retries = 3, timeout = 200 } = {}
+  { retries = 3, timeout = 200 } = {},
 ): Promise<void> {
   while (retries > 1) {
-    const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-      environmentTemplateId
-    )
+    const { items: installations } =
+      await environment.getEnvironmentTemplateInstallations(environmentTemplateId)
 
     const allInstallationsSuccessful = installations.every(
-      (installation) => installation.sys.status === 'succeeded'
+      (installation) => installation.sys.status === 'succeeded',
     )
 
     if (allInstallationsSuccessful) {
@@ -325,7 +335,7 @@ async function enableSpace(client: ClientAPI, space: Space): Promise<void> {
 async function clearEnvironmentTemplates(
   client: ClientAPI,
   orgId: string,
-  templateDescription: string
+  templateDescription: string,
 ): Promise<void> {
   const { items: templates } = await client.getEnvironmentTemplates(orgId)
 

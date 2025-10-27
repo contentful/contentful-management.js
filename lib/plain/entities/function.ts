@@ -57,6 +57,6 @@ export type FunctionPlainClientAPI = {
    * ```
    */
   getManyForEnvironment(
-    params: OptionalDefaults<GetFunctionForEnvParams>
+    params: OptionalDefaults<GetFunctionForEnvParams>,
   ): Promise<CollectionProp<FunctionProps>>
 }
