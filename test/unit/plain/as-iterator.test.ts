@@ -1,5 +1,5 @@
 import { vi, test, expect } from 'vitest'
-import defaultsDeep from 'lodash/defaultsDeep'
+import { defaultsDeep } from 'lodash-es'
 import { asIterator } from '../../../lib/plain/as-iterator.js'
 import type { CollectionProp } from '../../../lib/common-types.js'
 
