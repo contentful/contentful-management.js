@@ -1,6 +1,6 @@
 import { cloneMock } from '../mocks/entities.js'
-import cloneDeep from 'lodash/cloneDeep'
-import upperFirst from 'lodash/upperFirst'
+import { cloneDeep } from 'lodash-es'
+import { upperFirst } from 'lodash-es'
 import { expect } from 'vitest'
 
 export async function makeGetEntityTest(
