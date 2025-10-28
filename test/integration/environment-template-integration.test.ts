@@ -225,6 +225,18 @@ describe('Environment template API', () => {
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
+    it('gets only the latest installation of an environment template for a given environment', async () => {
+      const installation = await installTemplate(2)
+      const template = await client.getEnvironmentTemplate({
+        organizationId: orgId,
+        environmentTemplateId: installation.sys.template.sys.id,
+      })
+
+      const { items: installations } = await template.getInstallations({ latestOnly: true })
+      expect(installations).toHaveLength(1)
+      expect(installation.sys.id).toBe(installations[0].sys.id)
+    })
+
     it('disconnects environment template', async () => {
       const installation = await installTemplate()
       const template = await client.getEnvironmentTemplate({
@@ -296,8 +308,8 @@ function createInstallTemplate({
     let template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
     let installation = await installNewTemplateVersion(client, space, environment, template)
 
-    for (let i = 0; i < versionsCount; i++) {
-      template.name = 'Updated name for version ' + (i + 2)
+    for (let version = 2; version <= versionsCount; version++) {
+      template.name = `Updated name for version ${version}`
       template = await template.update()
       installation = await installNewTemplateVersion(client, space, environment, template)
     }
