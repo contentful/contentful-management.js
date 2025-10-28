@@ -169,7 +169,8 @@ describe('createEnvironmentTemplateApi', () => {
         environmentTemplateId: environmentTemplateMock.sys.id,
         spaceId: undefined,
         environmentId: undefined,
-        query: { latestOnly: true },
+        latestOnly: true,
+        query: {},
       },
     })
   })

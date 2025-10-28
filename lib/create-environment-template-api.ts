@@ -158,6 +158,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     getInstallations: function getEnvironmentTemplateInstallations({
       spaceId,
       environmentId,
+      latestOnly,
       ...query
     }: {
       spaceId?: string
@@ -174,6 +175,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
           query: { ...createRequestConfig({ query }).params },
           spaceId,
           environmentId,
+          latestOnly,
         },
       }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
     },
