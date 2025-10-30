@@ -138,6 +138,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * Gets a collection of all installations for the environment template
      * @param [installationParams.spaceId] - Space ID to filter installations by space and environment
      * @param [installationParams.environmentId] - Environment ID to filter installations by space and environment
+     * @param [installationParams.latestOnly] - Boolean flag to only return the latest installation per environment
      * @return Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
      * const contentful = require('contentful-management')
@@ -157,10 +158,12 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     getInstallations: function getEnvironmentTemplateInstallations({
       spaceId,
       environmentId,
+      latestOnly,
       ...query
     }: {
       spaceId?: string
       environmentId?: string
+      latestOnly?: boolean
     } & BasicCursorPaginationOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentTemplateProps
       return makeRequest({
@@ -172,6 +175,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
           query: { ...createRequestConfig({ query }).params },
           spaceId,
           environmentId,
+          latestOnly,
         },
       }).then((data) => wrapEnvironmentTemplateInstallationCollection(makeRequest, data))
     },

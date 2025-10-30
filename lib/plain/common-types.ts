@@ -220,6 +220,7 @@ export type PlainClientAPI = {
         environmentTemplateId: string
         organizationId: string
         spaceId?: string
+        latestOnly?: boolean
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
