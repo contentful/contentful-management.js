@@ -146,6 +146,35 @@ describe('createEnvironmentTemplateApi', () => {
     })
   })
 
+  test('API call installations with latestOnly', async () => {
+    const installations = [
+      environmentTemplateInstallationMock,
+      {
+        sys: {
+          ...environmentTemplateInstallationMock.sys,
+          space: makeLink('Space', 'anothermock-space-id'),
+        },
+      },
+    ]
+
+    const { api, makeRequest } = setup(Promise.resolve({ items: installations }))
+    const [installation1, installation2] = (await api.getInstallations({ latestOnly: true })).items
+    expect(installation1.toPlainObject()).to.eql(installations[0])
+    expect(installation2.toPlainObject()).to.eql(installations[1])
+    expect(makeRequest).toHaveBeenCalledWith({
+      entityType: 'EnvironmentTemplateInstallation',
+      action: 'getMany',
+      params: {
+        organizationId,
+        environmentTemplateId: environmentTemplateMock.sys.id,
+        spaceId: undefined,
+        environmentId: undefined,
+        latestOnly: true,
+        query: {},
+      },
+    })
+  })
+
   test('API call validate', async () => {
     const version = 1
     const { api, makeRequest } = setup(Promise.resolve(environmentTemplateValidationMock))
