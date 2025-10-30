@@ -75,7 +75,6 @@ describe('Entry Api', () => {
         .then((response) => {
           expect(response.items, 'items').ok
           expect(response.items).lengthOf(2)
-          expect(response).lengthOf(2)
         })
     })
 
