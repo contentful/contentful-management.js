@@ -3,11 +3,8 @@ import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
   BasicCursorPaginationOptions,
-  Collection,
   CreatedAtIntervalParams,
   CursorBasedParams,
-  CursorBasedQueryOptions,
-  CursorPaginatedCollection,
   QueryOptions,
 } from './common-types'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
@@ -95,6 +92,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
+  const slef = this
 
   return {
     /**
@@ -731,8 +729,9 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getEntries: withOptionalCursorApi((query = {}) => {
+    getEntries: withOptionalCursorApi(function (query = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
+      console.log(query, raw)
       return makeRequest({
         entityType: 'Entry',
         action: 'getMany',
