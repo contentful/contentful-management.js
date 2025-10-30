@@ -731,7 +731,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      */
     getEntries: withOptionalCursorApi(function (query = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
-      console.log(query, raw)
       return makeRequest({
         entityType: 'Entry',
         action: 'getMany',

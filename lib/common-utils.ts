@@ -13,11 +13,11 @@ import type {
 /**
  * @private
  */
-export function withOptionalCursorApi<T, TPlain>(
+export const withOptionalCursorApi = <T, TPlain>(
   fn: OptionalCursorApi<T, TPlain>,
-): OptionalCursorApi<T, TPlain> {
+): OptionalCursorApi<T, TPlain> => {
   return function (args) {
-    return fn.bind(this)(args)
+    return fn.call(this, args)
   }
 }
 
