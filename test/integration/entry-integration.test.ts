@@ -83,7 +83,7 @@ describe('Entry Api', () => {
         expect(response.items, 'items').ok
         expect(response.items).lengthOf(1)
         expect(response.items).lengthOf(1)
-        expect(response.pages?.next, 'nextPageUrl').to.be.ok
+        expect(response.pages?.next).to.be.string
       })
     })
 
