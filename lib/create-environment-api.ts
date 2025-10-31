@@ -92,7 +92,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
-  const slef = this
 
   return {
     /**

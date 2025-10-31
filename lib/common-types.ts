@@ -298,10 +298,10 @@ export interface MetaSysProps extends BasicMetaSysProps {
 }
 
 export type GetManyCursorBasedParams<
-  ET extends keyof MRActions<'cursor'>,
-  Action extends keyof MRActions<'cursor'>[ET],
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
 > = {
-  params: MRActions<'cursor'>[ET][Action] extends { params: infer P }
+  params: MRActions[ET][Action] extends { params: infer P }
     ? P & { query: QueryOptions & { cursor: true } }
     : never
 }
@@ -370,12 +370,7 @@ export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
-type PaginationProps<T, Cursor extends PaginationTypes> = Cursor extends 'cursor'
-  ? CursorPaginatedCollectionProp<T>
-  : CollectionProp<T>
-
 export interface QueryOptions extends BasicQueryOptions {
-  cursor?: boolean
   content_type?: string
   include?: number
   select?: string
@@ -641,7 +636,7 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
-  (opts: GetManyCursorBasedParams<'Entry', 'getMany'>): MRReturn<'Entry', 'getMany', 'cursor'>
+  (opts: GetManyCursorBasedParams<'Entry', 'getMany'>): CursorPaginatedCollectionProp<EntryProps>
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
@@ -940,12 +935,7 @@ export interface Adapter {
 /**
  * @private
  */
-export type PaginationTypes = 'cursor' | 'offset'
-
-/**
- * @private
- */
-export type MRActions<P extends PaginationTypes = 'offset'> = {
+export type MRActions = {
   Resource: {
     getMany: {
       params: GetResourceParams & { query?: ResourceQueryOptions }
@@ -1658,7 +1648,7 @@ export type MRActions<P extends PaginationTypes = 'offset'> = {
     }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
-      return: PaginationProps<EntryProps<any>, P>
+      return: CollectionProp<EntryProps<any>>
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
@@ -2413,11 +2403,10 @@ export type MROpts<
  * @private
  */
 export type MRReturn<
-  ET extends keyof MRActions<P>,
-  Action extends keyof MRActions<P>[ET],
-  P extends PaginationTypes = 'offset',
-> = 'return' extends keyof MRActions<P>[ET][Action]
-  ? Promise<MRActions<P>[ET][Action]['return']>
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
+> = 'return' extends keyof MRActions[ET][Action]
+  ? Promise<MRActions[ET][Action]['return']>
   : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
