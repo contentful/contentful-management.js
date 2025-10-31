@@ -17,7 +17,7 @@ import type {
   Space,
 } from '../../lib/export-types.js'
 
-type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
+type InstallTemplate = (versionsCount?: number) => Promise<EnvironmentTemplateInstallationProps>
 
 describe.skip('Environment template API', () => {
   const client = defaultClient
@@ -213,14 +213,26 @@ describe.skip('Environment template API', () => {
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
-    it('gets all installations of an environment template for an environment', async () => {
-      const installation = await installTemplate()
+    it('gets all installations of an environment template for a given environment', async () => {
+      const installation = await installTemplate(2)
       const template = await client.getEnvironmentTemplate({
         organizationId: orgId,
         environmentTemplateId: installation.sys.template.sys.id,
       })
 
       const { items: installations } = await template.getInstallations()
+      expect(installations).toHaveLength(2)
+      expect(installation.sys.id).toBe(installations[0].sys.id)
+    })
+
+    it('gets only the latest installation of an environment template for a given environment', async () => {
+      const installation = await installTemplate(2)
+      const template = await client.getEnvironmentTemplate({
+        organizationId: orgId,
+        environmentTemplateId: installation.sys.template.sys.id,
+      })
+
+      const { items: installations } = await template.getInstallations({ latestOnly: true })
       expect(installations).toHaveLength(1)
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
@@ -292,21 +304,39 @@ function createInstallTemplate({
   environment: Environment
   createDraftTemplate: () => CreateEnvironmentTemplateProps
 }): InstallTemplate {
-  return async () => {
-    const template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
-    const installation = await template.install({
-      spaceId: space.sys.id,
-      environmentId: environment.sys.id,
-      installation: {
-        version: template.sys.version,
-      },
-    })
+  return async (versionsCount: number = 1) => {
+    let template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
+    let installation = await installNewTemplateVersion(client, space, environment, template)
 
-    expect(installation.sys.template.sys.id).toBe(template.sys.id)
+    for (let version = 2; version <= versionsCount; version++) {
+      template.name = `Updated name for version ${version}`
+      template = await template.update()
+      installation = await installNewTemplateVersion(client, space, environment, template)
+    }
 
-    await waitForPendingInstallation(client, environment, template.sys.id)
     return installation
   }
+}
+
+async function installNewTemplateVersion(
+  client: ClientAPI,
+  space: Space,
+  environment: Environment,
+  template: EnvironmentTemplate,
+): Promise<EnvironmentTemplateInstallationProps> {
+  const installation = await template.install({
+    spaceId: space.sys.id,
+    environmentId: environment.sys.id,
+    installation: {
+      version: template.sys.version,
+    },
+  })
+
+  expect(installation.sys.template.sys.id).toBe(template.sys.id)
+
+  await waitForPendingInstallation(client, environment, template.sys.id)
+
+  return installation
 }
 
 async function enableSpace(client: ClientAPI, space: Space): Promise<void> {

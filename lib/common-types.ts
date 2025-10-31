@@ -1570,7 +1570,7 @@ export type MRActions = {
     }
     versions: {
       params: GetEnvironmentTemplateParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; installable?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1598,6 +1598,7 @@ export type MRActions = {
         environmentTemplateId: string
         organizationId: string
         spaceId?: string
+        latestOnly?: boolean
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
