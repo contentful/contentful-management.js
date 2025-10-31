@@ -26,6 +26,7 @@ import {
   updateReleaseWithEntries,
   updateReleaseEntryTitle,
 } from './utils/release-entry.utils'
+import { get } from 'lodash'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())
@@ -79,7 +80,7 @@ describe('Entry Api', () => {
     })
 
     test('Gets entries with a cursor parameter', async () => {
-      return environment.getEntries({ cursor: true, limit: 1 }).then((response) => {
+      return environment.getEntries({ cursor: true, limit: 1 }).then(async (response) => {
         expect(response.items, 'items').ok
         expect(response.items).lengthOf(1)
         expect(response.items).lengthOf(1)
@@ -723,11 +724,22 @@ describe('Entry Api', () => {
     beforeAll(async () => {
       plainClient = initPlainClient({ spaceId: TestDefaults.spaceId })
     })
+
     test('getPublished', async () => {
       const response = await plainClient.entry.getPublished({ environmentId: 'master' })
       expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
       expect(response.items[0].sys.publishedVersion).to.not.be.undefined
       expect(response.items[0].sys.publishedAt).to.not.be.undefined
+    })
+
+    test('getMany cursor', async () => {
+      const response = await plainClient.entry.getMany({
+        environmentId: 'master',
+        query: { limit: 1, cursor: true },
+      })
+
+      expect(response.items).toHaveLength(1)
+      expect(response.pages?.next).to.be.string
     })
   })
 

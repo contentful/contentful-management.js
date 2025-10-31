@@ -297,18 +297,13 @@ export interface MetaSysProps extends BasicMetaSysProps {
   deletedAt?: string
 }
 
-type CursorSupportedEntity = {
-  [ET in keyof MRActions<true>]: 'getMany' extends keyof MRActions<true>[ET] ? ET : never
-}[keyof MRActions<true>]
-
-type GetManyCursorBasedParams<ET extends CursorSupportedEntity, UA extends boolean> = MROpts<
-  ET,
-  'getMany',
-  UA
-> & {
-  params: MRActions<true>[ET]['getMany']['params'] & {
-    query: QueryOptions & { cursor: true }
-  }
+export type GetManyCursorBasedParams<
+  ET extends keyof MRActions<'cursor'>,
+  Action extends keyof MRActions<'cursor'>[ET],
+> = {
+  params: MRActions<'cursor'>[ET][Action] extends { params: infer P }
+    ? P & { query: QueryOptions & { cursor: true } }
+    : never
 }
 
 export interface EntityMetaSysProps extends MetaSysProps {
@@ -646,7 +641,7 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
-  (opts: GetManyCursorBasedParams<'Entry', UA>): MRReturn<'Entry', 'getMany', true>
+  (opts: GetManyCursorBasedParams<'Entry', 'getMany'>): MRReturn<'Entry', 'getMany', 'cursor'>
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
@@ -945,7 +940,7 @@ export interface Adapter {
 /**
  * @private
  */
-type PaginationTypes = 'cursor' | 'offset'
+export type PaginationTypes = 'cursor' | 'offset'
 
 /**
  * @private
