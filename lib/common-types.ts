@@ -214,6 +214,12 @@ export interface ResourceLink<T extends string> {
   }
 }
 
+export type OptionalCursorApi<T, TPlain> = {
+  (query: CursorBasedQueryOptions & { cursor: true }): Promise<CursorPaginatedCollection<T, TPlain>>
+  (query: QueryOptions & { cursor: false | undefined | never }): Promise<Collection<T, TPlain>>
+  (query?: QueryOptions): Promise<Collection<T, TPlain>>
+}
+
 export interface VersionedLink<T extends string> {
   sys: {
     type: 'Link'
@@ -237,7 +243,7 @@ export interface PaginationQueryOptions {
   order?: string
 }
 
-export interface QueryOptions extends PaginationQueryOptions {
+interface CommonQueryOptions {
   content_type?: string
   include?: number
   select?: string
@@ -245,6 +251,21 @@ export interface QueryOptions extends PaginationQueryOptions {
 
   [key: string]: any
 }
+
+/**
+ * @private
+ */
+export type WrappedCollection<R, T, Rest extends unknown[]> = {
+  (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T>
+  (
+    makeRequest: MakeRequest,
+    data: CursorPaginatedCollectionProp<T>,
+    ...rest: Rest
+  ): CursorPaginatedCollection<R, T>
+}
+
+export type CursorBasedQueryOptions = CursorBasedParams['query'] & CommonQueryOptions
+export interface QueryOptions extends PaginationQueryOptions, CommonQueryOptions {}
 
 export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
@@ -274,6 +295,15 @@ export interface MetaSysProps extends BasicMetaSysProps {
   deletedVersion?: number
   deletedBy?: SysLink
   deletedAt?: string
+}
+
+export type GetManyCursorBasedParams<
+  ET extends keyof MRActions,
+  Action extends keyof MRActions[ET],
+> = {
+  params: MRActions[ET][Action] extends { params: infer P }
+    ? P & { query: QueryOptions & { cursor: true } }
+    : never
 }
 
 export interface EntityMetaSysProps extends MetaSysProps {
@@ -340,7 +370,6 @@ export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
   content_type?: string
   include?: number
@@ -607,6 +636,7 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
+  (opts: GetManyCursorBasedParams<'Entry', 'getMany'>): CursorPaginatedCollectionProp<EntryProps>
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
@@ -2376,7 +2406,9 @@ export type MROpts<
 export type MRReturn<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-> = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
+> = 'return' extends keyof MRActions[ET][Action]
+  ? Promise<MRActions[ET][Action]['return']>
+  : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 

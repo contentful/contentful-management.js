@@ -3,23 +3,35 @@
 import { toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
-  Collection,
-  CollectionProp,
   CursorPaginatedCollection,
   CursorPaginatedCollectionProp,
   MakeRequest,
+  OptionalCursorApi,
+  WrappedCollection,
 } from './common-types'
 
 /**
  * @private
  */
+export const withOptionalCursorApi = <T, TPlain>(
+  fn: OptionalCursorApi<T, TPlain>,
+): OptionalCursorApi<T, TPlain> => {
+  return function (args) {
+    return fn.call(this, args)
+  }
+}
+
+/**
+ * @private
+ */
 export const wrapCollection =
-  <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
-  (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
+  <R, T, Rest extends unknown[]>(
+    fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R,
+  ): WrappedCollection<R, T, Rest> =>
+  (makeRequest, data, ...rest): any => {
     const collectionData = toPlainObject(copy(data))
     // @ts-expect-error
     collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
-    // @ts-expect-error
     return collectionData
   }
 
@@ -36,6 +48,7 @@ export const wrapCursorPaginatedCollection =
     // @ts-expect-error
     return collectionData
   }
+
 export function isSuccessful(statusCode: number) {
   return statusCode < 300
 }

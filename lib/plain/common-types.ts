@@ -13,6 +13,7 @@ import type {
   GetBulkActionParams,
   GetContentTypeParams,
   GetEnvironmentTemplateParams,
+  GetManyCursorBasedParams,
   GetManyReleaseAssetParams,
   GetManyReleaseEntryParams,
   GetOrganizationMembershipParams,
@@ -288,10 +289,19 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams &
+          QueryParams & { releaseId?: string } & { query: { cursor: true } }
+      >,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
+    getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,

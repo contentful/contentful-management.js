@@ -1,4 +1,9 @@
-import type { MakeRequest, MRActions, MRReturn } from '../../common-types'
+import type {
+  CursorPaginatedCollectionProp,
+  MakeRequest,
+  MRActions,
+  MRReturn,
+} from '../../common-types'
 
 export type DefaultParams = {
   spaceId?: string
@@ -53,11 +58,20 @@ export type WrapFn<
 /**
  * @private
  */
-export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
+export function wrap<ET extends keyof MRActions, Action extends keyof MRActions[ET], T>(
   { makeRequest, defaults }: WrapParams,
   entityType: ET,
   action: Action,
-): WrapFn<ET, Action> => {
+): (
+  params: 'params' extends keyof MRActions[ET][Action]
+    ? MRActions[ET][Action]['params'] & { query: { cursor: true } }
+    : undefined,
+) => Promise<T>;
+export function wrap<ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
+  { makeRequest, defaults }: WrapParams,
+  entityType: ET,
+  action: Action,
+): WrapFn<ET, Action> {
   type Params = 'params' extends keyof MRActions[ET][Action]
     ? MRActions[ET][Action]['params']
     : never

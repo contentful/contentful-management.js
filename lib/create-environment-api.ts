@@ -61,6 +61,7 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import { withOptionalCursorApi } from './common-utils'
 
 /**
  * @private
@@ -727,7 +728,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getEntries(query: QueryOptions = {}) {
+    getEntries: withOptionalCursorApi(function (query = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Entry',
@@ -738,7 +739,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
-    },
+    }),
 
     /**
      * Gets a collection of published Entries
