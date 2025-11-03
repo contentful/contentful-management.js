@@ -66,7 +66,7 @@ export const initPlainClient = (defaults = {}) => {
     {
       type: 'plain',
       defaults,
-    }
+    },
   )
 }
 
@@ -181,7 +181,7 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
   const { items: concepts } = await client.concept.getMany({})
 
   const conceptsToBeDeleted = concepts.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
   )
 
   if (conceptsToBeDeleted.length > 0) {
@@ -193,12 +193,12 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.concept.delete({
         conceptId: item.sys.id,
         version: item.sys.version,
-      })
-    )
+      }),
+    ),
   )
   const { items: conceptSchemes } = await client.conceptScheme.getMany({})
   const conceptSchemesToBeDeleted = conceptSchemes.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
   )
 
   if (conceptSchemesToBeDeleted.length > 0) {
@@ -210,8 +210,8 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.conceptScheme.delete({
         conceptSchemeId: item.sys.id,
         version: item.sys.version,
-      })
-    )
+      }),
+    ),
   )
 }
 
@@ -221,7 +221,7 @@ export const timeoutToCalmRateLimiting = () => new Promise((resolve) => setTimeo
  * Used by the Plain client */
 export async function waitForBulkActionProcessing<T extends BulkActionPayload = any>(
   { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<BulkActionProps<T>> {
   return pollAsyncActionStatus<BulkActionProps>(
     async () =>
@@ -230,7 +230,7 @@ export async function waitForBulkActionProcessing<T extends BulkActionPayload = 
         spaceId,
         environmentId,
       }),
-    options
+    options,
   )
 }
 
@@ -238,7 +238,7 @@ export async function waitForBulkActionProcessing<T extends BulkActionPayload = 
  * Used by the Plain client */
 export async function waitForBulkActionV2Processing<T extends BulkActionV2Payload = any>(
   { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<BulkActionProps<T>> {
   return pollAsyncActionStatus<BulkActionProps>(
     async () =>
@@ -247,6 +247,6 @@ export async function waitForBulkActionV2Processing<T extends BulkActionV2Payloa
         spaceId,
         environmentId,
       }),
-    options
+    options,
   )
 }
