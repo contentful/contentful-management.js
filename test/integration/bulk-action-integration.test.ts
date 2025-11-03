@@ -9,9 +9,16 @@ import type {
 } from '../../lib/contentful-management'
 import type { Environment, Space } from '../../lib/contentful-management'
 import { TestDefaults } from '../defaults'
-import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting, waitForBulkActionProcessing, waitForBulkActionV2Processing } from '../helpers'
+import {
+  getDefaultSpace,
+  initPlainClient,
+  timeoutToCalmRateLimiting,
+  waitForBulkActionProcessing,
+  waitForBulkActionV2Processing,
+} from '../helpers'
 import { makeLink, makeVersionedLink } from '../utils'
 import {
+  BulkActionStatus,
   PublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
 } from '../../lib/entities/bulk-action'
@@ -226,7 +233,7 @@ describe('BulkActions Api v1', () => {
         })
       } catch (error: any) {
         expect(error.message).toBe(
-          "BulkAction didn't finish processing within the expected timeframe.",
+          "BulkAction didn't finish processing within the expected timeframe."
         )
         expect(error.action.sys.id).toBe(createdBulkAction.sys.id)
       }
@@ -244,7 +251,7 @@ describe('BulkActions Api v1', () => {
 
       // returns the same bulkAction with status = failed
       const failedAction = cloneDeep(createdBulkAction)
-      failedAction.sys.status = 'failed'
+      failedAction.sys.status = BulkActionStatus.failed
       vi.spyOn(createdBulkAction, 'get').mockResolvedValue(failedAction)
 
       try {
