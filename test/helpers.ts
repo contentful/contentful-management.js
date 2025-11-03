@@ -1,7 +1,15 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
 import * as testUtils from '@contentful/integration-test-utils'
 import { createClient } from '../lib/contentful-management'
-import type { BulkActionPayload, BulkActionProps, BulkActionV2Payload, Environment, Organization, PlainClientAPI, Space } from '../lib/contentful-management'
+import type {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionV2Payload,
+  Environment,
+  Organization,
+  PlainClientAPI,
+  Space,
+} from '../lib/contentful-management'
 import { TestDefaults } from './defaults'
 import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../lib/methods/action'
 
@@ -58,7 +66,7 @@ export const initPlainClient = (defaults = {}) => {
     {
       type: 'plain',
       defaults,
-    },
+    }
   )
 }
 
@@ -173,7 +181,7 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
   const { items: concepts } = await client.concept.getMany({})
 
   const conceptsToBeDeleted = concepts.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
   )
 
   if (conceptsToBeDeleted.length > 0) {
@@ -185,12 +193,12 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.concept.delete({
         conceptId: item.sys.id,
         version: item.sys.version,
-      }),
-    ),
+      })
+    )
   )
   const { items: conceptSchemes } = await client.conceptScheme.getMany({})
   const conceptSchemesToBeDeleted = conceptSchemes.filter(
-    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan,
+    (item) => Date.parse(item.sys.createdAt) > Date.now() - olderThan
   )
 
   if (conceptSchemesToBeDeleted.length > 0) {
@@ -202,8 +210,8 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
       client.conceptScheme.delete({
         conceptSchemeId: item.sys.id,
         version: item.sys.version,
-      }),
-    ),
+      })
+    )
   )
 }
 

@@ -46,7 +46,7 @@ describe('BulkActions Api v1', () => {
       })
 
       const bulkActionInProgress = await testEnvironment.getBulkAction<BulkActionValidatePayload>(
-        createdBulkAction.sys.id,
+        createdBulkAction.sys.id
       )
       expect(bulkActionInProgress.sys.id).toBe(createdBulkAction.sys.id)
     })
