@@ -1629,6 +1629,7 @@ export type MRActions = {
         environmentTemplateId: string
         organizationId: string
         spaceId?: string
+        latestOnly?: boolean
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
