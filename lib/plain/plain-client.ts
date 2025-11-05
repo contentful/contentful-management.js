@@ -212,7 +212,11 @@ export const createPlainClient = (
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
-      getMany: wrap(wrapParams, 'ContentType', 'getMany') as PlainClientAPI['contentType']['getMany'],
+      getMany: wrap(
+        wrapParams,
+        'ContentType',
+        'getMany',
+      ) as PlainClientAPI['contentType']['getMany'],
       update: wrap(wrapParams, 'ContentType', 'update'),
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
@@ -241,7 +245,11 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Task', 'delete'),
     },
     entry: {
-      getPublished: wrap(wrapParams, 'Entry', 'getPublished') as PlainClientAPI['entry']['getPublished'],
+      getPublished: wrap(
+        wrapParams,
+        'Entry',
+        'getPublished',
+      ) as PlainClientAPI['entry']['getPublished'],
       getMany: wrap(wrapParams, 'Entry', 'getMany') as PlainClientAPI['entry']['getMany'],
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
@@ -256,7 +264,11 @@ export const createPlainClient = (
       references: wrap(wrapParams, 'Entry', 'references'),
     },
     asset: {
-      getPublished: wrap(wrapParams, 'Asset', 'getPublished') as PlainClientAPI['asset']['getPublished'],
+      getPublished: wrap(
+        wrapParams,
+        'Asset',
+        'getPublished',
+      ) as PlainClientAPI['asset']['getPublished'],
       getMany: wrap(wrapParams, 'Asset', 'getMany') as PlainClientAPI['asset']['getMany'],
       get: wrap(wrapParams, 'Asset', 'get'),
       update: wrap(wrapParams, 'Asset', 'update'),

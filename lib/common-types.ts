@@ -491,7 +491,6 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
   ): MRReturn<'AppInstallation', 'getForOrganization'>
 
-
   (
     opts: WithCursorPagination<MROpts<'Asset', 'getMany', UA>>,
   ): Promise<CursorPaginatedCollectionProp<AssetProps>>

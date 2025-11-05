@@ -87,7 +87,6 @@ describe('Entry Api', () => {
       })
     })
 
-
     test('Gets published entries with a cursor parameter', async () => {
       return environment.getPublishedEntries({ cursor: true, limit: 1 }).then(async (response) => {
         expect(response.items, 'items').ok
