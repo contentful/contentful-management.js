@@ -198,7 +198,7 @@ export type {
   ScheduledAction,
   ScheduledActionProps,
   ScheduledActionSysProps,
-  ScheduledActionStatus
+  ScheduledActionStatus,
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
