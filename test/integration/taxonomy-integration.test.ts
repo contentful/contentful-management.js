@@ -3,21 +3,16 @@ import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concep
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
 import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 
-let conceptsToDelete: ConceptProps[] = []
-let conceptSchemesToDelete: ConceptSchemeProps[] = []
-
 describe('Taxonomy Integration', () => {
   const client = initPlainClient({
     organizationId: getTestOrganizationId(),
   })
 
-  beforeEach(() => {
-    conceptsToDelete = []
-    conceptSchemesToDelete = []
-  })
+  beforeEach(async () => {
+    const concepts = await client.concept.getMany({})
+    const conceptSchemes = await client.conceptScheme.getMany({})
 
-  afterEach(async () => {
-    for (const concept of conceptsToDelete) {
+    for (const concept of concepts.items) {
       const conceptToBeDeleted = await client.concept.get({
         conceptId: concept.sys.id,
       })
@@ -27,7 +22,7 @@ describe('Taxonomy Integration', () => {
       })
     }
 
-    for (const conceptScheme of conceptSchemesToDelete) {
+    for (const conceptScheme of conceptSchemes.items) {
       const conceptSchemeToBeDeleted = await client.conceptScheme.get({
         conceptSchemeId: conceptScheme.sys.id,
       })
@@ -72,8 +67,6 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.concept.create({}, concept)
 
-    conceptsToDelete.push(result)
-
     isConceptProps(result)
     expect(result.prefLabel['en-US']).toBe('Test Concept')
     expect(result.uri).toBeNull()
@@ -87,7 +80,6 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.concept.createWithId({ conceptId: 'test-concept-id' }, concept)
 
-    conceptsToDelete.push(result)
 
     isConceptProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test Concept')
@@ -111,7 +103,6 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.concept.create({}, concept)
 
-    conceptsToDelete.push(result)
 
     isConceptProps(result)
     expect(result.uri).toBe('https://example.com/concept')
@@ -136,7 +127,6 @@ describe('Taxonomy Integration', () => {
     isConceptProps(result)
     expect(result.prefLabel['en-US']).toBe('Test Concept')
     expect(result.uri).toBeNull()
-    conceptsToDelete.push(result)
 
     const updatedConcept = await client.concept.update(
       {
@@ -166,7 +156,6 @@ describe('Taxonomy Integration', () => {
     isConceptProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test Concept')
     expect(result.uri).to.null
-    conceptsToDelete.push(result)
 
     const updatedConcept = await client.concept.patch(
       {
@@ -196,7 +185,6 @@ describe('Taxonomy Integration', () => {
     isConceptProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test Concept')
     expect(result.uri).to.null
-    conceptsToDelete.push(result)
 
     const updatedConcept = await client.concept.updatePut(
       {
@@ -224,8 +212,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
+          await client.concept.create({}, concept)
         }),
     )
 
@@ -245,8 +232,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
+          await client.concept.create({}, concept)
         }),
     )
 
@@ -265,8 +251,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
+          await client.concept.create({}, concept)
         }),
     )
 
@@ -314,7 +299,6 @@ describe('Taxonomy Integration', () => {
       },
     )
 
-    conceptsToDelete.push(second, first)
 
     expect(second.broader[0].sys).toEqual({
       id: first.sys.id,
@@ -351,7 +335,6 @@ describe('Taxonomy Integration', () => {
       },
     )
 
-    conceptsToDelete.push(second, first)
     const { items: descendants } = await client.concept.getDescendants({ conceptId: first.sys.id })
     expect(descendants.length).toBe(1)
     expect(descendants[0].sys.id).toBe(second.sys.id)
@@ -396,8 +379,6 @@ describe('Taxonomy Integration', () => {
     }
     const result = await client.conceptScheme.create({}, conceptScheme)
 
-    conceptSchemesToDelete.push(result)
-
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
     expect(result.uri).toBeNull()
@@ -414,8 +395,6 @@ describe('Taxonomy Integration', () => {
       conceptScheme,
     )
 
-    conceptSchemesToDelete.push(result)
-
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
     expect(result.uri).to.null
@@ -429,8 +408,6 @@ describe('Taxonomy Integration', () => {
       definition: { 'en-US': 'Definition' },
     }
     const result = await client.conceptScheme.create({}, conceptScheme)
-
-    conceptSchemesToDelete.push(result)
 
     isConceptSchemeProps(result)
     expect(result.uri).toBe('https://example.com/conceptScheme')
@@ -448,7 +425,6 @@ describe('Taxonomy Integration', () => {
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).toBe('Test ConceptScheme')
     expect(result.uri).toBeNull()
-    conceptSchemesToDelete.push(result)
 
     const updatedConceptScheme = await client.conceptScheme.update(
       {
@@ -478,7 +454,6 @@ describe('Taxonomy Integration', () => {
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
     expect(result.uri).to.null
-    conceptSchemesToDelete.push(result)
 
     const updatedConceptScheme = await client.conceptScheme.patch(
       {
@@ -508,7 +483,6 @@ describe('Taxonomy Integration', () => {
     isConceptSchemeProps(result)
     expect(result.prefLabel['en-US']).to.equal('Test ConceptScheme')
     expect(result.uri).to.null
-    conceptSchemesToDelete.push(result)
 
     const updatedConceptScheme = await client.conceptScheme.updatePut(
       {
@@ -536,8 +510,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          await client.conceptScheme.create({}, conceptScheme)
         }),
     )
 
@@ -557,8 +530,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          await client.conceptScheme.create({}, conceptScheme)
         }),
     )
 
@@ -577,8 +549,7 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          await client.conceptScheme.create({}, conceptScheme)
         }),
     )
 
