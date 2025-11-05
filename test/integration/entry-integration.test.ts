@@ -26,7 +26,6 @@ import {
   updateReleaseWithEntries,
   updateReleaseEntryTitle,
 } from './utils/release-entry.utils'
-import { get } from 'lodash'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())

@@ -8,7 +8,7 @@ import {
   timeoutToCalmRateLimiting,
   initPlainClient,
 } from '../helpers'
-import type { Environment, ContentType, Space, PlainClientAPI } from '../../lib/export-types'
+import type { Environment, ContentType, Space } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
 
 describe('ContentType Api', () => {
