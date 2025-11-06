@@ -17,7 +17,6 @@ import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 import { ScheduledActionStatus } from './entities/scheduled-action'
 
-
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
