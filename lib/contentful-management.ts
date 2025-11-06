@@ -15,6 +15,8 @@ import type { PlainClientAPI } from './plain/common-types'
 import type { DefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
+import { ScheduledActionStatus } from './entities/scheduled-action'
+
 
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
@@ -28,6 +30,7 @@ export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
+export { ScheduledActionStatus }
 
 interface UserAgentParams {
   /**
