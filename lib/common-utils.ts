@@ -8,6 +8,7 @@ import type {
   CursorPaginatedCollection,
   CursorPaginatedCollectionProp,
   MakeRequest,
+  OptionalCursorApi,
 } from './common-types'
 
 /**
@@ -22,6 +23,20 @@ export const wrapCollection =
     // @ts-expect-error
     return collectionData
   }
+
+/**
+ * @private
+ * Function for endpoints allowing `?cursor=true` wrapping the call
+ * to ensure the correct return type for cursor based pagination
+ * when `cursor: true`.
+ */
+export const withOptionalCursorApi = <P, T, TPlain>(
+  fn: OptionalCursorApi<P, T, TPlain>,
+): OptionalCursorApi<P, T, TPlain> => {
+  return function (args) {
+    return fn.call(this, args)
+  }
+}
 
 export const wrapCursorPaginatedCollection =
   <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
