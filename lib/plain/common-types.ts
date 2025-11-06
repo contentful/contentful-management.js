@@ -136,6 +136,8 @@ import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
+type WithCursorBasedPagination<T> = T & { query: { cursor: true } }
+
 export type PlainClientAPI = {
   raw: {
     getDefaultParams(): DefaultParams | undefined
@@ -220,7 +222,6 @@ export type PlainClientAPI = {
         environmentTemplateId: string
         organizationId: string
         spaceId?: string
-        latestOnly?: boolean
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
@@ -253,6 +254,9 @@ export type PlainClientAPI = {
   contentType: {
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
     getMany(
+      params: WithCursorBasedPagination<OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>>,
+    ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
+    getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
     update(
@@ -283,15 +287,28 @@ export type PlainClientAPI = {
   user: UserPlainClientAPI
   entry: {
     getPublished<T extends KeyValueMap = KeyValueMap>(
+      params: WithCursorBasedPagination<OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
+    getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
+      params: WithCursorBasedPagination<
+        OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>
+      >,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
+    getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,
@@ -347,10 +364,22 @@ export type PlainClientAPI = {
   }
   asset: {
     getPublished(
+      params: WithCursorBasedPagination<OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
+    getPublished(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    getMany(
+      params: WithCursorBasedPagination<
+        OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>
+      >,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
