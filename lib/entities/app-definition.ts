@@ -22,7 +22,20 @@ export interface NavigationItem {
   path: string
 }
 
-type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page' | 'home'
+/**
+ * These locations are currently restricted to internal Contentful apps only.
+ * If you are interested in using these locations for your app, please reach out to Contentful Support.
+ */
+type InternalLocationType = 'agent'
+
+type LocationType =
+  | 'app-config'
+  | 'entry-sidebar'
+  | 'entry-editor'
+  | 'dialog'
+  | 'page'
+  | 'home'
+  | InternalLocationType
 
 export interface SimpleLocation {
   location: LocationType
