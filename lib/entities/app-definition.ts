@@ -24,7 +24,8 @@ export interface NavigationItem {
 
 /**
  * These locations are currently restricted to internal Contentful apps only.
- * If you are interested in using these locations for your app, please reach out to Contentful Support.
+ * If you are interested in using these locations for your app,
+ * please reach out to Contentful Support (https://www.contentful.com/support/).
  */
 type InternalLocationType = 'agent'
 
