@@ -9,7 +9,7 @@ on:
         required: true
 
 jobs:
-  test-integration:
+  test-demo-projects:
     runs-on: ubuntu-latest
 
     permissions:

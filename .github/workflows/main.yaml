@@ -14,19 +14,22 @@ jobs:
     needs: build
     uses: ./.github/workflows/check.yaml
 
-  test-demo-projects:
-    needs: [build, check]
-    uses: ./.github/workflows/test-demo-projects.yaml
-    secrets: inherit
+  # Skipping for now as demo projects aren't currently running in GHA
+    # test-demo-projects:
+  #   needs: [build, check]
+  #   uses: ./.github/workflows/test-demo-projects.yaml
+  #   secrets: inherit
 
   test-integration:
-    needs: [build, check, test-demo-projects]
+    # needs: [build, check, test-demo-projects]
+    needs: [build, check]
     uses: ./.github/workflows/test-integration.yaml
     secrets: inherit
 
   release:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/beta' || github.ref == 'refs/heads/canary' || github.ref == 'refs/heads/dx-542-update-to-gha')
-    needs: [build, check, test-demo-projects, test-integration]
+    # needs: [build, check, test-demo-projects, test-integration]
+    needs: [build, check, test-integration]
     permissions:
       contents: write
       id-token: write
