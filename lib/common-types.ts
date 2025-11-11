@@ -344,6 +344,26 @@ export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
+type CursorLiteralTrue<T> = [T] extends [never]
+  ? false
+  : [T] extends [true]
+    ? true
+    : false
+
+export type CursorQueryEnabled<T> = T extends undefined
+  ? false
+  : T extends { cursor?: infer C }
+    ? CursorLiteralTrue<C>
+    : T extends { query?: infer Q }
+      ? CursorQueryEnabled<Q>
+      : false
+
+export type OptionalCursorReturnType<P, CursorResult, DefaultResult> = <
+  Params extends P | undefined = undefined
+>(
+  params?: Params,
+) => Promise<CursorQueryEnabled<Params> extends true ? CursorResult : DefaultResult>
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
   content_type?: string
@@ -368,13 +388,17 @@ interface CursorPaginationBase {
   limit?: number
 }
 
-export type OptionalCursorApi<P, T, TPlain> = {
-  (
-    query: P & CursorBasedParams['query'] & { cursor: true; skip?: never },
-  ): Promise<CursorPaginatedCollection<T, TPlain>>
-  (query?: P & { cursor?: false | undefined | never }): Promise<Collection<T, TPlain>>
-  (query?: P): Promise<Collection<T, TPlain>>
-}
+export type OptionalCursorApi<P, T, TPlain> = OptionalCursorReturnType<
+  P,
+  CursorPaginatedCollection<T, TPlain>,
+  Collection<T, TPlain>
+>
+
+export type OptionalCursorCollectionPropApi<P, T> = OptionalCursorReturnType<
+  P,
+  CursorPaginatedCollectionProp<T>,
+  CollectionProp<T>
+>
 
 type WithCursorPagination<O> = O & { params: { query: { cursor: true } } }
 // Interfaces for each “exclusive” shape

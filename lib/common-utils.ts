@@ -31,11 +31,11 @@ export const wrapCollection =
  * when `cursor: true`.
  */
 export const withOptionalCursorApi = <P, T, TPlain>(
-  fn: OptionalCursorApi<P, T, TPlain>,
+  fn: (query?: P) => Promise<Collection<T, TPlain> | CursorPaginatedCollection<T, TPlain>>,
 ): OptionalCursorApi<P, T, TPlain> => {
-  return function (args) {
+  return function (this: unknown, args?: P) {
     return fn.call(this, args)
-  }
+  } as OptionalCursorApi<P, T, TPlain>
 }
 
 export const wrapCursorPaginatedCollection =
