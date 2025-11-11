@@ -7,8 +7,6 @@ on:
         required: true
       CONTENTFUL_ORGANIZATION_ID:
         required: true
-      CONTENTFUL_SPACE_ID:
-        required: true
 
 jobs:
   test-integration:
