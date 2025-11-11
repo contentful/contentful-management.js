@@ -8,7 +8,7 @@ import type {
   MakeRequest,
   MetadataProps,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapOptionalCursorCollection } from '../common-utils'
 import type { ContentfulEntryApi } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -70,4 +70,4 @@ export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
  * Data is also mixed in with link getters if links exist and includes were requested
  * @private
  */
-export const wrapEntryCollection = wrapCollection(wrapEntry)
+export const wrapEntryCollection = wrapOptionalCursorCollection(wrapEntry)

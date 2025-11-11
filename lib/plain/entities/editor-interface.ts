@@ -1,6 +1,8 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  CursorQueryEnabled,
   GetEditorInterfaceParams,
   GetSpaceEnvironmentParams,
   QueryParams,
@@ -37,9 +39,17 @@ export type EditorInterfacePlainClientAPI = {
    * });
    * ```
    */
-  getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
-  ): Promise<CollectionProp<EditorInterfaceProps>>
+  getMany<
+    Params extends OptionalDefaults<GetSpaceEnvironmentParams & QueryParams> = OptionalDefaults<
+      GetSpaceEnvironmentParams & QueryParams
+    >,
+  >(
+    params: Params,
+  ): Promise<
+    CursorQueryEnabled<Params> extends true
+      ? CursorPaginatedCollectionProp<EditorInterfaceProps>
+      : CollectionProp<EditorInterfaceProps>
+  >
   /**
    * Update an Editor Interface
    * @param params entity IDs to identify the Editor Interface

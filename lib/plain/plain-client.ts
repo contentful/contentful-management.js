@@ -1,6 +1,7 @@
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './common-types'
+import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
 import type { DefaultParams } from './wrappers/wrap'
 import { wrap } from './wrappers/wrap'
 
@@ -155,7 +156,11 @@ export const createPlainClient = (
     },
     editorInterface: {
       get: wrap(wrapParams, 'EditorInterface', 'get'),
-      getMany: wrap(wrapParams, 'EditorInterface', 'getMany'),
+      getMany: wrap(
+        wrapParams,
+        'EditorInterface',
+        'getMany',
+      ) as EditorInterfacePlainClientAPI['getMany'],
       update: wrap(wrapParams, 'EditorInterface', 'update'),
     },
     space: {

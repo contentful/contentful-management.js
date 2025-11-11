@@ -9,7 +9,7 @@ import type {
   MetadataProps,
   MakeRequest,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapOptionalCursorCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
 export type AssetProps<S = {}> = {
@@ -409,4 +409,4 @@ export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
 /**
  * @private
  */
-export const wrapAssetCollection = wrapCollection(wrapAsset)
+export const wrapAssetCollection = wrapOptionalCursorCollection(wrapAsset)

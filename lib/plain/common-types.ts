@@ -141,9 +141,8 @@ import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 
-type CursorResult<Params, CursorReturn, DefaultReturn> = CursorQueryEnabled<Params> extends true
-  ? CursorReturn
-  : DefaultReturn
+type CursorResult<Params, CursorReturn, DefaultReturn> =
+  CursorQueryEnabled<Params> extends true ? CursorReturn : DefaultReturn
 
 export type PlainClientAPI = {
   raw: {
@@ -319,7 +318,7 @@ export type PlainClientAPI = {
       T extends KeyValueMap = KeyValueMap,
       Params extends OptionalDefaults<GetSpaceEnvironmentParams & QueryParams> = OptionalDefaults<
         GetSpaceEnvironmentParams & QueryParams
-      >
+      >,
     >(
       params: Params,
       rawData?: unknown,
@@ -335,7 +334,7 @@ export type PlainClientAPI = {
       T extends KeyValueMap = KeyValueMap,
       Params extends OptionalDefaults<
         GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
-      > = OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>
+      > = OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
     >(
       params: Params,
       rawData?: unknown,
@@ -406,7 +405,7 @@ export type PlainClientAPI = {
       T extends KeyValueMap = KeyValueMap,
       Params extends OptionalDefaults<GetSpaceEnvironmentParams & QueryParams> = OptionalDefaults<
         GetSpaceEnvironmentParams & QueryParams
-      >
+      >,
     >(
       params: Params,
       rawData?: unknown,
@@ -422,7 +421,7 @@ export type PlainClientAPI = {
       T extends KeyValueMap = KeyValueMap,
       Params extends OptionalDefaults<
         GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
-      > = OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>
+      > = OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
     >(
       params: Params,
       rawData?: unknown,

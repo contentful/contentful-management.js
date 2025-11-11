@@ -10,7 +10,7 @@ import type {
   QueryOptions,
   SysLink,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapOptionalCursorCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { isDraft, isPublished, isUpdated } from '../plain/checks'
 import type { ContentFields } from './content-type-fields'
@@ -358,4 +358,4 @@ export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps
 /**
  * @private
  */
-export const wrapContentTypeCollection = wrapCollection(wrapContentType)
+export const wrapContentTypeCollection = wrapOptionalCursorCollection(wrapContentType)

@@ -18,9 +18,23 @@ export const wrapCollection =
   <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
   (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-    // @ts-expect-error
+    // @ts-expect-error - items are re-wrapped to include entity methods at runtime
     collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
-    // @ts-expect-error
+    // @ts-expect-error - resulting collection shape exceeds static typing
+    return collectionData
+  }
+
+export const wrapOptionalCursorCollection =
+  <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
+  (
+    makeRequest: MakeRequest,
+    data: CollectionProp<T> | CursorPaginatedCollectionProp<T>,
+    ...rest: Rest
+  ): Collection<R, T> | CursorPaginatedCollection<R, T> => {
+    const collectionData = toPlainObject(copy(data))
+    // @ts-expect-error - items are re-wrapped to include entity methods at runtime
+    collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
+    // @ts-expect-error - resulting collection shape exceeds static typing
     return collectionData
   }
 
@@ -46,9 +60,9 @@ export const wrapCursorPaginatedCollection =
     ...rest: Rest
   ): CursorPaginatedCollection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-    // @ts-expect-error
+    // @ts-expect-error - items are re-wrapped to include entity methods at runtime
     collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
-    // @ts-expect-error
+    // @ts-expect-error - resulting collection shape exceeds static typing
     return collectionData
   }
 export function isSuccessful(statusCode: number) {

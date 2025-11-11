@@ -2,7 +2,7 @@ import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { MetaSysProps, MetaLinkProps, DefaultElements, MakeRequest } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapOptionalCursorCollection } from '../common-utils'
 import type { DefinedParameters } from './widget-parameters'
 
 interface WidgetConfig {
@@ -216,4 +216,4 @@ export function wrapEditorInterface(
 /**
  * @private
  */
-export const wrapEditorInterfaceCollection = wrapCollection(wrapEditorInterface)
+export const wrapEditorInterfaceCollection = wrapOptionalCursorCollection(wrapEditorInterface)

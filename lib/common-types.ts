@@ -344,11 +344,7 @@ export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
-type CursorLiteralTrue<T> = [T] extends [never]
-  ? false
-  : [T] extends [true]
-    ? true
-    : false
+type CursorLiteralTrue<T> = [T] extends [never] ? false : [T] extends [true] ? true : false
 
 export type CursorQueryEnabled<T> = T extends undefined
   ? false
@@ -359,7 +355,7 @@ export type CursorQueryEnabled<T> = T extends undefined
       : false
 
 export type OptionalCursorReturnType<P, CursorResult, DefaultResult> = <
-  Params extends P | undefined = undefined
+  Params extends P | undefined = undefined,
 >(
   params?: Params,
 ) => Promise<CursorQueryEnabled<Params> extends true ? CursorResult : DefaultResult>
@@ -400,7 +396,7 @@ export type OptionalCursorCollectionPropApi<P, T> = OptionalCursorReturnType<
   CollectionProp<T>
 >
 
-type WithCursorPagination<O> = O & { params: { query: { cursor: true } } }
+type CursorAwareCollectionProp<T> = CollectionProp<T> | CursorPaginatedCollectionProp<T>
 // Interfaces for each “exclusive” shape
 interface CursorPaginationPageNext extends CursorPaginationBase {
   pageNext: string
@@ -519,13 +515,7 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
   ): MRReturn<'AppInstallation', 'getForOrganization'>
 
-  (
-    opts: WithCursorPagination<MROpts<'Asset', 'getMany', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<AssetProps>>
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
-  (
-    opts: WithCursorPagination<MROpts<'Asset', 'getPublished', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<AssetProps>>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
@@ -605,9 +595,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
-  (
-    opts: WithCursorPagination<MROpts<'ContentType', 'getMany', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<ConceptProps>>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
   (opts: MROpts<'ContentType', 'create', UA>): MRReturn<'ContentType', 'create'>
@@ -617,9 +604,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
-  (
-    opts: WithCursorPagination<MROpts<'EditorInterface', 'getMany', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<EditorInterfaceProps>>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
   (opts: MROpts<'EditorInterface', 'update', UA>): MRReturn<'EditorInterface', 'update'>
 
@@ -660,13 +644,7 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
-  (
-    opts: WithCursorPagination<MROpts<'Entry', 'getMany', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<EntryProps>>
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
-  (
-    opts: WithCursorPagination<MROpts<'Entry', 'getPublished', UA>>,
-  ): Promise<CursorPaginatedCollectionProp<EntryProps>>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
@@ -1278,12 +1256,12 @@ export type MRActions = {
     getPublished: {
       params: GetSpaceEnvironmentParams & QueryParams
       headers?: RawAxiosRequestHeaders
-      return: CollectionProp<AssetProps>
+      return: CursorAwareCollectionProp<AssetProps>
     }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
-      return: CollectionProp<AssetProps>
+      return: CursorAwareCollectionProp<AssetProps>
     }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
@@ -1531,7 +1509,7 @@ export type MRActions = {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
-      return: CollectionProp<ContentTypeProps>
+      return: CursorAwareCollectionProp<ContentTypeProps>
     }
     create: {
       params: GetSpaceEnvironmentParams
@@ -1557,7 +1535,7 @@ export type MRActions = {
     get: { params: GetEditorInterfaceParams; return: EditorInterfaceProps }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
-      return: CollectionProp<EditorInterfaceProps>
+      return: CursorAwareCollectionProp<EditorInterfaceProps>
     }
     update: {
       params: GetEditorInterfaceParams
@@ -1695,11 +1673,11 @@ export type MRActions = {
   Entry: {
     getPublished: {
       params: GetSpaceEnvironmentParams & QueryParams
-      return: CollectionProp<EntryProps<any>>
+      return: CursorAwareCollectionProp<EntryProps<any>>
     }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
-      return: CollectionProp<EntryProps<any>>
+      return: CursorAwareCollectionProp<EntryProps<any>>
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
