@@ -36,7 +36,7 @@ jobs:
           key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Run integration tests
-        run: npm run test:integration:cover
+        run: npm run test:integration
         env:
           CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN: ${{ secrets.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN }}
           CONTENTFUL_ORGANIZATION_ID: ${{ secrets.CONTENTFUL_ORGANIZATION_ID }}

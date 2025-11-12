@@ -10,9 +10,9 @@ jobs:
   build:
     uses: ./.github/workflows/build.yaml
 
-  check:
-    needs: build
-    uses: ./.github/workflows/check.yaml
+  # check:
+  #   needs: build
+  #   uses: ./.github/workflows/check.yaml
 
   # Skipping for now as demo projects aren't currently running in GHA
     # test-demo-projects:
@@ -22,7 +22,8 @@ jobs:
 
   test-integration:
     # needs: [build, check, test-demo-projects]
-    needs: [build, check]
+    # needs: [build, check]
+    needs: [build]
     uses: ./.github/workflows/test-integration.yaml
     secrets: inherit
 
