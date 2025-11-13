@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Install Chrome
         uses: browser-actions/setup-chrome@v2
+        with:
+          install-chromedriver: true
         
       - name: Verify Chrome installation
         run: chrome --version
