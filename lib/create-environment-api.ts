@@ -61,7 +61,6 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
-import { withOptionalCursorApi } from './common-utils'
 
 /**
  * @private
@@ -481,7 +480,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getContentTypes: withOptionalCursorApi(function (query: QueryOptions = {}) {
+    getContentTypes(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'ContentType',
@@ -492,7 +491,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapContentTypeCollection(makeRequest, data))
-    }),
+    },
     /**
      * Creates a Content Type
      * @param data - Object representation of the Content Type to be created
@@ -728,7 +727,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getEntries: withOptionalCursorApi(function (query: QueryOptions = {}) {
+    getEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Entry',
@@ -739,7 +738,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
-    }),
+    },
 
     /**
      * Gets a collection of published Entries
@@ -759,7 +758,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getPublishedEntries: withOptionalCursorApi(function (query: QueryOptions = {}) {
+    getPublishedEntries(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Entry',
@@ -770,7 +769,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
-    }),
+    },
 
     /**
      * Creates a Entry
@@ -944,7 +943,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getAssets: withOptionalCursorApi(function (query: QueryOptions = {}) {
+    getAssets(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',
@@ -955,7 +954,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
-    }),
+    },
     /**
      * Gets a collection of published Assets
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -974,7 +973,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getPublishedAssets: withOptionalCursorApi(function (query: QueryOptions = {}) {
+    getPublishedAssets(query: QueryOptions = {}) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',
@@ -985,7 +984,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
-    }),
+    },
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
