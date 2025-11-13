@@ -14,7 +14,6 @@ jobs:
     needs: build
     uses: ./.github/workflows/check.yaml
 
-  # Skipping for now as demo projects aren't currently running in GHA
   test-demo-projects:
     needs: [build, check]
     uses: ./.github/workflows/test-demo-projects.yaml
@@ -33,5 +32,5 @@ jobs:
       id-token: write
       actions: read
     uses: ./.github/workflows/release.yaml
-    # secrets:
-    #   VAULT_URL: ${{ secrets.VAULT_URL }}
+    secrets:
+      VAULT_URL: ${{ secrets.VAULT_URL }}
