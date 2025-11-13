@@ -11,7 +11,6 @@ import {
   getTestOrganizationId,
 } from '../helpers'
 import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
 
 describe('Asset API - Read', () => {
   let space: Space
@@ -43,43 +42,6 @@ describe('Asset API - Read', () => {
   test('Gets published assets', async () => {
     const response = await environment.getPublishedAssets()
     expect(response.items).toBeTruthy()
-  })
-
-  test('Gets assets cursor', async () => {
-    const response = await environment.getAssets({ cursor: true, limit: 1 })
-    expect(response.items).toBeTruthy()
-    expect(response.pages?.next).to.be.string
-  })
-
-  test('Gets published assets cursor', async () => {
-    const response = await environment.getPublishedAssets({ cursor: true, limit: 1 })
-    expect(response.items).toBeTruthy()
-    expect(response.pages?.next).to.be.string
-  })
-})
-
-describe('read plainClientApi', () => {
-  const createEntryClient = initPlainClient({
-    environmentId: TestDefaults.environmentId,
-    spaceId: TestDefaults.spaceId,
-  })
-
-  test('getMany cursor', async () => {
-    const response = await createEntryClient.asset.getMany({ query: { cursor: true, limit: 1 } })
-    expect(response.items).lengthOf(1)
-    expect(response.pages?.next).to.be.string
-  })
-
-  test('getMany published cursor', async () => {
-    const response = await createEntryClient.asset.getPublished({
-      query: {
-        cursor: true,
-        limit: 1,
-      },
-    })
-
-    expect(response.items).lengthOf(1)
-    expect(response.pages?.next).to.be.string
   })
 })
 

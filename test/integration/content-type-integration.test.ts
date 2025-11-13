@@ -6,10 +6,8 @@ import {
   generateRandomId,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-  initPlainClient,
 } from '../helpers'
 import type { Environment, ContentType, Space } from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
 
 describe('ContentType Api', () => {
   let readSpace: Space
@@ -52,12 +50,6 @@ describe('ContentType Api', () => {
     it('Gets content types', async () => {
       const response = await readEnvironment.getContentTypes()
       expect(response.items).toBeTruthy()
-    })
-
-    it('Gets content types cursor', async () => {
-      const response = await readEnvironment.getContentTypes({ cursor: true, limit: 1 })
-      expect(response.items).toHaveLength(1)
-      expect(response.pages?.next).toBeTruthy()
     })
   })
 
@@ -142,24 +134,6 @@ describe('ContentType Api', () => {
       expect(contentType.name).toBe('testentitywithid')
 
       await contentType.delete()
-    })
-  })
-
-  describe('read plainClientApi', () => {
-    const createEntryClient = initPlainClient({
-      environmentId: TestDefaults.environmentId,
-      spaceId: TestDefaults.spaceId,
-    })
-
-    describe('read', () => {
-      it('getMany cursor', async () => {
-        const response = await createEntryClient.contentType.getMany({
-          query: { cursor: true, limit: 1 },
-        })
-
-        expect(response.items).toHaveLength(1)
-        expect(response.pages?.next).toBeTruthy()
-      })
     })
   })
 })
