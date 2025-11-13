@@ -16,6 +16,12 @@ jobs:
       contents: read
 
     steps:
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v2
+        
+      - name: Verify Chrome installation
+        run: chrome --version
+
       - name: Checkout code
         uses: actions/checkout@v5
 
