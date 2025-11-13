@@ -11,6 +11,7 @@ import {
   createAppInstallation,
   timeoutToCalmRateLimiting,
 } from '../helpers'
+import { pollAsyncActionStatus } from '../../lib/methods/action'
 
 describe('AppActionCall structured endpoints', function () {
   let client: PlainClientAPI
@@ -104,16 +105,23 @@ describe('AppActionCall structured endpoints', function () {
       { parameters: {} },
     )
 
-    const call = await client.appActionCall.get({
-      spaceId: space.sys.id,
-      environmentId: 'master',
-      appDefinitionId: appDefinition.sys.id,
-      appActionId,
-      callId: created.sys.id,
-    })
+    // Poll until the call completes (status is no longer 'processing')
+    const call = await pollAsyncActionStatus<AppActionCallProps>(
+      async () =>
+        client.appActionCall.get({
+          spaceId: space.sys.id,
+          environmentId: 'master',
+          appDefinitionId: appDefinition.sys.id,
+          appActionId,
+          callId: created.sys.id,
+        }),
+      { throwOnFailedExecution: false }, // Don't throw on 'failed' status, we just need it to complete
+    )
 
     expect(call.sys.type).toBe('AppActionCall')
+    expect(['succeeded', 'failed']).toContain(call.sys.status)
 
+    // Now that the call has completed, the response should be available
     const raw = await client.appActionCall.getResponse({
       spaceId: space.sys.id,
       environmentId: 'master',
