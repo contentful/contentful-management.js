@@ -40,7 +40,7 @@ Run `npm install` to install all necessary dependencies. When running `npm insta
 
 All necessary dependencies are installed under `node_modules` and any necessary tools can be accessed via npm scripts. There is no need to install anything globally.
 
-When importing local, in develoment code, via `index.js`, this file checks if `dist` exists and uses that. Otherwise, it uses the code from `lib`.
+When importing local, in development code, via `index.js`, this file checks if `dist` exists and uses that. Otherwise, it uses the code from `lib`.
 
 If you have a `dist` directory, run `npm run clean`.
 
