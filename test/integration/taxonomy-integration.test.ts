@@ -1,7 +1,12 @@
 import { describe, it, beforeEach, afterEach, expect, afterAll } from 'vitest'
 import type { ConceptProps, CreateConceptProps } from '../../lib/entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../lib/export-types'
-import { getTestOrganizationId, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
+import {
+  getTestOrganizationId,
+  initPlainClient,
+  promiseAllSequential,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 
 let conceptsToDelete: ConceptProps[] = []
 let conceptSchemesToDelete: ConceptSchemeProps[] = []
@@ -214,7 +219,7 @@ describe('Taxonomy Integration', () => {
   })
 
   it('concept getTotal', async () => {
-    await Promise.all(
+    await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -235,7 +240,7 @@ describe('Taxonomy Integration', () => {
   })
 
   it('gets a list of all concepts', async () => {
-    await Promise.all(
+    await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -255,7 +260,7 @@ describe('Taxonomy Integration', () => {
   })
 
   it('gets a list of all paginated concepts', async () => {
-    await Promise.all(
+    await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -526,7 +531,7 @@ describe('Taxonomy Integration', () => {
   })
 
   it('conceptScheme getTotal', async () => {
-    await Promise.all(
+    const results = await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -536,10 +541,11 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          return client.conceptScheme.create({}, conceptScheme)
         }),
     )
+
+    conceptSchemesToDelete.push(...results)
 
     const { total } = await client.conceptScheme.getTotal({})
 
@@ -547,7 +553,7 @@ describe('Taxonomy Integration', () => {
   })
 
   it('gets a list of all concept schemes', async () => {
-    await Promise.all(
+    const results = await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -557,17 +563,18 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          return client.conceptScheme.create({}, conceptScheme)
         }),
     )
+
+    conceptSchemesToDelete.push(...results)
 
     const { items } = await client.conceptScheme.getMany({})
     expect(items.length).toBe(3)
   })
 
   it('gets a list of all paginated concept schemes', async () => {
-    await Promise.all(
+    const results = await promiseAllSequential(
       Array(3)
         .fill(null)
         .map(async (i) => {
@@ -577,10 +584,11 @@ describe('Taxonomy Integration', () => {
             },
           }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
+          return client.conceptScheme.create({}, conceptScheme)
         }),
     )
+
+    conceptSchemesToDelete.push(...results)
 
     const { items, pages } = await client.conceptScheme.getMany({
       query: {

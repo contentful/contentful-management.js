@@ -1,10 +1,11 @@
-import { describe, it, beforeAll, afterAll, afterEach } from 'vitest'
+import { describe, it, beforeAll, afterAll, afterEach, beforeEach } from 'vitest'
 import { expect } from 'vitest'
 import {
   defaultClient,
   generateRandomId,
   createTestSpace,
   timeoutToCalmRateLimiting,
+  promiseAllSequential,
 } from '../helpers'
 import type { Space, Environment, Tag, Link } from '../../lib/export-types'
 
@@ -29,8 +30,7 @@ describe('Tags API', () => {
 
   afterEach(async () => {
     const tags = await environment.getTags({ limit: 1000 })
-    const deleting = tags.items.map((tag) => tag.delete())
-    await Promise.allSettled(deleting)
+    await promiseAllSequential(tags.items.map((tag) => tag.delete()))
   })
 
   afterAll(async () => {

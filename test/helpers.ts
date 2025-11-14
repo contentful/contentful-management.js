@@ -46,14 +46,14 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
   }
   return createClient({
     accessToken,
-    throttle: 3,
+    throttle: 5,
     ...params,
     ...options,
   })
 }
 
 // Shared instance to reduce rate limiting issues due to recreation of clients and therefore loosing track of requests per second
-export const defaultClient = initClient({ throttle: 3, ...params })
+export const defaultClient = initClient({ throttle: 5, ...params })
 
 /**
  * @returns {import('../lib/contentful-management').PlainClientAPI}
@@ -62,7 +62,7 @@ export const initPlainClient = (defaults = {}) => {
   return createClient(
     {
       accessToken,
-      throttle: 3,
+      throttle: 5,
       ...params,
     },
     {
@@ -190,7 +190,7 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
     console.log(`Deleting ${conceptsToBeDeleted.length} concepts`)
   }
 
-  await Promise.all(
+  await promiseAllSequential(
     conceptsToBeDeleted.map((item) =>
       client.concept.delete({
         conceptId: item.sys.id,
@@ -251,4 +251,20 @@ export async function waitForBulkActionV2Processing<T extends BulkActionV2Payloa
       }),
     options,
   )
+}
+
+/**
+ * Executes an array of promises sequentially, waiting for each one to complete
+ * before starting the next one. This is useful for rate limiting or when you need
+ * to avoid overwhelming an API with concurrent requests.
+ * 
+ * @param promises Array of promises to execute sequentially
+ * @returns Promise that resolves to an array of results in the same order
+ */
+export async function promiseAllSequential<T>(promises: Promise<T>[]): Promise<T[]> {
+  const results: T[] = []
+  for (const promise of promises) {
+    results.push(await promise)
+  }
+  return results
 }
