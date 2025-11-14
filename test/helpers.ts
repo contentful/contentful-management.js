@@ -257,7 +257,7 @@ export async function waitForBulkActionV2Processing<T extends BulkActionV2Payloa
  * Executes an array of promises sequentially, waiting for each one to complete
  * before starting the next one. This is useful for rate limiting or when you need
  * to avoid overwhelming an API with concurrent requests.
- * 
+ *
  * @param promises Array of promises to execute sequentially
  * @returns Promise that resolves to an array of results in the same order
  */
