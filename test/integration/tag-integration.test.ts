@@ -1,4 +1,4 @@
-import { describe, it, beforeAll, afterAll, afterEach, beforeEach } from 'vitest'
+import { describe, it, beforeAll, afterAll, afterEach } from 'vitest'
 import { expect } from 'vitest'
 import {
   defaultClient,
