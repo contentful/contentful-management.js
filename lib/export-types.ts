@@ -256,6 +256,9 @@ export type {
   WorkflowDefinitionSysProps,
   // Property: appliesTo
   WorkflowDefinitionValidationLink,
+  WorkflowVariable,
+  WorkflowVariablePreset,
+  WorkflowVariablePresetValue,
   // Property: step.actions
   WorkflowStepAction,
   WorkflowStepActionType,
