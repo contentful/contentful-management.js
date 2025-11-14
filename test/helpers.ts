@@ -46,13 +46,14 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
   }
   return createClient({
     accessToken,
+    throttle: 3,
     ...params,
     ...options,
   })
 }
 
 // Shared instance to reduce rate limiting issues due to recreation of clients and therefore loosing track of requests per second
-export const defaultClient = initClient({ ...params })
+export const defaultClient = initClient({ throttle: 3, ...params })
 
 /**
  * @returns {import('../lib/contentful-management').PlainClientAPI}
@@ -61,6 +62,7 @@ export const initPlainClient = (defaults = {}) => {
   return createClient(
     {
       accessToken,
+      throttle: 3,
       ...params,
     },
     {
