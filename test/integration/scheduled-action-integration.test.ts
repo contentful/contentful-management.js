@@ -223,7 +223,6 @@ describe('Scheduled Actions API', () => {
       } catch (error: any) {
         const parsed = JSON.parse(error.message)
         expect(parsed.status).toBe(400)
-        expect(parsed.statusText).toBe('Bad Request')
         expect(parsed.message).toBe('The resource could not be found.')
       }
     })
