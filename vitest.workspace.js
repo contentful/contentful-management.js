@@ -41,6 +41,7 @@ export default defineWorkspace([
       setupFiles: ['./vitest.setup.ts'],
       environment: 'node',
       maxConcurrency: 1,
+      maxWorkers: 1,
       testTimeout: 60000,
       hookTimeout: 60000,
       bail: 100,
