@@ -1,7 +1,7 @@
 <!--
 Thank you for opening a pull request.
 
-Please fill in as much of the template below as you're able. Feel free to delete
+Please fill in as much of the template below as you're able. Feel free to remove
 any section you want to skip.
 -->
 
@@ -20,16 +20,10 @@ Why is this change required? What problem does it solve?
 If it fixes an open issue, please link to the issue here.
 -->
 
-## Checklist (check all before merging)
+## PR Checklist
 
-- [ ] Both unit and integration tests are passing
+- [ ] I have read the `CONTRIBUTING.md` file
+- [ ] All commits follow [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [ ] Documentation is updated (if necessary)
+- [ ] PR doesn't contain any sensitive information
 - [ ] There are no breaking changes
-- [ ] Changes are reflected in the documentation
-
-When adding a new method:
-
-- [ ] The new method is exported through the default and plain CMA client
-- [ ] All new public types are exported from `./lib/export-types.ts`
-- [ ] Added a unit test for the new method
-- [ ] Added an integration test for the new method
-- [ ] The new method is added to the documentation
