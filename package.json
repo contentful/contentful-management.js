@@ -36,7 +36,6 @@
     "build": "npm run clean && npm run build:rollup",
     "build:rollup": "NODE_ENV=production rollup -c",
     "build:docs": "typedoc",
-    "postbuild": "npm run check && npm run test:demo-projects",
     "check": "npm run check:cjs && npm run check:esm && npm run check:browser && npm run check:browser-min",
     "check:browser": "es-check es2021 ./dist/contentful-management.bundle.browser.js",
     "check:browser-min": "es-check es2021 ./dist/contentful-management.bundle.browser.min.js",
