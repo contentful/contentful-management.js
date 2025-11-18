@@ -8,7 +8,7 @@ import type {
   CursorPaginatedCollection,
   CursorPaginatedCollectionProp,
   MakeRequest,
-} from './common-types.js'
+} from './common-types'
 
 /**
  * @private

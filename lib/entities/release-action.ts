@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, ISO8601Timestamp, Link, MakeRequest } from '../common-types.js'
-import { wrapCollection } from '../common-utils.js'
-import type { AsyncActionProcessingOptions } from '../methods/action.js'
-import { pollAsyncActionStatus } from '../methods/action.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
+import type { DefaultElements, ISO8601Timestamp, Link, MakeRequest } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import type { AsyncActionProcessingOptions } from '../methods/action'
+import { pollAsyncActionStatus } from '../methods/action'
+import enhanceWithMethods from '../enhance-with-methods'
 
 type ReleaseActionStatuses = 'created' | 'inProgress' | 'failed' | 'succeeded'
 export type ReleaseActionTypes = 'publish' | 'unpublish' | 'validate'

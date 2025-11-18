@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types.js'
-import type { SpaceMemberProps } from '../../../entities/space-member.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import type { SpaceMemberProps } from '../../../entities/space-member'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 export const get: RestEndpoint<'SpaceMember', 'get'> = (
   http: AxiosInstance,

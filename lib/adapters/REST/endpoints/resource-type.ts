@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw.js'
+import * as raw from './raw'
 import copy from 'fast-copy'
 import type {
   BasicCursorPaginationOptions,
@@ -8,13 +8,13 @@ import type {
   GetResourceTypeParams,
   CollectionProp,
   GetSpaceEnvironmentParams,
-} from '../../../common-types.js'
-import type { RestEndpoint } from '../types.js'
+} from '../../../common-types'
+import type { RestEndpoint } from '../types'
 import type {
   ResourceTypeProps,
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
-} from '../../../entities/resource-type.js'
+} from '../../../entities/resource-type'
 
 const getBaseUrl = (
   params: GetResourceTypeParams | Omit<GetResourceTypeParams, 'resourceTypeId'>,

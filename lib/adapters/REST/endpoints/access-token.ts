@@ -1,12 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types.js'
+import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
 import type {
   CreatePersonalAccessTokenProps,
   AccessTokenProps,
-} from '../../../entities/access-token.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../entities/access-token'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 /**
  * Retrieves an access token by its unique token ID for the currently authenticated user.

@@ -1,9 +1,9 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
-import { wrapCollection } from '../common-utils.js'
-import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCollection } from '../common-utils'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
+import enhanceWithMethods from '../enhance-with-methods'
 
 type AppBundleSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: Link<'AppDefinition'>

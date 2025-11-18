@@ -14,12 +14,12 @@ import type {
   PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
-} from '../../../common-types.js'
-import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import * as releaseEntry from './release-entry.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../common-types'
+import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import * as releaseEntry from './release-entry'
+import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Entry', 'get'> = <T extends KeyValueMap = KeyValueMap>(
   http: AxiosInstance,

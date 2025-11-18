@@ -5,9 +5,9 @@ import type {
   QueryParams,
   CollectionProp,
   GetSpaceParams,
-} from '../../common-types.js'
-import type { TeamProps, CreateTeamProps } from '../../export-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { TeamProps, CreateTeamProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamPlainClientAPI = {
   /**

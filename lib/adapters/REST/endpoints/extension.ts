@@ -7,11 +7,11 @@ import type {
   GetSpaceEnvironmentParams,
   GetExtensionParams,
   QueryParams,
-} from '../../../common-types.js'
-import type { CreateExtensionProps, ExtensionProps } from '../../../entities/extension.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../common-types'
+import type { CreateExtensionProps, ExtensionProps } from '../../../entities/extension'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/extensions`

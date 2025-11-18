@@ -8,16 +8,16 @@ import type {
   Link,
   MakeRequest,
   QueryOptions,
-} from '../common-types.js'
-import { wrapCollection } from '../common-utils.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
-import { isDraft, isPublished, isUpdated } from '../plain/checks.js'
-import type { ContentFields } from './content-type-fields.js'
-import type { EditorInterface } from './editor-interface.js'
-import { wrapEditorInterface } from './editor-interface.js'
-import type { Snapshot, SnapshotProps } from './snapshot.js'
-import { wrapSnapshot, wrapSnapshotCollection } from './snapshot.js'
-import { omitAndDeleteField } from '../methods/content-type.js'
+} from '../common-types'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
+import { isDraft, isPublished, isUpdated } from '../plain/checks'
+import type { ContentFields } from './content-type-fields'
+import type { EditorInterface } from './editor-interface'
+import { wrapEditorInterface } from './editor-interface'
+import type { Snapshot, SnapshotProps } from './snapshot'
+import { wrapSnapshot, wrapSnapshotCollection } from './snapshot'
+import { omitAndDeleteField } from '../methods/content-type'
 
 type TaxonomyConceptValidationLink = Link<'TaxonomyConcept'> & { required?: boolean }
 type TaxonomyConceptSchemeValidationLink = Link<'TaxonomyConceptScheme'> & { required?: boolean }

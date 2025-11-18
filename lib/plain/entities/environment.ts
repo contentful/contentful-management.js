@@ -4,9 +4,9 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../common-types.js'
-import type { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EnvironmentPlainClientAPI = {
   /**

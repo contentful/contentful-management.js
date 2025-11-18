@@ -1,10 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
-} from '../../entities/workflows-changelog-entry.js'
+} from '../../entities/workflows-changelog-entry'
 
 export type WorkflowsChangelogPlainClientAPI = {
   /**

@@ -7,10 +7,10 @@ import type {
   GetOrganizationMembershipParams,
   GetOrganizationParams,
   QueryParams,
-} from '../../../common-types.js'
-import type { OrganizationMembershipProps } from '../../../entities/organization-membership.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../common-types'
+import type { OrganizationMembershipProps } from '../../../entities/organization-membership'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetOrganizationParams) =>
   `/organizations/${params.organizationId}/organization_memberships`

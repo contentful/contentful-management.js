@@ -8,13 +8,13 @@ import type {
   GetSpaceMembershipProps,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types.js'
+} from '../../../common-types'
 import type {
   CreateSpaceMembershipProps,
   SpaceMembershipProps,
-} from '../../../entities/space-membership.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../entities/space-membership'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 function spaceMembershipDeprecationWarning() {
   console.warn(

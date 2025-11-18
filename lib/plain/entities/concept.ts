@@ -6,8 +6,8 @@ import type {
   GetManyConceptParams,
   GetOrganizationParams,
   UpdateConceptParams,
-} from '../../common-types.js'
-import type { ConceptProps, CreateConceptProps } from '../../entities/concept.js'
+} from '../../common-types'
+import type { ConceptProps, CreateConceptProps } from '../../entities/concept'
 import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 

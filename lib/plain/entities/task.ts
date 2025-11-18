@@ -4,7 +4,7 @@ import type {
   GetEntryParams,
   QueryParams,
   CollectionProp,
-} from '../../common-types.js'
+} from '../../common-types'
 import type {
   CreateTaskParams,
   UpdateTaskParams,
@@ -12,8 +12,8 @@ import type {
   TaskProps,
   CreateTaskProps,
   UpdateTaskProps,
-} from '../../entities/task.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/task'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TaskPlainClientAPI = {
   /** Fetches a task

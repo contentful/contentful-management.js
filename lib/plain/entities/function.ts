@@ -4,9 +4,9 @@ import type {
   GetFunctionForEnvParams,
   GetManyFunctionParams,
   AcceptsQueryParams,
-} from '../../common-types.js'
-import type { FunctionProps } from '../../entities/function.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { FunctionProps } from '../../entities/function'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type FunctionPlainClientAPI = {
   /**

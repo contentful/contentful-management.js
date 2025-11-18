@@ -3,9 +3,9 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../common-types.js'
-import type { UserProps } from '../../export-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { UserProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type UserPlainClientAPI = {
   /** Fetches all users in a space

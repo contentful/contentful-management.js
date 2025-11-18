@@ -14,11 +14,11 @@ import type {
   PatchReleaseEntryParams,
   QueryParams,
   UpdateReleaseEntryParams,
-} from '../../../common-types.js'
-import type { CreateEntryProps, EntryProps } from '../../../entities/entry.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../common-types'
+import type { CreateEntryProps, EntryProps } from '../../../entities/entry'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 type ReleaseEntryProps<T> = EntryProps<T, { release: Link<'Release'> }>
 

@@ -6,9 +6,9 @@ import type {
   MakeRequest,
   PaginationQueryOptions,
   VersionedLink,
-} from '../common-types.js'
-import { wrapCollection } from '../common-utils.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
+} from '../common-types'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /** Find workflows changelog entries filtered by the Entity type (Entry) */

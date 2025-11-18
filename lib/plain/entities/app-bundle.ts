@@ -3,9 +3,9 @@ import type {
   GetAppBundleParams,
   GetAppDefinitionParams,
   QueryParams,
-} from '../../common-types.js'
-import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppBundlePlainClientAPI = {
   /**

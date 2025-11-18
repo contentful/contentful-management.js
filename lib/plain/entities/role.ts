@@ -4,9 +4,9 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../common-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
-import type { CreateRoleProps, RoleProps } from '../../entities/role.js'
+} from '../../common-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
+import type { CreateRoleProps, RoleProps } from '../../entities/role'
 
 export type RolePlainClientAPI = {
   /** Fetches a Role

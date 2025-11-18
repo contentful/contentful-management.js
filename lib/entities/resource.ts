@@ -3,8 +3,8 @@ import type {
   CursorPaginatedCollectionProp,
   Link,
   MakeRequest,
-} from '../common-types.js'
-import { wrapCursorPaginatedCollection } from '../common-utils.js'
+} from '../common-types'
+import { wrapCursorPaginatedCollection } from '../common-utils'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 
 export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions

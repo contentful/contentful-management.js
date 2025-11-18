@@ -5,9 +5,9 @@ import type {
   QueryParams,
   CollectionProp,
   GetTeamParams,
-} from '../../common-types.js'
-import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../export-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamMembershipPlainClientAPI = {
   /**

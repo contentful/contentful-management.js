@@ -1,6 +1,6 @@
-import type { GetSpaceEnvironmentParams } from '../../common-types.js'
-import type { AiActionInvocationProps } from '../../entities/ai-action-invocation.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+import type { GetSpaceEnvironmentParams } from '../../common-types'
+import type { AiActionInvocationProps } from '../../entities/ai-action-invocation'
+import type { OptionalDefaults } from '../wrappers/wrap'
 import type { RawAxiosRequestHeaders } from 'axios'
 
 export type AiActionInvocationPlainClientAPI = {

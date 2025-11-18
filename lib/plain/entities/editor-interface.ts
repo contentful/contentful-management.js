@@ -4,9 +4,9 @@ import type {
   GetEditorInterfaceParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../common-types.js'
-import type { EditorInterfaceProps } from '../../entities/editor-interface.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { EditorInterfaceProps } from '../../entities/editor-interface'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EditorInterfacePlainClientAPI = {
   /**

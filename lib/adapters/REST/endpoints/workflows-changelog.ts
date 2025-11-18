@@ -1,11 +1,11 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types.js'
+import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   WorkflowsChangelogQueryOptions,
   WorkflowsChangelogEntryProps,
-} from '../../../entities/workflows-changelog-entry.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../entities/workflows-changelog-entry'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/workflows_changelog`

@@ -4,10 +4,10 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
-} from '../../../common-types.js'
-import type { UserProps } from '../../../entities/user.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../common-types'
+import type { UserProps } from '../../../entities/user'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 export const getForSpace: RestEndpoint<'User', 'getForSpace'> = (
   http: AxiosInstance,

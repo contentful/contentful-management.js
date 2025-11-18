@@ -1,4 +1,4 @@
-import { WidgetNamespace } from './types.js'
+import { WidgetNamespace } from './types'
 
 const SidebarWidgetTypes = {
   USERS: 'users-widget',

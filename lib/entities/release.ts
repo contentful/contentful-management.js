@@ -10,13 +10,13 @@ import type {
   Link,
   MakeRequest,
   MakeRequestPayload,
-} from '../common-types.js'
-import { ScheduledActionReferenceFilters } from '../common-types.js'
-import { wrapCursorPaginatedCollection } from '../common-utils.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
-import type { AsyncActionProcessingOptions } from '../methods/action.js'
-import type { ReleaseAction } from './release-action.js'
-import { wrapReleaseAction } from './release-action.js'
+} from '../common-types'
+import { ScheduledActionReferenceFilters } from '../common-types'
+import { wrapCursorPaginatedCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
+import type { AsyncActionProcessingOptions } from '../methods/action'
+import type { ReleaseAction } from './release-action'
+import { wrapReleaseAction } from './release-action'
 
 /** Entity types supported by the Release API */
 type Entity = 'Entry' | 'Asset'

@@ -1,8 +1,8 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types.js'
-import type { ReleaseActionQueryOptions } from '../../../entities/release-action.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+import type { GetReleaseParams, GetSpaceEnvironmentParams } from '../../../common-types'
+import type { ReleaseActionQueryOptions } from '../../../entities/release-action'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 export const get: RestEndpoint<'ReleaseAction', 'get'> = (
   http: AxiosInstance,

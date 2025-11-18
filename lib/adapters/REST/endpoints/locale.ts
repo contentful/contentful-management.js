@@ -6,11 +6,11 @@ import type {
   CollectionProp,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../../common-types.js'
-import type { CreateLocaleProps, LocaleProps } from '../../../entities/locale.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../common-types'
+import type { CreateLocaleProps, LocaleProps } from '../../../entities/locale'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'Locale', 'get'> = (
   http: AxiosInstance,

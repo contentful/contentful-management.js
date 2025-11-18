@@ -1,6 +1,6 @@
-import { SidebarAssetConfiguration, SidebarEntryConfiguration } from './sidebar-defaults.js'
-import { EntryConfiguration } from './editors-defaults.js'
-import { getDefaultControlOfField } from './controls-defaults.js'
+import { SidebarAssetConfiguration, SidebarEntryConfiguration } from './sidebar-defaults'
+import { EntryConfiguration } from './editors-defaults'
+import { getDefaultControlOfField } from './controls-defaults'
 
 export default {
   SidebarEntryConfiguration,

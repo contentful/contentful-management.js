@@ -11,40 +11,40 @@ import type {
   BasicCursorPaginationOptions,
   GetOAuthApplicationParams,
   GetUserParams,
-} from './common-types.js'
+} from './common-types'
 import {
   wrapOrganization,
   wrapOrganizationCollection,
   type Organization,
   type OrganizationProps,
-} from './entities/organization.js'
+} from './entities/organization'
 import {
   wrapPersonalAccessToken,
   wrapPersonalAccessTokenCollection,
   type CreatePersonalAccessTokenProps,
-} from './entities/personal-access-token.js'
-import { wrapSpace, wrapSpaceCollection, type Space, type SpaceProps } from './entities/space.js'
-import { wrapAppDefinition, type AppDefinition } from './entities/app-definition.js'
-import { wrapUsageCollection, type UsageQuery } from './entities/usage.js'
-import { wrapUser, type UserProps } from './entities/user.js'
+} from './entities/personal-access-token'
+import { wrapSpace, wrapSpaceCollection, type Space, type SpaceProps } from './entities/space'
+import { wrapAppDefinition, type AppDefinition } from './entities/app-definition'
+import { wrapUsageCollection, type UsageQuery } from './entities/usage'
+import { wrapUser, type UserProps } from './entities/user'
 import {
   wrapEnvironmentTemplate,
   wrapEnvironmentTemplateCollection,
   type CreateEnvironmentTemplateProps,
   type EnvironmentTemplate,
   type EnvironmentTemplateProps,
-} from './entities/environment-template.js'
+} from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplication,
   OAuthApplicationProps,
-} from './export-types.js'
-import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token.js'
+} from './export-types'
+import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
 import {
   wrapOAuthApplication,
   wrapOAuthApplicationCollection,
-} from './entities/oauth-application.js'
+} from './entities/oauth-application'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }

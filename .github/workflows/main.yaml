@@ -15,11 +15,13 @@ jobs:
     uses: ./.github/workflows/check.yaml
 
   test-demo-projects:
+    if: !always()
     needs: [build, check]
     uses: ./.github/workflows/test-demo-projects.yaml
     secrets: inherit
 
   test-integration:
+    if: !always()
     needs: [build, check, test-demo-projects]
     uses: ./.github/workflows/test-integration.yaml
     secrets: inherit

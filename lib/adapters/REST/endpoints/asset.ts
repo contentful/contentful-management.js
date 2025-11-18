@@ -13,19 +13,19 @@ import type {
   Link,
   QueryParams,
   UpdateReleaseAssetParams,
-} from '../../../common-types.js'
+} from '../../../common-types'
 import type {
   AssetFileProp,
   AssetProcessingForLocale,
   AssetProps,
   CreateAssetProps,
-} from '../../../entities/asset.js'
-import { getUploadHttpClient } from '../../../upload-http-client.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { create as createUpload } from './upload.js'
-import { normalizeSelect } from './utils.js'
-import * as releaseAsset from './release-asset.js'
+} from '../../../entities/asset'
+import { getUploadHttpClient } from '../../../upload-http-client'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { create as createUpload } from './upload'
+import { normalizeSelect } from './utils'
+import * as releaseAsset from './release-asset'
 
 export const get: RestEndpoint<'Asset', 'get'> = (
   http: AxiosInstance,

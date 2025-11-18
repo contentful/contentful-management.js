@@ -4,59 +4,59 @@
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types.js'
-import { wrapApiKey, wrapApiKeyCollection, type CreateApiKeyProps } from './entities/api-key.js'
+import type { MakeRequest, PaginationQueryOptions, QueryOptions } from './common-types'
+import { wrapApiKey, wrapApiKeyCollection, type CreateApiKeyProps } from './entities/api-key'
 import {
   wrapEnvironment,
   wrapEnvironmentCollection,
   type CreateEnvironmentProps,
-} from './entities/environment.js'
+} from './entities/environment'
 import {
   wrapEnvironmentAlias,
   wrapEnvironmentAliasCollection,
   type CreateEnvironmentAliasProps,
-} from './entities/environment-alias.js'
+} from './entities/environment-alias'
 import {
   wrapRole,
   wrapRoleCollection,
   type CreateRoleProps,
   type RoleProps,
-} from './entities/role.js'
+} from './entities/role'
 import {
   wrapScheduledAction,
   wrapScheduledActionCollection,
   type ScheduledActionProps,
   type ScheduledActionQueryOptions,
-} from './entities/scheduled-action.js'
-import { wrapSpace, type SpaceProps } from './entities/space.js'
+} from './entities/scheduled-action'
+import { wrapSpace, type SpaceProps } from './entities/space'
 import {
   wrapSpaceMembership,
   wrapSpaceMembershipCollection,
   type CreateSpaceMembershipProps,
-} from './entities/space-membership.js'
+} from './entities/space-membership'
 import {
   wrapTeamSpaceMembership,
   wrapTeamSpaceMembershipCollection,
   type CreateTeamSpaceMembershipProps,
-} from './entities/team-space-membership.js'
+} from './entities/team-space-membership'
 import {
   wrapWebhook,
   wrapWebhookCollection,
   type CreateWebhooksProps,
   type UpsertWebhookSigningSecretPayload,
   type WebhookRetryPolicyPayload,
-} from './entities/webhook.js'
+} from './entities/webhook'
 import {
   wrapAiAction,
   wrapAiActionCollection,
   type AiActionProps,
   type AiActionQueryOptions,
   type CreateAiActionProps,
-} from './entities/ai-action.js'
-import { wrapPreviewApiKeyCollection, wrapPreviewApiKey } from './entities/preview-api-key.js'
-import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member.js'
-import { wrapTeamCollection } from './entities/team.js'
-import { wrapUser, wrapUserCollection } from './entities/user.js'
+} from './entities/ai-action'
+import { wrapPreviewApiKeyCollection, wrapPreviewApiKey } from './entities/preview-api-key'
+import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member'
+import { wrapTeamCollection } from './entities/team'
+import { wrapUser, wrapUserCollection } from './entities/user'
 
 /**
  * @private

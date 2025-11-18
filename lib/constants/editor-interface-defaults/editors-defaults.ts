@@ -1,4 +1,4 @@
-import { DEFAULT_EDITOR_ID, WidgetNamespace } from './types.js'
+import { DEFAULT_EDITOR_ID, WidgetNamespace } from './types'
 
 export const EntryEditorWidgetTypes = {
   DEFAULT_EDITOR: {

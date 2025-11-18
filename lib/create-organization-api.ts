@@ -4,54 +4,54 @@ import {
   wrapTeamMembership,
   wrapTeamMembershipCollection,
   type CreateTeamMembershipProps,
-} from './entities/team-membership.js'
-import { wrapTeam, wrapTeamCollection, type CreateTeamProps } from './entities/team.js'
+} from './entities/team-membership'
+import { wrapTeam, wrapTeamCollection, type CreateTeamProps } from './entities/team'
 import {
   wrapOrganizationInvitation,
   type CreateOrganizationInvitationProps,
-} from './entities/organization-invitation.js'
+} from './entities/organization-invitation'
 import type {
   AcceptsQueryOptions,
   BasicQueryOptions,
   MakeRequest,
   QueryOptions,
   QueryParams,
-} from './common-types.js'
+} from './common-types'
 import {
   wrapAppDefinition,
   wrapAppDefinitionCollection,
   type CreateAppDefinitionProps,
-} from './entities/app-definition.js'
+} from './entities/app-definition'
 import {
   wrapAppAction,
   wrapAppActionCollection,
   type CreateAppActionProps,
-} from './entities/app-action.js'
+} from './entities/app-action'
 import {
   wrapAppSigningSecret,
   type CreateAppSigningSecretProps,
-} from './entities/app-signing-secret.js'
+} from './entities/app-signing-secret'
 import {
   wrapAppEventSubscription,
   type CreateAppEventSubscriptionProps,
-} from './entities/app-event-subscription.js'
-import { wrapAppKey, wrapAppKeyCollection, type CreateAppKeyProps } from './entities/app-key.js'
-import { wrapAppDetails, type CreateAppDetailsProps } from './entities/app-details.js'
-import type { OrganizationProps } from './entities/organization.js'
-import { wrapAppUpload } from './entities/app-upload.js'
-import { wrapFunction, wrapFunctionCollection } from './entities/function.js'
+} from './entities/app-event-subscription'
+import { wrapAppKey, wrapAppKeyCollection, type CreateAppKeyProps } from './entities/app-key'
+import { wrapAppDetails, type CreateAppDetailsProps } from './entities/app-details'
+import type { OrganizationProps } from './entities/organization'
+import { wrapAppUpload } from './entities/app-upload'
+import { wrapFunction, wrapFunctionCollection } from './entities/function'
 import {
   wrapOrganizationMembership,
   wrapOrganizationMembershipCollection,
-} from './entities/organization-membership.js'
-import { wrapRoleCollection } from './entities/role.js'
-import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership.js'
-import { wrapSpaceCollection } from './entities/space.js'
+} from './entities/organization-membership'
+import { wrapRoleCollection } from './entities/role'
+import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
+import { wrapSpaceCollection } from './entities/space'
 import {
   wrapTeamSpaceMembershipCollection,
   wrapTeamSpaceMembership,
-} from './entities/team-space-membership.js'
-import { wrapUser, wrapUserCollection } from './entities/user.js'
+} from './entities/team-space-membership'
+import { wrapUser, wrapUserCollection } from './entities/user'
 
 /**
  * @private

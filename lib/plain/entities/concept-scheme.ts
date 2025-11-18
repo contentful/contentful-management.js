@@ -5,8 +5,8 @@ import type {
   GetManyConceptSchemeParams,
   GetOrganizationParams,
   UpdateConceptSchemeParams,
-} from '../../common-types.js'
-import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme.js'
+} from '../../common-types'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
 import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 

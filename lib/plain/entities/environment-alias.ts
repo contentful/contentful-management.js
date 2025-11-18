@@ -4,12 +4,12 @@ import type {
   GetSpaceEnvAliasParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../common-types.js'
+} from '../../common-types'
 import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
-} from '../../entities/environment-alias.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/environment-alias'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type EnvironmentAliasPlainClientAPI = {
   /**

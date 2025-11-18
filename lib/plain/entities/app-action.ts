@@ -4,9 +4,9 @@ import type {
   GetAppActionsForEnvParams,
   GetAppDefinitionParams,
   QueryParams,
-} from '../../common-types.js'
-import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppActionPlainClientAPI = {
   /**

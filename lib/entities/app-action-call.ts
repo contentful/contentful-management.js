@@ -11,9 +11,9 @@ import type {
   CreateWithResultParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParamsWithId,
-} from '../common-types.js'
-import type { WebhookCallDetailsProps } from './webhook.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
+} from '../common-types'
+import type { WebhookCallDetailsProps } from './webhook'
+import enhanceWithMethods from '../enhance-with-methods'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink

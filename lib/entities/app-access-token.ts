@@ -1,7 +1,7 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
-import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types.js'
+import type { BasicMetaSysProps, DefaultElements, Link, MakeRequest } from '../common-types'
 
 type AppAccessTokenSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   space: Link<'Space'>

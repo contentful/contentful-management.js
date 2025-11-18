@@ -1,16 +1,16 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
-import enhanceWithMethods from '../enhance-with-methods.js'
+import enhanceWithMethods from '../enhance-with-methods'
 import type {
   MetaSysProps,
   DefaultElements,
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
-} from '../common-types.js'
-import { wrapCollection } from '../common-utils.js'
-import * as checks from '../plain/checks.js'
+} from '../common-types'
+import { wrapCollection } from '../common-utils'
+import * as checks from '../plain/checks'
 
 export type AssetProps<S = {}> = {
   sys: EntityMetaSysProps & S

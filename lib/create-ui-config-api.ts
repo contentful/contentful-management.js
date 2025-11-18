@@ -1,5 +1,5 @@
-import type { MakeRequest } from './common-types.js'
-import { wrapUIConfig, type UIConfig } from './entities/ui-config.js'
+import type { MakeRequest } from './common-types'
+import { wrapUIConfig, type UIConfig } from './entities/ui-config'
 
 /**
  * @private

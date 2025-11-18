@@ -6,13 +6,13 @@ import type {
   GetSpaceEnvironmentParams,
   PaginationQueryParams,
   SpaceQueryParams,
-} from '../../common-types.js'
-import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition.js'
+} from '../../common-types'
+import type { AppInstallationsForOrganizationProps } from '../../entities/app-definition'
 import type {
   AppInstallationProps,
   CreateAppInstallationProps,
-} from '../../entities/app-installation.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/app-installation'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppInstallationPlainClientAPI = {
   /**

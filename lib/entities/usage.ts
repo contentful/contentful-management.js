@@ -1,8 +1,8 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, Link, MakeRequest, QueryOptions } from '../common-types.js'
-import { wrapCollection } from '../common-utils.js'
-import enhanceWithMethods from '../enhance-with-methods.js'
+import type { DefaultElements, Link, MakeRequest, QueryOptions } from '../common-types'
+import { wrapCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods'
 
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 

@@ -4,15 +4,15 @@ import type {
   DefaultElements,
   Link,
   MakeRequest,
-} from '../common-types.js'
+} from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import enhanceWithMethods from '../enhance-with-methods.js'
+import enhanceWithMethods from '../enhance-with-methods'
 import {
   wrapResourceType,
   type ResourceType,
   type UpsertResourceTypeProps,
-} from './resource-type.js'
+} from './resource-type'
 
 export type ResourceProviderProps = {
   /**

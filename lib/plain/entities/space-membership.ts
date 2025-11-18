@@ -5,12 +5,12 @@ import type {
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
-} from '../../common-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
   CreateSpaceMembershipProps,
   SpaceMembershipProps,
-} from '../../entities/space-membership.js'
+} from '../../entities/space-membership'
 
 export type SpaceMembershipPlainClientAPI = {
   /**

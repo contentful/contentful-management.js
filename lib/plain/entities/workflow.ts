@@ -3,7 +3,7 @@ import type {
   GetSpaceEnvironmentParams,
   CollectionProp,
   GetWorkflowParams,
-} from '../../common-types.js'
+} from '../../common-types'
 import type {
   CreateWorkflowParams,
   UpdateWorkflowParams,
@@ -13,8 +13,8 @@ import type {
   CreateWorkflowProps,
   UpdateWorkflowProps,
   DeleteWorkflowParams,
-} from '../../entities/workflow.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/workflow'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type WorkflowPlainClientAPI = {
   /**

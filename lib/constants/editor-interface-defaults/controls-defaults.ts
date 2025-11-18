@@ -1,8 +1,8 @@
 import type {
   ContentFields,
   ContentTypeFieldValidation,
-} from '../../entities/content-type-fields.js'
-import { in_ } from './types.js'
+} from '../../entities/content-type-fields'
+import { in_ } from './types'
 
 const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean']
 

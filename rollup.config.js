@@ -51,6 +51,7 @@ const esmConfig = {
     format: 'esm',
     preserveModules: true,
     sourcemap: true,
+    entryFileNames: '[name].mjs',
   },
   plugins: [
     tsPlugin,

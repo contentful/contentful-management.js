@@ -1,9 +1,9 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except, SetOptional } from 'type-fest'
-import enhanceWithMethods from '../enhance-with-methods.js'
-import { wrapCollection } from '../common-utils.js'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils'
+import type { BasicMetaSysProps, DefaultElements, MakeRequest, Link } from '../common-types'
 
 export type LocaleProps = {
   sys: BasicMetaSysProps & {

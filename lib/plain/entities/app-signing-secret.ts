@@ -1,9 +1,9 @@
-import type { GetAppDefinitionParams } from '../../common-types.js'
+import type { GetAppDefinitionParams } from '../../common-types'
 import type {
   AppSigningSecretProps,
   CreateAppSigningSecretProps,
-} from '../../entities/app-signing-secret.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/app-signing-secret'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppSigningSecretPlainClientAPI = {
   /**

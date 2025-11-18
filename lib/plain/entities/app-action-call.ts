@@ -4,14 +4,14 @@ import type {
   GetAppActionCallParamsWithId,
   CreateWithResponseParams,
   CreateWithResultParams,
-} from '../../common-types.js'
+} from '../../common-types'
 import type {
   AppActionCallProps,
   AppActionCallResponse,
   AppActionCallRawResponseProps,
   CreateAppActionCallProps,
-} from '../../entities/app-action-call.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../entities/app-action-call'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AppActionCallPlainClientAPI = {
   /**

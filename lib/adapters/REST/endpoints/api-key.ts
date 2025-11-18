@@ -2,10 +2,10 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
-import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types.js'
-import type { ApiKeyProps, CreateApiKeyProps } from '../../../entities/api-key.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+import type { CollectionProp, GetSpaceParams, QueryParams } from '../../../common-types'
+import type { ApiKeyProps, CreateApiKeyProps } from '../../../entities/api-key'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 export const get: RestEndpoint<'ApiKey', 'get'> = (
   http: AxiosInstance,

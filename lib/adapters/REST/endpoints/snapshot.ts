@@ -5,13 +5,13 @@ import type {
   GetSnapshotForEntryParams,
   KeyValueMap,
   QueryParams,
-} from '../../../common-types.js'
-import type { ContentTypeProps } from '../../../entities/content-type.js'
-import type { EntryProps } from '../../../entities/entry.js'
-import type { SnapshotProps } from '../../../entities/snapshot.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../common-types'
+import type { ContentTypeProps } from '../../../entities/content-type'
+import type { EntryProps } from '../../../entities/entry'
+import type { SnapshotProps } from '../../../entities/snapshot'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseEntryUrl = (params: GetSnapshotForEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/snapshots`

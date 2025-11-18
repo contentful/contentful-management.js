@@ -1,21 +1,21 @@
 import type { OpPatch } from 'json-patch'
-import type { MakeRequest } from './common-types.js'
+import type { MakeRequest } from './common-types'
 import {
   wrapComment,
   wrapCommentCollection,
   type CreateCommentParams,
   type CreateCommentProps,
-} from './entities/comment.js'
+} from './entities/comment'
 import {
   wrapEntry,
   wrapEntryCollection,
   type Entry,
   type EntryProps,
   type EntryReferenceOptionsProps,
-} from './entities/entry.js'
-import { wrapTask, wrapTaskCollection, type CreateTaskProps } from './entities/task.js'
-import * as checks from './plain/checks.js'
-import { wrapSnapshotCollection, wrapSnapshot } from './entities/snapshot.js'
+} from './entities/entry'
+import { wrapTask, wrapTaskCollection, type CreateTaskProps } from './entities/task'
+import * as checks from './plain/checks'
+import { wrapSnapshotCollection, wrapSnapshot } from './entities/snapshot'
 
 /**
  * @private

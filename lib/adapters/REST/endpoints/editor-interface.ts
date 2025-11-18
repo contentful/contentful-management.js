@@ -7,10 +7,10 @@ import type {
   GetEditorInterfaceParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../../common-types.js'
-import type { EditorInterfaceProps } from '../../../entities/editor-interface.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
+} from '../../../common-types'
+import type { EditorInterfaceProps } from '../../../entities/editor-interface'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
 
 const getBaseUrl = (params: GetEditorInterfaceParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/content_types/${params.contentTypeId}/editor_interface`

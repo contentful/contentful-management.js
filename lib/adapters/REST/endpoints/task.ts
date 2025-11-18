@@ -7,17 +7,17 @@ import type {
   GetTaskParams,
   PaginationQueryOptions,
   QueryParams,
-} from '../../../common-types.js'
+} from '../../../common-types'
 import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
   TaskProps,
   UpdateTaskProps,
-} from '../../../entities/task.js'
-import type { RestEndpoint } from '../types.js'
-import * as raw from './raw.js'
-import { normalizeSelect } from './utils.js'
+} from '../../../entities/task'
+import type { RestEndpoint } from '../types'
+import * as raw from './raw'
+import { normalizeSelect } from './utils'
 
 const getBaseUrl = (params: GetEntryParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/tasks`

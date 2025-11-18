@@ -4,10 +4,10 @@ import type {
   GetSpaceEnvironmentParams,
   QueryParams,
   CollectionProp,
-} from '../../common-types.js'
-import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag.js'
-import type { TagProps, CreateTagProps } from '../../export-types.js'
-import type { OptionalDefaults } from '../wrappers/wrap.js'
+} from '../../common-types'
+import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
+import type { TagProps, CreateTagProps } from '../../export-types'
+import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TagPlainClientAPI = {
   /**

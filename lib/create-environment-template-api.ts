@@ -1,15 +1,15 @@
 import { createRequestConfig } from 'contentful-sdk-core'
-import type { BasicCursorPaginationOptions, MakeRequest } from './common-types.js'
+import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
 import {
   wrapEnvironmentTemplate,
   wrapEnvironmentTemplateCollection,
   type EnvironmentTemplateProps,
-} from './entities/environment-template.js'
+} from './entities/environment-template'
 import {
   wrapEnvironmentTemplateInstallationCollection,
   type CreateEnvironmentTemplateInstallationProps,
   type ValidateEnvironmentTemplateInstallationProps,
-} from './entities/environment-template-installation.js'
+} from './entities/environment-template-installation'
 
 export type ContentfulEnvironmentTemplateApi = ReturnType<typeof createEnvironmentTemplateApi>
 
