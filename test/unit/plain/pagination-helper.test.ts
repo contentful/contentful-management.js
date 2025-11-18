@@ -7,10 +7,7 @@ import type {
 } from '../../../lib/plain/pagination-helper'
 import { fetchAll } from '../../../lib/plain/pagination-helper'
 import type { BasicCursorPaginationOptions } from '../../../lib/common-types'
-import {
-  type CollectionProp,
-  type CursorPaginatedCollectionProp,
-} from '../../../lib/common-types'
+import { type CollectionProp, type CursorPaginatedCollectionProp } from '../../../lib/common-types'
 
 const defaultLimit = 2
 

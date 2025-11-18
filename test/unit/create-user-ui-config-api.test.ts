@@ -3,10 +3,7 @@ import createUIConfigApi from '../../lib/create-ui-config-api'
 import { wrapUIConfig } from '../../lib/entities/ui-config'
 import { cloneMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
-import {
-  entityUpdateTest,
-  failingVersionActionTest,
-} from './test-creators/instance-entity-methods'
+import { entityUpdateTest, failingVersionActionTest } from './test-creators/instance-entity-methods'
 
 function setup(promise) {
   const makeRequest = setupMakeRequest(promise)

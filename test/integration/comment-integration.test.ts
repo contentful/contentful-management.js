@@ -6,13 +6,7 @@ import {
   initPlainClient,
   timeoutToCalmRateLimiting,
 } from '../helpers'
-import type {
-  ContentType,
-  Entry,
-  Environment,
-  PlainClientAPI,
-  Space,
-} from '../../lib/export-types'
+import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Comment Api', () => {
   let plainClient: PlainClientAPI
