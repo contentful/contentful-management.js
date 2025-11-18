@@ -1,9 +1,9 @@
 import {
   wrapAppDefinition,
   wrapAppDefinitionCollection,
-} from '../../../lib/entities/app-definition.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { appDefinitionMock } from '../mocks/entities.js'
+} from '../../../lib/entities/app-definition'
+import setupMakeRequest from '../mocks/makeRequest'
+import { appDefinitionMock } from '../mocks/entities'
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
@@ -11,7 +11,7 @@ import {
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 import { describe, test } from 'vitest'
 
 function setup(promise) {

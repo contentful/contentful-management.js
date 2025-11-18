@@ -1,12 +1,12 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import type { Environment, PlainClientAPI, Space } from '../../lib/export-types.js'
+import type { Environment, PlainClientAPI, Space } from '../../lib/export-types'
 import {
   createTestEnvironment,
   createTestSpace,
   initClient,
   initPlainClient,
   waitForEnvironmentToBeReady,
-} from '../helpers.js'
+} from '../helpers'
 
 describe('Upload Credential Integration', () => {
   let space: Space

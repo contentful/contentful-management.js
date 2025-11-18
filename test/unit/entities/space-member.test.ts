@@ -1,11 +1,11 @@
 import { describe, test } from 'vitest'
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { wrapSpaceMember, wrapSpaceMemberCollection } from '../../../lib/entities/space-member.js'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
+import { wrapSpaceMember, wrapSpaceMemberCollection } from '../../../lib/entities/space-member'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

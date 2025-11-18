@@ -1,8 +1,8 @@
 import { describe, test } from 'vitest'
-import { wrapUserUIConfig } from '../../../lib/entities/user-ui-config.js'
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods.js'
+import { wrapUserUIConfig } from '../../../lib/entities/user-ui-config'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
+import { entityWrappedTest } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

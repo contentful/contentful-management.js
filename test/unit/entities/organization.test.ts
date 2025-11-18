@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'vitest'
-import { cloneMock, mockCollection, organizationMock } from '../mocks/entities.js'
-import type { Organization } from '../../../lib/entities/organization.js'
-import { wrapOrganization, wrapOrganizationCollection } from '../../../lib/entities/organization.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import { cloneMock, mockCollection, organizationMock } from '../mocks/entities'
+import type { Organization } from '../../../lib/entities/organization'
+import { wrapOrganization, wrapOrganizationCollection } from '../../../lib/entities/organization'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

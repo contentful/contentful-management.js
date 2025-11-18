@@ -1,6 +1,6 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers.js'
-import type { Space } from '../../lib/export-types.js'
+import { getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers'
+import type { Space } from '../../lib/export-types'
 
 describe('EnvironmentAlias API', () => {
   describe('read', () => {

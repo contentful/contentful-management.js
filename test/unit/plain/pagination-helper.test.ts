@@ -4,13 +4,13 @@ import type {
   CursorBasedParams,
   FetchFn,
   OffsetBasedParams,
-} from '../../../lib/plain/pagination-helper.js'
-import { fetchAll } from '../../../lib/plain/pagination-helper.js'
-import type { BasicCursorPaginationOptions } from '../../../lib/common-types.js'
+} from '../../../lib/plain/pagination-helper'
+import { fetchAll } from '../../../lib/plain/pagination-helper'
+import type { BasicCursorPaginationOptions } from '../../../lib/common-types'
 import {
   type CollectionProp,
   type CursorPaginatedCollectionProp,
-} from '../../../lib/common-types.js'
+} from '../../../lib/common-types'
 
 const defaultLimit = 2
 

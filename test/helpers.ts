@@ -1,5 +1,5 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import { createClient } from '../lib/index.js'
+import { createClient } from '../lib/index'
 import type {
   BulkActionPayload,
   BulkActionProps,
@@ -8,8 +8,8 @@ import type {
   Organization,
   PlainClientAPI,
   Space,
-} from '../lib/index.js'
-import { TestDefaults } from './defaults.js'
+} from '../lib/index'
+import { TestDefaults } from './defaults'
 import * as testUtils from '@contentful/integration-test-utils'
 import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../lib/methods/action'
 

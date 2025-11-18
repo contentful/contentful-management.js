@@ -1,7 +1,7 @@
 import { vi, expect, describe, test } from 'vitest'
-import { cloneMock, assetWithFilesMock } from '../../../mocks/entities.js'
-import { wrapAsset } from '../../../../../lib/entities/asset.js'
-import setupRestAdapter from '../helpers/setupRestAdapter.js'
+import { cloneMock, assetWithFilesMock } from '../../../mocks/entities'
+import { wrapAsset } from '../../../../../lib/entities/asset'
+import setupRestAdapter from '../helpers/setupRestAdapter'
 import type contentfulSdkCore from 'contentful-sdk-core'
 
 function setup(promise, params = {}) {

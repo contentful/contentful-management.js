@@ -1,7 +1,7 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import { getDefaultSpace, getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers.js'
+import { getDefaultSpace, getSpecialSpace, timeoutToCalmRateLimiting } from '../helpers'
 
-import { ValidationError } from '../../lib/adapters/REST/endpoints/asset-key.js'
+import { ValidationError } from '../../lib/adapters/REST/endpoints/asset-key'
 
 export const now = () => Math.floor(Date.now() / 1000)
 export const withExpiryIn1Hour = () => now() + 1 * 60 * 60

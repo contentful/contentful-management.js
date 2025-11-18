@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import { defaultClient, createTestSpace, timeoutToCalmRateLimiting } from '../helpers.js'
-import type { Space } from '../../lib/export-types.js'
-import type { WebhookRetryPolicyProps } from '../../lib/entities/webhook.js'
+import { defaultClient, createTestSpace, timeoutToCalmRateLimiting } from '../helpers'
+import type { Space } from '../../lib/export-types'
+import type { WebhookRetryPolicyProps } from '../../lib/entities/webhook'
 
 describe('Webhook API', () => {
   let space: Space

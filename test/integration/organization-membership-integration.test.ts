@@ -1,7 +1,7 @@
 import { beforeAll, describe, test, expect } from 'vitest'
-import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers.js'
-import type { Organization } from '../../lib/export-types.js'
-import { TestDefaults } from '../defaults.js'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
+import type { Organization } from '../../lib/export-types'
+import { TestDefaults } from '../defaults'
 
 const { organizationMembershipId } = TestDefaults
 

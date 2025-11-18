@@ -1,6 +1,6 @@
 import { expect, describe, it } from 'vitest'
-import { cloneMock } from '../../../mocks/entities.js'
-import setupRestAdapter from '../helpers/setupRestAdapter.js'
+import { cloneMock } from '../../../mocks/entities'
+import setupRestAdapter from '../helpers/setupRestAdapter'
 
 import type { CreateAppActionCallProps } from '../../../../../lib/entities/app-action-call'
 import { wrapAppActionCallResponse } from '../../../../../lib/entities/app-action-call'

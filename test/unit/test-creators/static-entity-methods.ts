@@ -1,4 +1,4 @@
-import { cloneMock } from '../mocks/entities.js'
+import { cloneMock } from '../mocks/entities'
 import { cloneDeep } from 'lodash-es'
 import { upperFirst } from 'lodash-es'
 import { expect } from 'vitest'

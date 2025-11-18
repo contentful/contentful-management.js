@@ -9,8 +9,8 @@ import {
   timeoutToCalmRateLimiting,
   initPlainClient,
   getTestOrganizationId,
-} from '../helpers.js'
-import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types.js'
+} from '../helpers'
+import type { ConceptProps, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
 describe('Asset API - Read', () => {
   let space: Space

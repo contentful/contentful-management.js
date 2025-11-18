@@ -1,8 +1,8 @@
-import { cloneMock } from '../mocks/entities.js'
-import { wrapAssetKey } from '../../../lib/entities/asset-key.js'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods.js'
+import { cloneMock } from '../mocks/entities'
+import { wrapAssetKey } from '../../../lib/entities/asset-key'
+import { entityWrappedTest } from '../test-creators/instance-entity-methods'
 import { describe, test } from 'vitest'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

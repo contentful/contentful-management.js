@@ -1,8 +1,8 @@
 import { expect, describe, test } from 'vitest'
-import createEntryApi from '../../lib/create-entry-api.js'
-import { wrapEntry, wrapEntryCollection } from '../../lib/entities/entry.js'
-import { commentMock, cloneMock, taskMock } from './mocks/entities.js'
-import setupMakeRequest from './mocks/makeRequest.js'
+import createEntryApi from '../../lib/create-entry-api'
+import { wrapEntry, wrapEntryCollection } from '../../lib/entities/entry'
+import { commentMock, cloneMock, taskMock } from './mocks/entities'
+import setupMakeRequest from './mocks/makeRequest'
 import {
   entityActionTest,
   entityCollectionActionTest,
@@ -17,8 +17,8 @@ import {
   isDraftTest,
   isPublishedTest,
   isUpdatedTest,
-} from './test-creators/instance-entity-methods.js'
-import { makeEntityMethodFailingTest } from './test-creators/static-entity-methods.js'
+} from './test-creators/instance-entity-methods'
+import { makeEntityMethodFailingTest } from './test-creators/static-entity-methods'
 
 function setup(promise: Promise<unknown>) {
   const makeRequest = setupMakeRequest(promise)

@@ -1,8 +1,8 @@
 import { describe, test } from 'vitest'
-import { wrapAppAccessToken } from '../../../lib/entities/app-access-token.js'
-import { appAccessTokenMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods.js'
+import { wrapAppAccessToken } from '../../../lib/entities/app-access-token'
+import { appAccessTokenMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
+import { entityWrappedTest } from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

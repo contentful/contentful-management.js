@@ -1,6 +1,6 @@
 import { describe, test, expect, vi, afterEach } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
-import createSpaceApi from '../../lib/create-space-api.js'
+import createSpaceApi from '../../lib/create-space-api'
 import {
   apiKeyMock,
   cloneMock,
@@ -16,15 +16,15 @@ import {
   teamSpaceMembershipMock,
   userMock,
   webhookMock,
-} from './mocks/entities.js'
+} from './mocks/entities'
 import {
   makeCreateEntityTest,
   makeCreateEntityWithIdTest,
   makeEntityMethodFailingTest,
   makeGetCollectionTest,
   makeGetEntityTest,
-} from './test-creators/static-entity-methods.js'
-import setupMakeRequest from './mocks/makeRequest.js'
+} from './test-creators/static-entity-methods'
+import setupMakeRequest from './mocks/makeRequest'
 
 function setup(promise) {
   const entitiesMock = setupEntitiesMock()

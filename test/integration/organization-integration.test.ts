@@ -1,11 +1,11 @@
 import { describe, test, expect, afterAll } from 'vitest'
-import { TestDefaults } from '../defaults.js'
+import { TestDefaults } from '../defaults'
 import {
   initPlainClient,
   defaultClient,
   getTestOrganization,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 
 describe('Organization API', async function () {
   afterAll(timeoutToCalmRateLimiting)

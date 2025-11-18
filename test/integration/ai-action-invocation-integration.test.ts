@@ -4,7 +4,7 @@ import {
   createTestSpace,
   generateRandomId,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 
 export async function pollForCompletedAiActionInvocationResult(
   environment,

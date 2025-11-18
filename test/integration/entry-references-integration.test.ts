@@ -1,9 +1,9 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import type { PlainClientAPI } from '../../lib/index.js'
-import type { Environment } from '../../lib/entities/environment.js'
-import type { Space } from '../../lib/entities/space.js'
-import { TestDefaults } from '../defaults.js'
-import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
+import type { PlainClientAPI } from '../../lib/index'
+import type { Environment } from '../../lib/entities/environment'
+import type { Space } from '../../lib/entities/space'
+import { TestDefaults } from '../defaults'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 
 const WRONG_ENTRY_ID = '123123XD'
 

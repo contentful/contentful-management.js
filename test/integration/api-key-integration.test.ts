@@ -4,7 +4,7 @@ import {
   createTestSpace,
   generateRandomId,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 
 describe('ApiKey api', { sequential: true }, () => {
   let space

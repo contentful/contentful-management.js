@@ -1,19 +1,19 @@
 import { expect, describe, test } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
-import createAppDefinitionApi from '../../lib/create-app-definition-api.js'
+import createAppDefinitionApi from '../../lib/create-app-definition-api'
 import {
   appBundleMock,
   appDefinitionMock,
   setupEntitiesMock,
   appInstallationsForOrgMock,
   resourceProviderMock,
-} from './mocks/entities.js'
-import setupMakeRequest from './mocks/makeRequest.js'
+} from './mocks/entities'
+import setupMakeRequest from './mocks/makeRequest'
 import {
   makeGetCollectionTest,
   makeGetEntityTest,
   makeEntityMethodFailingTest,
-} from './test-creators/static-entity-methods.js'
+} from './test-creators/static-entity-methods'
 
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()

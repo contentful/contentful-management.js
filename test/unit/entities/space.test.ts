@@ -1,8 +1,8 @@
 import { describe, test, expect } from 'vitest'
-import { cloneMock, mockCollection, spaceMock } from '../mocks/entities.js'
-import type { Space } from '../../../lib/entities/space.js'
-import { wrapSpace, wrapSpaceCollection } from '../../../lib/entities/space.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import { cloneMock, mockCollection, spaceMock } from '../mocks/entities'
+import type { Space } from '../../../lib/entities/space'
+import { wrapSpace, wrapSpaceCollection } from '../../../lib/entities/space'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

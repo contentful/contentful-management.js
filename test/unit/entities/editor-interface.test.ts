@@ -1,7 +1,7 @@
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { wrapEditorInterface } from '../../../lib/entities/editor-interface.js'
-import { entityUpdateTest, entityWrappedTest } from '../test-creators/instance-entity-methods.js'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
+import { wrapEditorInterface } from '../../../lib/entities/editor-interface'
+import { entityUpdateTest, entityWrappedTest } from '../test-creators/instance-entity-methods'
 import { describe, test, expect, vi } from 'vitest'
 
 function setup(promise) {

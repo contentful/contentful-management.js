@@ -1,11 +1,11 @@
-import type { Organization, RoleProps, Space } from '../../lib/export-types.js'
+import type { Organization, RoleProps, Space } from '../../lib/export-types'
 import {
   defaultClient,
   createTestSpace,
   generateRandomId,
   getTestOrganization,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 import { beforeAll, afterAll, describe, it, expect } from 'vitest'
 
 const roleDefinition: Omit<RoleProps, 'sys'> = {

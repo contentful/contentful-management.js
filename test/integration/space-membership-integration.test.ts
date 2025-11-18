@@ -5,9 +5,9 @@ import {
   createTestSpace,
   generateRandomId,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
-import { TestDefaults } from '../defaults.js'
-import type { Space } from '../../lib/export-types.js'
+} from '../helpers'
+import { TestDefaults } from '../defaults'
+import type { Space } from '../../lib/export-types'
 
 const { userEmail } = TestDefaults
 

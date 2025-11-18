@@ -2,11 +2,11 @@ import {
   environmentTemplateInstallationMock,
   environmentTemplateMock,
   environmentTemplateValidationMock,
-} from './mocks/entities.js'
+} from './mocks/entities'
 import { describe, test, expect } from 'vitest'
-import setupMakeRequest from './mocks/makeRequest.js'
-import { createEnvironmentTemplateApi } from '../../lib/create-environment-template-api.js'
-import { makeLink } from '../utils.js'
+import setupMakeRequest from './mocks/makeRequest'
+import { createEnvironmentTemplateApi } from '../../lib/create-environment-template-api'
+import { makeLink } from '../utils'
 
 const organizationId = 'test-organization-id'
 const spaceId = 'mock-space-id'

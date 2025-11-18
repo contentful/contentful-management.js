@@ -1,15 +1,15 @@
-import type { ResourceProviderProps } from '../../../lib/entities/resource-provider.js'
-import { cloneMock, resourceTypeMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
-import { wrapResourceProvider } from '../../../lib/entities/resource-provider.js'
+import type { ResourceProviderProps } from '../../../lib/entities/resource-provider'
+import { cloneMock, resourceTypeMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
+import { wrapResourceProvider } from '../../../lib/entities/resource-provider'
 import {
   entityActionTest,
   entityWrappedTest,
   entityDeleteTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 import { describe, it, expect } from 'vitest'
-import type { ResourceTypeProps } from '../../../lib/entities/resource-type.js'
-import type { CollectionProp } from '../../../lib/common-types.js'
+import type { ResourceTypeProps } from '../../../lib/entities/resource-type'
+import type { CollectionProp } from '../../../lib/common-types'
 
 function setup(promise: Promise<ResourceProviderProps>) {
   return {

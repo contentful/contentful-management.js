@@ -5,8 +5,8 @@ import {
   generateRandomId,
   createTestSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
-import type { Space, Environment, Tag, Link } from '../../lib/export-types.js'
+} from '../helpers'
+import type { Space, Environment, Tag, Link } from '../../lib/export-types'
 
 function randomTagId(): string {
   return generateRandomId('test-tag')

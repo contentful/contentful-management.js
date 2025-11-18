@@ -1,12 +1,12 @@
-import { wrapAppSigningSecret } from '../../../lib/entities/app-signing-secret.js'
+import { wrapAppSigningSecret } from '../../../lib/entities/app-signing-secret'
 import {
   entityWrappedTest,
   entityDeleteTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods.js'
-import { appSigningSecretMock } from '../mocks/entities.js'
+} from '../test-creators/instance-entity-methods'
+import { appSigningSecretMock } from '../mocks/entities'
 import { describe, test } from 'vitest'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

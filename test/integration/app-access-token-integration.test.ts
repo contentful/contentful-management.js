@@ -5,7 +5,7 @@ import {
   createAppInstallation,
   getTestOrganization,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 import { sign } from 'jsonwebtoken'
 import type {
   AppDefinition,
@@ -14,7 +14,7 @@ import type {
   Environment,
   PlainClientAPI,
   AppKeyProps,
-} from '../../lib/index.js'
+} from '../../lib/index'
 
 describe('AppAccessToken api', { sequential: true }, () => {
   let organization: Organization

@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { wrapUIConfig } from '../../../../../lib/entities/ui-config.js'
-import { cloneMock } from '../../../mocks/entities.js'
-import setupRestAdapter from '../helpers/setupRestAdapter.js'
+import { wrapUIConfig } from '../../../../../lib/entities/ui-config'
+import { cloneMock } from '../../../mocks/entities'
+import setupRestAdapter from '../helpers/setupRestAdapter'
 
 function setup(promise, params = {}) {
   return {

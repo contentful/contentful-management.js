@@ -1,14 +1,14 @@
 import { describe, test } from 'vitest'
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   wrapPersonalAccessToken,
   wrapPersonalAccessTokenCollection,
-} from '../../../lib/entities/personal-access-token.js'
+} from '../../../lib/entities/personal-access-token'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

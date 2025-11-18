@@ -2,13 +2,13 @@ import { describe, test } from 'vitest'
 import {
   wrapWorkflowsChangelogEntry,
   wrapWorkflowsChangelogEntryCollection,
-} from '../../../lib/entities/workflows-changelog-entry.js'
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
+} from '../../../lib/entities/workflows-changelog-entry'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   entityCollectionWrappedTest,
   entityWrappedTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

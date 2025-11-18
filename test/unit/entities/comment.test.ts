@@ -1,7 +1,7 @@
 import { describe, test } from 'vitest'
-import { wrapComment, wrapCommentCollection } from '../../../lib/entities/comment.js'
-import { cloneMock } from '../mocks/entities.js'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapComment, wrapCommentCollection } from '../../../lib/entities/comment'
+import { cloneMock } from '../mocks/entities'
+import setupMakeRequest from '../mocks/makeRequest'
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
@@ -9,7 +9,7 @@ import {
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
-} from '../test-creators/instance-entity-methods.js'
+} from '../test-creators/instance-entity-methods'
 
 function setup(promise) {
   return {

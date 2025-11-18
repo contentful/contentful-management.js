@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib/index.js'
-import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
+import { createClient } from '../../../lib/index'
+import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
 describe('Webhook', () => {
   const spaceId = 'space-id'

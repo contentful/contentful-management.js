@@ -4,8 +4,8 @@ import {
   createTestEnvironment,
   createTestSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
-import type { Space, Environment } from '../../lib/export-types.js'
+} from '../helpers'
+import type { Space, Environment } from '../../lib/export-types'
 
 describe('Locale API', () => {
   let space: Space

@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers.js'
-import type { Space } from '../../lib/export-types.js'
+import { getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
+import type { Space } from '../../lib/export-types'
 
 describe('SpaceTeam API', () => {
   let space: Space

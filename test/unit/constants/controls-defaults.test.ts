@@ -4,7 +4,7 @@ import {
   FIELD_TYPES,
   toApiFieldType,
   getDefaultControlOfField,
-} from '../../../lib/constants/editor-interface-defaults/controls-defaults.js'
+} from '../../../lib/constants/editor-interface-defaults/controls-defaults'
 
 const baseField = { id: 'mockedId', name: 'mockedName', required: false, localized: false }
 

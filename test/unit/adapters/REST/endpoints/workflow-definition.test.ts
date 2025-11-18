@@ -1,9 +1,9 @@
 import { describe, test, expect } from 'vitest'
-import { cloneMock } from '../../../mocks/entities.js'
-import setupRestAdapter from '../helpers/setupRestAdapter.js'
-import type { WorkflowDefinitionProps } from '../../../../../lib/entities/workflow-definition.js'
-import { wrapWorkflowDefinition } from '../../../../../lib/entities/workflow-definition.js'
-import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types.js'
+import { cloneMock } from '../../../mocks/entities'
+import setupRestAdapter from '../helpers/setupRestAdapter'
+import type { WorkflowDefinitionProps } from '../../../../../lib/entities/workflow-definition'
+import { wrapWorkflowDefinition } from '../../../../../lib/entities/workflow-definition'
+import type { MakeRequest, MakeRequestOptions } from '../../../../../lib/export-types'
 
 function setup(params = {}) {
   const entityMock: WorkflowDefinitionProps = cloneMock('workflowDefinition')

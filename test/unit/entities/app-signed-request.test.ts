@@ -1,8 +1,8 @@
-import { wrapAppSignedRequest } from '../../../lib/entities/app-signed-request.js'
-import { entityWrappedTest } from '../test-creators/instance-entity-methods.js'
-import { appSignedRequestMock } from '../mocks/entities.js'
+import { wrapAppSignedRequest } from '../../../lib/entities/app-signed-request'
+import { entityWrappedTest } from '../test-creators/instance-entity-methods'
+import { appSignedRequestMock } from '../mocks/entities'
 import { describe, test } from 'vitest'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

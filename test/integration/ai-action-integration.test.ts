@@ -4,7 +4,7 @@ import {
   createTestSpace,
   generateRandomId,
   timeoutToCalmRateLimiting,
-} from '../helpers.js'
+} from '../helpers'
 
 describe('AiAction api', { sequential: true }, () => {
   let space

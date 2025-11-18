@@ -1,12 +1,12 @@
-import { wrapAppDetails } from '../../../lib/entities/app-details.js'
+import { wrapAppDetails } from '../../../lib/entities/app-details'
 import {
   entityWrappedTest,
   entityDeleteTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods.js'
-import { appDetailsMock } from '../mocks/entities.js'
+} from '../test-creators/instance-entity-methods'
+import { appDetailsMock } from '../mocks/entities'
 import { describe, test } from 'vitest'
-import setupMakeRequest from '../mocks/makeRequest.js'
+import setupMakeRequest from '../mocks/makeRequest'
 
 function setup(promise) {
   return {

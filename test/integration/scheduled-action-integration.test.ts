@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { expect } from 'vitest'
-import type { Asset } from '../../lib/entities/asset.js'
-import type { Entry } from '../../lib/entities/entry.js'
-import type { Environment } from '../../lib/entities/environment.js'
-import type { Space } from '../../lib/entities/space.js'
-import type { ContentType, ContentTypeMetadata } from '../../lib/export-types.js'
-import { ScheduledActionReferenceFilters } from '../../lib/export-types.js'
-import { TestDefaults } from '../defaults.js'
-import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers.js'
-import { makeLink } from '../utils.js'
+import type { Asset } from '../../lib/entities/asset'
+import type { Entry } from '../../lib/entities/entry'
+import type { Environment } from '../../lib/entities/environment'
+import type { Space } from '../../lib/entities/space'
+import type { ContentType, ContentTypeMetadata } from '../../lib/export-types'
+import { ScheduledActionReferenceFilters } from '../../lib/export-types'
+import { TestDefaults } from '../defaults'
+import { getDefaultSpace, initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
+import { makeLink } from '../utils'
 
 const ONE_DAY_MS = 3600 * 1000 * 24
 

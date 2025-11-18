@@ -5,23 +5,23 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-} from '../../lib/index.js'
-import type { Environment, Space, UnpublishBulkActionV2Payload } from '../../lib/index.js'
-import { TestDefaults } from '../defaults.js'
+} from '../../lib/index'
+import type { Environment, Space, UnpublishBulkActionV2Payload } from '../../lib/index'
+import { TestDefaults } from '../defaults'
 import {
   getDefaultSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
   waitForBulkActionProcessing,
   waitForBulkActionV2Processing,
-} from '../helpers.js'
-import { makeLink, makeVersionedLink } from '../utils.js'
+} from '../helpers'
+import { makeLink, makeVersionedLink } from '../utils'
 
 import {
   BulkActionStatus,
   PublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
-} from '../../lib/entities/bulk-action.js'
+} from '../../lib/entities/bulk-action'
 
 describe('BulkActions Api v1', () => {
   let testSpace: Space

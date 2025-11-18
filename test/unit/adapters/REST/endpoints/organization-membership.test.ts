@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { cloneMock } from '../../../mocks/entities.js'
-import { wrapOrganizationMembership } from '../../../../../lib/entities/organization-membership.js'
-import setupRestAdapter from '../helpers/setupRestAdapter.js'
+import { cloneMock } from '../../../mocks/entities'
+import { wrapOrganizationMembership } from '../../../../../lib/entities/organization-membership'
+import setupRestAdapter from '../helpers/setupRestAdapter'
 
 function setup(promise, params = {}) {
   return {
