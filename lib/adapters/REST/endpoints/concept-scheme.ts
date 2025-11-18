@@ -9,10 +9,7 @@ import type {
   GetOrganizationParams,
   UpdateConceptSchemeParams,
 } from '../../../common-types'
-import type {
-  ConceptSchemeProps,
-  CreateConceptSchemeProps,
-} from '../../../entities/concept-scheme'
+import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../../entities/concept-scheme'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 

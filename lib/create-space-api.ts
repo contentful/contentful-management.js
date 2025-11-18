@@ -16,12 +16,7 @@ import {
   wrapEnvironmentAliasCollection,
   type CreateEnvironmentAliasProps,
 } from './entities/environment-alias'
-import {
-  wrapRole,
-  wrapRoleCollection,
-  type CreateRoleProps,
-  type RoleProps,
-} from './entities/role'
+import { wrapRole, wrapRoleCollection, type CreateRoleProps, type RoleProps } from './entities/role'
 import {
   wrapScheduledAction,
   wrapScheduledActionCollection,

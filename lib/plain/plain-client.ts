@@ -1,8 +1,4 @@
-import type {
-  GetContentTypeParams,
-  GetSpaceEnvironmentParams,
-  MakeRequest,
-} from '../common-types'
+import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './common-types'
 import type { DefaultParams } from './wrappers/wrap'

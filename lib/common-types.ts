@@ -20,10 +20,7 @@ import type {
   CreateAppDefinitionProps,
 } from './entities/app-definition'
 import type { AppDetailsProps, CreateAppDetailsProps } from './entities/app-details'
-import type {
-  AppInstallationProps,
-  CreateAppInstallationProps,
-} from './entities/app-installation'
+import type { AppInstallationProps, CreateAppInstallationProps } from './entities/app-installation'
 import type {
   AppSignedRequestProps,
   CreateAppSignedRequestProps,
@@ -102,10 +99,7 @@ import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
 import type { SpaceProps } from './entities/space'
 import type { SpaceMemberProps } from './entities/space-member'
-import type {
-  CreateSpaceMembershipProps,
-  SpaceMembershipProps,
-} from './entities/space-membership'
+import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
 import type { CreateTeamProps, TeamProps } from './entities/team'
 import type { CreateTeamMembershipProps, TeamMembershipProps } from './entities/team-membership'
@@ -192,11 +186,7 @@ import type {
   UpdateOAuthApplicationProps,
 } from './entities/oauth-application'
 import type { FunctionLogProps } from './entities/function-log'
-import type {
-  AiActionProps,
-  AiActionQueryOptions,
-  CreateAiActionProps,
-} from './entities/ai-action'
+import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,

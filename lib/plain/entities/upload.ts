@@ -1,9 +1,6 @@
 import type { Stream } from 'stream'
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type {
-  GetSpaceEnvironmentParams,
-  GetSpaceEnvironmentUploadParams,
-} from '../../common-types'
+import type { GetSpaceEnvironmentParams, GetSpaceEnvironmentUploadParams } from '../../common-types'
 
 export type UploadPlainClientAPI = {
   /** Fetches the Space Environment Upload

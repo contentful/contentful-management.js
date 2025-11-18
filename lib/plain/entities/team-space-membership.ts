@@ -6,10 +6,7 @@ import type {
   CollectionProp,
   GetOrganizationParams,
 } from '../../common-types'
-import type {
-  TeamSpaceMembershipProps,
-  CreateTeamSpaceMembershipProps,
-} from '../../export-types'
+import type { TeamSpaceMembershipProps, CreateTeamSpaceMembershipProps } from '../../export-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TeamSpaceMembershipPlainClientAPI = {

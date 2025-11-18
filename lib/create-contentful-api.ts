@@ -41,10 +41,7 @@ import type {
   OAuthApplicationProps,
 } from './export-types'
 import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
-import {
-  wrapOAuthApplication,
-  wrapOAuthApplicationCollection,
-} from './entities/oauth-application'
+import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
