@@ -15,6 +15,7 @@ import type { PlainClientAPI } from './plain/common-types.js'
 import type { DefaultParams } from './plain/plain-client.js'
 import { createPlainClient } from './plain/plain-client.js'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults/index.js'
+import { ScheduledActionStatus } from './entities/scheduled-action.js'
 
 export type { ClientAPI } from './create-contentful-api.js'
 export { asIterator } from './plain/as-iterator.js'
@@ -28,7 +29,7 @@ export { makeRequest } from './adapters/REST/make-request.js'
 export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types.js'
-
+export { ScheduledActionStatus }
 interface UserAgentParams {
   /**
    * Application name and version e.g myApp/version

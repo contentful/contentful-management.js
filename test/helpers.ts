@@ -1,9 +1,25 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
 import { createClient } from '../lib/index.js'
-import type { Environment, Organization, Space } from '../lib/index.js'
+import type {
+  BulkActionPayload,
+  BulkActionProps,
+  BulkActionV2Payload,
+  Environment,
+  Organization,
+  PlainClientAPI,
+  Space,
+} from '../lib/index.js'
 import { TestDefaults } from './defaults.js'
-
 import * as testUtils from '@contentful/integration-test-utils'
+import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../lib/methods/action'
+
+type PlainOptions = {
+  /** Used by the PlainClient to perform a poll for the BulkAction status */
+  plainClient: PlainClientAPI
+  spaceId: string
+  environmentId: string
+  bulkActionId: string
+}
 
 const accessToken = process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN
 const orgId = process.env.CONTENTFUL_ORGANIZATION_ID
@@ -200,3 +216,37 @@ export const cleanupTaxonomy = async (olderThan = 1000 * 60 * 60) => {
 }
 
 export const timeoutToCalmRateLimiting = () => new Promise((resolve) => setTimeout(resolve, 1000))
+
+/** Waits for a BulkAction status to be either succeeded or failed.
+ * Used by the Plain client */
+export async function waitForBulkActionProcessing<T extends BulkActionPayload = any>(
+  { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
+  options?: AsyncActionProcessingOptions,
+): Promise<BulkActionProps<T>> {
+  return pollAsyncActionStatus<BulkActionProps>(
+    async () =>
+      plainClient.bulkAction.get<T>({
+        bulkActionId,
+        spaceId,
+        environmentId,
+      }),
+    options,
+  )
+}
+
+/** Waits for a BulkAction V2 status to be either succeeded or failed.
+ * Used by the Plain client */
+export async function waitForBulkActionV2Processing<T extends BulkActionV2Payload = any>(
+  { plainClient, spaceId, environmentId, bulkActionId }: PlainOptions,
+  options?: AsyncActionProcessingOptions,
+): Promise<BulkActionProps<T>> {
+  return pollAsyncActionStatus<BulkActionProps>(
+    async () =>
+      plainClient.bulkAction.getV2({
+        bulkActionId,
+        spaceId,
+        environmentId,
+      }),
+    options,
+  )
+}

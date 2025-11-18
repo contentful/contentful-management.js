@@ -44,7 +44,11 @@ import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
+  BulkActionV2Payload,
   BulkActionValidatePayload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from './entities/bulk-action.js'
 import type {
   CommentProps,
@@ -538,6 +542,10 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
+  (opts: MROpts<'BulkAction', 'getV2', UA>): MRReturn<'BulkAction', 'getV2'>
+  (opts: MROpts<'BulkAction', 'publishV2', UA>): MRReturn<'BulkAction', 'publishV2'>
+  (opts: MROpts<'BulkAction', 'unpublishV2', UA>): MRReturn<'BulkAction', 'unpublishV2'>
+  (opts: MROpts<'BulkAction', 'validateV2', UA>): MRReturn<'BulkAction', 'validateV2'>
 
   (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
   (opts: MROpts<'Comment', 'getMany', UA>): MRReturn<'Comment', 'getMany'>
@@ -1311,6 +1319,27 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams
       payload: BulkActionValidatePayload
       return: BulkActionProps<BulkActionValidatePayload>
+    }
+    getV2: {
+      params: GetBulkActionParams
+      return: BulkActionProps<BulkActionV2Payload>
+    }
+    publishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'add'>
+      return: BulkActionProps<PublishBulkActionV2Payload<'add'>>
+    }
+    unpublishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload
+      return: BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>
+    }
+    validateV2: {
+      params: GetSpaceEnvironmentParams
+      payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      return: BulkActionProps<
+        ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      >
     }
   }
   Comment: {

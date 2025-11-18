@@ -5,6 +5,9 @@ import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from '../../../entities/bulk-action.js'
 import type { RestEndpoint } from '../types.js'
 import * as raw from './raw.js'
@@ -51,6 +54,56 @@ export const validate: RestEndpoint<'BulkAction', 'validate'> = (
   return raw.post(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/validate`,
+    payload,
+  )
+}
+
+export const getV2: RestEndpoint<'BulkAction', 'getV2'> = (
+  http: AxiosInstance,
+  params: GetBulkActionParams,
+) => {
+  return raw.get(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions/${params.bulkActionId}`,
+  )
+}
+
+export const publishV2: RestEndpoint<'BulkAction', 'publishV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: PublishBulkActionV2Payload<'add'>,
+): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
+    payload,
+  )
+}
+
+export const unpublishV2: RestEndpoint<'BulkAction', 'unpublishV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload,
+): Promise<
+  BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>
+> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
+    payload,
+  )
+}
+
+export const validateV2: RestEndpoint<'BulkAction', 'validateV2'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>,
+): Promise<
+  BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
+> => {
+  return raw.post(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/bulk_actions`,
     payload,
   )
 }

@@ -88,6 +88,10 @@ export type {
   BulkActionType,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  BulkActionV2Payload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from './entities/bulk-action.js'
 export type {
   Comment,
