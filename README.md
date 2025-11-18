@@ -28,8 +28,7 @@
 
 ## Introduction
 
-[![Build Status](https://circleci.com/gh/contentful/contentful-management.js.svg?style=svg)](https://circleci.com/gh/contentful/contentful-management.js)
-[![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
+[![CI](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml/badge.svg?branch=master)](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![npm downloads](https://img.shields.io/npm/dm/contentful-management.svg)](http://npm-stat.com/charts.html?package=contentful-management)
 [![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js)
