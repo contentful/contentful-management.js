@@ -15,11 +15,12 @@ import type {
   CreateAppActionCallProps,
   AppActionCallRawResponseProps,
 } from './entities/app-action-call'
-import type {
-  AssetFileProp,
-  AssetProps,
-  CreateAssetFromFilesOptions,
-  CreateAssetProps,
+import {
+  wrapAssetTypeCursorPaginatedCollection,
+  type AssetFileProp,
+  type AssetProps,
+  type CreateAssetFromFilesOptions,
+  type CreateAssetProps,
 } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
@@ -40,12 +41,13 @@ import type {
 } from './entities/release'
 import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type {
-  CreateEntryProps,
-  EntryProps,
-  EntryReferenceOptionsProps,
-  EntryReferenceProps,
+import { wrapContentTypeCursorPaginatedCollection, type ContentTypeProps, type CreateContentTypeProps } from './entities/content-type'
+import {
+  wrapEntryTypeCursorPaginatedCollection,
+  type CreateEntryProps,
+  type EntryProps,
+  type EntryReferenceOptionsProps,
+  type EntryReferenceProps,
 } from './entities/entry'
 import type { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
@@ -492,6 +494,20 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapContentTypeCollection(makeRequest, data))
     },
+
+    getContentTypesWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'getManyWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapContentTypeCursorPaginatedCollection(makeRequest, data))
+    },
+
     /**
      * Creates a Content Type
      * @param data - Object representation of the Content Type to be created
@@ -740,6 +756,19 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapEntryCollection(makeRequest, data))
     },
 
+    getEntriesWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getManyWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapEntryTypeCursorPaginatedCollection(makeRequest, data))
+    },
+
     /**
      * Gets a collection of published Entries
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -769,6 +798,19 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
+    },
+
+    getPublishedEntriesWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublishedWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapEntryTypeCursorPaginatedCollection(makeRequest, data))
     },
 
     /**
@@ -955,6 +997,20 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
+    getAssetsWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getManyWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapAssetTypeCursorPaginatedCollection(makeRequest, data))
+    },
+
     /**
      * Gets a collection of published Assets
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -985,6 +1041,20 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
+    getPublishedAssetsWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getPublishedWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapAssetTypeCursorPaginatedCollection(makeRequest, data))
+    },
+
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.

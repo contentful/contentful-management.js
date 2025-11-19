@@ -274,6 +274,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
+    getManyWithCursor(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+    ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
@@ -306,11 +309,21 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    getPublishedWithCursor<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,
@@ -370,11 +383,21 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    getPublishedWithCursor(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    getManyWithCursor(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams

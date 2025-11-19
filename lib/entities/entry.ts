@@ -2,13 +2,14 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
   CollectionProp,
+  CursorPaginatedCollectionProp,
   DefaultElements,
   EntryMetaSysProps,
   KeyValueMap,
   MakeRequest,
   MetadataProps,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulEntryApi } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -71,3 +72,11 @@ export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
  * @private
  */
 export const wrapEntryCollection = wrapCollection(wrapEntry)
+
+/**
+ * @private
+ */
+export const wrapEntryTypeCursorPaginatedCollection: (
+  makeRequest: MakeRequest,
+  data: CursorPaginatedCollectionProp<EntryProps>,
+) => CursorPaginatedCollectionProp<EntryProps> = wrapCursorPaginatedCollection(wrapEntry)

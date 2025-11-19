@@ -8,8 +8,9 @@ import type {
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
+  CursorPaginatedCollectionProp,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
 export type AssetProps<S = {}> = {
@@ -410,3 +411,11 @@ export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
  * @private
  */
 export const wrapAssetCollection = wrapCollection(wrapAsset)
+
+/**
+ * @private
+ */
+export const wrapAssetTypeCursorPaginatedCollection: (
+  makeRequest: MakeRequest,
+  data: CursorPaginatedCollectionProp<AssetProps>,
+) => CursorPaginatedCollectionProp<AssetProps> = wrapCursorPaginatedCollection(wrapAsset)
