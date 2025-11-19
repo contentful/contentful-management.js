@@ -44,8 +44,9 @@ import type {
 } from './entities/release'
 import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
-import { type ContentTypeProps, type CreateContentTypeProps } from './entities/content-type'
+import { wrapContentTypeCursorPaginatedCollection, type ContentTypeProps, type CreateContentTypeProps } from './entities/content-type'
 import {
+  wrapEntryTypeCursorPaginatedCollection,
   type CreateEntryProps,
   type EntryProps,
   type EntryReferenceOptionsProps,
@@ -851,6 +852,19 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
+    },
+
+    getPublishedEntriesWithCursor(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublishedWithCursor',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: query }).params,
+        },
+      }).then((data) => wrapEntryTypeCursorPaginatedCollection(makeRequest, data))
     },
 
     /**
