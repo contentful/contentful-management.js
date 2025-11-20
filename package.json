@@ -191,6 +191,12 @@
   },
   "size-limit": [
     {
+      "path": "./dist/contentful-management.bundle.node.cjs",
+      "limit": "177 kB"
+    }
+  ],
+  "size-limit-old": [
+    {
       "path": "./dist/contentful-management.browser.js",
       "limit": "161 kB"
     },
