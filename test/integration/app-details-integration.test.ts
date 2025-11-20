@@ -1,11 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type {
-  AppIcon,
-  PlainClientAPI,
-  Organization,
-  AppDefinition,
-} from '../../lib/index'
+import type { AppIcon, PlainClientAPI, Organization, AppDefinition } from '../../lib/index'
 
 describe('AppDetails api', { sequential: true }, () => {
   let appDefinition: AppDefinition
