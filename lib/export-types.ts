@@ -25,6 +25,7 @@ export type {
   AppActionCall,
   AppActionCallProps,
   AppActionCallErrorProps,
+  AppActionCallResponse, // was previously deep imported in user_interface
   AppActionCallRawResponseProps,
   AppActionCallStatus,
   CreateAppActionCallProps,
@@ -93,6 +94,7 @@ export type {
 export type {
   Comment,
   CommentProps,
+  CommentStatus, // was previously deep imported in user_interface
   CreateCommentProps,
   DeleteCommentParams,
   GetCommentParentEntityParams,
@@ -125,7 +127,13 @@ export type {
   GroupControl,
   SidebarItem,
 } from './entities/editor-interface'
-export type { CreateEntryProps, Entry, EntryProps, WithResourceName } from './entities/entry'
+export type {
+  CreateEntryProps,
+  Entry,
+  EntryProps,
+  EntryReferenceProps, // was previously deep imported in user_interface
+  WithResourceName,
+} from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
   CreateEnvironmentAliasProps,
@@ -197,7 +205,13 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps } from './entities/role'
+export type {
+  ActionType, // was previously deep imported in user_interface
+  ConstraintType, // was previously deep imported in user_interface
+  CreateRoleProps,
+  Role,
+  RoleProps,
+} from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
@@ -235,8 +249,11 @@ export type {
   UpdateWebhookProps,
   UpsertWebhookSigningSecretPayload,
   WebHooks,
+  WebhookCallDetailsProps, // was previously deep imported in user_interface
   WebhookCallRequest,
+  WebhookCallOverviewProps, // was previously deep imported in user_interface
   WebhookFilter,
+  WebhookHealthProps, // was previously deep imported in user_interface
   WebhookProps,
   WebhookSigningSecretProps,
   WebhookTransformation,

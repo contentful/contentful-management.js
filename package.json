@@ -3,12 +3,22 @@
   "version": "0.0.0-determined-by-semantic-release",
   "description": "Client for Contentful's Content Management API",
   "homepage": "https://www.contentful.com/developers/documentation/content-management-api/",
-  "main": "./dist/contentful-management.node.js",
-  "browser": "./dist/contentful-management.browser.js",
-  "types": "./dist/typings/contentful-management.d.ts",
-  "module": "./dist/es-modules/contentful-management.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "require": "./dist/contentful-management.bundle.node.cjs",
+      "default": "./dist/esm/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
+    },
+    "./dist/contentful-management.bundle.node.cjs": "./dist/contentful-management.bundle.node.cjs",
+    "./dist/contentful-management.bundle.browser.js": "./dist/contentful-management.bundle.browser.js"
+  },
+  "main": "./dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
@@ -25,10 +35,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run build:modules && npm run build:standalone && npm run build:types",
-    "build:modules": "BABEL_ENV=modules babel --extensions \".ts\" --extensions \".js\" lib -d dist/es-modules/",
-    "build:standalone": "webpack && NODE_ENV=production webpack",
-    "build:standalone:log": "NODE_ENV=production WEBPACK_MODE=log webpack --json --profile --progress > webpack-build-log.json && webpack-bundle-analyzer webpack-build-log.json",
+    "build": "npm run clean && NODE_ENV=production rollup -c",
     "build:types": "rimraf dist/typings && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
     "build:docs": "typedoc",
     "docs:dev": "npm run build:docs",
@@ -60,8 +67,7 @@
     "prepublishOnly": "npm run build && npm run test:version"
   },
   "files": [
-    "dist",
-    "types.d.ts"
+    "dist"
   ],
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
@@ -83,7 +89,13 @@
     "@babel/preset-typescript": "^7.24.7",
     "@contentful/integration-test-utils": "^2.0.1",
     "@eslint/js": "^9.15.0",
-    "@semantic-release/changelog": "^6.0.0",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@semantic-release/changelog": "^6.0.3",
     "@size-limit/file": "^11.1.6",
     "@types/json-patch": "0.0.30",
     "@types/lodash": "^4.14.168",
@@ -108,6 +120,8 @@
     "playwright": "^1.49.0",
     "prettier": "^3.6.2",
     "rimraf": "^5.0.0",
+    "rollup": "^4.53.3",
+    "rollup-plugin-sourcemaps2": "^0.5.4",
     "semantic-release": "^25.0.2",
     "size-limit": "^11.1.6",
     "type-fest": "^4.18.3",
@@ -138,6 +152,11 @@
       "master",
       {
         "name": "beta",
+        "channel": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "new-beta",
         "channel": "beta",
         "prerelease": true
       },

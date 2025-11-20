@@ -30,6 +30,7 @@ export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
 export { ScheduledActionStatus }
+export { OptionalDefaults } from './plain/wrappers/wrap' // was previously deep imported in user_interface
 
 interface UserAgentParams {
   /**
@@ -54,9 +55,11 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
 /**
  * Create a client instance
  * @param params - Client initialization parameters
+ * 
+ * @deprecated The `createClient` function is deprecated and will be removed in future versions. Please use `createContentfulApi` or `createPlainClient` directly to create client instances.
  *
  * ```javascript
- * const client = contentfulManagement.createClient({
+ * const client = contentfulManagement.createClient({np
  *  accessToken: 'myAccessToken'
  * })
  * ```
