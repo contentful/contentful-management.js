@@ -3,7 +3,7 @@ import type {
   PlainClientAPI,
   AppActionCallProps,
   AppActionProps,
-} from '../../lib/contentful-management'
+} from '../../lib/index'
 import {
   initPlainClient,
   getTestOrganization,
