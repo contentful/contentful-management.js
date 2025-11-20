@@ -1,4 +1,5 @@
 import type {
+  OpPatch,
   CursorPaginatedCollectionProp,
   DeleteConceptParams,
   GetConceptDescendantsParams,
@@ -8,7 +9,6 @@ import type {
   UpdateConceptParams,
 } from '../../common-types'
 import type { ConceptProps, CreateConceptProps } from '../../entities/concept'
-import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 
 export type ConceptPlainClientAPI = {
