@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "./lib",
     "lib": ["dom", "esnext"],
-    "target": "ES2021",
+    "target": "ES2023",
     "module": "esnext",
     "moduleResolution": "bundler",
     "strict": true,
@@ -10,9 +10,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "inlineSources": true,
     "sourceMap": true,
     "noImplicitThis": false
   },
-  "include": ["lib", "types"]
+  "include": ["lib"]
 }
