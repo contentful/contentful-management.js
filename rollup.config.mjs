@@ -53,7 +53,7 @@ const esmConfig = {
 const cjsBundleConfig = {
   ...baseConfig,
   output: {
-    file: 'dist/csj/index.cjs',
+    file: 'dist/cjs/index.cjs',
     format: 'cjs',
     sourcemap: true,
   },
