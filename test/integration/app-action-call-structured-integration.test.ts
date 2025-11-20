@@ -1,9 +1,5 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import type {
-  PlainClientAPI,
-  AppActionCallProps,
-  AppActionProps,
-} from '../../lib/index'
+import type { PlainClientAPI, AppActionCallProps, AppActionProps } from '../../lib/index'
 import {
   initPlainClient,
   getTestOrganization,
