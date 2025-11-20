@@ -1,6 +1,6 @@
 import type { MockedFunction } from 'vitest'
 import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest'
-import { createClient } from '../../lib/contentful-management'
+import { createClient } from '../../lib/index'
 import { version } from '../../package.json'
 
 import { createAdapter } from '../../lib/create-adapter'
