@@ -7,6 +7,7 @@ export async function makeGetEntityTest(
   { entityType, mockToReturn, methodToTest, wrapperSuffix = '' },
 ) {
   const { api, entitiesMock } = setup(Promise.resolve(mockToReturn))
+  console.debug('HERE', entitiesMock[entityType])
   entitiesMock[entityType][`wrap${upperFirst(entityType)}${wrapperSuffix}`].mockReturnValue(
     mockToReturn,
   )
@@ -22,6 +23,22 @@ export async function makeGetCollectionTest(setup, { entityType, mockToReturn, m
       skip: 0,
       limit: 10,
       items: [mockToReturn],
+    },
+    methodToTest: methodToTest,
+    wrapperSuffix: 'Collection',
+  })
+}
+
+export async function makeGetPaginatedCollectionTest(setup, { entityType, mockToReturn, methodToTest }) {
+  await makeGetEntityTest(setup, {
+    entityType: entityType,
+    mockToReturn: {
+      limit: 100,
+      items: [mockToReturn],
+      pages: {
+        next: undefined,
+        prev: undefined,
+      },
     },
     methodToTest: methodToTest,
     wrapperSuffix: 'Collection',

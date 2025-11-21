@@ -51,6 +51,76 @@ describe('ContentType Api', () => {
       const response = await readEnvironment.getContentTypes()
       expect(response.items).toBeTruthy()
     })
+
+describe('Gets content types with cursor pagination', () => {
+  it('gets content types with cursor pagination with items', async () => {
+    const response = await readEnvironment.getContentTypesWithCursor()
+    expect(response.items).toBeTruthy()
+  })
+
+  it('returns a cursor paginated content type collection when no query is provided', async () => {
+    const response = await readEnvironment.getContentTypesWithCursor()
+
+    expect(response.items).not.toHaveLength(0)
+    expect(response.pages).toBeDefined()
+    expect((response as { total?: number }).total).toBeUndefined()
+
+    response.items.forEach((ct) => {
+      expect(ct.sys.type).toEqual('ContentType')
+      expect(ct.name).toBeDefined()
+      expect(ct.fields).toBeDefined()
+      expect(Array.isArray(ct.fields)).toBe(true)
+    })
+  })
+
+  it('returns [limit] number of items', async () => {
+    const response = await readEnvironment.getContentTypesWithCursor({ limit: 3 })
+
+    expect(response.items).toHaveLength(3)
+    expect(response.pages).toBeDefined()
+    expect((response as { total?: number }).total).toBeUndefined()
+
+    response.items.forEach((ct) => {
+      expect(ct.sys.type).toEqual('ContentType')
+      expect(ct.name).toBeDefined()
+      expect(Array.isArray(ct.fields)).toBe(true)
+    })
+  })
+
+  it('supports forward pagination', async () => {
+    const firstPage = await readEnvironment.getContentTypesWithCursor({ limit: 2 })
+    const secondPage = await readEnvironment.getContentTypesWithCursor({
+      limit: 2,
+      pageNext: firstPage?.pages?.next,
+    })
+
+    expect(secondPage.items).toHaveLength(2)
+    expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+  })
+
+  it('should support backward pagination', async () => {
+    const firstPage = await readEnvironment.getContentTypesWithCursor({ limit: 2, order: ['sys.createdAt'] })
+    const secondPage = await readEnvironment.getContentTypesWithCursor({
+      limit: 2,
+      pageNext: firstPage?.pages?.next,
+      order: ['sys.createdAt'],
+    })
+    const result = await readEnvironment.getContentTypesWithCursor({
+      limit: 2,
+      pagePrev: secondPage?.pages?.prev,
+      order: ['sys.createdAt'],
+    })
+
+    expect(result.items).toHaveLength(2)
+
+    firstPage.items.forEach((item, index) => {
+      expect(item.sys.id).toEqual(result.items[index].sys.id)
+    })
+  })
+})
+
+
+
   })
 
   describe('write', () => {
