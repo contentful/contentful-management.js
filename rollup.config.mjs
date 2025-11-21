@@ -1,6 +1,5 @@
 import pkg from './package.json' with { type: 'json' }
 import nodeResolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import typescript from '@rollup/plugin-typescript'
@@ -20,13 +19,6 @@ const baseConfig = {
       preventAssignment: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VERSION__: JSON.stringify(pkg.version),
-    }),
-    commonjs({
-      sourceMap: true,
-      transformMixedEsModules: true,
-      ignoreGlobal: true,
-      ignoreDynamicRequires: true,
-      requireReturnsDefault: 'auto',
     }),
     replace({
       preventAssignment: true,
@@ -56,6 +48,7 @@ const cjsBundleConfig = {
     file: 'dist/cjs/index.cjs',
     format: 'cjs',
     sourcemap: true,
+    interop: 'auto',
   },
 }
 
