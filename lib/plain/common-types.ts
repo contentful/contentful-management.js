@@ -8,6 +8,7 @@ import type {
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
   CreateWithIdReleaseEntryParams,
+  CursorBasedParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
@@ -275,7 +276,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
     getManyWithCursor(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
+      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
     ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
     update(
       params: OptionalDefaults<GetContentTypeParams>,
@@ -315,7 +316,9 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
@@ -384,7 +387,9 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     getManyWithCursor(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<AssetProps>>
