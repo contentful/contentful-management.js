@@ -29,6 +29,8 @@ export const makeRequest = async <R>({
     // @ts-ignore
     endpoints[entityType]?.[action]
 
+    console.debug(endpoint)
+
   if (endpoint === undefined) {
     throw new Error('Unknown endpoint')
   }
