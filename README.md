@@ -227,6 +227,17 @@ The benefits of using the "plain" version of the client, over the legacy version
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
+## Cursor Based Pagination
+
+Cursor-based pagination is supported on collection endpoints for content types, entries, and assets. To use cursor-based pagination, use the related entity methods `getAssetsWithCursor`, `getContentTypesWithCursor`, and `getEntriesWithCursor`
+
+```js
+const response = await environment.getEntriesWithCursor({ limit: 10 });
+console.log(response.items); // Array of items
+console.log(response.pages?.next); // Cursor for next page
+```
+Use the value from `response.pages.next` to fetch the next page.
+
 ## Legacy Client Interface
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
