@@ -7,7 +7,10 @@ import type {
   CursorBasedParams,
   QueryOptions,
 } from './common-types'
-import { normalizeCursorPaginationParameters, normalizeCursorPaginationResponse } from './common-utils'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -76,7 +79,8 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection, wrapContentTypeCursorPaginatedCollection } = entities.contentType
+  const { wrapContentType, wrapContentTypeCollection, wrapContentTypeCursorPaginatedCollection } =
+    entities.contentType
   const { wrapEntry, wrapEntryCollection, wrapEntryTypeCursorPaginatedCollection } = entities.entry
   const { wrapAsset, wrapAssetCollection, wrapAssetTypeCursorPaginatedCollection } = entities.asset
   const { wrapAssetKey } = entities.assetKey
@@ -523,7 +527,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           query: createRequestConfig({ query: normalizedQueryParams }).params,
         },
-      }).then((data) => wrapContentTypeCursorPaginatedCollection(makeRequest, normalizeCursorPaginationResponse(data)))
+      }).then((data) =>
+        wrapContentTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
     },
 
     /**
@@ -805,7 +814,12 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           query: createRequestConfig({ query: normalizedQueryParams }).params,
         },
-      }).then((data) => wrapEntryTypeCursorPaginatedCollection(makeRequest, normalizeCursorPaginationResponse(data)))
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
     },
 
     /**
@@ -1055,8 +1069,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           environmentId: raw.sys.id,
           query: createRequestConfig({ query: normalizedQueryParams }).params,
         },
-      }).then((data) => 
-         wrapAssetTypeCursorPaginatedCollection(makeRequest, normalizeCursorPaginationResponse(data))
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
       )
     },
 

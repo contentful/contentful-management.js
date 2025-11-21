@@ -52,7 +52,7 @@ export async function waitFor(ms = 1000) {
 
 export function normalizeCursorPaginationParameters(
   query: BasicCursorPaginationOptions,
-): CursorBasedParams{
+): CursorBasedParams {
   const { pagePrev, pageNext, ...rest } = query
 
   return {
@@ -82,7 +82,7 @@ const Pages = {
 const PAGE_KEYS = ['prev', 'next'] as const
 
 export function normalizeCursorPaginationResponse<T>(
-  data: CursorPaginatedCollectionProp<T>
+  data: CursorPaginatedCollectionProp<T>,
 ): CursorPaginatedCollectionProp<T> {
   const pages: { prev?: string; next?: string } = {}
 

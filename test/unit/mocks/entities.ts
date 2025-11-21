@@ -4,7 +4,13 @@ import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
 import type { ContentFields } from '../../../lib/entities/content-type-fields'
 import type { AppSigningSecretProps } from '../../../lib/entities/app-signing-secret'
-import type { CollectionProp, CursorPaginatedCollectionProp, Link, MetaLinkProps, MetaSysProps } from '../../../lib/common-types'
+import type {
+  CollectionProp,
+  CursorPaginatedCollectionProp,
+  Link,
+  MetaLinkProps,
+  MetaSysProps,
+} from '../../../lib/common-types'
 import type { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
 import type { SpaceProps } from '../../../lib/entities/space'
 import type { EnvironmentProps } from '../../../lib/entities/environment'
@@ -1481,9 +1487,7 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
   }
 }
 
-function mockCursorPaginatedCollection<T>(
-  entityMock
-): CursorPaginatedCollectionProp<T> {
+function mockCursorPaginatedCollection<T>(entityMock): CursorPaginatedCollectionProp<T> {
   return {
     sys: {
       type: 'Array',

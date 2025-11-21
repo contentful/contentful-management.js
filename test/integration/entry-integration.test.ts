@@ -47,50 +47,53 @@ describe('Entry Api', () => {
     })
 
     describe('Gets entries with cursor pagination', () => {
-  test('gets entries with cursor pagination with items', async () => {
-    const response = await environment.getEntriesWithCursor()
-    expect(response.items).toBeTruthy()
-  })
+      test('gets entries with cursor pagination with items', async () => {
+        const response = await environment.getEntriesWithCursor()
+        expect(response.items).toBeTruthy()
+      })
 
-  test('returns a cursor paginated entry collection when no query is provided', async () => {
-    const response = await environment.getEntriesWithCursor()
+      test('returns a cursor paginated entry collection when no query is provided', async () => {
+        const response = await environment.getEntriesWithCursor()
 
-    expect(response.items).not.toHaveLength(0)
-    expect(response.pages).toBeDefined()
-    expect((response as { total?: number }).total).toBeUndefined()
+        expect(response.items).not.toHaveLength(0)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
 
-    response.items.forEach((item) => {
-      expect(item.sys.type).toEqual('Entry')
-      expect(item.fields).toBeDefined()
-    })
-  })
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
 
-  test('returns [limit] number of items', async () => {
-    const response = await environment.getEntriesWithCursor({ limit: 3 })
+      test('returns [limit] number of items', async () => {
+        const response = await environment.getEntriesWithCursor({ limit: 3 })
 
-    expect(response.items).toHaveLength(3)
-    expect(response.pages).toBeDefined()
-    expect((response as { total?: number }).total).toBeUndefined()
+        expect(response.items).toHaveLength(3)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
 
-    response.items.forEach((item) => {
-      expect(item.sys.type).toEqual('Entry')
-      expect(item.fields).toBeDefined()
-    })
-  })
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
 
-  test('supports forward pagination', async () => {
-    const firstPage = await environment.getEntriesWithCursor({ limit: 2 })
-    const secondPage = await environment.getEntriesWithCursor({
-      limit: 2,
-      pageNext: firstPage?.pages?.next,
-    })
+      test('supports forward pagination', async () => {
+        const firstPage = await environment.getEntriesWithCursor({ limit: 2 })
+        const secondPage = await environment.getEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+        })
 
-    expect(secondPage.items).toHaveLength(2)
-    expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
-  })
+        expect(secondPage.items).toHaveLength(2)
+        expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+      })
 
-  test('should support backward pagination', async () => {
-        const firstPage = await environment.getEntriesWithCursor({ limit: 2, order: ['sys.createdAt'] })
+      test('should support backward pagination', async () => {
+        const firstPage = await environment.getEntriesWithCursor({
+          limit: 2,
+          order: ['sys.createdAt'],
+        })
         const secondPage = await environment.getEntriesWithCursor({
           limit: 2,
           pageNext: firstPage?.pages?.next,
@@ -108,8 +111,7 @@ describe('Entry Api', () => {
           expect(item.sys.id).equal(result.items[index].sys.id)
         })
       })
-})
-
+    })
 
     test('Gets published entries', async () => {
       return environment.getPublishedEntries().then((response) => {

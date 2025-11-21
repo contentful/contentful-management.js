@@ -29,7 +29,10 @@ export async function makeGetCollectionTest(setup, { entityType, mockToReturn, m
   })
 }
 
-export async function makeGetPaginatedCollectionTest(setup, { entityType, mockToReturn, methodToTest }) {
+export async function makeGetPaginatedCollectionTest(
+  setup,
+  { entityType, mockToReturn, methodToTest },
+) {
   await makeGetEntityTest(setup, {
     entityType: entityType,
     mockToReturn: {

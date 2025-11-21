@@ -134,15 +134,15 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-    test('API call getContentTypesWithCursor', async () => {
+  test('API call getContentTypesWithCursor', async () => {
     return makeGetPaginatedCollectionTest(setup, {
       entityType: 'contentType',
       mockToReturn: mockCursorPaginatedCollection<ContentTypeProps>(contentTypeMock),
-      methodToTest: 'getContentTypesWithCursor'
+      methodToTest: 'getContentTypesWithCursor',
     })
   })
 
-    test('API call getContentTypesWithCursor fails', async () => {
+  test('API call getContentTypesWithCursor fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getContentTypesWithCursor',
     })
@@ -273,15 +273,15 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-      test('API call getEntriesWithCursor', async () => {
+  test('API call getEntriesWithCursor', async () => {
     return makeGetPaginatedCollectionTest(setup, {
       entityType: 'entry',
       mockToReturn: mockCursorPaginatedCollection<EntryProps>(entryMock),
-      methodToTest: 'getEntriesWithCursor'
+      methodToTest: 'getEntriesWithCursor',
     })
   })
 
-    test('API call getEntriesWithCursor fails', async () => {
+  test('API call getEntriesWithCursor fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getEntriesWithCursor',
     })
@@ -359,15 +359,15 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-      test('API call getAssetsWithCursor', async () => {
+  test('API call getAssetsWithCursor', async () => {
     return makeGetPaginatedCollectionTest(setup, {
       entityType: 'asset',
       mockToReturn: mockCursorPaginatedCollection<AssetProps>(assetMock),
-      methodToTest: 'getAssetsWithCursor'
+      methodToTest: 'getAssetsWithCursor',
     })
   })
 
-    test('API call getAssetsWithCursor fails', async () => {
+  test('API call getAssetsWithCursor fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getAssetsWithCursor',
     })
