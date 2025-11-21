@@ -247,7 +247,6 @@ export const createPlainClient = (
     },
     entry: {
       getPublished: wrap(wrapParams, 'Entry', 'getPublished'),
-      getPublishedWithCursor: wrap(wrapParams, 'Entry', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
       getManyWithCursor: wrap(wrapParams, 'Entry', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Entry', 'get'),
@@ -264,7 +263,6 @@ export const createPlainClient = (
     },
     asset: {
       getPublished: wrap(wrapParams, 'Asset', 'getPublished'),
-      getPublishedWithCursor: wrap(wrapParams, 'Asset', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
       getManyWithCursor: wrap(wrapParams, 'Asset', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Asset', 'get'),
