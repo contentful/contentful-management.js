@@ -93,6 +93,6 @@ export function normalizeCursorPaginationResponse<T>(
 
   return {
     ...data,
-    ...(Object.keys(pages).length && { pages }),
+    pages,
   }
 }

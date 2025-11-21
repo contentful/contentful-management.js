@@ -359,6 +359,7 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  skip?: never
   pageNext?: string
   pagePrev?: string
 }

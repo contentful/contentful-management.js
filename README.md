@@ -60,6 +60,7 @@
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
 - [Reach out to us](#reach-out-to-us)
