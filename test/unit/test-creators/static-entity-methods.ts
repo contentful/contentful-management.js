@@ -7,7 +7,6 @@ export async function makeGetEntityTest(
   { entityType, mockToReturn, methodToTest, wrapperSuffix = '' },
 ) {
   const { api, entitiesMock } = setup(Promise.resolve(mockToReturn))
-  console.debug('HERE', entitiesMock[entityType])
   entitiesMock[entityType][`wrap${upperFirst(entityType)}${wrapperSuffix}`].mockReturnValue(
     mockToReturn,
   )
