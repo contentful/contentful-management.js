@@ -24,9 +24,9 @@ export type ReferenceVariableConfiguration = {
 
 export type VariableConfiguration =
   | {
-    strict: boolean
-    in: Array<string>
-  }
+      strict: boolean
+      in: Array<string>
+    }
   | ReferenceVariableConfiguration
 
 export type Variable = {
@@ -49,17 +49,17 @@ export type Configuration = {
 
 export type AiActionTestCase =
   | {
-    type?: 'Text'
-    value?: string
-  }
-  | {
-    type?: 'Reference'
-    value?: {
-      entityPath?: string
-      entityType?: 'Entry'
-      entityId?: string
+      type?: 'Text'
+      value?: string
     }
-  }
+  | {
+      type?: 'Reference'
+      value?: {
+        entityPath?: string
+        entityType?: 'Entry'
+        entityId?: string
+      }
+    }
 
 export interface AiActionQueryOptions {
   limit?: number

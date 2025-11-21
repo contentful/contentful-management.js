@@ -52,12 +52,12 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
-export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi { }
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
 
 export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
   ? Omit<T, 'sys'> & {
-    sys: Sys & { urn: string }
-  }
+      sys: Sys & { urn: string }
+    }
   : never
 
 /**

@@ -323,11 +323,11 @@ export interface CursorPaginatedCollectionProp<TObj>
 
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
-  DefaultElements<CollectionProp<TPlain>> { }
+  DefaultElements<CollectionProp<TPlain>> {}
 
 export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
-  DefaultElements<CursorPaginatedCollectionProp<TPlain>> { }
+  DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -1321,50 +1321,50 @@ export type MRActions = {
   }
   Comment: {
     get:
-    | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
-    | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
+      | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
+      | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
     getMany:
-    | {
-      params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
-      return: CollectionProp<CommentProps>
-    }
-    | {
-      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-      return: CollectionProp<RichTextCommentProps>
-    }
+      | {
+          params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
+          return: CollectionProp<CommentProps>
+      }
+      | {
+        params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+        return: CollectionProp<RichTextCommentProps>
+      }
     getAll:
-    | {
-      params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
-      return: CollectionProp<CommentProps>
-    }
-    | {
-      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-      return: CollectionProp<RichTextCommentProps>
-    }
+      | {
+          params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
+          return: CollectionProp<CommentProps>
+      }
+      | {
+          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+          return: CollectionProp<RichTextCommentProps>
+      }
     create:
-    | {
-      params: CreateCommentParams & PlainTextBodyFormat
-      payload: CreateCommentProps
-      return: CommentProps
-    }
-    | {
-      params: CreateCommentParams & RichTextBodyFormat
-      payload: RichTextCommentBodyPayload
-      return: RichTextCommentProps
-    }
+      | {
+          params: CreateCommentParams & PlainTextBodyFormat
+          payload: CreateCommentProps
+          return: CommentProps
+      }
+      | {
+        params: CreateCommentParams & RichTextBodyFormat
+        payload: RichTextCommentBodyPayload
+        return: RichTextCommentProps
+      }
     update:
-    | {
-      params: UpdateCommentParams
-      payload: UpdateCommentProps
-      headers?: RawAxiosRequestHeaders
-      return: CommentProps
+      | {
+          params: UpdateCommentParams
+          payload: UpdateCommentProps
+          headers?: RawAxiosRequestHeaders
+          return: CommentProps
     }
-    | {
-      params: UpdateCommentParams
-      payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
-      headers?: RawAxiosRequestHeaders
-      return: RichTextCommentProps
-    }
+      | {
+          params: UpdateCommentParams
+          payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
+          headers?: RawAxiosRequestHeaders
+          return: RichTextCommentProps
+      }
     delete: { params: DeleteCommentParams; return: void }
   }
   Concept: {
@@ -1919,7 +1919,7 @@ export type MRActions = {
     }
     createFromFiles: {
       params: CreateWithFilesReleaseAssetParams & QueryParams
-      payload: Omit<AssetFileProp, 'sys'>
+      payload: AssetFileProp,
       headers?: RawAxiosRequestHeaders
       return: AssetProps<{ release: Link<'Release'> }>
     }
@@ -2370,18 +2370,18 @@ export type MROpts<
 } & (UA extends true ? { userAgent: string } : {}) &
   ('params' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['params']
-    ? { params?: MRActions[ET][Action]['params'] }
-    : { params: MRActions[ET][Action]['params'] }
+      ? { params?: MRActions[ET][Action]['params'] }
+      : { params: MRActions[ET][Action]['params'] }
     : {}) &
   ('payload' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['payload']
-    ? { payload?: MRActions[ET][Action]['payload'] }
-    : { payload: MRActions[ET][Action]['payload'] }
+      ? { payload?: MRActions[ET][Action]['payload'] }
+      : { payload: MRActions[ET][Action]['payload'] }
     : {}) &
   ('headers' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['headers']
-    ? { headers?: MRActions[ET][Action]['headers'] }
-    : { headers: MRActions[ET][Action]['headers'] }
+      ? { headers?: MRActions[ET][Action]['headers'] }
+      : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
 /**
@@ -2394,7 +2394,7 @@ export type MRReturn<
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 
-export interface MakeRequestPayload { }
+export interface MakeRequestPayload {}
 
 export interface MakeRequestOptions {
   entityType: keyof MRActions
@@ -2535,16 +2535,16 @@ export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: s
 }
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
-  | { pageUrl?: string }
-  | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
-    Omit<PaginationQueryOptions, 'skip'>)
+    | { pageUrl?: string }
+    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+        Omit<PaginationQueryOptions, 'skip'>)
 }
 
 export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
-  | { pageUrl?: string }
-  | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+    | { pageUrl?: string }
+    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
