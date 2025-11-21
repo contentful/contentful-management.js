@@ -59,7 +59,7 @@ describe('Asset API - Read', () => {
     })
 
     test('returns [limit] number of items', async () => {
-      const response = await environment.getAssetsWithCursor({ limit: 3})
+      const response = await environment.getAssetsWithCursor({ limit: 3 })
 
       expect(response.items).toHaveLength(3)
       expect(response.pages).toBeDefined()
