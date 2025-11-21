@@ -216,7 +216,7 @@ const entries = await scopedPlainClient.entry.getMany({
 })
 ```
 
-You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
+You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
 
 The benefits of using the "plain" version of the client, over the legacy version, are:
 
