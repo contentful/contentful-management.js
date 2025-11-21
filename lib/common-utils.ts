@@ -82,7 +82,7 @@ const Pages = {
 const PAGE_KEYS = ['prev', 'next'] as const
 
 export function normalizeCursorPaginationResponse<T>(
-  data: CursorPaginatedCollectionProp<T>
+  data: CursorPaginatedCollectionProp<T>,
 ): CursorPaginatedCollectionProp<T> {
   const pages: { prev?: string; next?: string } = {}
 

@@ -569,7 +569,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
-  (opts: MROpts<'ContentType', 'getManyWithCursor', UA>): MRReturn<'ContentType', 'getManyWithCursor'>
+  (
+    opts: MROpts<'ContentType', 'getManyWithCursor', UA>,
+  ): MRReturn<'ContentType', 'getManyWithCursor'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
   (opts: MROpts<'ContentType', 'create', UA>): MRReturn<'ContentType', 'create'>
   (opts: MROpts<'ContentType', 'createWithId', UA>): MRReturn<'ContentType', 'createWithId'>
