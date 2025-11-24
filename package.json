@@ -87,7 +87,7 @@
     "@size-limit/file": "^11.1.6",
     "@types/json-patch": "0.0.30",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^20.12.13",
+    "@types/node": "^24.10.1",
     "@vitest/browser": "^2.1.5",
     "@vitest/coverage-v8": "^2.1.5",
     "babel-loader": "^8.2.1",
