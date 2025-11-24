@@ -1,4 +1,3 @@
-import type { Stream } from 'stream'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetSpaceEnvironmentParams, GetSpaceEnvironmentUploadParams } from '../../common-types'
 
@@ -40,7 +39,7 @@ export type UploadPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
-    data: { file: string | ArrayBuffer | Stream },
+    data: { file: string | ArrayBuffer | ReadableStream },
   ): Promise<any>
   /** Deletes the Space Environment Upload
    *

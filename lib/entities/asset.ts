@@ -1,6 +1,5 @@
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import type { Stream } from 'stream'
 import enhanceWithMethods from '../enhance-with-methods'
 import type {
   MetaSysProps,
@@ -49,7 +48,7 @@ export interface AssetFileProp {
     description: { [key: string]: string }
     file: {
       [key: string]: {
-        file: string | ArrayBuffer | Stream
+        file: string | ArrayBuffer | ReadableStream
         contentType: string
         fileName: string
       }

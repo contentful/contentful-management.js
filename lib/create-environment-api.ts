@@ -1,4 +1,3 @@
-import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
@@ -1405,7 +1404,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
+    createUpload: function createUpload(data: { file: string | ArrayBuffer | ReadableStream }) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Upload',
