@@ -415,7 +415,4 @@ export const wrapAssetCollection = wrapCollection(wrapAsset)
 /**
  * @private
  */
-export const wrapAssetTypeCursorPaginatedCollection: (
-  makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<AssetProps>,
-) => CursorPaginatedCollectionProp<AssetProps> = wrapCursorPaginatedCollection(wrapAsset)
+export const wrapAssetTypeCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapAsset)
