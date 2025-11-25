@@ -110,7 +110,7 @@ const scriptConfig = {
       requireReturnsDefault: 'auto',
     }),
     nodePolyfills({
-      
+      include: ['util'],
     }),
   ],
   external: [], // Purposefully bundle all dependencies for browser usage
