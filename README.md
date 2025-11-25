@@ -47,7 +47,7 @@
 - [Getting Started](#getting-started)
   - [Installation](#installation)
     - [Node](#node)
-    - [Browser](#browser)
+    - [Browser](#browser-bundle-in-script-tag)
     - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
@@ -115,11 +115,11 @@ Using [yarn](https://yarnpkg.com/lang/en/):
 yarn add contentful-management
 ```
 
-### Browser:
+### Browser bundle in script tag:
 
-For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
+For most modern web applications, we recommend to download and install the library via npm or yarn as described above.
 
-If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management):
+However, if you need to include contentful-management via a script tag, we recommend using [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management) like so:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@12"></script>
