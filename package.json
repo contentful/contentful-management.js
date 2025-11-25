@@ -23,10 +23,10 @@
   },
   "browserslist": [
     ">0.3%",
-    "Chrome >= 75",
-    "Edge >= 74",
-    "Firefox >= 73",
-    "Safari >= 13"
+    "Chrome >= 110",
+    "Edge >= 110", 
+    "Firefox >= 110",
+    "Safari >= 16.4"
   ],
   "repository": {
     "type": "git",
