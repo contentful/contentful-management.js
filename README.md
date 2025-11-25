@@ -46,13 +46,13 @@
 - [Supported Environments](#supported-environments)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
-    - [Node](#node-)
-    - [Browser](#browser-)
+    - [Node](#node)
+    - [Browser](#browser)
     - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
   - [Your first Request](#your-first-request)
-  - [Alternative plain API](#alternative-plain-api)
+  - [Legacy Client Interface](#legacy-client-interface)
 - [App Framework](#app-framework)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
@@ -79,13 +79,13 @@
 
 Browsers and Node.js:
 
-- Chrome
-- Firefox
-- Edge
-- Safari
-- node.js (LTS)
+- Chrome v110+
+- Firefox v110+
+- Edge v110+
+- Safari v16.4+
+- Node.js (LTS)
 
-Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
+Other browsers might work (if they support ES2023), but at the moment we only support the browsers and Node.js versions specified above in 'contentful-management' v12+.
 
 # Getting started
 
@@ -94,6 +94,7 @@ To get started with the Contentful Management JS library you'll need to install 
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Using ES6 import](#using-es6-import)
+- [Using CommonJS require imports](#using-commonjs-require-imports)
 - [Your first request](#your-first-request)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
@@ -118,28 +119,28 @@ yarn add contentful-management
 
 For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
 
-If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
+If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management):
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@12"></script>
 ```
 
-**It's not recommended to use the above URL for production.**
+> It is recommended to specify the version in the URL.
+> Using 'contentful@{major-version-number}'' will always get you the latest version in that release, but you can also specify a specific version number, ie: 'contentful@11.6.1'
 
-Using `contentful@latest` will always get you the latest version, but you can also specify a specific version number:
+The Contentful Management library will be accessible via the `contentfulManagement` global variable:
 
-```html
-<!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
+```js
+const client = contentfulManagement.createClient({
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 ```
-
-The Contentful Management library will be accessible via the `contentfulManagement` global variable.
 
 Check the [releases](https://github.com/contentful/contentful-management.js/releases) page to know which versions are available.
 
 ## Typings
 
-This library also comes with typings to use with typescript.
+This library is built in TypeScript and has fully typings available.
 
 ## Authentication
 
@@ -155,7 +156,24 @@ You can use the es6 import with the library as follows
 
 ```js
 // import createClient directly
-import contentful from 'contentful-management'
+import { createClient } from 'contentful-management'
+const client = createClient(
+  {
+    // This is the access token for this space. Normally you get the token in the Contentful web app
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'plain' }
+)
+//....
+```
+
+## Using CommonJS require imports
+
+You can use the commonjs require with the library as follows
+
+```js
+// import createClient directly
+const contentful = require('contentful-management');
 const client = contentful.createClient(
   {
     // This is the access token for this space. Normally you get the token in the Contentful web app
@@ -171,8 +189,8 @@ const client = contentful.createClient(
 Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
 
 ```javascript
-const contentful = require('contentful-management')
-const plainClient = contentful.createClient(
+import { createClient } from 'contentful-management'
+const plainClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
@@ -194,7 +212,7 @@ const entries = await plainClient.entry.getMany({
 })
 
 // With scoped space and environment
-const scopedPlainClient = contentful.createClient(
+const scopedPlainClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
@@ -231,8 +249,8 @@ The benefits of using the "plain" version of the client, over the legacy version
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
 ```js
-const contentful = require('contentful-management')
-const client = contentful.createClient({
+import { createClient } from 'contentful-management'
+const client = createClient({
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
 
@@ -308,7 +326,7 @@ To help you get the most out of this library, we've prepared reference documenta
 The `createClient` method supports several options you may set to achieve the expected behavior:
 
 ```js
-contentful.createClient({
+createClient({
   ... your config here ...
 })
 ```
