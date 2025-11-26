@@ -238,6 +238,14 @@ console.log(response.pages?.next); // Cursor for next page
 ```
 Use the value from `response.pages.next` to fetch the next page.
 
+```js
+const secondPage = await environment.getEntriesWithCursor({
+  limit: 2,
+  pageNext: response.pages?.next,
+});
+console.log(secondPage.items); // Array of items
+```
+
 ## Legacy Client Interface
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:

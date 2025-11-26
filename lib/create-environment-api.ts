@@ -500,7 +500,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of Content Types with cursor based pagination
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @return Promise for a collection of Content Types
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -787,7 +787,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of Entries with cursor based pagination
      * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
      * from your entry in the backend
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @return Promise for a collection of Entries
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -1042,7 +1042,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of Assets with cursor based pagination
      * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
      * from your entry in the backend
-     * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @return Promise for a collection of Assets
      * @example ```javascript
      * const contentful = require('contentful-management')
