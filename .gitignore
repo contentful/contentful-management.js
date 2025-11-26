@@ -1,6 +1,5 @@
 dist
 gh-pages
-webpack-build-log.json
 
 # Esdoc dirs
 out

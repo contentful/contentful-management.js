@@ -3,13 +3,13 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   QueryParams,
-} from '../../common-types'
-import type { AiActionProps, CreateAiActionProps } from '../../entities/ai-action'
+} from '../../common-types.js'
+import type { AiActionProps, CreateAiActionProps } from '../../entities/ai-action.js'
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,
-} from '../../entities/ai-action-invocation'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/ai-action-invocation.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 import type { RawAxiosRequestHeaders } from 'axios'
 
 export type AiActionPlainClientAPI = {

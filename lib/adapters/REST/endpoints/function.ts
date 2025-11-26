@@ -1,13 +1,13 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
+import * as raw from './raw.js'
 import type {
   CollectionProp,
   GetFunctionForEnvParams,
   GetFunctionParams,
   GetManyFunctionParams,
-} from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import type { FunctionProps } from '../../../entities/function'
+} from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import type { FunctionProps } from '../../../entities/function.js'
 
 // Base URL
 const getManyUrl = (params: GetManyFunctionParams) =>

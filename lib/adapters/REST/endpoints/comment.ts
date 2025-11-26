@@ -7,7 +7,7 @@ import type {
   GetCommentParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateCommentParams,
   CreateCommentProps,
@@ -18,10 +18,10 @@ import type {
   PlainTextBodyFormat,
   RichTextBodyFormat,
   RichTextCommentBodyPayload,
-} from '../../../entities/comment'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../entities/comment.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 const VERSION_HEADER = 'X-Contentful-Version'
 const BODY_FORMAT_HEADER = 'x-contentful-comment-body-format'

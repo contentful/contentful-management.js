@@ -1,4 +1,4 @@
-import type { MetaSysProps } from '../common-types'
+import type { MetaSysProps } from '../common-types.js'
 
 export const isPublished = (data: { sys: MetaSysProps }) => !!data.sys.publishedVersion
 

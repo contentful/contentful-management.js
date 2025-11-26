@@ -3,9 +3,9 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CreateOrganizationInvitationProps,
   OrganizationInvitationProps,
-} from '../../../entities/organization-invitation'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/organization-invitation.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const OrganizationUserManagementAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'organization-user-management-api',

@@ -9,11 +9,10 @@ import type {
   GetSpaceEnvironmentParams,
   Link,
   MakeRequest,
-  SysLink,
   VersionedLink,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 // PROPS //
 
@@ -28,8 +27,8 @@ export type CommentSysProps = Pick<
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'Comment'
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   parentEntity:
     | Link<'ContentType'>
     | LinkWithReference<'ContentType'>
@@ -138,7 +137,7 @@ export interface RichTextComment
 /**
  * @private
  */
-export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
+function createCommentApi(makeRequest: MakeRequest): CommentApi {
   const getParams = (comment: CommentProps): GetCommentParams => ({
     spaceId: comment.sys.space.sys.id,
     environmentId: comment.sys.environment.sys.id,

@@ -1,10 +1,10 @@
 import { describe, test } from 'vitest'
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   wrapTeamSpaceMembership,
   wrapTeamSpaceMembershipCollection,
-} from '../../../lib/entities/team-space-membership'
+} from '../../../lib/entities/team-space-membership.js'
 import {
   entityWrappedTest,
   entityCollectionWrappedTest,
@@ -12,7 +12,7 @@ import {
   failingActionTest,
   failingVersionActionTest,
   entityUpdateTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

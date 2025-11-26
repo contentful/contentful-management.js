@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect, describe, it, beforeAll, vi, afterAll } from 'vitest'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import type {
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
-  UnpublishBulkActionV2Payload,
-} from '../../lib/contentful-management'
-import type { Environment, Space } from '../../lib/contentful-management'
-import { TestDefaults } from '../defaults'
+} from '../../lib/index.js'
+import type { Environment, Space, UnpublishBulkActionV2Payload } from '../../lib/index.js'
+import { TestDefaults } from '../defaults.js'
 import {
   getDefaultSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
   waitForBulkActionProcessing,
   waitForBulkActionV2Processing,
-} from '../helpers'
-import { makeLink, makeVersionedLink } from '../utils'
+} from '../helpers.js'
+import { makeLink, makeVersionedLink } from '../utils.js'
+
 import {
   BulkActionStatus,
   PublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
-} from '../../lib/entities/bulk-action'
+} from '../../lib/entities/bulk-action.js'
 
 describe('BulkActions Api v1', () => {
   let testSpace: Space

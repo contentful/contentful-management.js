@@ -8,14 +8,14 @@ import type {
   GetTeamMembershipParams,
   GetTeamParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateTeamMembershipProps,
   TeamMembershipProps,
-} from '../../../entities/team-membership'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
-import { normalizeSelect } from './utils'
+} from '../../../entities/team-membership.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
+import { normalizeSelect } from './utils.js'
 
 const getBaseUrl = (params: GetTeamParams) =>
   `/organizations/${params.organizationId}/teams/${params.teamId}/team_memberships`

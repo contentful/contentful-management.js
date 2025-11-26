@@ -4,13 +4,13 @@ import type {
   GetAppDefinitionParams,
   GetOrganizationParams,
   QueryParams,
-} from '../../common-types'
+} from '../../common-types.js'
 import type {
   AppDefinitionProps,
   AppInstallationsForOrganizationProps,
   CreateAppDefinitionProps,
-} from '../../entities/app-definition'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-definition.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppDefinitionPlainClientAPI = {
   /**

@@ -4,9 +4,9 @@ import type {
   GetExtensionParams,
   GetSpaceEnvironmentParams,
   QueryParams,
-} from '../../common-types'
-import type { CreateExtensionProps, ExtensionProps } from '../../entities/extension'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type { CreateExtensionProps, ExtensionProps } from '../../entities/extension.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type ExtensionPlainClientAPI = {
   /**

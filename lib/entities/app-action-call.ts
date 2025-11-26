@@ -11,9 +11,9 @@ import type {
   CreateWithResultParams,
   GetAppActionCallDetailsParams,
   GetAppActionCallParamsWithId,
-} from '../common-types'
-import type { WebhookCallDetailsProps } from './webhook'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import type { WebhookCallDetailsProps } from './webhook.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 type AppActionCallSys = Except<BasicMetaSysProps, 'version'> & {
   appDefinition: SysLink
@@ -102,7 +102,7 @@ export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallPr
 /**
  * @private
  */
-export default function createAppActionCallApi(
+function createAppActionCallApi(
   makeRequest: MakeRequest,
   retryOptions?: RetryOptions,
 ): AppActionCallApi {

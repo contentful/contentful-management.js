@@ -11,25 +11,40 @@ import type {
   BasicCursorPaginationOptions,
   GetOAuthApplicationParams,
   GetUserParams,
-} from './common-types'
-import entities from './entities'
-import type { Organization, OrganizationProps } from './entities/organization'
-import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import type { Space, SpaceProps } from './entities/space'
-import type { AppDefinition } from './entities/app-definition'
-import type { UsageQuery } from './entities/usage'
-import type { UserProps } from './entities/user'
-import type {
-  CreateEnvironmentTemplateProps,
-  EnvironmentTemplate,
-  EnvironmentTemplateProps,
-} from './entities/environment-template'
+} from './common-types.js'
+import {
+  wrapOrganization,
+  wrapOrganizationCollection,
+  type Organization,
+  type OrganizationProps,
+} from './entities/organization.js'
+import {
+  wrapPersonalAccessToken,
+  wrapPersonalAccessTokenCollection,
+  type CreatePersonalAccessTokenProps,
+} from './entities/personal-access-token.js'
+import { wrapSpace, wrapSpaceCollection, type Space, type SpaceProps } from './entities/space.js'
+import { wrapAppDefinition, type AppDefinition } from './entities/app-definition.js'
+import { wrapUsageCollection, type UsageQuery } from './entities/usage.js'
+import { wrapUser, type UserProps } from './entities/user.js'
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+  type CreateEnvironmentTemplateProps,
+  type EnvironmentTemplate,
+  type EnvironmentTemplateProps,
+} from './entities/environment-template.js'
 import type { RawAxiosRequestConfig } from 'axios'
 import type {
   CreateOAuthApplicationProps,
   OAuthApplication,
   OAuthApplicationProps,
-} from './export-types'
+} from './export-types.js'
+import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token.js'
+import {
+  wrapOAuthApplication,
+  wrapOAuthApplicationCollection,
+} from './entities/oauth-application.js'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -38,19 +53,8 @@ type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
  * @private
  */
 export default function createClientApi(makeRequest: MakeRequest) {
-  const { wrapSpace, wrapSpaceCollection } = entities.space
-  const { wrapUser } = entities.user
-  const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
-    entities.personalAccessToken
-  const { wrapAccessToken, wrapAccessTokenCollection } = entities.accessToken
-  const { wrapOrganization, wrapOrganizationCollection } = entities.organization
-  const { wrapUsageCollection } = entities.usage
-  const { wrapAppDefinition } = entities.appDefinition
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-  const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
-
   return {
+    version: __VERSION__,
     /**
      * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID

@@ -1,14 +1,14 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { GetReleaseParams, ReleaseEnvironmentParams } from '../../../common-types'
+import type { GetReleaseParams, ReleaseEnvironmentParams } from '../../../common-types.js'
 import type {
   ReleasePayload,
   ReleasePayloadV2,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-} from '../../../entities/release'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/release.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 export const get: RestEndpoint<'Release', 'get'> = (
   http: AxiosInstance,

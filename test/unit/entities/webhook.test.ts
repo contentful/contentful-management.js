@@ -1,7 +1,7 @@
 import { describe, test } from 'vitest'
-import { wrapWebhook, wrapWebhookCollection } from '../../../lib/entities/webhook'
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { wrapWebhook, wrapWebhookCollection } from '../../../lib/entities/webhook.js'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityCollectionWrappedTest,
   entityDeleteTest,
@@ -9,7 +9,7 @@ import {
   entityWrappedTest,
   failingActionTest,
   failingVersionActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

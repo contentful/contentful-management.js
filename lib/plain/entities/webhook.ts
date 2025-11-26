@@ -5,7 +5,7 @@ import type {
   GetWebhookCallDetailsUrl,
   GetWebhookParams,
   QueryParams,
-} from '../../common-types'
+} from '../../common-types.js'
 import type {
   CreateWebhooksProps,
   UpsertWebhookSigningSecretPayload,
@@ -16,8 +16,8 @@ import type {
   WebhookRetryPolicyPayload,
   WebhookRetryPolicyProps,
   WebhookSigningSecretProps,
-} from '../../entities/webhook'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/webhook.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type WebhookPlainClientAPI = {
   // Webhooks

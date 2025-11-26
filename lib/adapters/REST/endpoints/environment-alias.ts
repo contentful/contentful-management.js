@@ -7,13 +7,13 @@ import type {
   GetSpaceEnvAliasParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateEnvironmentAliasProps,
   EnvironmentAliasProps,
-} from '../../../entities/environment-alias'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/environment-alias.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 /**
  * Urls

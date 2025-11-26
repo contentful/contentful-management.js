@@ -1,12 +1,12 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import * as raw from './raw'
+import * as raw from './raw.js'
 import type {
   CollectionProp,
   GetFunctionLogParams,
   GetManyFunctionLogParams,
-} from '../../../common-types'
-import type { RestEndpoint } from '../types'
-import type { FunctionLogProps } from '../../../entities/function-log'
+} from '../../../common-types.js'
+import type { RestEndpoint } from '../types.js'
+import type { FunctionLogProps } from '../../../entities/function-log.js'
 
 const FunctionLogAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'function-logs',

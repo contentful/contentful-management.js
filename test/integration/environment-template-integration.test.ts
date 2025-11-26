@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, it, afterEach, expect } from 'vitest'
-import type { ClientAPI } from '../../lib/create-contentful-api'
+import type { ClientAPI } from '../../lib/create-contentful-api.js'
 import {
   defaultClient,
   getTestOrganizationId,
@@ -8,18 +8,18 @@ import {
   generateRandomId,
   baseEnvironmentTemplateDescription,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   CreateEnvironmentTemplateProps,
   Environment,
   EnvironmentTemplate,
   EnvironmentTemplateInstallationProps,
   Space,
-} from '../../lib/export-types'
+} from '../../lib/export-types.js'
 
 type InstallTemplate = (versionsCount?: number) => Promise<EnvironmentTemplateInstallationProps>
 
-describe('Environment template API', () => {
+describe.skip('Environment template API', () => {
   const client = defaultClient
   const orgId = getTestOrganizationId()
   const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`

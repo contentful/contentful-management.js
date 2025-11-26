@@ -1,5 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { GetTaskParams, GetEntryParams, QueryParams, CollectionProp } from '../../common-types'
+import type {
+  GetTaskParams,
+  GetEntryParams,
+  QueryParams,
+  CollectionProp,
+} from '../../common-types.js'
 import type {
   CreateTaskParams,
   UpdateTaskParams,
@@ -7,8 +12,8 @@ import type {
   TaskProps,
   CreateTaskProps,
   UpdateTaskProps,
-} from '../../entities/task'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/task.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type TaskPlainClientAPI = {
   /** Fetches a task

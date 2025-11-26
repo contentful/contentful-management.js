@@ -6,61 +6,86 @@ import type {
   CreatedAtIntervalParams,
   CursorBasedParams,
   QueryOptions,
-} from './common-types'
-import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities'
-import type { CreateAppInstallationProps } from './entities/app-installation'
-import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
-import type {
-  CreateAppActionCallProps,
-  AppActionCallRawResponseProps,
-} from './entities/app-action-call'
-import type {
-  AssetFileProp,
-  AssetProps,
-  CreateAssetFromFilesOptions,
-  CreateAssetProps,
-} from './entities/asset'
-import type { CreateAssetKeyProps } from './entities/asset-key'
-import type {
-  BulkAction,
-  BulkActionPayload,
-  BulkActionPublishPayload,
-  BulkActionUnpublishPayload,
-  BulkActionValidatePayload,
-} from './entities/bulk-action'
+} from './common-types.js'
+import type { BasicQueryOptions, MakeRequest } from './common-types.js'
+import {
+  wrapAppInstallation,
+  wrapAppInstallationCollection,
+  type CreateAppInstallationProps,
+} from './entities/app-installation.js'
+import {
+  wrapAppSignedRequest,
+  type CreateAppSignedRequestProps,
+} from './entities/app-signed-request.js'
+import {
+  wrapAppActionCall,
+  type CreateAppActionCallProps,
+  type AppActionCallRawResponseProps,
+} from './entities/app-action-call.js'
+import {
+  wrapAsset,
+  wrapAssetCollection,
+  type AssetFileProp,
+  type AssetProps,
+  type CreateAssetFromFilesOptions,
+  type CreateAssetProps,
+} from './entities/asset.js'
+import { wrapAssetKey, type CreateAssetKeyProps } from './entities/asset-key.js'
+import {
+  wrapBulkAction,
+  type BulkAction,
+  type BulkActionPayload,
+  type BulkActionPublishPayload,
+  type BulkActionUnpublishPayload,
+  type BulkActionValidatePayload,
+} from './entities/bulk-action.js'
 
-import type { ReleaseActionQueryOptions } from './entities/release-action'
-import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action'
+import type { ReleaseActionQueryOptions } from './entities/release-action.js'
+import { wrapReleaseAction, wrapReleaseActionCollection } from './entities/release-action.js'
 
 import type {
   ReleasePayload,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
-} from './entities/release'
-import { wrapRelease, wrapReleaseCollection } from './entities/release'
+} from './entities/release.js'
+import { wrapRelease, wrapReleaseCollection } from './entities/release.js'
 
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type {
-  CreateEntryProps,
-  EntryProps,
-  EntryReferenceOptionsProps,
-  EntryReferenceProps,
-} from './entities/entry'
-import type { EnvironmentProps } from './entities/environment'
-import type { CreateExtensionProps } from './entities/extension'
-import type { CreateLocaleProps } from './entities/locale'
-import type { TagVisibility } from './entities/tag'
-import { wrapTag, wrapTagCollection } from './entities/tag'
-import { wrapUIConfig } from './entities/ui-config'
-import { wrapUserUIConfig } from './entities/user-ui-config'
-import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
-import { wrapFunctionCollection } from './entities/function'
-import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
-import type { CreateAppAccessTokenProps } from './entities/app-access-token'
-import type { ResourceQueryOptions } from './entities/resource'
-import type { AiActionInvocationType } from './entities/ai-action-invocation'
-import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import {
+  wrapContentType,
+  wrapContentTypeCollection,
+  type ContentTypeProps,
+  type CreateContentTypeProps,
+} from './entities/content-type.js'
+import {
+  wrapEntry,
+  wrapEntryCollection,
+  type CreateEntryProps,
+  type EntryProps,
+  type EntryReferenceOptionsProps,
+  type EntryReferenceProps,
+} from './entities/entry.js'
+import { wrapEnvironment, type EnvironmentProps } from './entities/environment.js'
+import {
+  wrapExtension,
+  wrapExtensionCollection,
+  type CreateExtensionProps,
+} from './entities/extension.js'
+import { wrapLocale, wrapLocaleCollection, type CreateLocaleProps } from './entities/locale.js'
+import type { TagVisibility } from './entities/tag.js'
+import { wrapTag, wrapTagCollection } from './entities/tag.js'
+import { wrapUIConfig } from './entities/ui-config.js'
+import { wrapUserUIConfig } from './entities/user-ui-config.js'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation.js'
+import { wrapFunctionCollection } from './entities/function.js'
+import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log.js'
+import { wrapAppAccessToken, type CreateAppAccessTokenProps } from './entities/app-access-token.js'
+import { wrapResourceCollection, type ResourceQueryOptions } from './entities/resource.js'
+import type { AiActionInvocationType } from './entities/ai-action-invocation.js'
+import { wrapAiActionInvocation } from './entities/ai-action-invocation.js'
+import { wrapEditorInterface, wrapEditorInterfaceCollection } from './entities/editor-interface.js'
+import { wrapResourceTypesForEnvironmentCollection } from './entities/resource-type.js'
+import { wrapSnapshotCollection } from './entities/snapshot.js'
+import { wrapUpload } from './entities/upload.js'
 
 /**
  * @private
@@ -74,24 +99,6 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * @private
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
-  const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
-  const { wrapAssetKey } = entities.assetKey
-  const { wrapLocale, wrapLocaleCollection } = entities.locale
-  const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
-  const { wrapUpload } = entities.upload
-  const { wrapExtension, wrapExtensionCollection } = entities.extension
-  const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
-  const { wrapAppSignedRequest } = entities.appSignedRequest
-  const { wrapAppActionCall } = entities.appActionCall
-  const { wrapBulkAction } = entities.bulkAction
-  const { wrapAppAccessToken } = entities.appAccessToken
-  const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
-  const { wrapResourceCollection } = entities.resource
-
   return {
     /**
      * Deletes the environment
@@ -1103,7 +1110,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAssetFromFiles(data: Omit<AssetFileProp, 'sys'>, options?: CreateAssetFromFilesOptions) {
+    createAssetFromFiles(data: AssetFileProp, options?: CreateAssetFromFilesOptions) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Asset',

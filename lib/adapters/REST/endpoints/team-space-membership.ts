@@ -8,13 +8,13 @@ import type {
   GetSpaceParams,
   GetTeamSpaceMembershipParams,
   QueryParams,
-} from '../../../common-types'
+} from '../../../common-types.js'
 import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
-} from '../../../entities/team-space-membership'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/team-space-membership.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 const getBaseUrl = (params: GetSpaceParams) => `/spaces/${params.spaceId}/team_space_memberships`
 

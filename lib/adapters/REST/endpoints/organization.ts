@@ -3,10 +3,10 @@ import type {
   CollectionProp,
   GetOrganizationParams,
   PaginationQueryParams,
-} from '../../../common-types'
-import type { OrganizationProps } from '../../../entities/organization'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { OrganizationProps } from '../../../entities/organization.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 export const getMany: RestEndpoint<'Organization', 'getMany'> = (
   http: AxiosInstance,

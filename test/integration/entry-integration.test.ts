@@ -9,7 +9,7 @@ import {
   waitForEnvironmentToBeReady,
   getTestOrganizationId,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import type {
   ConceptProps,
   ContentType,
@@ -18,14 +18,14 @@ import type {
   PlainClientAPI,
   ReleaseProps,
   Space,
-} from '../../lib/export-types'
-import { TestDefaults } from '../defaults'
+} from '../../lib/export-types.js'
+import { TestDefaults } from '../defaults.js'
 import {
   createEmptyRelease,
   createTestEntry,
   updateReleaseWithEntries,
   updateReleaseEntryTitle,
-} from './utils/release-entry.utils'
+} from './utils/release-entry.utils.js'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())

@@ -7,7 +7,7 @@ import {
   getTestOrganization,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import { readFileSync } from 'fs'
 import type {
   Space,
@@ -19,7 +19,7 @@ import type {
   AppInstallation,
   ResourceProvider,
   ResourceType,
-} from '../../lib/export-types'
+} from '../../lib/export-types.js'
 
 describe('Environment Api', () => {
   let space: Space

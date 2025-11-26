@@ -5,9 +5,12 @@ import type {
   QueryParams,
   CollectionProp,
   GetOrganizationParams,
-} from '../../common-types'
-import type { TeamSpaceMembershipProps, CreateTeamSpaceMembershipProps } from '../../export-types'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../common-types.js'
+import type {
+  TeamSpaceMembershipProps,
+  CreateTeamSpaceMembershipProps,
+} from '../../export-types.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type TeamSpaceMembershipPlainClientAPI = {
   /**

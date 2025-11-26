@@ -1,6 +1,5 @@
 import type { CreateHttpClientParams } from 'contentful-sdk-core'
-import * as testUtils from '@contentful/integration-test-utils'
-import { createClient } from '../lib/contentful-management'
+import { createClient } from '../lib/index.js'
 import type {
   BulkActionPayload,
   BulkActionProps,
@@ -9,8 +8,9 @@ import type {
   Organization,
   PlainClientAPI,
   Space,
-} from '../lib/contentful-management'
-import { TestDefaults } from './defaults'
+} from '../lib/index.js'
+import { TestDefaults } from './defaults.js'
+import * as testUtils from '@contentful/integration-test-utils'
 import { AsyncActionProcessingOptions, pollAsyncActionStatus } from '../lib/methods/action'
 
 type PlainOptions = {
@@ -55,7 +55,7 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
 export const defaultClient = initClient({ ...params })
 
 /**
- * @returns {import('../lib/contentful-management').PlainClientAPI}
+ * @returns {import('../lib').PlainClientAPI}
  */
 export const initPlainClient = (defaults = {}) => {
   return createClient(

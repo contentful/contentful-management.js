@@ -8,10 +8,9 @@ import type {
   Link,
   MakeRequest,
   PaginationQueryOptions,
-  SysLink,
-} from '../common-types'
-import { wrapCollection } from '../common-utils'
-import enhanceWithMethods from '../enhance-with-methods'
+} from '../common-types.js'
+import { wrapCollection } from '../common-utils.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 /* Workflow Step Permission */
 type NonEmptyArray<T> = [T, ...T[]]
@@ -101,8 +100,8 @@ export type WorkflowDefinitionSysProps = Pick<
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
 > & {
   type: 'WorkflowDefinition'
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   isLocked: boolean
 }
 

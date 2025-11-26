@@ -1,10 +1,14 @@
-import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
-import { omitAndDeleteField } from '../methods/content-type'
-import type { PlainClientAPI } from './common-types'
-import type { DefaultParams } from './wrappers/wrap'
-import { wrap } from './wrappers/wrap'
+import type {
+  GetContentTypeParams,
+  GetSpaceEnvironmentParams,
+  MakeRequest,
+} from '../common-types.js'
+import { omitAndDeleteField } from '../methods/content-type.js'
+import type { PlainClientAPI } from './common-types.js'
+import type { DefaultParams } from './wrappers/wrap.js'
+import { wrap } from './wrappers/wrap.js'
 
-export type { DefaultParams } from './wrappers/wrap'
+export type { DefaultParams } from './wrappers/wrap.js'
 
 /**
  * @private
@@ -16,6 +20,7 @@ export const createPlainClient = (
   const wrapParams = { makeRequest, defaults }
 
   return {
+    version: __VERSION__,
     raw: {
       getDefaultParams: () => defaults,
       get: (url, config) =>
@@ -127,7 +132,6 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Concept', 'delete'),
       patch: wrap(wrapParams, 'Concept', 'patch'),
       update: wrap(wrapParams, 'Concept', 'update'),
-      updatePut: wrap(wrapParams, 'Concept', 'updatePut'),
       getMany: wrap(wrapParams, 'Concept', 'getMany'),
       getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
       getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
@@ -142,7 +146,6 @@ export const createPlainClient = (
       createWithId: wrap(wrapParams, 'ConceptScheme', 'createWithId'),
       patch: wrap(wrapParams, 'ConceptScheme', 'patch'),
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
-      updatePut: wrap(wrapParams, 'ConceptScheme', 'updatePut'),
     },
     function: {
       get: wrap(wrapParams, 'Function', 'get'),

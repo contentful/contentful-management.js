@@ -1,8 +1,8 @@
 import { describe, test } from 'vitest'
 
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { wrapAsset, wrapAssetCollection } from '../../../lib/entities/asset'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { wrapAsset, wrapAssetCollection } from '../../../lib/entities/asset.js'
 import {
   entityActionTest,
   entityCollectionWrappedTest,
@@ -16,7 +16,7 @@ import {
   isDraftTest,
   isPublishedTest,
   isUpdatedTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

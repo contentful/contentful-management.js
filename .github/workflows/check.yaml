@@ -41,3 +41,6 @@ jobs:
       
       - name: Test package size
         run: npm run test:size
+
+      - name: Run ES version checks
+        run: npm run check

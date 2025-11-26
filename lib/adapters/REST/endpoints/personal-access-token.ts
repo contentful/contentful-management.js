@@ -1,12 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, QueryParams } from '../../../common-types'
+import type { CollectionProp, QueryParams } from '../../../common-types.js'
 import type {
   CreatePersonalAccessTokenProps,
   PersonalAccessTokenProps,
-} from '../../../entities/personal-access-token'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../entities/personal-access-token.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 /**
  * @deprecated use `access-token.get` instead `personal-access-token.get`

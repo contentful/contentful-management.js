@@ -1,9 +1,9 @@
-import type { Link, DefaultElements } from '../common-types'
+import type { Link, DefaultElements } from '../common-types.js'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import { wrapCollection } from '../common-utils'
-import type { MakeRequest } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import { wrapCollection } from '../common-utils.js'
+import type { MakeRequest } from '../common-types.js'
+import enhanceWithMethods from '../enhance-with-methods.js'
 
 export type FunctionLogProps = {
   sys: {

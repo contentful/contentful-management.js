@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
-import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
-import { resourceMock } from '../mocks/entities'
+import { createClient } from '../../../lib/index.js'
+import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
+import { resourceMock } from '../mocks/entities.js'
 
 describe('Resource', () => {
   const spaceId = 'spaceId'

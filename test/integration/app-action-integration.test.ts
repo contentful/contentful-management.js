@@ -1,12 +1,12 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import type { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
+import type { AppActionProps, PlainClientAPI } from '../../lib/index.js'
 import {
   initPlainClient,
   getTestOrganization,
   getDefaultSpace,
   createAppInstallation,
   timeoutToCalmRateLimiting,
-} from '../helpers'
+} from '../helpers.js'
 import { afterEach } from 'node:test'
 
 describe('AppAction api', function () {

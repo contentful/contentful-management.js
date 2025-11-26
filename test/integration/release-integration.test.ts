@@ -1,14 +1,14 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
-import type { Environment, Space } from '../../lib/export-types'
-import { waitForReleaseActionProcessing } from '../../lib/methods/release-action'
-import { TestDefaults } from '../defaults'
+import type { Environment, Space } from '../../lib/export-types.js'
+import { waitForReleaseActionProcessing } from '../../lib/methods/release-action.js'
+import { TestDefaults } from '../defaults.js'
 import {
   createTestSpace,
   initPlainClient,
   defaultClient,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import { makeLink } from '../utils'
+} from '../helpers.js'
+import { makeLink } from '../utils.js'
 
 describe('Release Api', () => {
   let testSpace: Space

@@ -31,7 +31,7 @@
 [![CI](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml/badge.svg?branch=master)](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![npm downloads](https://img.shields.io/npm/dm/contentful-management.svg)](http://npm-stat.com/charts.html?package=contentful-management)
-[![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js)
+[![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.bundle.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.bundle.browser.min.js)
 
 **What is Contentful?**
 
@@ -42,29 +42,46 @@
 
 <!-- TOC -->
 
-- [Features](#features)
-- [Supported Environments](#supported-environments)
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
   - [Installation](#installation)
-    - [Node](#node-)
-    - [Browser](#browser-)
-    - [Typings](#typings)
+    - [Node:](#node)
+      - [Using in Legacy Environments Without ESM/Import Support](#using-in-legacy-environments-without-esmimport-support)
+    - [Browser:](#browser)
+  - [Typings](#typings)
   - [Authentication](#authentication)
-  - [Using ES6 import](#using-es6-import)
-  - [Your first Request](#your-first-request)
-  - [Alternative plain API](#alternative-plain-api)
-- [App Framework](#app-framework)
-- [Troubleshooting](#troubleshooting)
-- [Documentation/References](#documentationreferences)
+  - [Your first request](#your-first-request)
+  - [Legacy Client Interface](#legacy-client-interface)
+  - [App Framework](#app-framework)
+  - [Troubleshooting](#troubleshooting)
+  - [Documentation/References](#documentationreferences)
   - [Configuration](#configuration)
-  - [Reference Documentation](#reference-documentation)
-  - [Contentful Javascript resources](#contentful-javascript-resources)
-  - [REST API reference](#rest-api-reference)
-- [Versioning](#versioning)
-- [Reach out to us](#reach-out-to-us)
-- [Get involved](#get-involved)
-- [License](#license)
-- [Code of Conduct](#code-of-conduct)
+    - [accessToken (required, when `apiAdapter` is not set)](#accesstoken-required-when-apiadapter-is-not-set)
+    - [host (default: `'api.contentful.com'`)](#host-default-apicontentfulcom)
+    - [hostUpload (default: `'upload.contentful.com'`)](#hostupload-default-uploadcontentfulcom)
+    - [basePath (default: \`\`)](#basepath-default-)
+    - [httpAgent (default: `undefined`)](#httpagent-default-undefined)
+    - [httpsAgent (default: `undefined`)](#httpsagent-default-undefined)
+    - [headers (default: `{}`)](#headers-default-)
+    - [proxy (default: `undefined`)](#proxy-default-undefined)
+    - [retryOnError (default: `true`)](#retryonerror-default-true)
+    - [logHandler (default: `function (level, data) {}`)](#loghandler-default-function-level-data-)
+    - [requestLogger (default: `function (config) {}`)](#requestlogger-default-function-config-)
+    - [responseLogger (default: `function (response) {}`)](#responselogger-default-function-response-)
+    - [apiAdapter (default: `new RestAdapter(configuration)`)](#apiadapter-default-new-restadapterconfiguration)
+    - [throttle (default: `0`)](#throttle-default-0)
+    - [Reference documentation](#reference-documentation)
+    - [Contentful JavaScript resources](#contentful-javascript-resources)
+    - [REST API reference](#rest-api-reference)
+  - [Versioning](#versioning)
+  - [Experimental features](#experimental-features)
+    - [Current experimental features](#current-experimental-features)
+  - [Reach out to us](#reach-out-to-us)
+    - [You have questions about how to use this library?](#you-have-questions-about-how-to-use-this-library)
+    - [You found a bug or want to propose a feature?](#you-found-a-bug-or-want-to-propose-a-feature)
+    - [You need to share confidential information or have other questions?](#you-need-to-share-confidential-information-or-have-other-questions)
+  - [Get involved](#get-involved)
+  - [License](#license)
+  - [Code of Conduct](#code-of-conduct)
 
 <!-- /TOC -->
 </details>
@@ -84,8 +101,17 @@ Browsers and Node.js:
 - Edge
 - Safari
 - node.js (LTS)
+- React Native (Metro bundler)
 
-Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
+> For the minimum supported browser versions, refer to the [package.json of this library.](https://github.com/contentful/contentful-management.js/blob/master/package.json#L12)
+
+To ensure compatibility across various JavaScript environments, this library is built as an ECMAScript Module (ESM) by default, using the `"type": "module"` declaration in `package.json`.
+
+We also offer a bundle for the legacy CommonJS (CJS) require syntax, allowing usage in environments that do not support ESM.
+
+Additionally, there is a bundle available for direct usage within browsers.
+
+For more details on the different variants of this library, see [Installation](#installation).
 
 # Getting started
 
@@ -93,7 +119,6 @@ To get started with the Contentful Management JS library you'll need to install 
 
 - [Installation](#installation)
 - [Authentication](#authentication)
-- [Using ES6 import](#using-es6-import)
 - [Your first request](#your-first-request)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
@@ -114,6 +139,36 @@ Using [yarn](https://yarnpkg.com/lang/en/):
 yarn add contentful-management
 ```
 
+In a modern environment, you can import this library using:
+
+```js
+import * as contentful from 'contentful-management'
+```
+
+#### Using in Legacy Environments Without ESM/Import Support
+
+Typically, your system will default to our CommonJS export when you use the require syntax:
+
+```js
+const contentful = require('contentful-management')
+```
+
+If this does not work, you can directly require the CJS-compatible code:
+
+```js
+// pure cjs files
+const contentful = require('contentful-management/dist/cjs/index.cjs')
+
+// node bundle
+const contentful = require('contentful-management/dist/contentful-management.node.cjs')
+
+// react-native bundle
+const contentful = require('contentful-management/dist/contentful-management.react-native.js')
+
+// browser bundle
+const contentful = require('contentful-management/dist/contentful-management.browser.js')
+```
+
 ### Browser:
 
 For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
@@ -121,16 +176,16 @@ For browsers, we recommend to download the library via npm or yarn to ensure 100
 If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.bundle.browser.min.js"></script>
 ```
 
 **It's not recommended to use the above URL for production.**
 
-Using `contentful@latest` will always get you the latest version, but you can also specify a specific version number:
+Using `contentful-management@latest` will always get you the latest version, but you can also specify a specific version number:
 
 ```html
 <!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@12.0.0/dist/contentful-management.bundle.browser.min.js"></script>
 ```
 
 The Contentful Management library will be accessible via the `contentfulManagement` global variable.
@@ -149,34 +204,18 @@ If you want to use this library for a simple tool or a local app that you won't 
 
 If you'd like to create an app which would make use of this library but that would be available for other users, where they could authenticate with their own Contentful credentials, make sure to also check out the section about [Creating an OAuth Application](https://www.contentful.com/developers/docs/references/authentication/#creating-an-oauth-20-application)
 
-## Using ES6 import
-
-You can use the es6 import with the library as follows
-
-```js
-// import createClient directly
-import contentful from 'contentful-management'
-const client = contentful.createClient(
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
-//....
-```
-
 ## Your first request
 
 Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
 
 ```javascript
-const contentful = require('contentful-management')
+import * as contentful from 'contentful-management'
+
 const plainClient = contentful.createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 
 const environment = await plainClient.environment.get({
@@ -204,7 +243,7 @@ const scopedPlainClient = contentful.createClient(
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
@@ -231,7 +270,8 @@ The benefits of using the "plain" version of the client, over the legacy version
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
 ```js
-const contentful = require('contentful-management')
+import * as contentful from 'contentful-management'
+
 const client = contentful.createClient({
   accessToken: 'YOUR_ACCESS_TOKEN',
 })
@@ -266,8 +306,8 @@ grants your apps access to the supported space-environment scoped entities witho
 need to expose a management token, and without coding any additional backend middleware.
 
 ```javascript
-const contentfulApp = require('@contentful/app-sdk')
-const contentful = require('contentful-management')
+import contentfulApp from '@contentful/app-sdk'
+import * as contentful from 'contentful-management'
 
 contentfulApp.init((sdk) => {
   const cma = contentful.createClient(
@@ -278,7 +318,7 @@ contentfulApp.init((sdk) => {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code
@@ -293,9 +333,6 @@ contentfulApp.init((sdk) => {
 
 ## Troubleshooting
 
-- **I can't Install the package via npm** - Check your internet connection - It is called `contentful-management` and not `contenful-management` ¯\\\_(ツ)\_/¯
-- **Can I use the library in react native projects** - Yes it is possible
-- **I get the error: Unable to resolve module `http`** - Our library is supplied as node and browser version. Most non-node environments, like React Native, act like a browser. To force using of the browser version, you can require it via: `const { createClient } = require('contentful-management/dist/contentful-management.browser.min.js')`
 - **I am not sure what payload to send when creating and entity (Asset/Entity/ContentType etc...)** - Check the Content Management API [docs](https://www.contentful.com/developers/docs/references/content-management-api/) or the examples in the reference [docs](https://contentful.github.io/contentful-management.js) - Feel free to open an issue if you didn't find what you need in the above links
 - 😱 **something is wrong what should I do** - If it is a bug related to the code create a GitHub issue and make sure to remove any credential for your code before sharing it. - If you need to share your credentials, for example you have an issue with your space, please create a support ticket. - Please **do not** share your management token in a GitHub issue
 

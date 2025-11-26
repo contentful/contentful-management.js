@@ -1,12 +1,12 @@
 import { describe, test } from 'vitest'
-import { wrapAppEventSubscription } from '../../../lib/entities/app-event-subscription'
-import { appEventSubscriptionMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
+import { wrapAppEventSubscription } from '../../../lib/entities/app-event-subscription.js'
+import { appEventSubscriptionMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
 import {
   entityDeleteTest,
   entityWrappedTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

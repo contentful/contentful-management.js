@@ -5,8 +5,14 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
-} from '../helpers'
-import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
+} from '../helpers.js'
+import type {
+  ContentType,
+  Entry,
+  Environment,
+  PlainClientAPI,
+  Space,
+} from '../../lib/export-types.js'
 
 describe('Comment Api', () => {
   let plainClient: PlainClientAPI

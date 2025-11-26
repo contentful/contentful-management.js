@@ -3,22 +3,22 @@ import type {
   CursorPaginatedCollectionProp,
   DefaultElements,
   GetResourceTypeParams,
+  Link,
   MakeRequest,
-  SysLink,
-} from '../common-types'
+} from '../common-types.js'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import enhanceWithMethods from '../enhance-with-methods'
-import { wrapCursorPaginatedCollection } from '../common-utils'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import { wrapCursorPaginatedCollection } from '../common-utils.js'
 
 export type ResourceTypeProps = {
   /**
    * System metadata
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
-    appDefinition: SysLink
-    resourceProvider: SysLink
-    organization: SysLink
+    appDefinition: Link<'AppDefinition'>
+    resourceProvider: Link<'ResourceProvider'>
+    organization: Link<'Organization'>
   }
   /**
    * Resource Type name

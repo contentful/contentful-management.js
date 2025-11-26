@@ -6,8 +6,8 @@ import type {
   GetManyConceptParams,
   GetOrganizationParams,
   UpdateConceptParams,
-} from '../../common-types'
-import type { ConceptProps, CreateConceptProps } from '../../entities/concept'
+} from '../../common-types.js'
+import type { ConceptProps, CreateConceptProps } from '../../entities/concept.js'
 import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 
@@ -48,47 +48,26 @@ export type ConceptPlainClientAPI = {
   ): Promise<ConceptProps>
 
   /**
-   * Update Concept
+   * Update Concept with PUT
    * @returns the updated Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
-   * @deprecated The behavior of this method as a PATCH is being deprecated, and will be replaced with a PUT in the next major version. Use the `patch` method instead.
    * @example
    * ```javascript
    * const updatedConcept = await client.concept.update({
    *   organizationId: '<organization_id>',
    *   conceptId: '<concept_id>',
    *   version: 1,
-   * }, patch);
+   * }, conceptProps);
    * ```
    */
   update(
-    params: SetOptional<UpdateConceptParams, 'organizationId'>,
-    payload: OpPatch[],
-  ): Promise<ConceptProps>
-
-  /**
-   * Update Concept with PUT
-   * @returns the updated Concept
-   * @throws if the request fails
-   * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}
-   * @deprecated In the next major version, this method will be replaced with the standard `update` method which will be updated to use PUT instead of PATCH.
-   * @example
-   * ```javascript
-   * const updatedConcept = await client.concept.updatePut({
-   *   organizationId: '<organization_id>',
-   *   conceptId: '<concept_id>',
-   *   version: 1,
-   * }, patch);
-   * ```
-   */
-  updatePut(
     params: SetOptional<UpdateConceptParams, 'organizationId'>,
     payload: CreateConceptProps,
   ): Promise<ConceptProps>
 
   /**
-   * Update Concept
+   * Update Concept with PATCH
    * @returns the updated Concept
    * @throws if the request fails
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept}

@@ -1,8 +1,8 @@
 import { describe, it } from 'vitest'
-import { cloneMock } from '../mocks/entities'
-import setupMakeRequest from '../mocks/makeRequest'
-import { entityWrappedTest, entityActionTest } from '../test-creators/instance-entity-methods'
-import { wrapReleaseAction } from '../../../lib/entities/release-action'
+import { cloneMock } from '../mocks/entities.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { entityWrappedTest, entityActionTest } from '../test-creators/instance-entity-methods.js'
+import { wrapReleaseAction } from '../../../lib/entities/release-action.js'
 
 function setup(promise) {
   return {

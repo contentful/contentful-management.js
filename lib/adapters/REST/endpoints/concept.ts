@@ -10,10 +10,10 @@ import type {
   GetOrganizationParams,
   UpdateConceptParams,
   Link,
-} from '../../../common-types'
-import type { ConceptProps, CreateConceptProps } from '../../../entities/concept'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { ConceptProps, CreateConceptProps } from '../../../entities/concept.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 function basePath(organizationId: string) {
   return `/organizations/${organizationId}/taxonomy/concepts`
@@ -58,7 +58,7 @@ export const patch: RestEndpoint<'Concept', 'patch'> = (
 export const update: RestEndpoint<'Concept', 'update'> = (
   http: AxiosInstance,
   params: UpdateConceptParams,
-  data: OpPatch[],
+  data: CreateConceptProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.patch<ConceptProps>(
@@ -69,25 +69,6 @@ export const update: RestEndpoint<'Concept', 'update'> = (
       headers: {
         'X-Contentful-Version': params.version,
         'Content-Type': 'application/json-patch+json',
-        ...headers,
-      },
-    },
-  )
-}
-
-export const updatePut: RestEndpoint<'Concept', 'updatePut'> = (
-  http: AxiosInstance,
-  params: UpdateConceptParams,
-  data: CreateConceptProps,
-  headers?: RawAxiosRequestHeaders,
-) => {
-  return raw.put<ConceptProps>(
-    http,
-    `${basePath(params.organizationId)}/${params.conceptId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
         ...headers,
       },
     },

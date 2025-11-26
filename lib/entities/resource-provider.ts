@@ -2,22 +2,25 @@ import type {
   BasicMetaSysProps,
   CollectionProp,
   DefaultElements,
+  Link,
   MakeRequest,
-  SysLink,
-} from '../common-types'
+} from '../common-types.js'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import enhanceWithMethods from '../enhance-with-methods'
-import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
-import entities from '.'
+import enhanceWithMethods from '../enhance-with-methods.js'
+import {
+  wrapResourceType,
+  type ResourceType,
+  type UpsertResourceTypeProps,
+} from './resource-type.js'
 
 export type ResourceProviderProps = {
   /**
    * System metadata
    */
   sys: Omit<BasicMetaSysProps, 'version'> & {
-    organization: SysLink
-    appDefinition: SysLink
+    organization: Link<'Organization'>
+    appDefinition: Link<'AppDefinition'>
   }
   /**
    * Resource Provider type, value is 'function'
@@ -26,7 +29,7 @@ export type ResourceProviderProps = {
   /**
    * Link to a Contentful function
    */
-  function: SysLink
+  function: Link<'Function'>
 }
 
 export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {
@@ -47,8 +50,6 @@ export interface ResourceProvider
  * @private
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
-  const { wrapResourceType } = entities.resourceType
-
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties

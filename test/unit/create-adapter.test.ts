@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import type { RestAdapterParams } from '../../lib/adapters/REST/rest-adapter'
-import { RestAdapter } from '../../lib/adapters/REST/rest-adapter'
-import { createAdapter } from '../../lib/create-adapter'
+import type { RestAdapterParams } from '../../lib/adapters/REST/rest-adapter.js'
+import { RestAdapter } from '../../lib/adapters/REST/rest-adapter.js'
+import { createAdapter } from '../../lib/create-adapter.js'
 
 describe('createAdapter', () => {
   it('returns adapter if provided', () => {

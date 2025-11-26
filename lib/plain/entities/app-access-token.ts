@@ -1,9 +1,9 @@
-import type { GetAppInstallationParams } from '../../common-types'
+import type { GetAppInstallationParams } from '../../common-types.js'
 import type {
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
-} from '../../entities/app-access-token'
-import type { OptionalDefaults } from '../wrappers/wrap'
+} from '../../entities/app-access-token.js'
+import type { OptionalDefaults } from '../wrappers/wrap.js'
 
 export type AppAccessTokenPlainClientAPI = {
   /**

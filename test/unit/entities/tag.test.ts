@@ -1,12 +1,12 @@
 import { describe, test } from 'vitest'
-import { wrapTag } from '../../../lib/entities/tag'
-import setupMakeRequest from '../mocks/makeRequest'
-import { cloneMock } from '../mocks/entities'
+import { wrapTag } from '../../../lib/entities/tag.js'
+import setupMakeRequest from '../mocks/makeRequest.js'
+import { cloneMock } from '../mocks/entities.js'
 import {
   entityDeleteTest,
   entityUpdateTest,
   failingActionTest,
-} from '../test-creators/instance-entity-methods'
+} from '../test-creators/instance-entity-methods.js'
 
 function setup(promise) {
   return {

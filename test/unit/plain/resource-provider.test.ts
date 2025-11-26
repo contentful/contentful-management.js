@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
-import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
-import { resourceProviderMock } from '../mocks/entities'
+import { createClient } from '../../../lib/index.js'
+import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter.js'
+import { resourceProviderMock } from '../mocks/entities.js'
 
 describe('ResourceProvider', () => {
   const organizationId = 'organizationId'

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { normalizeSpaceId } from '../../../../../lib/adapters/REST/endpoints/utils'
+import { normalizeSpaceId } from '../../../../../lib/adapters/REST/endpoints/utils.js'
 
 describe('normalizeSpaceId', () => {
   it('replaces the `spaceId` property of a query', () => {

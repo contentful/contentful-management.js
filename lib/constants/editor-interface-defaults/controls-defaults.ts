@@ -1,5 +1,8 @@
-import type { ContentFields, ContentTypeFieldValidation } from '../../entities/content-type-fields'
-import { in_ } from './types'
+import type {
+  ContentFields,
+  ContentTypeFieldValidation,
+} from '../../entities/content-type-fields.js'
+import { in_ } from './types.js'
 
 const DROPDOWN_TYPES = ['Text', 'Symbol', 'Integer', 'Number', 'Boolean']
 
@@ -172,7 +175,7 @@ export function toApiFieldType(internal: keyof typeof INTERNAL_TO_API) {
  * - If a Text field is a title then the `singleLine` widget is used.
  * - Otherwise a simple type-to-editor mapping is used.
  */
-export default function getDefaultControlOfField(field: ContentFields): DefaultWidget {
+export function getDefaultControlOfField(field: ContentFields): DefaultWidget {
   const fieldType = toInternalFieldType(field)
 
   if (!fieldType) {

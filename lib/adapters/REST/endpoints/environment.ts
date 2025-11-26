@@ -7,10 +7,10 @@ import type {
   GetSpaceEnvironmentParams,
   GetSpaceParams,
   PaginationQueryParams,
-} from '../../../common-types'
-import type { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment'
-import type { RestEndpoint } from '../types'
-import * as raw from './raw'
+} from '../../../common-types.js'
+import type { CreateEnvironmentProps, EnvironmentProps } from '../../../entities/environment.js'
+import type { RestEndpoint } from '../types.js'
+import * as raw from './raw.js'
 
 export const get: RestEndpoint<'Environment', 'get'> = (
   http: AxiosInstance,
