@@ -1,5 +1,4 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { Stream } from 'stream'
 import type { OpPatch } from 'json-patch'
 import type {
   AccessTokenProps,
