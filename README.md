@@ -13,6 +13,7 @@
 <p align="center">
   <a href="README.md">Readme</a> · 
   <a href="SETUP.md">Setup</a> · 
+  <a href="MIGRATION.md">Migration</a> · 
   <a href="CHANGELOG.md">Changelog</a> · 
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
@@ -41,47 +42,29 @@
 
 <!-- TOC -->
 
-- [Getting started](#getting-started)
+- [Features](#features)
+- [Supported Environments](#supported-environments)
+- [Getting Started](#getting-started)
   - [Installation](#installation)
-    - [Node:](#node)
-    - [Browser bundle in script tag:](#browser-bundle-in-script-tag)
-  - [Typings](#typings)
+    - [Node](#node)
+    - [Browser](#browser-bundle-in-script-tag)
+    - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
-  - [Using CommonJS require imports](#using-commonjs-require-imports)
-  - [Your first request](#your-first-request)
+  - [Your first Request](#your-first-request)
   - [Legacy Client Interface](#legacy-client-interface)
-  - [App Framework](#app-framework)
-  - [Troubleshooting](#troubleshooting)
-  - [Documentation/References](#documentationreferences)
+- [App Framework](#app-framework)
+- [Troubleshooting](#troubleshooting)
+- [Documentation/References](#documentationreferences)
   - [Configuration](#configuration)
-      - [accessToken (required, when `apiAdapter` is not set)](#accesstoken-required-when-apiadapter-is-not-set)
-      - [host (default: `'api.contentful.com'`)](#host-default-apicontentfulcom)
-      - [hostUpload (default: `'upload.contentful.com'`)](#hostupload-default-uploadcontentfulcom)
-      - [basePath (default: \`\`)](#basepath-default-)
-      - [httpAgent (default: `undefined`)](#httpagent-default-undefined)
-      - [httpsAgent (default: `undefined`)](#httpsagent-default-undefined)
-      - [headers (default: `{}`)](#headers-default-)
-      - [proxy (default: `undefined`)](#proxy-default-undefined)
-      - [retryOnError (default: `true`)](#retryonerror-default-true)
-      - [logHandler (default: `function (level, data) {}`)](#loghandler-default-function-level-data-)
-      - [requestLogger (default: `function (config) {}`)](#requestlogger-default-function-config-)
-      - [responseLogger (default: `function (response) {}`)](#responselogger-default-function-response-)
-      - [apiAdapter (default: `new RestAdapter(configuration)`)](#apiadapter-default-new-restadapterconfiguration)
-      - [throttle (default: `0`)](#throttle-default-0)
-    - [Reference documentation](#reference-documentation)
-    - [Contentful JavaScript resources](#contentful-javascript-resources)
-    - [REST API reference](#rest-api-reference)
-  - [Versioning](#versioning)
-  - [Experimental features](#experimental-features)
-    - [Current experimental features](#current-experimental-features)
-  - [Reach out to us](#reach-out-to-us)
-    - [You have questions about how to use this library?](#you-have-questions-about-how-to-use-this-library)
-    - [You found a bug or want to propose a feature?](#you-found-a-bug-or-want-to-propose-a-feature)
-    - [You need to share confidential information or have other questions?](#you-need-to-share-confidential-information-or-have-other-questions)
-  - [Get involved](#get-involved)
-  - [License](#license)
-  - [Code of Conduct](#code-of-conduct)
+  - [Reference Documentation](#reference-documentation)
+  - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [REST API reference](#rest-api-reference)
+- [Versioning](#versioning)
+- [Reach out to us](#reach-out-to-us)
+- [Get involved](#get-involved)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
 
 <!-- /TOC -->
 </details>
@@ -179,7 +162,7 @@ const client = createClient(
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 //....
 ```
@@ -190,13 +173,13 @@ You can use the commonjs require with the library as follows
 
 ```js
 // import createClient directly
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 const client = contentful.createClient(
   {
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 //....
 ```
@@ -211,7 +194,7 @@ const plainClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 
 const environment = await plainClient.environment.get({
@@ -239,7 +222,7 @@ const scopedPlainClient = createClient(
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
@@ -250,8 +233,8 @@ const entries = await scopedPlainClient.entry.getMany({
   },
 })
 ```
- 
-You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
+
+You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
 
 The benefits of using the "plain" version of the client, over the legacy version, are:
 
@@ -313,7 +296,7 @@ contentfulApp.init((sdk) => {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code
