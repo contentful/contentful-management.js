@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicMetaSysProps,
   CollectionProp,

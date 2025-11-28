@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Legacy Client
+ */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   Collection,
