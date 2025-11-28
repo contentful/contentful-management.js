@@ -84,7 +84,6 @@ function createClient(
   const sdkMain =
     opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
     clientOptions.integration,
@@ -93,9 +92,7 @@ function createClient(
 
   const adapter = createAdapter({ ...clientOptions, userAgent })
 
-  // Parameters<?> and ReturnType<?> only return the types of the last overload
-  // https://github.com/microsoft/TypeScript/issues/26591
-  // @ts-expect-error
+  // @ts-expect-error Parameters<?> and ReturnType<?> only return the types of the last overload (https://github.com/microsoft/TypeScript/issues/26591)
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
