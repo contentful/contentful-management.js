@@ -6,26 +6,27 @@
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
-      "require": "./dist/contentful-management.bundle.node.cjs",
-      "default": "./dist/esm/index.js"
+      "require": "./dist/cjs/index.cjs",
+      "browser": "./dist/browser/index.min.js",
+      "default": "./dist/esm/index.mjs"
     },
     "./types": {
       "types": "./dist/types/index.d.ts"
-    },
-    "./dist/contentful-management.bundle.node.cjs": "./dist/contentful-management.bundle.node.cjs",
-    "./dist/contentful-management.bundle.browser.js": "./dist/contentful-management.bundle.browser.js"
+    }
   },
-  "main": "./dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "browser": "./dist/browser/index.min.js",
   "engines": {
     "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
-    "Chrome >= 75",
-    "Edge >= 74",
-    "Firefox >= 73",
-    "Safari >= 13"
+    "Chrome >= 85",
+    "Edge >= 85", 
+    "Firefox >= 79",
+    "Safari >= 14"
   ],
   "repository": {
     "type": "git",
@@ -54,7 +55,7 @@
     "test:browser": "npx playwright install && npx vitest --project browser-unit --run && npx vitest --project browser-integration --run",
     "test:version": "grep -r \"0.0.0-determined-by-semantic-release\" ./dist > /dev/null && echo \"version 0.0.0-determined-by-semantic-release found in output\" && exit 1 || exit 0",
     "test:size": "size-limit",
-    "test:demo-projects": "npm run test:demo-node",
+    "test:demo-projects": "npm run test:demo-node && npm run test:demo-browser",
     "test:demo-node": "rimraf ./test/output-integration/node/node-modules && npm --prefix ./test/output-integration/node ci && vitest --run ./test/output-integration/node",
     "test:demo-browser": "rimraf ./test/output-integration/browser/node-modules && npm --prefix ./test/output-integration/browser ci && npm --prefix ./test/output-integration/browser run test",
     "test:prepush": "npm run build && npm run test:unit && npm run test:size",
@@ -72,28 +73,19 @@
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
     "axios": "^1.12.2",
-    "contentful-sdk-core": "^9.0.1",
+    "contentful-sdk-core": "^9.2.1",
     "fast-copy": "^3.0.0",
     "globals": "^15.15.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.6",
-    "@babel/core": "^7.24.6",
-    "@babel/node": "^7.13.13",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
-    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/plugin-proposal-optional-chaining": "^7.13.12",
-    "@babel/preset-env": "^7.24.6",
-    "@babel/preset-typescript": "^7.24.7",
     "@contentful/integration-test-utils": "^2.0.1",
     "@eslint/js": "^9.15.0",
-    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
     "@semantic-release/changelog": "^6.0.3",
     "@size-limit/file": "^11.1.6",
@@ -101,9 +93,6 @@
     "@types/node": "^20.12.13",
     "@vitest/browser": "^2.1.5",
     "@vitest/coverage-v8": "^2.1.5",
-    "babel-loader": "^8.2.1",
-    "babel-plugin-inline-replace-variables": "^1.3.1",
-    "babel-plugin-lodash": "^3.3.4",
     "contentful-sdk-jsdoc": "3.1.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
@@ -113,12 +102,12 @@
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^15.2.5",
     "lodash": "^4.17.20",
-    "lodash-webpack-plugin": "^0.11.5",
     "nodemon": "^3.1.2",
     "playwright": "^1.49.0",
     "prettier": "^3.6.2",
     "rimraf": "^5.0.0",
     "rollup": "^4.53.3",
+    "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-sourcemaps2": "^0.5.4",
     "semantic-release": "^25.0.2",
     "size-limit": "^11.1.6",
@@ -126,10 +115,7 @@
     "typedoc": "^0.26.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.16.0",
-    "vitest": "^2.1.5",
-    "webpack": "^5.91.0",
-    "webpack-bundle-analyzer": "^4.9.0",
-    "webpack-cli": "^5.1.4"
+    "vitest": "^2.1.5"
   },
   "config": {
     "commitizen": {
@@ -189,26 +175,8 @@
   },
   "size-limit": [
     {
-      "path": "./dist/contentful-management.bundle.node.cjs",
+      "path": "./dist/cjs/index.cjs",
       "limit": "177 kB"
-    }
-  ],
-  "size-limit-old": [
-    {
-      "path": "./dist/contentful-management.browser.js",
-      "limit": "161 kB"
-    },
-    {
-      "path": "./dist/contentful-management.browser.min.js",
-      "limit": "70 kB"
-    },
-    {
-      "path": "./dist/contentful-management.node.js",
-      "limit": "177 kB"
-    },
-    {
-      "path": "./dist/contentful-management.node.min.js",
-      "limit": "88 kB"
     }
   ]
 }
