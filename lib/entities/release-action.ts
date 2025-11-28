@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'

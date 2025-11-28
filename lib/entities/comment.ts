@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Node, Text } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
