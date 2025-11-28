@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicCursorPaginationOptions,
   CursorPaginatedCollectionProp,

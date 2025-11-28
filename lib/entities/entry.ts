@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -58,7 +62,7 @@ export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infe
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
- * @return Wrapped entry data
+ * @returns Wrapped entry data
  */
 export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
   const entry = toPlainObject(copy(data))

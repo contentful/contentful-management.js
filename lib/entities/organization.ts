@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -34,7 +38,7 @@ export type OrganizationProp = OrganizationProps
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for an Organization
- * @return {Organization}
+ * @returns {Organization}
  */
 export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationProps): Organization {
   const org = toPlainObject(copy(data))

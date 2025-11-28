@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except, RequireAtLeastOne, SetOptional } from 'type-fest'
@@ -67,8 +71,9 @@ type ContentTypeApi = {
    * delete it by setting the attribute "deleted" to true. See the "Deleting fields" section in the
    * <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/content-types/content-type">API reference</a> for more reasoning. Alternatively,
    * you may use the convenience method omitAndDeleteField to do both steps at once.
-   * @return Object returned from the server with updated changes.
-   * @example ```javascript
+   * @returns Object returned from the server with updated changes.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -90,8 +95,9 @@ type ContentTypeApi = {
 
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -109,8 +115,9 @@ type ContentTypeApi = {
   delete(): Promise<void>
   /**
    * Publishes the object
-   * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @returns Object returned from the server with updated metadata.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -128,8 +135,9 @@ type ContentTypeApi = {
   publish(): Promise<ContentType>
   /**
    * Unpublishes the object
-   * @return Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @returns Object returned from the server with updated metadata.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -149,8 +157,9 @@ type ContentTypeApi = {
    * Gets the editor interface for the object <br />
    * <strong>Important note</strong>: The editor interface only represent a published contentType.<br />
    * To get the most recent representation of the contentType make sure to publish it first
-   * @return Object returned from the server with the current editor interface.
-   * @example ```javascript
+   * @returns Object returned from the server with the current editor interface.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -182,14 +191,15 @@ type ContentTypeApi = {
   /**
    * Omits and deletes a field if it exists on the contentType. This is a convenience method which does both operations at once and potentially less
    * safe than the standard way. See note about deleting fields on the Update method.
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    */
   omitAndDeleteField(id: string): Promise<ContentType>
 
   /**
    * Gets a snapshot of a contentType
    * @param snapshotId - Id of the snapshot
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -207,7 +217,8 @@ type ContentTypeApi = {
   getSnapshot(snapshotId: string): Promise<SnapshotProps<ContentTypeProps>>
   /**
    * Gets all snapshots of a contentType
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -347,7 +358,7 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
- * @return Wrapped content type data
+ * @returns Wrapped content type data
  */
 export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps): ContentType {
   const contentType = toPlainObject(copy(data))

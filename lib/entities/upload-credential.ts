@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
@@ -15,7 +19,7 @@ export interface UploadCredential
     DefaultElements<UploadCredentialProps> {
   /**
    * creates the upload credentials.
-   * @return upload credentials for file uploads
+   * @returns upload credentials for file uploads
    * @example
    * const contentful = require('contentful-management')
    *
@@ -62,7 +66,7 @@ function createUploadCredentialsApi(makeRequest: MakeRequest) {
  * @private
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {object} data - Raw upload credential data
- * @return {UploadCredential} Wrapped upload credential data
+ * @returns {UploadCredential} Wrapped upload credential data
  */
 export function wrapUploadCredential(
   makeRequest: MakeRequest,

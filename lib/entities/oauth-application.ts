@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -45,12 +49,12 @@ export interface OAuthApplication
     DefaultElements<OAuthApplicationProps> {
   /**
    * Deletes an OAuth application
-   * @return Promise for the deleted OAuth application
+   * @returns Promise for the deleted OAuth application
    */
   delete(): Promise<void>
   /**
    * Updates an OAuth application
-   * @return Promise for the updated OAuth application
+   * @returns Promise for the updated OAuth application
    */
   update(): Promise<OAuthApplicationProps>
 }
@@ -67,7 +71,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
   return {
     /**
      * Updates an OAuth application
-     * @return Promise for the updated OAuth application
+     * @returns Promise for the updated OAuth application
      */
     async update(): Promise<OAuthApplicationProps> {
       const raw = this.toPlainObject() as OAuthApplicationProps
@@ -81,7 +85,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 
     /**
      * Deletes an OAuth application
-     * @return Promise for the deleted OAuth application
+     * @returns Promise for the deleted OAuth application
      */
     async delete(): Promise<void> {
       const raw = this.toPlainObject() as OAuthApplicationProps
@@ -98,7 +102,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw OAuth application data
- * @return Wrapped OAuth application data
+ * @returns Wrapped OAuth application data
  */
 export function wrapOAuthApplication(
   makeRequest: MakeRequest,

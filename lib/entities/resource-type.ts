@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicMetaSysProps,
   CursorPaginatedCollectionProp,
@@ -75,8 +79,9 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
-     * @example ```javascript
+     * @returns Object returned from the server with updated changes.
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -106,8 +111,9 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
     },
     /**
      * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -148,7 +154,7 @@ const getUpsertParams = (data: ResourceTypeProps): UpsertResourceTypeProps => ({
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Type data
- * @return Wrapped Resource Type data
+ * @returns Wrapped Resource Type data
  */
 export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypeProps): ResourceType {
   const resourceType = toPlainObject(copy(data))

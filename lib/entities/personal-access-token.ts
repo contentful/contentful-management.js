@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -26,8 +30,9 @@ export interface PersonalAccessToken
     DefaultElements<PersonalAccessTokenProps> {
   /**
    * Revokes a personal access token
-   * @return Object the revoked personal access token
-   * @example ```javascript
+   * @returns Object the revoked personal access token
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -48,7 +53,7 @@ export interface PersonalAccessToken
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw  personal access token data
- * @return Wrapped personal access token
+ * @returns Wrapped personal access token
  */
 export function wrapPersonalAccessToken(
   makeRequest: MakeRequest,
@@ -71,6 +76,6 @@ export function wrapPersonalAccessToken(
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw personal access collection data
- * @return Wrapped personal access token collection data
+ * @returns Wrapped personal access token collection data
  */
 export const wrapPersonalAccessTokenCollection = wrapCollection(wrapPersonalAccessToken)

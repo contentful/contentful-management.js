@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -44,7 +48,7 @@ export interface ReleaseActionQueryOptions {
   /**
    * Limit of how many records are returned in the query result
    * @default 100
-   * */
+   **/
   limit?: number
 }
 
@@ -96,7 +100,7 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
- * @return Wrapped Release data
+ * @returns Wrapped Release data
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,

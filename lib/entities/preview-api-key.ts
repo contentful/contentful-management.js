@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
@@ -24,7 +28,7 @@ function createPreviewApiKeyApi() {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
- * @return Wrapped preview api key data
+ * @returns Wrapped preview api key data
  */
 export function wrapPreviewApiKey(
   _makeRequest: MakeRequest,

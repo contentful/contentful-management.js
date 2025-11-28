@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -67,7 +71,7 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /**
    * Order workflows by
    * @default -sys.createdAt
-   * */
+   **/
   order?: OrderQueryParam
 }
 

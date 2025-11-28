@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
@@ -25,7 +29,7 @@ export interface OrganizationInvitation
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw invitation data
- * @return {OrganizationInvitation} Wrapped Inviation data
+ * @returns {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
   _makeRequest: MakeRequest,

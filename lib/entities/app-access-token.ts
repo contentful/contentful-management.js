@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -34,7 +38,7 @@ export interface AppAccessToken extends AppAccessTokenProps, DefaultElements<App
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw app access token data
- * @return {AppAccessToken} Wrapped AppAccessToken data
+ * @returns {AppAccessToken} Wrapped AppAccessToken data
  */
 export function wrapAppAccessToken(
   _makeRequest: MakeRequest,

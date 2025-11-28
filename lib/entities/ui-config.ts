@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
@@ -54,7 +58,7 @@ export interface UIConfig extends UIConfigProps, DefaultElements<UIConfigProps> 
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Wrapped UIConfig
+ * @returns Wrapped UIConfig
  */
 export function wrapUIConfig(makeRequest: MakeRequest, data: UIConfigProps) {
   const user = toPlainObject(copy(data))

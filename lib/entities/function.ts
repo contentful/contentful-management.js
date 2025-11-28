@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -75,7 +79,7 @@ function createFunctionApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - (real) function to make requests via an adapter
  * @param data - raw contentful-Function data
- * @return Wrapped Function data
+ * @returns Wrapped Function data
  */
 export function wrapFunction(makeRequest: MakeRequest, data: FunctionProps): FunctionProps {
   const func = toPlainObject(copy(data))

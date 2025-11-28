@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -44,7 +48,7 @@ export interface AppSignedRequest
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppSignedRequest data
- * @return Wrapped AppSignedRequest data
+ * @returns Wrapped AppSignedRequest data
  */
 export function wrapAppSignedRequest(
   _makeRequest: MakeRequest,

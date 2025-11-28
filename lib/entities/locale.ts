@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except, SetOptional } from 'type-fest'
@@ -52,8 +56,9 @@ export type CreateLocaleProps = Omit<
 export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -71,8 +76,9 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
-   * @example ```javascript
+   * @returns Object returned from the server with updated changes.
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -131,7 +137,7 @@ function createLocaleApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw locale data
- * @return Wrapped locale data
+ * @returns Wrapped locale data
  */
 export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale {
   delete (data as SetOptional<LocaleProps, 'internal_code'>).internal_code

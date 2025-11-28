@@ -162,7 +162,7 @@ const client = createClient(
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 //....
 ```
@@ -173,13 +173,13 @@ You can use the commonjs require with the library as follows
 
 ```js
 // import createClient directly
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 const client = contentful.createClient(
   {
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 //....
 ```
@@ -194,7 +194,7 @@ const plainClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 
 const environment = await plainClient.environment.get({
@@ -222,7 +222,7 @@ const scopedPlainClient = createClient(
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
@@ -233,8 +233,8 @@ const entries = await scopedPlainClient.entry.getMany({
   },
 })
 ```
- 
-You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
+
+You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
 
 The benefits of using the "plain" version of the client, over the legacy version, are:
 
@@ -296,7 +296,7 @@ contentfulApp.init((sdk) => {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code

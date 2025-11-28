@@ -48,10 +48,27 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
+ * @param opts
  *
+ * @example Plain Client
  * ```javascript
  * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain'
+ *   }
+ * })
+ * ```
+ * @example Plain Client with defaults
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain',
+ *     defaults: {
+ *        ...
+ *     }
+ *   }
  * })
  * ```
  */
@@ -63,16 +80,35 @@ export function createClient(
     defaults?: PlainClientDefaultParams
   },
 ): PlainClientAPI
-// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
+/**
+ * Create a legacy, chainable client instance
+ * @param clientOptions
+ *
+ * @example Legacy Chainable Client
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken'
+ * })
+ * ```
+ */
+export function createClient(clientOptions: ClientOptions): ClientAPI
+/**
+ * Create a legacy or plain client instance
+ *
+ * Please check the corresponding section below:
+ *
+ * * [Plain Client](#createclient)
+ * * [Legacy Chainable Client](#createclient-1)
+ */
 export function createClient(
   clientOptions: ClientOptions,
-  opts: {
-    type?: 'plain'
+  opts?: {
+    type?: string
     defaults?: PlainClientDefaultParams
-  } = {},
+  },
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
-    opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+    opts && opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
   const userAgent = getUserAgentHeader(
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
@@ -86,7 +122,7 @@ export function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
-  if (opts.type === 'plain') {
+  if (opts && opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)
   } else {
     return createClientApi(makeRequest) as ClientAPI

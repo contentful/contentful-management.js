@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 export type LocalizedEntity<
   Entity,
   LocalizedFields extends keyof Entity,
