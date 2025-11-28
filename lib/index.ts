@@ -10,23 +10,23 @@ import type { MakeRequest, XOR } from './common-types'
 import type { AdapterParams } from './create-adapter'
 import { createAdapter } from './create-adapter'
 import type { ClientAPI } from './create-contentful-api'
-import createContentfulApi from './create-contentful-api'
+import createClientApi from './create-contentful-api'
 import type { PlainClientAPI } from './plain/plain-client-types'
-import type { DefaultParams } from './plain/plain-client'
+import type { PlainClientDefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 import { ScheduledActionStatus } from './entities/scheduled-action'
+
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/plain-client-types'
-export { createClient }
 export { RestAdapter } from './adapters/REST/rest-adapter'
 export type { RestAdapterParams } from './adapters/REST/rest-adapter'
 export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
-export type PlainClientDefaultParams = DefaultParams
+export type { PlainClientDefaultParams } from './plain/plain-client'
 export { ScheduledActionStatus }
 export type * from './export-types'
 
@@ -55,20 +55,20 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
  * })
  * ```
  */
-function createClient(clientOptions: ClientOptions): ClientAPI
-function createClient(
+export function createClient(clientOptions: ClientOptions): ClientAPI
+export function createClient(
   clientOptions: ClientOptions,
   opts: {
     type: 'plain'
-    defaults?: DefaultParams
+    defaults?: PlainClientDefaultParams
   },
 ): PlainClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
-function createClient(
+export function createClient(
   clientOptions: ClientOptions,
   opts: {
     type?: 'plain'
-    defaults?: DefaultParams
+    defaults?: PlainClientDefaultParams
   } = {},
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
@@ -89,6 +89,6 @@ function createClient(
   if (opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)
   } else {
-    return createContentfulApi(makeRequest) as ClientAPI
+    return createClientApi(makeRequest) as ClientAPI
   }
 }
