@@ -12,7 +12,6 @@ import {
   normalizeCursorPaginationResponse,
 } from './common-utils'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
-import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
 import type { CreateAppSignedRequestProps } from './entities/app-signed-request'
 import type {
@@ -61,6 +60,35 @@ import { wrapUserUIConfig } from './entities/user-ui-config'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 import { wrapFunctionCollection } from './entities/function'
 import { wrapFunctionLog, wrapFunctionLogCollection } from './entities/function-log'
+import { wrapEnvironment } from './entities/environment'
+import {
+  wrapContentType,
+  wrapContentTypeCollection,
+  wrapContentTypeCursorPaginatedCollection,
+} from './entities/content-type'
+import {
+  wrapEntry,
+  wrapEntryCollection,
+  wrapEntryTypeCursorPaginatedCollection,
+} from './entities/entry'
+import {
+  wrapAsset,
+  wrapAssetCollection,
+  wrapAssetTypeCursorPaginatedCollection,
+} from './entities/asset'
+import { wrapAssetKey } from './entities/asset-key'
+import { wrapLocale, wrapLocaleCollection } from './entities/locale'
+import { wrapSnapshotCollection } from './entities/snapshot'
+import { wrapEditorInterface, wrapEditorInterfaceCollection } from './entities/editor-interface'
+import { wrapUpload } from './entities/upload'
+import { wrapExtension, wrapExtensionCollection } from './entities/extension'
+import { wrapAppInstallation, wrapAppInstallationCollection } from './entities/app-installation'
+import { wrapAppSignedRequest } from './entities/app-signed-request'
+import { wrapAppActionCall } from './entities/app-action-call'
+import { wrapBulkAction } from './entities/bulk-action'
+import { wrapAppAccessToken } from './entities/app-access-token'
+import { wrapResourceTypesForEnvironmentCollection } from './entities/resource-type'
+import { wrapResourceCollection } from './entities/resource'
 import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
@@ -71,6 +99,12 @@ import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
 import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
+import { wrapAgent, wrapAgentCollection } from './entities/agent'
+import { wrapAgentRun, wrapAgentRunCollection } from './entities/agent-run'
+import { wrapSemanticDuplicates } from './entities/semantic-duplicates'
+import { wrapSemanticRecommendations } from './entities/semantic-recommendations'
+import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-suggestions'
+import { wrapSemanticSearch } from './entities/semantic-search'
 
 /**
  * @private
@@ -84,31 +118,6 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * @private
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
-  const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection, wrapContentTypeCursorPaginatedCollection } =
-    entities.contentType
-  const { wrapEntry, wrapEntryCollection, wrapEntryTypeCursorPaginatedCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection, wrapAssetTypeCursorPaginatedCollection } = entities.asset
-  const { wrapAssetKey } = entities.assetKey
-  const { wrapLocale, wrapLocaleCollection } = entities.locale
-  const { wrapSnapshotCollection } = entities.snapshot
-  const { wrapEditorInterface, wrapEditorInterfaceCollection } = entities.editorInterface
-  const { wrapUpload } = entities.upload
-  const { wrapExtension, wrapExtensionCollection } = entities.extension
-  const { wrapAppInstallation, wrapAppInstallationCollection } = entities.appInstallation
-  const { wrapAppSignedRequest } = entities.appSignedRequest
-  const { wrapAppActionCall } = entities.appActionCall
-  const { wrapBulkAction } = entities.bulkAction
-  const { wrapAppAccessToken } = entities.appAccessToken
-  const { wrapAgent, wrapAgentCollection } = entities.agent
-  const { wrapAgentRun, wrapAgentRunCollection } = entities.agentRun
-  const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
-  const { wrapResourceCollection } = entities.resource
-  const { wrapSemanticDuplicates } = entities.semanticDuplicates
-  const { wrapSemanticRecommendations } = entities.semanticRecommendations
-  const { wrapSemanticReferenceSuggestions } = entities.semanticReferenceSuggestions
-  const { wrapSemanticSearch } = entities.semanticSearch
-
   return {
     /**
      * Deletes the environment
