@@ -44,6 +44,9 @@ interface UserAgentParams {
 }
 
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
+declare global {
+  const __VERSION__: string
+}
 
 /**
  * Create a client instance
