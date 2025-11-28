@@ -1,6 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
-import entities from './entities'
 import type { EnvironmentTemplateProps } from './entities/environment-template'
 import type {
   CreateEnvironmentTemplateInstallationProps,
@@ -9,12 +8,13 @@ import type {
 
 export type ContentfulEnvironmentTemplateApi = ReturnType<typeof createEnvironmentTemplateApi>
 
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+} from './entities/environment-template'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
+
 export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizationId: string) {
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-
-  const { wrapEnvironmentTemplateInstallationCollection } = entities.environmentTemplateInstallation
-
   return {
     /**
      * Updates a environment template
