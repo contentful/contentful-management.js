@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 export type ParameterType = 'Boolean' | 'Symbol' | 'Number' | 'Enum'
 export type InstallationParameterType = ParameterType | 'Secret'
 export type ParameterOption = string | { [key: string]: string }

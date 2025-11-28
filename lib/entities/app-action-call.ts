@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except, JsonValue } from 'type-fest'

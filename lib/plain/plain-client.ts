@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @category Plain Client
+ */
+
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './plain-client-types'
