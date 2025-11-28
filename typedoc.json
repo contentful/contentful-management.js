@@ -1,7 +1,8 @@
 {
   "name": "contentful-management.js",
   "entryPoints": [
-    "lib/contentful-management.ts",
+    "lib/index.ts",
+    // "lib/contentful-management.ts",
     // "lib/plain/plain-client.ts",
     // "lib/plain/wrappers/wrap.ts",
     // "lib/contentful-management.ts",
