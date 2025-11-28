@@ -1,5 +1,6 @@
 import type { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types'
-import entities from './entities'
+import { wrapAppBundle, wrapAppBundleCollection } from './entities/app-bundle'
+import { wrapResourceProvider } from './entities/resource-provider'
 import type { CreateAppBundleProps } from './entities/app-bundle'
 import type { AppDefinitionProps } from './entities/app-definition'
 import { wrapAppDefinition } from './entities/app-definition'
@@ -14,9 +15,6 @@ export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionAp
  * @private
  */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
-  const { wrapAppBundle, wrapAppBundleCollection } = entities.appBundle
-  const { wrapResourceProvider } = entities.resourceProvider
-
   const getParams = (data: AppDefinitionProps) => ({
     appDefinitionId: data.sys.id,
     organizationId: data.sys.organization.sys.id,

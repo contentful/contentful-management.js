@@ -1,6 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
-import entities from './entities'
 import type { CreateTeamMembershipProps } from './entities/team-membership'
 import type { CreateTeamProps } from './entities/team'
 import type { CreateOrganizationInvitationProps } from './entities/organization-invitation'
@@ -20,6 +19,31 @@ import type { CreateAppDetailsProps } from './entities/app-details'
 import type { OrganizationProps } from './entities/organization'
 import type { UpdateVectorizationStatusProps } from './entities/vectorization-status'
 
+import { wrapAppDefinition, wrapAppDefinitionCollection } from './entities/app-definition'
+import { wrapUser, wrapUserCollection } from './entities/user'
+import {
+  wrapOrganizationMembership,
+  wrapOrganizationMembershipCollection,
+} from './entities/organization-membership'
+import { wrapTeamMembership, wrapTeamMembershipCollection } from './entities/team-membership'
+import {
+  wrapTeamSpaceMembership,
+  wrapTeamSpaceMembershipCollection,
+} from './entities/team-space-membership'
+import { wrapTeam, wrapTeamCollection } from './entities/team'
+import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
+import { wrapOrganizationInvitation } from './entities/organization-invitation'
+import { wrapAppUpload } from './entities/app-upload'
+import { wrapAppSigningSecret } from './entities/app-signing-secret'
+import { wrapAppEventSubscription } from './entities/app-event-subscription'
+import { wrapAppKey, wrapAppKeyCollection } from './entities/app-key'
+import { wrapAppDetails } from './entities/app-details'
+import { wrapAppAction, wrapAppActionCollection } from './entities/app-action'
+import { wrapFunction, wrapFunctionCollection } from './entities/function'
+import { wrapRoleCollection } from './entities/role'
+import { wrapSpaceCollection } from './entities/space'
+import { wrapVectorizationStatus } from './entities/vectorization-status'
+
 /**
  * @private
  */
@@ -32,27 +56,6 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
  * @private
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
-  const { wrapAppDefinition, wrapAppDefinitionCollection } = entities.appDefinition
-  const { wrapUser, wrapUserCollection } = entities.user
-  const { wrapOrganizationMembership, wrapOrganizationMembershipCollection } =
-    entities.organizationMembership
-  const { wrapTeamMembership, wrapTeamMembershipCollection } = entities.teamMembership
-  const { wrapTeamSpaceMembership, wrapTeamSpaceMembershipCollection } =
-    entities.teamSpaceMembership
-  const { wrapTeam, wrapTeamCollection } = entities.team
-  const { wrapSpaceMembership, wrapSpaceMembershipCollection } = entities.spaceMembership
-  const { wrapOrganizationInvitation } = entities.organizationInvitation
-  const { wrapAppUpload } = entities.appUpload
-  const { wrapAppSigningSecret } = entities.appSigningSecret
-  const { wrapAppEventSubscription } = entities.appEventSubscription
-  const { wrapAppKey, wrapAppKeyCollection } = entities.appKey
-  const { wrapAppDetails } = entities.appDetails
-  const { wrapAppAction, wrapAppActionCollection } = entities.appAction
-  const { wrapFunction, wrapFunctionCollection } = entities.func
-  const { wrapRoleCollection } = entities.role
-  const { wrapSpaceCollection } = entities.space
-  const { wrapVectorizationStatus } = entities.vectorizationStatus
-
   return {
     /**
      * Gets a collection of spaces in the organization
