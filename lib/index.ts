@@ -16,13 +16,12 @@ import type { PlainClientDefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 import { ScheduledActionStatus } from './entities/scheduled-action'
+
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
 export { isDraft, isPublished, isUpdated } from './plain/checks'
 export type { PlainClientAPI } from './plain/plain-client-types'
-
-
 export { RestAdapter } from './adapters/REST/rest-adapter'
 export type { RestAdapterParams } from './adapters/REST/rest-adapter'
 export { makeRequest } from './adapters/REST/make-request'
@@ -74,7 +73,7 @@ export function createClient(
     type: 'legacy'
   },
 ): ClientAPI
-// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDoc's correctly
+// Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
 export function createClient(
   clientOptions: ClientOptions,
   opts: {
