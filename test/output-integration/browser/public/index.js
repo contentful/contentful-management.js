@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 async function run() {
   if (!contentfulManagement) {
     throw 'contentful-management.js could not be loaded. Please check the build output.'
