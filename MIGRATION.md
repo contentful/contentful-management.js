@@ -202,3 +202,4 @@ Or import types directly from `contentful-management` instead of `contentful-man
 - Review the [CHANGELOG](CHANGELOG.md) for all changes
 - Check the [README](README.md) for updated usage examples
 - [File an issue](https://github.com/contentful/contentful-management.js/issues) if you encounter problems
+
