@@ -38,7 +38,7 @@ describe('ResourceType API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
-      name: 'Test',
+      name: 'Test Action Calls Integration in CMA (delete if stale)',
       src: 'http://localhost:2222',
       locations: [{ location: 'entry-sidebar' }],
     })
