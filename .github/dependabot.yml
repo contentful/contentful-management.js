@@ -24,3 +24,5 @@ updates:
     - dependency-name: webpack
       versions:
         - '>= 5.0.0'
+      cooldown:
+        default-days: 15

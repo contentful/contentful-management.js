@@ -145,6 +145,11 @@
         "name": "dev",
         "channel": "dev",
         "prerelease": true
+      },
+      {
+        "name": "update-pipeline-scripts",
+        "channel": "dev",
+        "prerelease": true
       }
     ],
     "plugins": [
