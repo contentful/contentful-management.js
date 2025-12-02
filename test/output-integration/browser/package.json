@@ -7,8 +7,8 @@
   "scripts": {
     "test": "vitest --run",
     "dev": "npx serve public",
-    "setup-test-env": "npm run install-puppeteer run copy-bundle && npm run setup-env",
-    "install-puppeteer": "npx puppeteer browsers install chrome",
+    "setup-test-env": "npm run setup-puppeteer && npm run copy-bundle && npm run setup-env",
+    "setup-puppeteer": "node ./node_modules/puppeteer/install.mjs",
     "copy-bundle": "cp ../../../dist/contentful-management.browser.min.js ./public/.",
     "setup-env": "node scripts/inject-env.js"
   },
