@@ -34,10 +34,7 @@ jobs:
           path: |
             dist 
           key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
-      
-      - name: Manually install Chrome for Puppeteer
-        run: npx puppeteer browsers install chrome
-
+          
       - name: Run integration tests
         run: npm run test:demo-projects
         env:
