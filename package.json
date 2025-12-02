@@ -50,7 +50,7 @@
     "test:demo-projects": "npm run test:demo-node && npm run test:demo-browser",
     "test:demo-node": "npm ci --prefix ./test/output-integration/node && npm run test --prefix ./test/output-integration/node",
     "test:demo-browser": "npm ci --prefix ./test/output-integration/browser && npm run setup-test-env --prefix ./test/output-integration/browser && npm run test --prefix ./test/output-integration/browser",
-    "format:fix": "prettier --write '**/*.{jsx,js,ts,tsx}'",
+    "format:fix": "npm run format:check -- --write",
     "format:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "semantic-release": "semantic-release",
     "prepare": "husky"
