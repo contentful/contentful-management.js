@@ -33,7 +33,7 @@ jobs:
         with:
           path: |
             dist 
-          key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}\
+          key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
       
       - name: Manually install Chrome for Puppeteer
         run: npx puppeteer browsers install chrome
