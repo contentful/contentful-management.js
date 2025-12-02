@@ -4,7 +4,11 @@ import type { CreateCommentParams, CreateCommentProps } from './entities/comment
 import type { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import type { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
-import entities from './entities'
+
+import { wrapEntry, wrapEntryCollection } from './entities/entry'
+import { wrapSnapshot, wrapSnapshotCollection } from './entities/snapshot'
+import { wrapTask, wrapTaskCollection } from './entities/task'
+import { wrapComment, wrapCommentCollection } from './entities/comment'
 
 /**
  * @private
@@ -15,11 +19,6 @@ export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
  * @private
  */
 export default function createEntryApi(makeRequest: MakeRequest) {
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
-  const { wrapTask, wrapTaskCollection } = entities.task
-  const { wrapComment, wrapCommentCollection } = entities.comment
-
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
 

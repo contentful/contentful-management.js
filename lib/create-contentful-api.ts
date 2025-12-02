@@ -12,7 +12,27 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import entities from './entities'
+import { wrapSpace, wrapSpaceCollection } from './entities/space'
+import { wrapUser } from './entities/user'
+import {
+  wrapPersonalAccessToken,
+  wrapPersonalAccessTokenCollection,
+} from './entities/personal-access-token'
+import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
+import { wrapOrganization, wrapOrganizationCollection } from './entities/organization'
+import { wrapUsageCollection } from './entities/usage'
+import { wrapAppDefinition } from './entities/app-definition'
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+} from './entities/environment-template'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplication,
+  OAuthApplicationProps,
+} from './entities/oauth-application'
+import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
+
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceProps } from './entities/space'
@@ -25,11 +45,6 @@ import type {
   EnvironmentTemplateProps,
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
-import type {
-  CreateOAuthApplicationProps,
-  OAuthApplication,
-  OAuthApplicationProps,
-} from './export-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
@@ -38,18 +53,6 @@ type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
  * @private
  */
 export default function createClientApi(makeRequest: MakeRequest) {
-  const { wrapSpace, wrapSpaceCollection } = entities.space
-  const { wrapUser } = entities.user
-  const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
-    entities.personalAccessToken
-  const { wrapAccessToken, wrapAccessTokenCollection } = entities.accessToken
-  const { wrapOrganization, wrapOrganizationCollection } = entities.organization
-  const { wrapUsageCollection } = entities.usage
-  const { wrapAppDefinition } = entities.appDefinition
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-  const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
-
   return {
     /**
      * Gets all environment templates for a given organization with the lasted version
