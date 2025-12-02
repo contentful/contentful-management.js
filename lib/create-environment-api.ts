@@ -853,6 +853,25 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
       }).then((data) => wrapEntryCollection(makeRequest, data))
     },
 
+    getPublishedEntriesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Creates a Entry
      * @param contentTypeId - The Content Type ID of the newly created Entry
@@ -1106,6 +1125,25 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
+    },
+
+    getPublishedAssetsWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
     },
 
     /**

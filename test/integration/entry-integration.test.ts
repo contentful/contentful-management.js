@@ -120,6 +120,74 @@ describe('Entry Api', () => {
         expect(response.items[0].sys.publishedAt).to.not.be.undefined
       })
     })
+
+    describe('Gets published entries with cursor pagination', () => {
+      test('gets published entries with cursor pagination with items', async () => {
+        const response = await environment.getPublishedEntriesWithCursor()
+        expect(response.items).toBeTruthy()
+      })
+
+      test('returns a cursor paginated published entry collection when no query is provided', async () => {
+        const response = await environment.getPublishedEntriesWithCursor()
+
+        expect(response.items).not.toHaveLength(0)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('returns [limit] number of items', async () => {
+        const response = await environment.getPublishedEntriesWithCursor({ limit: 3 })
+
+        expect(response.items).toHaveLength(3)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('supports forward pagination', async () => {
+        const firstPage = await environment.getPublishedEntriesWithCursor({ limit: 2 })
+        const secondPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+        })
+
+        expect(secondPage.items).toHaveLength(2)
+        expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+      })
+
+      test('should support backward pagination', async () => {
+        const firstPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          order: ['sys.createdAt'],
+        })
+        const secondPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+          order: ['sys.createdAt'],
+        })
+        const result = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pagePrev: secondPage?.pages?.prev,
+          order: ['sys.createdAt'],
+        })
+
+        expect(result.items).toHaveLength(2)
+
+        firstPage.items.forEach((item, index) => {
+          expect(item.sys.id).equal(result.items[index].sys.id)
+        })
+      })
+    })
+
     test('Gets Entry snapshots', async () => {
       return environment.getEntry(TestDefaults.entry.testEntryId).then((entry) => {
         return entry.getSnapshots().then((response) => {

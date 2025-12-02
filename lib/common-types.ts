@@ -490,6 +490,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
   (opts: MROpts<'Asset', 'getManyWithCursor', UA>): MRReturn<'Asset', 'getManyWithCursor'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
+  (opts: MROpts<'Asset', 'getPublishedWithCursor', UA>): MRReturn<'Asset', 'getPublishedWithCursor'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
   (opts: MROpts<'Asset', 'delete', UA>): MRReturn<'Asset', 'delete'>
@@ -623,6 +624,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
   (opts: MROpts<'Entry', 'getManyWithCursor', UA>): MRReturn<'Entry', 'getManyWithCursor'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
+  (opts: MROpts<'Entry', 'getPublishedWithCursor', UA>): MRReturn<'Entry', 'getPublishedWithCursor'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
@@ -1235,6 +1237,11 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
@@ -1660,6 +1667,10 @@ export type MRActions = {
     getPublished: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
+    }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
     }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
