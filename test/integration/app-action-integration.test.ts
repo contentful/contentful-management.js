@@ -21,7 +21,7 @@ describe('AppAction api', function () {
     space = await getDefaultSpace()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppAction',
+      name: 'Test AppAction in CMA (delete if stale)',
     })
 
     client = initPlainClient({
