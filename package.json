@@ -145,6 +145,11 @@
         "name": "dev",
         "channel": "dev",
         "prerelease": true
+      },
+      {
+        "name": "fix-docs-build",
+        "channel": "dev",
+        "prerelease": true
       }
     ],
     "plugins": [

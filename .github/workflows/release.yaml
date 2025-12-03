@@ -75,6 +75,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           echo "Publishing Documentation"
+          npm install -g json
           npm run docs:publish
         env:
           GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
