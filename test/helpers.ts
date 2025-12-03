@@ -120,7 +120,7 @@ export async function createAppDefinition() {
     throw new Error(`Unable to load test organization`)
   }
   const appDefinition = await organization.createAppDefinition({
-    name: 'Test App',
+    name: 'Test App Definition for helpers.ts (delete if stale)',
     src: 'http://localhost:3000',
     locations: [
       {

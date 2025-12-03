@@ -11,7 +11,7 @@ describe('AppSigningSecret api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppSignedRequest',
+      name: 'Test AppSignedRequest in CMA (delete if stale)',
     })
 
     client = initPlainClient()

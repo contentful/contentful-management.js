@@ -32,7 +32,7 @@ describe('AppAccessToken api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppAccessToken',
+      name: 'Test AppAccessToken in CMA (delete if stale)',
     })
 
     entityId = {
