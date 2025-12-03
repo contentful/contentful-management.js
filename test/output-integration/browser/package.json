@@ -7,9 +7,10 @@
   "scripts": {
     "test": "vitest --run",
     "dev": "npx serve public",
-    "preinstall": "npm run preinstall:bundle && npm run preinstall:env",
-    "preinstall:bundle": "cp ../../../dist/contentful-management.browser.min.js ./public/.",
-    "preinstall:env": "node scripts/inject-env.js"
+    "setup-test-env": "npm run setup-puppeteer && npm run copy-bundle && npm run setup-env",
+    "setup-puppeteer": "node ./node_modules/puppeteer/install.mjs",
+    "copy-bundle": "cp ../../../dist/contentful-management.browser.min.js ./public/.",
+    "setup-env": "node scripts/inject-env.js"
   },
   "author": "",
   "license": "ISC",
