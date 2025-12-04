@@ -5,6 +5,7 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type {
   ContentType,
@@ -28,8 +29,9 @@ describe('Workflow Api', () => {
 
   beforeAll(async () => {
     plainClient = initPlainClient()
-    space = (await createTestSpace(defaultClient, 'Comment')) as Space
-    environment = (await createTestEnvironment(space, 'test')) as unknown as Environment
+    space = await createTestSpace(defaultClient, 'Comment')
+    environment = await createTestEnvironment(space, 'test')
+    await waitForEnvironmentToBeReady(space, environment)
     environmentId = environment.sys.id
     spaceId = space.sys.id
     contentType = await environment.createContentType({
