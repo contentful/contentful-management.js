@@ -4,43 +4,24 @@ import {
   getAppDefinition,
   getTestOrganization,
   createAppInstallation,
-  getDefaultSpace,
   timeoutToCalmRateLimiting,
 } from '../helpers'
-import type {
-  Organization,
-  Space,
-  Environment,
-  AppInstallation,
-} from '../../lib/contentful-management'
+import type { Organization, AppInstallation } from '../../lib/contentful-management'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization
-  let space: Space
-  let env: Environment
 
   beforeAll(async () => {
     organization = await getTestOrganization()
-    space = await getDefaultSpace()
-    env = await space.getEnvironment('master')
   })
 
   afterAll(async () => {
-    const { items: appDefinitions } = await organization.getAppDefinitions()
-    const { items: appInstallations } = await env.getAppInstallations()
-
-    for (const appInstallation of appInstallations) {
-      await appInstallation.delete()
-    }
-    for (const appDefinition of appDefinitions) {
-      await appDefinition.delete()
-    }
     await timeoutToCalmRateLimiting()
   })
 
   test('createAppDefinition', async () => {
     const appDefinition = await organization.createAppDefinition({
-      name: 'Test App',
+      name: 'Test createAppDefinition in CMA (delete if stale)',
       src: 'http://localhost:3000',
       locations: [
         {
@@ -50,12 +31,15 @@ describe('AppDefinition api', { sequential: true }, () => {
     })
 
     expect(appDefinition.sys.type).toBe('AppDefinition')
-    expect(appDefinition.name).toBe('Test App')
+    expect(appDefinition.name).toBe('Test createAppDefinition in CMA (delete if stale)')
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('createAppDefinition with secret installation param', async () => {
     const appDefinition = await organization.createAppDefinition({
-      name: 'Test App',
+      name: 'Test createAppDefinition with secret param in CMA (delete if stale)',
       src: 'http://localhost:3000',
       locations: [
         {
@@ -74,18 +58,23 @@ describe('AppDefinition api', { sequential: true }, () => {
     })
 
     expect(appDefinition.sys.type).toBe('AppDefinition')
-    expect(appDefinition.name).toBe('Test App')
+    expect(appDefinition.name).toBe(
+      'Test createAppDefinition with secret param in CMA (delete if stale)',
+    )
     if (!appDefinition.parameters || !appDefinition.parameters.installation) {
       throw new Error(
         `appDefinition.parameters or appDefinition.parameters.installation is not defined`,
       )
     }
     expect(appDefinition.parameters.installation[0].id).toBe('secret')
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('getAppDefinition', async () => {
     const appDefinition = await organization.createAppDefinition({
-      name: 'Test App',
+      name: 'Test getAppDefinition in CMA (delete if stale)',
       src: 'http://localhost:3000',
       locations: [
         {
@@ -97,6 +86,9 @@ describe('AppDefinition api', { sequential: true }, () => {
     const fetchedAppDefinition = await organization.getAppDefinition(appDefinition.sys.id)
 
     expect(appDefinition.sys.id).toBe(fetchedAppDefinition.sys.id)
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('getAppDefinitions', async () => {
@@ -108,7 +100,7 @@ describe('AppDefinition api', { sequential: true }, () => {
 
   test('delete', async () => {
     const appDefinition = await organization.createAppDefinition({
-      name: 'Test App',
+      name: 'Test Delete AppDefinition in CMA (delete if stale)',
       src: 'http://localhost:3000',
       locations: [
         {
@@ -126,7 +118,7 @@ describe('AppDefinition api', { sequential: true }, () => {
 
   test('update', async () => {
     const appDefinition = await organization.createAppDefinition({
-      name: 'Test App',
+      name: 'Test Update AppDefinition in CMA (delete if stale)',
       src: 'http://localhost:3000',
       locations: [
         {
@@ -139,6 +131,9 @@ describe('AppDefinition api', { sequential: true }, () => {
     await appDefinition.update()
 
     expect(appDefinition.name).toBe('Test App Updated')
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('getAppDefinition (top level)', async () => {
@@ -147,6 +142,9 @@ describe('AppDefinition api', { sequential: true }, () => {
 
     expect(appDefinition.sys.organization.sys.id).toBe(orgId)
     expect(appDefinition.sys.id).toBe(appId)
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('getInstallationsForOrg returns', async () => {
@@ -154,6 +152,9 @@ describe('AppDefinition api', { sequential: true }, () => {
     const appDefinition = await getAppDefinition(orgId, appId)
     const installationsForOrg = await appDefinition.getInstallationsForOrg()
     expect(installationsForOrg.sys.type).toBe('Array')
+
+    //cleanup
+    await appDefinition.delete()
   })
 
   test('getInstallationsForOrg returns installations', async () => {
@@ -164,5 +165,8 @@ describe('AppDefinition api', { sequential: true }, () => {
 
     expect(appInstallationsForOrg.items.length).toBe(1)
     await appInstallation.delete()
+
+    //cleanup
+    await appDefinition.delete()
   })
 })

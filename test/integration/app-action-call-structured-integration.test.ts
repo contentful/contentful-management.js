@@ -26,7 +26,7 @@ describe('AppActionCall structured endpoints', function () {
 
     // Create an app definition for installation context
     appDefinition = await organization.createAppDefinition({
-      name: 'Structured AppActionCall Test',
+      name: 'Structured AppActionCall Test in CMA (delete if stale)',
     })
 
     client = initPlainClient({
