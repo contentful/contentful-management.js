@@ -72,7 +72,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish Docs
-        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/fix-docs-build"]'), github.ref)
+        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
         run: |
           echo "Publishing Documentation"
           npm run docs:publish
