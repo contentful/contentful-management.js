@@ -373,5 +373,7 @@ async function clearEnvironmentTemplates(
     return description === templateDescription
   }
 
-  await Promise.all(templates.filter(filterByDescription).map((template) => template.delete()))
+  for (const template of templates.filter(filterByDescription)) {
+    await template.delete()
+  }
 }
