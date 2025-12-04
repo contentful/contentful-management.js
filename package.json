@@ -121,7 +121,7 @@
     }
   },
   "lint-staged": {
-    "./{lib,test}/*.{js,ts}": [
+    "./{lib,test}/**/*.{js,ts}": [
       "prettier --write",
       "eslint --fix"
     ],

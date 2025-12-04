@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, it, afterEach, expect } from 'vitest'
+import { afterAll, beforeAll, describe, it, expect } from 'vitest'
 import type { ClientAPI } from '../../lib/create-contentful-api'
 import {
   defaultClient,
@@ -198,9 +198,9 @@ describe('Environment template API', () => {
       await clearEnvironmentTemplates(client, orgId, templateDescription)
     })
 
-     it('installs an environment template', async () => {
-       await expect(installTemplate()).resolves.not.toThrow()
-     })
+    it('installs an environment template', async () => {
+      await expect(installTemplate()).resolves.not.toThrow()
+    })
 
     it('validates an environment template', async () => {
       const draftTemplate = createDraftTemplate()
