@@ -78,7 +78,7 @@ describe('Environment Api', () => {
     beforeAll(async () => {
       organization = await getTestOrganization()
       appDefinition = await organization.createAppDefinition({
-        name: 'Test',
+        name: 'Test Environment Integration CMA (delete if stale)',
         src: 'http://localhost:2222',
         locations: [{ location: 'app-config' }],
         parameters: {

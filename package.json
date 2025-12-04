@@ -43,7 +43,7 @@
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
     "lint": "eslint lib test",
-    "pretest": "rimraf coverage && npm run lint",
+    "lint:fix": "eslint lib test --fix",
     "test": "npm run test:unit:cover && npm run test:types && npm run test:integration:cover && npm run test:size",
     "test:unit:cover": "npm run test:unit -- --coverage",
     "test:unit": "npx vitest --project unit --run",
@@ -56,16 +56,12 @@
     "test:version": "grep -r \"0.0.0-determined-by-semantic-release\" ./dist > /dev/null && echo \"version 0.0.0-determined-by-semantic-release found in output\" && exit 1 || exit 0",
     "test:size": "size-limit",
     "test:demo-projects": "npm run test:demo-node && npm run test:demo-browser",
-    "test:demo-node": "rimraf ./test/output-integration/node/node-modules && npm --prefix ./test/output-integration/node ci && vitest --run ./test/output-integration/node",
-    "test:demo-browser": "rimraf ./test/output-integration/browser/node-modules && npm --prefix ./test/output-integration/browser ci && npm --prefix ./test/output-integration/browser run test",
-    "test:prepush": "npm run build && npm run test:unit && npm run test:size",
-    "format:fix": "prettier --write '**/*.{jsx,js,ts,tsx}'",
+    "test:demo-node": "npm ci --prefix ./test/output-integration/node && npm run test --prefix ./test/output-integration/node",
+    "test:demo-browser": "npm ci --prefix ./test/output-integration/browser && npm run setup-test-env --prefix ./test/output-integration/browser && npm run test --prefix ./test/output-integration/browser",
+    "format:fix": "npm run format:check -- --write",
     "format:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "semantic-release": "semantic-release",
-    "precommit": "npm run lint",
-    "postpublish": "if [ \"$(git rev-parse --abbrev-ref HEAD)\" = master ] ; then npm run docs:publish && npm run clean ; else exit 0 ; fi",
-    "prepush": "npm run test:prepush",
-    "prepublishOnly": "npm run build && npm run test:version"
+    "prepare": "husky"
   },
   "files": [
     "dist"
@@ -125,9 +121,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "./{lib,test}/*.{js,ts}": [
       "prettier --write",
-      "eslint"
+      "eslint --fix"
     ],
     "*.md": [
       "prettier --write"
