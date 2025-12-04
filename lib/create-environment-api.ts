@@ -1496,7 +1496,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets an App Installation
-     * @param id - AppDefintion ID
+     * @param id - AppDefinition ID
      * @return Promise for an App Installation
      * @example ```javascript
      * const contentful = require('contentful-management')
