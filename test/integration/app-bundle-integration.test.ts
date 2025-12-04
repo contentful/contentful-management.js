@@ -1,41 +1,32 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { readFileSync } from 'fs'
-import { getTestOrganization, getDefaultSpace, timeoutToCalmRateLimiting } from '../helpers'
-import type { Organization, AppDefinition, AppUpload, Space, Environment } from '../../lib/index'
+import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
+import type { Organization, AppDefinition, AppUpload } from '../../lib/contentful-management'
 
 describe('AppBundle api', { sequential: true }, () => {
   let organization: Organization
   let appDefinition: AppDefinition
   let appUpload: AppUpload
-  let space: Space
-  let env: Environment
 
   beforeAll(async () => {
-    space = await getDefaultSpace()
-    env = await space.getEnvironment('master')
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppBundle',
+      name: 'Test AppBundle Integration in CMA (delete if stale)',
     })
 
     appUpload = await organization.createAppUpload(readFileSync(`${__dirname}/fixtures/build.zip`))
   })
 
   afterAll(async () => {
-    const { items: appDefinitions } = await organization.getAppDefinitions()
-    const { items: appInstallations } = await env.getAppInstallations()
-
-    for (const appInstallation of appInstallations) {
-      await appInstallation.delete()
-    }
-    for (const appDefinition of appDefinitions) {
-      await appDefinition.delete()
-    }
-
     if (appUpload) {
       await appUpload.delete()
     }
+
+    if (appDefinition) {
+      await appDefinition.delete()
+    }
+
     await timeoutToCalmRateLimiting()
   })
 
