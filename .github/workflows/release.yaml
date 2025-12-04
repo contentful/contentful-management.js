@@ -75,7 +75,6 @@ jobs:
         if: github.event_name == 'push' && contains(fromJSON('["refs/heads/fix-docs-build"]'), github.ref)
         run: |
           echo "Publishing Documentation"
-          npm install -g json
           npm run docs:publish
         env:
           GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
