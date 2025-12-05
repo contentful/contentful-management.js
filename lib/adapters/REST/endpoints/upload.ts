@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type Stream from 'stream'
+import type { Stream } from 'stream'
 import type {
   GetSpaceEnvironmentParams,
   GetSpaceEnvironmentUploadParams,
