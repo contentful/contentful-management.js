@@ -1,3 +1,4 @@
+import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
@@ -70,7 +71,6 @@ import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
 import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
-import type { Stream } from 'stream'
 
 /**
  * @private
