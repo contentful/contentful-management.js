@@ -5,6 +5,7 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type { ContentType, Entry, Environment, PlainClientAPI, Space } from '../../lib/export-types'
 
@@ -19,11 +20,12 @@ describe('Comment Api', () => {
 
   beforeAll(async () => {
     plainClient = initPlainClient()
-    space = (await createTestSpace(defaultClient, 'Comment')) as Space
-    environment = (await createTestEnvironment(
+    space = await createTestSpace(defaultClient, 'Comment')
+    environment = await createTestEnvironment(
       space,
       'Comment Testing Environment',
-    )) as unknown as Environment
+    )
+    await waitForEnvironmentToBeReady(space, environment)
     contentType = await environment.createContentType({
       name: 'Content Type',
       fields: [
