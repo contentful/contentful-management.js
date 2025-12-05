@@ -60,7 +60,7 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
-import type Stream from 'stream'
+import type { Stream } from 'stream'
 
 /**
  * @private
