@@ -19,7 +19,9 @@ const cleanup = async (testSpace: Space, environmentId: string) => {
     'sys.status': 'scheduled',
   })
 
-  await Promise.all(scheduledActions.items.map((action) => action.delete()))
+  for (const action of scheduledActions.items) {
+    await action.delete()
+  }
 }
 
 describe('Scheduled Actions API', () => {
@@ -78,30 +80,22 @@ describe('Scheduled Actions API', () => {
     })
 
     it.skip('Query Scheduled Actions', async () => {
-      const [action1, action2] = await Promise.all([
-        testSpace.createScheduledAction({
-          entity: makeLink('Entry', TestDefaults.entry.testEntryId),
-          action: 'publish',
-          environment: makeLink('Environment', environment.sys.id),
-          scheduledFor: {
-            datetime,
-          },
-        }),
-        testSpace.createScheduledAction({
-          entity: makeLink('Asset', asset.sys.id),
-          action: 'unpublish',
-          environment: {
-            sys: {
-              type: 'Link',
-              linkType: 'Environment',
-              id: environment.sys.id,
-            },
-          },
-          scheduledFor: {
-            datetime,
-          },
-        }),
-      ])
+      const action1 = await testSpace.createScheduledAction({
+        entity: makeLink('Entry', TestDefaults.entry.testEntryId),
+        action: 'publish',
+        environment: makeLink('Environment', environment.sys.id),
+        scheduledFor: {
+          datetime,
+        },
+      })
+      const action2 = await testSpace.createScheduledAction({
+        entity: makeLink('Entry', TestDefaults.entry.testEntryId),
+        action: 'publish',
+        environment: makeLink('Environment', environment.sys.id),
+        scheduledFor: {
+          datetime,
+        },
+      })
 
       try {
         const queryLimit = 1

@@ -4,6 +4,7 @@ import {
   createTestEnvironment,
   createTestSpace,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type { Space, Environment } from '../../lib/export-types'
 
@@ -14,6 +15,7 @@ describe('Extension API', () => {
   beforeAll(async () => {
     space = await createTestSpace(defaultClient, 'TSM')
     environment = await createTestEnvironment(space, 'Test')
+    await waitForEnvironmentToBeReady(space, environment)
   })
 
   afterAll(async () => {
