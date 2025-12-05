@@ -21,10 +21,7 @@ describe('Comment Api', () => {
   beforeAll(async () => {
     plainClient = initPlainClient()
     space = await createTestSpace(defaultClient, 'Comment')
-    environment = await createTestEnvironment(
-      space,
-      'Comment Testing Environment',
-    )
+    environment = await createTestEnvironment(space, 'Comment Testing Environment')
     await waitForEnvironmentToBeReady(space, environment)
     contentType = await environment.createContentType({
       name: 'Content Type',
