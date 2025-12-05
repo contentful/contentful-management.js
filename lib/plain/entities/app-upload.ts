@@ -1,7 +1,7 @@
+import type { Stream } from 'stream'
 import type { GetAppUploadParams, GetOrganizationParams } from '../../common-types'
 import type { AppUploadProps } from '../../entities/app-upload'
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type { Stream } from 'stream'
 
 export type AppUploadPlainClientAPI = {
   /**
