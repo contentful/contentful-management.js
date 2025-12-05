@@ -60,6 +60,7 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import type Stream from 'stream'
 
 /**
  * @private
@@ -1195,7 +1196,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createUpload: function createUpload(data: { file: string | ArrayBuffer | ReadableStream }) {
+    createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Upload',

@@ -1,5 +1,6 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type { OpPatch } from 'json-patch'
+import type Stream from 'stream'
 import type {
   AccessTokenProps,
   CreatePersonalAccessTokenProps as CreatePATProps,
@@ -1140,7 +1141,7 @@ export type MRActions = {
     }
     create: {
       params: GetOrganizationParams
-      payload: { file: string | ArrayBuffer | ReadableStream }
+      payload: { file: string | ArrayBuffer | Stream }
       return: AppUploadProps
     }
   }
@@ -2226,7 +2227,7 @@ export type MRActions = {
     get: { params: GetSpaceEnvironmentUploadParams; return: any }
     create: {
       params: GetSpaceEnvironmentParams
-      payload: { file: string | ArrayBuffer | ReadableStream }
+      payload: { file: string | ArrayBuffer | Stream }
       return: any
     }
     delete: { params: GetSpaceEnvironmentUploadParams; return: any }

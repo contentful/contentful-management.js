@@ -1,4 +1,5 @@
 import { createRequestConfig } from 'contentful-sdk-core'
+import type Stream from 'stream'
 import entities from './entities'
 import type { CreateTeamMembershipProps } from './entities/team-membership'
 import type { CreateTeamProps } from './entities/team'
@@ -663,7 +664,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createAppUpload(file: string | ArrayBuffer | ReadableStream) {
+    createAppUpload(file: string | ArrayBuffer | Stream) {
       const raw = this.toPlainObject() as OrganizationProps
 
       return makeRequest({
