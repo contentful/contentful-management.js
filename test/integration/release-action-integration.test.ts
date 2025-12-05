@@ -56,10 +56,8 @@ describe('ReleaseAction Api', () => {
       },
     }
 
-    ;[testRelease, testRelease2] = await Promise.all([
-      testEnvironment.createRelease(releasePayload),
-      testEnvironment.createRelease(releasePayload),
-    ])
+    testRelease = await testEnvironment.createRelease(releasePayload)
+    testRelease2 = await testEnvironment.createRelease(releasePayload)
 
     testReleaseAction = await testRelease.validate()
     testReleaseAction2 = await testRelease2.validate()
