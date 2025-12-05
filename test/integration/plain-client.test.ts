@@ -6,6 +6,7 @@ import {
   generateRandomId,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type { Environment, ContentType, Space } from '../../lib/export-types'
 
@@ -26,6 +27,7 @@ describe('ContentType Api', () => {
       writeSpace,
       'Testing Environment',
     )) as unknown as Environment
+    await waitForEnvironmentToBeReady(writeSpace, writeEnvironment)
   })
 
   afterAll(async () => {

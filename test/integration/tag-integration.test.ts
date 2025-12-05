@@ -29,8 +29,9 @@ describe('Tags API', () => {
 
   afterEach(async () => {
     const tags = await environment.getTags({ limit: 1000 })
-    const deleting = tags.items.map((tag) => tag.delete())
-    await Promise.allSettled(deleting)
+    for (const tag of tags.items) {
+      await tag.delete().catch(() => {})
+    }
   })
 
   afterAll(async () => {
