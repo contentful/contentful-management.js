@@ -214,20 +214,17 @@ describe('Taxonomy Integration', () => {
   })
 
   it('concept getTotal', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const concept: CreateConceptProps = {
-            prefLabel: {
-              'en-US': `Test Concept ${i}`,
-            },
-          }
+    const numOfConceptsToCreate = 3
+    for (let i = 0; i < numOfConceptsToCreate; i++) {
+      const concept: CreateConceptProps = {
+        prefLabel: {
+          'en-US': `Test Concept ${i}`,
+        },
+      }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
-        }),
-    )
+      const result = await client.concept.create({}, concept)
+      conceptsToDelete.push(result)
+    }
 
     const { total } = await client.concept.getTotal({})
 
@@ -235,40 +232,34 @@ describe('Taxonomy Integration', () => {
   })
 
   it('gets a list of all concepts', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const concept: CreateConceptProps = {
-            prefLabel: {
-              'en-US': `Test Concept ${i}`,
-            },
-          }
+    const numOfConceptsToCreate = 3
+    for (let i = 0; i < numOfConceptsToCreate; i++) {
+      const concept: CreateConceptProps = {
+        prefLabel: {
+          'en-US': `Test Concept ${i}`,
+        },
+      }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
-        }),
-    )
+      const result = await client.concept.create({}, concept)
+      conceptsToDelete.push(result)
+    }
 
     const { items } = await client.concept.getMany({})
     expect(items.length).toBeGreaterThan(1)
   })
 
   it('gets a list of all paginated concepts', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const concept: CreateConceptProps = {
-            prefLabel: {
-              'en-US': `Test Concept ${i}`,
-            },
-          }
+    const numOfConceptsToCreate = 3
+    for (let i = 0; i < numOfConceptsToCreate; i++) {
+      const concept: CreateConceptProps = {
+        prefLabel: {
+          'en-US': `Test Concept ${i}`,
+        },
+      }
 
-          const result = await client.concept.create({}, concept)
-          conceptsToDelete.push(result)
-        }),
-    )
+      const result = await client.concept.create({}, concept)
+      conceptsToDelete.push(result)
+    }
 
     const { items, pages } = await client.concept.getMany({
       query: {
@@ -526,20 +517,17 @@ describe('Taxonomy Integration', () => {
   })
 
   it('conceptScheme getTotal', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const conceptScheme: CreateConceptSchemeProps = {
-            prefLabel: {
-              'en-US': `Test ConceptScheme ${i}`,
-            },
-          }
+    const numOfConceptSchemesToCreate = 3
+    for (let i = 0; i < numOfConceptSchemesToCreate; i++) {
+      const conceptScheme: CreateConceptSchemeProps = {
+        prefLabel: {
+          'en-US': `Test ConceptScheme ${i}`,
+        },
+      }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
-        }),
-    )
+      const result = await client.conceptScheme.create({}, conceptScheme)
+      conceptSchemesToDelete.push(result)
+    }
 
     const { total } = await client.conceptScheme.getTotal({})
 
@@ -547,40 +535,34 @@ describe('Taxonomy Integration', () => {
   })
 
   it('gets a list of all concept schemes', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const conceptScheme: CreateConceptSchemeProps = {
-            prefLabel: {
-              'en-US': `Test ConceptScheme ${i}`,
-            },
-          }
+    const numOfConceptSchemesToCreate = 3
+    for (let i = 0; i < numOfConceptSchemesToCreate; i++) {
+      const conceptScheme: CreateConceptSchemeProps = {
+        prefLabel: {
+          'en-US': `Test ConceptScheme ${i}`,
+        },
+      }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
-        }),
-    )
+      const result = await client.conceptScheme.create({}, conceptScheme)
+      conceptSchemesToDelete.push(result)
+    }
 
     const { items } = await client.conceptScheme.getMany({})
     expect(items.length).toBe(3)
   })
 
   it('gets a list of all paginated concept schemes', async () => {
-    await Promise.all(
-      Array(3)
-        .fill(null)
-        .map(async (i) => {
-          const conceptScheme: CreateConceptSchemeProps = {
-            prefLabel: {
-              'en-US': `Test ConceptScheme ${i}`,
-            },
-          }
+    const numOfConceptSchemesToCreate = 3
+    for (let i = 0; i < numOfConceptSchemesToCreate; i++) {
+      const conceptScheme: CreateConceptSchemeProps = {
+        prefLabel: {
+          'en-US': `Test ConceptScheme ${i}`,
+        },
+      }
 
-          const result = await client.conceptScheme.create({}, conceptScheme)
-          conceptSchemesToDelete.push(result)
-        }),
-    )
+      const result = await client.conceptScheme.create({}, conceptScheme)
+      conceptSchemesToDelete.push(result)
+    }
 
     const { items, pages } = await client.conceptScheme.getMany({
       query: {
