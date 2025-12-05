@@ -46,6 +46,7 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - Code using deep imports from internal modules
 - TypeScript projects importing from `contentful-management/types` with older module resolution
 - Code using the `Stream` type
+- Code using the `entry.patch` method
 
 ### Breaking Changes
 
@@ -149,6 +150,10 @@ import type { Space } from 'contentful-management/types'
 // Use
 import type { Space } from 'contentful-management'
 ```
+
+#### Version param is now required for entry patch method
+
+When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
 
 ### Troubleshooting
 
