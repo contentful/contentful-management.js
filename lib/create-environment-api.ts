@@ -70,6 +70,7 @@ import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
 import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
+import type Stream from 'stream'
 
 /**
  * @private
@@ -1404,7 +1405,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createUpload: function createUpload(data: { file: string | ArrayBuffer | ReadableStream }) {
+    createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Upload',

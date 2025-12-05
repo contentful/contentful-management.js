@@ -12,14 +12,19 @@
 To upgrade to the latest version of `contentful-management`, use your package manager and then make any necessary changes outlined in the migration guides below.
 
 **npm:**
+
 ```bash
 npm install contentful-management@latest
 ```
+
 **yarn:**
+
 ```bash
 yarn upgrade contentful-management@latest
 ```
+
 **pnpm:**
+
 ```bash
 pnpm update contentful-management@latest
 ```
@@ -49,6 +54,7 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 The library now targets ECMAScript 2021, and Babel transpilation for older JavaScript versions has been removed. This means modern JavaScript features like optional chaining (`?.`), nullish coalescing (`??`), and `Promise.any()` are used directly without transpilation.
 
 **Affected environments:**
+
 - Internet Explorer (all versions)
 - Chrome < 85
 - Firefox < 79
@@ -63,6 +69,7 @@ Browser and Node environments that do not support ES2021 might need an additiona
 We dropped support for versions of Node that were no longer LTS and now support Node v20+.
 
 **Compatibility:**
+
 - ✅ Node.js v20+
 - ❌ Node.js v18 and below
 
@@ -85,15 +92,16 @@ And have been replaced with an ESM build for use in modern environments, a Commo
 If you were accessing any of the previous bundles directly, you will need to update to pull from one of the new bundles.
 
 **import example:**
+
 ```javascript
 // Before
-import contentful from './node_modules/contentful-management/dist/contentful-management.node.js';
+import contentful from './node_modules/contentful-management/dist/contentful-management.node.js'
 
 // After (ESM)
-import contentful from 'contentful-management';
+import contentful from 'contentful-management'
 
 // After (CommonJS) - still works
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 ```
 
 #### Changes to browser bundle
@@ -101,6 +109,7 @@ const contentful = require('contentful-management');
 Browser bundle methods must now be accessed from the `contentfulManagement` object which is added to `window` on load (e.g., `window.contentfulManagement.createClient()`). If you were using methods directly, update your code to destructure them from the `contentfulManagement` object (e.g., `const { createClient } = contentfulManagement`).
 
 **JSDelivr usage:**
+
 ```html
 <!-- Before -->
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@11/dist/contentful-management.browser.min.js"></script>
@@ -122,35 +131,23 @@ All types are exported from both `contentful-management` and `contentful-managem
 **Migration options:**
 
 Option 1 - Update tsconfig.json:
+
 ```json
 {
   "compilerOptions": {
-    "moduleResolution": "node16"  // or "bundler" or "nodenext"
+    "moduleResolution": "node16" // or "bundler" or "nodenext"
   }
 }
 ```
 
 Option 2 - Import from main package:
+
 ```typescript
 // Instead of
-import type { Space } from 'contentful-management/types';
+import type { Space } from 'contentful-management/types'
 
 // Use
-import type { Space } from 'contentful-management';
-```
-
-##### Replaced the `Stream` type with `ReadableStream`
-
-The `Stream` type was specific to Node.js environments and could cause issues in browsers. It has been replaced with `ReadableStream`, which is a global type available in both Node.js and browser environments.
-
-**Migration example:**
-```typescript
-// Before
-import type { Stream } from 'stream';
-function processStream(stream: Stream) { ... }
-
-// After
-function processStream(stream: ReadableStream) { ... }
+import type { Space } from 'contentful-management'
 ```
 
 ### Troubleshooting
@@ -166,6 +163,7 @@ function processStream(stream: ReadableStream) { ... }
 **Cause:** Your TypeScript configuration uses an older module resolution strategy.
 
 **Solution:** Update your `tsconfig.json`:
+
 ```json
 {
   "compilerOptions": {
@@ -180,7 +178,8 @@ Or import types directly from `contentful-management` instead of `contentful-man
 
 **Cause:** Your environment doesn't support ES2021.
 
-**Solution:** 
+**Solution:**
+
 - For Node.js: Upgrade to Node.js v20 or higher
 - For browsers: Ensure you're targeting modern browsers that support ES2021 (Chrome 85+, Firefox 79+, Safari 14+, Edge 85+)
 - Consider using a transpilation tool like Babel if you must support older environments
@@ -188,11 +187,13 @@ Or import types directly from `contentful-management` instead of `contentful-man
 #### Types not resolving correctly
 
 **Possible causes:**
+
 - Outdated module resolution in `tsconfig.json`
 - IDE needs to be restarted after upgrade
 - Type cache needs to be cleared
 
 **Solutions:**
+
 1. Update `moduleResolution` to `node16` or higher
 2. Restart your IDE/TypeScript server
 3. Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
@@ -202,4 +203,3 @@ Or import types directly from `contentful-management` instead of `contentful-man
 - Review the [CHANGELOG](CHANGELOG.md) for all changes
 - Check the [README](README.md) for updated usage examples
 - [File an issue](https://github.com/contentful/contentful-management.js/issues) if you encounter problems
-

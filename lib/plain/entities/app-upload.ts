@@ -1,6 +1,7 @@
 import type { GetAppUploadParams, GetOrganizationParams } from '../../common-types'
 import type { AppUploadProps } from '../../entities/app-upload'
 import type { OptionalDefaults } from '../wrappers/wrap'
+import type Stream from 'stream'
 
 export type AppUploadPlainClientAPI = {
   /**
@@ -51,6 +52,6 @@ export type AppUploadPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetOrganizationParams>,
-    payload: { file: string | ArrayBuffer | ReadableStream },
+    payload: { file: string | ArrayBuffer | Stream },
   ): Promise<AppUploadProps>
 }
