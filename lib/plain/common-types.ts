@@ -139,7 +139,7 @@ import type { OAuthApplicationPlainClientAPI } from './entities/oauth-applicatio
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
-import { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
+import type { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
 
 export type PlainClientAPI = {
   raw: {
