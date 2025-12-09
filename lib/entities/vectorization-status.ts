@@ -1,14 +1,13 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { Link, MakeRequest } from '../common-types'
-import enhanceWithMethods from '../enhance-with-methods'
+import type { DefaultElements, Link, MakeRequest } from '../common-types'
 
 export enum EmbeddingSetStatus {
   ACTIVE = 'ACTIVE',
   PENDING = 'PENDING',
   ERROR = 'ERROR',
   DISABLED = 'DISABLED',
-  DELETING = 'DELETING'
+  DELETING = 'DELETING',
 }
 
 export type SpaceVectorizationStatus = {
@@ -30,18 +29,19 @@ export type VectorizationStatusProps = {
   items: SpaceVectorizationStatus[]
 }
 
-export interface VectorizationStatus extends VectorizationStatusProps {}
+export type UpdateVectorizationStatusProps = {
+  spaceId: string
+  enabled: boolean
+}[]
 
-/**
- * Wraps raw VectorizationStatus data and adds useful methods.
- * @param makeRequest
- */
-function createVectorizationStatusApi(makeRequest: MakeRequest, organizationId: string) {
-  return {}
-}
+export interface VectorizationStatus
+  extends VectorizationStatusProps,
+    DefaultElements<VectorizationStatusProps> {}
 
-export function wrapVectorizationStatus(makeRequest: MakeRequest, data: VectorizationStatusProps, organizationId: string): VectorizationStatus {
+export function wrapVectorizationStatus(
+  _makeRequest: MakeRequest,
+  data: VectorizationStatusProps,
+): VectorizationStatus {
   const vectorizationStatus = toPlainObject(copy(data))
-  const vectorizationStatusWithMethods = enhanceWithMethods(vectorizationStatus, createVectorizationStatusApi(makeRequest, organizationId))
-  return freezeSys(vectorizationStatusWithMethods)
+  return freezeSys(vectorizationStatus)
 }

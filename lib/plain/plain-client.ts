@@ -567,6 +567,7 @@ export const createPlainClient = (
     },
     vectorizationStatus: {
       get: wrap(wrapParams, 'VectorizationStatus', 'get'),
+      update: wrap(wrapParams, 'VectorizationStatus', 'update'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

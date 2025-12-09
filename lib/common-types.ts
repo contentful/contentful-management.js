@@ -191,7 +191,10 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
-import type { VectorizationStatusProps } from './entities/vectorization-status'
+import type {
+  UpdateVectorizationStatusProps,
+  VectorizationStatusProps,
+} from './entities/vectorization-status'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -856,6 +859,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
   (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
+  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2266,8 +2270,18 @@ export type MRActions = {
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
   }
   VectorizationStatus: {
-    get: { params: GetOrganizationParams; return: VectorizationStatusProps }
-  },
+    get: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      return: VectorizationStatusProps
+    }
+    update: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      payload: UpdateVectorizationStatusProps
+      return: VectorizationStatusProps
+    }
+  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
