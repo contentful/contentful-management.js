@@ -50,6 +50,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapFunction, wrapFunctionCollection } = entities.func
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
+  const { wrapVectorizationStatus } = entities.vectorizationStatus
 
   return {
     /**
@@ -1195,5 +1196,26 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         params: { organizationId: raw.sys.id, appDefinitionId, query },
       }).then((payload) => wrapFunctionCollection(makeRequest, payload))
     },
+
+    /**
+     * Gets the vectorization status for the organization
+     * @returns Promise for a VectorizationStatus
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const vectorizationStatus = await org.getVectorizationStatus()
+     */
+    getVectorizationStatus() {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'VectorizationStatus',
+        action: 'get',
+        params: { organizationId: raw.sys.id }
+      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
+    }
   }
 }

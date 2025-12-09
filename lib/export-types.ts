@@ -290,6 +290,7 @@ export type {
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
+export type { VectorizationStatusProps, VectorizationStatus } from './entities/vectorization-status'
 export type {
   DefinedParameters,
   FreeFormParameters,

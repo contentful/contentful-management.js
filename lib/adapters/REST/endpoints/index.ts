@@ -62,6 +62,7 @@ import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
 import * as UserUIConfig from './user-ui-config'
+import * as VectorizationStatus from './vectorization-status'
 import * as Webhook from './webhook'
 import * as Workflow from './workflow'
 import * as WorkflowDefinition from './workflow-definition'
@@ -132,6 +133,7 @@ export default {
   Usage,
   User,
   UserUIConfig,
+  VectorizationStatus,
   Webhook,
   WorkflowDefinition,
   Workflow,
