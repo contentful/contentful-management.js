@@ -2629,3 +2629,8 @@ export enum ScheduledActionReferenceFilters {
 export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
 }
+
+export type SemanticRequestFilter = {
+  entityType?: 'Entry'
+  contentTypeIds?: string[]
+}
