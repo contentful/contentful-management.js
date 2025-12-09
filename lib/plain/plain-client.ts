@@ -217,6 +217,7 @@ export const createPlainClient = (
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'ContentType', 'getManyWithCursor'),
       update: wrap(wrapParams, 'ContentType', 'update'),
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
@@ -247,6 +248,7 @@ export const createPlainClient = (
     entry: {
       getPublished: wrap(wrapParams, 'Entry', 'getPublished'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Entry', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
       patch: wrap(wrapParams, 'Entry', 'patch'),
@@ -262,6 +264,7 @@ export const createPlainClient = (
     asset: {
       getPublished: wrap(wrapParams, 'Asset', 'getPublished'),
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Asset', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Asset', 'get'),
       update: wrap(wrapParams, 'Asset', 'update'),
       delete: wrap(wrapParams, 'Asset', 'delete'),

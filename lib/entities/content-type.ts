@@ -4,13 +4,14 @@ import type { Except, RequireAtLeastOne, SetOptional } from 'type-fest'
 import type {
   BasicMetaSysProps,
   Collection,
+  CursorPaginatedCollectionProp,
   DefaultElements,
   Link,
   MakeRequest,
   QueryOptions,
   SysLink,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { isDraft, isPublished, isUpdated } from '../plain/checks'
 import type { ContentFields } from './content-type-fields'
@@ -359,3 +360,9 @@ export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps
  * @private
  */
 export const wrapContentTypeCollection = wrapCollection(wrapContentType)
+
+/**
+ * @private
+ */
+export const wrapContentTypeCursorPaginatedCollection =
+  wrapCursorPaginatedCollection(wrapContentType)

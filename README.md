@@ -59,6 +59,7 @@
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
 - [Reach out to us](#reach-out-to-us)
@@ -225,6 +226,25 @@ The benefits of using the "plain" version of the client, over the legacy version
 - All returned objects are simple Javascript objects without any wrappers. They can be easily serialized without an additional `toPlainObject` function call.
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
+
+## Cursor Based Pagination
+
+Cursor-based pagination is supported on collection endpoints for content types, entries, and assets. To use cursor-based pagination, use the related entity methods `getAssetsWithCursor`, `getContentTypesWithCursor`, and `getEntriesWithCursor`
+
+```js
+const response = await environment.getEntriesWithCursor({ limit: 10 });
+console.log(response.items); // Array of items
+console.log(response.pages?.next); // Cursor for next page
+```
+Use the value from `response.pages.next` to fetch the next page.
+
+```js
+const secondPage = await environment.getEntriesWithCursor({
+  limit: 2,
+  pageNext: response.pages?.next,
+});
+console.log(secondPage.items); // Array of items
+```
 
 ## Legacy Client Interface
 
