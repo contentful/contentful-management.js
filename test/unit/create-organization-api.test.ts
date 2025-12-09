@@ -880,4 +880,20 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
     await expect(api.getVectorizationStatus()).rejects.toThrow(error)
   })
+
+  test('API call updateVectorizationStatus', async () => {
+    return makeCreateEntityTest(setup, {
+      entityType: 'VectorizationStatus',
+      mockToReturn: vectorizationStatusMock,
+      methodToTest: 'updateVectorizationStatus',
+    })
+  })
+
+  test('API call updateVectorizationStatus fails', async () => {
+    const error = new Error('Failed to update vectorization status')
+    const { api } = setup(Promise.reject(error))
+    await expect(
+      api.updateVectorizationStatus([{ spaceId: 'test-space', enabled: true }]),
+    ).rejects.toThrow(error)
+  })
 })
