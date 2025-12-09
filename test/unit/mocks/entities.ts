@@ -84,6 +84,7 @@ import {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
+import { VectorizationStatusProps } from '../../../lib/entities/vectorization-status'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1382,6 +1383,19 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
+const vectorizationStatusMock: VectorizationStatusProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        space: makeLink('Space', 'mock-space-id'),
+      }
+    }
+  ]
+}
+
 const mocks = {
   aiAction: aiActionMock,
   aiActionInvocation: aiActionInvocationMock,
@@ -1458,6 +1472,7 @@ const mocks = {
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
+  vectorizationStatus: vectorizationStatusMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
@@ -1708,6 +1723,9 @@ function setupEntitiesMock() {
       wrapFunctionLog: vi.fn(),
       wrapFunctionLogCollection: vi.fn(),
     },
+    VectorizationStatus: {
+      wrapVectorizationStatus: vi.fn(),
+    }
   }
 
   return entitiesMock
@@ -1781,4 +1799,5 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
+  vectorizationStatusMock,
 }

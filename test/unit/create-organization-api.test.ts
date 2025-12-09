@@ -19,6 +19,7 @@ import {
   userMock,
   functionCollectionMock,
   functionMock,
+  vectorizationStatusMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -864,5 +865,19 @@ describe('A createOrganizationApi', () => {
     await expect(
       api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' }),
     ).rejects.toThrow(error)
+  })
+
+  test('API call getVectorizationStatus', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'VectorizationStatus',
+      mockToReturn: vectorizationStatusMock,
+      methodToTest: 'getVectorizationStatus',
+    })
+  })
+
+  test('API call getVectorizationStatus fails', async () => {
+    const error = new Error('Failed to get vectorization status')
+    const { api } = setup(Promise.reject(error))
+    await expect(api.getVectorizationStatus()).rejects.toThrow(error)
   })
 })
