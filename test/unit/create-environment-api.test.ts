@@ -287,7 +287,7 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-    test('API call getPublishedEntriesWithCursor', async () => {
+  test('API call getPublishedEntriesWithCursor', async () => {
     return makeGetPaginatedCollectionTest(setup, {
       entityType: 'entry',
       mockToReturn: mockCursorPaginatedCollection<EntryProps>(entryMock),
@@ -300,7 +300,6 @@ describe('A createEnvironmentApi', () => {
       methodToTest: 'getPublishedEntriesWithCursor',
     })
   })
-  
 
   test('API call createEntry', async () => {
     const { api, makeRequest, entitiesMock } = setup(Promise.resolve(entryMock))
@@ -388,7 +387,7 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
-   test('API call getPublishedAssetsWithCursor', async () => {
+  test('API call getPublishedAssetsWithCursor', async () => {
     return makeGetPaginatedCollectionTest(setup, {
       entityType: 'asset',
       mockToReturn: mockCursorPaginatedCollection<AssetProps>(assetMock),
