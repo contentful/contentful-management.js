@@ -32,10 +32,16 @@ export type VectorizationStatusProps = {
 
 export interface VectorizationStatus extends VectorizationStatusProps {}
 
-function createVectorizationStatusApi(makeRequest: MakeRequest) {}
+/**
+ * Wraps raw VectorizationStatus data and adds useful methods.
+ * @param makeRequest
+ */
+function createVectorizationStatusApi(makeRequest: MakeRequest, organizationId: string) {
+  return {}
+}
 
-export function wrapVectorizationStatus(makeRequest: MakeRequest, data: VectorizationStatusProps): VectorizationStatus {
+export function wrapVectorizationStatus(makeRequest: MakeRequest, data: VectorizationStatusProps, organizationId: string): VectorizationStatus {
   const vectorizationStatus = toPlainObject(copy(data))
-  const vectorizationStatusWithMethods = enhanceWithMethods(vectorizationStatus, createVectorizationStatusApi(makeRequest))
+  const vectorizationStatusWithMethods = enhanceWithMethods(vectorizationStatus, createVectorizationStatusApi(makeRequest, organizationId))
   return freezeSys(vectorizationStatusWithMethods)
 }

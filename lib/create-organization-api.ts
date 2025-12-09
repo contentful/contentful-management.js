@@ -1210,12 +1210,12 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      */
     getVectorizationStatus() {
       const raw = this.toPlainObject() as OrganizationProps
-
+      const organizationId = raw.sys.id
       return makeRequest({
         entityType: 'VectorizationStatus',
         action: 'get',
-        params: { organizationId: raw.sys.id }
-      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
+        params: { organizationId }
+      }).then((payload) => wrapVectorizationStatus(makeRequest, payload, organizationId))
     }
   }
 }
