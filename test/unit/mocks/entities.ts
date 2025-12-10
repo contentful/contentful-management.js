@@ -84,7 +84,14 @@ import {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
-import { VectorizationStatusProps } from '../../../lib/entities/vectorization-status'
+import {
+  EmbeddingSetStatus,
+  VectorizationStatusProps,
+} from '../../../lib/entities/vectorization-status'
+import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicates'
+import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
+import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
+import { SemanticRecommendationsProps } from '../../../lib/entities/semantic-recommendations'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1391,6 +1398,75 @@ const vectorizationStatusMock: VectorizationStatusProps = {
     {
       sys: {
         space: makeLink('Space', 'mock-space-id'),
+        status: EmbeddingSetStatus.ACTIVE,
+        type: 'VectorizationStatus',
+        createdAt: '2025-01-01T10:00:00Z',
+        updatedAt: '2025-01-01T10:00:00Z',
+      },
+    },
+  ],
+}
+
+const semanticDuplicatesMock: SemanticDuplicatesProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticDuplicatesResult',
+      },
+      label: 'high',
+    },
+  ],
+}
+
+const semanticRecommendationsMock: SemanticRecommendationsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticRecommendationsResult',
+      },
+    },
+  ],
+}
+
+const semanticReferenceSuggestionsMock: SemanticReferenceSuggestionsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticReferenceSuggestionsResult',
+      },
+    },
+  ],
+}
+
+const semanticSearchMock: SemanticSearchProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticSearchResult',
       },
     },
   ],
@@ -1457,6 +1533,10 @@ const mocks = {
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
+  semanticDuplicates: semanticDuplicatesMock,
+  semanticRecommendations: semanticRecommendationsMock,
+  semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
+  semanticSearch: semanticSearchMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
@@ -1726,6 +1806,18 @@ function setupEntitiesMock() {
     VectorizationStatus: {
       wrapVectorizationStatus: vi.fn(),
     },
+    SemanticDuplicates: {
+      wrapSemanticDuplicates: vi.fn(),
+    },
+    SemanticRecommendations: {
+      wrapSemanticRecommendations: vi.fn(),
+    },
+    SemanticReferenceSuggestions: {
+      wrapSemanticReferenceSuggestions: vi.fn(),
+    },
+    SemanticSearch: {
+      wrapSemanticSearch: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1800,4 +1892,8 @@ export {
   functionLogMock,
   functionLogCollectionMock,
   vectorizationStatusMock,
+  semanticDuplicatesMock,
+  semanticRecommendationsMock,
+  semanticReferenceSuggestionsMock,
+  semanticSearchMock,
 }
