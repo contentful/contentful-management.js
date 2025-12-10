@@ -518,6 +518,18 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
       create: wrap(wrapParams, 'OAuthApplication', 'create'),
     },
+    semanticDuplicates: {
+      get: wrap(wrapParams, 'SemanticDuplicates', 'get'),
+    },
+    semanticRecommendations: {
+      get: wrap(wrapParams, 'SemanticRecommendations', 'get'),
+    },
+    semanticReferenceSuggestions: {
+      get: wrap(wrapParams, 'SemanticReferenceSuggestions', 'get'),
+    },
+    semanticSearch: {
+      get: wrap(wrapParams, 'SemanticSearch', 'get'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
