@@ -7,7 +7,8 @@ import {
 } from '../helpers'
 import type { Organization, Space } from '../../lib/contentful-management'
 
-describe('VectorizationStatus api', () => {
+// TODO: Enable after GA
+describe.skip('VectorizationStatus api', () => {
   let organization: Organization
   let space: Space
 
