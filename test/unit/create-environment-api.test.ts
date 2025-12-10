@@ -22,6 +22,7 @@ import {
   semanticRecommendationsMock,
   semanticReferenceSuggestionsMock,
   semanticSearchMock,
+  mockCursorPaginatedCollection,
 } from './mocks/entities'
 import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
@@ -31,14 +32,16 @@ import {
   makeEntityMethodFailingTest,
   makeGetCollectionTest,
   makeGetEntityTest,
+  makeGetPaginatedCollectionTest,
   testGettingEntrySDKObject,
 } from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
+import { EntryProps, wrapEntry } from '../../lib/entities/entry'
+import { AssetProps, wrapAsset } from '../../lib/entities/asset'
 import { wrapTagCollection } from '../../lib/entities/tag'
 import setupMakeRequest from './mocks/makeRequest'
 import createEnvironmentApi from '../../lib/create-environment-api'
 import { AppActionCallRawResponseProps } from '../../lib/entities/app-action-call'
+import { ContentTypeProps } from '../../lib/entities/content-type'
 
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()
@@ -132,6 +135,20 @@ describe('A createEnvironmentApi', () => {
   test('API call getContentTypes fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getContentTypes',
+    })
+  })
+
+  test('API call getContentTypesWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'contentType',
+      mockToReturn: mockCursorPaginatedCollection<ContentTypeProps>(contentTypeMock),
+      methodToTest: 'getContentTypesWithCursor',
+    })
+  })
+
+  test('API call getContentTypesWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getContentTypesWithCursor',
     })
   })
 
@@ -260,6 +277,20 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
+  test('API call getEntriesWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'entry',
+      mockToReturn: mockCursorPaginatedCollection<EntryProps>(entryMock),
+      methodToTest: 'getEntriesWithCursor',
+    })
+  })
+
+  test('API call getEntriesWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getEntriesWithCursor',
+    })
+  })
+
   test('API call createEntry', async () => {
     const { api, makeRequest, entitiesMock } = setup(Promise.resolve(entryMock))
     entitiesMock.entry.wrapEntry.mockReturnValue(entryMock)
@@ -329,6 +360,20 @@ describe('A createEnvironmentApi', () => {
   test('API call getAssets fails', () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getAssets',
+    })
+  })
+
+  test('API call getAssetsWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'asset',
+      mockToReturn: mockCursorPaginatedCollection<AssetProps>(assetMock),
+      methodToTest: 'getAssetsWithCursor',
+    })
+  })
+
+  test('API call getAssetsWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAssetsWithCursor',
     })
   })
 

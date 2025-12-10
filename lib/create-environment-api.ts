@@ -7,6 +7,10 @@ import type {
   CursorBasedParams,
   QueryOptions,
 } from './common-types'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -15,11 +19,11 @@ import type {
   CreateAppActionCallProps,
   AppActionCallRawResponseProps,
 } from './entities/app-action-call'
-import type {
-  AssetFileProp,
-  AssetProps,
-  CreateAssetFromFilesOptions,
-  CreateAssetProps,
+import {
+  type AssetFileProp,
+  type AssetProps,
+  type CreateAssetFromFilesOptions,
+  type CreateAssetProps,
 } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
@@ -40,12 +44,12 @@ import type {
 } from './entities/release'
 import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type {
-  CreateEntryProps,
-  EntryProps,
-  EntryReferenceOptionsProps,
-  EntryReferenceProps,
+import { type ContentTypeProps, type CreateContentTypeProps } from './entities/content-type'
+import {
+  type CreateEntryProps,
+  type EntryProps,
+  type EntryReferenceOptionsProps,
+  type EntryReferenceProps,
 } from './entities/entry'
 import type { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
@@ -79,9 +83,10 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
+  const { wrapContentType, wrapContentTypeCollection, wrapContentTypeCursorPaginatedCollection } =
+    entities.contentType
+  const { wrapEntry, wrapEntryCollection, wrapEntryTypeCursorPaginatedCollection } = entities.entry
+  const { wrapAsset, wrapAssetCollection, wrapAssetTypeCursorPaginatedCollection } = entities.asset
   const { wrapAssetKey } = entities.assetKey
   const { wrapLocale, wrapLocaleCollection } = entities.locale
   const { wrapSnapshotCollection } = entities.snapshot
@@ -500,6 +505,44 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapContentTypeCollection(makeRequest, data))
     },
+
+    /**
+     * Gets a collection of Content Types with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Content Types
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getContentTypesWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getContentTypesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapContentTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Creates a Content Type
      * @param data - Object representation of the Content Type to be created
@@ -749,6 +792,45 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets a collection of Entries with cursor based pagination
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntriesWithCursor({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEntriesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
+    /**
      * Gets a collection of published Entries
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @return Promise for a collection of published Entries
@@ -963,6 +1045,46 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
+    /**
+     * Gets a collection of Assets with cursor based pagination
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Assets
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getAssetsWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getAssetsWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Gets a collection of published Assets
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -993,6 +1115,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.

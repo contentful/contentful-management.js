@@ -12,11 +12,13 @@ export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions
 type LookupQueryOptions = {
   'sys.urn[in]': string
   locale?: string
+  referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
 type SearchQueryOptions = {
   query: string
   locale?: string
+  referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
 export type ResourceProps = {

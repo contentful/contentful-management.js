@@ -376,6 +376,7 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  skip?: never
   pageNext?: string
   pagePrev?: string
 }
@@ -504,6 +505,7 @@ type MRInternal<UA extends boolean> = {
   ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
+  (opts: MROpts<'Asset', 'getManyWithCursor', UA>): MRReturn<'Asset', 'getManyWithCursor'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
@@ -584,6 +586,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
+  (
+    opts: MROpts<'ContentType', 'getManyWithCursor', UA>,
+  ): MRReturn<'ContentType', 'getManyWithCursor'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
   (opts: MROpts<'ContentType', 'create', UA>): MRReturn<'ContentType', 'create'>
   (opts: MROpts<'ContentType', 'createWithId', UA>): MRReturn<'ContentType', 'createWithId'>
@@ -633,6 +638,7 @@ type MRInternal<UA extends boolean> = {
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
+  (opts: MROpts<'Entry', 'getManyWithCursor', UA>): MRReturn<'Entry', 'getManyWithCursor'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
@@ -1260,6 +1266,11 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
+    }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
       headers?: RawAxiosRequestHeaders
@@ -1508,6 +1519,10 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<ContentTypeProps>
     }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<ContentTypeProps>
+    }
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateContentTypeProps
@@ -1675,6 +1690,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any>>
+    }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
