@@ -61,6 +61,10 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
+import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
+import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps } from './entities/semantic-search'
 
 /**
  * @private
@@ -91,6 +95,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
+  const { wrapSemanticDuplicates } = entities.semanticDuplicates
+  const { wrapSemanticRecommendations } = entities.semanticRecommendations
+  const { wrapSemanticReferenceSuggestions } = entities.semanticReferenceSuggestions
+  const { wrapSemanticSearch } = entities.semanticSearch
 
   return {
     /**
@@ -2603,6 +2611,58 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           invocationId,
         },
       }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    getSemanticDuplicates(payload: GetSemanticDuplicatesProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticDuplicates',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticDuplicates(makeRequest, data))
+    },
+
+    getSemanticRecommendations(payload: GetSemanticRecommendationsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticRecommendations',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticRecommendations(makeRequest, data))
+    },
+
+    getSemanticReferenceSuggestions(payload: GetSemanticReferenceSuggestionsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticReferenceSuggestions',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticReferenceSuggestions(makeRequest, data))
+    },
+
+    getSemanticSearch(payload: GetSemanticSearchProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticSearch',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticSearch(makeRequest, data))
     },
   }
 }

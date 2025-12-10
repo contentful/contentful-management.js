@@ -28,7 +28,7 @@ export interface SemanticRecommendations
   extends SemanticRecommendationsProps,
     DefaultElements<SemanticRecommendationsProps> {}
 
-export function wrapSemanticSearch(
+export function wrapSemanticRecommendations(
   _makeRequest: MakeRequest,
   data: SemanticRecommendationsProps,
 ): SemanticRecommendations {
