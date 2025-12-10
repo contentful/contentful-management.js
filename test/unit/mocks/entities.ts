@@ -1391,9 +1391,9 @@ const vectorizationStatusMock: VectorizationStatusProps = {
     {
       sys: {
         space: makeLink('Space', 'mock-space-id'),
-      }
-    }
-  ]
+      },
+    },
+  ],
 }
 
 const mocks = {
@@ -1725,7 +1725,7 @@ function setupEntitiesMock() {
     },
     VectorizationStatus: {
       wrapVectorizationStatus: vi.fn(),
-    }
+    },
   }
 
   return entitiesMock
