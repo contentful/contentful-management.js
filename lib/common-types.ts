@@ -195,6 +195,19 @@ import type {
   UpdateVectorizationStatusProps,
   VectorizationStatusProps,
 } from './entities/vectorization-status'
+import type {
+  GetSemanticDuplicatesProps,
+  SemanticDuplicatesProps,
+} from './entities/semantic-duplicates'
+import type {
+  GetSemanticRecommendationsProps,
+  SemanticRecommendationsProps,
+} from './entities/semantic-recommendations'
+import type {
+  GetSemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestionsProps,
+} from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -860,6 +873,12 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
   (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
+  (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
+  (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
+  (
+    opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
+  ): MRReturn<'SemanticReferenceSuggestions', 'get'>
+  (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2050,6 +2069,38 @@ export type MRActions = {
       return: ScheduledActionProps
     }
     delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
+  }
+  SemanticDuplicates: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticDuplicatesProps
+      return: SemanticDuplicatesProps
+    }
+  }
+  SemanticRecommendations: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticRecommendationsProps
+      return: SemanticRecommendationsProps
+    }
+  }
+  SemanticReferenceSuggestions: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticReferenceSuggestionsProps
+      return: SemanticReferenceSuggestionsProps
+    }
+  }
+  SemanticSearch: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticSearchProps
+      return: SemanticSearchProps
+    }
   }
   Snapshot: {
     getManyForEntry: {

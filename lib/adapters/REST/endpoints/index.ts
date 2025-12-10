@@ -47,6 +47,10 @@ import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
 import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
+import * as SemanticDuplicates from './semantic-duplicates'
+import * as SemanticRecommendations from './semantic-recommendations'
+import * as SemanticReferenceSuggestions from './semantic-reference-suggestions'
+import * as SemanticSearch from './semantic-search'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
 import * as SpaceMember from './space-member'
@@ -118,6 +122,10 @@ export default {
   ResourceType,
   Role,
   ScheduledAction,
+  SemanticDuplicates,
+  SemanticRecommendations,
+  SemanticReferenceSuggestions,
+  SemanticSearch,
   Snapshot,
   Space,
   SpaceMember,
