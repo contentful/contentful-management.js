@@ -4,6 +4,7 @@ import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '
 
 export type GetSemanticReferenceSuggestionsProps = {
   entityId: string
+  referenceFieldId: string
   filter?: SemanticRequestFilter
 }
 
