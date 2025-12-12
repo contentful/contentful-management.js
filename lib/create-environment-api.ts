@@ -854,6 +854,43 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets a collection of published Entries with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of published Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedEntriesWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedEntriesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
+    /**
      * Creates a Entry
      * @param contentTypeId - The Content Type ID of the newly created Entry
      * @param data - Object representation of the Entry to be created
@@ -1106,6 +1143,43 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of published Assets with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of published Assets
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedAssetsWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedAssetsWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
     },
 
     /**
