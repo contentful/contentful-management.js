@@ -2793,7 +2793,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
      * @param payload - Object containing the entityId and optional filters
-     * @return Promise for Semantic Recommendations
+     * @return Promise for Semantic Reference Suggestions
      * @example ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
