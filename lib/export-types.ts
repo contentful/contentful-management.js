@@ -290,6 +290,17 @@ export type {
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
+export type { VectorizationStatusProps, VectorizationStatus } from './entities/vectorization-status'
+export type { SemanticDuplicatesProps, SemanticDuplicates } from './entities/semantic-duplicates'
+export type {
+  SemanticRecommendationsProps,
+  SemanticRecommendations,
+} from './entities/semantic-recommendations'
+export type {
+  SemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestions,
+} from './entities/semantic-reference-suggestions'
+export type { SemanticSearchProps, SemanticSearch } from './entities/semantic-search'
 export type {
   DefinedParameters,
   FreeFormParameters,
