@@ -191,6 +191,23 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
+import type {
+  UpdateVectorizationStatusProps,
+  VectorizationStatusProps,
+} from './entities/vectorization-status'
+import type {
+  GetSemanticDuplicatesProps,
+  SemanticDuplicatesProps,
+} from './entities/semantic-duplicates'
+import type {
+  GetSemanticRecommendationsProps,
+  SemanticRecommendationsProps,
+} from './entities/semantic-recommendations'
+import type {
+  GetSemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestionsProps,
+} from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -861,6 +878,15 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
+
+  (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
+  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
+  (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
+  (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
+  (
+    opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
+  ): MRReturn<'SemanticReferenceSuggestions', 'get'>
+  (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2074,6 +2100,38 @@ export type MRActions = {
     }
     delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
   }
+  SemanticDuplicates: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticDuplicatesProps
+      return: SemanticDuplicatesProps
+    }
+  }
+  SemanticRecommendations: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticRecommendationsProps
+      return: SemanticRecommendationsProps
+    }
+  }
+  SemanticReferenceSuggestions: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticReferenceSuggestionsProps
+      return: SemanticReferenceSuggestionsProps
+    }
+  }
+  SemanticSearch: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticSearchProps
+      return: SemanticSearchProps
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -2291,6 +2349,19 @@ export type MRActions = {
   UserUIConfig: {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
+  }
+  VectorizationStatus: {
+    get: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      return: VectorizationStatusProps
+    }
+    update: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      payload: UpdateVectorizationStatusProps
+      return: VectorizationStatusProps
+    }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
@@ -2638,4 +2709,9 @@ export enum ScheduledActionReferenceFilters {
 
 export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
+}
+
+export type SemanticRequestFilter = {
+  entityType?: 'Entry'
+  contentTypeIds?: string[]
 }

@@ -47,6 +47,10 @@ import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
 import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
+import * as SemanticDuplicates from './semantic-duplicates'
+import * as SemanticRecommendations from './semantic-recommendations'
+import * as SemanticReferenceSuggestions from './semantic-reference-suggestions'
+import * as SemanticSearch from './semantic-search'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
 import * as SpaceMember from './space-member'
@@ -62,6 +66,7 @@ import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
 import * as UserUIConfig from './user-ui-config'
+import * as VectorizationStatus from './vectorization-status'
 import * as Webhook from './webhook'
 import * as Workflow from './workflow'
 import * as WorkflowDefinition from './workflow-definition'
@@ -117,6 +122,10 @@ export default {
   ResourceType,
   Role,
   ScheduledAction,
+  SemanticDuplicates,
+  SemanticRecommendations,
+  SemanticReferenceSuggestions,
+  SemanticSearch,
   Snapshot,
   Space,
   SpaceMember,
@@ -132,6 +141,7 @@ export default {
   Usage,
   User,
   UserUIConfig,
+  VectorizationStatus,
   Webhook,
   WorkflowDefinition,
   Workflow,

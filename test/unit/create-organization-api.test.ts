@@ -19,6 +19,7 @@ import {
   userMock,
   functionCollectionMock,
   functionMock,
+  vectorizationStatusMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -863,6 +864,36 @@ describe('A createOrganizationApi', () => {
     const { api } = setup(Promise.reject(error))
     await expect(
       api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' }),
+    ).rejects.toThrow(error)
+  })
+
+  test('API call getVectorizationStatus', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'VectorizationStatus',
+      mockToReturn: vectorizationStatusMock,
+      methodToTest: 'getVectorizationStatus',
+    })
+  })
+
+  test('API call getVectorizationStatus fails', async () => {
+    const error = new Error('Failed to get vectorization status')
+    const { api } = setup(Promise.reject(error))
+    await expect(api.getVectorizationStatus()).rejects.toThrow(error)
+  })
+
+  test('API call updateVectorizationStatus', async () => {
+    return makeCreateEntityTest(setup, {
+      entityType: 'VectorizationStatus',
+      mockToReturn: vectorizationStatusMock,
+      methodToTest: 'updateVectorizationStatus',
+    })
+  })
+
+  test('API call updateVectorizationStatus fails', async () => {
+    const error = new Error('Failed to update vectorization status')
+    const { api } = setup(Promise.reject(error))
+    await expect(
+      api.updateVectorizationStatus([{ spaceId: 'test-space', enabled: true }]),
     ).rejects.toThrow(error)
   })
 })

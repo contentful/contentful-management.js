@@ -65,6 +65,10 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
+import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
+import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps } from './entities/semantic-search'
 
 /**
  * @private
@@ -96,6 +100,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
+  const { wrapSemanticDuplicates } = entities.semanticDuplicates
+  const { wrapSemanticRecommendations } = entities.semanticRecommendations
+  const { wrapSemanticReferenceSuggestions } = entities.semanticReferenceSuggestions
+  const { wrapSemanticSearch } = entities.semanticSearch
 
   return {
     /**
@@ -2800,6 +2808,115 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           invocationId,
         },
       }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Duplicates for the given entity ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Duplicates
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticDuplicates({
+     *      entityId: '<entity_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticDuplicates(payload: GetSemanticDuplicatesProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticDuplicates',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticDuplicates(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Recommendations for the given entity ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Recommendations
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticRecommendations({
+     *      entityId: '<entity_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticRecommendations(payload: GetSemanticRecommendationsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticRecommendations',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticRecommendations(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Reference Suggestions
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticRecommendations({
+     *      entityId: '<entity_id>',
+     *      referenceFieldId: '<reference_field_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticReferenceSuggestions(payload: GetSemanticReferenceSuggestionsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticReferenceSuggestions',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticReferenceSuggestions(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Search results for the given query
+     * @param payload - Object containing the search query and optional filters
+     * @return Promise for Semantic Search results
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticSearch({
+     *      query: '<search_query>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticSearch(payload: GetSemanticSearchProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticSearch',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticSearch(makeRequest, data))
     },
   }
 }

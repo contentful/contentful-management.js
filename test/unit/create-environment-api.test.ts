@@ -18,6 +18,10 @@ import {
   extensionMock,
   functionCollectionMock,
   functionLogMock,
+  semanticDuplicatesMock,
+  semanticRecommendationsMock,
+  semanticReferenceSuggestionsMock,
+  semanticSearchMock,
   mockCursorPaginatedCollection,
 } from './mocks/entities'
 import { describe, test, expect } from 'vitest'
@@ -841,6 +845,62 @@ describe('A createEnvironmentApi', () => {
   test('API call getManyFunctionLogs fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getFunctionLogs',
+    })
+  })
+
+  test('API call getSemanticDuplicates', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticDuplicates',
+      mockToReturn: semanticDuplicatesMock,
+      methodToTest: 'getSemanticDuplicates',
+    })
+  })
+
+  test('API call getSemanticDuplicates fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticDuplicates',
+    })
+  })
+
+  test('API call getSemanticRecommendations', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticRecommendations',
+      mockToReturn: semanticRecommendationsMock,
+      methodToTest: 'getSemanticRecommendations',
+    })
+  })
+
+  test('API call getSemanticRecommendations fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticRecommendations',
+    })
+  })
+
+  test('API call getSemanticReferenceSuggestions', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticReferenceSuggestions',
+      mockToReturn: semanticReferenceSuggestionsMock,
+      methodToTest: 'getSemanticReferenceSuggestions',
+    })
+  })
+
+  test('API call getSemanticReferenceSuggestions fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticReferenceSuggestions',
+    })
+  })
+
+  test('API call getSemanticSearch', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticSearch',
+      mockToReturn: semanticSearchMock,
+      methodToTest: 'getSemanticSearch',
+    })
+  })
+
+  test('API call getSemanticSearch fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticSearch',
     })
   })
 

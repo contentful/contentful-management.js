@@ -140,6 +140,11 @@ import type { OAuthApplicationPlainClientAPI } from './entities/oauth-applicatio
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
+import type { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
+import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-duplicates'
+import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
+import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
+import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 
 export type PlainClientAPI = {
   raw: {
@@ -716,4 +721,9 @@ export type PlainClientAPI = {
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
+  vectorizationStatus: VectorizationStatusPlainClientAPI
+  semanticSearch: SemanticSearchPlainClientAPI
+  semanticDuplicates: SemanticDuplicatesPlainClientAPI
+  semanticRecommendations: SemanticRecommendationsPlainClientAPI
+  semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
 }
