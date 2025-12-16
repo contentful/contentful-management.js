@@ -191,6 +191,8 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
+import type { AgentGeneratePayload, AgentGenerateResponse, AgentProps } from './entities/agent'
+import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
 import type {
   UpdateVectorizationStatusProps,
   VectorizationStatusProps,
@@ -457,6 +459,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AiAction', 'invoke', UA>): MRReturn<'AiAction', 'invoke'>
 
   (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
+
+  (opts: MROpts<'Agent', 'get', UA>): MRReturn<'Agent', 'get'>
+  (opts: MROpts<'Agent', 'getMany', UA>): MRReturn<'Agent', 'getMany'>
+  (opts: MROpts<'Agent', 'generate', UA>): MRReturn<'Agent', 'generate'>
+
+  (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
+  (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -1031,6 +1040,36 @@ export type MRActions = {
     get: {
       params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
       return: AiActionInvocationProps
+    }
+  }
+  Agent: {
+    get: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentProps>
+    }
+    generate: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      payload: AgentGeneratePayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentGenerateResponse
+    }
+  }
+  AgentRun: {
+    get: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentRunProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentRunProps>
     }
   }
   AppAction: {

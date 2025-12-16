@@ -90,6 +90,8 @@ import {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
+import { AgentProps } from '../../../lib/entities/agent'
+import { AgentRunProps } from '../../../lib/entities/agent-run'
 import {
   EmbeddingSetStatus,
   VectorizationStatusProps,
@@ -943,6 +945,83 @@ const aiActionInvocationMock: AiActionInvocationProps = {
   },
 }
 
+const agentMock: AgentProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'Agent' as const,
+    id: 'mocked-agent-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+    createdAt: '2025-12-15T10:00:00.000Z',
+  }),
+  name: 'Mocked AI Agent',
+  description: 'This is a mocked AI Agent for testing purposes.',
+  provider: 'openai',
+  modelId: 'gpt-4',
+  tools: [
+    {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'AgentTool' as const,
+        id: 'tool-1',
+      },
+    },
+  ],
+}
+
+const agentRunMock: AgentRunProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AgentRun' as const,
+    id: 'mocked-agent-run-id',
+    createdAt: '2025-12-15T10:00:00.000Z',
+    updatedAt: '2025-12-15T10:05:00.000Z',
+    status: 'COMPLETED' as const,
+  },
+  agent: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Agent' as const,
+      id: 'mocked-agent-id',
+    },
+  },
+  space: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Space' as const,
+      id: 'mocked-space-id',
+    },
+  },
+  title: 'Mocked Agent Run',
+  messages: [
+    {
+      id: 'msg-1',
+      createdAt: '2025-12-15T10:00:00.000Z',
+      role: 'user' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello, agent!',
+          },
+        ],
+      },
+    },
+    {
+      id: 'msg-2',
+      createdAt: '2025-12-15T10:00:05.000Z',
+      role: 'assistant' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello! How can I help you?',
+          },
+        ],
+      },
+    },
+  ],
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -1482,6 +1561,8 @@ const mocks = {
   aiAction: aiActionMock,
   aiActionInvocation: aiActionInvocationMock,
   aiActionInvocationPayload: aiActionInvocationPayloadMock,
+  agent: agentMock,
+  agentRun: agentRunMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1604,6 +1685,14 @@ function setupEntitiesMock() {
     },
     aiActionInvocation: {
       wrapAiActionInvocation: vi.fn(),
+    },
+    agent: {
+      wrapAgent: vi.fn(),
+      wrapAgentCollection: vi.fn(),
+    },
+    agentRun: {
+      wrapAgentRun: vi.fn(),
+      wrapAgentRunCollection: vi.fn(),
     },
     appAction: {
       wrapAppAction: vi.fn(),

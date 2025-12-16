@@ -65,6 +65,8 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import type { AgentGeneratePayload } from './entities/agent'
+import type { AgentRunQueryOptions } from './entities/agent-run'
 import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
 import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
@@ -98,6 +100,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
   const { wrapAppAccessToken } = entities.appAccessToken
+  const { wrapAgent, wrapAgentCollection } = entities.agent
+  const { wrapAgentRun, wrapAgentRunCollection } = entities.agentRun
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
   const { wrapSemanticDuplicates } = entities.semanticDuplicates
@@ -2917,6 +2921,178 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload,
       }).then((data) => wrapSemanticSearch(makeRequest, data))
+    },
+
+    /**
+     * Gets an AI Agent
+     * @param agentId - AI Agent ID
+     * @return Promise for an AI Agent
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgent('<agent_id>'))
+     *   .then((agent) => console.log(agent))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgent(agentId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          agentId,
+        },
+      }).then((data) => wrapAgent(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of AI Agents
+     * @param query - Object with search parameters
+     * @return Promise for a collection of AI Agents
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgents())
+     *   .then((response) => console.log(response.items))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgents(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((data) => wrapAgentCollection(makeRequest, data))
+    },
+
+    /**
+     * Generates content using an AI Agent
+     * @param agentId - AI Agent ID
+     * @param payload - Generation payload
+     * @return Promise for the generation response
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.generateWithAgent('<agent_id>', {
+     *     messages: [
+     *       {
+     *         parts: [
+     *           {
+     *             type: 'text',
+     *             text: 'Write a short poem about Contentful'
+     *           }
+     *         ],
+     *         role: 'user'
+     *       }
+     *     ]
+     *   }))
+     *   .then((result) => console.log(result))
+     *   .catch(console.error)
+     * ```
+     */
+    generateWithAgent(agentId: string, payload: AgentGeneratePayload) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'generate',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          agentId,
+        },
+        payload,
+      })
+    },
+
+    /**
+     * Gets an AI Agent Run
+     * @param runId - AI Agent Run ID
+     * @return Promise for an AI Agent Run
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgentRun('<run_id>'))
+     *   .then((run) => console.log(run))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgentRun(runId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AgentRun',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          runId,
+        },
+      }).then((data) => wrapAgentRun(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of AI Agent Runs with optional filtering
+     * @param query - Object with search parameters (agentIn, statusIn)
+     * @return Promise for a collection of AI Agent Runs
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgentRuns({
+     *     agentIn: ['agent1', 'agent2'],
+     *     statusIn: ['COMPLETED', 'IN_PROGRESS']
+     *   }))
+     *   .then((response) => console.log(response.items))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgentRuns(query: AgentRunQueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AgentRun',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((data) => wrapAgentRunCollection(makeRequest, data))
     },
   }
 }
