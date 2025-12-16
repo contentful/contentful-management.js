@@ -7,7 +7,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "require": "./dist/cjs/index.cjs",
-      "browser": "./dist/browser/index.min.js",
+      "import": "./dist/esm/index.mjs",
       "default": "./dist/esm/index.mjs"
     },
     "./types": {
@@ -16,15 +16,16 @@
   },
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",
+  "jsdelivr": "./dist/browser/index.min.js",
+  "unpkg": "./dist/browser/index.min.js",
   "types": "./dist/types/index.d.ts",
-  "browser": "./dist/browser/index.min.js",
   "engines": {
     "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
     "Chrome >= 85",
-    "Edge >= 85", 
+    "Edge >= 85",
     "Firefox >= 79",
     "Safari >= 14"
   ],
