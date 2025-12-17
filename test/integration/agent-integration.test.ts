@@ -2,7 +2,9 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest'
 import type { Environment, Space } from '../../lib/export-types'
 import { createTestSpace, defaultClient, timeoutToCalmRateLimiting } from '../helpers'
 
-describe('Agent api', { sequential: true }, () => {
+// Skip in CI since the endpoints are feature flagged and test spaces are not persistent
+// Run locally when API_INTEGRATION_TESTS is set to point to local dev environment where access can be controlled
+describe.skipIf(!process.env.API_INTEGRATION_TESTS)('Agent api', { sequential: true }, () => {
   let space: Space
   let environment: Environment
 
