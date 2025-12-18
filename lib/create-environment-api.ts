@@ -3025,7 +3025,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           agentId,
         },
         payload,
-      })
+      }).then((data) => wrapAgentRun(makeRequest, data))
     },
 
     /**

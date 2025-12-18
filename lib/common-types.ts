@@ -191,7 +191,7 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
-import type { AgentGeneratePayload, AgentGenerateResponse, AgentProps } from './entities/agent'
+import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
 import type {
   UpdateVectorizationStatusProps,
@@ -1057,7 +1057,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { agentId: string }
       payload: AgentGeneratePayload
       headers?: RawAxiosRequestHeaders
-      return: AgentGenerateResponse
+      return: AgentRunProps
     }
   }
   AgentRun: {

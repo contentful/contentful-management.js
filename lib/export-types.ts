@@ -12,13 +12,7 @@ export type {
 } from './entities/app-access-token'
 export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
 export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
-export type {
-  Agent,
-  AgentGeneratePayload,
-  AgentGenerateResponse,
-  AgentProps,
-  AgentToolLink,
-} from './entities/agent'
+export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
   AgentRun,
   AgentRunMessage,

@@ -1,6 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../common-types'
-import type { AgentGeneratePayload, AgentGenerateResponse, AgentProps } from '../../entities/agent'
+import type { AgentGeneratePayload, AgentProps } from '../../entities/agent'
+import type { AgentRunProps } from '../../entities/agent-run'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type AgentPlainClientAPI = {
@@ -34,5 +35,5 @@ export type AgentPlainClientAPI = {
     params: OptionalDefaults<GetSpaceEnvironmentParams & { agentId: string }>,
     payload: AgentGeneratePayload,
     headers?: Partial<RawAxiosRequestHeaders>,
-  ): Promise<AgentGenerateResponse>
+  ): Promise<AgentRunProps>
 }
