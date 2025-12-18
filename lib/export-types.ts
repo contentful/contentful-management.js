@@ -20,7 +20,6 @@ export type {
   AgentRunMessageRole,
   AgentRunMessageTextPart,
   AgentRunMessageToolCallPart,
-  AgentRunMessageType,
   AgentRunProps,
   AgentRunQueryOptions,
   AgentRunStatus,

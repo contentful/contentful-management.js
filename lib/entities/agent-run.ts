@@ -7,8 +7,6 @@ export type AgentRunStatus = 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'PENDING_R
 
 export type AgentRunMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
-export type AgentRunMessageType = 'text' | 'tool-call' | 'tool-result'
-
 export type AgentRunMessageTextPart = {
   type: 'text'
   text: string
@@ -27,7 +25,6 @@ export type AgentRunMessage = {
   id: string
   createdAt: string
   role: AgentRunMessageRole
-  type?: AgentRunMessageType
   content: {
     parts: Array<AgentRunMessagePart>
   }
