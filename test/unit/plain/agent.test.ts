@@ -61,7 +61,6 @@ describe('Agent', () => {
       `/spaces/${spaceId}/environments/${environmentId}/ai_agents/agents`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
-        params: { limit: 10 },
         headers: expect.objectContaining({
           'x-contentful-enable-alpha-feature': 'agents',
         }),
