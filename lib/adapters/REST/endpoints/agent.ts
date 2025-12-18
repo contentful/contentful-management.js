@@ -32,14 +32,13 @@ export const get: RestEndpoint<'Agent', 'get'> = (
 
 export const getMany: RestEndpoint<'Agent', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & QueryParams,
+  params: GetSpaceEnvironmentParams,
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<CollectionProp<AgentProps>>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/agents`,
     {
-      params: params.query,
       headers: {
         ...AgentAlphaHeaders,
         ...headers,

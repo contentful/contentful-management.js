@@ -1049,7 +1049,7 @@ export type MRActions = {
       return: AgentProps
     }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentProps>
     }

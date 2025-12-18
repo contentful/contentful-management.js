@@ -51,7 +51,6 @@ describe('Agent', () => {
     const response = await plainClient.agent.getMany({
       spaceId,
       environmentId,
-      query: { limit: 10 },
     })
 
     expect(response).toBeInstanceOf(Object)

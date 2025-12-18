@@ -2956,7 +2956,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of AI Agents
-     * @param query - Object with search parameters
      * @return Promise for a collection of AI Agents
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -2972,7 +2971,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *   .catch(console.error)
      * ```
      */
-    getAgents(query: QueryOptions = {}) {
+    getAgents() {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Agent',
@@ -2980,7 +2979,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         params: {
           spaceId: raw.sys.space.sys.id,
           environmentId: raw.sys.id,
-          query,
         },
       }).then((data) => wrapAgentCollection(makeRequest, data))
     },
