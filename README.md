@@ -162,7 +162,7 @@ const client = contentful.createClient(
     // This is the access token for this space. Normally you get the token in the Contentful web app
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 //....
 ```
@@ -177,7 +177,7 @@ const plainClient = contentful.createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
-  { type: 'plain' }
+  { type: 'plain' },
 )
 
 const environment = await plainClient.environment.get({
@@ -205,7 +205,7 @@ const scopedPlainClient = contentful.createClient(
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
@@ -232,18 +232,19 @@ The benefits of using the "plain" version of the client, over the legacy version
 Cursor-based pagination is supported on collection endpoints for content types, entries, and assets. To use cursor-based pagination, use the related entity methods `getAssetsWithCursor`, `getContentTypesWithCursor`, and `getEntriesWithCursor`
 
 ```js
-const response = await environment.getEntriesWithCursor({ limit: 10 });
-console.log(response.items); // Array of items
-console.log(response.pages?.next); // Cursor for next page
+const response = await environment.getEntriesWithCursor({ limit: 10 })
+console.log(response.items) // Array of items
+console.log(response.pages?.next) // Cursor for next page
 ```
+
 Use the value from `response.pages.next` to fetch the next page.
 
 ```js
 const secondPage = await environment.getEntriesWithCursor({
   limit: 2,
   pageNext: response.pages?.next,
-});
-console.log(secondPage.items); // Array of items
+})
+console.log(secondPage.items) // Array of items
 ```
 
 ## Legacy Client Interface
@@ -298,7 +299,7 @@ contentfulApp.init((sdk) => {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code
@@ -444,9 +445,11 @@ To download a build that has features that are not yet released, you can use the
 npm install contentful-management@canary
 ```
 
+In addition, there may be some experimental features in the main build of this SDK that are subject to breaking changes without notice, which are listed below:
+
 ### Current experimental features
 
-Currently there are no features in experimental status.
+- **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`) are experimental and subject to breaking changes without notice.
 
 ## Reach out to us
 
