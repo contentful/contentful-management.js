@@ -48,7 +48,7 @@ export type AgentRunProps = {
     sys: Link<'Space'>
   }
   title: string
-  messages?: Array<AgentRunMessage>
+  messages: Array<AgentRunMessage>
 }
 
 export type AgentRunQueryOptions = {
