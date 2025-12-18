@@ -58,7 +58,7 @@ export type AgentRunQueryOptions = {
 
 export interface AgentRun extends AgentRunProps, DefaultElements<AgentRunProps> {}
 
-export function wrapAgentRun(makeRequest: MakeRequest, data: AgentRunProps): AgentRun {
+export function wrapAgentRun(_makeRequest: MakeRequest, data: AgentRunProps): AgentRun {
   const agentRun = toPlainObject(copy(data))
   return freezeSys(agentRun)
 }
