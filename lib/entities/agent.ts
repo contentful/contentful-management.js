@@ -38,7 +38,7 @@ export type AgentGeneratePayload = {
     id?: string
     role: AgentMessageRole
   }>
-  [key: string]: unknown
+  threadId?: string
 }
 
 // todo after PIC-827
