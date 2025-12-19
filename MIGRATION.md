@@ -39,16 +39,28 @@ Version 12 modernizes the build pipeline of contentful-management to bring full 
 
 If you are affected by any of the items below, follow the upgrade guides in the sections
 
-- Projects using Node.js versions older than v20
-- Projects targeting browsers that do not support ES2021
-- Code directly importing old bundle paths (`./dist/contentful-management.node.js`, etc.)
-- Code using the browser bundle with direct method access (not via `contentfulManagement` object)
-- Code using deep imports from internal modules
-- TypeScript projects importing from `contentful-management/types` with older module resolution
-- Code using the `Stream` type
-- Code using the `entry.patch` method
+- Projects using Node.js versions older than v20 ([Node.js v20+ support](#nodejs-v20-support))
+- Projects targeting browsers that do not support ES2021 ([ESM target updated to 2021](#esm-target-updated-to-2021))
+- Code directly importing old bundle paths ([New bundles available](#new-bundles-available))
+- Code relying on the bundle including all dependencies ([Package bundles no longer include projects dependencies](#package-bundles-no-longer-include-projects-dependencies))
+- Code using the browser bundle with direct method access ([Changes to browser bundle](#changes-to-browser-bundle))
+- Code using deep imports from internal modules ([Use of new `exports` field in package.json](#use-of-new-exports-field-in-packagejson))
+- TypeScript projects importing from `contentful-management/types` with older module resolution ([Importing Types from 'contentful-management/types'](#importing-types-from-contentful-managementtypes))
+- Code using the `Stream` type ([Breaking Changes](#breaking-changes))
+- Code using the `entry.patch` method ([Version param is now required for entry patch method](#version-param-is-now-required-for-entry-patch-method))
 
 ### Breaking Changes
+
+#### Node.js v20+ support
+
+We dropped support for versions of Node that were no longer LTS and now support Node v20+.
+
+**Compatibility:**
+
+- ✅ Node.js v20+
+- ❌ Node.js v18 and below
+
+You will need to update the version of Node in your projects if it is less than v20.
 
 #### ESM target updated to 2021
 
@@ -64,17 +76,6 @@ The library now targets ECMAScript 2021, and Babel transpilation for older JavaS
 - Node.js < 14.17
 
 Browser and Node environments that do not support ES2021 might need an additional transpilation step with Babel to continue to work.
-
-#### Node.js v20+ support
-
-We dropped support for versions of Node that were no longer LTS and now support Node v20+.
-
-**Compatibility:**
-
-- ✅ Node.js v20+
-- ❌ Node.js v18 and below
-
-You will need to update the version of Node in your projects if it is less than v20.
 
 #### New bundles available
 
@@ -104,6 +105,14 @@ import contentful from 'contentful-management'
 // After (CommonJS) - still works
 const contentful = require('contentful-management')
 ```
+
+#### Package bundles no longer include projects dependencies
+
+The old 'contentful-management.node.js' and 'contentful-management.browser.js' bundles included all the project's dependencies in the bundle itself. The dependencies are not included in the new ESM or CJS bundles, but are still included in the browser bundle.
+
+Thus, we have noticed that some project build systems might fail upon updating to v12 when contentful-management tries to import one of its dependencies and the project is not set up to transpile code in node_modules. A particular instance is when the main project is CommonJS and it tries to import 'contentful-sdk-core', which is an ESM-only library. Build systems might need to be updated to transpile 'contentful-sdk-core' into CommonJS so it can be included.
+
+To mitigate this issue, we will look into shipping CommonJS (along with ESM) versions of 'contentful-sdk-core'.
 
 #### Changes to browser bundle
 
