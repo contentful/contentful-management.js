@@ -1,4 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
+import type { Stream } from 'stream'
 import type {
   GetSpaceEnvironmentParams,
   GetSpaceEnvironmentUploadParams,
@@ -22,7 +23,7 @@ const getEntityUploadUrl = (params: GetSpaceEnvironmentUploadParams) => {
 export const create: RestEndpoint<'Upload', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
-  data: { file: string | ArrayBuffer | ReadableStream },
+  data: { file: string | ArrayBuffer | Stream },
 ) => {
   const httpUpload = getUploadHttpClient(http)
 

@@ -7,7 +7,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "require": "./dist/cjs/index.cjs",
-      "browser": "./dist/browser/index.min.js",
+      "import": "./dist/esm/index.mjs",
       "default": "./dist/esm/index.mjs"
     },
     "./types": {
@@ -16,15 +16,16 @@
   },
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",
+  "jsdelivr": "./dist/browser/index.min.js",
+  "unpkg": "./dist/browser/index.min.js",
   "types": "./dist/types/index.d.ts",
-  "browser": "./dist/browser/index.min.js",
   "engines": {
     "node": ">=20"
   },
   "browserslist": [
     ">0.3%",
     "Chrome >= 85",
-    "Edge >= 85", 
+    "Edge >= 85",
     "Firefox >= 79",
     "Safari >= 14"
   ],
@@ -43,7 +44,7 @@
     "docs:watch": "nodemon --exec npm run docs:dev -w lib typings",
     "docs:publish": "npm run build:docs && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
     "lint": "eslint lib test",
-    "pretest": "rimraf coverage && npm run lint",
+    "lint:fix": "eslint lib test --fix",
     "test": "npm run test:unit:cover && npm run test:types && npm run test:integration:cover && npm run test:size",
     "test:unit:cover": "npm run test:unit -- --coverage",
     "test:unit": "npx vitest --project unit --run",
@@ -56,16 +57,12 @@
     "test:version": "grep -r \"0.0.0-determined-by-semantic-release\" ./dist > /dev/null && echo \"version 0.0.0-determined-by-semantic-release found in output\" && exit 1 || exit 0",
     "test:size": "size-limit",
     "test:demo-projects": "npm run test:demo-node && npm run test:demo-browser",
-    "test:demo-node": "rimraf ./test/output-integration/node/node-modules && npm --prefix ./test/output-integration/node ci && vitest --run ./test/output-integration/node",
-    "test:demo-browser": "rimraf ./test/output-integration/browser/node-modules && npm --prefix ./test/output-integration/browser ci && npm --prefix ./test/output-integration/browser run test",
-    "test:prepush": "npm run build && npm run test:unit && npm run test:size",
-    "format:fix": "prettier --write '**/*.{jsx,js,ts,tsx}'",
+    "test:demo-node": "npm ci --prefix ./test/output-integration/node && npm run test --prefix ./test/output-integration/node",
+    "test:demo-browser": "npm ci --prefix ./test/output-integration/browser && npm run setup-test-env --prefix ./test/output-integration/browser && npm run test --prefix ./test/output-integration/browser",
+    "format:fix": "npm run format:check -- --write",
     "format:check": "prettier --check '**/*.{jsx,js,ts,tsx}'",
     "semantic-release": "semantic-release",
-    "precommit": "npm run lint",
-    "postpublish": "if [ \"$(git rev-parse --abbrev-ref HEAD)\" = master ] ; then npm run docs:publish && npm run clean ; else exit 0 ; fi",
-    "prepush": "npm run test:prepush",
-    "prepublishOnly": "npm run build && npm run test:version"
+    "prepare": "husky"
   },
   "files": [
     "dist"
@@ -93,7 +90,7 @@
     "@types/node": "^20.12.13",
     "@vitest/browser": "^2.1.5",
     "@vitest/coverage-v8": "^2.1.5",
-    "contentful-sdk-jsdoc": "3.1.0",
+    "contentful-sdk-jsdoc": "^3.1.5",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
     "express": "^4.21.1",
@@ -123,9 +120,9 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": [
+    "./{lib,test}/**/*.{js,ts}": [
       "prettier --write",
-      "eslint"
+      "eslint --fix"
     ],
     "*.md": [
       "prettier --write"

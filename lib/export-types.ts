@@ -25,7 +25,7 @@ export type {
   AppActionCall,
   AppActionCallProps,
   AppActionCallErrorProps,
-  AppActionCallResponse, // was previously deep imported in user_interface
+  AppActionCallResponse,
   AppActionCallRawResponseProps,
   AppActionCallStatus,
   CreateAppActionCallProps,
@@ -94,7 +94,7 @@ export type {
 export type {
   Comment,
   CommentProps,
-  CommentStatus, // was previously deep imported in user_interface
+  CommentStatus,
   CreateCommentProps,
   DeleteCommentParams,
   GetCommentParentEntityParams,
@@ -131,7 +131,7 @@ export type {
   CreateEntryProps,
   Entry,
   EntryProps,
-  EntryReferenceProps, // was previously deep imported in user_interface
+  EntryReferenceProps,
   WithResourceName,
 } from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
@@ -205,13 +205,7 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type {
-  ActionType, // was previously deep imported in user_interface
-  ConstraintType, // was previously deep imported in user_interface
-  CreateRoleProps,
-  Role,
-  RoleProps,
-} from './entities/role'
+export type { ActionType, ConstraintType, CreateRoleProps, Role, RoleProps } from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
@@ -225,7 +219,7 @@ export type {
   SpaceMembership,
   SpaceMembershipProps,
 } from './entities/space-membership'
-export type { CreateTagProps, Tag, TagProps, TagVisibility } from './entities/tag'
+export type { CreateTagProps, Tag, TagProps, TagSysProps, TagVisibility } from './entities/tag'
 export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
@@ -249,11 +243,11 @@ export type {
   UpdateWebhookProps,
   UpsertWebhookSigningSecretPayload,
   WebHooks,
-  WebhookCallDetailsProps, // was previously deep imported in user_interface
+  WebhookCallDetailsProps,
   WebhookCallRequest,
-  WebhookCallOverviewProps, // was previously deep imported in user_interface
+  WebhookCallOverviewProps,
   WebhookFilter,
-  WebhookHealthProps, // was previously deep imported in user_interface
+  WebhookHealthProps,
   WebhookProps,
   WebhookSigningSecretProps,
   WebhookTransformation,

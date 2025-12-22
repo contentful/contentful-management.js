@@ -71,6 +71,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Publish Docs
+        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
+        run: |
+          echo "Publishing Documentation"
+          npm run docs:publish
+        env:
+          GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
+
       - name: Get latest release tag
         id: get-tag
         run: |

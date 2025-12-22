@@ -14,7 +14,7 @@ describe('AppEventSubscription api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppEventSubscription',
+      name: 'Test AppEventSubscription in CMA (delete if stale)',
     })
 
     entityId = { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id }

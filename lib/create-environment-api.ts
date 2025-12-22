@@ -1,3 +1,4 @@
+import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   AcceptsQueryOptions,
@@ -1195,7 +1196,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    createUpload: function createUpload(data: { file: string | ArrayBuffer | ReadableStream }) {
+    createUpload: function createUpload(data: { file: string | ArrayBuffer | Stream }) {
       const raw = this.toPlainObject() as EnvironmentProps
       return makeRequest({
         entityType: 'Upload',
@@ -1496,7 +1497,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets an App Installation
-     * @param id - AppDefintion ID
+     * @param id - AppDefinition ID
      * @return Promise for an App Installation
      * @example ```javascript
      * const contentful = require('contentful-management')

@@ -12,7 +12,7 @@ describe('AppKey api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppKey',
+      name: 'Test AppKey in CMA (delete if stale)',
     })
 
     entityId = {

@@ -23,11 +23,9 @@ describe('ResourceProvider API', () => {
   let appBundle: AppBundle
 
   beforeEach(async () => {
-    await timeoutToCalmRateLimiting()
-
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
-      name: 'Test',
+      name: 'Test AppBundle Resource Provider Creation in CMA (delete if stale)',
       src: 'http://localhost:2222',
       locations: [{ location: 'entry-sidebar' }],
     })
@@ -46,13 +44,11 @@ describe('ResourceProvider API', () => {
   })
 
   afterEach(async () => {
-    const { items: appDefinitions } = await organization.getAppDefinitions()
-
     if (appUpload) {
       await appUpload.delete()
     }
 
-    for await (const appDefinition of appDefinitions) {
+    if (appDefinition) {
       await appDefinition.delete()
     }
 

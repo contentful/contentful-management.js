@@ -490,7 +490,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getPersonalAccessTokens()
-     * .then(response => console.log(reponse.items))
+     * .then(response => console.log(response.items))
      * .catch(console.error)
      * ```
      */

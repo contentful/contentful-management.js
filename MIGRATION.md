@@ -12,14 +12,19 @@
 To upgrade to the latest version of `contentful-management`, use your package manager and then make any necessary changes outlined in the migration guides below.
 
 **npm:**
+
 ```bash
 npm install contentful-management@latest
 ```
+
 **yarn:**
+
 ```bash
 yarn upgrade contentful-management@latest
 ```
+
 **pnpm:**
+
 ```bash
 pnpm update contentful-management@latest
 ```
@@ -34,21 +39,35 @@ Version 12 modernizes the build pipeline of contentful-management to bring full 
 
 If you are affected by any of the items below, follow the upgrade guides in the sections
 
-- Projects using Node.js versions older than v20
-- Projects targeting browsers that do not support ES2021
-- Code directly importing old bundle paths (`./dist/contentful-management.node.js`, etc.)
-- Code using the browser bundle with direct method access (not via `contentfulManagement` object)
-- Code using deep imports from internal modules
-- TypeScript projects importing from `contentful-management/types` with older module resolution
-- Code using the `Stream` type
+- Projects using Node.js versions older than v20 ([Node.js v20+ support](#nodejs-v20-support))
+- Projects targeting browsers that do not support ES2021 ([ESM target updated to 2021](#esm-target-updated-to-2021))
+- Code directly importing old bundle paths ([New bundles available](#new-bundles-available))
+- Code relying on the bundle including all dependencies ([Package bundles no longer include projects dependencies](#package-bundles-no-longer-include-projects-dependencies))
+- Code using the browser bundle with direct method access ([Changes to browser bundle](#changes-to-browser-bundle))
+- Code using deep imports from internal modules ([Use of new `exports` field in package.json](#use-of-new-exports-field-in-packagejson))
+- TypeScript projects importing from `contentful-management/types` with older module resolution ([Importing Types from 'contentful-management/types'](#importing-types-from-contentful-managementtypes))
+- Code using the `Stream` type ([Breaking Changes](#breaking-changes))
+- Code using the `entry.patch` method ([Version param is now required for entry patch method](#version-param-is-now-required-for-entry-patch-method))
 
 ### Breaking Changes
+
+#### Node.js v20+ support
+
+We dropped support for versions of Node that were no longer LTS and now support Node v20+.
+
+**Compatibility:**
+
+- ✅ Node.js v20+
+- ❌ Node.js v18 and below
+
+You will need to update the version of Node in your projects if it is less than v20.
 
 #### ESM target updated to 2021
 
 The library now targets ECMAScript 2021, and Babel transpilation for older JavaScript versions has been removed. This means modern JavaScript features like optional chaining (`?.`), nullish coalescing (`??`), and `Promise.any()` are used directly without transpilation.
 
 **Affected environments:**
+
 - Internet Explorer (all versions)
 - Chrome < 85
 - Firefox < 79
@@ -57,16 +76,6 @@ The library now targets ECMAScript 2021, and Babel transpilation for older JavaS
 - Node.js < 14.17
 
 Browser and Node environments that do not support ES2021 might need an additional transpilation step with Babel to continue to work.
-
-#### Node.js v20+ support
-
-We dropped support for versions of Node that were no longer LTS and now support Node v20+.
-
-**Compatibility:**
-- ✅ Node.js v20+
-- ❌ Node.js v18 and below
-
-You will need to update the version of Node in your projects if it is less than v20.
 
 #### New bundles available
 
@@ -85,22 +94,32 @@ And have been replaced with an ESM build for use in modern environments, a Commo
 If you were accessing any of the previous bundles directly, you will need to update to pull from one of the new bundles.
 
 **import example:**
+
 ```javascript
 // Before
-import contentful from './node_modules/contentful-management/dist/contentful-management.node.js';
+import contentful from './node_modules/contentful-management/dist/contentful-management.node.js'
 
 // After (ESM)
-import contentful from 'contentful-management';
+import contentful from 'contentful-management'
 
 // After (CommonJS) - still works
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 ```
+
+#### Package bundles no longer include projects dependencies
+
+The old 'contentful-management.node.js' and 'contentful-management.browser.js' bundles included all the project's dependencies in the bundle itself. The dependencies are not included in the new ESM or CJS bundles, but are still included in the browser bundle.
+
+Thus, we have noticed that some project build systems might fail upon updating to v12 when contentful-management tries to import one of its dependencies and the project is not set up to transpile code in node_modules. A particular instance is when the main project is CommonJS and it tries to import 'contentful-sdk-core', which is an ESM-only library. Build systems might need to be updated to transpile 'contentful-sdk-core' into CommonJS so it can be included.
+
+To mitigate this issue, we will look into shipping CommonJS (along with ESM) versions of 'contentful-sdk-core'.
 
 #### Changes to browser bundle
 
 Browser bundle methods must now be accessed from the `contentfulManagement` object which is added to `window` on load (e.g., `window.contentfulManagement.createClient()`). If you were using methods directly, update your code to destructure them from the `contentfulManagement` object (e.g., `const { createClient } = contentfulManagement`).
 
 **JSDelivr usage:**
+
 ```html
 <!-- Before -->
 <script src="https://cdn.jsdelivr.net/npm/contentful-management@11/dist/contentful-management.browser.min.js"></script>
@@ -122,36 +141,28 @@ All types are exported from both `contentful-management` and `contentful-managem
 **Migration options:**
 
 Option 1 - Update tsconfig.json:
+
 ```json
 {
   "compilerOptions": {
-    "moduleResolution": "node16"  // or "bundler" or "nodenext"
+    "moduleResolution": "node16" // or "bundler" or "nodenext"
   }
 }
 ```
 
 Option 2 - Import from main package:
+
 ```typescript
 // Instead of
-import type { Space } from 'contentful-management/types';
+import type { Space } from 'contentful-management/types'
 
 // Use
-import type { Space } from 'contentful-management';
+import type { Space } from 'contentful-management'
 ```
 
-##### Replaced the `Stream` type with `ReadableStream`
+#### Version param is now required for entry patch method
 
-The `Stream` type was specific to Node.js environments and could cause issues in browsers. It has been replaced with `ReadableStream`, which is a global type available in both Node.js and browser environments.
-
-**Migration example:**
-```typescript
-// Before
-import type { Stream } from 'stream';
-function processStream(stream: Stream) { ... }
-
-// After
-function processStream(stream: ReadableStream) { ... }
-```
+When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
 
 ### Troubleshooting
 
@@ -166,6 +177,7 @@ function processStream(stream: ReadableStream) { ... }
 **Cause:** Your TypeScript configuration uses an older module resolution strategy.
 
 **Solution:** Update your `tsconfig.json`:
+
 ```json
 {
   "compilerOptions": {
@@ -180,7 +192,8 @@ Or import types directly from `contentful-management` instead of `contentful-man
 
 **Cause:** Your environment doesn't support ES2021.
 
-**Solution:** 
+**Solution:**
+
 - For Node.js: Upgrade to Node.js v20 or higher
 - For browsers: Ensure you're targeting modern browsers that support ES2021 (Chrome 85+, Firefox 79+, Safari 14+, Edge 85+)
 - Consider using a transpilation tool like Babel if you must support older environments
@@ -188,11 +201,13 @@ Or import types directly from `contentful-management` instead of `contentful-man
 #### Types not resolving correctly
 
 **Possible causes:**
+
 - Outdated module resolution in `tsconfig.json`
 - IDE needs to be restarted after upgrade
 - Type cache needs to be cleared
 
 **Solutions:**
+
 1. Update `moduleResolution` to `node16` or higher
 2. Restart your IDE/TypeScript server
 3. Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
