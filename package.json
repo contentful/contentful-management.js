@@ -72,7 +72,8 @@
     "axios": "^1.12.2",
     "contentful-sdk-core": "^9.4.0-add-cjs-build.4",
     "fast-copy": "^3.0.0",
-    "globals": "^15.15.0"
+    "globals": "^15.15.0",
+    "process": "^0.11.10"
   },
   "devDependencies": {
     "@contentful/integration-test-utils": "^2.0.1",
