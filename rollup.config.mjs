@@ -96,10 +96,6 @@ const scriptConfig = {
           find: 'axios',
           replacement: resolve(__dirname, './node_modules/axios/dist/browser/axios.cjs'),
         },
-        {
-          find: 'process',
-          replacement: resolve(__dirname, 'node_modules', 'process/browser'),
-        },
       ],
     }),
     commonjs({
