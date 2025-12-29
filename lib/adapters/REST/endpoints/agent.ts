@@ -7,7 +7,7 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const AgentAlphaHeaders = {
-  'x-contentful-enable-alpha-feature': 'agents',
+  'x-contentful-enable-alpha-feature': 'agents-api',
 }
 
 export const get: RestEndpoint<'Agent', 'get'> = (

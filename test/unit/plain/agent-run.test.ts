@@ -63,7 +63,7 @@ describe('AgentRun', () => {
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )
@@ -91,7 +91,7 @@ describe('AgentRun', () => {
         baseURL: 'https://api.contentful.com',
         params: { statusIn: ['COMPLETED'] },
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )
@@ -117,7 +117,7 @@ describe('AgentRun', () => {
         baseURL: 'https://api.contentful.com',
         params: { agentIn: ['agent-1', 'agent-2'], statusIn: ['COMPLETED', 'IN_PROGRESS'] },
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )

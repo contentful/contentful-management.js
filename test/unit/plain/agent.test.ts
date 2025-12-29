@@ -37,7 +37,7 @@ describe('Agent', () => {
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )
@@ -62,7 +62,7 @@ describe('Agent', () => {
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )
@@ -90,7 +90,7 @@ describe('Agent', () => {
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
-          'x-contentful-enable-alpha-feature': 'agents',
+          'x-contentful-enable-alpha-feature': 'agents-api',
         }),
       }),
     )
