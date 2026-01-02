@@ -904,6 +904,91 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
+  // AI Agents
+
+  test('API call getAgent', async () => {
+    const agent = cloneMock('agent')
+    const { api, entitiesMock } = setup(Promise.resolve(agent))
+    entitiesMock.agent.wrapAgent.mockReturnValue(agent)
+
+    return api.getAgent('agent-id').then((r) => {
+      expect(r).to.eql(agent)
+    })
+  })
+
+  test('API call getAgent fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgent',
+    })
+  })
+
+  test('API call getAgents', async () => {
+    const agentCollection = mockCollection(cloneMock('agent'))
+    const { api, entitiesMock } = setup(Promise.resolve(agentCollection))
+    entitiesMock.agent.wrapAgentCollection.mockReturnValue(agentCollection)
+
+    return api.getAgents().then((r) => {
+      expect(r).to.eql(agentCollection)
+    })
+  })
+
+  test('API call getAgents fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgents',
+    })
+  })
+
+  test('API call generateWithAgent', async () => {
+    const generateResponse = { result: 'generated content' }
+    const { api } = setup(Promise.resolve(generateResponse))
+
+    return api
+      .generateWithAgent('agent-id', {
+        messages: [{ parts: [{ type: 'text', text: 'Hello' }], role: 'user' }],
+      })
+      .then((r) => {
+        expect(r).to.eql(generateResponse)
+      })
+  })
+
+  test('API call generateWithAgent fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'generateWithAgent',
+    })
+  })
+
+  test('API call getAgentRun', async () => {
+    const agentRun = cloneMock('agentRun')
+    const { api, entitiesMock } = setup(Promise.resolve(agentRun))
+    entitiesMock.agentRun.wrapAgentRun.mockReturnValue(agentRun)
+
+    return api.getAgentRun('run-id').then((r) => {
+      expect(r).to.eql(agentRun)
+    })
+  })
+
+  test('API call getAgentRun fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgentRun',
+    })
+  })
+
+  test('API call getAgentRuns', async () => {
+    const agentRunCollection = mockCollection(cloneMock('agentRun'))
+    const { api, entitiesMock } = setup(Promise.resolve(agentRunCollection))
+    entitiesMock.agentRun.wrapAgentRunCollection.mockReturnValue(agentRunCollection)
+
+    return api.getAgentRuns().then((r) => {
+      expect(r).to.eql(agentRunCollection)
+    })
+  })
+
+  test('API call getAgentRuns fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgentRuns',
+    })
+  })
+
   // Embargoed Assets
 
   test('API call createAssetKey', async () => {

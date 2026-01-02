@@ -1,5 +1,7 @@
 import * as aiAction from './ai-action'
 import * as aiActionInvocation from './ai-action-invocation'
+import * as agent from './agent'
+import * as agentRun from './agent-run'
 import * as apiKey from './api-key'
 import * as appAction from './app-action'
 import * as appActionCall from './app-action-call'
@@ -69,6 +71,8 @@ import * as resource from './resource'
 export default {
   aiAction,
   aiActionInvocation,
+  agent,
+  agentRun,
   accessToken,
   appAction,
   appActionCall,

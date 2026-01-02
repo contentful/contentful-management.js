@@ -71,6 +71,15 @@ export const createPlainClient = (
     aiActionInvocation: {
       get: wrap(wrapParams, 'AiActionInvocation', 'get'),
     },
+    agent: {
+      get: wrap(wrapParams, 'Agent', 'get'),
+      getMany: wrap(wrapParams, 'Agent', 'getMany'),
+      generate: wrap(wrapParams, 'Agent', 'generate'),
+    },
+    agentRun: {
+      get: wrap(wrapParams, 'AgentRun', 'get'),
+      getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
