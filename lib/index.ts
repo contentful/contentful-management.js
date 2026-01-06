@@ -30,6 +30,7 @@ export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
 export { ScheduledActionStatus }
+export { OptionalDefaults } from './plain/wrappers/wrap'
 
 interface UserAgentParams {
   /**
