@@ -50,7 +50,7 @@ export type AiActionInvocationProps = {
 }
 
 export type AiActionInvocationType = {
-  outputFormat: 'RichText' | 'Markdown' | 'PlainText'
+  outputFormat?: 'RichText' | 'Markdown' | 'PlainText'
   variables?: Array<
     | {
         value: string
