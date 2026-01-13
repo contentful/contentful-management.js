@@ -4,7 +4,13 @@ import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
 import type { ContentFields } from '../../../lib/entities/content-type-fields'
 import type { AppSigningSecretProps } from '../../../lib/entities/app-signing-secret'
-import type { CollectionProp, Link, MetaLinkProps, MetaSysProps } from '../../../lib/common-types'
+import type {
+  CollectionProp,
+  CursorPaginatedCollectionProp,
+  Link,
+  MetaLinkProps,
+  MetaSysProps,
+} from '../../../lib/common-types'
 import type { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
 import type { SpaceProps } from '../../../lib/entities/space'
 import type { EnvironmentProps } from '../../../lib/entities/environment'
@@ -84,6 +90,16 @@ import {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
+import { AgentProps } from '../../../lib/entities/agent'
+import { AgentRunProps } from '../../../lib/entities/agent-run'
+import {
+  EmbeddingSetStatus,
+  VectorizationStatusProps,
+} from '../../../lib/entities/vectorization-status'
+import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicates'
+import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
+import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
+import { SemanticRecommendationsProps } from '../../../lib/entities/semantic-recommendations'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -929,6 +945,83 @@ const aiActionInvocationMock: AiActionInvocationProps = {
   },
 }
 
+const agentMock: AgentProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'Agent' as const,
+    id: 'mocked-agent-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+    createdAt: '2025-12-15T10:00:00.000Z',
+  }),
+  name: 'Mocked AI Agent',
+  description: 'This is a mocked AI Agent for testing purposes.',
+  provider: 'openai',
+  modelId: 'gpt-4',
+  tools: [
+    {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'AgentTool' as const,
+        id: 'tool-1',
+      },
+    },
+  ],
+}
+
+const agentRunMock: AgentRunProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AgentRun' as const,
+    id: 'mocked-agent-run-id',
+    createdAt: '2025-12-15T10:00:00.000Z',
+    updatedAt: '2025-12-15T10:05:00.000Z',
+    status: 'COMPLETED' as const,
+  },
+  agent: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Agent' as const,
+      id: 'mocked-agent-id',
+    },
+  },
+  space: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Space' as const,
+      id: 'mocked-space-id',
+    },
+  },
+  title: 'Mocked Agent Run',
+  messages: [
+    {
+      id: 'msg-1',
+      createdAt: '2025-12-15T10:00:00.000Z',
+      role: 'user' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello, agent!',
+          },
+        ],
+      },
+    },
+    {
+      id: 'msg-2',
+      createdAt: '2025-12-15T10:00:05.000Z',
+      role: 'assistant' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello! How can I help you?',
+          },
+        ],
+      },
+    },
+  ],
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -1382,10 +1475,94 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
+const vectorizationStatusMock: VectorizationStatusProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        space: makeLink('Space', 'mock-space-id'),
+        status: EmbeddingSetStatus.ACTIVE,
+        type: 'VectorizationStatus',
+        createdAt: '2025-01-01T10:00:00Z',
+        updatedAt: '2025-01-01T10:00:00Z',
+      },
+    },
+  ],
+}
+
+const semanticDuplicatesMock: SemanticDuplicatesProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticDuplicatesResult',
+      },
+      label: 'high',
+    },
+  ],
+}
+
+const semanticRecommendationsMock: SemanticRecommendationsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticRecommendationsResult',
+      },
+    },
+  ],
+}
+
+const semanticReferenceSuggestionsMock: SemanticReferenceSuggestionsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticReferenceSuggestionsResult',
+      },
+    },
+  ],
+}
+
+const semanticSearchMock: SemanticSearchProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticSearchResult',
+      },
+    },
+  ],
+}
+
 const mocks = {
   aiAction: aiActionMock,
   aiActionInvocation: aiActionInvocationMock,
   aiActionInvocationPayload: aiActionInvocationPayloadMock,
+  agent: agentMock,
+  agentRun: agentRunMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1443,6 +1620,10 @@ const mocks = {
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
+  semanticDuplicates: semanticDuplicatesMock,
+  semanticRecommendations: semanticRecommendationsMock,
+  semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
+  semanticSearch: semanticSearchMock,
   snapshot: snapShotMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
@@ -1458,6 +1639,7 @@ const mocks = {
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
+  vectorizationStatus: vectorizationStatusMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
@@ -1481,6 +1663,20 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
   }
 }
 
+function mockCursorPaginatedCollection<T>(entityMock): CursorPaginatedCollectionProp<T> {
+  return {
+    sys: {
+      type: 'Array',
+    },
+    limit: 100,
+    items: [entityMock as T],
+    pages: {
+      next: undefined,
+      prev: undefined,
+    },
+  }
+}
+
 function setupEntitiesMock() {
   const entitiesMock = {
     aiAction: {
@@ -1489,6 +1685,14 @@ function setupEntitiesMock() {
     },
     aiActionInvocation: {
       wrapAiActionInvocation: vi.fn(),
+    },
+    agent: {
+      wrapAgent: vi.fn(),
+      wrapAgentCollection: vi.fn(),
+    },
+    agentRun: {
+      wrapAgentRun: vi.fn(),
+      wrapAgentRunCollection: vi.fn(),
     },
     appAction: {
       wrapAppAction: vi.fn(),
@@ -1708,6 +1912,21 @@ function setupEntitiesMock() {
       wrapFunctionLog: vi.fn(),
       wrapFunctionLogCollection: vi.fn(),
     },
+    VectorizationStatus: {
+      wrapVectorizationStatus: vi.fn(),
+    },
+    SemanticDuplicates: {
+      wrapSemanticDuplicates: vi.fn(),
+    },
+    SemanticRecommendations: {
+      wrapSemanticRecommendations: vi.fn(),
+    },
+    SemanticReferenceSuggestions: {
+      wrapSemanticReferenceSuggestions: vi.fn(),
+    },
+    SemanticSearch: {
+      wrapSemanticSearch: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1759,6 +1978,7 @@ export {
   errorMock,
   cloneMock,
   mockCollection,
+  mockCursorPaginatedCollection,
   setupEntitiesMock,
   uploadMock,
   uploadCredentialMock,
@@ -1781,4 +2001,9 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
+  vectorizationStatusMock,
+  semanticDuplicatesMock,
+  semanticRecommendationsMock,
+  semanticReferenceSuggestionsMock,
+  semanticSearchMock,
 }

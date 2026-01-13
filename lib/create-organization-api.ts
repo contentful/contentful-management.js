@@ -18,6 +18,7 @@ import type { CreateAppEventSubscriptionProps } from './entities/app-event-subsc
 import type { CreateAppKeyProps } from './entities/app-key'
 import type { CreateAppDetailsProps } from './entities/app-details'
 import type { OrganizationProps } from './entities/organization'
+import type { UpdateVectorizationStatusProps } from './entities/vectorization-status'
 
 /**
  * @private
@@ -50,6 +51,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapFunction, wrapFunctionCollection } = entities.func
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
+  const { wrapVectorizationStatus } = entities.vectorizationStatus
 
   return {
     /**
@@ -1194,6 +1196,52 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { organizationId: raw.sys.id, appDefinitionId, query },
       }).then((payload) => wrapFunctionCollection(makeRequest, payload))
+    },
+
+    /**
+     * Gets the vectorization status for the organization
+     * @returns Promise for a VectorizationStatus
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const vectorizationStatus = await org.getVectorizationStatus()
+     */
+    getVectorizationStatus() {
+      const raw = this.toPlainObject() as OrganizationProps
+      const organizationId = raw.sys.id
+      return makeRequest({
+        entityType: 'VectorizationStatus',
+        action: 'get',
+        params: { organizationId },
+      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
+    },
+
+    /**
+     * Updates the vectorization status for the organization
+     * @returns Promise for a VectorizationStatus
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const updatedVectorizationStatus = await org.updateVectorizationStatus([
+     *  { spaceId: '<space_id1>', enabled: true },
+     *  { spaceId: '<space_id2>', enabled: false }
+     * ])
+     */
+    updateVectorizationStatus(data: UpdateVectorizationStatusProps) {
+      const raw = this.toPlainObject() as OrganizationProps
+      const organizationId = raw.sys.id
+      return makeRequest({
+        entityType: 'VectorizationStatus',
+        action: 'update',
+        params: { organizationId },
+        payload: data,
+      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
     },
   }
 }

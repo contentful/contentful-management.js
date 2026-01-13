@@ -28,6 +28,25 @@ export async function makeGetCollectionTest(setup, { entityType, mockToReturn, m
   })
 }
 
+export async function makeGetPaginatedCollectionTest(
+  setup,
+  { entityType, mockToReturn, methodToTest },
+) {
+  await makeGetEntityTest(setup, {
+    entityType: entityType,
+    mockToReturn: {
+      limit: 100,
+      items: [mockToReturn],
+      pages: {
+        next: undefined,
+        prev: undefined,
+      },
+    },
+    methodToTest: methodToTest,
+    wrapperSuffix: 'Collection',
+  })
+}
+
 export async function makeEntityMethodFailingTest(setup, { methodToTest }) {
   const error = cloneMock('error')
   const { api } = setup(Promise.reject(error))
