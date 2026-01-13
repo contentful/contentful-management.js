@@ -164,6 +164,13 @@ import type { Space } from 'contentful-management'
 
 When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
 
+#### Taxonomy entity update methods now use PUT
+
+The `update` method for `concept` and `conceptScheme` now performs a PUT request instead of a PATCH request.
+
+- If you were using `update()` with `OpPatch[]`, use `patch()` instead
+- If you were using `updatePut()`, use `update()` instead. The new `update` is identical to the old `updatePut`.
+
 ### Troubleshooting
 
 #### Error: "Cannot find module 'contentful-management/dist/...'"
