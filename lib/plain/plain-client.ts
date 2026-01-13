@@ -71,6 +71,15 @@ export const createPlainClient = (
     aiActionInvocation: {
       get: wrap(wrapParams, 'AiActionInvocation', 'get'),
     },
+    agent: {
+      get: wrap(wrapParams, 'Agent', 'get'),
+      getMany: wrap(wrapParams, 'Agent', 'getMany'),
+      generate: wrap(wrapParams, 'Agent', 'generate'),
+    },
+    agentRun: {
+      get: wrap(wrapParams, 'AgentRun', 'get'),
+      getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
@@ -215,6 +224,7 @@ export const createPlainClient = (
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'ContentType', 'getManyWithCursor'),
       update: wrap(wrapParams, 'ContentType', 'update'),
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
@@ -244,7 +254,9 @@ export const createPlainClient = (
     },
     entry: {
       getPublished: wrap(wrapParams, 'Entry', 'getPublished'),
+      getPublishedWithCursor: wrap(wrapParams, 'Entry', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Entry', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
       patch: wrap(wrapParams, 'Entry', 'patch'),
@@ -259,7 +271,9 @@ export const createPlainClient = (
     },
     asset: {
       getPublished: wrap(wrapParams, 'Asset', 'getPublished'),
+      getPublishedWithCursor: wrap(wrapParams, 'Asset', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Asset', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Asset', 'get'),
       update: wrap(wrapParams, 'Asset', 'update'),
       delete: wrap(wrapParams, 'Asset', 'delete'),
@@ -516,6 +530,18 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
       create: wrap(wrapParams, 'OAuthApplication', 'create'),
     },
+    semanticDuplicates: {
+      get: wrap(wrapParams, 'SemanticDuplicates', 'get'),
+    },
+    semanticRecommendations: {
+      get: wrap(wrapParams, 'SemanticRecommendations', 'get'),
+    },
+    semanticReferenceSuggestions: {
+      get: wrap(wrapParams, 'SemanticReferenceSuggestions', 'get'),
+    },
+    semanticSearch: {
+      get: wrap(wrapParams, 'SemanticSearch', 'get'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
@@ -562,6 +588,10 @@ export const createPlainClient = (
     userUIConfig: {
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
+    },
+    vectorizationStatus: {
+      get: wrap(wrapParams, 'VectorizationStatus', 'get'),
+      update: wrap(wrapParams, 'VectorizationStatus', 'update'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

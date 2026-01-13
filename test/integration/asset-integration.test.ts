@@ -39,9 +39,143 @@ describe('Asset API - Read', () => {
     expect(response.items).toBeTruthy()
   })
 
+  describe('Gets assets with cursor pagination', () => {
+    test('gets assets with cursor pagination with items', async () => {
+      const response = await environment.getAssetsWithCursor()
+      expect(response.items).toBeTruthy()
+    })
+
+    test('returns a cursor paginated asset collection when no query is provided', async () => {
+      const response = await environment.getAssetsWithCursor()
+
+      expect(response.items).not.toHaveLength(0)
+      expect(response.pages).toBeDefined()
+      expect((response as { total?: number }).total).toBeUndefined()
+
+      response.items.forEach((item) => {
+        expect(item.sys.type).toEqual('Asset')
+        expect(item.fields).toBeDefined()
+      })
+    })
+
+    test('returns [limit] number of items', async () => {
+      const response = await environment.getAssetsWithCursor({ limit: 3 })
+
+      expect(response.items).toHaveLength(3)
+      expect(response.pages).toBeDefined()
+      expect((response as { total?: number }).total).toBeUndefined()
+
+      response.items.forEach((item) => {
+        expect(item.sys.type).toEqual('Asset')
+        expect(item.fields).toBeDefined()
+      })
+    })
+
+    test('supports forward pagination', async () => {
+      const firstPage = await environment.getAssetsWithCursor({ limit: 2 })
+      const secondPage = await environment.getAssetsWithCursor({
+        limit: 2,
+        pageNext: firstPage?.pages?.next,
+      })
+
+      expect(secondPage.items).toHaveLength(2)
+      expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+    })
+
+    test('should support backward pagination', async () => {
+      const firstPage = await environment.getAssetsWithCursor({
+        limit: 2,
+        order: ['sys.createdAt'],
+      })
+      const secondPage = await environment.getAssetsWithCursor({
+        limit: 2,
+        pageNext: firstPage?.pages?.next,
+        order: ['sys.createdAt'],
+      })
+      const result = await environment.getAssetsWithCursor({
+        limit: 2,
+        pagePrev: secondPage?.pages?.prev,
+        order: ['sys.createdAt'],
+      })
+
+      expect(result.items).toHaveLength(2)
+
+      firstPage.items.forEach((item, index) => {
+        expect(item.sys.id).equal(result.items[index].sys.id)
+      })
+    })
+  })
+
   test('Gets published assets', async () => {
     const response = await environment.getPublishedAssets()
     expect(response.items).toBeTruthy()
+  })
+
+  describe('Gets published assets with cursor pagination', () => {
+    test('gets published assets with cursor pagination with items', async () => {
+      const response = await environment.getPublishedAssetsWithCursor()
+      expect(response.items).toBeTruthy()
+    })
+
+    test('returns a cursor paginated published asset collection when no query is provided', async () => {
+      const response = await environment.getPublishedAssetsWithCursor()
+
+      expect(response.items).not.toHaveLength(0)
+      expect(response.pages).toBeDefined()
+      expect((response as { total?: number }).total).toBeUndefined()
+
+      response.items.forEach((item) => {
+        expect(item.sys.type).toEqual('Asset')
+        expect(item.fields).toBeDefined()
+      })
+    })
+
+    test('returns [limit] number of items', async () => {
+      const response = await environment.getPublishedAssetsWithCursor({ limit: 3 })
+
+      expect(response.items).toHaveLength(3)
+      expect(response.pages).toBeDefined()
+      expect((response as { total?: number }).total).toBeUndefined()
+
+      response.items.forEach((item) => {
+        expect(item.sys.type).toEqual('Asset')
+        expect(item.fields).toBeDefined()
+      })
+    })
+
+    test('supports forward pagination', async () => {
+      const firstPage = await environment.getPublishedAssetsWithCursor({ limit: 2 })
+      const secondPage = await environment.getPublishedAssetsWithCursor({
+        limit: 2,
+        pageNext: firstPage?.pages?.next,
+      })
+
+      expect(secondPage.items).toHaveLength(2)
+      expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+    })
+
+    test('should support backward pagination', async () => {
+      const firstPage = await environment.getAssetsWithCursor({
+        limit: 2,
+        order: ['sys.createdAt'],
+      })
+      const secondPage = await environment.getAssetsWithCursor({
+        limit: 2,
+        pageNext: firstPage?.pages?.next,
+        order: ['sys.createdAt'],
+      })
+      const result = await environment.getAssetsWithCursor({
+        limit: 2,
+        pagePrev: secondPage?.pages?.prev,
+        order: ['sys.createdAt'],
+      })
+
+      expect(result.items).toHaveLength(2)
+
+      firstPage.items.forEach((item, index) => {
+        expect(item.sys.id).equal(result.items[index].sys.id)
+      })
+    })
   })
 })
 
