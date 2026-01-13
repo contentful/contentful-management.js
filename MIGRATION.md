@@ -165,6 +165,7 @@ import type { Space } from 'contentful-management'
 The `version` parameter is now required when calling `client.entry.patch()`. Previously, the TypeScript types incorrectly marked `version` as optional, even though the method implementation always expected it to be provided.
 
 **What changed:**
+
 - The `version` parameter in `entry.patch()` is now required in the TypeScript types
 - Previously, some users worked around the missing type by passing `version` via the `X-Contentful-Version` header, which will no longer be necessary
 
@@ -173,16 +174,14 @@ If you were previously passing `version` in the headers or not passing it at all
 
 ```typescript
 // Before (if you were using headers workaround)
-await client.entry.patch(
-  { spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy' },
-  patches,
-  { 'X-Contentful-Version': '123' }
-)
+await client.entry.patch({ spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy' }, patches, {
+  'X-Contentful-Version': '123',
+})
 
 // After
 await client.entry.patch(
   { spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy', version: 123 },
-  patches
+  patches,
 )
 ```
 
