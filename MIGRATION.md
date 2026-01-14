@@ -162,7 +162,31 @@ import type { Space } from 'contentful-management'
 
 #### Version param is now required for entry patch method
 
-When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
+The `version` parameter is now required when calling `client.entry.patch()`. Previously, the TypeScript types incorrectly marked `version` as optional, even though the method implementation always expected it to be provided.
+
+**What changed:**
+
+- The `version` parameter in `entry.patch()` is now required in the TypeScript types
+- Previously, some users worked around the missing type by passing `version` via the `X-Contentful-Version` header, which will no longer be necessary
+
+**Migration:**
+If you were previously passing `version` in the headers or not passing it at all, you'll need to update your code to include `version` in the params object:
+
+```typescript
+// Before (if you were using headers workaround)
+await client.entry.patch({ spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy' }, patches, {
+  'X-Contentful-Version': '123',
+})
+
+// After
+await client.entry.patch(
+  { spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy', version: 123 },
+  patches,
+)
+```
+
+**Why this change:**
+The `version` parameter was always expected by the implementation (it gets transformed into the `X-Contentful-Version` header internally), but the TypeScript types were incorrect. This fix aligns the types with the actual API behavior and ensures proper type safety.
 
 #### Taxonomy entity update methods now use PUT
 
