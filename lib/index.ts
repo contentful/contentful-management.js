@@ -61,7 +61,7 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
  *  accessToken: 'myAccessToken'
  * })
  * ```
- * @deprecated The waterfall (legacy) client is no longer supported. Use the plain client instead.
+ * @deprecated The waterfall (legacy) client is deprecated and will be removed in the next major version.  Use the plain client instead.
  */
 function createClient(params: ClientOptions): ClientAPI
 function createClient(
