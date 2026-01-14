@@ -75,11 +75,21 @@ describe('Agent', () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
-    const payload = {
-      messages: [{ parts: [{ type: 'text' as const, text: 'Hello' }], role: 'user' as const }],
+    type CustomMetadata = {
+      customData: string
     }
 
-    const response = await plainClient.agent.generate({ spaceId, environmentId, agentId }, payload)
+    const payload = {
+      messages: [{ parts: [{ type: 'text' as const, text: 'Hello' }], role: 'user' as const }],
+      metadata: {
+        customData: 'my-custom-data',
+      },
+    }
+
+    const response = await plainClient.agent.generate<CustomMetadata>(
+      { spaceId, environmentId, agentId },
+      payload,
+    )
 
     expect(response).toBeInstanceOf(Object)
     expect(response.result).toBe('Generated response')
