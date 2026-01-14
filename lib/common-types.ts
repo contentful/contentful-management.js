@@ -61,6 +61,7 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
+import type { ComponentTypeProps, ComponentTypeQueryOptions } from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -593,6 +594,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
   (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
+
+  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -1557,6 +1560,12 @@ export type MRActions = {
     delete: {
       params: DeleteConceptSchemeParams
       return: void
+    }
+  }
+  ComponentType: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
+      return: CollectionProp<ComponentTypeProps>
     }
   }
   ContentType: {

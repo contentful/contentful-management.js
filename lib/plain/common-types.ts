@@ -56,6 +56,7 @@ import type {
   UnpublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
 } from '../entities/bulk-action'
+import type { ComponentTypeProps, ComponentTypeQueryOptions } from '../entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import type {
@@ -277,6 +278,11 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
+  componentType: {
+    getMany(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }>,
+    ): Promise<CollectionProp<ComponentTypeProps>>
+  }
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
