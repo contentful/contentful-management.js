@@ -30,9 +30,7 @@ export type AgentProps = {
 
 type AgentMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
-export type DefaultAgentGenerateMetadata = Record<string, unknown>
-
-export type AgentGeneratePayload<METADATA = DefaultAgentGenerateMetadata> = {
+export type AgentGeneratePayload<METADATA = Record<string, unknown>> = {
   messages: Array<{
     parts: Array<{
       type: 'text'

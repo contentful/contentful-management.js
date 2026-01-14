@@ -1,10 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../common-types'
-import type {
-  AgentGeneratePayload,
-  AgentProps,
-  DefaultAgentGenerateMetadata,
-} from '../../entities/agent'
+import type { AgentGeneratePayload, AgentProps } from '../../entities/agent'
 import type { AgentRunProps } from '../../entities/agent-run'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -35,9 +31,9 @@ export type AgentPlainClientAPI = {
    * @returns A promise resolving with the AI Agent generation response.
    * @throws if the request fails or the payload is malformed.
    */
-  generate<METADATA = DefaultAgentGenerateMetadata>(
+  generate(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { agentId: string }>,
-    payload: AgentGeneratePayload<METADATA>,
+    payload: AgentGeneratePayload,
     headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AgentRunProps>
 }

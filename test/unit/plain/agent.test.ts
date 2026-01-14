@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
+import { AgentGeneratePayload, createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
 describe('Agent', () => {
@@ -79,17 +79,14 @@ describe('Agent', () => {
       customData: string
     }
 
-    const payload = {
+    const payload: AgentGeneratePayload<CustomMetadata> = {
       messages: [{ parts: [{ type: 'text' as const, text: 'Hello' }], role: 'user' as const }],
       metadata: {
         customData: 'my-custom-data',
       },
     }
 
-    const response = await plainClient.agent.generate<CustomMetadata>(
-      { spaceId, environmentId, agentId },
-      payload,
-    )
+    const response = await plainClient.agent.generate({ spaceId, environmentId, agentId }, payload)
 
     expect(response).toBeInstanceOf(Object)
     expect(response.result).toBe('Generated response')
