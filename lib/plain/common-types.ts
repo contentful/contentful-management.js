@@ -56,7 +56,6 @@ import type {
   UnpublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
 } from '../entities/bulk-action'
-import type { ComponentTypeProps, ComponentTypeQueryOptions } from '../entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
 import type {
@@ -148,6 +147,7 @@ import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-dupli
 import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
 import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
+import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
 export type PlainClientAPI = {
   raw: {
@@ -278,11 +278,7 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
-  componentType: {
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }>,
-    ): Promise<CollectionProp<ComponentTypeProps>>
-  }
+  componentType: ComponentTypePlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {

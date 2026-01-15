@@ -574,6 +574,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
+  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
+
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
   (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
@@ -594,8 +596,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
   (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
-
-  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
@@ -1468,6 +1468,12 @@ export type MRActions = {
         }
     delete: { params: DeleteCommentParams; return: void }
   }
+  ComponentType: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
+      return: CollectionProp<ComponentTypeProps>
+    }
+  }
   Concept: {
     create: {
       params: GetOrganizationParams
@@ -1560,12 +1566,6 @@ export type MRActions = {
     delete: {
       params: DeleteConceptSchemeParams
       return: void
-    }
-  }
-  ComponentType: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
-      return: CollectionProp<ComponentTypeProps>
     }
   }
   ContentType: {
