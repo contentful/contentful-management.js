@@ -13,7 +13,7 @@ export type DefaultParams = {
 type UnionOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never
 
 /**
- * @private
+ * @private Not meant to be used directly by consumers and may change at any time
  */
 export type OptionalDefaults<T> = UnionOmit<T, keyof DefaultParams> &
   Partial<Pick<T, Extract<keyof T, keyof DefaultParams>>>

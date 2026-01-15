@@ -30,6 +30,7 @@ export { editorInterfaceDefaults }
 export type PlainClientDefaultParams = DefaultParams
 export * from './export-types'
 export { ScheduledActionStatus }
+export { OptionalDefaults } from './plain/wrappers/wrap'
 
 interface UserAgentParams {
   /**
@@ -60,6 +61,7 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
  *  accessToken: 'myAccessToken'
  * })
  * ```
+ * @deprecated The waterfall (legacy) client is deprecated and will be removed in the next major version.  Use the plain client instead.
  */
 function createClient(params: ClientOptions): ClientAPI
 function createClient(
@@ -109,6 +111,9 @@ function createClient(
   if (opts.type === 'plain') {
     return createPlainClient(makeRequest, opts.defaults)
   } else {
+    console.warn(
+      '[contentful-management] The waterfall (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client by passing `{ type: "plain" }` as the second argument to `createClient`. See the README for migration guidance.',
+    )
     return createContentfulApi(makeRequest) as ClientAPI
   }
 }
