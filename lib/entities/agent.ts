@@ -30,7 +30,7 @@ export type AgentProps = {
 
 type AgentMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
-export type AgentGeneratePayload<METADATA = Record<string, unknown>> = {
+export type AgentGeneratePayload<TMetadata = Record<string, unknown>> = {
   messages: Array<{
     parts: Array<{
       type: 'text'
@@ -40,7 +40,7 @@ export type AgentGeneratePayload<METADATA = Record<string, unknown>> = {
     role: AgentMessageRole
   }>
   threadId?: string
-  metadata?: METADATA
+  metadata?: TMetadata
 }
 
 export interface Agent extends AgentProps, DefaultElements<AgentProps> {
