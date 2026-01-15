@@ -450,6 +450,7 @@ In addition, there may be some experimental features in the main build of this S
 ### Current experimental features
 
 - **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`) are experimental and subject to breaking changes without notice.
+- **Component Types**: The Component Type `getMany` endpoint (`componentType.getMany`) is experimental and subject to breaking changes without notice.
 
 ## Reach out to us
 
