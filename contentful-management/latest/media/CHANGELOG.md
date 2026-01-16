@@ -1,10 +1,3 @@
-## [11.67.2](https://github.com/contentful/contentful-management.js/compare/v11.67.1...v11.67.2) (2026-01-13)
-
-
-### Bug Fixes
-
-* mark AiActionInvocationType outputFormat as optional ([#2858](https://github.com/contentful/contentful-management.js/issues/2858)) ([5b82a37](https://github.com/contentful/contentful-management.js/commit/5b82a379deb3c3d60400d781e36716655e28efaa))
-
 <!-- shared header  START -->
 
 <p align="center">
