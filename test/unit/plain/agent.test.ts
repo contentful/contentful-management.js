@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
+import { AgentGeneratePayload, createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
 describe('Agent', () => {
@@ -75,8 +75,15 @@ describe('Agent', () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
-    const payload = {
+    type CustomMetadata = {
+      customData: string
+    }
+
+    const payload: AgentGeneratePayload<CustomMetadata> = {
       messages: [{ parts: [{ type: 'text' as const, text: 'Hello' }], role: 'user' as const }],
+      metadata: {
+        customData: 'my-custom-data',
+      },
     }
 
     const response = await plainClient.agent.generate({ spaceId, environmentId, agentId }, payload)
