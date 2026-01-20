@@ -1,4 +1,4 @@
-import type { Link, SysLink } from '../common-types'
+import type { Link, MetadataProps } from '../common-types'
 
 // Query options for getMany - matches Bridge API contract
 export type ComponentTypeQueryOptions = {
@@ -21,6 +21,7 @@ export type ComponentTypeContentProperty = {
   name: string
   type: string
   required: boolean
+  defaultValue?: unknown
 }
 
 // Design property validation option
@@ -122,14 +123,19 @@ export type ComponentTypeSys = {
   id: string
   type: 'ComponentType'
   version: number
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   fieldStatus?: Record<string, Record<string, 'draft' | 'published' | 'changed'>>
   publishedAt?: string
   publishedVersion?: number
   publishedCounter?: number
   firstPublishedAt?: string
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
+  variant?: string
+  createdAt?: string
+  createdBy?: Link<'User'>
+  updatedAt?: string
+  updatedBy?: Link<'User'>
 }
 
 // Main ComponentType props
@@ -144,4 +150,5 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
+  metadata?: MetadataProps
 }

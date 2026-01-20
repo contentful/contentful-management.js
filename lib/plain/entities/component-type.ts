@@ -6,7 +6,7 @@ export type ComponentTypePlainClientAPI = {
   /**
    * Fetches all component types for a space and environment
    * @param params the space and environment IDs and query parameters
-   * @param params.query.experienceCtId the experience component type ID
+   * @param params.query._experienceCtId the experience component type ID
    * @param params.query.limit the maximum number of component types to return
    * @param params.query.skip the number of component types to skip
    * @returns a collection of component types
