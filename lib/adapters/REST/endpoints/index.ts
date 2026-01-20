@@ -20,6 +20,7 @@ import * as Asset from './asset'
 import * as AssetKey from './asset-key'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
+import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
@@ -96,6 +97,7 @@ export default {
   AssetKey,
   BulkAction,
   Comment,
+  ComponentType,
   Concept,
   ConceptScheme,
   ContentType,
