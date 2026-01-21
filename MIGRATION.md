@@ -48,7 +48,7 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - TypeScript projects importing from `contentful-management/types` with older module resolution ([Importing Types from 'contentful-management/types'](#importing-types-from-contentful-managementtypes))
 - Code using the `Stream` type ([Breaking Changes](#breaking-changes))
 - Code using the `entry.patch` method ([Version param is now required for entry patch method](#version-param-is-now-required-for-entry-patch-method))
-- Code relying on the default waterfall (legacy) client ([Default client changed from waterfall to plain](#default-client-changed-from-waterfall-to-plain))
+- Code relying on the default nested (legacy) client ([Default client changed from nested to plain](#default-client-changed-from-nested-to-plain))
 
 ### Breaking Changes
 
@@ -196,29 +196,29 @@ The `update` method for `concept` and `conceptScheme` now performs a PUT request
 - If you were using `update()` with `OpPatch[]`, use `patch()` instead
 - If you were using `updatePut()`, use `update()` instead. The new `update` is identical to the old `updatePut`.
 
-#### Default client changed from waterfall to plain
+#### Default client changed from nested to plain
 
-The `createClient` function now defaults to the **plain client** instead of the waterfall (legacy) client.
+The `createClient` function now defaults to the **plain client** instead of the nested (legacy) client.
 
 **What changed:**
 
-- Previously, calling `createClient({ accessToken: 'token' })` returned the waterfall client
+- Previously, calling `createClient({ accessToken: 'token' })` returned the nested client
 - Now, the same call returns the plain client
-- To continue using the legacy waterfall client, you must explicitly pass `{ type: 'legacy' }`
+- To continue using the legacy nested client, you must explicitly pass `{ type: 'legacy' }`
 
 **Migration:**
 
-If you need to continue using the legacy waterfall client, update your code to explicitly request it:
+If you need to continue using the legacy nested client, update your code to explicitly request it:
 
 ```typescript
-// Before - implicitly used waterfall client
+// Before - implicitly used nested client
 const client = createClient({ accessToken: 'token' })
 
-// After - explicitly request legacy waterfall client
+// After - explicitly request legacy nested client
 const client = createClient({ accessToken: 'token' }, { type: 'legacy' })
 ```
 
-**Recommended:** We strongly recommend migrating to the plain client API, as the legacy waterfall client is deprecated and will be removed in the next major version. See the README for migration guidance.
+**Recommended:** We strongly recommend migrating to the plain client API, as the legacy nested client is deprecated and will be removed in the next major version. See the README for migration guidance.
 
 ### Troubleshooting
 

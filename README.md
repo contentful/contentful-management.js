@@ -259,7 +259,7 @@ console.log(secondPage.items) // Array of items
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
-> **⚠️ Deprecated:** The waterfall (legacy) client is deprecated and will be removed in the next major release. Please migrate to the default client. See the [Your first request](#your-first-request) section above for examples.
+> **⚠️ Deprecated:** The nested (legacy) client is deprecated and will be removed in the next major release. Please migrate to the default client. See the [Your first request](#your-first-request) section above for examples.
 
 ```js
 import { createClient } from 'contentful-management'

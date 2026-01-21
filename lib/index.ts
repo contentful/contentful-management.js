@@ -71,7 +71,7 @@ function createClient(
   },
 ): PlainClientAPI
 /**
- * @deprecated The waterfall (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
+ * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
  */
 function createClient(
   params: ClientOptions,
@@ -118,7 +118,7 @@ function createClient(
 
   if (opts.type === 'legacy') {
     console.warn(
-      '[contentful-management] The waterfall (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
+      '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
     )
     return createContentfulApi(makeRequest) as ClientAPI
   } else {

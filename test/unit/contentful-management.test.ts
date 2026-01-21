@@ -42,7 +42,7 @@ describe('Contentful Management', () => {
     expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
-  it('creates legacy waterfall client when type is legacy', () => {
+  it('creates legacy nested client when type is legacy', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     createClient({ accessToken: 'token' }, { type: 'legacy' })
@@ -50,7 +50,7 @@ describe('Contentful Management', () => {
     expect(createContentfulApiMock).toHaveBeenCalled()
     expect(createPlainClientMock).not.toHaveBeenCalled()
     expect(warnSpy).toHaveBeenCalledWith(
-      '[contentful-management] The waterfall (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
+      '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
     )
 
     warnSpy.mockRestore()
