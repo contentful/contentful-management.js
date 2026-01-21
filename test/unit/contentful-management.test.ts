@@ -28,18 +28,32 @@ describe('Contentful Management', () => {
     vi.clearAllMocks()
   })
 
-  it('creates nested client', () => {
+  it('creates plain client by default when no type is provided', () => {
     createClient({ accessToken: 'token' })
 
-    expect(createPlainClientMock).not.toHaveBeenCalled()
-    expect(createContentfulApiMock).toHaveBeenCalled()
+    expect(createPlainClientMock).toHaveBeenCalled()
+    expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
-  it('creates plain client', () => {
+  it('creates plain client when type is explicitly set to plain', () => {
     createClient({ accessToken: 'token' }, { type: 'plain' })
 
     expect(createPlainClientMock).toHaveBeenCalled()
     expect(createContentfulApiMock).not.toHaveBeenCalled()
+  })
+
+  it('creates legacy waterfall client when type is legacy', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    createClient({ accessToken: 'token' }, { type: 'legacy' })
+
+    expect(createContentfulApiMock).toHaveBeenCalled()
+    expect(createPlainClientMock).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[contentful-management] The waterfall (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
+    )
+
+    warnSpy.mockRestore()
   })
 
   it('creates a plain client with releaseSchema defaults', () => {
@@ -66,12 +80,12 @@ describe('Contentful Management', () => {
     expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
-  it('generates the correct default user agent', () => {
+  it('generates the correct default user agent for plain client', () => {
     createClient({ accessToken: 'token' })
 
     expect(makeRequestMock).not.toHaveBeenCalled()
 
-    const makeRequestWithUserAgent = createContentfulApiMock.mock.calls[0][0]
+    const makeRequestWithUserAgent = createPlainClientMock.mock.calls[0][0]
     makeRequestWithUserAgent({
       action: 'getMany',
       entityType: 'Asset',
@@ -89,18 +103,23 @@ describe('Contentful Management', () => {
     const userAgent = makeRequestMock.mock.calls[0][0].userAgent
     const userAgentParts = userAgent.split('; ')
     expect(userAgentParts).to.have.lengthOf(3)
-    expect(userAgentParts[0]).to.match(/^sdk contentful-management\.js\/.+/)
+    expect(userAgentParts[0]).to.match(/^sdk contentful-management-plain\.js\/.+/)
     expect(userAgentParts[1]).to.match(/^platform (.+\/.+|browser)/)
     expect(userAgentParts[2]).to.match(/^os .+/)
   })
 
-  it('generates the correct user agent', () => {
-    createClient({
-      accessToken: 'token',
-      application: 'myApplication/1.1.1',
-      integration: 'myIntegration/1.0.0',
-      feature: 'some-feature',
-    })
+  it('generates the correct user agent for legacy client', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    createClient(
+      {
+        accessToken: 'token',
+        application: 'myApplication/1.1.1',
+        integration: 'myIntegration/1.0.0',
+        feature: 'some-feature',
+      },
+      { type: 'legacy' },
+    )
 
     expect(makeRequestMock).not.toHaveBeenCalled()
 
