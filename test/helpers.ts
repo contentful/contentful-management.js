@@ -44,11 +44,14 @@ export const initClient = (options: Partial<CreateHttpClientParams> = {}) => {
   if (!accessToken) {
     throw new Error('CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN is required')
   }
-  return createClient({
-    accessToken,
-    ...params,
-    ...options,
-  })
+  return createClient(
+    {
+      accessToken,
+      ...params,
+      ...options,
+    },
+    { type: 'legacy' },
+  )
 }
 
 // Shared instance to reduce rate limiting issues due to recreation of clients and therefore loosing track of requests per second

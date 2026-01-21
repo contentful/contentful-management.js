@@ -32,7 +32,7 @@ import type {
 } from './export-types'
 
 /**
- * @deprecated The waterfall (legacy) client is deprecated and will be removed in the next major version.  Use the plain client instead.
+ * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
  */
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }

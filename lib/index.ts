@@ -61,16 +61,24 @@ export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterPara
  *  accessToken: 'myAccessToken'
  * })
  * ```
- * @deprecated The waterfall (legacy) client is deprecated and will be removed in the next major version.  Use the plain client instead.
  */
-function createClient(params: ClientOptions): ClientAPI
+function createClient(params: ClientOptions): PlainClientAPI
 function createClient(
   params: ClientOptions,
   opts: {
-    type: 'plain'
+    type?: 'plain'
     defaults?: DefaultParams
   },
 ): PlainClientAPI
+/**
+ * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
+ */
+function createClient(
+  params: ClientOptions,
+  opts: {
+    type: 'legacy'
+  },
+): ClientAPI
 // Usually, overloads with more specific signatures should come first but some IDEs are often not able to handle overloads with separate TSDocs correctly
 /**
  * @deprecated The `alphaFeatures` option is no longer supported. Please use the function without this option.
@@ -78,7 +86,7 @@ function createClient(
 function createClient(
   params: ClientOptions,
   opts: {
-    type?: 'plain'
+    type?: 'plain' | 'legacy'
     alphaFeatures: string[]
     defaults?: DefaultParams
   },
@@ -86,12 +94,12 @@ function createClient(
 function createClient(
   params: ClientOptions,
   opts: {
-    type?: 'plain'
+    type?: 'plain' | 'legacy'
     defaults?: DefaultParams
   } = {},
 ): ClientAPI | PlainClientAPI {
   const sdkMain =
-    opts.type === 'plain' ? 'contentful-management-plain.js' : 'contentful-management.js'
+    opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
     // @ts-expect-error
     `${sdkMain}/${__VERSION__}`,
@@ -108,12 +116,12 @@ function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
-  if (opts.type === 'plain') {
-    return createPlainClient(makeRequest, opts.defaults)
-  } else {
+  if (opts.type === 'legacy') {
     console.warn(
-      '[contentful-management] The waterfall (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client by passing `{ type: "plain" }` as the second argument to `createClient`. See the README for migration guidance.',
+      '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
     )
     return createContentfulApi(makeRequest) as ClientAPI
+  } else {
+    return createPlainClient(makeRequest, opts.defaults)
   }
 }
