@@ -93,7 +93,9 @@ export type AiActionPlainClientAPI = {
    * @throws if the request fails or the payload is malformed.
    */
   invoke(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { aiActionId: string }>,
+    params: OptionalDefaults<
+      GetSpaceEnvironmentParams & { aiActionId: string; query?: { status?: 'all' | 'published' } }
+    >,
     payload: AiActionInvocationType,
     headers?: Partial<RawAxiosRequestHeaders>,
   ): Promise<AiActionInvocationProps>

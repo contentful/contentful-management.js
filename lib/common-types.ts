@@ -1033,7 +1033,10 @@ export type MRActions = {
       return: AiActionProps
     }
     invoke: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceEnvironmentParams & {
+        aiActionId: string
+        query?: { status?: 'all' | 'published' }
+      }
       payload: AiActionInvocationType
       headers?: RawAxiosRequestHeaders
       return: AiActionInvocationProps
