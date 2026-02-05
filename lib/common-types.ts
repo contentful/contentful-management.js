@@ -195,6 +195,16 @@ import type {
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
 import type {
+  AutomationDefinitionProps,
+  AutomationDefinitionQueryOptions,
+  CreateAutomationDefinitionProps,
+  UpdateAutomationDefinitionProps,
+} from './entities/automation-definition'
+import type {
+  AutomationExecutionProps,
+  AutomationExecutionQueryOptions,
+} from './entities/automation-execution'
+import type {
   UpdateVectorizationStatusProps,
   VectorizationStatusProps,
 } from './entities/vectorization-status'
@@ -1073,6 +1083,47 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+  }
+  AutomationDefinition: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AutomationDefinitionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      payload: UpdateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    delete: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: void
+    }
+  }
+  AutomationExecution: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationExecutionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationExecutionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {
