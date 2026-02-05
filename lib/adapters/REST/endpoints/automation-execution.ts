@@ -1,10 +1,11 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import type {
-  CollectionProp,
+  CursorPaginatedCollectionProp,
   GetAutomationExecutionParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
 import type {
+  AutomationExecutionByDefinitionQueryOptions,
   AutomationExecutionProps,
   AutomationExecutionQueryOptions,
 } from '../../../entities/automation-execution'
@@ -31,7 +32,27 @@ export const getMany: RestEndpoint<'AutomationExecution', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) =>
-  raw.get<CollectionProp<AutomationExecutionProps>>(http, getBaseUrl(params), {
+  raw.get<CursorPaginatedCollectionProp<AutomationExecutionProps>>(http, getBaseUrl(params), {
     headers,
     params: params.query,
   })
+
+export const getForAutomationDefinition: RestEndpoint<
+  'AutomationExecution',
+  'getForAutomationDefinition'
+> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & {
+    automationDefinitionId: string
+    query?: AutomationExecutionByDefinitionQueryOptions
+  },
+  headers?: RawAxiosRequestHeaders,
+) =>
+  raw.get<CursorPaginatedCollectionProp<AutomationExecutionProps>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_definitions/${params.automationDefinitionId}/automation_executions`,
+    {
+      headers,
+      params: params.query,
+    },
+  )

@@ -16,10 +16,8 @@ export type AutomationExecutionSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'createdAt' | 'createdBy' | 'updatedAt'
 > & {
-  type: 'AutomationExecution'
   space: SysLink
   environment: SysLink
-  organization: SysLink
   automationDefinition: Link<'AutomationDefinition'>
 }
 
@@ -30,7 +28,16 @@ export interface AutomationExecutionProps {
 }
 
 export interface AutomationExecutionQueryOptions {
+  'sys.labels[in]'?: string
+  'sys.labels[all]'?: string
+  'sys.status[in]'?: string
   limit?: number
-  skip?: number
-  'sys.automationDefinition.sys.id'?: string
+  pagePrev?: string
+  pageNext?: string
+  uniqueBy?: string
+}
+
+export interface AutomationExecutionByDefinitionQueryOptions
+  extends AutomationExecutionQueryOptions {
+  order?: string
 }

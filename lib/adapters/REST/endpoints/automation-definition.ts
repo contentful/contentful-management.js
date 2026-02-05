@@ -2,7 +2,7 @@ import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  CollectionProp,
+  CursorPaginatedCollectionProp,
   GetAutomationDefinitionParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
@@ -35,7 +35,7 @@ export const getMany: RestEndpoint<'AutomationDefinition', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) =>
-  raw.get<CollectionProp<AutomationDefinitionProps>>(http, getBaseUrl(params), {
+  raw.get<CursorPaginatedCollectionProp<AutomationDefinitionProps>>(http, getBaseUrl(params), {
     headers,
     params: params.query,
   })

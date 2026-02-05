@@ -201,6 +201,7 @@ import type {
   UpdateAutomationDefinitionProps,
 } from './entities/automation-definition'
 import type {
+  AutomationExecutionByDefinitionQueryOptions,
   AutomationExecutionProps,
   AutomationExecutionQueryOptions,
 } from './entities/automation-execution'
@@ -1094,7 +1095,7 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
       headers?: RawAxiosRequestHeaders
-      return: CollectionProp<AutomationDefinitionProps>
+      return: CursorPaginatedCollectionProp<AutomationDefinitionProps>
     }
     create: {
       params: GetSpaceEnvironmentParams
@@ -1123,7 +1124,15 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
       headers?: RawAxiosRequestHeaders
-      return: CollectionProp<AutomationExecutionProps>
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
+    }
+    getForAutomationDefinition: {
+      params: GetSpaceEnvironmentParams & {
+        automationDefinitionId: string
+        query?: AutomationExecutionByDefinitionQueryOptions
+      }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {

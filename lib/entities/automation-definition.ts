@@ -2,8 +2,6 @@ import type { BasicMetaSysProps, SysLink } from '../common-types'
 
 export type AutomationDefinitionStatus = 'published' | 'draft'
 
-export type AutomationDefinitionTriggerType = 'manual' | 'event' | 'schedule'
-
 export type AutomationDefinitionTriggerTopic =
   | 'Workflow.create'
   | 'Workflow.save'
@@ -32,22 +30,21 @@ export type AutomationDefinitionTrigger =
       debounce?: { interval: 0 | 300 }
     }
 
-export type AutomationDefinitionStepType = 'action' | 'condition' | 'loop'
-
 export type AutomationDefinitionActionType =
-  | 'entry.create'
-  | 'entry.update'
-  | 'entry.delete'
-  | 'entry.publish'
-  | 'entry.unpublish'
-  | 'entry.archive'
-  | 'entry.unarchive'
-  | 'workflow.create'
-  | 'workflow.update'
-  | 'workflow.open'
-  | 'workflow.complete'
-  | 'aiAction.invoke'
-  | 'appActionCall.create'
+  | 'cma.aiAction.invoke'
+  | 'cma.entry.get'
+  | 'cma.entry.getMany'
+  | 'cma.entry.create'
+  | 'cma.entry.publish'
+  | 'cma.entry.unpublish'
+  | 'cma.entry.patch'
+  | 'cma.entry.delete'
+  | 'cma.entry.archive'
+  | 'cma.entry.unarchive'
+  | 'cma.workflow.update'
+  | 'cma.workflow.create'
+  | 'cma.workflow.complete'
+  | 'cma.appActionCall.createWithResult'
 
 export interface AutomationDefinitionAction {
   type: AutomationDefinitionActionType
@@ -107,7 +104,6 @@ export interface AutomationDefinitionProps {
   triggers: AutomationDefinitionTrigger[]
   steps: AutomationDefinitionStep[]
   status: AutomationDefinitionStatus
-  nextExecution?: string | null
 }
 
 export type CreateAutomationDefinitionProps = Omit<AutomationDefinitionProps, 'sys'>
@@ -117,8 +113,8 @@ export type UpdateAutomationDefinitionProps = Omit<AutomationDefinitionProps, 's
 }
 
 export interface AutomationDefinitionQueryOptions {
+  order?: string
   limit?: number
-  skip?: number
-  'sys.id[in]'?: string
-  status?: AutomationDefinitionStatus
+  pagePrev?: string
+  pageNext?: string
 }
