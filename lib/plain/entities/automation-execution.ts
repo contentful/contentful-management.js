@@ -1,14 +1,14 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../common-types'
+import type {
+  CollectionProp,
+  GetAutomationExecutionParams,
+  GetSpaceEnvironmentParams,
+} from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
   AutomationExecutionProps,
   AutomationExecutionQueryOptions,
 } from '../../entities/automation-execution'
-
-export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
-  automationExecutionId: string
-}
 
 export type AutomationExecutionPlainClientAPI = {
   /**

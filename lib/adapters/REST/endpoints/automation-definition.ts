@@ -1,7 +1,11 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
+import type {
+  CollectionProp,
+  GetAutomationDefinitionParams,
+  GetSpaceEnvironmentParams,
+} from '../../../common-types'
 import type {
   AutomationDefinitionProps,
   AutomationDefinitionQueryOptions,
@@ -10,10 +14,6 @@ import type {
 } from '../../../entities/automation-definition'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-
-export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
-  automationDefinitionId: string
-}
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_definitions`

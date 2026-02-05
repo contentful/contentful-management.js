@@ -2772,6 +2772,12 @@ export type UpdateConceptSchemeParams = GetOrganizationParams & {
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
+  automationDefinitionId: string
+}
+export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
+  automationExecutionId: string
+}
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }

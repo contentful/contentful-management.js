@@ -1,5 +1,9 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../common-types'
+import type {
+  CollectionProp,
+  GetAutomationDefinitionParams,
+  GetSpaceEnvironmentParams,
+} from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type {
   AutomationDefinitionProps,
@@ -7,10 +11,6 @@ import type {
   CreateAutomationDefinitionProps,
   UpdateAutomationDefinitionProps,
 } from '../../entities/automation-definition'
-
-export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
-  automationDefinitionId: string
-}
 
 export type DeleteAutomationDefinitionParams = GetAutomationDefinitionParams & { version: number }
 

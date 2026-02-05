@@ -1,15 +1,15 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
+import type {
+  CollectionProp,
+  GetAutomationExecutionParams,
+  GetSpaceEnvironmentParams,
+} from '../../../common-types'
 import type {
   AutomationExecutionProps,
   AutomationExecutionQueryOptions,
 } from '../../../entities/automation-execution'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-
-export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
-  automationExecutionId: string
-}
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_executions`
