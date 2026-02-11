@@ -15,18 +15,15 @@ export type AutomationDefinitionTriggerTopic =
   | 'Entry.unarchive'
 
 export type AutomationDefinitionTrigger =
-  | { type: 'manual'; constraints?: Record<string, unknown>; debounce?: { interval: 0 | 300 } }
   | {
       type: 'event'
       topic: AutomationDefinitionTriggerTopic
       constraints?: Record<string, unknown>
-      debounce?: { interval: 0 | 300 }
     }
   | {
       type: 'schedule'
       rrule: string
       constraints?: Record<string, unknown>
-      debounce?: { interval: 0 | 300 }
     }
 
 export type AutomationDefinitionActionType =
