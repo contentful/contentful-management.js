@@ -77,7 +77,7 @@ export interface AutomationDefinitionConditionStep extends AutomationDefinitionB
 export interface AutomationDefinitionLoopStep extends AutomationDefinitionBaseStep {
   type: 'loop'
   items: string
-  mode: 'sequential' | 'parallel'
+  mode: 'sequential'
   steps: AutomationDefinitionStep[]
   nextStepId: string | null
 }
