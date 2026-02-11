@@ -5,7 +5,7 @@ import { wrapCollection } from '../common-utils'
 import type { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
 export type SpaceMembershipProps = {
-  sys: MetaSysProps & { space: SysLink; user: SysLink; relatedMemberships: SysLink[] }
+  sys: MetaSysProps & { space: SysLink; user: SysLink }
   user: SysLink
   admin: boolean
   roles: SysLink[]
