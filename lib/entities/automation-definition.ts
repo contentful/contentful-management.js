@@ -9,7 +9,6 @@ export type AutomationDefinitionTriggerTopic =
   | 'Entry.create'
   | 'Entry.delete'
   | 'Entry.save'
-  | 'Entry.auto_save'
   | 'Entry.publish'
   | 'Entry.unpublish'
   | 'Entry.archive'
