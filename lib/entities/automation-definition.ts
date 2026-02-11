@@ -1,6 +1,6 @@
 import type { BasicMetaSysProps, SysLink } from '../common-types'
 
-export type AutomationDefinitionStatus = 'published' | 'draft'
+export type AutomationDefinitionStatus = 'published'
 
 export type AutomationDefinitionTriggerTopic =
   | 'Workflow.create'
