@@ -36,5 +36,5 @@ export interface AutomationExecutionQueryOptions extends BasicCursorPaginationOp
 
 export interface AutomationExecutionByDefinitionQueryOptions
   extends AutomationExecutionQueryOptions {
-  order?: string
+  order?: 'sys.createdAt' | '-sys.createdAt' | 'sys.updatedAt' | '-sys.updatedAt'
 }
