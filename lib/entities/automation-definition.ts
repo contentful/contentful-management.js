@@ -49,7 +49,7 @@ export interface AutomationDefinitionAction {
 
 export interface AutomationDefinitionConditionStepCondition {
   nextStepId: string | null
-  constraints: boolean | Record<string, unknown>
+  constraints: Record<string, unknown>
 }
 
 export interface AutomationDefinitionBaseStep {
