@@ -109,5 +109,5 @@ export type UpdateAutomationDefinitionProps = Omit<AutomationDefinitionProps, 's
 }
 
 export interface AutomationDefinitionQueryOptions extends BasicCursorPaginationOptions {
-  order?: string
+  order?: 'sys.createdAt' | '-sys.createdAt' | 'sys.updatedAt' | '-sys.updatedAt'
 }
