@@ -1,4 +1,9 @@
-import type { BasicCursorPaginationOptions, BasicMetaSysProps, Link, SysLink } from '../common-types'
+import type {
+  BasicCursorPaginationOptions,
+  BasicMetaSysProps,
+  Link,
+  SysLink,
+} from '../common-types'
 
 export type AutomationExecutionStatus =
   | 'SCHEDULED'

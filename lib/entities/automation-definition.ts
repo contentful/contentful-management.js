@@ -56,18 +56,17 @@ export interface AutomationDefinitionBaseStep {
   id: string
   name: string
   description?: string
+  nextStepId: string | null
 }
 
 export interface AutomationDefinitionActionStep extends AutomationDefinitionBaseStep {
   type: 'action'
   action: AutomationDefinitionAction
-  nextStepId: string | null
 }
 
 export interface AutomationDefinitionConditionStep extends AutomationDefinitionBaseStep {
   type: 'condition'
   conditions: AutomationDefinitionConditionStepCondition[]
-  nextStepId: string | null
 }
 
 export interface AutomationDefinitionLoopStep extends AutomationDefinitionBaseStep {
@@ -75,7 +74,6 @@ export interface AutomationDefinitionLoopStep extends AutomationDefinitionBaseSt
   items: string
   mode: 'sequential'
   steps: AutomationDefinitionStep[]
-  nextStepId: string | null
 }
 
 export type AutomationDefinitionStep =

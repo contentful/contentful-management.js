@@ -19,7 +19,7 @@ const getAutomationExecutionUrl = (params: GetAutomationExecutionParams) =>
   `${getBaseUrl(params)}/${params.automationExecutionId}`
 
 const getExecutionsByDefinitionUrl = (
-  params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+  params: GetSpaceEnvironmentParams & { automationDefinitionId: string },
 ) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_definitions/${params.automationDefinitionId}/automation_executions`
 
