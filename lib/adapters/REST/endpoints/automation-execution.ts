@@ -18,6 +18,11 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getAutomationExecutionUrl = (params: GetAutomationExecutionParams) =>
   `${getBaseUrl(params)}/${params.automationExecutionId}`
 
+const getExecutionsByDefinitionUrl = (
+  params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+) =>
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_definitions/${params.automationDefinitionId}/automation_executions`
+
 export const get: RestEndpoint<'AutomationExecution', 'get'> = (
   http: AxiosInstance,
   params: GetAutomationExecutionParams,
@@ -50,7 +55,7 @@ export const getForAutomationDefinition: RestEndpoint<
 ) =>
   raw.get<CursorPaginatedCollectionProp<AutomationExecutionProps>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/automation_definitions/${params.automationDefinitionId}/automation_executions`,
+    getExecutionsByDefinitionUrl(params),
     {
       headers,
       params: params.query,

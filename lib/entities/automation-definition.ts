@@ -1,4 +1,4 @@
-import type { BasicMetaSysProps, SysLink } from '../common-types'
+import type { BasicCursorPaginationOptions, BasicMetaSysProps, SysLink } from '../common-types'
 
 export type AutomationDefinitionStatus = 'published'
 
@@ -108,9 +108,6 @@ export type UpdateAutomationDefinitionProps = Omit<AutomationDefinitionProps, 's
   sys: Pick<AutomationDefinitionSysProps, 'version'>
 }
 
-export interface AutomationDefinitionQueryOptions {
+export interface AutomationDefinitionQueryOptions extends BasicCursorPaginationOptions {
   order?: string
-  limit?: number
-  pagePrev?: string
-  pageNext?: string
 }

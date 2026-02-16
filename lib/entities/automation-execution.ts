@@ -1,4 +1,4 @@
-import type { BasicMetaSysProps, Link, SysLink } from '../common-types'
+import type { BasicCursorPaginationOptions, BasicMetaSysProps, Link, SysLink } from '../common-types'
 
 export type AutomationExecutionStatus =
   | 'SCHEDULED'
@@ -27,13 +27,10 @@ export interface AutomationExecutionProps {
   errors: AutomationExecutionError[]
 }
 
-export interface AutomationExecutionQueryOptions {
+export interface AutomationExecutionQueryOptions extends BasicCursorPaginationOptions {
   'sys.labels[in]'?: string
   'sys.labels[all]'?: string
   'sys.status[in]'?: string
-  limit?: number
-  pagePrev?: string
-  pageNext?: string
   uniqueBy?: string
 }
 
