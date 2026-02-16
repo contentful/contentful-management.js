@@ -28,8 +28,6 @@ export interface AutomationExecutionProps {
 }
 
 export interface AutomationExecutionQueryOptions extends BasicCursorPaginationOptions {
-  'sys.labels[in]'?: string
-  'sys.labels[all]'?: string
   'sys.status[in]'?: string
   uniqueBy?: string
 }
