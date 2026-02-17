@@ -101,7 +101,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapBulkAction } = entities.bulkAction
   const { wrapAppAccessToken } = entities.appAccessToken
   const { wrapAgent, wrapAgentCollection } = entities.agent
-  const { wrapAgentRun, wrapAgentRunCollection } = entities.agentRun
+  const { wrapAgentRun, wrapAgentRunCollection, wrapAgentGenerateResponse } = entities.agentRun
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
   const { wrapSemanticDuplicates } = entities.semanticDuplicates
@@ -2987,7 +2987,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Generates content using an AI Agent
      * @param agentId - AI Agent ID
      * @param payload - Generation payload
-     * @return Promise for the generation response
+     * @return Promise for a simplified response containing `sys.id`, `sys.type`, and `sys.status`.
+     *         Use `getAgentRun()` with the returned `sys.id` to poll for full results.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -2997,20 +2998,20 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * client.getSpace('<space_id>')
      *   .then((space) => space.getEnvironment('<environment_id>'))
-     *   .then((environment) => environment.generateWithAgent('<agent_id>', {
-     *     messages: [
-     *       {
-     *         parts: [
-     *           {
-     *             type: 'text',
-     *             text: 'Write a short poem about Contentful'
-     *           }
-     *         ],
-     *         role: 'user'
-     *       }
-     *     ]
-     *   }))
-     *   .then((result) => console.log(result))
+     *   .then(async (environment) => {
+     *     // Start generation
+     *     const response = await environment.generateWithAgent('<agent_id>', {
+     *       messages: [
+     *         {
+     *           parts: [{ type: 'text', text: 'Write a short poem about Contentful' }],
+     *           role: 'user'
+     *         }
+     *       ]
+     *     })
+     *     // Poll for full results
+     *     const run = await environment.getAgentRun(response.sys.id)
+     *     console.log(run)
+     *   })
      *   .catch(console.error)
      * ```
      */
@@ -3025,7 +3026,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           agentId,
         },
         payload,
-      }).then((data) => wrapAgentRun(makeRequest, data))
+      }).then((data) => wrapAgentGenerateResponse(makeRequest, data))
     },
 
     /**
