@@ -70,7 +70,7 @@ export function wrapAgentRun(_makeRequest: MakeRequest, data: AgentRunProps): Ag
 
 export function wrapAgentGenerateResponse(
   _makeRequest: MakeRequest,
-  data: AgentGenerateResponse
+  data: AgentGenerateResponse,
 ): AgentGenerateResponse {
   const response = toPlainObject(copy(data))
   return freezeSys(response)
