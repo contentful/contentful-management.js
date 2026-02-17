@@ -59,6 +59,7 @@
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
 - [Reach out to us](#reach-out-to-us)
@@ -157,13 +158,10 @@ You can use the es6 import with the library as follows
 ```js
 // import createClient directly
 import { createClient } from 'contentful-management'
-const client = createClient(
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
+const client = createClient({
+  // This is the access token for this space. Normally you get the token in the Contentful web app
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 //....
 ```
 
@@ -174,35 +172,29 @@ You can use the commonjs require with the library as follows
 ```js
 // import createClient directly
 const contentful = require('contentful-management');
-const client = contentful.createClient(
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
+const client = contentful.createClient({
+  // This is the access token for this space. Normally you get the token in the Contentful web app
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 //....
 ```
 
 ## Your first request
 
-Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
+This library provides a client which exposes all CMA endpoints in a simple flat API surface.
 
 ```javascript
 import { createClient } from 'contentful-management'
-const plainClient = createClient(
-  {
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
+const client = createClient({
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 
-const environment = await plainClient.environment.get({
+const environment = await client.environment.get({
   spaceId: '<space_id>',
   environmentId: '<environment_id>',
 })
 
-const entries = await plainClient.entry.getMany({
+const entries = await client.entry.getMany({
   spaceId: '123',
   environmentId: '',
   query: {
@@ -212,21 +204,20 @@ const entries = await plainClient.entry.getMany({
 })
 
 // With scoped space and environment
-const scopedPlainClient = createClient(
+const scopedClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
   {
-    type: 'plain',
     defaults: {
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
-const entries = await scopedPlainClient.entry.getMany({
+const entries = await scopedClient.entry.getMany({
   query: {
     skip: 10,
     limit: 100,
@@ -236,7 +227,7 @@ const entries = await scopedPlainClient.entry.getMany({
  
 You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
 
-The benefits of using the "plain" version of the client, over the legacy version, are:
+The benefits of the default client are:
 
 - The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
@@ -244,15 +235,40 @@ The benefits of using the "plain" version of the client, over the legacy version
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
   - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
 
+## Cursor Based Pagination
+
+Cursor-based pagination is supported on collection endpoints for content types, entries, and assets. To use cursor-based pagination, use the related entity methods `getAssetsWithCursor`, `getContentTypesWithCursor`, and `getEntriesWithCursor`
+
+```js
+const response = await environment.getEntriesWithCursor({ limit: 10 })
+console.log(response.items) // Array of items
+console.log(response.pages?.next) // Cursor for next page
+```
+
+Use the value from `response.pages.next` to fetch the next page.
+
+```js
+const secondPage = await environment.getEntriesWithCursor({
+  limit: 2,
+  pageNext: response.pages?.next,
+})
+console.log(secondPage.items) // Array of items
+```
+
 ## Legacy Client Interface
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
+> **⚠️ Deprecated:** The nested (legacy) client is deprecated and will be removed in the next major release. Please migrate to the default client. See the [Your first request](#your-first-request) section above for examples.
+
 ```js
 import { createClient } from 'contentful-management'
-const client = createClient({
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
+const client = createClient(
+  {
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'legacy' },
+)
 
 // Get a space with the specified ID
 client.getSpace('spaceId').then((space) => {
@@ -291,12 +307,11 @@ contentfulApp.init((sdk) => {
   const cma = contentful.createClient(
     { apiAdapter: sdk.cmaAdapter },
     {
-      type: 'plain',
       defaults: {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code
@@ -442,9 +457,11 @@ To download a build that has features that are not yet released, you can use the
 npm install contentful-management@canary
 ```
 
+In addition, there may be some experimental features in the main build of this SDK that are subject to breaking changes without notice, which are listed below:
+
 ### Current experimental features
 
-Currently there are no features in experimental status.
+- **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`) are experimental and subject to breaking changes without notice.
 
 ## Reach out to us
 

@@ -7,6 +7,10 @@ import type {
   CursorBasedParams,
   QueryOptions,
 } from './common-types'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
 import type { BasicQueryOptions, MakeRequest } from './common-types'
 import entities from './entities'
 import type { CreateAppInstallationProps } from './entities/app-installation'
@@ -15,11 +19,11 @@ import type {
   CreateAppActionCallProps,
   AppActionCallRawResponseProps,
 } from './entities/app-action-call'
-import type {
-  AssetFileProp,
-  AssetProps,
-  CreateAssetFromFilesOptions,
-  CreateAssetProps,
+import {
+  type AssetFileProp,
+  type AssetProps,
+  type CreateAssetFromFilesOptions,
+  type CreateAssetProps,
 } from './entities/asset'
 import type { CreateAssetKeyProps } from './entities/asset-key'
 import type {
@@ -40,12 +44,12 @@ import type {
 } from './entities/release'
 import { wrapRelease, wrapReleaseCollection } from './entities/release'
 
-import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
-import type {
-  CreateEntryProps,
-  EntryProps,
-  EntryReferenceOptionsProps,
-  EntryReferenceProps,
+import { type ContentTypeProps, type CreateContentTypeProps } from './entities/content-type'
+import {
+  type CreateEntryProps,
+  type EntryProps,
+  type EntryReferenceOptionsProps,
+  type EntryReferenceProps,
 } from './entities/entry'
 import type { EnvironmentProps } from './entities/environment'
 import type { CreateExtensionProps } from './entities/extension'
@@ -61,6 +65,12 @@ import type { CreateAppAccessTokenProps } from './entities/app-access-token'
 import type { ResourceQueryOptions } from './entities/resource'
 import type { AiActionInvocationType } from './entities/ai-action-invocation'
 import { wrapAiActionInvocation } from './entities/ai-action-invocation'
+import type { AgentGeneratePayload } from './entities/agent'
+import type { AgentRunQueryOptions } from './entities/agent-run'
+import type { GetSemanticDuplicatesProps } from './entities/semantic-duplicates'
+import type { GetSemanticRecommendationsProps } from './entities/semantic-recommendations'
+import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps } from './entities/semantic-search'
 
 /**
  * @private
@@ -75,9 +85,10 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapEnvironment } = entities.environment
-  const { wrapContentType, wrapContentTypeCollection } = entities.contentType
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapAsset, wrapAssetCollection } = entities.asset
+  const { wrapContentType, wrapContentTypeCollection, wrapContentTypeCursorPaginatedCollection } =
+    entities.contentType
+  const { wrapEntry, wrapEntryCollection, wrapEntryTypeCursorPaginatedCollection } = entities.entry
+  const { wrapAsset, wrapAssetCollection, wrapAssetTypeCursorPaginatedCollection } = entities.asset
   const { wrapAssetKey } = entities.assetKey
   const { wrapLocale, wrapLocaleCollection } = entities.locale
   const { wrapSnapshotCollection } = entities.snapshot
@@ -89,8 +100,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapAppActionCall } = entities.appActionCall
   const { wrapBulkAction } = entities.bulkAction
   const { wrapAppAccessToken } = entities.appAccessToken
+  const { wrapAgent, wrapAgentCollection } = entities.agent
+  const { wrapAgentRun, wrapAgentRunCollection } = entities.agentRun
   const { wrapResourceTypesForEnvironmentCollection } = entities.resourceType
   const { wrapResourceCollection } = entities.resource
+  const { wrapSemanticDuplicates } = entities.semanticDuplicates
+  const { wrapSemanticRecommendations } = entities.semanticRecommendations
+  const { wrapSemanticReferenceSuggestions } = entities.semanticReferenceSuggestions
+  const { wrapSemanticSearch } = entities.semanticSearch
 
   return {
     /**
@@ -492,6 +509,44 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapContentTypeCollection(makeRequest, data))
     },
+
+    /**
+     * Gets a collection of Content Types with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Content Types
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getContentTypesWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getContentTypesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'ContentType',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapContentTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Creates a Content Type
      * @param data - Object representation of the Content Type to be created
@@ -741,6 +796,45 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets a collection of Entries with cursor based pagination
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getEntriesWithCursor({'content_type': 'foo'})) // you can add more queries as 'key': 'value'
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEntriesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
+    /**
      * Gets a collection of published Entries
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @return Promise for a collection of published Entries
@@ -769,6 +863,43 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query: query }).params,
         },
       }).then((data) => wrapEntryCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of published Entries with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of published Entries
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedEntriesWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedEntriesWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Entry',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapEntryTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
     },
 
     /**
@@ -955,6 +1086,46 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
+    /**
+     * Gets a collection of Assets with cursor based pagination
+     * Warning: if you are using the select operator, when saving, any field that was not selected will be removed
+     * from your entry in the backend
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of Assets
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getAssetsWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getAssetsWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Gets a collection of published Assets
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
@@ -985,6 +1156,44 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
       }).then((data) => wrapAssetCollection(makeRequest, data))
     },
+
+    /**
+     * Gets a collection of published Assets with cursor based pagination
+     * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
+     * @return Promise for a collection of published Assets
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment-id>'))
+     * .then((environment) => environment.getPublishedAssetsWithCursor())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getPublishedAssetsWithCursor(query: BasicCursorPaginationOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      const normalizedQueryParams = normalizeCursorPaginationParameters(query)
+      return makeRequest({
+        entityType: 'Asset',
+        action: 'getPublished',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query: createRequestConfig({ query: normalizedQueryParams }).params,
+        },
+      }).then((data) =>
+        wrapAssetTypeCursorPaginatedCollection(
+          makeRequest,
+          normalizeCursorPaginationResponse(data),
+        ),
+      )
+    },
+
     /**
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
@@ -2603,6 +2812,285 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           invocationId,
         },
       }).then((data) => wrapAiActionInvocation(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Duplicates for the given entity ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Duplicates
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticDuplicates({
+     *      entityId: '<entity_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticDuplicates(payload: GetSemanticDuplicatesProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticDuplicates',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticDuplicates(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Recommendations for the given entity ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Recommendations
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticRecommendations({
+     *      entityId: '<entity_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticRecommendations(payload: GetSemanticRecommendationsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticRecommendations',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticRecommendations(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
+     * @param payload - Object containing the entityId and optional filters
+     * @return Promise for Semantic Reference Suggestions
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticRecommendations({
+     *      entityId: '<entity_id>',
+     *      referenceFieldId: '<reference_field_id>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticReferenceSuggestions(payload: GetSemanticReferenceSuggestionsProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticReferenceSuggestions',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticReferenceSuggestions(makeRequest, data))
+    },
+
+    /**
+     * Retrieves Semantic Search results for the given query
+     * @param payload - Object containing the search query and optional filters
+     * @return Promise for Semantic Search results
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getSemanticSearch({
+     *      query: '<search_query>',
+     *      filters: {
+     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
+     *      }
+     *    })
+     */
+    getSemanticSearch(payload: GetSemanticSearchProps) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'SemanticSearch',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+        payload,
+      }).then((data) => wrapSemanticSearch(makeRequest, data))
+    },
+
+    /**
+     * Gets an AI Agent
+     * @param agentId - AI Agent ID
+     * @return Promise for an AI Agent
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgent('<agent_id>'))
+     *   .then((agent) => console.log(agent))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgent(agentId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          agentId,
+        },
+      }).then((data) => wrapAgent(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of AI Agents
+     * @return Promise for a collection of AI Agents
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgents())
+     *   .then((response) => console.log(response.items))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgents() {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapAgentCollection(makeRequest, data))
+    },
+
+    /**
+     * Generates content using an AI Agent
+     * @param agentId - AI Agent ID
+     * @param payload - Generation payload
+     * @return Promise for the generation response
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.generateWithAgent('<agent_id>', {
+     *     messages: [
+     *       {
+     *         parts: [
+     *           {
+     *             type: 'text',
+     *             text: 'Write a short poem about Contentful'
+     *           }
+     *         ],
+     *         role: 'user'
+     *       }
+     *     ]
+     *   }))
+     *   .then((result) => console.log(result))
+     *   .catch(console.error)
+     * ```
+     */
+    generateWithAgent(agentId: string, payload: AgentGeneratePayload) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'Agent',
+        action: 'generate',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          agentId,
+        },
+        payload,
+      }).then((data) => wrapAgentRun(makeRequest, data))
+    },
+
+    /**
+     * Gets an AI Agent Run
+     * @param runId - AI Agent Run ID
+     * @return Promise for an AI Agent Run
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgentRun('<run_id>'))
+     *   .then((run) => console.log(run))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgentRun(runId: string) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AgentRun',
+        action: 'get',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          runId,
+        },
+      }).then((data) => wrapAgentRun(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of AI Agent Runs with optional filtering
+     * @param query - Object with search parameters (agentIn, statusIn)
+     * @return Promise for a collection of AI Agent Runs
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEnvironment('<environment_id>'))
+     *   .then((environment) => environment.getAgentRuns({
+     *     agentIn: ['agent1', 'agent2'],
+     *     statusIn: ['COMPLETED', 'IN_PROGRESS']
+     *   }))
+     *   .then((response) => console.log(response.items))
+     *   .catch(console.error)
+     * ```
+     */
+    getAgentRuns(query: AgentRunQueryOptions = {}) {
+      const raw = this.toPlainObject() as EnvironmentProps
+      return makeRequest({
+        entityType: 'AgentRun',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+          query,
+        },
+      }).then((data) => wrapAgentRunCollection(makeRequest, data))
     },
   }
 }

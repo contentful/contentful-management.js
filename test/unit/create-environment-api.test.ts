@@ -18,6 +18,11 @@ import {
   extensionMock,
   functionCollectionMock,
   functionLogMock,
+  semanticDuplicatesMock,
+  semanticRecommendationsMock,
+  semanticReferenceSuggestionsMock,
+  semanticSearchMock,
+  mockCursorPaginatedCollection,
 } from './mocks/entities'
 import { describe, test, expect } from 'vitest'
 import { toPlainObject } from 'contentful-sdk-core'
@@ -27,14 +32,16 @@ import {
   makeEntityMethodFailingTest,
   makeGetCollectionTest,
   makeGetEntityTest,
+  makeGetPaginatedCollectionTest,
   testGettingEntrySDKObject,
 } from './test-creators/static-entity-methods'
-import { wrapEntry } from '../../lib/entities/entry'
-import { wrapAsset } from '../../lib/entities/asset'
+import { EntryProps, wrapEntry } from '../../lib/entities/entry'
+import { AssetProps, wrapAsset } from '../../lib/entities/asset'
 import { wrapTagCollection } from '../../lib/entities/tag'
 import setupMakeRequest from './mocks/makeRequest'
 import createEnvironmentApi from '../../lib/create-environment-api'
 import { AppActionCallRawResponseProps } from '../../lib/entities/app-action-call'
+import { ContentTypeProps } from '../../lib/entities/content-type'
 
 function setup<T>(promise: Promise<T>) {
   const entitiesMock = setupEntitiesMock()
@@ -128,6 +135,20 @@ describe('A createEnvironmentApi', () => {
   test('API call getContentTypes fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getContentTypes',
+    })
+  })
+
+  test('API call getContentTypesWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'contentType',
+      mockToReturn: mockCursorPaginatedCollection<ContentTypeProps>(contentTypeMock),
+      methodToTest: 'getContentTypesWithCursor',
+    })
+  })
+
+  test('API call getContentTypesWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getContentTypesWithCursor',
     })
   })
 
@@ -256,6 +277,34 @@ describe('A createEnvironmentApi', () => {
     })
   })
 
+  test('API call getEntriesWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'entry',
+      mockToReturn: mockCursorPaginatedCollection<EntryProps>(entryMock),
+      methodToTest: 'getEntriesWithCursor',
+    })
+  })
+
+  test('API call getEntriesWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getEntriesWithCursor',
+    })
+  })
+
+  test('API call getPublishedEntriesWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'entry',
+      mockToReturn: mockCursorPaginatedCollection<EntryProps>(entryMock),
+      methodToTest: 'getPublishedEntriesWithCursor',
+    })
+  })
+
+  test('API call getPublishedEntriesWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getPublishedEntriesWithCursor',
+    })
+  })
+
   test('API call createEntry', async () => {
     const { api, makeRequest, entitiesMock } = setup(Promise.resolve(entryMock))
     entitiesMock.entry.wrapEntry.mockReturnValue(entryMock)
@@ -325,6 +374,34 @@ describe('A createEnvironmentApi', () => {
   test('API call getAssets fails', () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getAssets',
+    })
+  })
+
+  test('API call getAssetsWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'asset',
+      mockToReturn: mockCursorPaginatedCollection<AssetProps>(assetMock),
+      methodToTest: 'getAssetsWithCursor',
+    })
+  })
+
+  test('API call getAssetsWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAssetsWithCursor',
+    })
+  })
+
+  test('API call getPublishedAssetsWithCursor', async () => {
+    return makeGetPaginatedCollectionTest(setup, {
+      entityType: 'asset',
+      mockToReturn: mockCursorPaginatedCollection<AssetProps>(assetMock),
+      methodToTest: 'getPublishedAssetsWithCursor',
+    })
+  })
+
+  test('API call getPublishedAssetsWithCursor fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getPublishedAssetsWithCursor',
     })
   })
 
@@ -768,6 +845,147 @@ describe('A createEnvironmentApi', () => {
   test('API call getManyFunctionLogs fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getFunctionLogs',
+    })
+  })
+
+  test('API call getSemanticDuplicates', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticDuplicates',
+      mockToReturn: semanticDuplicatesMock,
+      methodToTest: 'getSemanticDuplicates',
+    })
+  })
+
+  test('API call getSemanticDuplicates fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticDuplicates',
+    })
+  })
+
+  test('API call getSemanticRecommendations', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticRecommendations',
+      mockToReturn: semanticRecommendationsMock,
+      methodToTest: 'getSemanticRecommendations',
+    })
+  })
+
+  test('API call getSemanticRecommendations fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticRecommendations',
+    })
+  })
+
+  test('API call getSemanticReferenceSuggestions', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticReferenceSuggestions',
+      mockToReturn: semanticReferenceSuggestionsMock,
+      methodToTest: 'getSemanticReferenceSuggestions',
+    })
+  })
+
+  test('API call getSemanticReferenceSuggestions fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticReferenceSuggestions',
+    })
+  })
+
+  test('API call getSemanticSearch', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticSearch',
+      mockToReturn: semanticSearchMock,
+      methodToTest: 'getSemanticSearch',
+    })
+  })
+
+  test('API call getSemanticSearch fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticSearch',
+    })
+  })
+
+  // AI Agents
+
+  test('API call getAgent', async () => {
+    const agent = cloneMock('agent')
+    const { api, entitiesMock } = setup(Promise.resolve(agent))
+    entitiesMock.agent.wrapAgent.mockReturnValue(agent)
+
+    return api.getAgent('agent-id').then((r) => {
+      expect(r).to.eql(agent)
+    })
+  })
+
+  test('API call getAgent fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgent',
+    })
+  })
+
+  test('API call getAgents', async () => {
+    const agentCollection = mockCollection(cloneMock('agent'))
+    const { api, entitiesMock } = setup(Promise.resolve(agentCollection))
+    entitiesMock.agent.wrapAgentCollection.mockReturnValue(agentCollection)
+
+    return api.getAgents().then((r) => {
+      expect(r).to.eql(agentCollection)
+    })
+  })
+
+  test('API call getAgents fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgents',
+    })
+  })
+
+  test('API call generateWithAgent', async () => {
+    const generateResponse = { result: 'generated content' }
+    const { api } = setup(Promise.resolve(generateResponse))
+
+    return api
+      .generateWithAgent('agent-id', {
+        messages: [{ parts: [{ type: 'text', text: 'Hello' }], role: 'user' }],
+      })
+      .then((r) => {
+        expect(r).to.eql(generateResponse)
+      })
+  })
+
+  test('API call generateWithAgent fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'generateWithAgent',
+    })
+  })
+
+  test('API call getAgentRun', async () => {
+    const agentRun = cloneMock('agentRun')
+    const { api, entitiesMock } = setup(Promise.resolve(agentRun))
+    entitiesMock.agentRun.wrapAgentRun.mockReturnValue(agentRun)
+
+    return api.getAgentRun('run-id').then((r) => {
+      expect(r).to.eql(agentRun)
+    })
+  })
+
+  test('API call getAgentRun fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgentRun',
+    })
+  })
+
+  test('API call getAgentRuns', async () => {
+    const agentRunCollection = mockCollection(cloneMock('agentRun'))
+    const { api, entitiesMock } = setup(Promise.resolve(agentRunCollection))
+    entitiesMock.agentRun.wrapAgentRunCollection.mockReturnValue(agentRunCollection)
+
+    return api.getAgentRuns().then((r) => {
+      expect(r).to.eql(agentRunCollection)
+    })
+  })
+
+  test('API call getAgentRuns fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAgentRuns',
     })
   })
 

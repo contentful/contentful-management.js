@@ -48,6 +48,7 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - TypeScript projects importing from `contentful-management/types` with older module resolution ([Importing Types from 'contentful-management/types'](#importing-types-from-contentful-managementtypes))
 - Code using the `Stream` type ([Breaking Changes](#breaking-changes))
 - Code using the `entry.patch` method ([Version param is now required for entry patch method](#version-param-is-now-required-for-entry-patch-method))
+- Code relying on the default nested (legacy) client ([Default client changed from nested to plain](#default-client-changed-from-nested-to-plain))
 
 ### Breaking Changes
 
@@ -162,7 +163,62 @@ import type { Space } from 'contentful-management'
 
 #### Version param is now required for entry patch method
 
-When making requests to the `entry.patch` method, the `version` param was previously optional, but required in practice. We fixed the confusion by making the type for version required.
+The `version` parameter is now required when calling `client.entry.patch()`. Previously, the TypeScript types incorrectly marked `version` as optional, even though the method implementation always expected it to be provided.
+
+**What changed:**
+
+- The `version` parameter in `entry.patch()` is now required in the TypeScript types
+- Previously, some users worked around the missing type by passing `version` via the `X-Contentful-Version` header, which will no longer be necessary
+
+**Migration:**
+If you were previously passing `version` in the headers or not passing it at all, you'll need to update your code to include `version` in the params object:
+
+```typescript
+// Before (if you were using headers workaround)
+await client.entry.patch({ spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy' }, patches, {
+  'X-Contentful-Version': '123',
+})
+
+// After
+await client.entry.patch(
+  { spaceId: 'xxx', environmentId: 'xxx', entryId: 'yyy', version: 123 },
+  patches,
+)
+```
+
+**Why this change:**
+The `version` parameter was always expected by the implementation (it gets transformed into the `X-Contentful-Version` header internally), but the TypeScript types were incorrect. This fix aligns the types with the actual API behavior and ensures proper type safety.
+
+#### Taxonomy entity update methods now use PUT
+
+The `update` method for `concept` and `conceptScheme` now performs a PUT request instead of a PATCH request.
+
+- If you were using `update()` with `OpPatch[]`, use `patch()` instead
+- If you were using `updatePut()`, use `update()` instead. The new `update` is identical to the old `updatePut`.
+
+#### Default client changed from nested to plain
+
+The `createClient` function now defaults to the **plain client** instead of the nested (legacy) client.
+
+**What changed:**
+
+- Previously, calling `createClient({ accessToken: 'token' })` returned the nested client
+- Now, the same call returns the plain client
+- To continue using the legacy nested client, you must explicitly pass `{ type: 'legacy' }`
+
+**Migration:**
+
+If you need to continue using the legacy nested client, update your code to explicitly request it:
+
+```typescript
+// Before - implicitly used nested client
+const client = createClient({ accessToken: 'token' })
+
+// After - explicitly request legacy nested client
+const client = createClient({ accessToken: 'token' }, { type: 'legacy' })
+```
+
+**Recommended:** We strongly recommend migrating to the plain client API, as the legacy nested client is deprecated and will be removed in the next major version. See the README for migration guidance.
 
 ### Troubleshooting
 

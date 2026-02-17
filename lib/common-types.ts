@@ -190,6 +190,25 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
+import type { AgentGeneratePayload, AgentProps } from './entities/agent'
+import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
+import type {
+  UpdateVectorizationStatusProps,
+  VectorizationStatusProps,
+} from './entities/vectorization-status'
+import type {
+  GetSemanticDuplicatesProps,
+  SemanticDuplicatesProps,
+} from './entities/semantic-duplicates'
+import type {
+  GetSemanticRecommendationsProps,
+  SemanticRecommendationsProps,
+} from './entities/semantic-recommendations'
+import type {
+  GetSemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestionsProps,
+} from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -358,6 +377,7 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  skip?: never
   pageNext?: string
   pagePrev?: string
 }
@@ -439,6 +459,13 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
 
+  (opts: MROpts<'Agent', 'get', UA>): MRReturn<'Agent', 'get'>
+  (opts: MROpts<'Agent', 'getMany', UA>): MRReturn<'Agent', 'getMany'>
+  (opts: MROpts<'Agent', 'generate', UA>): MRReturn<'Agent', 'generate'>
+
+  (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
+  (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
+
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
   (opts: MROpts<'AppAction', 'delete', UA>): MRReturn<'AppAction', 'delete'>
@@ -486,7 +513,9 @@ type MRInternal<UA extends boolean> = {
   ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
+  (opts: MROpts<'Asset', 'getManyWithCursor', UA>): MRReturn<'Asset', 'getManyWithCursor'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
+  (opts: MROpts<'Asset', 'getPublishedWithCursor', UA>): MRReturn<'Asset', 'getPublishedWithCursor'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
   (opts: MROpts<'Asset', 'delete', UA>): MRReturn<'Asset', 'delete'>
@@ -551,7 +580,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
-  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -561,11 +589,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
-  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
+  (
+    opts: MROpts<'ContentType', 'getManyWithCursor', UA>,
+  ): MRReturn<'ContentType', 'getManyWithCursor'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
   (opts: MROpts<'ContentType', 'create', UA>): MRReturn<'ContentType', 'create'>
   (opts: MROpts<'ContentType', 'createWithId', UA>): MRReturn<'ContentType', 'createWithId'>
@@ -615,7 +645,9 @@ type MRInternal<UA extends boolean> = {
   ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
+  (opts: MROpts<'Entry', 'getManyWithCursor', UA>): MRReturn<'Entry', 'getManyWithCursor'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
+  (opts: MROpts<'Entry', 'getPublishedWithCursor', UA>): MRReturn<'Entry', 'getPublishedWithCursor'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
@@ -853,6 +885,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
+  (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
+  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
+  (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
+  (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
+  (
+    opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
+  ): MRReturn<'SemanticReferenceSuggestions', 'get'>
+  (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
   (opts: MROpts<'Webhook', 'getCallDetails', UA>): MRReturn<'Webhook', 'getCallDetails'>
@@ -1024,6 +1065,36 @@ export type MRActions = {
     get: {
       params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
       return: AiActionInvocationProps
+    }
+  }
+  Agent: {
+    get: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentProps>
+    }
+    generate: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      payload: AgentGeneratePayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentRunProps
+    }
+  }
+  AgentRun: {
+    get: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentRunProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentRunProps>
     }
   }
   AppAction: {
@@ -1256,10 +1327,20 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
+    }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
     }
     get: {
       params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
@@ -1427,11 +1508,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: OpPatch[]
-      return: ConceptProps
-    }
-    updatePut: {
-      params: UpdateConceptParams
       payload: CreateConceptProps
       return: ConceptProps
     }
@@ -1478,11 +1554,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptSchemeParams
-      payload: OpPatch[]
-      return: ConceptSchemeProps
-    }
-    updatePut: {
-      params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps
     }
@@ -1508,6 +1579,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<ContentTypeProps>
+    }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<ContentTypeProps>
     }
     create: {
       params: GetSpaceEnvironmentParams
@@ -1673,9 +1748,17 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
     }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
+    }
     getMany: {
       params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any>>
+    }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
     }
     get: {
       params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
@@ -2071,6 +2154,38 @@ export type MRActions = {
     }
     delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
   }
+  SemanticDuplicates: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticDuplicatesProps
+      return: SemanticDuplicatesProps
+    }
+  }
+  SemanticRecommendations: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticRecommendationsProps
+      return: SemanticRecommendationsProps
+    }
+  }
+  SemanticReferenceSuggestions: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticReferenceSuggestionsProps
+      return: SemanticReferenceSuggestionsProps
+    }
+  }
+  SemanticSearch: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticSearchProps
+      return: SemanticSearchProps
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -2288,6 +2403,19 @@ export type MRActions = {
   UserUIConfig: {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
+  }
+  VectorizationStatus: {
+    get: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      return: VectorizationStatusProps
+    }
+    update: {
+      params: GetOrganizationParams
+      headers?: RawAxiosRequestHeaders
+      payload: UpdateVectorizationStatusProps
+      return: VectorizationStatusProps
+    }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
@@ -2635,4 +2763,9 @@ export enum ScheduledActionReferenceFilters {
 
 export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
+}
+
+export type SemanticRequestFilter = {
+  entityType?: 'Entry'
+  contentTypeIds?: string[]
 }

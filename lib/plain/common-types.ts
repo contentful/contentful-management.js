@@ -8,6 +8,7 @@ import type {
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
   CreateWithIdReleaseEntryParams,
+  CursorBasedParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
@@ -139,6 +140,13 @@ import type { OAuthApplicationPlainClientAPI } from './entities/oauth-applicatio
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
+import type { AgentPlainClientAPI } from './entities/agent'
+import type { AgentRunPlainClientAPI } from './entities/agent-run'
+import type { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
+import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-duplicates'
+import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
+import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
+import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 
 export type PlainClientAPI = {
   raw: {
@@ -152,6 +160,8 @@ export type PlainClientAPI = {
   }
   aiAction: AiActionPlainClientAPI
   aiActionInvocation: AiActionInvocationPlainClientAPI
+  agent: AgentPlainClientAPI
+  agentRun: AgentRunPlainClientAPI
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
@@ -274,6 +284,9 @@ export type PlainClientAPI = {
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
+    getManyWithCursor(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
+    ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
@@ -306,11 +319,23 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    getPublishedWithCursor<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,
@@ -370,11 +395,23 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    getPublishedWithCursor(
+      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    getManyWithCursor(
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
+      rawData?: unknown,
+      headers?: RawAxiosRequestHeaders,
+    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
     get(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
@@ -688,4 +725,9 @@ export type PlainClientAPI = {
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
+  vectorizationStatus: VectorizationStatusPlainClientAPI
+  semanticSearch: SemanticSearchPlainClientAPI
+  semanticDuplicates: SemanticDuplicatesPlainClientAPI
+  semanticRecommendations: SemanticRecommendationsPlainClientAPI
+  semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
 }
