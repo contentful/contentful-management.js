@@ -147,6 +147,7 @@ import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-dupli
 import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
 import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
+import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
 export type PlainClientAPI = {
   raw: {
@@ -277,6 +278,7 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
+  componentType: ComponentTypePlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {

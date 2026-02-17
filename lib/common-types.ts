@@ -61,6 +61,7 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
+import type { ComponentTypeProps, ComponentTypeQueryOptions } from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -573,6 +574,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
+  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
+
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
   (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
@@ -1028,7 +1031,10 @@ export type MRActions = {
       return: AiActionProps
     }
     invoke: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceEnvironmentParams & {
+        aiActionId: string
+        query?: { status?: 'all' | 'published' }
+      }
       payload: AiActionInvocationType
       headers?: RawAxiosRequestHeaders
       return: AiActionInvocationProps
@@ -1462,6 +1468,12 @@ export type MRActions = {
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
+  }
+  ComponentType: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
+      return: CollectionProp<ComponentTypeProps>
+    }
   }
   Concept: {
     create: {
