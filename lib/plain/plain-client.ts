@@ -221,6 +221,9 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'Comment', 'update') as PlainClientAPI['comment']['update'],
       delete: wrap(wrapParams, 'Comment', 'delete'),
     },
+    componentType: {
+      getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),

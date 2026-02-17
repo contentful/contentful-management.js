@@ -102,7 +102,10 @@ export const unpublish: RestEndpoint<'AiAction', 'unpublish'> = (
 
 export const invoke: RestEndpoint<'AiAction', 'invoke'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { aiActionId: string },
+  params: GetSpaceEnvironmentParams & {
+    aiActionId: string
+    query?: { status?: 'all' | 'published' }
+  },
   data: AiActionInvocationType,
   headers?: RawAxiosRequestHeaders,
 ) => {
@@ -110,6 +113,6 @@ export const invoke: RestEndpoint<'AiAction', 'invoke'> = (
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/actions/${params.aiActionId}/invoke`,
     data,
-    { headers },
+    { headers, params: params.query },
   )
 }
