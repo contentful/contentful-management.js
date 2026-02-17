@@ -1,7 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { OpPatch } from 'json-patch'
 import type {
+  OpPatch,
   CursorPaginatedCollectionProp,
   DeleteConceptSchemeParams,
   GetConceptSchemeParams,
