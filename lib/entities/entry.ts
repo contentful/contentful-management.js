@@ -10,7 +10,7 @@ import type {
   MetadataProps,
 } from '../common-types'
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
-import type { ContentfulEntryApi } from '../create-entry-api'
+import type { ContentfulEntryAPI } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
@@ -47,7 +47,7 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
-export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryAPI {}
 
 export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
   ? Omit<T, 'sys'> & {
