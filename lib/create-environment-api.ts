@@ -107,7 +107,7 @@ import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-
 import { wrapSemanticSearch } from './entities/semantic-search'
 
 /**
- * @private
+ * @internal
  */
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
@@ -115,7 +115,7 @@ export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
  * Creates API object with methods to access the Environment API
  * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
- * @private
+ * @internal
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   return {

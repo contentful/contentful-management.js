@@ -8,18 +8,20 @@ export type PlainClientDefaultParams = {
   releaseId?: string
 }
 /**
- * @private
+ * @internal
  */
 type UnionOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never
 
 /**
- * @private Not meant to be used directly by consumers and may change at any time
+ * Makes {@link PlainClientDefaultParams} fields optional in API method parameter types.
+ * When default params (spaceId, environmentId, etc.) are set on the plain client,
+ * those fields become optional in individual method calls.
  */
 export type OptionalDefaults<T> = UnionOmit<T, keyof PlainClientDefaultParams> &
   Partial<Pick<T, Extract<keyof T, keyof PlainClientDefaultParams>>>
 
 /**
- * @private
+ * @internal
  */
 export type WrapParams = {
   makeRequest: MakeRequest
@@ -27,7 +29,7 @@ export type WrapParams = {
 }
 
 /**
- * @private
+ * @internal
  */
 export type WrapFn<
   ET extends keyof MRActions,
@@ -51,7 +53,7 @@ export type WrapFn<
       : (params: Params, payload: Payload, headers: Headers) => Return
 
 /**
- * @private
+ * @internal
  */
 export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
   { makeRequest, defaults }: WrapParams,

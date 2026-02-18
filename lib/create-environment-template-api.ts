@@ -6,7 +6,10 @@ import type {
   ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
 
-export type ContentfulEnvironmentTemplateApi = ReturnType<typeof createEnvironmentTemplateApi>
+/**
+ * @internal
+ */
+export type ContentfulEnvironmentTemplateAPI = ReturnType<typeof createEnvironmentTemplateApi>
 
 import {
   wrapEnvironmentTemplate,
@@ -14,6 +17,9 @@ import {
 } from './entities/environment-template'
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 
+/**
+ * @internal
+ */
 export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizationId: string) {
   return {
     /**

@@ -39,7 +39,7 @@ import { wrapScheduledAction, wrapScheduledActionCollection } from './entities/s
 import { wrapAiAction, wrapAiActionCollection } from './entities/ai-action'
 
 /**
- * @private
+ * @internal
  */
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
@@ -47,7 +47,7 @@ export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
  * Creates API object with methods to access the Space API
  * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulSpaceAPI}
- * @private
+ * @internal
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
   return {

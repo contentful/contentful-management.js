@@ -7,12 +7,12 @@ import { wrapAppDefinition } from './entities/app-definition'
 import type { UpsertResourceProviderProps } from './entities/resource-provider'
 
 /**
- * @private
+ * @internal
  */
 export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionApi>
 
 /**
- * @private
+ * @internal
  */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDefinitionProps) => ({
