@@ -3,7 +3,6 @@ import type { UserUIConfig } from './entities/user-ui-config'
 
 import { wrapUserUIConfig } from './entities/user-ui-config'
 
-
 /**
  * @internal
  */
