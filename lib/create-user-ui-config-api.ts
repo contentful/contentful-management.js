@@ -4,12 +4,12 @@ import type { UserUIConfig } from './entities/user-ui-config'
 import { wrapUserUIConfig } from './entities/user-ui-config'
 
 /**
- * @private
+ * @internal
  */
-export type ContentfulUIConfigApi = ReturnType<typeof createUserUIConfigApi>
+export type ContentfulUserUIConfigAPI = ReturnType<typeof createUserUIConfigApi>
 
 /**
- * @private
+ * @internal
  */
 export default function createUserUIConfigApi(makeRequest: MakeRequest) {
   const getParams = (self: UserUIConfig) => {

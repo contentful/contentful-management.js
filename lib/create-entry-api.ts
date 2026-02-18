@@ -10,12 +10,12 @@ import { wrapTask, wrapTaskCollection } from './entities/task'
 import { wrapComment, wrapCommentCollection } from './entities/comment'
 
 /**
- * @private
+ * @internal
  */
-export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
+export type ContentfulEntryAPI = ReturnType<typeof createEntryApi>
 
 /**
- * @private
+ * @internal
  */
 export default function createEntryApi(makeRequest: MakeRequest) {
   const getParams = (self: Entry) => {
