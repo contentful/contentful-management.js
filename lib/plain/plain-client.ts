@@ -225,6 +225,7 @@ export const createPlainClient = (
     },
     componentType: {
       getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
+      get: wrap(wrapParams, 'ComponentType', 'get'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
