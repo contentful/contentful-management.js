@@ -76,13 +76,6 @@ declare global {
  * ```
  */
 export function createClient(clientOptions: ClientOptions): PlainClientAPI
-export function createClient(
-  clientOptions: ClientOptions,
-  opts?: {
-    type?: string
-    defaults?: PlainClientDefaultParams
-  },
-): PlainClientAPI
 /**
  * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
  */
@@ -103,7 +96,6 @@ export function createClient(
   const sdkMain =
     opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error __VERSION__ is injected by rollup at build time
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
     clientOptions.integration,
@@ -116,7 +108,6 @@ export function createClient(
   const makeRequest: MakeRequest = (options: Parameters<MakeRequest>[0]): ReturnType<MakeRequest> =>
     adapter.makeRequest({ ...options, userAgent })
 
-<<<<<<< HEAD
   if (opts.type === 'legacy') {
     console.warn(
       '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
