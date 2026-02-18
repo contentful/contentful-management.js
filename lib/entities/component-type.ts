@@ -21,6 +21,7 @@ export type ComponentTypeContentProperty = {
   name: string
   type: string
   required: boolean
+  defaultValue?: unknown
 }
 
 // Design property validation option
@@ -49,8 +50,13 @@ export type ComponentTypeDimensionKeyMap = {
   designProperties: Record<string, Record<string, string>>
 }
 
-// Content property value types
-export type ContentPropertyValue = `$contentProperties/${string}` | `$contentBindings/${string}`
+// Content property pointer value types
+export type ContentPropertyPointerValue =
+  | `$contentProperties/${string}`
+  | `$contentBindings/${string}`
+
+// Design property pointer value types
+export type DesignPropertyPointerValue = `$designProperties/${string}`
 
 // Design property value types
 export type ManualDesignValue = {
@@ -63,14 +69,18 @@ export type DesignTokenValue = {
   token: string
 }
 
-export type DesignPropertyValue = string | Record<string, ManualDesignValue | DesignTokenValue>
+export type DesignPropertyValue =
+  | ManualDesignValue
+  | DesignTokenValue
+  | DesignPropertyPointerValue
+  | Record<string, ManualDesignValue | DesignTokenValue | DesignPropertyPointerValue>
 
 // Tree node types for component tree
 export type ComponentNode = {
   id: string
   nodeType: 'Component'
   componentTypeId: string
-  contentProperties: Record<string, ContentPropertyValue>
+  contentProperties: Record<string, ContentPropertyPointerValue | unknown>
   designProperties: Record<string, DesignPropertyValue>
   slots: Record<string, TreeNode[]>
   contentBindings?: string
@@ -99,11 +109,11 @@ export type ComponentTypeDataTypeField = {
   source?: string
 }
 
+// DataAssembly link type
+export type DataAssemblyLink = Link<'DataAssembly'>
+
 // Content bindings definition
-export type ComponentTypeContentBindings = {
-  id: string
-  type: 'Link'
-  linkType: 'DataAssembly'
+export type ComponentTypeContentBindings = DataAssemblyLink['sys'] & {
   required: boolean
   dataType: ComponentTypeDataTypeField[]
 }
@@ -144,4 +154,5 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
+  dataAssemblies?: DataAssemblyLink[]
 }
