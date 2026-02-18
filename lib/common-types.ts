@@ -195,6 +195,17 @@ import type {
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
 import type {
+  AutomationDefinitionProps,
+  AutomationDefinitionQueryOptions,
+  CreateAutomationDefinitionProps,
+  UpdateAutomationDefinitionProps,
+} from './entities/automation-definition'
+import type {
+  AutomationExecutionByDefinitionQueryOptions,
+  AutomationExecutionProps,
+  AutomationExecutionQueryOptions,
+} from './entities/automation-execution'
+import type {
   UpdateVectorizationStatusProps,
   VectorizationStatusProps,
 } from './entities/vectorization-status'
@@ -1076,6 +1087,55 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+  }
+  AutomationDefinition: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationDefinitionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      payload: UpdateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    delete: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: void
+    }
+  }
+  AutomationExecution: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationExecutionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationExecutionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
+    }
+    getForAutomationDefinition: {
+      params: GetSpaceEnvironmentParams & {
+        automationDefinitionId: string
+        query?: AutomationExecutionByDefinitionQueryOptions
+      }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {
@@ -2724,6 +2784,12 @@ export type UpdateConceptSchemeParams = GetOrganizationParams & {
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
+  automationDefinitionId: string
+}
+export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
+  automationExecutionId: string
+}
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }
