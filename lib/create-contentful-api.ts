@@ -53,7 +53,7 @@ export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 
 /**
- * @private
+ * @internal
  */
 export default function createClientApi(makeRequest: MakeRequest) {
   return {

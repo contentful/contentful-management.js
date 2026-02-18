@@ -7,7 +7,7 @@ import { wrap } from './wrappers/wrap'
 export type { PlainClientDefaultParams } from './wrappers/wrap'
 
 /**
- * @private
+ * @internal
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,

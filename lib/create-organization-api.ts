@@ -45,7 +45,7 @@ import { wrapSpaceCollection } from './entities/space'
 import { wrapVectorizationStatus } from './entities/vectorization-status'
 
 /**
- * @private
+ * @internal
  */
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
@@ -53,7 +53,7 @@ export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
  * Creates API object with methods to access the Organization API
  * @param {MakeRequest} makeRequest - function to make requests via an adapter
  * @return {ContentfulOrganizationAPI}
- * @private
+ * @internal
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
   return {
