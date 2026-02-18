@@ -84,6 +84,7 @@ export function createClient(
   const sdkMain =
     opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
+    // @ts-expect-error __VERSION__ is injected by rollup at build time
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
     clientOptions.integration,

@@ -17,11 +17,10 @@ export const wrapCollection =
   <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
   (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-
-    return {
-      ...collectionData,
-      items: collectionData.items.map((entity) => fn(makeRequest, entity, ...rest)),
-    }
+    // @ts-expect-error toPlainObject adds non-enumerable toPlainObject method that would be lost with spread
+    collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
+    // @ts-expect-error
+    return collectionData
   }
 
 export const wrapCursorPaginatedCollection =
@@ -32,10 +31,10 @@ export const wrapCursorPaginatedCollection =
     ...rest: Rest
   ): CursorPaginatedCollection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-    return {
-      ...collectionData,
-      items: collectionData.items.map((entity) => fn(makeRequest, entity, ...rest)),
-    }
+    // @ts-expect-error toPlainObject adds non-enumerable toPlainObject method that would be lost with spread
+    collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
+    // @ts-expect-error
+    return collectionData
   }
 export function isSuccessful(statusCode: number) {
   return statusCode < 300
