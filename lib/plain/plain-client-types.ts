@@ -142,6 +142,8 @@ import type { AiActionPlainClientAPI } from './entities/ai-action'
 import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
 import type { AgentPlainClientAPI } from './entities/agent'
 import type { AgentRunPlainClientAPI } from './entities/agent-run'
+import type { AutomationDefinitionPlainClientAPI } from './entities/automation-definition'
+import type { AutomationExecutionPlainClientAPI } from './entities/automation-execution'
 import type { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
 import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-duplicates'
 import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
@@ -163,6 +165,8 @@ export type PlainClientAPI = {
   aiActionInvocation: AiActionInvocationPlainClientAPI
   agent: AgentPlainClientAPI
   agentRun: AgentRunPlainClientAPI
+  automationDefinition: AutomationDefinitionPlainClientAPI
+  automationExecution: AutomationExecutionPlainClientAPI
   appAction: AppActionPlainClientAPI
   appActionCall: AppActionCallPlainClientAPI
   appBundle: AppBundlePlainClientAPI
