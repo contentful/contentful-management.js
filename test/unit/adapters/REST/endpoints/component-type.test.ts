@@ -93,9 +93,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           componentId: 'component123',
-          query: {
-            _experienceCtId: 'experience-ct-id',
-          },
         },
       })
       .then((r) => {
@@ -103,9 +100,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/component_types/component123',
         )
-        expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          _experienceCtId: 'experience-ct-id',
-        })
       })
   })
 })

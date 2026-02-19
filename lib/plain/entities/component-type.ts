@@ -31,9 +31,8 @@ export type ComponentTypePlainClientAPI = {
 
   /**
    * Fetches a single component type by ID
-   * @param params the space, environment, and component type IDs and query parameters
+   * @param params the space, environment, and component type IDs
    * @param params.componentId the component type ID
-   * @param params.query.experienceCtId the experience component type ID
    * @returns the component type
    * @throws if the request fails, or the space, environment, or component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -43,13 +42,10 @@ export type ComponentTypePlainClientAPI = {
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   componentId: '<component_id>',
-   *   query: {
-   *     _experienceCtId: '<experience_ct_id>',
-   *   },
    * });
    * ```
    */
   get(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentId: string, query: ComponentTypeQueryOptions }>,
+    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentId: string }>,
   ): Promise<ComponentTypeProps>
 }

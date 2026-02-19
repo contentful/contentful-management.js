@@ -1475,7 +1475,7 @@ export type MRActions = {
       return: CollectionProp<ComponentTypeProps>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { componentId: string, query: ComponentTypeQueryOptions }
+      params: GetSpaceEnvironmentParams & { componentId: string }
       return: ComponentTypeProps
     }
   }

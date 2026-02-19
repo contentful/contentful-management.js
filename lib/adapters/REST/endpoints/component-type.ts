@@ -24,11 +24,10 @@ export const getMany: RestEndpoint<'ComponentType', 'getMany'> = (
 
 export const get: RestEndpoint<'ComponentType', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { componentId: string, query: ComponentTypeQueryOptions },
+  params: GetSpaceEnvironmentParams & { componentId: string },
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<ComponentTypeProps>(http, getBaseUrl(params) + `/${params.componentId}`, {
-    params: params.query,
     headers,
   })
 }
