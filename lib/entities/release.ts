@@ -52,6 +52,11 @@ export interface ReleaseQueryOptions {
   /** Filter by empty Releases (exists=false) or Releases with items (exists=true) */
   'entities[exists]'?: boolean
 
+  /** Comma-separated filter (inclusion) by annotation type (e.g. 'Hidden', 'Ideation') */
+  'metadata.annotations.Contentful:Timeline.type[in]'?: string
+  /** Comma-separated filter (exclusion) by annotation type (e.g. 'Hidden', 'Ideation') */
+  'metadata.annotations.Contentful:Timeline.type[nin]'?: string
+
   /** If present, will return results based on a pagination cursor */
   pageNext?: string
   /**
