@@ -76,7 +76,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
-  test('get calls correct URL with componentId', async () => {
+  test('get calls correct URL', async () => {
     const mockResponse = {
       sys: { id: 'component123', type: 'ComponentType' },
       name: 'Test Component',
