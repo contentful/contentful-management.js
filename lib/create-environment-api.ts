@@ -2992,27 +2992,33 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
-     *
-     * client.getSpace('<space_id>')
-     *   .then((space) => space.getEnvironment('<environment_id>'))
-     *   .then(async (environment) => {
-     *     // Start generation
-     *     const response = await environment.generateWithAgent('<agent_id>', {
-     *       messages: [
-     *         {
-     *           parts: [{ type: 'text', text: 'Write a short poem about Contentful' }],
-     *           role: 'user'
-     *         }
-     *       ]
-     *     })
-     *     // Poll for full results
-     *     const run = await environment.getAgentRun(response.sys.id)
-     *     console.log(run)
+     * async function generateContent() {
+     *   const client = contentful.createClient({
+     *     accessToken: '<content_management_api_key>'
      *   })
-     *   .catch(console.error)
+     *
+     *   const space = await client.getSpace('<space_id>')
+     *   const environment = await space.getEnvironment('<environment_id>')
+     *
+     *   // Start generation (returns 202 Accepted)
+     *   const response = await environment.generateWithAgent('<agent_id>', {
+     *     messages: [
+     *       {
+     *         parts: [{ type: 'text', text: 'Write a short poem about Contentful' }],
+     *         role: 'user'
+     *       }
+     *     ]
+     *   })
+     *
+     *   // Poll for full results
+     *   let run = await environment.getAgentRun(response.sys.id)
+     *   while (run.sys.status === 'IN_PROGRESS') {
+     *     await new Promise((resolve) => setTimeout(resolve, 1000))
+     *     run = await environment.getAgentRun(response.sys.id)
+     *   }
+     *
+     *   console.log(run)
+     * }
      * ```
      */
     generateWithAgent(agentId: string, payload: AgentGeneratePayload) {

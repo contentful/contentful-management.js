@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../../common-types'
+import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
 import type { AgentGeneratePayload, AgentProps } from '../../../entities/agent'
 import type { AgentGenerateResponse } from '../../../entities/agent-run'
 import type { RestEndpoint } from '../types'
