@@ -1,4 +1,8 @@
-import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
+import type {
+  GetSpaceEnvironmentParams,
+  GetComponentTypeParams,
+  CollectionProp,
+} from '../../common-types'
 import type { ComponentTypeQueryOptions, ComponentTypeProps } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -28,4 +32,21 @@ export type ComponentTypePlainClientAPI = {
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }>,
   ): Promise<CollectionProp<ComponentTypeProps>>
+
+  /**
+   * Unpublishes a component type
+   * @param params the space, environment, and component type IDs
+   * @returns the unpublished component type
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.unpublish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_type_id>',
+   * });
+   * ```
+   */
+  unpublish(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
 }
