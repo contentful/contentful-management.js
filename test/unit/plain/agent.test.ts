@@ -70,7 +70,11 @@ describe('Agent', () => {
 
   test('generate', async () => {
     const mockResponse = {
-      result: 'Generated response',
+      sys: {
+        id: 'generated-run-id',
+        type: 'AgentRun' as const,
+        status: 'IN_PROGRESS' as const,
+      },
     }
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
@@ -89,7 +93,9 @@ describe('Agent', () => {
     const response = await plainClient.agent.generate({ spaceId, environmentId, agentId }, payload)
 
     expect(response).toBeInstanceOf(Object)
-    expect(response.result).toBe('Generated response')
+    expect(response.sys.id).toBe('generated-run-id')
+    expect(response.sys.type).toBe('AgentRun')
+    expect(response.sys.status).toBe('IN_PROGRESS')
 
     expect(httpMock.post).toHaveBeenCalledWith(
       `/spaces/${spaceId}/environments/${environmentId}/ai_agents/agents/${agentId}/generate`,
