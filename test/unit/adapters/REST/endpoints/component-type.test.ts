@@ -102,4 +102,25 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         )
       })
   })
+
+  test('delete calls correct URL', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentId: 'component123',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/component123',
+        )
+      })
+  })
 })

@@ -31,3 +31,10 @@ export const get: RestEndpoint<'ComponentType', 'get'> = (
     headers,
   })
 }
+
+export const del: RestEndpoint<'ComponentType', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { componentId: string },
+) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.componentId}`)
+}

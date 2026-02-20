@@ -576,6 +576,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1478,6 +1479,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { componentId: string }
       return: ComponentTypeProps
     }
+    delete: { params: GetSpaceEnvironmentParams & { componentId: string }; return: void }
   }
   Concept: {
     create: {
