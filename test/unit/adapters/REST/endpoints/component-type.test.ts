@@ -75,4 +75,42 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         })
       })
   })
+
+  test('unpublish calls correct URL with DELETE method', async () => {
+    const mockResponse = {
+      sys: {
+        id: 'ct123',
+        type: 'ComponentType',
+        version: 2,
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
+        environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
+      },
+      name: 'Test Component',
+      description: 'A test component type',
+      viewports: [],
+      contentProperties: [],
+      designProperties: [],
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'unpublish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentTypeId: 'ct123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/ct123/published',
+        )
+      })
+  })
 })
