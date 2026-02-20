@@ -49,6 +49,10 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - Code using the `Stream` type ([Breaking Changes](#breaking-changes))
 - Code using the `entry.patch` method ([Version param is now required for entry patch method](#version-param-is-now-required-for-entry-patch-method))
 - Code relying on the default nested (legacy) client ([Default client changed from nested to plain](#default-client-changed-from-nested-to-plain))
+- Code using the `DefaultParams` type ([DefaultParams renamed to PlainClientDefaultParams](#defaultparams-renamed-to-plainclientdefaultparams))
+- Code using the `ClientParams` type ([ClientParams type removed](#clientparams-type-removed))
+- Code using `ContentfulEntryApi` or other `*Api` types ([API type naming standardized](#api-type-naming-standardized))
+- Code using the `alphaFeatures` option in `createClient` ([alphaFeatures option removed](#alphafeatures-option-removed))
 
 ### Breaking Changes
 
@@ -219,6 +223,77 @@ const client = createClient({ accessToken: 'token' }, { type: 'legacy' })
 ```
 
 **Recommended:** We strongly recommend migrating to the plain client API, as the legacy nested client is deprecated and will be removed in the next major version. See the README for migration guidance.
+
+#### DefaultParams renamed to PlainClientDefaultParams
+
+The `DefaultParams` type has been renamed to `PlainClientDefaultParams` to avoid confusion with legacy client params.
+
+**Migration:**
+
+```typescript
+// Before
+import type { DefaultParams } from 'contentful-management'
+
+// After
+import type { PlainClientDefaultParams } from 'contentful-management'
+```
+
+#### ClientParams type removed
+
+The `ClientParams` type has been removed as it was outdated and confusing. Use `ClientOptions` instead for typing client creation options.
+
+**Migration:**
+
+```typescript
+// Before
+import type { ClientParams } from 'contentful-management'
+
+// After
+import type { ClientOptions } from 'contentful-management'
+```
+
+#### API type naming standardized
+
+API type names have been standardized to use uppercase `API` suffix instead of `Api` for consistency with existing conventions.
+
+**Renamed types:**
+
+- `ContentfulEntryApi` → `ContentfulEntryAPI`
+- `ContentfulEnvironmentTemplateApi` → `ContentfulEnvironmentTemplateAPI`
+- `ContentfulUIConfigApi` → `ContentfulUIConfigAPI`
+
+Additionally, `create-user-ui-config-api.ts` previously exported `ContentfulUIConfigApi` (same name as `create-ui-config-api.ts`), which has been renamed to `ContentfulUserUIConfigAPI` to fix this duplicate name bug.
+
+**Migration:**
+
+```typescript
+// Before
+import type { ContentfulEntryApi } from 'contentful-management'
+
+// After
+import type { ContentfulEntryAPI } from 'contentful-management'
+```
+
+#### alphaFeatures option removed
+
+The `alphaFeatures` option has been removed from `createClient` as it was deprecated, unsupported, and unused.
+
+**Migration:**
+
+If you were passing `alphaFeatures` to `createClient`, simply remove it:
+
+```typescript
+// Before
+const client = createClient({
+  accessToken: 'token',
+  alphaFeatures: { includeContentSourceMaps: true },
+})
+
+// After
+const client = createClient({
+  accessToken: 'token',
+})
+```
 
 ### Troubleshooting
 
