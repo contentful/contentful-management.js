@@ -91,7 +91,7 @@ import {
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
 import { AgentProps } from '../../../lib/entities/agent'
-import { AgentRunProps } from '../../../lib/entities/agent-run'
+import { AgentGenerateResponse, AgentRunProps } from '../../../lib/entities/agent-run'
 import {
   EmbeddingSetStatus,
   VectorizationStatusProps,
@@ -1022,6 +1022,14 @@ const agentRunMock: AgentRunProps = {
   ],
 }
 
+const agentGenerateResponseMock: AgentGenerateResponse = {
+  sys: {
+    id: 'mocked-agent-run-id',
+    type: 'AgentRun' as const,
+    status: 'IN_PROGRESS' as const,
+  },
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -1563,6 +1571,7 @@ const mocks = {
   aiActionInvocationPayload: aiActionInvocationPayloadMock,
   agent: agentMock,
   agentRun: agentRunMock,
+  agentGenerateResponse: agentGenerateResponseMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1693,6 +1702,7 @@ function setupEntitiesMock() {
     agentRun: {
       wrapAgentRun: vi.fn(),
       wrapAgentRunCollection: vi.fn(),
+      wrapAgentGenerateResponse: vi.fn(),
     },
     appAction: {
       wrapAppAction: vi.fn(),

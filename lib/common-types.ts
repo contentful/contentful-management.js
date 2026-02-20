@@ -192,7 +192,11 @@ import type {
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
-import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
+import type {
+  AgentGenerateResponse,
+  AgentRunProps,
+  AgentRunQueryOptions,
+} from './entities/agent-run'
 import type {
   AutomationDefinitionProps,
   AutomationDefinitionQueryOptions,
@@ -1102,7 +1106,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { agentId: string }
       payload: AgentGeneratePayload
       headers?: RawAxiosRequestHeaders
-      return: AgentRunProps
+      return: AgentGenerateResponse
     }
   }
   AgentRun: {
