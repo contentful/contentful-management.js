@@ -36,7 +36,6 @@ export type ComponentTypePlainClientAPI = {
   /**
    * Fetches a single component type by ID
    * @param params the space, environment, and component type IDs
-   * @param params.componentId the component type ID
    * @returns the component type
    * @throws if the request fails, or the space, environment, or component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -45,13 +44,11 @@ export type ComponentTypePlainClientAPI = {
    * const componentType = await client.componentType.get({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
-   *   componentId: '<component_id>',
+   *   componentTypeId: '<component_id>',
    * });
    * ```
    */
-  get(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentId: string }>,
-  ): Promise<ComponentTypeProps>
+  get(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
 
   /**
    * Unpublishes a component type
@@ -71,4 +68,20 @@ export type ComponentTypePlainClientAPI = {
   unpublish(
     params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
   ): Promise<ComponentTypeProps>
+
+  /**
+   * Deletes a single component type
+   * @param params the space, environment, and component type IDs
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * await client.componentType.delete({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_id>',
+   * });
+   * ```
+   */
+  delete(params: OptionalDefaults<GetComponentTypeParams>): Promise<void>
 }
