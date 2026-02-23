@@ -576,6 +576,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
@@ -1477,6 +1478,10 @@ export type MRActions = {
     }
     get: {
       params: GetSpaceEnvironmentParams & { componentTypeId: string }
+      return: ComponentTypeProps
+    }
+    unpublish: {
+      params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
     }
     delete: { params: GetSpaceEnvironmentParams & { componentTypeId: string }; return: void }
@@ -2612,6 +2617,7 @@ export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: st
 export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   commentId: string
 }
+export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }

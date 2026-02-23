@@ -1,6 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
+import type {
+  CollectionProp,
+  GetComponentTypeParams,
+  GetSpaceEnvironmentParams,
+} from '../../../common-types'
 import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
@@ -29,6 +33,19 @@ export const get: RestEndpoint<'ComponentType', 'get'> = (
 ) => {
   return raw.get<ComponentTypeProps>(http, getBaseUrl(params) + `/${params.componentTypeId}`, {
     headers,
+  })
+}
+
+export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetComponentTypeParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.del(http, `${getBaseUrl(params)}/${params.componentTypeId}/published`, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
   })
 }
 
