@@ -1477,14 +1477,17 @@ export type MRActions = {
       return: CollectionProp<ComponentTypeProps>
     }
     get: {
-      params: GetSpaceEnvironmentParams & { componentTypeId: string }
+      params: GetComponentTypeParams
       return: ComponentTypeProps
     }
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
     }
-    delete: { params: GetSpaceEnvironmentParams & { componentTypeId: string }; return: void }
+    delete: {
+      params: GetComponentTypeParams
+      return: void
+    }
   }
   Concept: {
     create: {

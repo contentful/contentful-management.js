@@ -48,9 +48,7 @@ export type ComponentTypePlainClientAPI = {
    * });
    * ```
    */
-  get(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentTypeId: string }>,
-  ): Promise<ComponentTypeProps>
+  get(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
 
   /**
    * Unpublishes a component type
@@ -85,7 +83,5 @@ export type ComponentTypePlainClientAPI = {
    * });
    * ```
    */
-  delete(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentTypeId: string }>,
-  ): Promise<void>
+  delete(params: OptionalDefaults<GetComponentTypeParams>): Promise<void>
 }

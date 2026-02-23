@@ -28,7 +28,7 @@ export const getMany: RestEndpoint<'ComponentType', 'getMany'> = (
 
 export const get: RestEndpoint<'ComponentType', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { componentTypeId: string },
+  params: GetComponentTypeParams,
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<ComponentTypeProps>(http, getBaseUrl(params) + `/${params.componentTypeId}`, {
@@ -51,7 +51,7 @@ export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
 
 export const del: RestEndpoint<'ComponentType', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { componentTypeId: string },
+  params: GetComponentTypeParams,
 ) => {
   return raw.del(http, getBaseUrl(params) + `/${params.componentTypeId}`)
 }
