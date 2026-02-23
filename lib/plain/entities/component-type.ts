@@ -32,7 +32,6 @@ export type ComponentTypePlainClientAPI = {
   /**
    * Fetches a single component type by ID
    * @param params the space, environment, and component type IDs
-   * @param params.componentTypeId the component type ID
    * @returns the component type
    * @throws if the request fails, or the space, environment, or component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -52,7 +51,6 @@ export type ComponentTypePlainClientAPI = {
   /**
    * Deletes a single component type
    * @param params the space, environment, and component type IDs
-   * @param params.componentTypeId the component type ID to delete
    * @throws if the request fails, or the component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
