@@ -76,6 +76,33 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
+  test('get calls correct URL', async () => {
+    const mockResponse = {
+      sys: { id: 'component123', type: 'ComponentType' },
+      name: 'Test Component',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'get',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentId: 'component123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/component123',
+        )
+      })
+  })
+
   test('unpublish calls correct URL with DELETE method', async () => {
     const mockResponse = {
       sys: {

@@ -575,6 +575,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
+  (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
@@ -1473,6 +1474,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
       return: CollectionProp<ComponentTypeProps>
+    }
+    get: {
+      params: GetSpaceEnvironmentParams & { componentId: string }
+      return: ComponentTypeProps
     }
     unpublish: {
       params: GetComponentTypeParams & { version: number }

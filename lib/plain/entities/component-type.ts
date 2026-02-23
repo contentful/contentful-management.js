@@ -34,6 +34,26 @@ export type ComponentTypePlainClientAPI = {
   ): Promise<CollectionProp<ComponentTypeProps>>
 
   /**
+   * Fetches a single component type by ID
+   * @param params the space, environment, and component type IDs
+   * @param params.componentId the component type ID
+   * @returns the component type
+   * @throws if the request fails, or the space, environment, or component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.get({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentId: '<component_id>',
+   * });
+   * ```
+   */
+  get(
+    params: OptionalDefaults<GetSpaceEnvironmentParams & { componentId: string }>,
+  ): Promise<ComponentTypeProps>
+
+  /**
    * Unpublishes a component type
    * @param params the space, environment, and component type IDs
    * @returns the unpublished component type

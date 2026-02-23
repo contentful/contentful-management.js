@@ -26,6 +26,16 @@ export const getMany: RestEndpoint<'ComponentType', 'getMany'> = (
   })
 }
 
+export const get: RestEndpoint<'ComponentType', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { componentId: string },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<ComponentTypeProps>(http, getBaseUrl(params) + `/${params.componentId}`, {
+    headers,
+  })
+}
+
 export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
   http: AxiosInstance,
   params: GetComponentTypeParams & { version: number },
