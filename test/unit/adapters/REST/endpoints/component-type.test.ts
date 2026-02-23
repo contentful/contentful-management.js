@@ -92,7 +92,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          componentId: 'component123',
+          componentTypeId: 'component123',
         },
       })
       .then((r) => {
@@ -114,7 +114,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          componentId: 'component123',
+          componentTypeId: 'component123',
         },
       })
       .then(() => {
