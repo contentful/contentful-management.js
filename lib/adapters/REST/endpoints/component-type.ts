@@ -28,10 +28,13 @@ export const getMany: RestEndpoint<'ComponentType', 'getMany'> = (
 
 export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
   http: AxiosInstance,
-  params: GetComponentTypeParams,
+  params: GetComponentTypeParams & { version: number },
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.del(http, `${getBaseUrl(params)}/${params.componentTypeId}/published`, {
-    headers,
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
   })
 }

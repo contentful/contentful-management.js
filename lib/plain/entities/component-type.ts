@@ -48,5 +48,7 @@ export type ComponentTypePlainClientAPI = {
    * });
    * ```
    */
-  unpublish(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
+  unpublish(
+    params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
+  ): Promise<ComponentTypeProps>
 }

@@ -1475,7 +1475,7 @@ export type MRActions = {
       return: CollectionProp<ComponentTypeProps>
     }
     unpublish: {
-      params: GetComponentTypeParams
+      params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
     }
   }
