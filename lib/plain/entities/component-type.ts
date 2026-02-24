@@ -51,8 +51,28 @@ export type ComponentTypePlainClientAPI = {
   get(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
 
   /**
+   * Publishes a component type
+   * @param params the space, environment, and component type IDs, and the version number
+   * @returns the published component type
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_type_id>',
+   *   version: <version>,
+   * });
+   * ```
+   */
+  publish(
+    params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
+  ): Promise<ComponentTypeProps>
+
+  /**
    * Unpublishes a component type
-   * @param params the space, environment, and component type IDs
+   * @param params the space, environment, and component type IDs, and the version number
    * @returns the unpublished component type
    * @throws if the request fails, or the component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -62,6 +82,7 @@ export type ComponentTypePlainClientAPI = {
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   componentTypeId: '<component_type_id>',
+   *   version: <version>,
    * });
    * ```
    */
