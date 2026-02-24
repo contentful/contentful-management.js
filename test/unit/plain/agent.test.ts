@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { AgentGeneratePayload, createClient } from '../../../lib/contentful-management'
+import { AgentGeneratePayload, createClient } from '../../../lib/index'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
 describe('Agent', () => {

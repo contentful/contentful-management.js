@@ -31,6 +31,9 @@ import type {
   OAuthApplicationProps,
 } from './export-types'
 
+/**
+ * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
+ */
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 
@@ -490,7 +493,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getPersonalAccessTokens()
-     * .then(response => console.log(reponse.items))
+     * .then(response => console.log(response.items))
      * .catch(console.error)
      * ```
      */

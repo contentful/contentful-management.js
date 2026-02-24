@@ -1,6 +1,6 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { OpPatch } from 'json-patch'
 import type {
+  OpPatch,
   BasicCursorPaginationOptions,
   CollectionProp,
   CreateReleaseAssetParams,
@@ -354,7 +354,7 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; version?: number; releaseId?: string }
+        GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       >,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders,

@@ -1,5 +1,4 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { OpPatch } from 'json-patch'
 import type { Stream } from 'stream'
 import type {
   AccessTokenProps,
@@ -599,7 +598,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
-  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -609,7 +607,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
-  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
@@ -969,6 +966,34 @@ export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U,
 
 export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
+}
+
+export type OpPatch = AddPatch | RemovePatch | ReplacePatch | MovePatch | CopyPatch | TestPatch
+interface Patch {
+  path: string
+}
+interface AddPatch extends Patch {
+  op: 'add'
+  value: any
+}
+interface RemovePatch extends Patch {
+  op: 'remove'
+}
+interface ReplacePatch extends Patch {
+  op: 'replace'
+  value: any
+}
+interface MovePatch extends Patch {
+  op: 'move'
+  from: string
+}
+interface CopyPatch extends Patch {
+  op: 'copy'
+  from: string
+}
+interface TestPatch extends Patch {
+  op: 'test'
+  value: any
 }
 
 /**
@@ -1559,11 +1584,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: OpPatch[]
-      return: ConceptProps
-    }
-    updatePut: {
-      params: UpdateConceptParams
       payload: CreateConceptProps
       return: ConceptProps
     }
@@ -1609,11 +1629,6 @@ export type MRActions = {
       return: ConceptSchemeProps
     }
     update: {
-      params: UpdateConceptSchemeParams
-      payload: OpPatch[]
-      return: ConceptSchemeProps
-    }
-    updatePut: {
       params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps

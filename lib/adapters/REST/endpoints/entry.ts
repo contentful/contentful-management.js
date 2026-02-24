@@ -1,9 +1,9 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { OpPatch } from 'json-patch'
 import type { SetOptional } from 'type-fest'
 import type {
+  OpPatch,
   CollectionProp,
   CreateReleaseEntryParams,
   CreateWithIdReleaseEntryParams,

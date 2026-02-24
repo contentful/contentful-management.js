@@ -5,7 +5,7 @@ import {
   timeoutToCalmRateLimiting,
   getTestOrganization,
 } from '../helpers'
-import type { Organization, Space } from '../../lib/contentful-management'
+import type { Organization, Space } from '../../lib/index'
 
 // TODO: Enable after GA
 describe.skip('VectorizationStatus api', () => {
