@@ -228,6 +228,7 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'ComponentType', 'get'),
       unpublish: wrap(wrapParams, 'ComponentType', 'unpublish'),
       delete: wrap(wrapParams, 'ComponentType', 'delete'),
+      create: wrap(wrapParams, 'ComponentType', 'create'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),

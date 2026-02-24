@@ -1,3 +1,4 @@
+import type { Except } from 'type-fest'
 import type { Link, SysLink } from '../common-types'
 
 // Query options for getMany - matches Bridge API contract
@@ -145,3 +146,5 @@ export type ComponentTypeProps = {
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
 }
+
+export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>

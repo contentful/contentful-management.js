@@ -3,7 +3,11 @@ import type {
   GetComponentTypeParams,
   CollectionProp,
 } from '../../common-types'
-import type { ComponentTypeQueryOptions, ComponentTypeProps } from '../../entities/component-type'
+import type {
+  ComponentTypeQueryOptions,
+  ComponentTypeProps,
+  CreateComponentTypeProps,
+} from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ComponentTypePlainClientAPI = {
@@ -51,22 +55,33 @@ export type ComponentTypePlainClientAPI = {
   get(params: OptionalDefaults<GetComponentTypeParams>): Promise<ComponentTypeProps>
 
   /**
-   * Unpublishes a component type
-   * @param params the space, environment, and component type IDs
-   * @returns the unpublished component type
-   * @throws if the request fails, or the component type is not found
+   * Creates a new component type
+   * @param params the space and environment IDs
+   * @param rawData the component type data to create
+   * @returns the created component type
+   * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const componentType = await client.componentType.unpublish({
-   *   spaceId: '<space_id>',
-   *   environmentId: '<environment_id>',
-   *   componentTypeId: '<component_type_id>',
-   * });
+   * const componentType = await client.componentType.create(
+   *   {
+   *     spaceId: '<space_id>',
+   *     environmentId: '<environment_id>',
+   *   },
+   *   {
+   *     name: 'My Component',
+   *     description: 'A new component type',
+   *     viewports: [],
+   *     contentProperties: [],
+   *     designProperties: [],
+   *     dimensionKeyMap: { designProperties: {} },
+   *   },
+   * );
    * ```
    */
-  unpublish(
-    params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
+  create(
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    rawData: CreateComponentTypeProps,
   ): Promise<ComponentTypeProps>
 
   /**
@@ -84,4 +99,23 @@ export type ComponentTypePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetComponentTypeParams>): Promise<void>
+
+  /**
+   * Unpublishes a component type
+   * @param params the space, environment, and component type IDs
+   * @returns the unpublished component type
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.unpublish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_type_id>',
+   * });
+   * ```
+   */
+  unpublish(
+    params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
+  ): Promise<ComponentTypeProps>
 }

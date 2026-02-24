@@ -1,5 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
 import type {
   CollectionProp,
   GetComponentTypeParams,
@@ -8,6 +9,7 @@ import type {
 import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
+  CreateComponentTypeProps,
 } from '../../../entities/component-type'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -54,4 +56,14 @@ export const del: RestEndpoint<'ComponentType', 'delete'> = (
   params: GetComponentTypeParams,
 ) => {
   return raw.del(http, getBaseUrl(params) + `/${params.componentTypeId}`)
+}
+
+export const create: RestEndpoint<'ComponentType', 'create'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateComponentTypeProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.post<ComponentTypeProps>(http, getBaseUrl(params), data, { headers })
 }
