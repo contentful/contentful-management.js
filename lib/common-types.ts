@@ -576,6 +576,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
 
@@ -1478,6 +1479,10 @@ export type MRActions = {
     }
     get: {
       params: GetComponentTypeParams
+      return: ComponentTypeProps
+    }
+    publish: {
+      params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
     }
     unpublish: {

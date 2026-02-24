@@ -103,6 +103,46 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
+  test('publish calls correct URL with PUT method', async () => {
+    const mockResponse = {
+      sys: {
+        id: 'ct123',
+        type: 'ComponentType',
+        version: 2,
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
+        environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
+      },
+      name: 'Test Component',
+      description: 'A test component type',
+      viewports: [],
+      contentProperties: [],
+      designProperties: [],
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'publish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentTypeId: 'ct123',
+          version: 1,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/ct123/published',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
   test('unpublish calls correct URL with DELETE method', async () => {
     const mockResponse = {
       sys: {

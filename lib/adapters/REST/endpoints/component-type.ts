@@ -36,6 +36,21 @@ export const get: RestEndpoint<'ComponentType', 'get'> = (
   })
 }
 
+export const publish: RestEndpoint<'ComponentType', 'publish'> = (
+  http: AxiosInstance,
+  params: GetComponentTypeParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put(http, `${getBaseUrl(params)}/${params.componentTypeId}/published`, 
+  null, 
+  {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
+
 export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
   http: AxiosInstance,
   params: GetComponentTypeParams & { version: number },
