@@ -41,9 +41,7 @@ export const publish: RestEndpoint<'ComponentType', 'publish'> = (
   params: GetComponentTypeParams & { version: number },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.put(http, `${getBaseUrl(params)}/${params.componentTypeId}/published`, 
-  null, 
-  {
+  return raw.put(http, `${getBaseUrl(params)}/${params.componentTypeId}/published`, null, {
     headers: {
       'X-Contentful-Version': params.version,
       ...headers,
