@@ -5,6 +5,14 @@ import { wrapCollection } from '../common-utils'
 
 export type AgentRunStatus = 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'PENDING_REVIEW' | 'DRAFT'
 
+export type AgentGenerateResponse = {
+  sys: {
+    id: string
+    type: 'AgentRun'
+    status: AgentRunStatus
+  }
+}
+
 export type AgentRunMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
 export type AgentRunMessageTextPart = {
@@ -58,6 +66,14 @@ export interface AgentRun extends AgentRunProps, DefaultElements<AgentRunProps> 
 export function wrapAgentRun(_makeRequest: MakeRequest, data: AgentRunProps): AgentRun {
   const agentRun = toPlainObject(copy(data))
   return freezeSys(agentRun)
+}
+
+export function wrapAgentGenerateResponse(
+  _makeRequest: MakeRequest,
+  data: AgentGenerateResponse,
+): AgentGenerateResponse {
+  const response = toPlainObject(copy(data))
+  return freezeSys(response)
 }
 
 export const wrapAgentRunCollection = wrapCollection(wrapAgentRun)

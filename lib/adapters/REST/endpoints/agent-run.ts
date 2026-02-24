@@ -16,7 +16,7 @@ export const get: RestEndpoint<'AgentRun', 'get'> = (
 ) => {
   return raw.get<AgentRunProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/runs/${params.runId}`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/runs/${params.runId}`,
     {
       headers: {
         ...AgentRunAlphaHeaders,
@@ -33,7 +33,7 @@ export const getMany: RestEndpoint<'AgentRun', 'getMany'> = (
 ) => {
   return raw.get<CollectionProp<AgentRunProps>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/runs`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/runs`,
     {
       params: params.query,
       headers: {
