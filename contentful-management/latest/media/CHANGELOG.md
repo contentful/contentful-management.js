@@ -1,10 +1,3 @@
-## [11.72.1](https://github.com/contentful/contentful-management.js/compare/v11.72.0...v11.72.1) (2026-02-23)
-
-
-### Bug Fixes
-
-* update ComponentType types to match API changes [DX-692] ([#2883](https://github.com/contentful/contentful-management.js/issues/2883)) ([4cc3763](https://github.com/contentful/contentful-management.js/commit/4cc3763163132a2d6511f86abc87d73e89d8812b))
-
 <!-- shared header  START -->
 
 <p align="center">
