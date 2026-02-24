@@ -17,7 +17,7 @@ export const get: RestEndpoint<'Agent', 'get'> = (
 ) => {
   return raw.get<AgentProps>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/agents/${params.agentId}`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/${params.agentId}`,
     {
       headers: {
         ...AgentAlphaHeaders,
@@ -34,7 +34,7 @@ export const getMany: RestEndpoint<'Agent', 'getMany'> = (
 ) => {
   return raw.get<CollectionProp<AgentProps>>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/agents`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents`,
     {
       headers: {
         ...AgentAlphaHeaders,
@@ -52,7 +52,7 @@ export const generate: RestEndpoint<'Agent', 'generate'> = (
 ) => {
   return raw.post<AgentGenerateResponse>(
     http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai_agents/agents/${params.agentId}/generate`,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/${params.agentId}/generate`,
     data,
     {
       headers: {
