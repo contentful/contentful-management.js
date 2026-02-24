@@ -33,7 +33,7 @@ describe('Agent', () => {
     expect(response.name).toBe('Test AI Agent')
 
     expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/agents/${agentId}`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/${agentId}`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
@@ -58,7 +58,7 @@ describe('Agent', () => {
     expect(response.items[0].sys.id).toBe(agentId)
 
     expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/agents`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
@@ -98,7 +98,7 @@ describe('Agent', () => {
     expect(response.sys.status).toBe('IN_PROGRESS')
 
     expect(httpMock.post).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/agents/${agentId}/generate`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/${agentId}/generate`,
       payload,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',

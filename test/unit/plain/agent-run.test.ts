@@ -59,7 +59,7 @@ describe('AgentRun', () => {
     expect(response.sys.status).toBe('COMPLETED')
 
     expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/runs/${runId}`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/runs/${runId}`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
@@ -86,7 +86,7 @@ describe('AgentRun', () => {
     expect(response.items[0].sys.status).toBe('COMPLETED')
 
     expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/runs`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/runs`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         params: { statusIn: ['COMPLETED'] },
@@ -112,7 +112,7 @@ describe('AgentRun', () => {
     expect(response.items).toBeInstanceOf(Array)
 
     expect(httpMock.get).toHaveBeenCalledWith(
-      `/spaces/${spaceId}/environments/${environmentId}/ai_agents/runs`,
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/runs`,
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         params: { agentIn: ['agent-1', 'agent-2'], statusIn: ['COMPLETED', 'IN_PROGRESS'] },
