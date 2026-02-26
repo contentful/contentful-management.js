@@ -38,6 +38,23 @@ export const get: RestEndpoint<'ComponentType', 'get'> = (
   })
 }
 
+export const create: RestEndpoint<'ComponentType', 'create'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateComponentTypeProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.post<ComponentTypeProps>(http, getBaseUrl(params), data, { headers })
+}
+
+export const del: RestEndpoint<'ComponentType', 'delete'> = (
+  http: AxiosInstance,
+  params: GetComponentTypeParams,
+) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.componentTypeId}`)
+}
+
 export const publish: RestEndpoint<'ComponentType', 'publish'> = (
   http: AxiosInstance,
   params: GetComponentTypeParams & { version: number },
@@ -62,21 +79,4 @@ export const unpublish: RestEndpoint<'ComponentType', 'unpublish'> = (
       ...headers,
     },
   })
-}
-
-export const del: RestEndpoint<'ComponentType', 'delete'> = (
-  http: AxiosInstance,
-  params: GetComponentTypeParams,
-) => {
-  return raw.del(http, getBaseUrl(params) + `/${params.componentTypeId}`)
-}
-
-export const create: RestEndpoint<'ComponentType', 'create'> = (
-  http: AxiosInstance,
-  params: GetSpaceEnvironmentParams,
-  rawData: CreateComponentTypeProps,
-  headers?: RawAxiosRequestHeaders,
-) => {
-  const data = copy(rawData)
-  return raw.post<ComponentTypeProps>(http, getBaseUrl(params), data, { headers })
 }
