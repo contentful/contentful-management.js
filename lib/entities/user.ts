@@ -55,7 +55,7 @@ export type UserProps = {
   preferredLanguage: string
 }
 
-export interface User extends UserProps, DefaultElements<UserProps> { }
+export interface User extends UserProps, DefaultElements<UserProps> {}
 
 /**
  * @private
