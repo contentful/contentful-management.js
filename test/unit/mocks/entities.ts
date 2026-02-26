@@ -208,6 +208,7 @@ const userMock: UserProps = {
   confirmed: true,
   '2faEnabled': true,
   cookieConsentData: 'mocked',
+  preferredLanguage: 'en-US',
 }
 
 const personalAccessTokenMock: PersonalAccessTokenProps = {
@@ -1055,6 +1056,7 @@ const organizationMock: OrganizationProps = {
     type: 'Organization',
   }),
   name: 'name',
+  defaultUserLanguage: 'en-US',
 }
 
 const usageMock: UsageProps = {
