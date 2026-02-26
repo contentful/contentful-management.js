@@ -197,7 +197,22 @@ import type {
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
-import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
+import type {
+  AgentGenerateResponse,
+  AgentRunProps,
+  AgentRunQueryOptions,
+} from './entities/agent-run'
+import type {
+  AutomationDefinitionProps,
+  AutomationDefinitionQueryOptions,
+  CreateAutomationDefinitionProps,
+  UpdateAutomationDefinitionProps,
+} from './entities/automation-definition'
+import type {
+  AutomationExecutionByDefinitionQueryOptions,
+  AutomationExecutionProps,
+  AutomationExecutionQueryOptions,
+} from './entities/automation-execution'
 import type {
   UpdateVectorizationStatusProps,
   VectorizationStatusProps,
@@ -580,6 +595,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
@@ -1041,7 +1057,10 @@ export type MRActions = {
       return: AiActionProps
     }
     invoke: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceEnvironmentParams & {
+        aiActionId: string
+        query?: { status?: 'all' | 'published' }
+      }
       payload: AiActionInvocationType
       headers?: RawAxiosRequestHeaders
       return: AiActionInvocationProps
@@ -1068,7 +1087,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { agentId: string }
       payload: AgentGeneratePayload
       headers?: RawAxiosRequestHeaders
-      return: AgentRunProps
+      return: AgentGenerateResponse
     }
   }
   AgentRun: {
@@ -1081,6 +1100,55 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+  }
+  AutomationDefinition: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationDefinitionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      payload: UpdateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    delete: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: void
+    }
+  }
+  AutomationExecution: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationExecutionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationExecutionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
+    }
+    getForAutomationDefinition: {
+      params: GetSpaceEnvironmentParams & {
+        automationDefinitionId: string
+        query?: AutomationExecutionByDefinitionQueryOptions
+      }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {
@@ -1493,6 +1561,10 @@ export type MRActions = {
     delete: {
       params: GetComponentTypeParams
       return: void
+    }
+    publish: {
+      params: GetComponentTypeParams & { version: number }
+      return: ComponentTypeProps
     }
     unpublish: {
       params: GetComponentTypeParams & { version: number }
@@ -2747,6 +2819,12 @@ export type UpdateConceptSchemeParams = GetOrganizationParams & {
 
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
+  automationDefinitionId: string
+}
+export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
+  automationExecutionId: string
+}
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }

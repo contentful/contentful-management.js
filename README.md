@@ -225,7 +225,7 @@ The benefits of using the "plain" version of the client, over the legacy version
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
 - All returned objects are simple Javascript objects without any wrappers. They can be easily serialized without an additional `toPlainObject` function call.
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
-  - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
+  - You can pass a concrete value to `defaults` and omit specifying these params in actual CMA methods calls.
 
 ## Cursor Based Pagination
 

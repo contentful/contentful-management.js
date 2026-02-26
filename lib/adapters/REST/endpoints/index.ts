@@ -3,6 +3,8 @@ import * as AiActionInvocation from './ai-action-invocation'
 import * as Agent from './agent'
 import * as AgentRun from './agent-run'
 import * as AccessToken from './access-token'
+import * as AutomationDefinition from './automation-definition'
+import * as AutomationExecution from './automation-execution'
 import * as ApiKey from './api-key'
 import * as AppAccessToken from './app-access-token'
 import * as AppAction from './app-action'
@@ -81,6 +83,8 @@ export default {
   Agent,
   AgentRun,
   ApiKey,
+  AutomationDefinition,
+  AutomationExecution,
   AppAction,
   AppActionCall,
   AppBundle,

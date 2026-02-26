@@ -57,27 +57,10 @@ export type ComponentTypePlainClientAPI = {
   /**
    * Creates a new component type
    * @param params the space and environment IDs
-   * @param rawData the component type data to create
+   * @param rawData the component type data to create, and the version number
    * @returns the created component type
    * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
-   * @example
-   * ```javascript
-   * const componentType = await client.componentType.create(
-   *   {
-   *     spaceId: '<space_id>',
-   *     environmentId: '<environment_id>',
-   *   },
-   *   {
-   *     name: 'My Component',
-   *     description: 'A new component type',
-   *     viewports: [],
-   *     contentProperties: [],
-   *     designProperties: [],
-   *     dimensionKeyMap: { designProperties: {} },
-   *   },
-   * );
-   * ```
    */
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
@@ -99,6 +82,26 @@ export type ComponentTypePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetComponentTypeParams>): Promise<void>
+
+  /**
+   * Publishes a component type
+   * @param params the space, environment, and component type IDs, and the version number
+   * @returns the published component type
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_type_id>',
+   *   version: <version>,
+   * });
+   * ```
+   */
+  publish(
+    params: OptionalDefaults<GetComponentTypeParams & { version: number }>,
+  ): Promise<ComponentTypeProps>
 
   /**
    * Unpublishes a component type

@@ -14,6 +14,7 @@ export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai
 export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
 export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
+  AgentGenerateResponse,
   AgentRun,
   AgentRunMessage,
   AgentRunMessagePart,
