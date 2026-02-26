@@ -19,6 +19,10 @@ export type OrganizationProps = {
    * Name
    */
   name: string
+  /**
+   * Default language used the organization interface and transactional emails.
+   */
+  defaultUserLanguage: string
 }
 
 /**
