@@ -20,7 +20,9 @@ export type OrganizationProps = {
    */
   name: string
   /**
-   * Default language used the organization interface and transactional emails.
+   * Default language used in the interface and email communications.
+   * Users can override this setting in their profile settings.
+   * If not set, the default value is `en-US`.
    */
   defaultUserLanguage: string
 }
