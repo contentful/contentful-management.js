@@ -37,7 +37,7 @@ export type CreatePersonalAccessTokenProps = Pick<AccessToken, 'name' | 'scopes'
 export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTokenProps> {
   /**
    * Revokes access token
-   * @return Object the revoked access token
+   * @returns Object the revoked access token
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -59,7 +59,7 @@ export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTok
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw  access token data
- * @return Wrapped access token
+ * @returns Wrapped access token
  */
 export function wrapAccessToken(makeRequest: MakeRequest, data: AccessTokenProps): AccessToken {
   const AccessToken = toPlainObject(copy(data))
@@ -79,6 +79,6 @@ export function wrapAccessToken(makeRequest: MakeRequest, data: AccessTokenProps
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw access collection data
- * @return Wrapped access token collection data
+ * @returns Wrapped access token collection data
  */
 export const wrapAccessTokenCollection = wrapCollection(wrapAccessToken)

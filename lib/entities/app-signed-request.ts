@@ -44,7 +44,7 @@ export interface AppSignedRequest
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppSignedRequest data
- * @return Wrapped AppSignedRequest data
+ * @returns Wrapped AppSignedRequest data
  */
 export function wrapAppSignedRequest(
   _makeRequest: MakeRequest,

@@ -262,7 +262,7 @@ export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElement
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
- * @return Wrapped Release data
+ * @returns Wrapped Release data
  */
 export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Release {
   const release = toPlainObject(copy(data))

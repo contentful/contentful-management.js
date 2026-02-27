@@ -38,7 +38,7 @@ export type Environment = ContentfulEnvironmentAPI &
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Environment
- * @return
+ * @returns
  */
 export function wrapEnvironment(makeRequest: MakeRequest, data: EnvironmentProps): Environment {
   // do not pollute generated typings

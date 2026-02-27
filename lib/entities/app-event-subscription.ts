@@ -39,7 +39,7 @@ export interface AppEventSubscription
     DefaultElements<AppEventSubscriptionProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -78,7 +78,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppEventSubscription data
- * @return Wrapped AppEventSubscription data
+ * @returns Wrapped AppEventSubscription data
  */
 export function wrapAppEventSubscription(
   makeRequest: MakeRequest,

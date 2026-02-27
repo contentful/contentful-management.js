@@ -13,7 +13,7 @@ export type UploadProps = {
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
    * const contentful = require('contentful-management')
    *
@@ -55,7 +55,7 @@ function createUploadApi(makeRequest: MakeRequest) {
  * @private
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {object} data - Raw upload data
- * @return {Upload} Wrapped upload data
+ * @returns {Upload} Wrapped upload data
  */
 export function wrapUpload(makeRequest: MakeRequest, data: UploadProps) {
   const upload = toPlainObject(copy(data))

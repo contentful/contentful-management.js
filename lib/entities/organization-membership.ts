@@ -26,7 +26,7 @@ export interface OrganizationMembership
     DefaultElements<OrganizationMembershipProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -99,7 +99,7 @@ function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationI
  * @private
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @returns {OrganizationMembership} Wrapped organization membership data
  */
 export function wrapOrganizationMembership(
   makeRequest: MakeRequest,

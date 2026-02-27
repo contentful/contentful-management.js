@@ -54,7 +54,7 @@ export interface UIConfig extends UIConfigProps, DefaultElements<UIConfigProps> 
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Wrapped UIConfig
+ * @returns Wrapped UIConfig
  */
 export function wrapUIConfig(makeRequest: MakeRequest, data: UIConfigProps) {
   const user = toPlainObject(copy(data))
