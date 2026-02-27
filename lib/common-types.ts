@@ -61,7 +61,11 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
-import type { ComponentTypeProps, ComponentTypeQueryOptions } from './entities/component-type'
+import type {
+  ComponentTypeProps,
+  ComponentTypeQueryOptions,
+  CreateComponentTypeProps,
+} from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -590,6 +594,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
+  (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
+  (opts: MROpts<'ComponentType', 'update', UA>): MRReturn<'ComponentType', 'update'>
+  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
+  (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
+  (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1539,6 +1549,32 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
       return: CollectionProp<ComponentTypeProps>
+    }
+    get: {
+      params: GetComponentTypeParams
+      return: ComponentTypeProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentTypeProps
+      return: ComponentTypeProps
+    }
+    update: {
+      params: GetComponentTypeParams
+      payload: ComponentTypeProps
+      return: ComponentTypeProps
+    }
+    delete: {
+      params: GetComponentTypeParams
+      return: void
+    }
+    publish: {
+      params: GetComponentTypeParams & { version: number }
+      return: ComponentTypeProps
+    }
+    unpublish: {
+      params: GetComponentTypeParams & { version: number }
+      return: ComponentTypeProps
     }
   }
   Concept: {
@@ -2672,6 +2708,7 @@ export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: st
 export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   commentId: string
 }
+export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
