@@ -7,7 +7,7 @@ export type ResourcePlainAPI = {
    * Fetches all Resources.
    * Supports fetching specific Resources by URNs or searching by a text query.
    * @param params entity IDs to identify the Resources
-   * @params optional query params for search or lookup events
+   * @param params - optional query params for search or lookup events
    * @returns the Resources collection
    * @throws if the request fails or the Resource Type is not found
    * @example

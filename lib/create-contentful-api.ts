@@ -41,7 +41,7 @@ import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
-import type { UsageQuery } from './entities/usage'
+import type { UsageMetricEnum, UsageQuery } from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateEnvironmentTemplateProps,
@@ -88,7 +88,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
       }).then((data) => wrapEnvironmentTemplateCollection(makeRequest, data, organizationId))
     },
     /**
-     * Gets the lasted version environment template if params.version is not specified
+     * Gets the latest version environment template if version is not specified
+     * @param params - Parameters for fetching the environment template
      * @param params.organizationId - Organization ID
      * @param params.environmentTemplateId - Environment template ID
      * @param [params.version] - Template version number to return a specific version of the environment template
@@ -134,7 +135,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param organizationId - Organization ID
      * @param environmentTemplateData - Object representation of the environment template to be created
      * @returns Promise for the newly created EnvironmentTemplate
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -211,7 +213,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param spaceData - Object representation of the Space to be created
      * @param organizationId - Organization ID, if the associated token can manage more than one organization.
      * @returns Promise for the newly created Space
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -241,7 +244,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Gets an organization
      * @param  id - Organization ID
      * @returns Promise for a Organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -264,7 +268,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Organizations
      * @returns Promise for a collection of Organizations
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -289,7 +294,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets the authenticated user
      * @returns Promise for a User
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -313,7 +319,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * @param params
      * @returns Promise of a OAuthApplication
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -341,7 +348,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * @param params
      * @returns Promise of list of user's OAuthApplications
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -367,7 +375,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * @param params
      * @returns Promise of a new OAuth application.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -397,10 +406,12 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets App Definition
+     * @param params - Organization and App Definition identifiers
+     * @param params.organizationId - Id of the organization where the app is installed
+     * @param params.appDefinitionId - Id of the app that will be returned
      * @returns Promise for App Definition
-     * @param organizationId - Id of the organization where the app is installed
-     * @param appDefinitionId - Id of the app that will be returned
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -427,7 +438,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Creates a personal access token
      * @param data - personal access token config
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -465,9 +477,10 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @deprecated - use getAccessToken instead
      *
      * Gets a personal access token
-     * @param data - personal access token config
+     * @param tokenId - Token ID
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -492,7 +505,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * Gets all personal access tokens
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -514,9 +528,10 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a users access token
-     * @param data - users access token config
+     * @param tokenId - Token ID
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -539,7 +554,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets all user access tokens
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -563,7 +579,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Retrieves a list of redacted versions of access tokens for an organization, accessible to owners or administrators of an organization.
      *
      * @returns Promise for a Token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -587,12 +604,13 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Get organization usage grouped by {@link UsageMetricEnum metric}
+     * Get organization usage grouped by {@link UsageMetricEnum | metric}
      *
      * @param organizationId - Id of an organization
      * @param query - Query parameters
      * @returns Promise of a collection of usages
-     * @example ```javascript
+     * @example
+     * ```javascript
      *
      * const contentful = require('contentful-management')
      *

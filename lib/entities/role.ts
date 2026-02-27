@@ -50,10 +50,9 @@ export type CreateRoleProps = Omit<RoleProps, 'sys'>
 export interface Role extends RoleProps, DefaultElements<RoleProps> {
   /**
    * Deletes this object on the server.
-   * @memberof Role
-   * @func delete
    * @returns {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -71,7 +70,8 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
