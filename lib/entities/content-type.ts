@@ -28,6 +28,7 @@ import { omitAndDeleteField } from '../methods/content-type'
 type TaxonomyConceptValidationLink = Link<'TaxonomyConcept'> & { required?: boolean }
 type TaxonomyConceptSchemeValidationLink = Link<'TaxonomyConceptScheme'> & { required?: boolean }
 
+/** Metadata for a content type including annotation assignments and taxonomy references. */
 export type ContentTypeMetadata = {
   annotations?: RequireAtLeastOne<
     {
@@ -39,10 +40,12 @@ export type ContentTypeMetadata = {
   taxonomy?: Array<TaxonomyConceptValidationLink | TaxonomyConceptSchemeValidationLink>
 }
 
+/** An annotation assigned to a content type or field with optional parameters. */
 export type AnnotationAssignment = Link<'Annotation'> & {
   parameters?: Record<string, string | number | boolean>
 }
 
+/** Properties of a Contentful content type. */
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
     space: SysLink
@@ -60,6 +63,7 @@ export type ContentTypeProps = {
   metadata?: ContentTypeMetadata
 }
 
+/** Properties required to create a new content type. */
 export type CreateContentTypeProps = SetOptional<
   Except<ContentTypeProps, 'sys'>,
   'description' | 'displayField'
@@ -237,6 +241,7 @@ type ContentTypeApi = {
   getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
+/** A Contentful content type with methods for updating, publishing, deleting, and managing snapshots. */
 export interface ContentType
   extends ContentTypeProps,
     DefaultElements<ContentTypeProps>,

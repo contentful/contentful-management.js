@@ -14,6 +14,7 @@ type AppKeySys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+/** A JSON Web Key used for app authentication. */
 export interface JWK {
   alg: 'RS256'
   kty: 'RSA'
@@ -23,6 +24,7 @@ export interface JWK {
   x5t: string
 }
 
+/** Properties of a Contentful app key. */
 export type AppKeyProps = {
   /**
    * System metadata
@@ -43,6 +45,7 @@ export type AppKeyProps = {
   }
 }
 
+/** Properties required to create a new app key. */
 export type CreateAppKeyProps = {
   /**
    * Toggle for automatic private key generation
@@ -54,6 +57,7 @@ export type CreateAppKeyProps = {
   jwk?: JWK
 }
 
+/** A Contentful app key with methods for deleting. */
 export interface AppKey extends AppKeyProps, DefaultElements<AppKeyProps> {
   /**
    * Deletes this object on the server.

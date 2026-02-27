@@ -16,6 +16,7 @@ import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
 
 import { wrapResourceType } from './resource-type'
 
+/** Properties of a resource provider that connects external resources to Contentful */
 export type ResourceProviderProps = {
   /**
    * System metadata
@@ -34,10 +35,12 @@ export type ResourceProviderProps = {
   function: SysLink
 }
 
+/** Properties for creating or updating a resource provider */
 export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {
   sys: { id: string }
 }
 
+/** A resource provider with methods to upsert, delete, and manage resource types */
 export interface ResourceProvider
   extends ResourceProviderProps,
     DefaultElements<ResourceProviderProps> {

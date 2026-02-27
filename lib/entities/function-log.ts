@@ -9,6 +9,7 @@ import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a function execution log entry */
 export type FunctionLogProps = {
   sys: {
     id: string
@@ -38,6 +39,7 @@ export type FunctionLogProps = {
   }>
 }
 
+/** A function log entity */
 export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionLogProps> {}
 
 /**
