@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type { Link, SysLink } from '../common-types'
 
 // Query options for getMany - matches Bridge API contract
