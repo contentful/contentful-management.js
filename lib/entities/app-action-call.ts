@@ -163,7 +163,7 @@ export default function createAppActionCallApi(
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppActionCall data
  * @returns Wrapped AppActionCall data
  */
@@ -181,7 +181,7 @@ export function wrapAppActionCall(
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppActionCall data
  * @returns Wrapped AppActionCall data
  */

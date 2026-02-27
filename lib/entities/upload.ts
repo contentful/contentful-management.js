@@ -21,6 +21,7 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -31,8 +32,9 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getUpload('<upload_id>'))
    * .then((upload) => upload.delete())
-   * .then((upload) => console.log(`upload ${upload.sys.id} updated.`))
+   * .then(() => console.log('upload deleted.'))
    * .catch(console.error)
+   * ```
    */
   delete(): Promise<void>
 }
