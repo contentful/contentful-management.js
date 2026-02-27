@@ -82,6 +82,27 @@ export type ComponentTypePlainClientAPI = {
   ): Promise<ComponentTypeProps>
 
   /**
+   * Updates a component type
+   * @param params the space, environment, and component type IDs
+   * @param rawData the component type data to update (must include sys.version)
+   * @returns the updated component type
+   * @throws if the request fails, or the component type is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const componentType = await client.componentType.update({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   componentTypeId: '<component_id>',
+   * }, componentTypeData);
+   * ```
+   */
+  update(
+    params: OptionalDefaults<GetComponentTypeParams>,
+    rawData: ComponentTypeProps,
+  ): Promise<ComponentTypeProps>
+
+  /**
    * Deletes a single component type
    * @param params the space, environment, and component type IDs
    * @throws if the request fails, or the component type is not found

@@ -202,6 +202,48 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
+  test('update calls correct URL with version header', async () => {
+    const mockResponse = {
+      sys: { id: 'comp123', type: 'ComponentType', version: 2 },
+      name: 'Updated Component',
+      description: 'An updated component type',
+      viewports: [],
+      contentProperties: [],
+      designProperties: [],
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentTypeId: 'comp123',
+        },
+        payload: {
+          sys: { version: 1 },
+          name: 'Updated Component',
+          description: 'An updated component type',
+          viewports: [],
+          contentProperties: [],
+          designProperties: [],
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/comp123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
   test('create calls correct URL with POST', async () => {
     const mockResponse = {
       sys: { id: 'new123', type: 'ComponentType', version: 1 },
