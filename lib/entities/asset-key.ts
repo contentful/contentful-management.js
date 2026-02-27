@@ -25,7 +25,7 @@ export interface AssetKey extends AssetKeyProps, DefaultElements<AssetKeyProps> 
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw asset key data
  * @returns Wrapped asset key data
  */

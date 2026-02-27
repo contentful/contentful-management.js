@@ -50,11 +50,11 @@ export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTok
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
-   *  accessToken: <content_management_api_key>
+   *  accessToken: '<content_management_api_key>'
    * })
    *
    * client.getAccessToken('<token-id>')
-   *  .then((AccessToken) => {
+   *  .then((accessToken) => {
    *    return accessToken.revoke()
    *  })
    *  .catch(console.error)

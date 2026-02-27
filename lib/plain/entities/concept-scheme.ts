@@ -136,7 +136,7 @@ export type ConceptSchemePlainClientAPI = {
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
    * @example
    * ```javascript
-   * await client.conceptScheme.update({
+   * await client.conceptScheme.delete({
    *   organizationId: '<organization_id>',
    *   conceptSchemeId: '<concept_scheme_id>',
    * });

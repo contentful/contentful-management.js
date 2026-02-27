@@ -29,7 +29,7 @@ export type ReleaseActionSysProps = {
   updatedAt: ISO8601Timestamp
 }
 
-/** The object returned by the Releases API */
+/** The object returned by the Release Actions API */
 export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
   action: T
   sys: ReleaseActionSysProps
@@ -57,10 +57,10 @@ export interface ReleaseActionQueryOptions {
 
 /** API methods available on a ReleaseAction entity */
 export interface ReleaseActionApiMethods {
-  /** Performs a new GET request and returns the wrapper Release */
-  get(): ReleaseAction
+  /** Performs a new GET request and returns the wrapped Release Action */
+  get(): Promise<ReleaseAction>
   /** Waits until the Release Action has either succeeded or failed */
-  waitProcessing(options?: AsyncActionProcessingOptions): ReleaseAction
+  waitProcessing(options?: AsyncActionProcessingOptions): Promise<ReleaseAction>
 }
 
 /**
@@ -104,8 +104,8 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw Release data
- * @returns Wrapped Release data
+ * @param data - Raw Release Action data
+ * @returns Wrapped Release Action data
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,

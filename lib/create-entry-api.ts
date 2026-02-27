@@ -66,7 +66,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Sends an JSON patch to the server with any changes made to the object's properties
+     * Sends a JSON patch to the server with any changes made to the object's properties
      * @returns Object returned from the server with updated changes.
      * @example
      * ```javascript
@@ -418,7 +418,13 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.getEntry('<entry-id>'))
      * .then((entry) => entry.createTask({
      *   body: 'Something left to do',
-     *   assignedTo: '<user-id>',
+     *   assignedTo: {
+     *     sys: {
+     *       type: 'Link',
+     *       linkType: 'User',
+     *       id: '<user-id>'
+     *     }
+     *   },
      *   status: 'active'
      * }))
      * .then((task) => console.log(task))
