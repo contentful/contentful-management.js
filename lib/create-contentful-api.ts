@@ -65,6 +65,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID
      * @returns Promise for a collection of EnvironmentTemplates
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -94,6 +95,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param params.environmentTemplateId - Environment template ID
      * @param [params.version] - Template version number to return a specific version of the environment template
      * @returns Promise for a EnvironmentTemplate
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -162,6 +164,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets all spaces
      * @returns Promise for a collection of Spaces
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -188,6 +191,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Gets a space
      * @param spaceId - Space ID
      * @returns Promise for a Space
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -645,6 +649,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param organizationId - Id of an organization
      * @param query - Query parameters
      * @returns Promise of a collection of usages
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -679,6 +684,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Make a custom request to the Contentful management API's /spaces endpoint
      * @param opts - axios request options (https://github.com/mzabriskie/axios)
      * @returns Promise for the response data
+     * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
