@@ -1,15 +1,5 @@
-import type { Link, MetadataProps, SysLink } from '../common-types'
+import type { Link, MetadataProps } from '../common-types'
 import type { ComponentTypeViewport, DesignPropertyValue, ViewNode } from './component-type'
-
-export type ViewQueryOptions = {
-  _experienceCtId: string
-  skip?: number
-  limit?: number
-  pageNext?: string
-  pagePrev?: string
-  order?: string
-  [key: string]: unknown
-}
 
 export type ViewDimensionKeyMap = {
   designProperties: Record<string, { breakpoint: string }>
@@ -28,9 +18,9 @@ export type ViewSys = {
   id: string
   type: 'View'
   version: number
-  space: SysLink
-  environment: SysLink
-  componentType: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
+  componentType: Link<'ComponentType'>
   createdAt?: string
   updatedAt?: string
   createdBy?: Link<'User'>
@@ -44,8 +34,6 @@ export type ViewSys = {
   localeStatus?: Record<string, 'draft' | 'published' | 'changed'>
 }
 
-export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] } | null
-
 type ViewCommonProps = {
   name: string
   description: string
@@ -54,7 +42,7 @@ type ViewCommonProps = {
   designProperties: Record<string, DesignPropertyValue>
   dimensionKeyMap: ViewDimensionKeyMap
   contentBindings?: ViewContentBindings
-  metadata?: MetadataProps
+  metadata?: Pick<MetadataProps, 'tags'>
   slots?: Record<string, ViewNode[]>
 }
 
@@ -64,6 +52,21 @@ export type ViewProps = ViewCommonProps & {
   _slug?: string
 }
 
+// Query options for getMany
+export type ViewQueryOptions = {
+  _experienceCtId: string
+  skip?: number
+  limit?: number
+  pageNext?: string
+  pagePrev?: string
+  order?: string
+  [key: string]: unknown
+}
+
+// Locale-based publish payload — add or remove specific locales, or null for full publish
+export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] } | null
+
+// Create/Update payload — no sys, uses componentTypeId instead of sys.componentType link
 export type CreateViewProps = ViewCommonProps & {
   componentTypeId: string
   _experienceCtId: string

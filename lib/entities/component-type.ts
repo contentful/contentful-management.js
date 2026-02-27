@@ -160,7 +160,7 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: MetadataProps
+  metadata?: Pick<MetadataProps, 'tags'>
   dataAssemblies?: DataAssemblyLink[]
 }
 
