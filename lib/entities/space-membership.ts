@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of a space membership linking a user to a space with roles */
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }
   user: SysLink
@@ -11,17 +16,20 @@ export type SpaceMembershipProps = {
   roles: SysLink[]
 }
 
+/** Properties required to create a new space membership */
 export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'user'> & {
   email: string
 }
 
+/** A space membership with methods to update and delete */
 export interface SpaceMembership
   extends SpaceMembershipProps,
     DefaultElements<SpaceMembershipProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -39,7 +47,8 @@ export interface SpaceMembership
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -49,7 +58,8 @@ export interface SpaceMembership
    * client.getSpace('<space_id>')
    * .then((space) => space.getSpaceMembership('<spaceMembership_id>'))
    * .then((spaceMembership) => {
-   *  spaceMembership.name = 'new space membership name'
+   *  spaceMembership.admin = true
+   *  return spaceMembership.update()
    * })
    * .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
    * .catch(console.error)

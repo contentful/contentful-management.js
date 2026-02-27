@@ -35,7 +35,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Sends an update to the server with any changes made to the object's properties
      * @returns Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -65,9 +66,10 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Sends an JSON patch to the server with any changes made to the object's properties
+     * Sends a JSON patch to the server with any changes made to the object's properties
      * @returns Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -105,7 +107,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Deletes this object on the server.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -129,7 +132,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Publishes the object
      * @returns Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -158,7 +162,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Unpublishes the object
      * @returns Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -187,7 +192,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Archives the object
      * @returns Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -215,7 +221,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Unarchives the object
      * @returns Object returned from the server with updated metadata.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -242,7 +249,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all snapshots of an entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -270,7 +278,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     /**
      * Gets a snapshot of an entry
      * @param snapshotId - Id of the snapshot
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -299,7 +308,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * Creates a new comment for an entry
      * @param data Object representation of the Comment to be created
      * @returns Promise for the newly created Comment
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -333,7 +343,9 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all comments of an entry
-     * @returns
+     * @returns Promise for a collection of Comments
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -359,7 +371,10 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a comment of an entry
-     * @returns
+     * @param id - Comment ID
+     * @returns Promise for a Comment
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -390,7 +405,8 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * Creates a new task for an entry
      * @param data Object representation of the Task to be created
      * @returns Promise for the newly created Task
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -402,7 +418,13 @@ export default function createEntryApi(makeRequest: MakeRequest) {
      * .then((environment) => environment.getEntry('<entry-id>'))
      * .then((entry) => entry.createTask({
      *   body: 'Something left to do',
-     *   assignedTo: '<user-id>',
+     *   assignedTo: {
+     *     sys: {
+     *       type: 'Link',
+     *       linkType: 'User',
+     *       id: '<user-id>'
+     *     }
+     *   },
      *   status: 'active'
      * }))
      * .then((task) => console.log(task))
@@ -421,7 +443,9 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all tasks of an entry
-     * @returns
+     * @returns Promise for a collection of Tasks
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -447,7 +471,10 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a task of an entry
-     * @returns
+     * @param id - Task ID
+     * @returns Promise for a Task
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -475,7 +502,22 @@ export default function createEntryApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Checks if the entry is published. A published entry might have unpublished changes
+     * Checks if the entry is published. A published entry might have unpublished changes.
+     * @returns Boolean indicating whether the entry is published
+     * @example
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntry('<entry_id>'))
+     * .then((entry) => console.log(entry.isPublished()))
+     * .catch(console.error)
+     * ```
      */
     isPublished: function isPublished() {
       const raw = this.toPlainObject() as EntryProps
@@ -484,6 +526,21 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Checks if the entry is updated. This means the entry was previously published but has unpublished changes.
+     * @returns Boolean indicating whether the entry has unpublished changes
+     * @example
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntry('<entry_id>'))
+     * .then((entry) => console.log(entry.isUpdated()))
+     * .catch(console.error)
+     * ```
      */
     isUpdated: function isUpdated() {
       const raw = this.toPlainObject() as EntryProps
@@ -492,6 +549,21 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Checks if the entry is in draft mode. This means it is not published.
+     * @returns Boolean indicating whether the entry is a draft
+     * @example
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntry('<entry_id>'))
+     * .then((entry) => console.log(entry.isDraft()))
+     * .catch(console.error)
+     * ```
      */
     isDraft: function isDraft() {
       const raw = this.toPlainObject() as EntryProps
@@ -500,6 +572,21 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Checks if entry is archived. This means it's not exposed to the Delivery/Preview APIs.
+     * @returns Boolean indicating whether the entry is archived
+     * @example
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntry('<entry_id>'))
+     * .then((entry) => console.log(entry.isArchived()))
+     * .catch(console.error)
+     * ```
      */
     isArchived: function isArchived() {
       const raw = this.toPlainObject() as EntryProps
@@ -508,6 +595,23 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Recursively collects references of an entry and their descendants
+     * @param options - Options for reference retrieval
+     * @returns Promise for a collection of entries that are referenced by this entry
+     * @example
+     * ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEnvironment('<environment_id>'))
+     * .then((environment) => environment.getEntry('<entry_id>'))
+     * .then((entry) => entry.references({ include: 2 }))
+     * .then((references) => console.log(references.items))
+     * .catch(console.error)
+     * ```
      */
     references: function references(options?: EntryReferenceOptionsProps) {
       const raw = this.toPlainObject() as EntryProps

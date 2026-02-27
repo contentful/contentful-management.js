@@ -31,7 +31,7 @@ export type CommentPlainClientAPI = {
    *   bodyFormat: 'plain-text',
    * });
    * ```
-   * */
+   **/
   get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
   /** Fetches a rich text comment
    *
@@ -48,7 +48,7 @@ export type CommentPlainClientAPI = {
    *   bodyFormat: 'rich-text',
    * });
    * ```
-   * */
+   **/
   get(
     params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat,
   ): Promise<RichTextCommentProps>
@@ -69,7 +69,7 @@ export type CommentPlainClientAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>,
   ): Promise<CollectionProp<CommentProps>>
@@ -90,7 +90,7 @@ export type CommentPlainClientAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>,
   ): Promise<CollectionProp<RichTextCommentProps>>
@@ -180,7 +180,7 @@ export type CommentPlainClientAPI = {
     rawData: UpdateCommentProps,
     headers?: RawAxiosRequestHeaders,
   ): Promise<CommentProps>
-  /** Updates a plain text comment
+  /** Updates a rich text comment
    *
    * @param params
    * @returns a rich text comment

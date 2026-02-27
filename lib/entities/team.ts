@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
 
+/** Properties of a team within an organization */
 export type TeamProps = {
   /**
    * System metadata
@@ -21,13 +26,16 @@ export type TeamProps = {
   description: string
 }
 
+/** Properties required to create a new team */
 export type CreateTeamProps = Omit<TeamProps, 'sys'>
 
+/** A team with methods to update and delete */
 export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -35,7 +43,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
    * })
    *
    * client.getOrganization('organization_id')
-   * .then(org => org.getOrganizationMembership('organizationMembership_id'))
+   * .then(org => org.getTeam('team_id'))
    * .then((team) => {
    *  team.delete();
    * })
@@ -47,7 +55,8 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

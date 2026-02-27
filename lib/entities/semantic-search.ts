@@ -1,12 +1,18 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '../common-types'
 
+/** Parameters for performing a semantic search query */
 export type GetSemanticSearchProps = {
   query: string
   filter?: SemanticRequestFilter
 }
 
+/** A single semantic search result */
 export type SemanticSearchResult = {
   sys: {
     type: 'SemanticSearchResult'
@@ -16,6 +22,7 @@ export type SemanticSearchResult = {
   }
 }
 
+/** Properties of a semantic search response containing matched entries */
 export type SemanticSearchProps = {
   sys: {
     type: 'Array'
@@ -24,6 +31,7 @@ export type SemanticSearchProps = {
   items: SemanticSearchResult[]
 }
 
+/** A semantic search result entity */
 export interface SemanticSearch extends SemanticSearchProps, DefaultElements<SemanticSearchProps> {}
 
 export function wrapSemanticSearch(

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
@@ -5,6 +9,7 @@ import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapAgentRun, type AgentRun } from './agent-run'
 
+/** A link reference to an agent tool. */
 export type AgentToolLink = {
   sys: {
     type: 'Link'
@@ -13,6 +18,7 @@ export type AgentToolLink = {
   }
 }
 
+/** Properties of a Contentful AI agent. */
 export type AgentProps = {
   sys: MetaSysProps & {
     type: 'Agent'
@@ -30,6 +36,7 @@ export type AgentProps = {
 
 type AgentMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
+/** Payload for invoking an agent's generate action. */
 export type AgentGeneratePayload<TMetadata = Record<string, unknown>> = {
   messages: Array<{
     parts: Array<{
@@ -43,6 +50,7 @@ export type AgentGeneratePayload<TMetadata = Record<string, unknown>> = {
   metadata?: TMetadata
 }
 
+/** A Contentful AI agent with methods for generating responses. */
 export interface Agent extends AgentProps, DefaultElements<AgentProps> {
   generate(payload: AgentGeneratePayload): Promise<AgentRun>
 }

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -22,6 +26,7 @@ import { wrapReleaseAction } from './release-action'
 type Entity = 'Entry' | 'Asset'
 type ReleaseStatus = 'active' | 'archived'
 
+/** Query options for filtering and paginating releases */
 export interface ReleaseQueryOptions {
   /** Find releases filtered by the Entity type (Asset, Entry) */
   'entities.sys.linkType'?: string
@@ -57,7 +62,7 @@ export interface ReleaseQueryOptions {
   /**
    * Limit how many records are returned in the result
    * @default 100
-   * */
+   **/
   limit?: number
   /**
    * Order releases
@@ -66,10 +71,11 @@ export interface ReleaseQueryOptions {
    *  - `sys.updatedAt`, `-sys.updatedAt`
    *  - `sys.createdAt`, `-sys.createdAt`
    * @default -sys.updatedAt
-   * */
+   **/
   order?: string
 }
 
+/** System metadata properties for a release */
 export type ReleaseSysProps = {
   id: string
   type: 'Release'
@@ -86,9 +92,11 @@ export type ReleaseSysProps = {
   lastAction?: Link<'ReleaseAction'>
   schemaVersion?: 'Release.v2'
 }
+/** Filters for release entity references */
 export type ReleaseReferenceFilters = ScheduledActionReferenceFilters
 export const ReleaseReferenceFilters = ScheduledActionReferenceFilters
 
+/** Metadata for a release including reference configuration */
 export type ReleaseMetadata = {
   withReferences: {
     entity: Link<'Entry'>
@@ -104,6 +112,7 @@ export interface ReleaseProps {
   metadata?: ReleaseMetadata
 }
 
+/** Payload for creating or updating a v1 release */
 export interface ReleasePayload extends MakeRequestPayload {
   sys?: {
     type: 'Release'
@@ -113,6 +122,7 @@ export interface ReleasePayload extends MakeRequestPayload {
   entities: BaseCollection<Link<Entity>>
 }
 
+/** Payload for creating or updating a v2 release with per-entity actions */
 export interface ReleasePayloadV2 extends MakeRequestPayload {
   sys?: {
     type: 'Release'
@@ -122,27 +132,30 @@ export interface ReleasePayloadV2 extends MakeRequestPayload {
   entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
 }
 
+/** Payload for release validation specifying the action to validate */
 export interface ReleaseValidatePayload {
   action?: 'publish' | 'unpublish'
 }
 
+/** Options for release validation including payload and processing configuration */
 export interface ReleaseValidateOptions {
   payload?: ReleaseValidatePayload
   processingOptions?: AsyncActionProcessingOptions
 }
 
+/** API methods available on a Release entity */
 export interface ReleaseApiMethods {
   /**
    * Archives a release and locks any actions such as adding new entities or publishing/unpublishing.
    * This operation increases the sys.version property
    * @throws {BadRequest} if the release is already archived
-   * */
+   **/
 
   archive(): Promise<Release>
   /**
    * Unarchives an `archived` release and unlocks operations on the Release. This operation increases the sys.version property
    * @throws {BadRequest} if the release is not archived
-   * */
+   **/
   unarchive(): Promise<Release>
   /** Updates a Release and returns the updated Release object */
   update(payload: ReleasePayload): Promise<Release>
@@ -255,6 +268,7 @@ function createReleaseApi(makeRequest: MakeRequest): ReleaseApiMethods {
   }
 }
 
+/** A release with methods to publish, unpublish, validate, archive, update, and delete */
 export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElements<ReleaseProps> {}
 
 /**

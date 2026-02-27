@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -10,11 +14,13 @@ import type {
   QueryOptions,
 } from '../common-types'
 
+/** Options for querying team space memberships */
 export interface Options {
   teamId?: string
   query?: QueryOptions
 }
 
+/** Properties of a team's membership in a space with assigned roles */
 export type TeamSpaceMembershipProps = {
   /**
    * System metadata
@@ -32,15 +38,18 @@ export type TeamSpaceMembershipProps = {
   roles: { sys: MetaLinkProps }[]
 }
 
+/** Properties required to create a new team space membership */
 export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>
 
+/** A team space membership with methods to update and delete */
 export interface TeamSpaceMembership
   extends TeamSpaceMembershipProps,
     DefaultElements<TeamSpaceMembershipProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -59,7 +68,8 @@ export interface TeamSpaceMembership
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -69,7 +79,7 @@ export interface TeamSpaceMembership
    * client.getSpace('<space_id>')
    *  .then((space) => space.getTeamSpaceMembership('team_space_membership_id'))
    *  .then((teamSpaceMembership) => {
-   *    item.roles = [
+   *    teamSpaceMembership.roles = [
    *      {
    *        sys: {
    *          type: 'Link',
@@ -78,8 +88,9 @@ export interface TeamSpaceMembership
    *        }
    *      }
    *    ]
+   *    return teamSpaceMembership.update()
    *  })
-   *  .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
+   *  .then((teamSpaceMembership) => console.log(`teamSpaceMembership ${teamSpaceMembership.sys.id} updated.`))
    *  .catch(console.error)
    *  ```
    */

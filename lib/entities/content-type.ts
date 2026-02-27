@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except, RequireAtLeastOne, SetOptional } from 'type-fest'
@@ -24,6 +28,7 @@ import { omitAndDeleteField } from '../methods/content-type'
 type TaxonomyConceptValidationLink = Link<'TaxonomyConcept'> & { required?: boolean }
 type TaxonomyConceptSchemeValidationLink = Link<'TaxonomyConceptScheme'> & { required?: boolean }
 
+/** Metadata for a content type including annotation assignments and taxonomy references. */
 export type ContentTypeMetadata = {
   annotations?: RequireAtLeastOne<
     {
@@ -35,10 +40,12 @@ export type ContentTypeMetadata = {
   taxonomy?: Array<TaxonomyConceptValidationLink | TaxonomyConceptSchemeValidationLink>
 }
 
+/** An annotation assigned to a content type or field with optional parameters. */
 export type AnnotationAssignment = Link<'Annotation'> & {
   parameters?: Record<string, string | number | boolean>
 }
 
+/** Properties of a Contentful content type. */
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
     space: SysLink
@@ -56,6 +63,7 @@ export type ContentTypeProps = {
   metadata?: ContentTypeMetadata
 }
 
+/** Properties required to create a new content type. */
 export type CreateContentTypeProps = SetOptional<
   Except<ContentTypeProps, 'sys'>,
   'description' | 'displayField'
@@ -69,7 +77,8 @@ type ContentTypeApi = {
    * <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/content-types/content-type">API reference</a> for more reasoning. Alternatively,
    * you may use the convenience method omitAndDeleteField to do both steps at once.
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -92,7 +101,8 @@ type ContentTypeApi = {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -111,7 +121,8 @@ type ContentTypeApi = {
   /**
    * Publishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -130,7 +141,8 @@ type ContentTypeApi = {
   /**
    * Unpublishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -151,7 +163,8 @@ type ContentTypeApi = {
    * <strong>Important note</strong>: The editor interface only represent a published contentType.<br />
    * To get the most recent representation of the contentType make sure to publish it first
    * @returns Object returned from the server with the current editor interface.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -162,7 +175,7 @@ type ContentTypeApi = {
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
-   * .then((editorInterface) => console.log(editorInterface.contorls))
+   * .then((editorInterface) => console.log(editorInterface.controls))
    * .catch(console.error)
    * ```
    */
@@ -190,7 +203,8 @@ type ContentTypeApi = {
   /**
    * Gets a snapshot of a contentType
    * @param snapshotId - Id of the snapshot
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -200,7 +214,7 @@ type ContentTypeApi = {
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
-   * .then((entry) => entry.getSnapshot('<snapshot-id>'))
+   * .then((contentType) => contentType.getSnapshot('<snapshot-id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
    * ```
@@ -208,7 +222,8 @@ type ContentTypeApi = {
   getSnapshot(snapshotId: string): Promise<SnapshotProps<ContentTypeProps>>
   /**
    * Gets all snapshots of a contentType
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -218,7 +233,7 @@ type ContentTypeApi = {
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
-   * .then((entry) => entry.getSnapshots())
+   * .then((contentType) => contentType.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
    * ```
@@ -226,6 +241,7 @@ type ContentTypeApi = {
   getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
+/** A Contentful content type with methods for updating, publishing, deleting, and managing snapshots. */
 export interface ContentType
   extends ContentTypeProps,
     DefaultElements<ContentTypeProps>,

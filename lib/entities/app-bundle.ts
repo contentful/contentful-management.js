@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
@@ -28,12 +32,14 @@ interface FunctionManifestProps {
   allowNetworks?: string[]
 }
 
+/** A file included in an app bundle. */
 export type AppBundleFile = {
   name: string
   size: number
   md5: string
 }
 
+/** Properties required to create a new app bundle. */
 export type CreateAppBundleProps = {
   appUploadId: string
   comment?: string
@@ -41,6 +47,7 @@ export type CreateAppBundleProps = {
   functions?: FunctionManifestProps[]
 }
 
+/** Properties of a Contentful app bundle. */
 export type AppBundleProps = {
   /**
    * System metadata
@@ -60,11 +67,13 @@ export type AppBundleProps = {
   functions?: FunctionManifestProps[]
 }
 
+/** A Contentful app bundle with methods for deleting. */
 export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

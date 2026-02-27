@@ -1,0 +1,60 @@
+{
+  "name": "contentful-management.js",
+  "entryPoints": [
+    "lib/index.ts",
+    "lib/create-contentful-api.ts",
+    "lib/plain/plain-client.ts",
+    "lib/plain/checks.ts",
+    "lib/entities/*.ts"
+  ],
+  "out": "out",
+  "includeVersion": true,
+  "categorizeByGroup": false,
+  "categoryOrder": ["Core", "Plain Client", "Legacy Client", "Entities", "*"],
+  "defaultCategory": "Other",
+  "kindSortOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Constructor",
+    "Property",
+    "Function",
+    "Enum",
+    "EnumMember",
+    "Class",
+    "Interface",
+    "TypeAlias",
+    "Variable",
+    "Reference",
+    "Accessor",
+    "Method",
+    "Parameter",
+    "TypeParameter",
+    "TypeLiteral",
+    "CallSignature",
+    "ConstructorSignature",
+    "IndexSignature",
+    "GetSignature",
+    "SetSignature"
+  ],
+  "groupOrder": ["Functions", "Interfaces", "Modules", "*"],
+  "sortEntryPoints": false,
+  "readme": "README.md",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "excludeProtected": false,
+  "treatWarningsAsErrors": false,
+  "sort": ["source-order"],
+  "plugin": ["typedoc-plugin-missing-exports", "typedoc-github-theme"],
+  "hideGenerator": true,
+  "externalSymbolLinkMappings": {
+    "typescript": {
+      "Iterator": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator"
+    }
+  },
+  "navigation": {
+    "includeGroups": false,
+    "includeCategories": true,
+    "includeFolders": false
+  }
+}

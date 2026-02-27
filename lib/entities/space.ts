@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
@@ -6,11 +10,13 @@ import type { ContentfulSpaceAPI } from '../create-space-api'
 import createSpaceApi from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a Contentful space */
 export type SpaceProps = {
   sys: BasicMetaSysProps & { organization: { sys: { id: string } }; archivedAt?: string }
   name: string
 }
 
+/** A Contentful space with methods to manage environments, memberships, and webhooks */
 export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 
 /**

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -8,8 +12,10 @@ import { pollAsyncActionStatus } from '../methods/action'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type ReleaseActionStatuses = 'created' | 'inProgress' | 'failed' | 'succeeded'
+/** Types of actions that can be performed on a release */
 export type ReleaseActionTypes = 'publish' | 'unpublish' | 'validate'
 
+/** System metadata properties for a release action */
 export type ReleaseActionSysProps = {
   id: string
   type: 'ReleaseAction'
@@ -23,12 +29,13 @@ export type ReleaseActionSysProps = {
   updatedAt: ISO8601Timestamp
 }
 
-/** The object returned by the Releases API */
+/** The object returned by the Release Actions API */
 export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
   action: T
   sys: ReleaseActionSysProps
 }
 
+/** Query options for filtering and paginating release actions */
 export interface ReleaseActionQueryOptions {
   /** Find Release Actions by using a comma-separated list of Ids */
   'sys.id[in]'?: string
@@ -44,15 +51,16 @@ export interface ReleaseActionQueryOptions {
   /**
    * Limit of how many records are returned in the query result
    * @default 100
-   * */
+   **/
   limit?: number
 }
 
+/** API methods available on a ReleaseAction entity */
 export interface ReleaseActionApiMethods {
-  /** Performs a new GET request and returns the wrapper Release */
-  get(): ReleaseAction
+  /** Performs a new GET request and returns the wrapped Release Action */
+  get(): Promise<ReleaseAction>
   /** Waits until the Release Action has either succeeded or failed */
-  waitProcessing(options?: AsyncActionProcessingOptions): ReleaseAction
+  waitProcessing(options?: AsyncActionProcessingOptions): Promise<ReleaseAction>
 }
 
 /**
@@ -87,6 +95,7 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
   }
 }
 
+/** A release action with methods to get status and wait for processing */
 export interface ReleaseAction<T extends ReleaseActionTypes = any>
   extends ReleaseActionProps<T>,
     ReleaseActionApiMethods,
@@ -95,8 +104,8 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw Release data
- * @returns Wrapped Release data
+ * @param data - Raw Release Action data
+ * @returns Wrapped Release Action data
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -8,11 +12,13 @@ type OAuthApplicationSysProps = BasicMetaSysProps & {
   lastUsedAt: string | null
 }
 
+/** Available OAuth application permission scopes */
 export enum ScopeValues {
   Read = 'content_management_read',
   Manage = 'content_management_manage',
 }
 
+/** Properties of an OAuth application */
 export type OAuthApplicationProps = {
   name: string
   description: string
@@ -24,6 +30,7 @@ export type OAuthApplicationProps = {
   sys: OAuthApplicationSysProps
 }
 
+/** Properties required to create a new OAuth application */
 export type CreateOAuthApplicationProps = {
   name: string
   description: string
@@ -32,6 +39,7 @@ export type CreateOAuthApplicationProps = {
   confidential: boolean
 }
 
+/** Properties for updating an existing OAuth application */
 export type UpdateOAuthApplicationProps = {
   name?: string
   description?: string
@@ -40,6 +48,7 @@ export type UpdateOAuthApplicationProps = {
   confidential?: boolean
 }
 
+/** An OAuth application with methods to update and delete */
 export interface OAuthApplication
   extends OAuthApplicationProps,
     DefaultElements<OAuthApplicationProps> {

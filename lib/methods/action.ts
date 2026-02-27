@@ -28,17 +28,17 @@ export class AsyncActionFailedError extends AsyncActionProcessingError {}
 export type AsyncActionProcessingOptions = {
   /** The amount of times to retry.
    * @default 30
-   * */
+   **/
   retryCount?: number
   /** The interval between retries, in milliseconds (ms).
    * @default 2000 (2s)
-   * */
+   **/
   retryIntervalMs?: number
   /**
    * Initial delay in milliseconds when performing the first check.
    * This is used to prevent short running bulkActions of waiting too long for a result.
    * @default 1000 (1s)
-   * */
+   **/
   initialDelayMs?: number
   /**
    * Throws an error if the Action does not complete with a successful (succeeded) status.

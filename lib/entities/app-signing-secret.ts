@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -9,6 +13,7 @@ type AppSigningSecretSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Properties of a Contentful app signing secret. */
 export type AppSigningSecretProps = {
   /**
    * System metadata
@@ -18,25 +23,28 @@ export type AppSigningSecretProps = {
   redactedValue: string
 }
 
+/** Properties required to create a new app signing secret. */
 export type CreateAppSigningSecretProps = {
-  /** A 64 character matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
+  /** A 64-character string matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
   value: string
 }
 
+/** A Contentful app signing secret with methods for deleting. */
 export interface AppSigningSecret
   extends AppSigningSecretProps,
     DefaultElements<AppSigningSecretProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppSigningSecret(<api-key-id>))
+   * .then((organization) => organization.getAppSigningSecret('<app_definition_id>'))
    * .then((signingSecret) => signingSecret.delete())
    * .then(() => console.log('signingSecret deleted'))
    * .catch(console.error)
@@ -65,7 +73,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppSigningSecret data
  * @returns Wrapped AppSigningSecret data
  */

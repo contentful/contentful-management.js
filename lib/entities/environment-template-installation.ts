@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -23,9 +27,11 @@ enum EnvironmentTemplateInstallationStatuses {
   inRetry = 'inRetry',
 }
 
+/** Status of an environment template installation */
 export type EnvironmentTemplateInstallationStatus =
   keyof typeof EnvironmentTemplateInstallationStatuses
 
+/** Properties of an environment template installation */
 export type EnvironmentTemplateInstallationProps = {
   sys: BasicMetaSysProps & {
     type: 'EnvironmentTemplateInstallation'
@@ -43,6 +49,7 @@ export type EnvironmentTemplateInstallationProps = {
   }
 }
 
+/** Properties required to create an environment template installation */
 export type CreateEnvironmentTemplateInstallationProps = {
   version: number
   takeover?: {
@@ -52,16 +59,19 @@ export type CreateEnvironmentTemplateInstallationProps = {
   deleteDeletedFields?: boolean
 }
 
+/** Properties for validating an environment template installation */
 export type ValidateEnvironmentTemplateInstallationProps = Omit<
   CreateEnvironmentTemplateInstallationProps,
   'version'
 >
 
+/** A single validation finding with a message and details */
 export type ValidationFinding = {
   message: string
   details: Record<string, unknown>
 }
 
+/** Validation results for an environment template installation */
 export type EnvironmentTemplateValidationProps<T = ValidationFinding> = {
   sys: {
     type: 'Array'
@@ -72,6 +82,7 @@ export type EnvironmentTemplateValidationProps<T = ValidationFinding> = {
   items: T[]
 }
 
+/** An environment template installation entity */
 export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationProps &
   DefaultElements<EnvironmentTemplateInstallationProps>
 

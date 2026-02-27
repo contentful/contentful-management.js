@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except, SetOptional } from 'type-fest'
@@ -5,6 +9,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { BasicMetaSysProps, SysLink, DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of a locale defining language settings for content */
 export type LocaleProps = {
   sys: BasicMetaSysProps & { space: SysLink; environment: SysLink }
   /**
@@ -41,6 +46,7 @@ export type LocaleProps = {
   optional: boolean
 }
 
+/** Properties required to create a new locale */
 export type CreateLocaleProps = Omit<
   SetOptional<
     Except<LocaleProps, 'sys'>,
@@ -49,11 +55,13 @@ export type CreateLocaleProps = Omit<
   'internal_code'
 >
 
+/** A locale with methods to update and delete */
 export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -72,7 +80,8 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

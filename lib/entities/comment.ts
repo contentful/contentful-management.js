@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Node, Text } from '@contentful/rich-text-types'
 import copy from 'fast-copy'
@@ -23,6 +27,7 @@ interface LinkWithReference<T extends string> extends Link<T> {
   }
 }
 
+/** System metadata properties of a comment. */
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -39,21 +44,29 @@ export type CommentSysProps = Pick<
   parent: Link<'Comment'> | null
 }
 
+/** Identifier for plain-text comment body format. */
 export type PlainTextBodyProperty = 'plain-text'
+/** Identifier for rich-text comment body format. */
 export type RichTextBodyProperty = 'rich-text'
 
+/** Specifies that the comment body should be in rich-text format. */
 export type RichTextBodyFormat = { bodyFormat: RichTextBodyProperty }
+/** Specifies that the comment body should be in plain-text format (default). */
 export type PlainTextBodyFormat = { bodyFormat?: PlainTextBodyProperty }
 
+/** Possible statuses of a comment. */
 export type CommentStatus = 'active' | 'resolved'
 
+/** Properties of a Contentful comment. */
 export type CommentProps = {
   sys: CommentSysProps
   body: string
   status: CommentStatus
 }
 
+/** Properties required to create a new comment. */
 export type CreateCommentProps = Omit<CommentProps, 'sys' | 'status'> & { status?: CommentStatus }
+/** Properties required to update an existing comment. */
 export type UpdateCommentProps = Omit<CommentProps, 'sys'> & {
   sys: Pick<CommentSysProps, 'version'>
 }
@@ -66,30 +79,36 @@ export enum CommentNode {
 }
 
 // Add "extends Block" as soon as rich-text-types supports mentions
+/** A mention node referencing a user or team within a rich-text comment. */
 export interface Mention {
   nodeType: CommentNode.Mention
   data: { target: Link<'User'> | Link<'Team'> }
   content: Text[]
 }
 
+/** A top-level paragraph node in a rich-text comment document. */
 export interface RootParagraph extends Node {
   nodeType: CommentNode.Paragraph
   content: (Text | Mention)[]
 }
 
 // Add "extends Document" as soon as rich-text-types supports mentions.
+/** A rich-text document structure for comment bodies. */
 export interface RichTextCommentDocument extends Node {
   nodeType: CommentNode.Document
   content: RootParagraph[]
 }
 
+/** Payload containing a rich-text comment body. */
 export type RichTextCommentBodyPayload = { body: RichTextCommentDocument }
 
+/** Properties of a comment with a rich-text body. */
 export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentBodyPayload
 
 // PARAMS //
 
 // We keep this type as explicit as possible until we open up the comments entity further
+/** Parameters for identifying the parent entity of a comment. */
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
   (
     | {
@@ -109,13 +128,17 @@ export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
       }
   )
 
+/** Parameters for retrieving multiple comments. */
 export type GetManyCommentsParams = (GetEntryParams | GetCommentParentEntityParams) & {
   status?: CommentStatus
 }
+/** Parameters for creating a new comment. */
 export type CreateCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   parentCommentId?: string
 }
+/** Parameters for updating an existing comment. */
 export type UpdateCommentParams = GetCommentParams
+/** Parameters for deleting a comment, including its version for optimistic locking. */
 export type DeleteCommentParams = GetCommentParams & {
   version: number
 }
@@ -127,8 +150,10 @@ type CommentApi = {
   delete(): Promise<void>
 }
 
+/** A Contentful plain-text comment with methods for updating and deleting. */
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
 
+/** A Contentful rich-text comment with methods for updating and deleting. */
 export interface RichTextComment
   extends Omit<CommentProps, 'body'>,
     RichTextCommentProps,

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicMetaSysProps,
   CollectionProp,
@@ -12,6 +16,7 @@ import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
 
 import { wrapResourceType } from './resource-type'
 
+/** Properties of a resource provider that connects external resources to Contentful */
 export type ResourceProviderProps = {
   /**
    * System metadata
@@ -30,10 +35,12 @@ export type ResourceProviderProps = {
   function: SysLink
 }
 
+/** Properties for creating or updating a resource provider */
 export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {
   sys: { id: string }
 }
 
+/** A resource provider with methods to upsert, delete, and manage resource types */
 export interface ResourceProvider
   extends ResourceProviderProps,
     DefaultElements<ResourceProviderProps> {
@@ -52,7 +59,8 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
     /**
      * Sends an update to the server with any changes made to the object's properties
      * @returns Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -82,7 +90,8 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
     /**
      * Deletes this object on the server.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({

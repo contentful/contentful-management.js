@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -18,6 +22,7 @@ type Entity = 'Entry' | 'Asset'
 type Collection<T> = Array<T>
 type EntityError = { entity: VersionedLink<Entity> | Link<Entity>; error: any }
 
+/** The type of operation performed by a bulk action. */
 export type BulkActionType = 'publish' | 'unpublish' | 'validate'
 
 /** Represents the state of the BulkAction */
@@ -43,11 +48,13 @@ interface BulkActionFailedError {
   }
 }
 
+/** Union of all valid bulk action payload types. */
 export type BulkActionPayload =
   | BulkActionPublishPayload
   | BulkActionUnpublishPayload
   | BulkActionValidatePayload
 
+/** Payload for a bulk validate action. */
 export interface BulkActionValidatePayload extends MakeRequestPayload {
   action?: 'publish'
   entities: {
@@ -55,6 +62,7 @@ export interface BulkActionValidatePayload extends MakeRequestPayload {
     items: Collection<Link<Entity>>
   }
 }
+/** Payload for a bulk unpublish action. */
 export interface BulkActionUnpublishPayload extends MakeRequestPayload {
   entities: {
     sys?: { type: 'Array' }
@@ -62,6 +70,7 @@ export interface BulkActionUnpublishPayload extends MakeRequestPayload {
   }
 }
 
+/** Payload for a bulk publish action. */
 export interface BulkActionPublishPayload extends MakeRequestPayload {
   entities: {
     sys?: { type: 'Array' }
@@ -86,6 +95,7 @@ type BulkActionEntity<L extends Link<Entity> | VersionedLink<Entity>> = {
   entity: L
 }
 
+/** V2 payload for a bulk publish action with field-level granularity. */
 export interface PublishBulkActionV2Payload<PublishActionType extends 'add' | 'remove' = 'add'> {
   action: 'publish'
   entities: PublishActionType extends 'remove'
@@ -93,6 +103,7 @@ export interface PublishBulkActionV2Payload<PublishActionType extends 'add' | 'r
     : AddFieldsEntity<VersionedLink<Entity>>[]
 }
 
+/** V2 payload for a bulk validate action with field-level granularity. */
 export interface ValidateBulkActionV2Payload<PublishActionType extends 'add' | 'remove' = 'add'> {
   action: 'validate'
   entities: PublishActionType extends 'remove'
@@ -100,11 +111,13 @@ export interface ValidateBulkActionV2Payload<PublishActionType extends 'add' | '
     : AddFieldsEntity<Link<Entity>>[]
 }
 
+/** V2 payload for a bulk unpublish action. */
 export interface UnpublishBulkActionV2Payload {
   action: 'unpublish'
   entities: BulkActionEntity<Link<Entity>>[]
 }
 
+/** Union of all valid V2 bulk action payload types. */
 export type BulkActionV2Payload =
   | PublishBulkActionV2Payload<'add'>
   | PublishBulkActionV2Payload<'remove'>
@@ -112,6 +125,7 @@ export type BulkActionV2Payload =
   | ValidateBulkActionV2Payload<'add'>
   | ValidateBulkActionV2Payload<'remove'>
 
+/** System metadata properties of a bulk action. */
 export type BulkActionSysProps = {
   id: string
   type: 'BulkAction'
@@ -133,6 +147,7 @@ export interface BulkActionProps<TPayload extends BulkActionPayload | BulkAction
   error?: BulkActionFailedError
 }
 
+/** Methods available on a bulk action entity. */
 export interface BulkActionApiMethods {
   /** Performs a new GET request and returns the wrapper BulkAction */
   get(): BulkAction
@@ -171,6 +186,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
   }
 }
 
+/** A Contentful bulk action with methods for polling status and retrieving results. */
 export interface BulkAction<T extends BulkActionPayload | BulkActionV2Payload = any>
   extends BulkActionProps<T>,
     BulkActionApiMethods,

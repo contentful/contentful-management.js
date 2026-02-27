@@ -16,7 +16,6 @@ import type { PlainClientDefaultParams } from './plain/plain-client'
 import { createPlainClient } from './plain/plain-client'
 import * as editorInterfaceDefaults from './constants/editor-interface-defaults'
 import { ScheduledActionStatus } from './entities/scheduled-action'
-
 export type { ClientAPI } from './create-contentful-api'
 export { asIterator } from './plain/as-iterator'
 export { fetchAll } from './plain/pagination-helper'
@@ -45,25 +44,37 @@ interface UserAgentParams {
 }
 
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
+declare global {
+  const __VERSION__: string
+}
 
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
  *
+ * @example Plain Client
  * ```javascript
  * const client = contentfulManagement.createClient({
- *  accessToken: 'myAccessToken'
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain'
+ *   }
+ * })
+ * ```
+ * @example Plain Client with defaults
+ * ```javascript
+ * const client = contentfulManagement.createClient({
+ *   accessToken: 'myAccessToken',
+ *   opts: {
+ *     type: 'plain',
+ *     defaults: {
+ *        ...
+ *     }
+ *   }
  * })
  * ```
  */
 export function createClient(clientOptions: ClientOptions): PlainClientAPI
-export function createClient(
-  clientOptions: ClientOptions,
-  opts: {
-    type?: 'plain'
-    defaults?: PlainClientDefaultParams
-  },
-): PlainClientAPI
 /**
  * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
  */
@@ -84,7 +95,6 @@ export function createClient(
   const sdkMain =
     opts.type === 'legacy' ? 'contentful-management.js' : 'contentful-management-plain.js'
   const userAgent = getUserAgentHeader(
-    // @ts-expect-error __VERSION__ is injected by rollup at build time
     `${sdkMain}/${__VERSION__}`,
     clientOptions.application,
     clientOptions.integration,

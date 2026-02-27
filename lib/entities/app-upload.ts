@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
@@ -7,6 +11,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 
 type AppUploadSys = Except<BasicMetaSysProps, 'version'>
 
+/** Properties of a Contentful app upload. */
 export type AppUploadProps = {
   sys: AppUploadSys & {
     expiresAt: string
@@ -14,11 +19,13 @@ export type AppUploadProps = {
   }
 }
 
+/** A Contentful app upload with methods for deleting. */
 export interface AppUpload extends AppUploadProps, DefaultElements<AppUploadProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

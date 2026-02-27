@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicMetaSysProps,
   CursorPaginatedCollectionProp,
@@ -11,6 +15,7 @@ import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 
+/** Properties of a resource type defining how external resources are mapped */
 export type ResourceTypeProps = {
   /**
    * System metadata
@@ -52,6 +57,7 @@ type OptionalSysFields =
   | 'appDefinition'
   | 'organization'
 
+/** Resource type properties as returned in a space environment context */
 export type SpaceEnvResourceTypeProps = Pick<
   ResourceTypeProps,
   (typeof publicResourceTypeFields)[number]
@@ -61,8 +67,10 @@ export type SpaceEnvResourceTypeProps = Pick<
     Omit<ResourceTypeProps['sys'], OptionalSysFields>
 }
 
+/** Properties for creating or updating a resource type */
 export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'>
 
+/** A resource type with methods to upsert and delete */
 export interface ResourceType extends ResourceTypeProps, DefaultElements<ResourceTypeProps> {
   upsert(): Promise<ResourceType>
   delete(): Promise<void>
@@ -76,7 +84,8 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
     /**
      * Sends an update to the server with any changes made to the object's properties
      * @returns Object returned from the server with updated changes.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -107,7 +116,8 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
     /**
      * Deletes this object on the server.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
