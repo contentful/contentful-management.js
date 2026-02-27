@@ -2,7 +2,7 @@ dist
 gh-pages
 webpack-build-log.json
 
-# Esdoc dirs
+# TypeDoc output
 out
 gh-pages
 
