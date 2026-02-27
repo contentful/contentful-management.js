@@ -293,6 +293,7 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
+/** Base system metadata properties present on all Contentful resources. */
 export interface BasicMetaSysProps {
   type: string
   id: string
@@ -303,6 +304,7 @@ export interface BasicMetaSysProps {
   updatedAt: string
 }
 
+/** Extended system metadata with publishing, archiving, and deletion tracking. */
 export interface MetaSysProps extends BasicMetaSysProps {
   space?: SysLink
   /**
@@ -319,6 +321,7 @@ export interface MetaSysProps extends BasicMetaSysProps {
   deletedAt?: string
 }
 
+/** System metadata for space-scoped entities (entries, assets, etc.) including environment and publishing info. */
 export interface EntityMetaSysProps extends MetaSysProps {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
@@ -337,26 +340,31 @@ export interface EntityMetaSysProps extends MetaSysProps {
   release?: Link<'Release'>
 }
 
+/** System metadata specific to entries, including content type reference and automation tags. */
 export interface EntryMetaSysProps extends EntityMetaSysProps {
   contentType: SysLink
   automationTags: Link<'Tag'>[]
 }
 
+/** Properties of a link reference to another Contentful resource. */
 export interface MetaLinkProps {
   type: string
   linkType: string
   id: string
 }
 
+/** Entity metadata including tags and taxonomy concepts. */
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
+/** A system link wrapper containing a {@link MetaLinkProps} reference. */
 export interface SysLink {
   sys: MetaLinkProps
 }
 
+/** Paginated collection response from the Contentful API. */
 export interface CollectionProp<TObj> {
   sys: {
     type: 'Array'
@@ -367,6 +375,7 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+/** Cursor-based paginated collection response, used for large result sets that don't support offset-based pagination. */
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
   pages?: {
@@ -390,6 +399,7 @@ export interface QueryOptions extends BasicQueryOptions {
   select?: string
 }
 
+/** Base query options for paginated API requests. */
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
@@ -397,6 +407,7 @@ export interface BasicQueryOptions {
   [key: string]: any
 }
 
+/** Query options for cursor-based pagination, using page tokens instead of offset-based skip. */
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
   skip?: never
   pageNext?: string
@@ -458,6 +469,7 @@ export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
 
+/** Generic key-value map used for entry fields and other dynamic data structures. */
 export type KeyValueMap = Record<string, any>
 
 /**
