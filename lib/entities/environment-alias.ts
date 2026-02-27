@@ -27,7 +27,7 @@ export interface EnvironmentAlias
    * Sends an update to the server with any changes made to the object's properties. Currently, you can only change the id of the alias's underlying environment. See the example below.
    * @memberof EnvironmentAlias
    * @func update
-   * @return {Promise<EnvironmentAlias>} Object returned from the server with updated changes.
+   * @returns {Promise<EnvironmentAlias>} Object returned from the server with updated changes.
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -51,7 +51,7 @@ export interface EnvironmentAlias
    * Deletes this object on the server.
    * @memberof EnvironmentAlias
    * @func delete
-   * @return {Promise<void>} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns {Promise<void>} Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -108,7 +108,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias data
- * @return Wrapped environment alias data
+ * @returns Wrapped environment alias data
  */
 export function wrapEnvironmentAlias(
   makeRequest: MakeRequest,
@@ -123,6 +123,6 @@ export function wrapEnvironmentAlias(
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias collection data
- * @return Wrapped environment alias collection data
+ * @returns Wrapped environment alias collection data
  */
 export const wrapEnvironmentAliasCollection = wrapCollection(wrapEnvironmentAlias)

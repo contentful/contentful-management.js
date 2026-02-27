@@ -48,7 +48,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
    * Deletes this object on the server.
    * @memberof Role
    * @func delete
-   * @return {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns {Promise} Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -66,7 +66,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -121,7 +121,7 @@ function createRoleApi(makeRequest: MakeRequest) {
  * @private
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw role data
- * @return Wrapped role data
+ * @returns Wrapped role data
  */
 export function wrapRole(makeRequest: MakeRequest, data: RoleProps): Role {
   const role = toPlainObject(copy(data))

@@ -36,7 +36,7 @@ export type CreateAppDetailsProps = {
 export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -56,7 +56,7 @@ export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsP
 /**
  * @private
  * @param makeRequest - function to make requests via an adapter
- * @return Wrapped App Details data
+ * @returns Wrapped App Details data
  */
 function createAppDetailsApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDetailsProps) => ({
@@ -80,7 +80,7 @@ function createAppDetailsApi(makeRequest: MakeRequest) {
  * @private
  * @param http - HTTP client instance
  * @param data - Raw AppDetails data
- * @return Wrapped AppDetails data
+ * @returns Wrapped AppDetails data
  */
 export function wrapAppDetails(makeRequest: MakeRequest, data: AppDetailsProps): AppDetails {
   const appDetails = toPlainObject(copy(data))
