@@ -26,7 +26,7 @@ export type FunctionProps = {
 export interface Function extends FunctionProps, DefaultElements<FunctionProps> {}
 
 /**
- * @private
+ * @internal
  */
 function createFunctionApi(makeRequest: MakeRequest) {
   return {
@@ -72,7 +72,7 @@ function createFunctionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - (real) function to make requests via an adapter
  * @param data - raw contentful-Function data
  * @returns Wrapped Function data
@@ -83,6 +83,6 @@ export function wrapFunction(makeRequest: MakeRequest, data: FunctionProps): Fun
   return freezeSys(funcWithMethods)
 }
 /**
- * @private
+ * @internal
  */
 export const wrapFunctionCollection = wrapCollection(wrapFunction)

@@ -5,7 +5,7 @@ type UploadHttpClientOpts = {
 }
 
 /**
- * @private
+ * @internal
  */
 export function getUploadHttpClient(
   http: AxiosInstance,

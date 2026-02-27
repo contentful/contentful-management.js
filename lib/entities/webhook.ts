@@ -312,7 +312,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createWebhookApi(makeRequest: MakeRequest) {
   const getParams = (data: WebhookProps) => ({
@@ -366,7 +366,7 @@ function createWebhookApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw webhook data
  * @returns Wrapped webhook data
@@ -378,6 +378,6 @@ export function wrapWebhook(makeRequest: MakeRequest, data: WebhookProps): WebHo
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWebhookCollection = wrapCollection(wrapWebhook)

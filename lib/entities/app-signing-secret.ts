@@ -64,7 +64,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppSigningSecret data
  * @returns Wrapped AppSigningSecret data

@@ -37,7 +37,7 @@ export type FunctionLogProps = {
 export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionLogProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - raw contentful-Function data
  * @returns Wrapped Function data
@@ -51,7 +51,7 @@ export function wrapFunctionLog(
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - raw contentful-function data
  * @returns Wrapped App Function collection data

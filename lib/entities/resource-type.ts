@@ -69,7 +69,7 @@ export interface ResourceType extends ResourceTypeProps, DefaultElements<Resourc
 }
 
 /**
- * @private
+ * @internal
  */
 function createResourceTypeApi(makeRequest: MakeRequest) {
   return {
@@ -145,7 +145,7 @@ const getUpsertParams = (data: ResourceTypeProps): UpsertResourceTypeProps => ({
 })
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Type data
  * @returns Wrapped Resource Type data

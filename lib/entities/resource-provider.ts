@@ -45,7 +45,7 @@ export interface ResourceProvider
 }
 
 /**
- * @private
+ * @internal
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
   return {
@@ -145,7 +145,7 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
   }
 }
 /**
- * @private
+ * @internal
  * @param data - raw ResourceProvider Object
  * @returns Object containing the http params for the ResourceProvider request: organizationId and appDefinitionId
  */
@@ -154,7 +154,7 @@ const getParams = (data: ResourceProviderProps) => ({
   appDefinitionId: data.sys.appDefinition.sys.id,
 })
 /**
- * @private
+ * @internal
  * @param data - raw ResourceProvider Object
  * @returns UpsertResourceProviderProps
  */
@@ -165,7 +165,7 @@ const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderPro
 })
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Provider data
  * @returns Wrapped Resource Provider data

@@ -100,7 +100,7 @@ export interface AppActionCallResponseData
 export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallProps>
 
 /**
- * @private
+ * @internal
  */
 export default function createAppActionCallApi(
   makeRequest: MakeRequest,
@@ -147,7 +147,7 @@ export default function createAppActionCallApi(
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppActionCall data
  * @returns Wrapped AppActionCall data
@@ -165,7 +165,7 @@ export function wrapAppActionCall(
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppActionCall data
  * @returns Wrapped AppActionCall data

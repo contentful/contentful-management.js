@@ -75,7 +75,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppEventSubscription data
  * @returns Wrapped AppEventSubscription data

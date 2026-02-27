@@ -59,7 +59,7 @@ export interface SpaceMembership
 }
 
 /**
- * @private
+ * @internal
  */
 function createSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: SpaceMembershipProps) => ({
@@ -89,7 +89,7 @@ function createSpaceMembershipApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
  * @returns Wrapped space membership data
@@ -107,6 +107,6 @@ export function wrapSpaceMembership(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapSpaceMembershipCollection = wrapCollection(wrapSpaceMembership)

@@ -65,7 +65,7 @@ export interface OrganizationMembership
 }
 
 /**
- * @private
+ * @internal
  */
 function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationId: string) {
   const getParams = (data: OrganizationMembershipProps) => ({
@@ -96,7 +96,7 @@ function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationI
 }
 
 /**
- * @private
+ * @internal
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {Object} data - Raw organization membership data
  * @returns {OrganizationMembership} Wrapped organization membership data
@@ -115,6 +115,6 @@ export function wrapOrganizationMembership(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapOrganizationMembershipCollection = wrapCollection(wrapOrganizationMembership)

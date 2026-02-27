@@ -72,7 +72,7 @@ export interface EnvironmentAlias
 }
 
 /**
- * @private
+ * @internal
  */
 function createEnvironmentAliasApi(makeRequest: MakeRequest) {
   const getParams = (alias: EnvironmentAliasProps) => ({
@@ -105,7 +105,7 @@ function createEnvironmentAliasApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias data
  * @returns Wrapped environment alias data
@@ -120,7 +120,7 @@ export function wrapEnvironmentAlias(
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw environment alias collection data
  * @returns Wrapped environment alias collection data

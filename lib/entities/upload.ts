@@ -32,7 +32,7 @@ export interface Upload extends UploadProps, DefaultElements<UploadProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createUploadApi(makeRequest: MakeRequest) {
   return {
@@ -52,7 +52,7 @@ function createUploadApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {object} data - Raw upload data
  * @returns {Upload} Wrapped upload data

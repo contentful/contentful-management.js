@@ -149,7 +149,7 @@ export interface WorkflowDefinition
 export type WorkflowDefinitionQueryOptions = Omit<PaginationQueryOptions, 'order'>
 
 /**
- * @private
+ * @internal
  */
 export default function createWorkflowDefinitionApi(
   makeRequest: MakeRequest,
@@ -190,7 +190,7 @@ export default function createWorkflowDefinitionApi(
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapWorkflowDefinition(
   makeRequest: MakeRequest,
@@ -205,6 +205,6 @@ export function wrapWorkflowDefinition(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWorkflowDefinitionCollection = wrapCollection(wrapWorkflowDefinition)

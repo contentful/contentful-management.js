@@ -53,7 +53,7 @@ type TagApi = {
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
 /**
- * @private
+ * @internal
  */
 export default function createTagApi(makeRequest: MakeRequest): TagApi {
   const getParams = (tag: TagProps) => ({
@@ -92,7 +92,7 @@ export default function createTagApi(makeRequest: MakeRequest): TagApi {
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapTag(makeRequest: MakeRequest, data: TagProps): Tag {
   const tag = toPlainObject(copy(data))
@@ -101,6 +101,6 @@ export function wrapTag(makeRequest: MakeRequest, data: TagProps): Tag {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapTagCollection = wrapCollection(wrapTag)

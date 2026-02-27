@@ -67,7 +67,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createTeamApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamProps) => ({
@@ -98,7 +98,7 @@ function createTeamApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw team data
  * @returns Wrapped team data
@@ -110,6 +110,6 @@ export function wrapTeam(makeRequest: MakeRequest, data: TeamProps): Team {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapTeamCollection = wrapCollection(wrapTeam)

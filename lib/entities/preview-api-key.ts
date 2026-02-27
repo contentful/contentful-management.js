@@ -14,14 +14,14 @@ export type PreviewApiKeyProps = {
 export interface PreviewApiKey extends PreviewApiKeyProps, DefaultElements<PreviewApiKeyProps> {}
 
 /**
- * @private
+ * @internal
  */
 function createPreviewApiKeyApi() {
   return {}
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  * @returns Wrapped preview api key data
@@ -36,6 +36,6 @@ export function wrapPreviewApiKey(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapPreviewApiKeyCollection = wrapCollection(wrapPreviewApiKey)

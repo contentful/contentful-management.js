@@ -232,7 +232,7 @@ export interface ContentType
     ContentTypeApi {}
 
 /**
- * @private
+ * @internal
  */
 function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
   const getParams = (self: ContentType) => {
@@ -345,7 +345,7 @@ function createContentTypeApi(makeRequest: MakeRequest): ContentTypeApi {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw content type data
  * @returns Wrapped content type data
@@ -357,12 +357,12 @@ export function wrapContentType(makeRequest: MakeRequest, data: ContentTypeProps
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapContentTypeCollection = wrapCollection(wrapContentType)
 
 /**
- * @private
+ * @internal
  */
 export const wrapContentTypeCursorPaginatedCollection =
   wrapCursorPaginatedCollection(wrapContentType)

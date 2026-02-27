@@ -18,7 +18,7 @@ export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAP
  * reading and creating other entities. It also passes down a clone of the
  * http client with a space id, so the base path for requests now has the
  * space id already set.
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Space
  * @returns {Space}
@@ -33,6 +33,6 @@ export function wrapSpace(makeRequest: MakeRequest, data: SpaceProps): Space {
 /**
  * This method wraps each space in a collection with the space API. See wrapSpace
  * above for more details.
- * @private
+ * @internal
  */
 export const wrapSpaceCollection = wrapCollection(wrapSpace)

@@ -40,7 +40,7 @@ export interface UploadCredential
 }
 
 /**
- * @private
+ * @internal
  */
 function createUploadCredentialsApi(makeRequest: MakeRequest) {
   return {
@@ -59,7 +59,7 @@ function createUploadCredentialsApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {object} data - Raw upload credential data
  * @returns {UploadCredential} Wrapped upload credential data

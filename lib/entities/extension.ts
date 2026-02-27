@@ -106,7 +106,7 @@ export interface Extension extends ExtensionProps, DefaultElements<ExtensionProp
 }
 
 /**
- * @private
+ * @internal
  */
 function createExtensionApi(makeRequest: MakeRequest) {
   const getParams = (data: ExtensionProps) => ({
@@ -137,7 +137,7 @@ function createExtensionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw UI Extension data
  * @returns Wrapped UI Extension data
@@ -149,6 +149,6 @@ export function wrapExtension(makeRequest: MakeRequest, data: ExtensionProps): E
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapExtensionCollection = wrapCollection(wrapExtension)

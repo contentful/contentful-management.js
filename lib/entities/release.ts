@@ -163,7 +163,7 @@ export interface ReleaseApiMethods {
 }
 
 /**
- * @private
+ * @internal
  */
 function createReleaseApi(makeRequest: MakeRequest): ReleaseApiMethods {
   const getParams = (self: Release) => {
@@ -259,7 +259,7 @@ export interface Release extends ReleaseProps, ReleaseApiMethods, DefaultElement
 
 /**
  * Return a Release object enhanced with its own API helper functions.
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @returns Wrapped Release data
@@ -274,7 +274,7 @@ export function wrapRelease(makeRequest: MakeRequest, data: ReleaseProps): Relea
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapReleaseCollection: (
   makeRequest: MakeRequest,
