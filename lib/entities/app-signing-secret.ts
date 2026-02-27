@@ -13,6 +13,7 @@ type AppSigningSecretSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Properties of a Contentful app signing secret. */
 export type AppSigningSecretProps = {
   /**
    * System metadata
@@ -22,11 +23,13 @@ export type AppSigningSecretProps = {
   redactedValue: string
 }
 
+/** Properties required to create a new app signing secret. */
 export type CreateAppSigningSecretProps = {
   /** A 64 character matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
   value: string
 }
 
+/** A Contentful app signing secret with methods for deleting. */
 export interface AppSigningSecret
   extends AppSigningSecretProps,
     DefaultElements<AppSigningSecretProps> {

@@ -39,8 +39,10 @@ interface NotConstraint {
   not: EqualityConstraint | InConstraint | RegexpConstraint
 }
 
+/** Summary of webhook call statistics */
 export type WebhookCalls = { total: number; healthy: number }
 
+/** Details of an outgoing webhook HTTP request */
 export type WebhookCallRequest = {
   url: string
   method: string
@@ -50,19 +52,25 @@ export type WebhookCallRequest = {
   body: string
 }
 
+/** Details of a webhook HTTP response including status code */
 export type WebhookCallResponse = WebhookCallRequest & { statusCode: number }
 
+/** System metadata for webhook health status */
 export type WebhookHealthSys = Except<
   BasicMetaSysProps,
   'version' | 'updatedAt' | 'updatedBy' | 'createdAt'
 >
 
+/** System metadata for webhook call details */
 export type WebhookCallDetailsSys = Except<BasicMetaSysProps, 'version' | 'updatedAt' | 'updatedBy'>
 
+/** A custom HTTP header attached to webhook requests */
 export type WebhookHeader = { key: string; value: string; secret?: boolean }
 
+/** A filter condition for webhook event matching */
 export type WebhookFilter = EqualityConstraint | InConstraint | RegexpConstraint | NotConstraint
 
+/** Configuration for transforming a webhook request before sending */
 export type WebhookTransformation = {
   method?: null | 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE'
   contentType?:
@@ -77,17 +85,21 @@ export type WebhookTransformation = {
   body?: JsonValue
 }
 
+/** Properties required to create a new webhook */
 export type CreateWebhooksProps = SetOptional<Except<WebhookProps, 'sys'>, 'headers' | 'active'>
 
+/** Properties for updating an existing webhook */
 export type UpdateWebhookProps = SetOptional<
   Except<WebhookProps, 'sys'>,
   'headers' | 'name' | 'topics' | 'url' | 'active'
 >
 
+/** Payload for creating or updating a webhook signing secret */
 export type UpsertWebhookSigningSecretPayload = {
   value: string
 }
 
+/** Properties of a detailed webhook call record */
 export type WebhookCallDetailsProps = {
   /**
    * System metadata
@@ -131,8 +143,10 @@ export type WebhookCallDetailsProps = {
   responseAt: string
 }
 
+/** Properties of a webhook call overview without request/response details */
 export type WebhookCallOverviewProps = Except<WebhookCallDetailsProps, 'request' | 'response'>
 
+/** Properties of webhook health status including call statistics */
 export type WebhookHealthProps = {
   /**
    * System metadata
@@ -145,24 +159,30 @@ export type WebhookHealthProps = {
   calls: WebhookCalls
 }
 
+/** System metadata for a webhook signing secret */
 export type WebhookSigningSecretSys = Except<BasicMetaSysProps, 'version'>
 
+/** Properties of a webhook signing secret */
 export type WebhookSigningSecretProps = {
   sys: WebhookSigningSecretSys & { space: { sys: MetaLinkProps } }
   redactedValue: string
 }
 
+/** Payload for configuring a webhook retry policy */
 export type WebhookRetryPolicyPayload = {
   maxRetries: number
 }
 
+/** System metadata for a webhook retry policy */
 export type WebhookRetryPolicySys = Except<BasicMetaSysProps, 'version'>
 
+/** Properties of a webhook retry policy */
 export type WebhookRetryPolicyProps = {
   sys: WebhookRetryPolicySys & { space: { sys: MetaLinkProps } }
   maxRetries: number
 }
 
+/** Properties of a webhook definition for receiving event notifications */
 export type WebhookProps = {
   /**
    * System metadata
@@ -215,6 +235,7 @@ export type WebhookProps = {
   active: boolean
 }
 
+/** A webhook with methods to update, delete, and inspect call history and health */
 export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties

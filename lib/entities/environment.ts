@@ -17,6 +17,7 @@ type EnvironmentMetaSys = BasicMetaSysProps & {
   aliasedEnvironment?: SysLink
 }
 
+/** Properties of a Contentful environment */
 export type EnvironmentProps = {
   /**
    * System metadata
@@ -28,8 +29,10 @@ export type EnvironmentProps = {
   name: string
 }
 
+/** Properties required to create a new environment */
 export type CreateEnvironmentProps = Partial<Omit<EnvironmentProps, 'sys'>>
 
+/** A Contentful environment with methods to manage content types, entries, assets, and other entities */
 export type Environment = ContentfulEnvironmentAPI &
   EnvironmentProps &
   DefaultElements<EnvironmentProps>

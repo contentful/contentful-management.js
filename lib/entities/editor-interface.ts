@@ -24,6 +24,7 @@ interface WidgetConfig {
   settings?: DefinedParameters
 }
 
+/** Configuration for a content type field's editing widget */
 export interface Control extends WidgetConfig {
   /**
    * ID of the customized field
@@ -31,6 +32,7 @@ export interface Control extends WidgetConfig {
   fieldId: string
 }
 
+/** Configuration for a field group's editing widget */
 export interface GroupControl extends WidgetConfig {
   /**
    * ID of the customized field group
@@ -38,18 +40,22 @@ export interface GroupControl extends WidgetConfig {
   groupId: string
 }
 
+/** A named group of fields in an editor layout */
 export interface FieldGroupItem {
   groupId: string
   name: string
   items: EditorLayoutItem[]
 }
 
+/** A single field reference in an editor layout */
 export interface FieldItem {
   fieldId: string
 }
 
+/** An item in an editor layout, either a single field or a field group */
 export type EditorLayoutItem = FieldItem | FieldGroupItem
 
+/** Configuration for an entry editor widget */
 export interface Editor {
   /**
    * Type of the widget used
@@ -69,6 +75,7 @@ export interface Editor {
   settings?: DefinedParameters
 }
 
+/** Configuration for a sidebar widget */
 export interface SidebarItem {
   /**
    * Type of the widget used
@@ -88,6 +95,7 @@ export interface SidebarItem {
   settings?: DefinedParameters
 }
 
+/** Properties of an editor interface that defines how a content type's fields are displayed */
 export type EditorInterfaceProps = {
   sys: MetaSysProps & {
     space: { sys: MetaLinkProps }
@@ -120,6 +128,7 @@ export type EditorInterfaceProps = {
   sidebar?: SidebarItem[]
 }
 
+/** An editor interface with methods to update and query field controls */
 export interface EditorInterface
   extends EditorInterfaceProps,
     DefaultElements<EditorInterfaceProps> {

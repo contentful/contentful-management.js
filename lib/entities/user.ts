@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, MakeRequest } from '../common-types'
 
+/** Properties of a Contentful user account */
 export type UserProps = {
   /**
    * System metadata
@@ -58,6 +59,7 @@ export type UserProps = {
   preferredLanguage: string | null
 }
 
+/** A user entity */
 export interface User extends UserProps, DefaultElements<UserProps> {}
 
 /**
