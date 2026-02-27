@@ -1,6 +1,6 @@
 import type { MakeRequest, MRActions, MRReturn } from '../../common-types'
 
-export type DefaultParams = {
+export type PlainClientDefaultParams = {
   spaceId?: string
   environmentId?: string
   organizationId?: string
@@ -8,26 +8,28 @@ export type DefaultParams = {
   releaseId?: string
 }
 /**
- * @private
+ * @internal
  */
 type UnionOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never
 
 /**
- * @private Not meant to be used directly by consumers and may change at any time
+ * Makes {@link PlainClientDefaultParams} fields optional in API method parameter types.
+ * When default params (spaceId, environmentId, etc.) are set on the plain client,
+ * those fields become optional in individual method calls.
  */
-export type OptionalDefaults<T> = UnionOmit<T, keyof DefaultParams> &
-  Partial<Pick<T, Extract<keyof T, keyof DefaultParams>>>
+export type OptionalDefaults<T> = UnionOmit<T, keyof PlainClientDefaultParams> &
+  Partial<Pick<T, Extract<keyof T, keyof PlainClientDefaultParams>>>
 
 /**
- * @private
+ * @internal
  */
 export type WrapParams = {
   makeRequest: MakeRequest
-  defaults?: DefaultParams
+  defaults?: PlainClientDefaultParams
 }
 
 /**
- * @private
+ * @internal
  */
 export type WrapFn<
   ET extends keyof MRActions,
@@ -51,7 +53,7 @@ export type WrapFn<
       : (params: Params, payload: Payload, headers: Headers) => Return
 
 /**
- * @private
+ * @internal
  */
 export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[ET]>(
   { makeRequest, defaults }: WrapParams,
@@ -68,21 +70,15 @@ export const wrap = <ET extends keyof MRActions, Action extends keyof MRActions[
     ? MRActions[ET][Action]['headers']
     : never
 
-  // It's not really possible to make this type safe as we are overloading `makeRequest`.
-  // This missing typesafety is only within `wrap`. `wrap` has proper public types.
-  // @ts-expect-error
+  // @ts-expect-error It's not really possible to make this type safe as we are overloading `makeRequest`. This missing typesafety is only within `wrap`. `wrap` has proper public types.
   return (params?: Params, payload?: Payload, headers?: Headers): MRReturn<ET, Action> =>
-    // @ts-expect-error
+    // @ts-expect-error see above
     makeRequest({
-      // @ts-expect-error
       entityType,
-      // @ts-expect-error
       action,
-      // @ts-expect-error
       params: { ...defaults, ...params },
       payload,
       // Required after adding optional headers to a delete method for the first time
-      // @ts-expect-error
       headers,
-    })
+    } as unknown)
 }

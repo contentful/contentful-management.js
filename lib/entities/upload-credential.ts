@@ -15,7 +15,7 @@ export interface UploadCredential
     DefaultElements<UploadCredentialProps> {
   /**
    * creates the upload credentials.
-   * @return upload credentials for file uploads
+   * @returns upload credentials for file uploads
    * @example
    * const contentful = require('contentful-management')
    *
@@ -40,7 +40,7 @@ export interface UploadCredential
 }
 
 /**
- * @private
+ * @internal
  */
 function createUploadCredentialsApi(makeRequest: MakeRequest) {
   return {
@@ -59,10 +59,10 @@ function createUploadCredentialsApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {object} data - Raw upload credential data
- * @return {UploadCredential} Wrapped upload credential data
+ * @returns {UploadCredential} Wrapped upload credential data
  */
 export function wrapUploadCredential(
   makeRequest: MakeRequest,

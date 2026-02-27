@@ -72,7 +72,7 @@ export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
 }
 
 /**
- * @private
+ * @internal
  */
 export default function createWorkflowApi(makeRequest: MakeRequest): WorkflowApi {
   const getParams = (Workflow: WorkflowProps): GetWorkflowParams => ({
@@ -135,7 +135,7 @@ export default function createWorkflowApi(makeRequest: MakeRequest): WorkflowApi
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapWorkflow(makeRequest: MakeRequest, data: WorkflowProps): Workflow {
   const Workflow = toPlainObject(copy(data))
@@ -144,6 +144,6 @@ export function wrapWorkflow(makeRequest: MakeRequest, data: WorkflowProps): Wor
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWorkflowCollection = wrapCollection(wrapWorkflow)

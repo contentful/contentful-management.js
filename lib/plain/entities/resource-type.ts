@@ -8,8 +8,11 @@ import type {
   GetResourceTypeParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
-import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
-import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type'
+import type {
+  SpaceEnvResourceTypeProps,
+  ResourceTypeProps,
+  UpsertResourceTypeProps,
+} from '../../entities/resource-type'
 
 export type ResourceTypePlainClientAPI = {
   /*

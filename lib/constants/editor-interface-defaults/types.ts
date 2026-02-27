@@ -9,7 +9,7 @@ export enum WidgetNamespace {
 export const DEFAULT_EDITOR_ID = 'default-editor'
 
 /**
- * @private
+ * @internal
  */
 export const in_ = <K extends string, O extends object>(key: K, object: O): key is K & keyof O =>
   key in object

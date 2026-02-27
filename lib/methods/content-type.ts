@@ -4,7 +4,7 @@ import type { ContentTypeProps } from '../entities/content-type'
 type OmitOrDelete = 'omitted' | 'deleted'
 
 /**
- * @private
+ * @internal
  * @param id - unique ID of the field
  * @param key - the attribute on the field to change
  * @param value - the value to set the attribute to
