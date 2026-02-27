@@ -7,6 +7,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, SysLink, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 
+/** Properties of a space member including their admin status and roles */
 export type SpaceMemberProps = {
   sys: MetaSysProps & {
     user: SysLink
@@ -22,6 +23,7 @@ export type SpaceMemberProps = {
   roles: SysLink[]
 }
 
+/** A space member entity */
 export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemberProps> {}
 
 /**

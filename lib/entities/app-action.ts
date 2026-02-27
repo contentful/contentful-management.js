@@ -21,8 +21,10 @@ type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+/** Definition of a parameter for an app action. */
 export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>
 
+/** Properties of an app action category. */
 export type AppActionCategoryProps = {
   sys: {
     id: AppActionCategoryType
@@ -50,6 +52,7 @@ type CustomAppActionProps = {
 }
 
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
+/** Union of valid app action category identifiers. */
 export type AppActionCategoryType = AppActionCategory['category']
 
 /**
@@ -139,6 +142,7 @@ type LegacyFunctionAppActionProps = Record<string, unknown> & {
   type: 'function'
 }
 
+/** Properties required to create a new app action. */
 export type CreateAppActionProps = AppActionCategory & {
   name: string
   description?: string
@@ -152,9 +156,11 @@ export type CreateAppActionProps = AppActionCategory & {
   resultSchema?: Record<string, unknown>
 } & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
 
+/** Properties of a Contentful app action. */
 export type AppActionProps = BaseAppActionProps &
   (EndpointAppActionProps | FunctionAppActionProps | LegacyFunctionAppActionProps)
 
+/** A Contentful app action with methods for deleting. */
 export type AppAction = AppActionProps &
   DefaultElements<AppActionProps> & {
     /**

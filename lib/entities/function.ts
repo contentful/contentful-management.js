@@ -9,6 +9,7 @@ import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a Contentful function associated with an app definition */
 export type FunctionProps = {
   sys: {
     id: string
@@ -27,6 +28,7 @@ export type FunctionProps = {
   allowNetworks?: string[]
 }
 
+/** A Contentful function entity */
 export interface Function extends FunctionProps, DefaultElements<FunctionProps> {}
 
 /**

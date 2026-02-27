@@ -15,6 +15,7 @@ import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 
+/** Properties of a resource type defining how external resources are mapped */
 export type ResourceTypeProps = {
   /**
    * System metadata
@@ -56,6 +57,7 @@ type OptionalSysFields =
   | 'appDefinition'
   | 'organization'
 
+/** Resource type properties as returned in a space environment context */
 export type SpaceEnvResourceTypeProps = Pick<
   ResourceTypeProps,
   (typeof publicResourceTypeFields)[number]
@@ -65,8 +67,10 @@ export type SpaceEnvResourceTypeProps = Pick<
     Omit<ResourceTypeProps['sys'], OptionalSysFields>
 }
 
+/** Properties for creating or updating a resource type */
 export type UpsertResourceTypeProps = Omit<ResourceTypeProps, 'sys'>
 
+/** A resource type with methods to upsert and delete */
 export interface ResourceType extends ResourceTypeProps, DefaultElements<ResourceTypeProps> {
   upsert(): Promise<ResourceType>
   delete(): Promise<void>

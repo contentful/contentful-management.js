@@ -19,6 +19,7 @@ type AppEventSubscriptionSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Properties of a Contentful app event subscription. */
 export type AppEventSubscriptionProps = {
   /**
    * System metadata
@@ -36,8 +37,10 @@ export type AppEventSubscriptionProps = {
   }
 }
 
+/** Properties required to create a new app event subscription. */
 export type CreateAppEventSubscriptionProps = Except<AppEventSubscriptionProps, 'sys'>
 
+/** A Contentful app event subscription with methods for deleting. */
 export interface AppEventSubscription
   extends AppEventSubscriptionProps,
     DefaultElements<AppEventSubscriptionProps> {

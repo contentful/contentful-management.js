@@ -17,6 +17,7 @@ import type {
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
+/** Properties of a Contentful asset including localized title, description, and file fields. */
 export type AssetProps<S = {}> = {
   sys: EntityMetaSysProps & S
   fields: {
@@ -42,10 +43,13 @@ export type AssetProps<S = {}> = {
   metadata?: MetadataProps
 }
 
+/** Properties required to create a new asset. */
 export type CreateAssetProps = Omit<AssetProps, 'sys'>
 
+/** Options for creating an asset from local files. */
 export type CreateAssetFromFilesOptions = { uploadTimeout?: number }
 
+/** Properties for an asset with raw file data for upload. */
 export interface AssetFileProp {
   sys: MetaSysProps
   fields: {
@@ -61,6 +65,7 @@ export interface AssetFileProp {
   }
 }
 
+/** Options for controlling asset processing retry behavior. */
 export interface AssetProcessingForLocale {
   processingCheckWait?: number
   processingCheckRetries?: number
@@ -283,6 +288,7 @@ type AssetApi = {
   isArchived(): boolean
 }
 
+/** A Contentful asset with methods for processing, publishing, archiving, updating, and deleting. */
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**

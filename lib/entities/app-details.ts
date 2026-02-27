@@ -13,12 +13,15 @@ type AppDetailsSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Encoding type for app icons. */
 export type IconType = 'base64'
+/** An icon representing a Contentful app. */
 export interface AppIcon {
   value: string
   type: IconType
 }
 
+/** Properties of Contentful app details including icon metadata. */
 export type AppDetailsProps = {
   /**
    * System metadata
@@ -30,6 +33,7 @@ export type AppDetailsProps = {
   icon?: AppIcon
 }
 
+/** Properties required to create or update app details. */
 export type CreateAppDetailsProps = {
   /**
    * An Icon that represents the App
@@ -37,6 +41,7 @@ export type CreateAppDetailsProps = {
   icon?: AppIcon
 }
 
+/** A Contentful app details entity with methods for deleting. */
 export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsProps> {
   /**
    * Deletes this object on the server.

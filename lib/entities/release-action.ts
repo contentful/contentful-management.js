@@ -12,8 +12,10 @@ import { pollAsyncActionStatus } from '../methods/action'
 import enhanceWithMethods from '../enhance-with-methods'
 
 type ReleaseActionStatuses = 'created' | 'inProgress' | 'failed' | 'succeeded'
+/** Types of actions that can be performed on a release */
 export type ReleaseActionTypes = 'publish' | 'unpublish' | 'validate'
 
+/** System metadata properties for a release action */
 export type ReleaseActionSysProps = {
   id: string
   type: 'ReleaseAction'
@@ -33,6 +35,7 @@ export interface ReleaseActionProps<T extends ReleaseActionTypes = any> {
   sys: ReleaseActionSysProps
 }
 
+/** Query options for filtering and paginating release actions */
 export interface ReleaseActionQueryOptions {
   /** Find Release Actions by using a comma-separated list of Ids */
   'sys.id[in]'?: string
@@ -52,6 +55,7 @@ export interface ReleaseActionQueryOptions {
   limit?: number
 }
 
+/** API methods available on a ReleaseAction entity */
 export interface ReleaseActionApiMethods {
   /** Performs a new GET request and returns the wrapper Release */
   get(): ReleaseAction
@@ -91,6 +95,7 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
   }
 }
 
+/** A release action with methods to get status and wait for processing */
 export interface ReleaseAction<T extends ReleaseActionTypes = any>
   extends ReleaseActionProps<T>,
     ReleaseActionApiMethods,

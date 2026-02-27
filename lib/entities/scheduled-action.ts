@@ -47,11 +47,13 @@ interface ScheduledActionFailedError {
   details?: { errors: ErrorDetail[] }
 }
 
+/** A cursor-paginated collection of items */
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
   pages?: BasicCursorPaginationOptions
 }
 
+/** System metadata properties for a scheduled action */
 export type ScheduledActionSysProps = {
   id: string
   type: 'ScheduledAction'
@@ -68,10 +70,12 @@ export type ScheduledActionSysProps = {
   updatedBy: Link<'User'> | Link<'AppDefinition'>
 }
 
+/** Payload properties for a scheduled action with optional reference filters */
 export type ScheduledActionPayloadProps = {
   withReferences?: Record<ScheduledActionReferenceFilters, string[]>
 }
 
+/** Properties of a scheduled action for timed publishing or unpublishing */
 export type ScheduledActionProps = {
   sys: ScheduledActionSysProps
   action: SchedulableActionType
@@ -106,13 +110,16 @@ export type ScheduledActionProps = {
   payload?: ScheduledActionPayloadProps
 }
 
+/** Properties for creating or updating a scheduled action */
 export type CreateUpdateScheduledActionProps = Pick<
   ScheduledActionProps,
   'action' | 'entity' | 'environment' | 'scheduledFor' | 'payload'
 >
 
+/** A paginated collection of scheduled actions */
 export type ScheduledActionCollection = CursorPaginatedCollectionProp<ScheduledActionProps>
 
+/** Query options for filtering scheduled actions */
 export interface ScheduledActionQueryOptions {
   'environment.sys.id': string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,11 +129,13 @@ export interface ScheduledActionQueryOptions {
   prev?: string
 }
 
+/** API methods available on a ScheduledAction entity */
 export type ScheduledActionApi = {
   delete(): Promise<ScheduledAction>
   update(): Promise<ScheduledAction>
 }
 
+/** A scheduled action with methods to update and delete */
 export interface ScheduledAction
   extends ScheduledActionProps,
     DefaultElements<ScheduledActionProps>,

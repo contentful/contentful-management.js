@@ -10,6 +10,7 @@ import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '.
 import type { Except } from 'type-fest'
 import type { FreeFormParameters } from './widget-parameters'
 
+/** Properties of a Contentful app installation. */
 export type AppInstallationProps = {
   sys: Omit<BasicMetaSysProps, 'id'> & {
     appDefinition: SysLink
@@ -23,8 +24,10 @@ export type AppInstallationProps = {
   parameters?: FreeFormParameters
 }
 
+/** Properties required to create or update an app installation. */
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
+/** A Contentful app installation with methods for updating and deleting. */
 export interface AppInstallation
   extends AppInstallationProps,
     DefaultElements<AppInstallationProps> {
