@@ -47,6 +47,11 @@
   "sort": ["source-order"],
   "plugin": ["typedoc-plugin-missing-exports", "typedoc-github-theme"],
   "hideGenerator": true,
+  "externalSymbolLinkMappings": {
+    "typescript": {
+      "Iterator": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator"
+    }
+  },
   "navigation": {
     "includeGroups": false,
     "includeCategories": true,

@@ -51,7 +51,6 @@ declare global {
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
- * @param opts
  *
  * @example Plain Client
  * ```javascript

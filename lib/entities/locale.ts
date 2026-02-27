@@ -57,7 +57,8 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -76,7 +77,8 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

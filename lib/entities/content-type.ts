@@ -73,7 +73,8 @@ type ContentTypeApi = {
    * <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/reference/content-types/content-type">API reference</a> for more reasoning. Alternatively,
    * you may use the convenience method omitAndDeleteField to do both steps at once.
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -96,7 +97,8 @@ type ContentTypeApi = {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -115,7 +117,8 @@ type ContentTypeApi = {
   /**
    * Publishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -134,7 +137,8 @@ type ContentTypeApi = {
   /**
    * Unpublishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -155,7 +159,8 @@ type ContentTypeApi = {
    * <strong>Important note</strong>: The editor interface only represent a published contentType.<br />
    * To get the most recent representation of the contentType make sure to publish it first
    * @returns Object returned from the server with the current editor interface.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -194,7 +199,8 @@ type ContentTypeApi = {
   /**
    * Gets a snapshot of a contentType
    * @param snapshotId - Id of the snapshot
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -212,7 +218,8 @@ type ContentTypeApi = {
   getSnapshot(snapshotId: string): Promise<SnapshotProps<ContentTypeProps>>
   /**
    * Gets all snapshots of a contentType
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
