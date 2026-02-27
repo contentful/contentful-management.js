@@ -31,7 +31,8 @@ export interface PersonalAccessToken
   /**
    * Revokes a personal access token
    * @returns Object the revoked personal access token
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
