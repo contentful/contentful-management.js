@@ -90,7 +90,7 @@ function createKeyApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppKey data
  * @returns Wrapped AppKey data
@@ -101,7 +101,7 @@ export function wrapAppKey(makeRequest: MakeRequest, data: AppKeyProps): AppKey 
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Key collection data
  * @returns Wrapped App Key collection data

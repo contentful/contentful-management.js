@@ -82,7 +82,7 @@ export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProp
 }
 
 /**
- * @private
+ * @internal
  */
 function createAppBundleApi(makeRequest: MakeRequest) {
   const getParams = (data: AppBundleProps) => ({
@@ -104,7 +104,7 @@ function createAppBundleApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Bundle data
  * @returns Wrapped App Bundle data
@@ -118,7 +118,7 @@ export function wrapAppBundle(makeRequest: MakeRequest, data: AppBundleProps): A
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Bundle collection data
  * @returns Wrapped App Bundle collection data

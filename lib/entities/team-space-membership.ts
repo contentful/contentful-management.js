@@ -87,7 +87,7 @@ export interface TeamSpaceMembership
 }
 
 /**
- * @private
+ * @internal
  */
 function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamSpaceMembershipProps) => ({
@@ -118,7 +118,7 @@ function createTeamSpaceMembershipApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
  * @returns Wrapped team space membership data
@@ -136,6 +136,6 @@ export function wrapTeamSpaceMembership(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapTeamSpaceMembershipCollection = wrapCollection(wrapTeamSpaceMembership)

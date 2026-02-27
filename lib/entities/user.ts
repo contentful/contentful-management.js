@@ -52,7 +52,7 @@ export type UserProps = {
 export interface User extends UserProps, DefaultElements<UserProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @returns Normalized user
@@ -64,7 +64,7 @@ export function wrapUser<T = UserProps>(_makeRequest: MakeRequest, data: T) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data collection
  * @returns Normalized user collection

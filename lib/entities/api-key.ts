@@ -59,7 +59,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createApiKeyApi(makeRequest: MakeRequest) {
   const getParams = (data: ApiKeyProps) => ({
@@ -91,7 +91,7 @@ function createApiKeyApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  */
@@ -102,7 +102,7 @@ export function wrapApiKey(makeRequest: MakeRequest, data: ApiKeyProps): ApiKey 
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key collection data
  * @returns Wrapped api key collection data

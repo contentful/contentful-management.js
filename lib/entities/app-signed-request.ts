@@ -41,7 +41,7 @@ export interface AppSignedRequest
     DefaultElements<AppSignedRequestProps> {}
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppSignedRequest data
  * @returns Wrapped AppSignedRequest data

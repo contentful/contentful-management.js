@@ -56,7 +56,7 @@ export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTok
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw  access token data
  * @returns Wrapped access token
@@ -76,7 +76,7 @@ export function wrapAccessToken(makeRequest: MakeRequest, data: AccessTokenProps
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw access collection data
  * @returns Wrapped access token collection data

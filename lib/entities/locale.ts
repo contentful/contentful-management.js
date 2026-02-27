@@ -94,7 +94,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createLocaleApi(makeRequest: MakeRequest) {
   const getParams = (locale: LocaleProps) => ({
@@ -128,7 +128,7 @@ function createLocaleApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw locale data
  * @returns Wrapped locale data
@@ -141,6 +141,6 @@ export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale 
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapLocaleCollection = wrapCollection(wrapLocale)

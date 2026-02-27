@@ -56,7 +56,7 @@ export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infe
   : never
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
  * @returns Wrapped entry data
@@ -69,11 +69,11 @@ export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
 
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
- * @private
+ * @internal
  */
 export const wrapEntryCollection = wrapCollection(wrapEntry)
 
 /**
- * @private
+ * @internal
  */
 export const wrapEntryTypeCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapEntry)

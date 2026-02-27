@@ -21,7 +21,7 @@ export type SpaceMemberProps = {
 export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemberProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space member data
  * @returns Wrapped space member data
@@ -32,6 +32,6 @@ export function wrapSpaceMember(_makeRequest: MakeRequest, data: SpaceMemberProp
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapSpaceMemberCollection = wrapCollection(wrapSpaceMember)

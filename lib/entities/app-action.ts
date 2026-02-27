@@ -174,7 +174,7 @@ export type AppAction = AppActionProps &
   }
 
 /**
- * @private
+ * @internal
  */
 function createAppActionApi(makeRequest: MakeRequest) {
   const getParams = (data: AppActionProps) => ({
@@ -196,7 +196,7 @@ function createAppActionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Bundle data
  * @returns Wrapped App Bundle data
@@ -210,7 +210,7 @@ export function wrapAppAction(makeRequest: MakeRequest, data: AppActionProps): A
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Bundle collection data
  * @returns Wrapped App Bundle collection data

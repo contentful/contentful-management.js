@@ -56,7 +56,7 @@ export interface OAuthApplication
 }
 
 /**
- * @private
+ * @internal
  */
 function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
   const getParams = (data: OAuthApplicationProps) => ({
@@ -95,7 +95,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw OAuth application data
  * @returns Wrapped OAuth application data
@@ -114,6 +114,6 @@ export function wrapOAuthApplication(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapOAuthApplicationCollection = wrapCursorPaginatedCollection(wrapOAuthApplication)

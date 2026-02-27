@@ -274,7 +274,7 @@ type AssetApi = {
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**
- * @private
+ * @internal
  */
 function createAssetApi(makeRequest: MakeRequest): AssetApi {
   const getParams = (raw: AssetProps) => {
@@ -396,7 +396,7 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw asset data
  * @returns Wrapped asset data
@@ -408,11 +408,11 @@ export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapAssetCollection = wrapCollection(wrapAsset)
 
 /**
- * @private
+ * @internal
  */
 export const wrapAssetTypeCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapAsset)

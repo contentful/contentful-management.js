@@ -11,7 +11,7 @@ import type {
 } from './common-types'
 
 /**
- * @private
+ * @internal
  */
 export const wrapCollection =
   <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>

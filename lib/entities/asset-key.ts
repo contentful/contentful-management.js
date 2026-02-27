@@ -17,7 +17,7 @@ export type CreateAssetKeyProps = {
 export interface AssetKey extends AssetKeyProps, DefaultElements<AssetKeyProps> {}
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw asset key data
  * @returns Wrapped asset key data

@@ -54,7 +54,7 @@ export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsP
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @returns Wrapped App Details data
  */
@@ -77,7 +77,7 @@ function createAppDetailsApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppDetails data
  * @returns Wrapped AppDetails data

@@ -51,7 +51,7 @@ interface View {
 export interface UIConfig extends UIConfigProps, DefaultElements<UIConfigProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @returns Wrapped UIConfig

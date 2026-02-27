@@ -169,7 +169,7 @@ export interface EditorInterface
 }
 
 /**
- * @private
+ * @internal
  */
 function createEditorInterfaceApi(makeRequest: MakeRequest) {
   return {
@@ -199,7 +199,7 @@ function createEditorInterfaceApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapEditorInterface(
   makeRequest: MakeRequest,
@@ -214,6 +214,6 @@ export function wrapEditorInterface(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapEditorInterfaceCollection = wrapCollection(wrapEditorInterface)

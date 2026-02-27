@@ -71,7 +71,7 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
 }
 
 /**
- * @private
+ * @internal
  */
 function createTeamMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: TeamMembershipProps) => ({
@@ -103,7 +103,7 @@ function createTeamMembershipApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw team membership data
  * @returns Wrapped team membership data
@@ -121,6 +121,6 @@ export function wrapTeamMembership(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapTeamMembershipCollection = wrapCollection(wrapTeamMembership)

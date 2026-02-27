@@ -88,7 +88,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createRoleApi(makeRequest: MakeRequest) {
   const getParams = (data: RoleProps) => ({
@@ -118,7 +118,7 @@ function createRoleApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw role data
  * @returns Wrapped role data
@@ -130,6 +130,6 @@ export function wrapRole(makeRequest: MakeRequest, data: RoleProps): Role {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapRoleCollection = wrapCollection(wrapRole)

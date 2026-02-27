@@ -56,7 +56,7 @@ export interface ReleaseActionApiMethods {
 }
 
 /**
- * @private
+ * @internal
  */
 function createReleaseActionApi(makeRequest: MakeRequest) {
   const getParams = (self: ReleaseAction) => {
@@ -93,7 +93,7 @@ export interface ReleaseAction<T extends ReleaseActionTypes = any>
     DefaultElements<ReleaseActionProps<T>> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
  * @returns Wrapped Release data
@@ -111,6 +111,6 @@ export function wrapReleaseAction(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapReleaseActionCollection = wrapCollection(wrapReleaseAction)

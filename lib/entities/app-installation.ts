@@ -68,7 +68,7 @@ export interface AppInstallation
 }
 
 /**
- * @private
+ * @internal
  */
 function createAppInstallationApi(makeRequest: MakeRequest) {
   const getParams = (data: AppInstallationProps) => ({
@@ -101,7 +101,7 @@ function createAppInstallationApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Installation data
  * @returns Wrapped App installation data
@@ -119,6 +119,6 @@ export function wrapAppInstallation(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapAppInstallationCollection = wrapCollection(wrapAppInstallation)
