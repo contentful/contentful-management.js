@@ -67,7 +67,7 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
    * client.getSpace('<space_id>')
    * .then((space) => space.getRole('<role_id>'))
    * .then((role) => role.delete())
-   * .then((role) => console.log(`role deleted.`))
+   * .then(() => console.log(`role deleted.`))
    * .catch(console.error)
    * ```
    */
@@ -84,12 +84,12 @@ export interface Role extends RoleProps, DefaultElements<RoleProps> {
    * })
    *
    * client.getSpace('<space_id>')
-   * .then((space) => space.getRole('<roles_id>'))
-   * .then((roles) => {
-   *   roles.name = 'New role name'
-   *   return roles.update()
+   * .then((space) => space.getRole('<role_id>'))
+   * .then((role) => {
+   *   role.name = 'New role name'
+   *   return role.update()
    * })
-   * .then((roles) => console.log(`roles ${roles.sys.id} updated.`))
+   * .then((role) => console.log(`role ${role.sys.id} updated.`))
    * .catch(console.error)
    * ```
    */

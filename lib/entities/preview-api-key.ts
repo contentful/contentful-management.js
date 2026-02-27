@@ -8,7 +8,7 @@ import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
-/** Properties of a preview API key for accessing draft content */
+/** Properties of a preview API key for accessing both published and unpublished content via the Content Preview API */
 export type PreviewApiKeyProps = {
   sys: MetaSysProps
   name: string

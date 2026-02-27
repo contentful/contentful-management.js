@@ -175,7 +175,7 @@ type ContentTypeApi = {
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
    * .then((contentType) => contentType.getEditorInterface())
-   * .then((editorInterface) => console.log(editorInterface.contorls))
+   * .then((editorInterface) => console.log(editorInterface.controls))
    * .catch(console.error)
    * ```
    */
@@ -214,7 +214,7 @@ type ContentTypeApi = {
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
-   * .then((entry) => entry.getSnapshot('<snapshot-id>'))
+   * .then((contentType) => contentType.getSnapshot('<snapshot-id>'))
    * .then((snapshot) => console.log(snapshot))
    * .catch(console.error)
    * ```
@@ -233,7 +233,7 @@ type ContentTypeApi = {
    * client.getSpace('<space_id>')
    * .then((space) => space.getEnvironment('<environment_id>'))
    * .then((environment) => environment.getContentType('<contentType_id>'))
-   * .then((entry) => entry.getSnapshots())
+   * .then((contentType) => contentType.getSnapshots())
    * .then((snapshots) => console.log(snapshots.items))
    * .catch(console.error)
    * ```

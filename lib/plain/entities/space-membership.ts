@@ -36,7 +36,6 @@ export type SpaceMembershipPlainClientAPI = {
    * ```javascript
    * const spaceMemberships = await client.spaceMembership.getMany({
    *   spaceId: '<space_id>',
-   *   spaceMembershipId: '<membership_id>',
    * });
    * ```
    */
@@ -51,7 +50,7 @@ export type SpaceMembershipPlainClientAPI = {
    * @example
    * ```javascript
    * const spaceMembership = await client.spaceMembership.getForOrganization({
-   *   spaceId: '<space_id>',
+   *   organizationId: '<organization_id>',
    *   spaceMembershipId: '<membership_id>',
    * });
    * ```
@@ -61,14 +60,13 @@ export type SpaceMembershipPlainClientAPI = {
   ): Promise<SpaceMembershipProps>
   /**
    * Fetches all of the space memberships within a given organization
-   * @param params the organization and query parameterss
+   * @param params the organization and query parameters
    * @returns a collection of space memberships
    * @throws if the request fails, the organization is not found, or the query parameters are malformed
    * @example
    * ```javascript
    * const spaceMemberships = await client.spaceMembership.getManyForOrganization({
    *   organizationId: '<organization_id>',
-   *   spaceMembershipId: '<membership_id>',
    * });
    * ```
    */
