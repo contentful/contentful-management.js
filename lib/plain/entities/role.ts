@@ -123,7 +123,7 @@ export type RolePlainClientAPI = {
    * @throws if the request fails, the Space is not found, or the payload is malformed
    * @example
    * ```javascript
-   * const role = await client.role.create(
+   * const role = await client.role.createWithId(
    *   {
    *      spaceId: '<space_id>',
    *      roleId: '<role_id>',

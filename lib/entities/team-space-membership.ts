@@ -79,7 +79,7 @@ export interface TeamSpaceMembership
    * client.getSpace('<space_id>')
    *  .then((space) => space.getTeamSpaceMembership('team_space_membership_id'))
    *  .then((teamSpaceMembership) => {
-   *    item.roles = [
+   *    teamSpaceMembership.roles = [
    *      {
    *        sys: {
    *          type: 'Link',
@@ -88,8 +88,9 @@ export interface TeamSpaceMembership
    *        }
    *      }
    *    ]
+   *    return teamSpaceMembership.update()
    *  })
-   *  .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
+   *  .then((teamSpaceMembership) => console.log(`teamSpaceMembership ${teamSpaceMembership.sys.id} updated.`))
    *  .catch(console.error)
    *  ```
    */

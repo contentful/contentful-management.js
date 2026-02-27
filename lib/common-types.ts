@@ -216,7 +216,7 @@ export interface DefaultElements<TPlainObject extends object = object> {
 }
 
 /**
- * Link is a reference object to another entity that can be resolved using tools such as contentful-resolve
+ * Link is a reference to another Contentful entity, identified by link type and ID
  */
 export interface Link<T extends string> {
   sys: {

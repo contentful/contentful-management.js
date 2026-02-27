@@ -70,9 +70,9 @@ export interface AppKey extends AppKeyProps, DefaultElements<AppKeyProps> {
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppKey(<api-key-id>))
-   * .then((signingSecret) => signingSecret.delete())
-   * .then(() => console.log('signingSecret deleted'))
+   * .then((organization) => organization.getAppKey('<app_definition_id>', '<fingerprint>'))
+   * .then((appKey) => appKey.delete())
+   * .then(() => console.log('appKey deleted'))
    * .catch(console.error)
    * ```
    */
@@ -100,7 +100,7 @@ function createKeyApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppKey data
  * @returns Wrapped AppKey data
  */

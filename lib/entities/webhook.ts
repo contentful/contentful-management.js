@@ -112,7 +112,7 @@ export type WebhookCallDetailsProps = {
   request: WebhookCallRequest
 
   /**
-   * Request object
+   * Response object
    */
   response: WebhookCallResponse
 
@@ -240,6 +240,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
+   * @example
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -262,6 +263,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @example
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -272,7 +274,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
    * client.getSpace('<space_id>')
    * .then((space) => space.getWebhook('<webhook_id>'))
    * .then((webhook) => webhook.delete())
-   * .then((webhook) => console.log(`webhook ${webhook.sys.id} updated.`))
+   * .then(() => console.log('webhook deleted.'))
    * .catch(console.error)
    * ```
    */
@@ -281,6 +283,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * List of the most recent webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
    * @returns Promise for list of calls
+   * @example
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -300,6 +303,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Webhook call with specific id. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details
    * @returns Promise for call details
+   * @example
    * ```javascript
    * const contentful = require('contentful-management')
    *
@@ -319,6 +323,7 @@ export interface WebHooks extends WebhookProps, DefaultElements<WebhookProps> {
   /**
    * Overview of the health of webhook calls. See https://www.contentful.com/developers/docs/references/content-management-api/#/reference/webhook-calls/webhook-call-overviews for more details.
    * @returns Promise for health info
+   * @example
    * ```javascript
    * const contentful = require('contentful-management')
    *

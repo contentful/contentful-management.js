@@ -180,7 +180,7 @@ export type CommentPlainClientAPI = {
     rawData: UpdateCommentProps,
     headers?: RawAxiosRequestHeaders,
   ): Promise<CommentProps>
-  /** Updates a plain text comment
+  /** Updates a rich text comment
    *
    * @param params
    * @returns a rich text comment

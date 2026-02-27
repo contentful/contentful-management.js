@@ -54,7 +54,7 @@ export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsP
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppDetails(<app-id>))
+   * .then((organization) => organization.getAppDetails('<app_definition_id>'))
    * .then((appDetails) => appDetails.delete())
    * .then(() => console.log('appDetails deleted'))
    * .catch(console.error)
@@ -88,7 +88,7 @@ function createAppDetailsApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppDetails data
  * @returns Wrapped AppDetails data
  */

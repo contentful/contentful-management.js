@@ -43,7 +43,7 @@ export interface Team extends TeamProps, DefaultElements<TeamProps> {
    * })
    *
    * client.getOrganization('organization_id')
-   * .then(org => org.getOrganizationMembership('organizationMembership_id'))
+   * .then(org => org.getTeam('team_id'))
    * .then((team) => {
    *  team.delete();
    * })

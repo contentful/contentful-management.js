@@ -58,7 +58,8 @@ export interface SpaceMembership
    * client.getSpace('<space_id>')
    * .then((space) => space.getSpaceMembership('<spaceMembership_id>'))
    * .then((spaceMembership) => {
-   *  spaceMembership.name = 'new space membership name'
+   *  spaceMembership.admin = true
+   *  return spaceMembership.update()
    * })
    * .then((spaceMembership) => console.log(`spaceMembership ${spaceMembership.sys.id} updated.`))
    * .catch(console.error)

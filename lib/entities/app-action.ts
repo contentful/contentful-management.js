@@ -209,8 +209,8 @@ function createAppActionApi(makeRequest: MakeRequest) {
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle data
- * @returns Wrapped App Bundle data
+ * @param data - Raw App Action data
+ * @returns Wrapped App Action data
  */
 export function wrapAppAction(makeRequest: MakeRequest, data: AppActionProps): AppAction {
   const appAction = toPlainObject(copy(data))
@@ -223,7 +223,7 @@ export function wrapAppAction(makeRequest: MakeRequest, data: AppActionProps): A
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle collection data
- * @returns Wrapped App Bundle collection data
+ * @param data - Raw App Action collection data
+ * @returns Wrapped App Action collection data
  */
 export const wrapAppActionCollection = wrapCollection(wrapAppAction)
