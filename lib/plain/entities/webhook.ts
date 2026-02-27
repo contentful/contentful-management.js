@@ -76,7 +76,7 @@ export type WebhookPlainClientAPI = {
     headers?: RawAxiosRequestHeaders,
   ): Promise<WebhookProps>
   /**
-   * Creates the Webhook
+   * Updates the Webhook
    * @param params entity IDs to identify the Webhook to update
    * @param rawData the new Webhook configuration
    * @returns the updated Webhook and its metadata
@@ -115,7 +115,7 @@ export type WebhookPlainClientAPI = {
 
   // Webhook Health Status & Call Details
   /**
-   * Fetches an overview of recently successful webhook calls
+   * Fetches the health status of a webhook, including total calls and healthy call counts
    * @param params entity IDs to identify the Webhook
    * @returns an object containing the Webhook and the health overview of recent calls
    * @throws if the request fails, or the Webhook is not found
@@ -129,7 +129,7 @@ export type WebhookPlainClientAPI = {
    */
   getHealthStatus(params: OptionalDefaults<GetWebhookParams>): Promise<WebhookHealthProps>
   /**
-   * Fetches the details a specific Webhook call
+   * Fetches the details of a specific Webhook call
    * @param params entity IDs to identify the Webhook call
    * @returns details about the outgoing Webhook request and response
    * @throws if the request fails, or the Webhook call is not found
@@ -146,7 +146,7 @@ export type WebhookPlainClientAPI = {
     params: OptionalDefaults<GetWebhookCallDetailsUrl>,
   ): Promise<WebhookCallDetailsProps>
   /**
-   * Fetches the details the most recent calls for a given Webhook
+   * Fetches the details of the most recent calls for a given Webhook
    * @param params entity IDs to identify the Webhook
    * @returns a list of the most recent webhook calls made, their status, possible errors, and the target URL
    * @throws if the request fails, or the Webhook is not found

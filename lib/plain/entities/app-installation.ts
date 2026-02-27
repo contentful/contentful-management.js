@@ -31,15 +31,15 @@ export type AppInstallationPlainClientAPI = {
    */
   get(params: OptionalDefaults<GetAppInstallationParams>): Promise<AppInstallationProps>
   /**
-   * Fetches all App Installations for the given App
-   * @param params entity IDs to identify the App
+   * Fetches all App Installations for the given Space and Environment
+   * @param params entity IDs to identify the Space and Environment
    * @returns an object containing an array of App Installations
-   * @throws if the request fails, or the App is not found
+   * @throws if the request fails, or the Space or Environment is not found
    * @example
    * ```javascript
    * const results = await client.appInstallation.getMany({
-   *   organizationId: "<org_id>",
-   *   appDefinitionId: "<app_definition_id>",
+   *   spaceId: "<space_id>",
+   *   environmentId: "<environment_id>",
    * });
    * ```
    */

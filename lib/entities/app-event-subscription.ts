@@ -55,7 +55,7 @@ export interface AppEventSubscription
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppEventSubscription(<app-definition-id>))
+   * .then((organization) => organization.getAppEventSubscription('<app_definition_id>'))
    * .then((eventSubscription) => eventSubscription.delete())
    * .then(() => console.log('eventSubscription deleted'))
    * .catch(console.error)
@@ -84,7 +84,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppEventSubscription data
  * @returns Wrapped AppEventSubscription data
  */

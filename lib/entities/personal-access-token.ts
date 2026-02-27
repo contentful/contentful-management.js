@@ -39,7 +39,7 @@ export interface PersonalAccessToken
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
-   *  accessToken: <content_management_api_key>
+   *  accessToken: '<content_management_api_key>'
    * })
    *
    * client.getPersonalAccessToken('<token-id>')

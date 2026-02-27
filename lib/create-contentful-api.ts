@@ -62,7 +62,7 @@ type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 export default function createClientApi(makeRequest: MakeRequest) {
   return {
     /**
-     * Gets all environment templates for a given organization with the lasted version
+     * Gets all environment templates for a given organization with the latest version
      * @param organizationId - Organization ID
      * @returns Promise for a collection of EnvironmentTemplates
      * @example
@@ -106,9 +106,9 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * client.getEnvironmentTemplate({
      *   organizationId: '<organization_id>',
      *   environmentTemplateId: '<environment_template_id>',
-     *   version: version>
+     *   version: 1
      * })
-     * .then((space) => console.log(space))
+     * .then((environmentTemplate) => console.log(environmentTemplate))
      * .catch(console.error)
      * ```
      */
@@ -145,7 +145,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.createEnvironmentTemplate('<organization_id>', {<environment_template_date>})
+     * client.createEnvironmentTemplate('<organization_id>', {<environment_template_data>})
      * .then((environmentTemplate) => console.log(environmentTemplate))
      * .catch(console.error)
      * ```
@@ -320,22 +320,25 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets an OAuth application
      *
-     * @param params
-     * @returns Promise of a OAuthApplication
+     * @param params - User ID and OAuth application ID
+     * @returns Promise for an OAuthApplication
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
-     *  accessToken: '<content_management_api_key>'
+     *   accessToken: '<content_management_api_key>'
      * })
      *
      * client.getOAuthApplication({
-     * userId: '<user_id>'
-     * oauthApplicationId: '<oauth_application_id>'
-     * }).then(oauthApplication => console.log(oauthApplication))
+     *   userId: '<user_id>',
+     *   oauthApplicationId: '<oauth_application_id>'
+     * })
+     * .then((oauthApplication) => console.log(oauthApplication))
      * .catch(console.error)
+     * ```
      */
     getOAuthApplication: function getOAuthApplication(
       params: GetOAuthApplicationParams,
@@ -349,20 +352,24 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Gets all OAuth applications for a user
      *
-     * @param params
-     * @returns Promise of list of user's OAuthApplications
+     * @param params - User ID and optional query parameters
+     * @returns Promise for a collection of OAuthApplications
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
-     *  accessToken: '<content_management_api_key>'
+     *   accessToken: '<content_management_api_key>'
      * })
      *
      * client.getOAuthApplications({
-     * userId: '<user_id>'}).then(oauthApplications => console.log(oauthApplications))
+     *   userId: '<user_id>'
+     * })
+     * .then((response) => console.log(response.items))
      * .catch(console.error)
+     * ```
      */
     getOAuthApplications: function getOAuthApplications(
       params: GetUserParams & QueryParams,
@@ -376,25 +383,32 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Creates an OAuth application for a user
      *
-     * @param params
-     * @returns Promise of a new OAuth application.
+     * @param params - User ID
+     * @param rawData - OAuth application configuration
+     * @returns Promise for the newly created OAuthApplication
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
-     *  accessToken: '<content_management_api_key>'
+     *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.createOAuthApplication({
-     * userId: '<user_id>'},
-     * { name: '<name>',
-     *   description: '<description>',
-     *   scopes: ['scope'],
-     *   redirectUri: '<redirectUri>',
-     *   confidential: '<true/false>'}).then(oauthApplications => console.log(oauthApplications))
+     * client.createOAuthApplication(
+     *   { userId: '<user_id>' },
+     *   {
+     *     name: '<name>',
+     *     description: '<description>',
+     *     scopes: ['scope'],
+     *     redirectUri: '<redirectUri>',
+     *     confidential: true
+     *   }
+     * )
+     * .then((oauthApplication) => console.log(oauthApplication))
      * .catch(console.error)
+     * ```
      */
     createOAuthApplication: function createOAuthApplication(
       params: GetUserParams,
@@ -411,8 +425,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets App Definition
      * @param params - Organization and App Definition identifiers
-     * @param params.organizationId - Id of the organization where the app is installed
-     * @param params.appDefinitionId - Id of the app that will be returned
+     * @param params.organizationId - Id of the organization where the app is defined
+     * @param params.appDefinitionId - Id of the app definition to retrieve
      * @returns Promise for App Definition
      * @example
      * ```javascript
@@ -422,7 +436,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *   accessToken: '<content_management_api_key>'
      * })
      *
-     * client.getAppDefinition(<'org_id'>, <'app_id'>)
+     * client.getAppDefinition({ organizationId: '<org_id>', appDefinitionId: '<app_id>' })
      * .then(appDefinition => console.log(appDefinition.name))
      * .catch(console.error)
      * ```
@@ -453,7 +467,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * client.createPersonalAccessToken(
      *  {
      *    "name": "My Token",
-     *    "scope": [
+     *    "scopes": [
      *      "content_management_manage"
      *    ]
      *  }
@@ -508,7 +522,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @deprecated - use getAccessTokens instead
      *
      * Gets all personal access tokens
-     * @returns Promise for a Token
+     * @returns Promise for a collection of PersonalAccessTokens
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -531,7 +545,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets a users access token
+     * Gets a user's access token
      * @param tokenId - Token ID
      * @returns Promise for a Token
      * @example
@@ -557,7 +571,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all user access tokens
-     * @returns Promise for a Token
+     * @returns Promise for a collection of AccessTokens
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -567,7 +581,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getAccessTokens()
-     * .then(response => console.log(reponse.items))
+     * .then(response => console.log(response.items))
      * .catch(console.error)
      * ```
      */
@@ -582,7 +596,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Retrieves a list of redacted versions of access tokens for an organization, accessible to owners or administrators of an organization.
      *
-     * @returns Promise for a Token
+     * @returns Promise for a collection of AccessTokens
      * @example
      * ```javascript
      * const contentful = require('contentful-management')
@@ -592,7 +606,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getOrganizationAccessTokens(organizationId)
-     * .then(response => console.log(reponse.items))
+     * .then(response => console.log(response.items))
      * .catch(console.error)
      * ```
      */
@@ -626,7 +640,6 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *    'metric[in]': 'cma,gql',
      *    'dateRange.startAt': '2019-10-22',
      *    'dateRange.endAt': '2019-11-10'
-     *    }
      * })
      * .then(result => console.log(result.items))
      * .catch(console.error)
@@ -663,7 +676,6 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *    'metric[in]': 'cda,cpa,gql',
      *    'dateRange.startAt': '2019-10-22',
      *    'dateRange.endAt': '2020-11-30'
-     *    }
      * })
      * .then(result => console.log(result.items))
      * .catch(console.error)

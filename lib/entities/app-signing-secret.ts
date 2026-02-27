@@ -25,7 +25,7 @@ export type AppSigningSecretProps = {
 
 /** Properties required to create a new app signing secret. */
 export type CreateAppSigningSecretProps = {
-  /** A 64 character matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
+  /** A 64-character string matching the regular expression /^[0-9a-zA-Z+/=_-]+$/  */
   value: string
 }
 
@@ -44,7 +44,7 @@ export interface AppSigningSecret
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppSigningSecret(<api-key-id>))
+   * .then((organization) => organization.getAppSigningSecret('<app_definition_id>'))
    * .then((signingSecret) => signingSecret.delete())
    * .then(() => console.log('signingSecret deleted'))
    * .catch(console.error)
@@ -73,7 +73,7 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppSigningSecret data
  * @returns Wrapped AppSigningSecret data
  */

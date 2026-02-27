@@ -49,7 +49,7 @@ export interface AppSignedRequest
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppSignedRequest data
  * @returns Wrapped AppSignedRequest data
  */

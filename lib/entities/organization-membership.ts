@@ -21,7 +21,7 @@ export type OrganizationMembershipProps = {
   role: string
 
   /**
-   * status
+   * Status of the membership
    */
   status: boolean
 }
@@ -45,15 +45,17 @@ export interface OrganizationMembership
    * .then(org => org.getOrganizationMembership('organizationMembership_id'))
    * .then((organizationMembership) => {
    *  organizationMembership.role = 'member';
-   *  organizationMembership.update();
+   *  return organizationMembership.update();
    * })
    * .catch(console.error)
+   * ```
    */
   update(): Promise<OrganizationMembership>
 
   /**
    * Deletes this object on the server.
-   * @example```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
