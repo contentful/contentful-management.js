@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MetaLinkProps, MakeRequest } from '../common-types'
 
+/** Properties of a user's membership in an organization */
 export type OrganizationMembershipProps = {
   /**
    * System metadata
@@ -25,6 +26,7 @@ export type OrganizationMembershipProps = {
   status: boolean
 }
 
+/** An organization membership with methods to update and delete */
 export interface OrganizationMembership
   extends OrganizationMembershipProps,
     DefaultElements<OrganizationMembershipProps> {

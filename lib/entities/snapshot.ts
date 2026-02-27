@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of a snapshot capturing an entity's state at a point in time */
 export type SnapshotProps<T> = {
   sys: MetaSysProps & {
     snapshotType: string
@@ -16,6 +17,7 @@ export type SnapshotProps<T> = {
   snapshot: T
 }
 
+/** A snapshot entity representing a historical version of an entry or content type */
 export interface Snapshot<T> extends SnapshotProps<T>, DefaultElements<SnapshotProps<T>> {}
 
 /**

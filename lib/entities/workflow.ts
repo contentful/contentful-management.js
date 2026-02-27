@@ -17,6 +17,7 @@ import type {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** System metadata properties for a workflow */
 export type WorkflowSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -32,22 +33,29 @@ export type WorkflowSysProps = Pick<
   workflowDefinition: Link<'WorkflowDefinition'>
 }
 
+/** Properties of a workflow instance on an entry */
 export type WorkflowProps = {
   sys: WorkflowSysProps
   stepId?: string
 }
 
+/** Properties required to create a new workflow */
 export type CreateWorkflowProps = Omit<WorkflowProps, 'sys'> & {
   entity: Link<'Entry'>
   workflowDefinition: Link<'WorkflowDefinition'>
 }
+/** Properties for updating an existing workflow */
 export type UpdateWorkflowProps = Omit<WorkflowProps, 'sys'> & {
   sys: Pick<WorkflowSysProps, 'version'>
 }
 
+/** Parameters required to create a workflow */
 export type CreateWorkflowParams = GetSpaceEnvironmentParams
+/** Parameters required to update a workflow */
 export type UpdateWorkflowParams = GetWorkflowParams
+/** Parameters required to delete a workflow */
 export type DeleteWorkflowParams = GetWorkflowParams & { version: number }
+/** Parameters required to complete a workflow */
 export type CompleteWorkflowParams = DeleteWorkflowParams
 
 type WorkflowApi = {
@@ -59,8 +67,10 @@ type WorkflowApi = {
 
 type OrderQueryParam = 'sys.updatedAt' | '-sys.updatedAt' | 'sys.createdAt' | '-sys.createdAt'
 
+/** A workflow with methods to update, get, delete, and complete */
 export interface Workflow extends WorkflowProps, DefaultElements<WorkflowProps>, WorkflowApi {}
 
+/** Query options for filtering and paginating workflows */
 export type WorkflowQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   'stepId[in]'?: string
   /** Find workflows filtered by the Entity type (Entry) */

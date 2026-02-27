@@ -32,12 +32,14 @@ interface FunctionManifestProps {
   allowNetworks?: string[]
 }
 
+/** A file included in an app bundle. */
 export type AppBundleFile = {
   name: string
   size: number
   md5: string
 }
 
+/** Properties required to create a new app bundle. */
 export type CreateAppBundleProps = {
   appUploadId: string
   comment?: string
@@ -45,6 +47,7 @@ export type CreateAppBundleProps = {
   functions?: FunctionManifestProps[]
 }
 
+/** Properties of a Contentful app bundle. */
 export type AppBundleProps = {
   /**
    * System metadata
@@ -64,6 +67,7 @@ export type AppBundleProps = {
   functions?: FunctionManifestProps[]
 }
 
+/** A Contentful app bundle with methods for deleting. */
 export interface AppBundle extends AppBundleProps, DefaultElements<AppBundleProps> {
   /**
    * Deletes this object on the server.

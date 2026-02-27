@@ -21,6 +21,7 @@ type ExtensionSysProps = BasicMetaSysProps & {
   srcdocSha256?: string
 }
 
+/** Properties of a UI extension for customizing the Contentful web app */
 export type ExtensionProps = {
   sys: ExtensionSysProps
   extension: {
@@ -58,6 +59,7 @@ export type ExtensionProps = {
   parameters?: DefinedParameters
 }
 
+/** Properties required to create a new UI extension */
 export type CreateExtensionProps = {
   extension: RequireExactlyOne<
     SetRequired<ExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
@@ -65,6 +67,7 @@ export type CreateExtensionProps = {
   >
 }
 
+/** A UI extension with methods to update and delete */
 export interface Extension extends ExtensionProps, DefaultElements<ExtensionProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties

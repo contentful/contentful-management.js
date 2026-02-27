@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
 
+/** Properties of a team membership linking a user to a team */
 export type TeamMembershipProps = {
   /**
    * System metadata
@@ -29,8 +30,10 @@ export type TeamMembershipProps = {
   organizationMembershipId: string
 }
 
+/** Properties required to create a new team membership */
 export type CreateTeamMembershipProps = Omit<TeamMembershipProps, 'sys'>
 
+/** A team membership with methods to update and delete */
 export interface TeamMembership extends TeamMembershipProps, DefaultElements<TeamMembershipProps> {
   /**
    * Deletes this object on the server.

@@ -13,6 +13,7 @@ import {
   type AiActionInvocation,
 } from './ai-action-invocation'
 
+/** Supported variable types for AI action instructions. */
 export type VariableType =
   | 'ResourceLink'
   | 'Text'
@@ -22,10 +23,12 @@ export type VariableType =
   | 'Reference'
   | 'SmartContext'
 
+/** Configuration for a reference-type variable specifying allowed entity types. */
 export type ReferenceVariableConfiguration = {
   allowedEntities: Array<'Entry'>
 }
 
+/** Configuration options for an AI action variable. */
 export type VariableConfiguration =
   | {
       strict: boolean
@@ -33,6 +36,7 @@ export type VariableConfiguration =
     }
   | ReferenceVariableConfiguration
 
+/** A variable used within an AI action instruction template. */
 export type Variable = {
   configuration?: VariableConfiguration
   description?: string
@@ -41,16 +45,19 @@ export type Variable = {
   id: string
 }
 
+/** An AI action instruction consisting of a template and its variables. */
 export type Instruction = {
   variables: Array<Variable>
   template: string
 }
 
+/** Configuration for the AI model used by an AI action. */
 export type Configuration = {
   modelType: string
   modelTemperature: number
 }
 
+/** A test case for validating an AI action's behavior. */
 export type AiActionTestCase =
   | {
       type?: 'Text'
@@ -65,12 +72,14 @@ export type AiActionTestCase =
       }
     }
 
+/** Query options for listing AI actions. */
 export interface AiActionQueryOptions {
   limit?: number
   skip?: number
   status?: 'all' | 'published'
 }
 
+/** Properties of a Contentful AI action. */
 export type AiActionProps = {
   sys: MetaSysProps & {
     type: 'AiAction'
@@ -92,11 +101,13 @@ export type AiActionProps = {
   testCases?: Array<AiActionTestCase>
 }
 
+/** Properties required to create a new AI action. */
 export type CreateAiActionProps = Pick<
   Omit<AiActionProps, 'sys'>,
   'name' | 'description' | 'configuration' | 'instruction' | 'testCases'
 >
 
+/** A Contentful AI action with methods for updating, deleting, publishing, and invoking. */
 export interface AiAction extends AiActionProps, DefaultElements<AiActionProps> {
   update(): Promise<AiAction>
   delete(): Promise<void>

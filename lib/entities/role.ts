@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 
+/** Types of actions that can be performed on entities */
 export type ActionType =
   | 'read'
   | 'create'
@@ -19,10 +20,12 @@ export type ActionType =
   | 'unarchive'
 
 type ConditionType = 'and' | 'or' | 'not' | 'equals'
+/** A policy constraint combining conditions with logical operators */
 export type ConstraintType = {
   [key in ConditionType]?: ConstraintType[] | any
 }
 
+/** Properties of a role defining permissions and policies for a space */
 export type RoleProps = {
   sys: BasicMetaSysProps & { space: SysLink }
   name: string
@@ -45,8 +48,10 @@ export type RoleProps = {
   }[]
 }
 
+/** Properties required to create a new role */
 export type CreateRoleProps = Omit<RoleProps, 'sys'>
 
+/** A role with methods to update and delete */
 export interface Role extends RoleProps, DefaultElements<RoleProps> {
   /**
    * Deletes this object on the server.

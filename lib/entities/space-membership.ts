@@ -8,6 +8,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { SysLink, MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of a space membership linking a user to a space with roles */
 export type SpaceMembershipProps = {
   sys: MetaSysProps & { space: SysLink; user: SysLink }
   user: SysLink
@@ -15,10 +16,12 @@ export type SpaceMembershipProps = {
   roles: SysLink[]
 }
 
+/** Properties required to create a new space membership */
 export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'user'> & {
   email: string
 }
 
+/** A space membership with methods to update and delete */
 export interface SpaceMembership
   extends SpaceMembershipProps,
     DefaultElements<SpaceMembershipProps> {

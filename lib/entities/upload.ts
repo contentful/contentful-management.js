@@ -7,6 +7,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 
+/** Properties of a file upload */
 export type UploadProps = {
   /**
    * System metadata
@@ -14,6 +15,7 @@ export type UploadProps = {
   sys: MetaSysProps & { space: SysLink; environment?: SysLink }
 }
 
+/** An upload with a method to delete */
 export interface Upload extends UploadProps, DefaultElements<UploadProps> {
   /**
    * Deletes this object on the server.

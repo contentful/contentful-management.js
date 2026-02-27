@@ -14,14 +14,17 @@ import type {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** API usage metric types */
 export type UsageMetricEnum = 'cda' | 'cma' | 'cpa' | 'gql'
 
+/** Query options for filtering usage data */
 export interface UsageQuery extends QueryOptions {
   'metric[in]'?: string
   'dateRange.startAt'?: string
   'dateRange.endAt'?: string
 }
 
+/** Properties of API usage data for a space or organization */
 export type UsageProps = {
   /**
    * System metadata
@@ -61,6 +64,7 @@ export type UsageProps = {
   }
 }
 
+/** A usage data entity */
 export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
 
 /**
