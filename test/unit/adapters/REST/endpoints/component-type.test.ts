@@ -201,4 +201,51 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         )
       })
   })
+
+  test('create calls correct URL with POST', async () => {
+    const mockResponse = {
+      sys: { id: 'new123', type: 'ComponentType', version: 1 },
+      name: 'New Component',
+      description: 'A new component type',
+      viewports: [],
+      contentProperties: [],
+      designProperties: [],
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: {
+          name: 'New Component',
+          description: 'A new component type',
+          viewports: [],
+          contentProperties: [],
+          designProperties: [],
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types',
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql({
+          name: 'New Component',
+          description: 'A new component type',
+          viewports: [],
+          contentProperties: [],
+          designProperties: [],
+          dimensionKeyMap: { designProperties: {} },
+        })
+      })
+  })
 })

@@ -61,7 +61,11 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
-import type { ComponentTypeProps, ComponentTypeQueryOptions } from './entities/component-type'
+import type {
+  ComponentTypeProps,
+  ComponentTypeQueryOptions,
+  CreateComponentTypeProps,
+} from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -591,9 +595,10 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
+  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
-  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1548,6 +1553,15 @@ export type MRActions = {
       params: GetComponentTypeParams
       return: ComponentTypeProps
     }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentTypeProps
+      return: ComponentTypeProps
+    }
+    delete: {
+      params: GetComponentTypeParams
+      return: void
+    }
     publish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
@@ -1555,10 +1569,6 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
-    }
-    delete: {
-      params: GetComponentTypeParams
-      return: void
     }
   }
   Concept: {
