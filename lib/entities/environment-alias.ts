@@ -14,6 +14,7 @@ import type {
   MakeRequest,
 } from '../common-types'
 
+/** Properties of an environment alias that points to a specific environment */
 export type EnvironmentAliasProps = {
   /**
    * System meta data
@@ -22,8 +23,10 @@ export type EnvironmentAliasProps = {
   environment: { sys: MetaLinkProps }
 }
 
+/** Properties required to create a new environment alias */
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
 
+/** An environment alias with methods to update and delete */
 export interface EnvironmentAlias
   extends EnvironmentAliasProps,
     DefaultElements<EnvironmentAliasProps> {

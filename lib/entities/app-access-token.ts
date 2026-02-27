@@ -14,6 +14,7 @@ type AppAccessTokenSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   expiresAt: string
 }
 
+/** Properties of an app access token for authenticating app requests. */
 export type AppAccessTokenProps = {
   /**
    * System metadata
@@ -25,6 +26,7 @@ export type AppAccessTokenProps = {
   token: string
 }
 
+/** Properties required to create a new app access token. */
 export type CreateAppAccessTokenProps = {
   /**
    * JSON Web Token
@@ -32,6 +34,7 @@ export type CreateAppAccessTokenProps = {
   jwt: string
 }
 
+/** A Contentful app access token used to authenticate app API requests. */
 export interface AppAccessToken extends AppAccessTokenProps, DefaultElements<AppAccessTokenProps> {}
 
 /**

@@ -8,6 +8,7 @@ import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a Contentful Content Delivery API key. */
 export type ApiKeyProps = {
   sys: MetaSysProps
   name: string
@@ -20,8 +21,10 @@ export type ApiKeyProps = {
   policies?: { effect: string; action: string }[]
 }
 
+/** Properties required to create a new Content Delivery API key. */
 export type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'description'>
 
+/** A Contentful Content Delivery API key with methods for updating and deleting. */
 export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   /**
    * Deletes this object on the server.

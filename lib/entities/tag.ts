@@ -14,8 +14,10 @@ import type {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Visibility level of a tag */
 export type TagVisibility = 'private' | 'public'
 
+/** System metadata properties for a tag */
 export type TagSysProps = Pick<
   MetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -26,16 +28,21 @@ export type TagSysProps = Pick<
   environment: SysLink
 }
 
+/** Properties of a tag used to categorize entries and assets */
 export type TagProps = {
   sys: TagSysProps
   name: string
 }
 
+/** Properties required to create a new tag */
 export type CreateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'visibility'> }
+/** Properties for updating an existing tag */
 export type UpdateTagProps = Omit<TagProps, 'sys'> & { sys: Pick<TagSysProps, 'version'> }
 
+/** Parameters required to delete a tag */
 export type DeleteTagParams = GetTagParams & { version: number }
 
+/** Raw tag collection response from the API */
 export type TagCollectionProps = {
   sys: {
     type: 'Array'
@@ -44,6 +51,7 @@ export type TagCollectionProps = {
   total: number
 }
 
+/** A collection of tag entities */
 export interface TagCollection {
   items: Tag[]
   total: number
@@ -54,6 +62,7 @@ type TagApi = {
   delete(): Promise<void>
 }
 
+/** A tag with methods to update and delete */
 export interface Tag extends TagProps, DefaultElements<TagProps>, TagApi {}
 
 /**

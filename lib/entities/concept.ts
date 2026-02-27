@@ -5,6 +5,7 @@
 import type { Link } from '../common-types'
 import type { LocalizedEntity } from './utils'
 
+/** A link reference to a taxonomy concept. */
 export type TaxonomyConceptLink = Link<'TaxonomyConcept'>
 
 type Concept = {
@@ -32,6 +33,7 @@ type Concept = {
   }
 }
 
+/** Properties of a Contentful taxonomy concept. */
 export type ConceptProps<Locales extends string = string> = LocalizedEntity<
   Omit<Concept, 'conceptSchemes'>,
   | 'prefLabel'
@@ -46,5 +48,6 @@ export type ConceptProps<Locales extends string = string> = LocalizedEntity<
   Locales
 >
 
+/** Properties required to create a new taxonomy concept. */
 export type CreateConceptProps = Partial<Omit<ConceptProps, 'sys'>> &
   Pick<ConceptProps, 'prefLabel'>

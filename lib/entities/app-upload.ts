@@ -11,6 +11,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 
 type AppUploadSys = Except<BasicMetaSysProps, 'version'>
 
+/** Properties of a Contentful app upload. */
 export type AppUploadProps = {
   sys: AppUploadSys & {
     expiresAt: string
@@ -18,6 +19,7 @@ export type AppUploadProps = {
   }
 }
 
+/** A Contentful app upload with methods for deleting. */
 export interface AppUpload extends AppUploadProps, DefaultElements<AppUploadProps> {
   /**
    * Deletes this object on the server.

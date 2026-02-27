@@ -14,11 +14,13 @@ import type {
   QueryOptions,
 } from '../common-types'
 
+/** Options for querying team space memberships */
 export interface Options {
   teamId?: string
   query?: QueryOptions
 }
 
+/** Properties of a team's membership in a space with assigned roles */
 export type TeamSpaceMembershipProps = {
   /**
    * System metadata
@@ -36,8 +38,10 @@ export type TeamSpaceMembershipProps = {
   roles: { sys: MetaLinkProps }[]
 }
 
+/** Properties required to create a new team space membership */
 export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>
 
+/** A team space membership with methods to update and delete */
 export interface TeamSpaceMembership
   extends TeamSpaceMembershipProps,
     DefaultElements<TeamSpaceMembershipProps> {

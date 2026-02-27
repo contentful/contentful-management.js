@@ -21,6 +21,7 @@ type AccessTokenSysProps = BasicMetaSysProps & {
   redactedValue: string
 }
 
+/** Properties of a Contentful personal access token. */
 export type AccessTokenProps = {
   sys: AccessTokenSysProps
   name: string
@@ -34,10 +35,12 @@ export type AccessTokenProps = {
  */
 export type AccessTokenProp = AccessTokenProps
 
+/** Properties required to create a new personal access token. */
 export type CreatePersonalAccessTokenProps = Pick<AccessToken, 'name' | 'scopes'> & {
   expiresIn: number
 }
 
+/** A Contentful personal access token with methods for revoking it. */
 export interface AccessToken extends AccessTokenProps, DefaultElements<AccessTokenProps> {
   /**
    * Revokes access token
