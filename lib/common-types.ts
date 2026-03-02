@@ -65,6 +65,7 @@ import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
+  UpdateComponentTypeProps,
 } from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
@@ -1561,7 +1562,7 @@ export type MRActions = {
     }
     update: {
       params: GetComponentTypeParams
-      payload: ComponentTypeProps
+      payload: UpdateComponentTypeProps
       return: ComponentTypeProps
     }
     delete: {

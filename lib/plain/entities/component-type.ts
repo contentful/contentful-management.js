@@ -7,6 +7,7 @@ import type {
   ComponentTypeQueryOptions,
   ComponentTypeProps,
   CreateComponentTypeProps,
+  UpdateComponentTypeProps,
 } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -99,7 +100,7 @@ export type ComponentTypePlainClientAPI = {
    */
   update(
     params: OptionalDefaults<GetComponentTypeParams>,
-    rawData: ComponentTypeProps,
+    rawData: UpdateComponentTypeProps,
   ): Promise<ComponentTypeProps>
 
   /**

@@ -11,6 +11,7 @@ import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
+  UpdateComponentTypeProps,
 } from '../../../entities/component-type'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -52,7 +53,7 @@ export const create: RestEndpoint<'ComponentType', 'create'> = (
 export const update: RestEndpoint<'ComponentType', 'update'> = (
   http: AxiosInstance,
   params: GetComponentTypeParams,
-  rawData: ComponentTypeProps,
+  rawData: UpdateComponentTypeProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
