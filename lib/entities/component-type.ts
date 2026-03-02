@@ -1,3 +1,4 @@
+import type { Except } from 'type-fest'
 import type { Link, MetadataProps, SysLink } from '../common-types'
 
 // Query options for getMany - matches Bridge API contract
@@ -159,6 +160,12 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: MetadataProps
+  metadata?: Pick<MetadataProps, 'tags'>
   dataAssemblies?: DataAssemblyLink[]
+}
+
+export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
+
+export type UpdateComponentTypeProps = ComponentTypeProps & {
+  _experienceCtId: string
 }
