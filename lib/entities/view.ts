@@ -55,7 +55,6 @@ export type ViewProps = ViewCommonProps & {
 // Query options for getMany
 export type ViewQueryOptions = {
   _experienceCtId: string
-  skip?: number
   limit?: number
   pageNext?: string
   pagePrev?: string

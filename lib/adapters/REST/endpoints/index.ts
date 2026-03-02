@@ -67,6 +67,7 @@ import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
+import * as View from './view'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -148,6 +149,7 @@ export default {
   UIConfig,
   Upload,
   UploadCredential,
+  View,
   Usage,
   User,
   UserUIConfig,

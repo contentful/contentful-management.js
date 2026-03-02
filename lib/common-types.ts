@@ -66,6 +66,7 @@ import type {
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
 } from './entities/component-type'
+import type { ViewProps, ViewQueryOptions } from './entities/view'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -599,6 +600,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
+
+  (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1569,6 +1572,12 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
+    }
+  }
+  View: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
+      return: CursorPaginatedCollectionProp<ViewProps>
     }
   }
   Concept: {
@@ -2703,6 +2712,7 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
   commentId: string
 }
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
+export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
