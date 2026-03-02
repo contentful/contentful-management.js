@@ -50,12 +50,11 @@ export type UserProps = {
   /**
    * Language used in the interface and email communications.
    * Overrides the organization default language.
-   * If not set, the default value is `en-US`.
    */
-  preferredLanguage: string
+  preferredLanguage: string | null
 }
 
-export interface User extends UserProps, DefaultElements<UserProps> {}
+export interface User extends UserProps, DefaultElements<UserProps> { }
 
 /**
  * @private
