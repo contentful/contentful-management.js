@@ -233,6 +233,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           contentProperties: [],
           designProperties: [],
           dimensionKeyMap: { designProperties: {} },
+          _experienceCtId: 'experience-ct-id',
         },
       })
       .then((r) => {
