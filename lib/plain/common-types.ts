@@ -150,6 +150,7 @@ import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-
 import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
+import type { ViewPlainClientAPI } from './entities/view'
 
 export type PlainClientAPI = {
   raw: {
@@ -732,6 +733,7 @@ export type PlainClientAPI = {
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
   vectorizationStatus: VectorizationStatusPlainClientAPI
+  view: ViewPlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

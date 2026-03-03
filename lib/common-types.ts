@@ -67,6 +67,7 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
+import type { ViewProps, ViewQueryOptions } from './entities/view'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -925,6 +926,8 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
   ): MRReturn<'SemanticReferenceSuggestions', 'get'>
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+
+  (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2515,6 +2518,12 @@ export type MRActions = {
       return: VectorizationStatusProps
     }
   }
+  View: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
+      return: CursorPaginatedCollectionProp<ViewProps>
+    }
+  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
@@ -2710,6 +2719,7 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
   commentId: string
 }
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
+export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
