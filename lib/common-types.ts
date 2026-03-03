@@ -603,8 +603,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
 
-  (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
-
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
   (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
@@ -928,6 +926,8 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
   ): MRReturn<'SemanticReferenceSuggestions', 'get'>
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+
+  (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -1579,12 +1579,6 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
-    }
-  }
-  View: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
-      return: CursorPaginatedCollectionProp<ViewProps>
     }
   }
   Concept: {
@@ -2522,6 +2516,12 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       payload: UpdateVectorizationStatusProps
       return: VectorizationStatusProps
+    }
+  }
+  View: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
+      return: CursorPaginatedCollectionProp<ViewProps>
     }
   }
   Webhook: {
