@@ -67,4 +67,31 @@ describe('Rest View', { concurrent: true }, () => {
         })
       })
   })
+
+  test('get calls correct URL', async () => {
+    const mockResponse = {
+      sys: { id: 'view123', type: 'View' },
+      title: 'Test View',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'get',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/views/view123',
+        )
+      })
+  })
 })
