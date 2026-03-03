@@ -1,4 +1,8 @@
-import type { CursorPaginatedCollectionProp, GetSpaceEnvironmentParams, GetViewParams } from '../../common-types'
+import type {
+  CursorPaginatedCollectionProp,
+  GetSpaceEnvironmentParams,
+  GetViewParams,
+} from '../../common-types'
 import type { ViewProps, ViewQueryOptions } from '../../entities/view'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
