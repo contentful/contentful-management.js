@@ -5,7 +5,6 @@ import type {
   CursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetViewParams,
-  GetViewParams,
 } from '../../../common-types'
 import type { CreateViewProps, ViewProps, ViewQueryOptions } from '../../../entities/view'
 import type { RestEndpoint } from '../types'
