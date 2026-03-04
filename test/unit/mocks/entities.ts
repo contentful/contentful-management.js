@@ -96,6 +96,11 @@ import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicat
 import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
 import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
 import { SemanticRecommendationsProps } from '../../../lib/entities/semantic-recommendations'
+import { ContentSemanticsSettingsProps } from '../../../lib/entities/semantic-settings'
+import {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+} from '../../../lib/entities/content-semantics-index'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1481,6 +1486,35 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
+const semanticSettingsMock: ContentSemanticsSettingsProps = {
+  sys: {
+    type: 'ContentSemanticsSettings',
+  },
+  supportedLocalePrefixes: ['en', 'de'],
+}
+
+const contentSemanticsIndexMock: ContentSemanticsIndexProps = {
+  localeCode: 'en-US',
+  sys: {
+    id: 'mock-index-id',
+    type: 'ContentSemanticsIndex',
+    status: 'ACTIVE',
+    localeCode: 'en-US',
+    createdAt: '2025-01-01T10:00:00Z',
+    updatedAt: '2025-01-01T10:00:00Z',
+    createdBy: makeLink('User', 'mock-user-id'),
+    locale: makeLink('Locale', 'en-US'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    organization: makeLink('Organization', 'mock-org-id'),
+  },
+}
+
+const contentSemanticsIndexCollectionMock: ContentSemanticsIndexCollectionProps = {
+  sys: { type: 'Array' },
+  items: [contentSemanticsIndexMock],
+}
+
 const semanticDuplicatesMock: SemanticDuplicatesProps = {
   sys: {
     type: 'Array',
@@ -1610,6 +1644,9 @@ const mocks = {
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
+  semanticSettings: semanticSettingsMock,
+  contentSemanticsIndex: contentSemanticsIndexMock,
+  contentSemanticsIndexCollection: contentSemanticsIndexCollectionMock,
   semanticDuplicates: semanticDuplicatesMock,
   semanticRecommendations: semanticRecommendationsMock,
   semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
@@ -1991,6 +2028,9 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
+  semanticSettingsMock,
+  contentSemanticsIndexMock,
+  contentSemanticsIndexCollectionMock,
   semanticDuplicatesMock,
   semanticRecommendationsMock,
   semanticReferenceSuggestionsMock,
