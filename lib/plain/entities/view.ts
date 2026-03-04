@@ -92,7 +92,5 @@ export type ViewPlainClientAPI = {
    * });
    * ```
    */
-  publish(
-    params: OptionalDefaults<GetViewParams & { version: number }>,
-  ): Promise<ViewProps>
+  publish(params: OptionalDefaults<GetViewParams & { version: number }>): Promise<ViewProps>
 }
