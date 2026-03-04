@@ -1,11 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
 import type {
   CursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetViewParams,
 } from '../../../common-types'
-import type { ViewProps, ViewQueryOptions } from '../../../entities/view'
+import type { CreateViewProps, ViewProps, ViewQueryOptions } from '../../../entities/view'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -31,4 +32,14 @@ export const get: RestEndpoint<'View', 'get'> = (
   return raw.get<ViewProps>(http, getBaseUrl(params) + `/${params.viewId}`, {
     headers,
   })
+}
+
+export const create: RestEndpoint<'View', 'create'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateViewProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.post<ViewProps>(http, getBaseUrl(params), data, { headers })
 }
