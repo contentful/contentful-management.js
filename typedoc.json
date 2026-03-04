@@ -43,7 +43,9 @@
   "excludePrivate": true,
   "excludeInternal": true,
   "excludeProtected": false,
+  "excludePrivateClassFields": true,
   "treatWarningsAsErrors": false,
+  "useFirstParagraphOfCommentAsSummary": true,
   "sort": ["source-order"],
   "plugin": ["typedoc-plugin-missing-exports", "typedoc-github-theme"],
   "hideGenerator": true,
@@ -55,6 +57,7 @@
   "navigation": {
     "includeGroups": false,
     "includeCategories": true,
-    "includeFolders": false
+    "includeFolders": false,
+    "excludeReferences": true
   }
 }
