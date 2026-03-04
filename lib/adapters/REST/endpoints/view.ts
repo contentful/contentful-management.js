@@ -3,6 +3,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
+  GetViewParams,
 } from '../../../common-types'
 import type { ViewProps, ViewQueryOptions } from '../../../entities/view'
 import type { RestEndpoint } from '../types'
@@ -18,6 +19,16 @@ export const getMany: RestEndpoint<'View', 'getMany'> = (
 ) => {
   return raw.get<CursorPaginatedCollectionProp<ViewProps>>(http, getBaseUrl(params), {
     params: params.query,
+    headers,
+  })
+}
+
+export const get: RestEndpoint<'View', 'get'> = (
+  http: AxiosInstance,
+  params: GetViewParams,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<ViewProps>(http, getBaseUrl(params) + `/${params.viewId}`, {
     headers,
   })
 }

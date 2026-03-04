@@ -928,6 +928,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
 
   (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
+  (opts: MROpts<'View', 'get', UA>): MRReturn<'View', 'get'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2522,6 +2523,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
       return: CursorPaginatedCollectionProp<ViewProps>
+    }
+    get: {
+      params: GetViewParams
+      return: ViewProps
     }
   }
   Webhook: {
