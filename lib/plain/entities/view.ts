@@ -45,4 +45,21 @@ export type ViewPlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetViewParams>): Promise<ViewProps>
+
+  /**
+   * Deletes a view
+   * @param params the space ID, environment ID, and view ID
+   * @returns void
+   * @throws if the request fails, or the view is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * await client.view.delete({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   viewId: '<view_id>',
+   * });
+   * ```
+   */
+  delete(params: OptionalDefaults<GetViewParams>): Promise<void>
 }
