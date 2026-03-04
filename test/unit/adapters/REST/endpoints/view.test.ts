@@ -68,6 +68,59 @@ describe('Rest View', { concurrent: true }, () => {
       })
   })
 
+  test('create calls correct URL with POST', async () => {
+    const mockResponse = {
+      sys: { id: 'new-view-123', type: 'View', version: 1 },
+      name: 'New View',
+      description: 'A new view',
+      viewports: [],
+      contentProperties: {},
+      designProperties: {},
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: {
+          name: 'New View',
+          description: 'A new view',
+          componentTypeId: 'ct-123',
+          _experienceCtId: 'experience-ct-id',
+          _slug: 'new-view',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/views',
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql({
+          name: 'New View',
+          description: 'A new view',
+          componentTypeId: 'ct-123',
+          _experienceCtId: 'experience-ct-id',
+          _slug: 'new-view',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        })
+      })
+  })
+
   test('get calls correct URL', async () => {
     const mockResponse = {
       sys: { id: 'view123', type: 'View' },

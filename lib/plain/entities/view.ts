@@ -3,7 +3,7 @@ import type {
   GetSpaceEnvironmentParams,
   GetViewParams,
 } from '../../common-types'
-import type { ViewProps, ViewQueryOptions } from '../../entities/view'
+import type { CreateViewProps, ViewProps, ViewQueryOptions } from '../../entities/view'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ViewPlainClientAPI = {
@@ -45,4 +45,34 @@ export type ViewPlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetViewParams>): Promise<ViewProps>
+
+  /**
+   * Creates a new view
+   * @param params the space and environment IDs
+   * @param rawData the view data to create
+   * @returns the created view
+   * @throws if the request fails
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const view = await client.view.create({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * }, {
+   *   name: 'My View',
+   *   description: 'A new view',
+   *   componentTypeId: '<component_type_id>',
+   *   viewports: [],
+   *   contentProperties: {},
+   *   designProperties: {},
+   *   dimensionKeyMap: { designProperties: {} },
+   *   _experienceCtId: '<experience_ct_id>',
+   *   _slug: '<slug>',
+   * });
+   * ```
+   */
+  create(
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    rawData: CreateViewProps,
+  ): Promise<ViewProps>
 }
