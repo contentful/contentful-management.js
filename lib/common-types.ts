@@ -916,7 +916,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
   (opts: MROpts<'SemanticSettings', 'get', UA>): MRReturn<'SemanticSettings', 'get'>
   (opts: MROpts<'ContentSemanticsIndex', 'get', UA>): MRReturn<'ContentSemanticsIndex', 'get'>
-  (opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>): MRReturn<'ContentSemanticsIndex', 'getMany'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getMany'>
   (
     opts: MROpts<'ContentSemanticsIndex', 'getManyForEnvironment', UA>,
   ): MRReturn<'ContentSemanticsIndex', 'getManyForEnvironment'>

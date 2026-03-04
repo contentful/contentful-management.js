@@ -17,9 +17,7 @@ export type ContentSemanticsIndexPlainClientAPI = {
    * @param params Parameters including organizationId and indexId.
    * @returns A promise that resolves to the ContentSemanticsIndex.
    */
-  get(
-    params: OptionalDefaults<GetContentSemanticsIndexParams>,
-  ): Promise<ContentSemanticsIndexProps>
+  get(params: OptionalDefaults<GetContentSemanticsIndexParams>): Promise<ContentSemanticsIndexProps>
 
   /**
    * Fetches all search indices for an organization.
