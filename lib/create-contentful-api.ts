@@ -424,9 +424,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets App Definition
-     * @param params - Organization and App Definition identifiers
-     * @param params.organizationId - Id of the organization where the app is defined
-     * @param params.appDefinitionId - Id of the app definition to retrieve
+     * @param params - Organization ID and App Definition ID
      * @returns Promise for App Definition
      * @example
      * ```javascript
