@@ -9,6 +9,7 @@ import type { PlainClientAPI } from './plain-client-types'
 import type { PlainClientDefaultParams } from './wrappers/wrap'
 import { wrap } from './wrappers/wrap'
 
+export type { PlainClientAPI } from './plain-client-types'
 export type { PlainClientDefaultParams } from './wrappers/wrap'
 
 /**

@@ -52,12 +52,15 @@ import type { RawAxiosRequestConfig } from 'axios'
 
 /**
  * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
+ * @see {@link createClientApi} for the full list of available methods
  */
 export type ClientAPI = ReturnType<typeof createClientApi>
 type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string; productId?: string }
 
 /**
- * @internal
+ * Creates the legacy client API with methods for managing spaces, users, tokens, and organizations.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createClientApi(makeRequest: MakeRequest) {
   return {

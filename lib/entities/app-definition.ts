@@ -104,9 +104,10 @@ export type CreateAppDefinitionProps = SetOptional<
 >
 
 /** A Contentful app definition with methods for managing actions, bundles, keys, and installations. */
-export type AppDefinition = ContentfulAppDefinitionAPI &
-  AppDefinitionProps &
-  DefaultElements<AppDefinitionProps>
+export interface AppDefinition
+  extends ContentfulAppDefinitionAPI,
+    AppDefinitionProps,
+    DefaultElements<AppDefinitionProps> {}
 
 /** Properties of app installations across an organization, including environment metadata. */
 export type AppInstallationsForOrganizationProps = {
