@@ -19,6 +19,9 @@ import {
   userMock,
   functionCollectionMock,
   functionMock,
+  semanticSettingsMock,
+  contentSemanticsIndexMock,
+  contentSemanticsIndexCollectionMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -864,5 +867,95 @@ describe('A createOrganizationApi', () => {
     await expect(
       api.getFunctions('app-def-id', { 'accepts[all]': 'appaction.call' }),
     ).rejects.toThrow(error)
+  })
+
+  test('API call getSemanticSettings', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'SemanticSettings',
+      mockToReturn: semanticSettingsMock,
+      methodToTest: 'getSemanticSettings',
+    })
+  })
+
+  test('API call getSemanticSettings fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getSemanticSettings',
+    })
+  })
+
+  test('API call getContentSemanticsIndexes', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'ContentSemanticsIndex',
+      mockToReturn: contentSemanticsIndexCollectionMock,
+      methodToTest: 'getContentSemanticsIndexes',
+    })
+  })
+
+  test('API call getContentSemanticsIndexes fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getContentSemanticsIndexes',
+    })
+  })
+
+  test('API call getContentSemanticsIndex', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve(contentSemanticsIndexMock))
+    entitiesMock['ContentSemanticsIndex']['wrapContentSemanticsIndex'].mockReturnValue(
+      contentSemanticsIndexMock,
+    )
+    return api['getContentSemanticsIndex']('index-id').then((result) => {
+      expect(result).eql(contentSemanticsIndexMock)
+    })
+  })
+
+  test('API call getContentSemanticsIndex fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    return api['getContentSemanticsIndex']('index-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      },
+    )
+  })
+
+  test('API call createContentSemanticsIndex', async () => {
+    const { api, entitiesMock } = setup(Promise.resolve(contentSemanticsIndexMock))
+    entitiesMock['ContentSemanticsIndex']['wrapContentSemanticsIndex'].mockReturnValue(
+      contentSemanticsIndexMock,
+    )
+    return api['createContentSemanticsIndex']({ spaceId: 'space-id', locale: 'en-US' }).then(
+      (result) => {
+        expect(result).eql(contentSemanticsIndexMock)
+      },
+    )
+  })
+
+  test('API call createContentSemanticsIndex fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    return api['createContentSemanticsIndex']({ spaceId: 'space-id', locale: 'en-US' }).then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      },
+    )
+  })
+
+  test('API call deleteContentSemanticsIndex', async () => {
+    const { api } = setup(Promise.resolve())
+    return api['deleteContentSemanticsIndex']('index-id').then((result) => {
+      expect(result).eql(undefined)
+    })
+  })
+
+  test('API call deleteContentSemanticsIndex fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+    return api['deleteContentSemanticsIndex']('index-id').then(
+      () => {},
+      (errorResponse) => {
+        expect(errorResponse).eql(error)
+      },
+    )
   })
 })

@@ -108,6 +108,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
   const { wrapSemanticRecommendations } = entities.semanticRecommendations
   const { wrapSemanticReferenceSuggestions } = entities.semanticReferenceSuggestions
   const { wrapSemanticSearch } = entities.semanticSearch
+  const { wrapContentSemanticsIndexCollection } = entities.contentSemanticsIndex
 
   return {
     /**
@@ -2842,14 +2843,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Retrieves Semantic Recommendations for the given entity ID
-     * @param payload - Object containing the entityId and optional filters
+     * Retrieves Semantic Recommendations for the given entity IDs
+     * @param payload - Object containing the entityIds and optional filters
      * @return Promise for Semantic Recommendations
      * @example ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticRecommendations({
-     *      entityId: '<entity_id>',
+     *      entityIds: ['<entity_id>'],
      *      filters: {
      *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
      *      }
@@ -2870,17 +2871,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
-     * @param payload - Object containing the entityId and optional filters
+     * @param payload - Object containing the entityId and referenceFieldId
      * @return Promise for Semantic Reference Suggestions
      * @example ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
-     *   .then(environment => environment.getSemanticRecommendations({
+     *   .then(environment => environment.getSemanticReferenceSuggestions({
      *      entityId: '<entity_id>',
      *      referenceFieldId: '<reference_field_id>',
-     *      filters: {
-     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
-     *      }
      *    })
      */
     getSemanticReferenceSuggestions(payload: GetSemanticReferenceSuggestionsProps) {
@@ -2921,6 +2919,27 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload,
       }).then((data) => wrapSemanticSearch(makeRequest, data))
+    },
+
+    /**
+     * Gets all content semantics indexes for the environment
+     * @return Promise for a collection of ContentSemanticsIndex
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getContentSemanticsIndexes())
+     */
+    getContentSemanticsIndexes() {
+      const raw = this.toPlainObject() as EnvironmentProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'getManyForEnvironment',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapContentSemanticsIndexCollection(makeRequest, data))
     },
 
     /**

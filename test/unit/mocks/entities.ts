@@ -1939,9 +1939,6 @@ function setupEntitiesMock() {
       wrapFunctionLog: vi.fn(),
       wrapFunctionLogCollection: vi.fn(),
     },
-    VectorizationStatus: {
-      wrapVectorizationStatus: vi.fn(),
-    },
     SemanticDuplicates: {
       wrapSemanticDuplicates: vi.fn(),
     },
@@ -1953,6 +1950,13 @@ function setupEntitiesMock() {
     },
     SemanticSearch: {
       wrapSemanticSearch: vi.fn(),
+    },
+    SemanticSettings: {
+      wrapSemanticSettings: vi.fn(),
+    },
+    ContentSemanticsIndex: {
+      wrapContentSemanticsIndex: vi.fn(),
+      wrapContentSemanticsIndexCollection: vi.fn(),
     },
   }
 

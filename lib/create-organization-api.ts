@@ -18,6 +18,7 @@ import type { CreateAppEventSubscriptionProps } from './entities/app-event-subsc
 import type { CreateAppKeyProps } from './entities/app-key'
 import type { CreateAppDetailsProps } from './entities/app-details'
 import type { OrganizationProps } from './entities/organization'
+import type { CreateContentSemanticsIndexProps } from './entities/content-semantics-index'
 
 /**
  * @private
@@ -50,6 +51,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapFunction, wrapFunctionCollection } = entities.func
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
+  const { wrapContentSemanticsSettings } = entities.semanticSettings
+  const { wrapContentSemanticsIndex, wrapContentSemanticsIndexCollection } =
+    entities.contentSemanticsIndex
 
   return {
     /**
@@ -1194,6 +1198,115 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { organizationId: raw.sys.id, appDefinitionId, query },
       }).then((payload) => wrapFunctionCollection(makeRequest, payload))
+    },
+
+    /**
+     * Gets the semantic settings for the organization
+     * @return Promise for ContentSemanticsSettings
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const settings = await org.getSemanticSettings()
+     */
+    getSemanticSettings() {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'SemanticSettings',
+        action: 'get',
+        params: { organizationId: raw.sys.id },
+      }).then((data) => wrapContentSemanticsSettings(makeRequest, data))
+    },
+
+    /**
+     * Gets all content semantics indexes for the organization
+     * @return Promise for a collection of ContentSemanticsIndex
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const indexes = await org.getContentSemanticsIndexes()
+     */
+    getContentSemanticsIndexes() {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'getMany',
+        params: { organizationId: raw.sys.id },
+      }).then((data) => wrapContentSemanticsIndexCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a single content semantics index by ID
+     * @param indexId - ID of the content semantics index
+     * @return Promise for a ContentSemanticsIndex
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const index = await org.getContentSemanticsIndex('<index_id>')
+     */
+    getContentSemanticsIndex(indexId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'get',
+        params: { organizationId: raw.sys.id, indexId },
+      }).then((data) => wrapContentSemanticsIndex(makeRequest, data))
+    },
+
+    /**
+     * Creates a new content semantics index for the organization
+     * @param payload - Object containing spaceId and locale
+     * @return Promise for the created ContentSemanticsIndex
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const index = await org.createContentSemanticsIndex({ spaceId: '<space_id>', locale: 'en-US' })
+     */
+    createContentSemanticsIndex(payload: CreateContentSemanticsIndexProps) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload,
+      }).then((data) => wrapContentSemanticsIndex(makeRequest, data))
+    },
+
+    /**
+     * Deletes a content semantics index by ID
+     * @param indexId - ID of the content semantics index to delete
+     * @return Promise for the deletion
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * await org.deleteContentSemanticsIndex('<index_id>')
+     */
+    deleteContentSemanticsIndex(indexId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, indexId },
+      })
     },
   }
 }

@@ -37,10 +37,22 @@ export interface ContentSemanticsIndex
   extends ContentSemanticsIndexProps,
     DefaultElements<ContentSemanticsIndexProps> {}
 
+export interface ContentSemanticsIndexCollection
+  extends ContentSemanticsIndexCollectionProps,
+    DefaultElements<ContentSemanticsIndexCollectionProps> {}
+
 export function wrapContentSemanticsIndex(
   _makeRequest: MakeRequest,
   data: ContentSemanticsIndexProps,
 ): ContentSemanticsIndex {
+  const result = toPlainObject(copy(data))
+  return freezeSys(result)
+}
+
+export function wrapContentSemanticsIndexCollection(
+  _makeRequest: MakeRequest,
+  data: ContentSemanticsIndexCollectionProps,
+): ContentSemanticsIndexCollection {
   const result = toPlainObject(copy(data))
   return freezeSys(result)
 }
