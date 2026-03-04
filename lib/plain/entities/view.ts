@@ -75,4 +75,24 @@ export type ViewPlainClientAPI = {
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     rawData: CreateViewProps,
   ): Promise<ViewProps>
+
+  /**
+   * Publishes a view
+   * @param params the space ID, environment ID, view ID, and the version number
+   * @returns the published view
+   * @throws if the request fails, or the view is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const view = await client.view.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   viewId: '<view_id>',
+   *   version: <version>,
+   * });
+   * ```
+   */
+  publish(
+    params: OptionalDefaults<GetViewParams & { version: number }>,
+  ): Promise<ViewProps>
 }

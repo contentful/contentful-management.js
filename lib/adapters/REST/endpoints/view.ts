@@ -43,3 +43,16 @@ export const create: RestEndpoint<'View', 'create'> = (
   const data = copy(rawData)
   return raw.post<ViewProps>(http, getBaseUrl(params), data, { headers })
 }
+
+export const publish: RestEndpoint<'View', 'publish'> = (
+  http: AxiosInstance,
+  params: GetViewParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put(http, getBaseUrl(params) + `/${params.viewId}/published`, null, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}

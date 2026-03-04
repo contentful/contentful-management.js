@@ -624,6 +624,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'View', 'getMany'),
       get: wrap(wrapParams, 'View', 'get'),
       create: wrap(wrapParams, 'View', 'create'),
+      publish: wrap(wrapParams, 'View', 'publish'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
