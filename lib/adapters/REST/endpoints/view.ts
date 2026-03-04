@@ -43,3 +43,7 @@ export const create: RestEndpoint<'View', 'create'> = (
   const data = copy(rawData)
   return raw.post<ViewProps>(http, getBaseUrl(params), data, { headers })
 }
+
+export const del: RestEndpoint<'View', 'delete'> = (http: AxiosInstance, params: GetViewParams) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.viewId}`)
+}
