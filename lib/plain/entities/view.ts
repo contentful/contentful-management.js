@@ -31,7 +31,7 @@ export type ViewPlainClientAPI = {
 
   /**
    * Fetches a single view by ID
-   * @param params the space, environment, and view IDs
+   * @param params the space ID, environment ID, and view ID
    * @returns the view
    * @throws if the request fails, or the space, environment, or view is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -48,7 +48,7 @@ export type ViewPlainClientAPI = {
 
   /**
    * Creates a new view
-   * @param params the space and environment IDs
+   * @param params the space ID and environment ID
    * @param rawData the view data to create
    * @returns the created view
    * @throws if the request fails
