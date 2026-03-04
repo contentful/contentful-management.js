@@ -67,7 +67,7 @@ describe('Rest View', { concurrent: true }, () => {
         })
       })
   })
-  
+
   test('get calls correct URL', async () => {
     const mockResponse = {
       sys: { id: 'view123', type: 'View' },
@@ -131,9 +131,7 @@ describe('Rest View', { concurrent: true }, () => {
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
-        expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views',
-        )
+        expect(httpMock.post.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
         expect(httpMock.post.mock.calls[0][1]).to.eql({
           name: 'New View',
           description: 'A new view',
@@ -147,5 +145,4 @@ describe('Rest View', { concurrent: true }, () => {
         })
       })
   })
-
 })
