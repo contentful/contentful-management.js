@@ -107,15 +107,18 @@ import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-
 import { wrapSemanticSearch } from './entities/semantic-search'
 
 /**
- * @internal
+ * Methods available on an {@link Environment} object for managing content types, entries, assets, and other environment-level resources.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
+ * @see {@link Environment} for the full environment type
  */
 export type ContentfulEnvironmentAPI = ReturnType<typeof createEnvironmentApi>
 
 /**
  * Creates API object with methods to access the Environment API
- * @param {ContentfulEnvironmentAPI} makeRequest - function to make requests via an adapter
- * @returns {ContentfulSpaceAPI}
- * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @returns Environment API methods
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createEnvironmentApi(makeRequest: MakeRequest) {
   return {

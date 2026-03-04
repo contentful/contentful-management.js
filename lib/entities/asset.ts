@@ -17,7 +17,12 @@ import type {
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
-/** Properties of a Contentful asset including localized title, description, and file fields. */
+/**
+ * Properties of a Contentful asset including localized title, description, and file fields.
+ *
+ * @see {@link CreateAssetProps} for the properties required to create a new asset
+ * @see {@link Asset} for the full asset type with methods
+ */
 export type AssetProps<S = {}> = {
   sys: EntityMetaSysProps & S
   fields: {
@@ -43,7 +48,11 @@ export type AssetProps<S = {}> = {
   metadata?: MetadataProps
 }
 
-/** Properties required to create a new asset. */
+/**
+ * Properties required to create a new asset.
+ *
+ * @see {@link AssetProps} for the full asset properties including sys metadata
+ */
 export type CreateAssetProps = Omit<AssetProps, 'sys'>
 
 /** Options for creating an asset from local files. */
@@ -288,7 +297,14 @@ type AssetApi = {
   isArchived(): boolean
 }
 
-/** A Contentful asset with methods for processing, publishing, archiving, updating, and deleting. */
+/**
+ * A Contentful asset with methods for processing, publishing, archiving, updating, and deleting.
+ *
+ * @remarks
+ * This interface is used with the legacy client. For the plain client, use {@link AssetProps} directly.
+ *
+ * @see {@link AssetProps} for the underlying data properties
+ */
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**
