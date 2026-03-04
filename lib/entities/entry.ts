@@ -19,14 +19,23 @@ import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
 
-/** Properties of a Contentful entry containing localized field data */
+/**
+ * Properties of a Contentful entry containing localized field data
+ *
+ * @see {@link CreateEntryProps} for the properties required to create a new entry
+ * @see {@link Entry} for the full entry type with methods
+ */
 export type EntryProps<T = KeyValueMap, S = unknown> = {
   sys: EntryMetaSysProps & S
   metadata?: MetadataProps
   fields: T
 }
 
-/** Properties required to create a new entry */
+/**
+ * Properties required to create a new entry
+ *
+ * @see {@link EntryProps} for the full entry properties including sys metadata
+ */
 export type CreateEntryProps<TFields = KeyValueMap> = Omit<EntryProps<TFields>, 'sys'>
 
 /** Error returned when a referenced entry or asset cannot be resolved */
@@ -56,7 +65,14 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
-/** A Contentful entry with methods to update, publish, archive, and delete */
+/**
+ * A Contentful entry with methods to update, publish, archive, and delete
+ *
+ * @remarks
+ * This interface is used with the legacy client. For the plain client, use {@link EntryProps} directly.
+ *
+ * @see {@link EntryProps} for the underlying data properties
+ */
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryAPI {}
 
 /** Extends an entity type to include a URN identifier in its sys metadata */

@@ -39,15 +39,18 @@ import { wrapScheduledAction, wrapScheduledActionCollection } from './entities/s
 import { wrapAiAction, wrapAiActionCollection } from './entities/ai-action'
 
 /**
- * @internal
+ * Methods available on a {@link Space} object for managing environments, webhooks, roles, and other space-level resources.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
+ * @see {@link Space} for the full space type
  */
 export type ContentfulSpaceAPI = ReturnType<typeof createSpaceApi>
 
 /**
  * Creates API object with methods to access the Space API
- * @param {MakeRequest} makeRequest - function to make requests via an adapter
- * @returns {ContentfulSpaceAPI}
- * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @returns Space API methods
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createSpaceApi(makeRequest: MakeRequest) {
   return {

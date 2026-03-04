@@ -45,7 +45,12 @@ export type AnnotationAssignment = Link<'Annotation'> & {
   parameters?: Record<string, string | number | boolean>
 }
 
-/** Properties of a Contentful content type. */
+/**
+ * Properties of a Contentful content type.
+ *
+ * @see {@link CreateContentTypeProps} for the properties required to create a new content type
+ * @see {@link ContentType} for the full content type with methods
+ */
 export type ContentTypeProps = {
   sys: BasicMetaSysProps & {
     space: SysLink
@@ -63,7 +68,11 @@ export type ContentTypeProps = {
   metadata?: ContentTypeMetadata
 }
 
-/** Properties required to create a new content type. */
+/**
+ * Properties required to create a new content type.
+ *
+ * @see {@link ContentTypeProps} for the full content type properties including sys metadata
+ */
 export type CreateContentTypeProps = SetOptional<
   Except<ContentTypeProps, 'sys'>,
   'description' | 'displayField'
@@ -241,7 +250,14 @@ type ContentTypeApi = {
   getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
-/** A Contentful content type with methods for updating, publishing, deleting, and managing snapshots. */
+/**
+ * A Contentful content type with methods for updating, publishing, deleting, and managing snapshots.
+ *
+ * @remarks
+ * This interface is used with the legacy client. For the plain client, use {@link ContentTypeProps} directly.
+ *
+ * @see {@link ContentTypeProps} for the underlying data properties
+ */
 export interface ContentType
   extends ContentTypeProps,
     DefaultElements<ContentTypeProps>,

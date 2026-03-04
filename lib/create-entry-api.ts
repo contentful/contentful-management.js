@@ -10,12 +10,15 @@ import { wrapTask, wrapTaskCollection } from './entities/task'
 import { wrapComment, wrapCommentCollection } from './entities/comment'
 
 /**
- * @internal
+ * Methods available on an {@link Entry} object for updating, publishing, archiving, and managing comments and tasks.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
+ * @see {@link Entry} for the full entry type
  */
 export type ContentfulEntryAPI = ReturnType<typeof createEntryApi>
 
 /**
- * @internal
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createEntryApi(makeRequest: MakeRequest) {
   const getParams = (self: Entry) => {

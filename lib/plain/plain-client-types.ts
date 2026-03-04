@@ -157,7 +157,34 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
+/**
+ * The plain client API surface returned by `createClient()`.
+ *
+ * Provides flat, Promise-based access to all Contentful Management API endpoints.
+ * Methods are organized by resource type (e.g. `client.entry.get()`, `client.asset.create()`).
+ *
+ * @example
+ * ```typescript
+ * import { createClient } from 'contentful-management'
+ *
+ * const client = createClient({ accessToken: 'YOUR_ACCESS_TOKEN' })
+ *
+ * // Fetch entries
+ * const entries = await client.entry.getMany({
+ *   spaceId: '<space_id>',
+ *   environmentId: '<environment_id>',
+ * })
+ *
+ * // With scoped defaults
+ * const scoped = createClient(
+ *   { accessToken: 'YOUR_ACCESS_TOKEN' },
+ *   { defaults: { spaceId: '<space_id>', environmentId: '<environment_id>' } },
+ * )
+ * const entries = await scoped.entry.getMany({})
+ * ```
+ */
 export type PlainClientAPI = {
+  /** @group HTTP */
   raw: {
     /** Returns the default parameters configured on this client instance. */
     getDefaultParams(): PlainClientDefaultParams | undefined
@@ -174,27 +201,49 @@ export type PlainClientAPI = {
     /** Performs a raw HTTP request to the Contentful Management API. */
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
+  /** @group AI */
   aiAction: AiActionPlainClientAPI
+  /** @group AI */
   aiActionInvocation: AiActionInvocationPlainClientAPI
+  /** @group AI */
   agent: AgentPlainClientAPI
+  /** @group AI */
   agentRun: AgentRunPlainClientAPI
+  /** @group AI */
   automationDefinition: AutomationDefinitionPlainClientAPI
+  /** @group AI */
   automationExecution: AutomationExecutionPlainClientAPI
+  /** @group Apps */
   appAction: AppActionPlainClientAPI
+  /** @group Apps */
   appActionCall: AppActionCallPlainClientAPI
+  /** @group Apps */
   appBundle: AppBundlePlainClientAPI
+  /** @group Apps */
   appDetails: AppDetailsPlainClientAPI
+  /** @group Apps */
   appEventSubscription: AppEventSubscriptionPlainClientAPI
+  /** @group Apps */
   appKey: AppKeyPlainClientAPI
+  /** @group Apps */
   appSignedRequest: AppSignedRequestPlainClientAPI
+  /** @group Apps */
   appSigningSecret: AppSigningSecretPlainClientAPI
+  /** @group Apps */
   appAccessToken: AppAccessTokenPlainClientAPI
+  /** @group Apps */
   function: FunctionPlainClientAPI
+  /** @group Apps */
   functionLog: FunctionLogPlainClientAPI
+  /** @group Content */
   editorInterface: EditorInterfacePlainClientAPI
+  /** @group Spaces & Environments */
   space: SpacePlainClientAPI
+  /** @group Spaces & Environments */
   environment: EnvironmentPlainClientAPI
+  /** @group Spaces & Environments */
   environmentAlias: EnvironmentAliasPlainClientAPI
+  /** @group Spaces & Environments */
   environmentTemplate: {
     /** Fetches a single environment template by ID. */
     get(
@@ -255,6 +304,7 @@ export type PlainClientAPI = {
     /** Disconnects an environment from an environment template. */
     disconnect(params: EnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
   }
+  /** @group Spaces & Environments */
   environmentTemplateInstallation: {
     /** Fetches all installations of an environment template. */
     getMany(
@@ -276,6 +326,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
+  /** @group Publishing */
   bulkAction: {
     /** Fetches a bulk action by ID. */
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
@@ -314,10 +365,15 @@ export type PlainClientAPI = {
       BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
     >
   }
+  /** @group Collaboration */
   comment: CommentPlainClientAPI
+  /** @group Content */
   componentType: ComponentTypePlainClientAPI
+  /** @group Taxonomy */
   concept: ConceptPlainClientAPI
+  /** @group Taxonomy */
   conceptScheme: ConceptSchemePlainClientAPI
+  /** @group Content */
   contentType: {
     /** Fetches a single content type by ID. */
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
@@ -361,7 +417,9 @@ export type PlainClientAPI = {
       fieldId: string,
     ): Promise<ContentTypeProps>
   }
+  /** @group Users & Access */
   user: UserPlainClientAPI
+  /** @group Content */
   entry: {
     /** Fetches all published entries in an environment. */
     getPublished<T extends KeyValueMap = KeyValueMap>(
@@ -453,6 +511,7 @@ export type PlainClientAPI = {
       >,
     ): Promise<EntryReferenceProps>
   }
+  /** @group Content */
   asset: {
     /** Fetches all published assets in an environment. */
     getPublished(
@@ -543,7 +602,9 @@ export type PlainClientAPI = {
       processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
   }
+  /** @group Apps */
   appUpload: AppUploadPlainClientAPI
+  /** @group Content */
   assetKey: {
     /** Creates a new asset key for signing URLs. */
     create(
@@ -551,9 +612,13 @@ export type PlainClientAPI = {
       data: CreateAssetKeyProps,
     ): Promise<AssetKeyProps>
   }
+  /** @group Content */
   upload: UploadPlainClientAPI
+  /** @group Content */
   uploadCredential: UploadCredentialAPI
+  /** @group Content */
   locale: LocalePlainClientAPI
+  /** @group Users & Access */
   personalAccessToken: {
     /** Fetches a single personal access token by ID. */
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
@@ -569,6 +634,7 @@ export type PlainClientAPI = {
     /** Revokes a personal access token. */
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
+  /** @group Users & Access */
   accessToken: {
     /** Fetches a single access token by ID. */
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
@@ -586,7 +652,9 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<AccessTokenProps>>
   }
+  /** @group Usage */
   usage: UsagePlainClientAPI
+  /** @group Publishing */
   release: {
     asset: {
       /** Fetches a single asset within a release. */
@@ -715,6 +783,7 @@ export type PlainClientAPI = {
       data?: ReleaseValidatePayload,
     ): Promise<ReleaseActionProps<'validate'>>
   }
+  /** @group Publishing */
   releaseAction: {
     /** Fetches a single release action by ID. */
     get(
@@ -729,10 +798,15 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
+  /** @group Resources */
   resource: ResourcePlainAPI
+  /** @group Resources */
   resourceProvider: ResourceProviderPlainClientAPI
+  /** @group Resources */
   resourceType: ResourceTypePlainClientAPI
+  /** @group Users & Access */
   role: RolePlainClientAPI
+  /** @group Publishing */
   scheduledActions: {
     /** Fetches a single scheduled action by ID. */
     get(
@@ -760,6 +834,7 @@ export type PlainClientAPI = {
       data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
   }
+  /** @group Users & Access */
   previewApiKey: {
     /** Fetches a single preview API key by ID. */
     get(
@@ -770,6 +845,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<PreviewApiKeyProps>>
   }
+  /** @group Users & Access */
   apiKey: {
     /** Fetches a single API key by ID. */
     get(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<ApiKeyProps>
@@ -798,10 +874,15 @@ export type PlainClientAPI = {
     /** Deletes an API key. */
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
+  /** @group Apps */
   appDefinition: AppDefinitionPlainClientAPI
+  /** @group Apps */
   appInstallation: AppInstallationPlainClientAPI
+  /** @group Content */
   extension: ExtensionPlainClientAPI
+  /** @group Webhooks */
   webhook: WebhookPlainClientAPI
+  /** @group Content */
   snapshot: {
     /** Fetches all snapshots for an entry. */
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
@@ -820,8 +901,11 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
+  /** @group Content */
   tag: TagPlainClientAPI
+  /** @group Users & Access */
   organization: OrganizationPlainClientAPI
+  /** @group Users & Access */
   organizationInvitation: {
     /** Fetches a single organization invitation by ID. */
     get(
@@ -835,6 +919,7 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
   }
+  /** @group Users & Access */
   organizationMembership: {
     /** Fetches a single organization membership by ID. */
     get(
@@ -853,21 +938,37 @@ export type PlainClientAPI = {
     /** Deletes an organization membership. */
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
+  /** @group Users & Access */
   spaceMember: SpaceMemberPlainClientAPI
+  /** @group Users & Access */
   spaceMembership: SpaceMembershipPlainClientAPI
+  /** @group Collaboration */
   task: TaskPlainClientAPI
+  /** @group Users & Access */
   team: TeamPlainClientAPI
+  /** @group Users & Access */
   teamMembership: TeamMembershipPlainClientAPI
+  /** @group Users & Access */
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  /** @group Configuration */
   uiConfig: UIConfigPlainClientAPI
+  /** @group Configuration */
   userUIConfig: UserUIConfigPlainClientAPI
+  /** @group Workflows */
   workflowDefinition: WorkflowDefinitionPlainClientAPI
+  /** @group Workflows */
   workflow: WorkflowPlainClientAPI
+  /** @group Workflows */
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  /** @group Users & Access */
   oauthApplication: OAuthApplicationPlainClientAPI
+  /** @group AI */
   semanticSearch: SemanticSearchPlainClientAPI
+  /** @group AI */
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
+  /** @group AI */
   semanticRecommendations: SemanticRecommendationsPlainClientAPI
+  /** @group AI */
   semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
   semanticSettings: SemanticSettingsPlainClientAPI
   contentSemanticsIndex: ContentSemanticsIndexPlainClientAPI
