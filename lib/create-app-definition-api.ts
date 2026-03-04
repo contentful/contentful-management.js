@@ -7,12 +7,14 @@ import { wrapAppDefinition } from './entities/app-definition'
 import type { UpsertResourceProviderProps } from './entities/resource-provider'
 
 /**
- * @internal
+ * Methods available on an {@link AppDefinition} object for managing app bundles and resource providers.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export type ContentfulAppDefinitionAPI = ReturnType<typeof createAppDefinitionApi>
 
 /**
- * @internal
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createAppDefinitionApi(makeRequest: MakeRequest) {
   const getParams = (data: AppDefinitionProps) => ({

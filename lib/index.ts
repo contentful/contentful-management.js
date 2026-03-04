@@ -51,27 +51,31 @@ declare global {
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
+ * @returns A {@link PlainClientAPI} with flat, Promise-based access to all CMA endpoints
  *
  * @example Plain Client
  * ```javascript
  * const client = contentfulManagement.createClient({
  *   accessToken: 'myAccessToken',
- *   opts: {
- *     type: 'plain'
- *   }
+ * })
+ *
+ * const entries = await client.entry.getMany({
+ *   spaceId: '<space_id>',
+ *   environmentId: '<environment_id>',
  * })
  * ```
  * @example Plain Client with defaults
  * ```javascript
  * const client = contentfulManagement.createClient({
  *   accessToken: 'myAccessToken',
- *   opts: {
- *     type: 'plain',
- *     defaults: {
- *        ...
- *     }
+ * }, {
+ *   defaults: {
+ *     spaceId: '<space_id>',
+ *     environmentId: '<environment_id>',
  *   }
  * })
+ *
+ * const entries = await client.entry.getMany({})
  * ```
  */
 export function createClient(clientOptions: ClientOptions): PlainClientAPI

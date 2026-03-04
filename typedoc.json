@@ -5,6 +5,7 @@
     "lib/index.ts",
     "lib/create-contentful-api.ts",
     "lib/plain/plain-client.ts",
+    "lib/plain/plain-client-types.ts",
     "lib/plain/checks.ts",
     "lib/entities/*.ts"
   ],

@@ -49,15 +49,17 @@ import {
 } from './entities/content-semantics-index'
 
 /**
- * @internal
+ * Methods available on an {@link Organization} object for managing app definitions, users, teams, and memberships.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
- * @param {MakeRequest} makeRequest - function to make requests via an adapter
- * @returns {ContentfulOrganizationAPI}
- * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @returns Organization API methods
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
   return {

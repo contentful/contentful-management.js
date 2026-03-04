@@ -7,7 +7,9 @@ import type {
 } from './entities/environment-template-installation'
 
 /**
- * @internal
+ * Methods available on an {@link EnvironmentTemplate} object for managing template versions and installations.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export type ContentfulEnvironmentTemplateAPI = ReturnType<typeof createEnvironmentTemplateApi>
 
@@ -18,7 +20,7 @@ import {
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 
 /**
- * @internal
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizationId: string) {
   return {
