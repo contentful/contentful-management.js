@@ -41,10 +41,12 @@ import * as release from './release'
 import * as releaseAction from './release-action'
 import * as role from './role'
 import * as scheduledAction from './scheduled-action'
+import * as contentSemanticsIndex from './content-semantics-index'
 import * as semanticDuplicates from './semantic-duplicates'
 import * as semanticRecommendations from './semantic-recommendations'
 import * as semanticReferenceSuggestions from './semantic-reference-suggestions'
 import * as semanticSearch from './semantic-search'
+import * as semanticSettings from './semantic-settings'
 import * as snapshot from './snapshot'
 import * as space from './space'
 import * as spaceMember from './space-member'
@@ -117,10 +119,12 @@ export default {
   resource,
   role,
   scheduledAction,
+  contentSemanticsIndex,
   semanticDuplicates,
   semanticRecommendations,
   semanticReferenceSuggestions,
   semanticSearch,
+  semanticSettings,
   snapshot,
   space,
   spaceMember,

@@ -52,10 +52,12 @@ import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
 import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
+import * as ContentSemanticsIndex from './content-semantics-index'
 import * as SemanticDuplicates from './semantic-duplicates'
 import * as SemanticRecommendations from './semantic-recommendations'
 import * as SemanticReferenceSuggestions from './semantic-reference-suggestions'
 import * as SemanticSearch from './semantic-search'
+import * as SemanticSettings from './semantic-settings'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
 import * as SpaceMember from './space-member'
@@ -132,10 +134,12 @@ export default {
   ResourceType,
   Role,
   ScheduledAction,
+  ContentSemanticsIndex,
   SemanticDuplicates,
   SemanticRecommendations,
   SemanticReferenceSuggestions,
   SemanticSearch,
+  SemanticSettings,
   Snapshot,
   Space,
   SpaceMember,

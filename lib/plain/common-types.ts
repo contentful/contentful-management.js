@@ -149,6 +149,8 @@ import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-dupli
 import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
 import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
+import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
+import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
 export type PlainClientAPI = {
@@ -736,4 +738,6 @@ export type PlainClientAPI = {
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI
   semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
+  semanticSettings: SemanticSettingsPlainClientAPI
+  contentSemanticsIndex: ContentSemanticsIndexPlainClientAPI
 }

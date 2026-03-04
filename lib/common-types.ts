@@ -226,6 +226,12 @@ import type {
   SemanticReferenceSuggestionsProps,
 } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
+import type { ContentSemanticsSettingsProps } from './entities/semantic-settings'
+import type {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+  CreateContentSemanticsIndexProps,
+} from './entities/content-semantics-index'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -914,6 +920,14 @@ type MRInternal<UA extends boolean> = {
     opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
   ): MRReturn<'SemanticReferenceSuggestions', 'get'>
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+  (opts: MROpts<'SemanticSettings', 'get', UA>): MRReturn<'SemanticSettings', 'get'>
+  (opts: MROpts<'ContentSemanticsIndex', 'get', UA>): MRReturn<'ContentSemanticsIndex', 'get'>
+  (opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>): MRReturn<'ContentSemanticsIndex', 'getMany'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getManyForEnvironment', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getManyForEnvironment'>
+  (opts: MROpts<'ContentSemanticsIndex', 'create', UA>): MRReturn<'ContentSemanticsIndex', 'create'>
+  (opts: MROpts<'ContentSemanticsIndex', 'delete', UA>): MRReturn<'ContentSemanticsIndex', 'delete'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2247,6 +2261,35 @@ export type MRActions = {
       return: SemanticSearchProps
     }
   }
+  SemanticSettings: {
+    get: {
+      params: GetOrganizationParams
+      return: ContentSemanticsSettingsProps
+    }
+  }
+  ContentSemanticsIndex: {
+    get: {
+      params: GetContentSemanticsIndexParams
+      return: ContentSemanticsIndexProps
+    }
+    getMany: {
+      params: GetManyContentSemanticsIndexParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    getManyForEnvironment: {
+      params: GetManyContentSemanticsIndexForEnvironmentParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: CreateContentSemanticsIndexProps
+      return: ContentSemanticsIndexProps
+    }
+    delete: {
+      params: GetContentSemanticsIndexParams
+      return: void
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -2835,4 +2878,10 @@ export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
 export type SemanticRequestFilter = {
   entityType?: 'Entry'
   contentTypeIds?: string[]
+}
+
+export type GetContentSemanticsIndexParams = GetOrganizationParams & { indexId: string }
+export type GetManyContentSemanticsIndexParams = GetOrganizationParams & { status?: string }
+export type GetManyContentSemanticsIndexForEnvironmentParams = GetSpaceEnvironmentParams & {
+  status?: string
 }
