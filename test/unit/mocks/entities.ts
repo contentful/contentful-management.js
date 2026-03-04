@@ -92,10 +92,6 @@ import {
 } from '../../../lib/entities/ai-action-invocation'
 import { AgentProps } from '../../../lib/entities/agent'
 import { AgentGenerateResponse, AgentRunProps } from '../../../lib/entities/agent-run'
-import {
-  EmbeddingSetStatus,
-  VectorizationStatusProps,
-} from '../../../lib/entities/vectorization-status'
 import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicates'
 import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
 import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
@@ -1485,23 +1481,6 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
-const vectorizationStatusMock: VectorizationStatusProps = {
-  sys: {
-    type: 'Array',
-  },
-  items: [
-    {
-      sys: {
-        space: makeLink('Space', 'mock-space-id'),
-        status: EmbeddingSetStatus.ACTIVE,
-        type: 'VectorizationStatus',
-        createdAt: '2025-01-01T10:00:00Z',
-        updatedAt: '2025-01-01T10:00:00Z',
-      },
-    },
-  ],
-}
-
 const semanticDuplicatesMock: SemanticDuplicatesProps = {
   sys: {
     type: 'Array',
@@ -1650,7 +1629,6 @@ const mocks = {
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
-  vectorizationStatus: vectorizationStatusMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
@@ -2013,7 +1991,6 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
-  vectorizationStatusMock,
   semanticDuplicatesMock,
   semanticRecommendationsMock,
   semanticReferenceSuggestionsMock,

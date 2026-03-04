@@ -210,10 +210,6 @@ import type {
   AutomationExecutionQueryOptions,
 } from './entities/automation-execution'
 import type {
-  UpdateVectorizationStatusProps,
-  VectorizationStatusProps,
-} from './entities/vectorization-status'
-import type {
   GetSemanticDuplicatesProps,
   SemanticDuplicatesProps,
 } from './entities/semantic-duplicates'
@@ -912,8 +908,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
-  (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
-  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
   (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
   (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
   (
@@ -2507,19 +2501,6 @@ export type MRActions = {
   UserUIConfig: {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
-  }
-  VectorizationStatus: {
-    get: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      return: VectorizationStatusProps
-    }
-    update: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      payload: UpdateVectorizationStatusProps
-      return: VectorizationStatusProps
-    }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }

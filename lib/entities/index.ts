@@ -61,7 +61,6 @@ import * as upload from './upload'
 import * as usage from './usage'
 import * as user from './user'
 import * as userUIConfig from './user-ui-config'
-import * as vectorizationStatus from './vectorization-status'
 import * as webhook from './webhook'
 import * as workflowDefinition from './workflow-definition'
 import * as concept from './concept'
@@ -139,7 +138,6 @@ export default {
   usage,
   user,
   userUIConfig,
-  vectorizationStatus,
   webhook,
   workflowDefinition,
 }
