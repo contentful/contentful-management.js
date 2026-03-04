@@ -38,7 +38,7 @@ export const create: RestEndpoint<'View', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
   rawData: CreateViewProps,
-  headers?: RawAxiosRequestHeaders, 
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.post<ViewProps>(http, getBaseUrl(params), data, { headers })
