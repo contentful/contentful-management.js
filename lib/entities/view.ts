@@ -71,3 +71,5 @@ export type CreateViewProps = ViewCommonProps & {
   _experienceCtId: string
   _slug: string
 }
+
+export type UpdateViewProps = ViewProps

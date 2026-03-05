@@ -146,6 +146,49 @@ describe('Rest View', { concurrent: true }, () => {
       })
   })
 
+  test('update calls correct URL with version header', async () => {
+    const mockResponse = {
+      sys: { id: 'view123', type: 'View', version: 2 },
+      name: 'Updated View',
+      description: 'An updated view',
+      viewports: [],
+      contentProperties: {},
+      designProperties: {},
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view123',
+        },
+        payload: {
+          sys: { version: 1 },
+          name: 'Updated View',
+          description: 'An updated view',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+          _experienceCtId: 'experience-ct-id',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/views/view123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
   test('delete calls correct URL', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: {} }))
 

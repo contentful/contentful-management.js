@@ -3,7 +3,7 @@ import type {
   GetSpaceEnvironmentParams,
   GetViewParams,
 } from '../../common-types'
-import type { CreateViewProps, ViewProps, ViewQueryOptions } from '../../entities/view'
+import type { CreateViewProps, UpdateViewProps, ViewProps, ViewQueryOptions } from '../../entities/view'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ViewPlainClientAPI = {
@@ -74,6 +74,27 @@ export type ViewPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     rawData: CreateViewProps,
+  ): Promise<ViewProps>
+
+  /**
+   * Updates a view
+   * @param params the space ID, environment ID, and view ID
+   * @param rawData the view data to update (must include sys.version)
+   * @returns the updated view
+   * @throws if the request fails, or the view is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const view = await client.view.update({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   viewId: '<view_id>',
+   * }, viewData);
+   * ```
+   */
+  update(
+    params: OptionalDefaults<GetViewParams>,
+    rawData: UpdateViewProps,
   ): Promise<ViewProps>
 
   /**

@@ -67,7 +67,7 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
-import type { CreateViewProps, ViewProps, ViewQueryOptions } from './entities/view'
+import type { CreateViewProps, UpdateViewProps, ViewProps, ViewQueryOptions } from './entities/view'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -930,6 +930,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
   (opts: MROpts<'View', 'get', UA>): MRReturn<'View', 'get'>
   (opts: MROpts<'View', 'create', UA>): MRReturn<'View', 'create'>
+  (opts: MROpts<'View', 'update', UA>): MRReturn<'View', 'update'>
   (opts: MROpts<'View', 'delete', UA>): MRReturn<'View', 'delete'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
@@ -2533,6 +2534,11 @@ export type MRActions = {
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateViewProps
+      return: ViewProps
+    }
+    update: {
+      params: GetViewParams
+      payload: UpdateViewProps
       return: ViewProps
     }
     delete: {
