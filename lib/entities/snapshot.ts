@@ -15,7 +15,7 @@ export type SnapshotProps<T> = {
 export interface Snapshot<T> extends SnapshotProps<T>, DefaultElements<SnapshotProps<T>> {}
 
 /**
- * @private
+ * @internal
  */
 function createSnapshotApi() {
   return {
@@ -23,10 +23,10 @@ function createSnapshotApi() {
   }
 }
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot data
- * @return Wrapped snapshot data
+ * @returns Wrapped snapshot data
  */
 export function wrapSnapshot<T>(_makeRequest: MakeRequest, data: SnapshotProps<T>): Snapshot<T> {
   const snapshot = toPlainObject(copy(data))
@@ -35,9 +35,9 @@ export function wrapSnapshot<T>(_makeRequest: MakeRequest, data: SnapshotProps<T
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw snapshot collection data
- * @return Wrapped snapshot collection data
+ * @returns Wrapped snapshot collection data
  */
 export const wrapSnapshotCollection = wrapCollection(wrapSnapshot)

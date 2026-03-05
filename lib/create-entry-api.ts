@@ -3,22 +3,21 @@ import type { CreateCommentParams, CreateCommentProps } from './entities/comment
 import type { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'
 import type { CreateTaskProps } from './entities/task'
 import * as checks from './plain/checks'
-import entities from './entities'
+
+import { wrapEntry, wrapEntryCollection } from './entities/entry'
+import { wrapSnapshot, wrapSnapshotCollection } from './entities/snapshot'
+import { wrapTask, wrapTaskCollection } from './entities/task'
+import { wrapComment, wrapCommentCollection } from './entities/comment'
 
 /**
- * @private
+ * @internal
  */
-export type ContentfulEntryApi = ReturnType<typeof createEntryApi>
+export type ContentfulEntryAPI = ReturnType<typeof createEntryApi>
 
 /**
- * @private
+ * @internal
  */
 export default function createEntryApi(makeRequest: MakeRequest) {
-  const { wrapEntry, wrapEntryCollection } = entities.entry
-  const { wrapSnapshot, wrapSnapshotCollection } = entities.snapshot
-  const { wrapTask, wrapTaskCollection } = entities.task
-  const { wrapComment, wrapCommentCollection } = entities.comment
-
   const getParams = (self: Entry) => {
     const entry = self.toPlainObject() as EntryProps
 
@@ -35,7 +34,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -67,7 +66,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Sends an JSON patch to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -105,7 +104,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -129,7 +128,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Publishes the object
-     * @return Object returned from the server with updated metadata.
+     * @returns Object returned from the server with updated metadata.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -158,7 +157,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Unpublishes the object
-     * @return Object returned from the server with updated metadata.
+     * @returns Object returned from the server with updated metadata.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -187,7 +186,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Archives the object
-     * @return Object returned from the server with updated metadata.
+     * @returns Object returned from the server with updated metadata.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -215,7 +214,7 @@ export default function createEntryApi(makeRequest: MakeRequest) {
 
     /**
      * Unarchives the object
-     * @return Object returned from the server with updated metadata.
+     * @returns Object returned from the server with updated metadata.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

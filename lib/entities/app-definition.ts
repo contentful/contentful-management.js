@@ -107,10 +107,10 @@ export type AppInstallationsForOrganizationProps = {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition data
- * @return Wrapped App Definition data
+ * @returns Wrapped App Definition data
  */
 export function wrapAppDefinition(
   makeRequest: MakeRequest,
@@ -125,9 +125,9 @@ export function wrapAppDefinition(
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition collection data
- * @return Wrapped App Definition collection data
+ * @returns Wrapped App Definition collection data
  */
 export const wrapAppDefinitionCollection = wrapCollection(wrapAppDefinition)
