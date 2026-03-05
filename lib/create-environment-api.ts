@@ -100,16 +100,12 @@ import type { GetSemanticRecommendationsProps } from './entities/semantic-recomm
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
 import { wrapAgent, wrapAgentCollection } from './entities/agent'
-import {
-  wrapAgentRun,
-  wrapAgentRunCollection,
-  wrapAgentGenerateResponse,
-} from './entities/agent-run'
+import { wrapAgentRun, wrapAgentRunCollection } from './entities/agent-run'
 import { wrapSemanticDuplicates } from './entities/semantic-duplicates'
 import { wrapSemanticRecommendations } from './entities/semantic-recommendations'
 import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-suggestions'
 import { wrapSemanticSearch } from './entities/semantic-search'
-import { wrapContentSemanticsIndexCollection } from './entities/content-semantics-index'
+
 /**
  * @internal
  */
@@ -2855,8 +2851,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Retrieves Semantic Recommendations for the given entity IDs
-     * @param payload - Object containing the entityIds and optional filters
+     * Retrieves Semantic Recommendations for the given entity ID
+     * @param payload - Object containing the entityId and optional filters
      * @returns Promise for Semantic Recommendations
      * @example ```javascript
      * client.getSpace('<space_id>')
@@ -2883,7 +2879,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
-     * @param payload - Object containing the entityId and referenceFieldId
+     * @param payload - Object containing the entityId and optional filters
      * @returns Promise for Semantic Reference Suggestions
      * @example ```javascript
      * client.getSpace('<space_id>')
@@ -3018,8 +3014,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Generates content using an AI Agent
      * @param agentId - AI Agent ID
      * @param payload - Generation payload
-     * @returns Promise for a simplified response containing `sys.id`, `sys.type`, and `sys.status`.
-     *         Use `getAgentRun()` with the returned `sys.id` to poll for full results.
+     * @returns Promise for the generation response
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

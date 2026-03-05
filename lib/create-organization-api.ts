@@ -48,6 +48,31 @@ import {
   wrapContentSemanticsIndexCollection,
 } from './entities/content-semantics-index'
 
+import { wrapAppDefinition, wrapAppDefinitionCollection } from './entities/app-definition'
+import { wrapUser, wrapUserCollection } from './entities/user'
+import {
+  wrapOrganizationMembership,
+  wrapOrganizationMembershipCollection,
+} from './entities/organization-membership'
+import { wrapTeamMembership, wrapTeamMembershipCollection } from './entities/team-membership'
+import {
+  wrapTeamSpaceMembership,
+  wrapTeamSpaceMembershipCollection,
+} from './entities/team-space-membership'
+import { wrapTeam, wrapTeamCollection } from './entities/team'
+import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
+import { wrapOrganizationInvitation } from './entities/organization-invitation'
+import { wrapAppUpload } from './entities/app-upload'
+import { wrapAppSigningSecret } from './entities/app-signing-secret'
+import { wrapAppEventSubscription } from './entities/app-event-subscription'
+import { wrapAppKey, wrapAppKeyCollection } from './entities/app-key'
+import { wrapAppDetails } from './entities/app-details'
+import { wrapAppAction, wrapAppActionCollection } from './entities/app-action'
+import { wrapFunction, wrapFunctionCollection } from './entities/function'
+import { wrapRoleCollection } from './entities/role'
+import { wrapSpaceCollection } from './entities/space'
+import { wrapVectorizationStatus } from './entities/vectorization-status'
+
 /**
  * @internal
  */

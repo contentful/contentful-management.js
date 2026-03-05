@@ -2922,14 +2922,6 @@ export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 /** @internal */
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 /** @internal */
-export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
-  automationDefinitionId: string
-}
-/** @internal */
-export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
-  automationExecutionId: string
-}
-/** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }

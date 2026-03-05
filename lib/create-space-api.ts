@@ -26,7 +26,6 @@ import { wrapEnvironment, wrapEnvironmentCollection } from './entities/environme
 import { wrapWebhook, wrapWebhookCollection } from './entities/webhook'
 import { wrapRole, wrapRoleCollection } from './entities/role'
 import { wrapUser, wrapUserCollection } from './entities/user'
-import { wrapSpaceAddOn, wrapSpaceAddOnCollection } from './entities/space-add-on'
 import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member'
 import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
 import {
