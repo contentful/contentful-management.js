@@ -3,7 +3,12 @@ import type {
   GetSpaceEnvironmentParams,
   GetViewParams,
 } from '../../common-types'
-import type { CreateViewProps, UpdateViewProps, ViewProps, ViewQueryOptions } from '../../entities/view'
+import type {
+  CreateViewProps,
+  UpdateViewProps,
+  ViewProps,
+  ViewQueryOptions,
+} from '../../entities/view'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type ViewPlainClientAPI = {
@@ -92,10 +97,7 @@ export type ViewPlainClientAPI = {
    * }, viewData);
    * ```
    */
-  update(
-    params: OptionalDefaults<GetViewParams>,
-    rawData: UpdateViewProps,
-  ): Promise<ViewProps>
+  update(params: OptionalDefaults<GetViewParams>, rawData: UpdateViewProps): Promise<ViewProps>
 
   /**
    * Deletes a view
