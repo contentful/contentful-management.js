@@ -206,4 +206,44 @@ describe('Rest View', { concurrent: true }, () => {
         )
       })
   })
+
+  test('unpublish calls correct URL with DELETE method', async () => {
+    const mockResponse = {
+      sys: {
+        id: 'view123',
+        type: 'View',
+        version: 3,
+        space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
+        environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
+      },
+      name: 'Test View',
+      description: 'A test view',
+      viewports: [],
+      contentProperties: {},
+      designProperties: {},
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'unpublish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view123',
+          version: 2,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/views/view123/published',
+        )
+        expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
+      })
+  })
 })

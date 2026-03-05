@@ -60,3 +60,16 @@ export const publish: RestEndpoint<'View', 'publish'> = (
     },
   })
 }
+
+export const unpublish: RestEndpoint<'View', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetViewParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.viewId}/published`, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
