@@ -210,7 +210,12 @@ describe('Rest View', { concurrent: true }, () => {
           viewId: 'view123',
         },
         payload: {
-          sys: { version: 1 },
+          sys: {
+            version: 1,
+            componentType: {
+              sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-123' },
+            },
+          },
           name: 'Updated View',
           description: 'An updated view',
           viewports: [],
@@ -226,6 +231,9 @@ describe('Rest View', { concurrent: true }, () => {
           '/spaces/space123/environments/master/views/view123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.componentTypeId).to.eql('ct-123')
+        expect(body.sys).to.be.undefined
       })
   })
 
