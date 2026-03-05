@@ -144,11 +144,12 @@ import type { AgentPlainClientAPI } from './entities/agent'
 import type { AgentRunPlainClientAPI } from './entities/agent-run'
 import type { AutomationDefinitionPlainClientAPI } from './entities/automation-definition'
 import type { AutomationExecutionPlainClientAPI } from './entities/automation-execution'
-import type { VectorizationStatusPlainClientAPI } from './entities/vectorization-status'
 import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-duplicates'
 import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
 import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
+import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
+import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
 export type PlainClientAPI = {
@@ -731,9 +732,10 @@ export type PlainClientAPI = {
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
-  vectorizationStatus: VectorizationStatusPlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI
   semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
+  semanticSettings: SemanticSettingsPlainClientAPI
+  contentSemanticsIndex: ContentSemanticsIndexPlainClientAPI
 }

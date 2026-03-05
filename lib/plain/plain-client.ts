@@ -563,6 +563,16 @@ export const createPlainClient = (
     semanticSearch: {
       get: wrap(wrapParams, 'SemanticSearch', 'get'),
     },
+    semanticSettings: {
+      get: wrap(wrapParams, 'SemanticSettings', 'get'),
+    },
+    contentSemanticsIndex: {
+      get: wrap(wrapParams, 'ContentSemanticsIndex', 'get'),
+      getMany: wrap(wrapParams, 'ContentSemanticsIndex', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'ContentSemanticsIndex', 'getManyForEnvironment'),
+      create: wrap(wrapParams, 'ContentSemanticsIndex', 'create'),
+      delete: wrap(wrapParams, 'ContentSemanticsIndex', 'delete'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
@@ -609,10 +619,6 @@ export const createPlainClient = (
     userUIConfig: {
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
-    },
-    vectorizationStatus: {
-      get: wrap(wrapParams, 'VectorizationStatus', 'get'),
-      update: wrap(wrapParams, 'VectorizationStatus', 'update'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

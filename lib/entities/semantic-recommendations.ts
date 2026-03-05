@@ -3,7 +3,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '../common-types'
 
 export type GetSemanticRecommendationsProps = {
-  entityId: string
+  entityIds: string[]
   filter?: SemanticRequestFilter
 }
 

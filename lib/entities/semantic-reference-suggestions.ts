@@ -1,11 +1,10 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '../common-types'
+import type { DefaultElements, Link, MakeRequest } from '../common-types'
 
 export type GetSemanticReferenceSuggestionsProps = {
   entityId: string
   referenceFieldId: string
-  filter?: SemanticRequestFilter
 }
 
 export type SemanticReferenceSuggestionsResult = {
