@@ -932,6 +932,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'View', 'create', UA>): MRReturn<'View', 'create'>
   (opts: MROpts<'View', 'update', UA>): MRReturn<'View', 'update'>
   (opts: MROpts<'View', 'delete', UA>): MRReturn<'View', 'delete'>
+  (opts: MROpts<'View', 'publish', UA>): MRReturn<'View', 'publish'>
+  (opts: MROpts<'View', 'unpublish', UA>): MRReturn<'View', 'unpublish'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2544,6 +2546,14 @@ export type MRActions = {
     delete: {
       params: GetViewParams
       return: void
+    }
+    publish: {
+      params: GetViewParams & { version: number }
+      return: ViewProps
+    }
+    unpublish: {
+      params: GetViewParams & { version: number }
+      return: ViewProps
     }
   }
   Webhook: {

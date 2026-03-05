@@ -70,3 +70,29 @@ export const update: RestEndpoint<'View', 'update'> = (
 export const del: RestEndpoint<'View', 'delete'> = (http: AxiosInstance, params: GetViewParams) => {
   return raw.del(http, getBaseUrl(params) + `/${params.viewId}`)
 }
+
+export const publish: RestEndpoint<'View', 'publish'> = (
+  http: AxiosInstance,
+  params: GetViewParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put(http, getBaseUrl(params) + `/${params.viewId}/published`, null, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
+
+export const unpublish: RestEndpoint<'View', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetViewParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.viewId}/published`, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
