@@ -185,4 +185,25 @@ describe('Rest View', { concurrent: true }, () => {
         })
       })
   })
+
+  test('delete calls correct URL', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: {} }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view456',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/views/view456',
+        )
+      })
+  })
 })

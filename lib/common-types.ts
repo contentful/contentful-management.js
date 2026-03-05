@@ -930,6 +930,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
   (opts: MROpts<'View', 'get', UA>): MRReturn<'View', 'get'>
   (opts: MROpts<'View', 'create', UA>): MRReturn<'View', 'create'>
+  (opts: MROpts<'View', 'delete', UA>): MRReturn<'View', 'delete'>
   (opts: MROpts<'View', 'publish', UA>): MRReturn<'View', 'publish'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
@@ -2534,6 +2535,10 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams
       payload: CreateViewProps
       return: ViewProps
+    }
+    delete: {
+      params: GetViewParams
+      return: void
     }
     publish: {
       params: GetViewParams & { version: number }
